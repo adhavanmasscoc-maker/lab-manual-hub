@@ -81,6 +81,20 @@
             color: #2575fc;
             font-weight: bold;
         }
+textarea {
+    height: 100px;
+    resize: none;
+}
+
+button {
+    background: linear-gradient(135deg,#6a11cb,#2575fc);
+    font-weight: bold;
+}
+
+button:hover {
+    background: linear-gradient(135deg,#5a0fbf,#1f63d8);
+}
+
     </style>
 </head>
 
@@ -96,16 +110,21 @@
     <div class="container" id="cardContainer"></div>
 
     <!-- FEEDBACK -->
-    <div style="margin-top:50px;">
-        <h2>💬 Feedback</h2>
+<div style="margin-top:60px; padding:20px; background:#fff; border-radius:15px; width:80%; margin-left:auto; margin-right:auto; box-shadow:0 4px 10px rgba(0,0,0,0.1);">
 
-        <input type="text" id="name" placeholder="Your Name"><br>
-        <textarea id="feedback" placeholder="Your Feedback"></textarea><br>
+    <h2>💬 Help Us Improve</h2>
+    <p>What do you want next? 📘 Notes, Question Papers, Important Topics, or New Subjects?</p>
 
-        <button onclick="submitFeedback()">Submit</button>
+    <input type="text" id="name" placeholder="Your Name (optional)"><br>
 
-        <p id="msg"></p>
-    </div>
+    <textarea id="feedback" placeholder="Example: Add OS notes, previous year questions, or more ECE subjects..."></textarea><br>
+
+    <button onclick="submitFeedback()">🚀 Submit Suggestion</button>
+
+    <p id="msg"></p>
+
+</div>
+
 
     <!-- FOOTER -->
     <div class="footer">
@@ -211,7 +230,7 @@ function submitFeedback() {
     const payload = {
         ID: "lab_" + Date.now(),
         SiteName: "Lab Manual Hub",
-        Type: "Feedback",
+        Type: "Typename",
         Name: "",            // keep empty or remove if not needed
         Email: name,         // ✅ NAME stored in EMAIL column
         Rating: "N/A",
@@ -238,6 +257,8 @@ function submitFeedback() {
         msg.innerText = "✅ Feedback saved successfully!";
         document.getElementById("name").value = "";
         document.getElementById("feedback").value = "";
+ document.getElementById("Typename").value = "";
+
     })
     .catch((err) => {
         console.error(err);
