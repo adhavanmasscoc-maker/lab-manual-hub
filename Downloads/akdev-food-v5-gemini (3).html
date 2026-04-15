@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Media Master Pro - Zero Server</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <script src="https://unpkg.com/wavesurfer.js@7/dist/wavesurfer.min.js"></script>
+  <script src="https://unpkg.com/wavesurfer.js@7/dist/plugins/regions.min.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+
+  <style>
+    body {
+      background: radial-gradient(circle at top right, #1e1b4b, #0f172a, #020617);
+      color: #f8fafc;
+      min-height: 100vh;
+      font-family: 'Segoe UI', system-ui, sans-serif;
+      overflow-x: hidden;
+    }
+
+    .glass {
+      background: rgba(30, 41, 59, 0.4);
+      backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .tab-content {
+      display: none;
+    }
+
+    .tab-content.active {
+      display: block;
+      animation: fadeIn 0.4s ease-in-out;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+  </style>
+</head>
+
+<body class="flex h-screen">
+
+  <aside class="w-64 glass border-r border-white/10 flex flex-col p-6 hidden md:flex z-10">
+    <div class="mb-10 text-center">
+      <h1 class="text-2xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-500">
+        <i class="fa-solid fa-bolt mr-2"></i>Media Master
+      </h1>
+      <p class="text-xs text-slate-400 mt-1 uppercase tracking-widest">Zero-Server Pro</p>
+    </div>
+
+    <nav class="flex-1 space-y-2">
+      <button onclick="switchTab('convert')" id="nav-convert" class="w-full flex items-center gap-3 px-4 py-3 rounded-xl bg-purple-500/20 text-purple-400 transition-all text-left font-medium">
+                <i class="fa-solid fa-rotate"></i> Batch & Rename
+            </button>
+      <button onclick="switchTab('cut')" id="nav-cut" class="w-full flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-white/5 text-slate-300 transition-all text-left font-medium">
+                <i class="fa-solid fa-scissors"></i> Real Audio Cutter
+            </button>
+    </nav>
+  </aside>
+
+  <main class="flex-1 p-6 md:p-10 overflow-y-auto">
+
+    <section id="tab-convert" class="tab-content active max-w-4xl mx-auto">
+      <h2 class="text-3xl font-bold mb-8 flex items-center gap-3">
+        <i class="fa-solid fa-boxes-stacked text-purple-400"></i> Batch Processor
+      </h2>
+
+      <div class="glass rounded-3xl p-8 mb-8">
+        <div class="flex gap-4 mb-6">
+          <div id="dropZone"
+            class="flex-1 border-2 border-dashed border-slate-500 rounded-2xl p-8 text-center cursor-pointer hover:border-purple-400 hover:bg-slate-800/30 transition-all"
+            onclick="document.getElementById('fileInput').click()">
+            <i class="fa-solid fa-file-audio text-4xl text-slate-400 mb-2"></i>
+            <p class="text-lg font-semibold" id="fileNameDisplay">Upload Files</p>
+            <input type="file" id="fileInput" multiple class="hidden" accept="audio/*,video/*" />
+          </div>
+
+          <div
+            class="flex-1 border-2 border-dashed border-green-500/50 rounded-2xl p-8 text-center cursor-pointer hover:border-green-400 hover:bg-green-900/20 transition-all"
+            onclick="document.getElementById('folderInput').click()">
+            <i class="fa-solid fa-folder-open text-4xl text-green-400 mb-2"></i>
+            <p class="text-lg font-semibold text-green-400">Upload Folder 📁</p>
+            <input type="file" webkitdirectory multiple id="folderInput" class="hidden">
+          </div>
+        </div>
+
+        <div class="flex items-center justify-between bg-slate-900/40 p-5 rounded-xl border border-slate-700/50 mb-8">
+          <div>
+            <p class="font-medium text-blue-400"><i class="fa-solid fa-robot mr-2"></i>Smart AI Rename</p>
+            <p class="text-xs text-slate-400 mt-1">Cleans 'mass', 'bgm' & formats Tamil-style titles perfectly.</p>
+          </div>
+          <label class="relative inline-flex items-center cursor-pointer">
+                        <input type="checkbox" id="aiRename" class="sr-only peer" checked>
+                        <div class="w-11 h-6 bg-slate-600 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-purple-500"></div>
+                    </label>
+        </div>
+
+        <div class="flex gap-4">
+          <button onclick="processAndDownload()" class="flex-1 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-500 hover:to-purple-500 text-white font-bold py-4 rounded-xl shadow-lg transition-all flex justify-center items-center gap-2">
+                        <i class="fa-solid fa-download"></i> Download Processed
+                    </button>
+          <button onclick="downloadAsZip()" class="flex-1 bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-500 hover:to-emerald-500 text-white font-bold py-4 rounded-xl shadow-lg transition-all flex justify-center items-center gap-2">
+                        <i class="fa-solid fa-file-zipper"></i> Download All as ZIP 📦
+                    </button>
+        </div>
+      </div>
+    </section>
+
+    <section id="tab-cut" class="tab-content max-w-5xl mx-auto">
+      <h2 class="text-3xl font-bold mb-8 flex items-center gap-3">
+        <i class="fa-solid fa-scissors text-blue-400"></i> Real Web Audio Cutter
+      </h2>
+
+      <div class="glass rounded-3xl p-8 text-center flex flex-col items-center">
+        <div id="waveform" class="w-full h-40 bg-slate-900/50 rounded-xl mb-6 shadow-inner border border-slate-800">
+        </div>
+
+        <div class="flex gap-4 mb-4">
+          <button onclick="wavesurfer.playPause()" class="px-6 py-3 bg-blue-600 hover:bg-blue-500 rounded-xl font-bold transition-all shadow-lg flex items-center gap-2">
+                        <i class="fa-solid fa-play"></i> Play / Pause
+                    </button>
+          <button onclick="executeTrim()" class="px-6 py-3 bg-pink-600 hover:bg-pink-500 rounded-xl font-bold transition-all shadow-lg flex items-center gap-2">
+                        <i class="fa-solid fa-crop-simple"></i> Trim & Download Region
+                    </button>
+        </div>
+        <p class="text-sm text-slate-400">Drag to create a region. Then click Trim to process using Web Audio API!</p>
+      </div>
+    </section>
+
+  </main>
+
+  <script>
+    // --- 1. State Management ---
+        let loadedFiles = [];
+        let currentFileForEditor = null;
+
+        // --- 2. Tab Logic ---
+        function switchTab(tabId) {
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+            document.getElementById(`tab-${tabId}`).classList.add('active');
+            
+            ['nav-convert', 'nav-cut'].forEach(id => {
+                const el = document.getElementById(id);
+                if(id === `nav-${tabId}`) {
+                    el.classList.add('bg-purple-500/20', 'text-purple-400');
+                    el.classList.remove('hover:bg-white/5', 'text-slate-300');
+                } else {
+                    el.classList.remove('bg-purple-500/20', 'text-purple-400');
+                    el.classList.add('hover:bg-white/5', 'text-slate-300');
+                }
+            });
+        }
+
+        // --- 3. UI Interactions & File Uploads ---
+        const fileInput = document.getElementById('fileInput');
+        const folderInput = document.getElementById('folderInput');
+        const fileNameDisplay = document.getElementById('fileNameDisplay');
+
+        function handleFiles(filesList) {
+            loadedFiles = Array.from(filesList);
+            fileNameDisplay.innerHTML = `<span class="text-green-400 font-bold">${loadedFiles.length} files loaded 📁</span>`;
+            
+            // Load the first audio file into the cutter
+            const firstAudio = loadedFiles.find(f => f.type.startsWith('audio') || f.name.endsWith('.mp3'));
+            if (firstAudio) {
+                currentFileForEditor = firstAudio;
+                wavesurfer.loadBlob(firstAudio);
+            }
+        }
+
+        fileInput.addEventListener('change', (e) => handleFiles(e.target.files));
+        folderInput.addEventListener('change', (e) => handleFiles(e.target.files));
+
+        // --- 4. The Upgraded Smart Renamer 🧠 ---
+        function smartRename(name) {
+            let base = name.replace(/\.[^/.]+$/, "");
+            const ext = name.substring(name.lastIndexOf('.'));
+            
+            base = base.replace(/\b(mass|bgm|song|remix|hd|official|video|1080p|320kbps)\b/gi, '');
+            let words = base.split(/[-_\s]+/);
+            
+            let important = [];
+            let tags = [];
+
+            words.forEach(w => {
+                if(w.trim() === "") return;
+                if (["mass", "bgm", "mashup"].includes(w.toLowerCase())) tags.push(w);
+                else important.push(w);
+            });
+
+            let finalName = [...important, ...tags]
+                .map(w => w.charAt(0).toUpperCase() + w.slice(1).toLowerCase())
+                .join(" ");
+
+            return (finalName.trim() || "Processed_Audio") + ext;
+        }
+
+        // --- 5. Batch ZIP Download (JSZip) 📦 ---
+        async function downloadAsZip() {
+            if (loadedFiles.length === 0) return alert("Upload files first!");
+            const zip = new JSZip();
+            const useAi = document.getElementById('aiRename').checked;
+
+            loadedFiles.forEach(file => {
+                const finalName = useAi ? smartRename(file.name) : file.name;
+                zip.file(finalName, file);
+            });
+
+            fileNameDisplay.innerHTML = `<span class="text-yellow-400 animate-pulse">Generating ZIP...</span>`;
+            
+            const content = await zip.generateAsync({ type: "blob" });
+            const url = URL.createObjectURL(content);
+            const a = document.createElement("a");
+            a.href = url;
+            a.download = "MediaMaster_Processed.zip";
+            a.click();
+            URL.revokeObjectURL(url);
+            
+            fileNameDisplay.innerHTML = `<span class="text-green-400 font-bold">✅ ZIP Downloaded!</span>`;
+        }
+
+        // Single file processing simulation
+        function processAndDownload() {
+            if (loadedFiles.length === 0) return alert("Upload files first!");
+            const useAi = document.getElementById('aiRename').checked;
+            
+            loadedFiles.forEach(file => {
+                const finalName = useAi ? smartRename(file.name) : file.name;
+                const url = URL.createObjectURL(file);
+                const a = document.createElement("a");
+                a.href = url;
+                a.download = finalName;
+                a.click();
+                URL.revokeObjectURL(url);
+            });
+        }
+
+        // --- 6. WaveSurfer & Regions API 🎵 ---
+        const wavesurfer = WaveSurfer.create({
+            container: '#waveform',
+            waveColor: '#60a5fa',
+            progressColor: '#a855f7',
+            cursorColor: '#fff',
+            barWidth: 2,
+            height: 120,
+        });
+
+        // Initialize Regions Plugin
+        const wsRegions = wavesurfer.registerPlugin(WaveSurfer.Regions.create());
+        
+        wavesurfer.on('ready', () => {
+            wsRegions.clearRegions();
+            wsRegions.addRegion({
+                start: 5,
+                end: 15,
+                color: 'rgba(236, 72, 153, 0.3)', // Pink-500 with opacity
+                resize: true,
+                drag: true
+            });
+        });
+
+        // --- 7. REAL Audio Trimming (Web Audio API) ✂️ ---
+        async function executeTrim() {
+            if (!currentFileForEditor) return alert("No audio loaded!");
+            
+            const regions = wsRegions.getRegions();
+            if (regions.length === 0) return alert("Create a region first by dragging!");
+            
+            const region = regions[0];
+            const start = region.start;
+            const end = region.end;
+
+            alert(`Trimming from ${start.toFixed(1)}s to ${end.toFixed(1)}s using Web Audio API...`);
+
+            const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            const arrayBuffer = await currentFileForEditor.arrayBuffer();
+            const audioBuffer = await audioCtx.decodeAudioData(arrayBuffer);
+
+            // Create new buffer for the trimmed section
+            const trimmed = audioCtx.createBuffer(
+                audioBuffer.numberOfChannels,
+                (end - start) * audioBuffer.sampleRate,
+                audioBuffer.sampleRate
+            );
+
+            for (let i = 0; i < audioBuffer.numberOfChannels; i++) {
+                trimmed.copyToChannel(
+                    audioBuffer.getChannelData(i).slice(
+                        Math.floor(start * audioBuffer.sampleRate),
+                        Math.floor(end * audioBuffer.sampleRate)
+                    ),
+                    i
+                );
+            }
+
+            // Convert AudioBuffer back to WAV for download
+            const wavBlob = bufferToWav(trimmed);
+            const url = URL.createObjectURL(wavBlob);
+            const a = document.createElement("a");
+            a.href = url;
+            a.download = "Trimmed_" + smartRename(currentFileForEditor.name).replace(/\.[^/.]+$/, ".wav");
+            a.click();
+        }
+
+        // Helper: Convert AudioBuffer to downloadable WAV Blob
+        function bufferToWav(abuffer) {
+            let numOfChan = abuffer.numberOfChannels,
+            length = abuffer.length * numOfChan * 2 + 44,
+            buffer = new ArrayBuffer(length),
+            view = new DataView(buffer),
+            channels = [], i, sample, offset = 0, pos = 0;
+
+            function setUint16(data) { view.setUint16(pos, data, true); pos += 2; }
+            function setUint32(data) { view.setUint32(pos, data, true); pos += 4; }
+
+            setUint32(0x46464952); // "RIFF"
+            setUint32(length - 8); // file length - 8
+            setUint32(0x45564157); // "WAVE"
+            setUint32(0x20746d66); // "fmt " chunk
+            setUint32(16); // length = 16
+            setUint16(1); // PCM (uncompressed)
+            setUint16(numOfChan);
+            setUint32(abuffer.sampleRate);
+            setUint32(abuffer.sampleRate * 2 * numOfChan); // avg. bytes/sec
+            setUint16(numOfChan * 2); // block-align
+            setUint16(16); // 16-bit (hardcoded in this format)
+            setUint32(0x61746164); // "data" - chunk
+            setUint32(length - pos - 4); // chunk length
+
+            for(i = 0; i < abuffer.numberOfChannels; i++) channels.push(abuffer.getChannelData(i));
+            while(pos < length) {
+                for(i = 0; i < numOfChan; i++) {
+                    sample = Math.max(-1, Math.min(1, channels[i][offset])); // clamp
+                    sample = (0.5 + sample < 0 ? sample * 32768 : sample * 32767)|0; // scale to 16-bit signed int
+                    view.setInt16(pos, sample, true); 
+                    pos += 2;
+                }
+                offset++;
+            }
+            return new Blob([buffer], {type: "audio/wav"});
+        }
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,910 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AKDEV LABS - Bilingual Master Answer Key & Analysis</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Mukta+Malar:wght@400;600;700&family=Roboto:wght@400;500;700&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --primary: #0ea5e9;
+            --primary-dark: #0284c7;
+            --bg: #f8fafc;
+            --surface: #ffffff;
+            --text-main: #1e293b;
+            --text-ta: #475569;
+            --border: #e2e8f0;
+            --accent: #f59e0b;
+            --success: #10b981;
+        }
+
+        body {
+            font-family: 'Roboto', 'Mukta Malar', sans-serif;
+            background-color: var(--bg);
+            color: var(--text-main);
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
+        }
+
+        /* Header */
+        .header {
+            background-color: #0f172a;
+            color: white;
+            padding: 25px 20px;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .header h1 {
+            margin: 0;
+            font-size: 2rem;
+            color: #00d4ff;
+            letter-spacing: 1px;
+        }
+
+        .header p {
+            margin: 8px 0 0;
+            color: #cbd5e1;
+            font-size: 1rem;
+        }
+
+        /* Tabs */
+        .tab-nav {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            background: var(--surface);
+            padding: 10px;
+            border-bottom: 1px solid var(--border);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .tab-btn {
+            background: transparent;
+            border: none;
+            padding: 10px 20px;
+            margin: 5px;
+            font-size: 1rem;
+            font-weight: 600;
+            color: #64748b;
+            cursor: pointer;
+            border-radius: 6px;
+            transition: all 0.3s;
+        }
+
+        .tab-btn:hover {
+            background: #f1f5f9;
+            color: var(--primary);
+        }
+
+        .tab-btn.active {
+            background: var(--primary);
+            color: white;
+            box-shadow: 0 4px 10px rgba(14, 165, 233, 0.3);
+        }
+
+        /* Content Area */
+        .container {
+            max-width: 1100px;
+            margin: 30px auto;
+            padding: 0 20px;
+        }
+
+        .tab-pane {
+            display: none;
+            animation: fadeIn 0.4s ease-in-out;
+        }
+
+        .tab-pane.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Cards & Sections */
+        .card {
+            background: var(--surface);
+            border-radius: 12px;
+            padding: 30px;
+            margin-bottom: 25px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.03);
+            border: 1px solid var(--border);
+        }
+
+        .card h2 {
+            color: var(--primary-dark);
+            border-bottom: 2px solid var(--border);
+            padding-bottom: 10px;
+            margin-top: 0;
+            font-size: 1.5rem;
+        }
+
+        .bilingual-desc {
+            margin-bottom: 20px;
+            padding: 15px;
+            background: #f0fdf4;
+            border-left: 4px solid var(--success);
+            border-radius: 6px;
+        }
+
+        .bilingual-desc .en {
+            font-weight: 600;
+            color: #065f46;
+            margin-bottom: 5px;
+        }
+
+        .bilingual-desc .ta {
+            color: #047857;
+            font-size: 0.95rem;
+        }
+
+        /* List Styling */
+        .analysis-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .analysis-list li {
+            background: #f8fafc;
+            margin-bottom: 15px;
+            padding: 20px;
+            border-radius: 8px;
+            border-left: 4px solid var(--accent);
+            border: 1px solid var(--border);
+        }
+
+        .q-en {
+            font-weight: 700;
+            color: var(--text-main);
+            margin-bottom: 5px;
+            font-size: 1.05rem;
+        }
+
+        .q-ta {
+            color: var(--text-ta);
+            margin-bottom: 12px;
+            font-size: 0.95rem;
+        }
+
+        .book-loc {
+            display: inline-block;
+            background: #e0f2fe;
+            color: #0369a1;
+            padding: 4px 10px;
+            border-radius: 4px;
+            font-size: 0.85rem;
+            font-weight: bold;
+            margin-right: 10px;
+        }
+
+        .ans-badge {
+            display: inline-block;
+            background: #dcfce7;
+            color: #047857;
+            padding: 4px 10px;
+            border-radius: 4px;
+            font-size: 0.85rem;
+            font-weight: bold;
+        }
+
+        /* Tables for 1-Marks */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+            font-size: 0.95rem;
+        }
+
+        th,
+        td {
+            padding: 15px;
+            border: 1px solid var(--border);
+            text-align: left;
+        }
+
+        th {
+            background-color: #f1f5f9;
+            color: var(--text-main);
+            font-weight: 700;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f8fafc;
+        }
+
+        .ans-cell {
+            font-weight: bold;
+            color: var(--primary-dark);
+            font-size: 1.05rem;
+        }
+
+        .td-en {
+            font-weight: 600;
+            display: block;
+            margin-bottom: 4px;
+        }
+
+        .td-ta {
+            color: var(--text-ta);
+            font-size: 0.9rem;
+            display: block;
+        }
+
+        /* Marks Section */
+        .marks-section {
+            margin-bottom: 30px;
+        }
+
+        .marks-section h4 {
+            background: #1e293b;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 6px;
+            display: inline-block;
+            margin-bottom: 15px;
+            font-size: 1.1rem;
+        }
+
+        .ans-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 15px;
+        }
+
+        .ans-item {
+            background: #f8fafc;
+            padding: 15px;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+        }
+
+        .ans-item .q-title-en {
+            color: #0f172a;
+            font-weight: 700;
+            display: block;
+            margin-bottom: 2px;
+        }
+
+        .ans-item .q-title-ta {
+            color: #64748b;
+            font-size: 0.85rem;
+            display: block;
+            margin-bottom: 8px;
+            border-bottom: 1px dashed #cbd5e1;
+            padding-bottom: 8px;
+        }
+
+        .ans-item .final-ans {
+            color: var(--primary-dark);
+            font-weight: 800;
+            font-size: 1.1rem;
+            display: block;
+        }
+
+        @media (max-width: 768px) {
+            .tab-btn {
+                padding: 8px 12px;
+                font-size: 0.9rem;
+            }
+
+            .card {
+                padding: 20px;
+            }
+
+            .ans-grid {
+                grid-template-columns: 1fr;
+            }
+
+            th,
+            td {
+                padding: 10px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="header">
+        <h1>AKDEV LABS OFFICIAL</h1>
+        <p>Bilingual Master Answer Key & Textbook Analysis (Sets 1 to 6)</p>
+    </div>
+
+    <div class="tab-nav">
+        <button class="tab-btn active" onclick="openTab('analysis')">👑 Hall of Fame</button>
+        <button class="tab-btn" onclick="openTab('set1')">SET 1 Key</button>
+        <button class="tab-btn" onclick="openTab('set2')">SET 2 Key</button>
+        <button class="tab-btn" onclick="openTab('set3')">SET 3 Key</button>
+        <button class="tab-btn" onclick="openTab('set4')">SET 4 Key</button>
+        <button class="tab-btn" onclick="openTab('set5')">SET 5 Key</button>
+        <button class="tab-btn" onclick="openTab('set6')">SET 6 Key</button>
+    </div>
+
+    <div class="container">
+
+        <div id="analysis" class="tab-pane active">
+            <div class="card">
+                <h2>👑 THE "HALL OF FAME" / அதிகம் கேட்கப்பட்ட வினாக்கள்</h2>
+
+                <div class="bilingual-desc">
+                    <div class="en">These questions appeared repeatedly across all 6 sets. 99% chance of appearing in
+                        the public exam.</div>
+                    <div class="ta">இந்த வினாக்கள் அனைத்து வினாத்தாள்களிலும் (SET 1 to 6) திரும்பத் திரும்ப
+                        இடம்பெற்றுள்ளன. பொதுத்தேர்வில் வர 99% வாய்ப்புள்ளது.</div>
+                </div>
+
+                <h3>📌 2-Mark Questions (2-மதிப்பெண் வினாக்கள்)</h3>
+                <ul class="analysis-list">
+                    <li>
+                        <div class="q-en">Find A and B if A × B = {(3,2), (3,4), (5,2), (5,4)}.</div>
+                        <div class="q-ta">A × B = {(3,2), (3,4), (5,2), (5,4)} எனில் A மற்றும் B காண்க.</div>
+                        <span class="book-loc">📍 Ex 1.1 (Q.No 3)</span>
+                        <span class="ans-badge">✓ Ans: A={3,5}, B={2,4}</span>
+                    </li>
+                    <li>
+                        <div class="q-en">Find k if f ∘ g = g ∘ f, where f(x)=3x-2, g(x)=2x+k.</div>
+                        <div class="q-ta">f ∘ g = g ∘ f எனக் கொடுத்து k காணுதல். (f(x)=3x-2, g(x)=2x+k)</div>
+                        <span class="book-loc">📍 Eg 1.22</span> <span class="ans-badge">✓ Ans: k = -1</span>
+                    </li>
+                    <li>
+                        <div class="q-en">If 13824 = 2^a × 3^b, then find a and b.</div>
+                        <div class="q-ta">13824 = 2^a × 3^b எனில் a, b காண்க.</div>
+                        <span class="book-loc">📍 Ex 2.2 (Q.No 4)</span> <span class="ans-badge">✓ Ans: a=9, b=3</span>
+                    </li>
+                    <li>
+                        <div class="q-en">Show that the points (-3,1), (-1,3), (2,6) are collinear.</div>
+                        <div class="q-ta">(-3,1), (-1,3), (2,6) ஆகிய புள்ளிகள் ஒரே நேர்கோட்டில் அமையும் எனக் காட்டுக.
+                        </div>
+                        <span class="book-loc">📍 Ex 5.1 (Q.No 2)</span>
+                        <span class="ans-badge">✓ Ans: Area of Triangle = 0</span>
+                    </li>
+                    <li>
+                        <div class="q-en">Base area of a hemisphere is 1386 sq.m. Find its Total Surface Area (TSA).
+                        </div>
+                        <div class="q-ta">அரைக்கோளத்தின் அடிப்பரப்பு 1386 ச.மீ. அதன் மொத்தப் புறப்பரப்பு காண்க.</div>
+                        <span class="book-loc">📍 Ex 7.1 (Q.No 8)</span>
+                        <span class="ans-badge">✓ Ans: 4158 sq.m (ச.மீ)</span>
+                    </li>
+                </ul>
+
+                <h3 style="margin-top: 30px;">📌 5-Mark Questions (5-மதிப்பெண் வினாக்கள்)</h3>
+                <ul class="analysis-list">
+                    <li>
+                        <div class="q-en">Represent f(x) = 3x-1 by arrow diagram, table, ordered pairs, and graph.</div>
+                        <div class="q-ta">f(x) = 3x-1 சார்பினை அம்புக்குறி படம், அட்டவணை, வரிசைச் சோடி, வரைபடம் மூலம்
+                            குறிக்க.</div>
+                        <span class="book-loc">📍 Ex 1.4 / Eg 1.11</span>
+                        <span class="ans-badge">✓ Ans: Tabular values generated</span>
+                    </li>
+                    <li>
+                        <div class="q-en">Find m and n if 36x⁴ - 60x³ + 61x² - mx + n is a perfect square.</div>
+                        <div class="q-ta">36x⁴ - 60x³ + 61x² - mx + n முழு வர்க்கம் எனில் m, n காண்க.</div>
+                        <span class="book-loc">📍 Ex 3.8 (Q.No 3(i))</span>
+                        <span class="ans-badge">✓ Ans: m=30, n=9</span>
+                    </li>
+                    <li>
+                        <div class="q-en">Find the sum to n terms of the series 3 + 33 + 333 + ...</div>
+                        <div class="q-ta">3 + 33 + 333 + ... n உறுப்புகளின் கூடுதல் காண்க.</div>
+                        <span class="book-loc">📍 Ex 2.8 (Q.No 2(i))</span>
+                        <span class="ans-badge">✓ Ans: Sn = [10(10ⁿ-1)/27] - n/3</span>
+                    </li>
+                    <li>
+                        <div class="q-en">Find the area of the quadrilateral (-9,-2), (-8,-4), (2,2), (1,-3).</div>
+                        <div class="q-ta">(-9,-2), (-8,-4), (2,2), (1,-3) முனைகளைக் கொண்ட நாற்கரத்தின் பரப்பு காண்க.
+                        </div>
+                        <span class="book-loc">📍 Ex 5.1 (Q.No 6(ii))</span>
+                        <span class="ans-badge">✓ Ans: 34 sq. units (ச. அலகுகள்)</span>
+                    </li>
+                    <li>
+                        <div class="q-en">Two ships on either side of a 200m lighthouse have elevation angles 30° & 45°.
+                            Find distance.</div>
+                        <div class="q-ta">200 மீ உயர கலங்கரை விளக்கத்தின் இரு பக்கங்களில் உள்ள கப்பல்களின்
+                            ஏற்றக்கோணங்கள் 30° & 45°. இடைப்பட்ட தொலைவு.</div>
+                        <span class="book-loc">📍 Ex 6.3 / Eg 6.22</span> <span class="ans-badge">✓ Ans: 546.4 m</span>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <h2>🎯 1-Mark Master Lookup / 1-மதிப்பெண் விடைக்குறிப்பு</h2>
+                <table>
+                    <tr>
+                        <th>Question Hint (கேள்வி சுருக்கம்)</th>
+                        <th>Final Answer (இறுதி விடை)</th>
+                        <th>Book Location</th>
+                    </tr>
+                    <tr>
+                        <td>
+                            <span class="td-en">If n(A × B) = 6 and A={1,3} then n(B)</span>
+                            <span class="td-ta">n(A × B) = 6 மற்றும் A={1,3} எனில் n(B)</span>
+                        </td>
+                        <td class="ans-cell">3</td>
+                        <td>Ex 1.6 - Q1</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <span class="td-en">Sum of exponents of prime factors of 1729</span>
+                            <span class="td-ta">1729 பகா காரணி அடுக்குகளின் கூடுதல்</span>
+                        </td>
+                        <td class="ans-cell">3</td>
+                        <td>Ex 2.10 - Q2</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <span class="td-en">A.P 31 terms, 16th term is m. Sum of AP</span>
+                            <span class="td-ta">A.P 31 உறுப்புகள், 16வது உறுப்பு m. கூடுதல்</span>
+                        </td>
+                        <td class="ans-cell">31m</td>
+                        <td>Ex 2.10 - Q8</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <span class="td-en">To make x⁴ + 64 a perfect square, add:</span>
+                            <span class="td-ta">x⁴ + 64 முழு வர்க்கமாக கூட்ட வேண்டியது:</span>
+                        </td>
+                        <td class="ans-cell">16x²</td>
+                        <td>Concept</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <span class="td-en">Intersections of x² + 4x + 4 with X-axis</span>
+                            <span class="td-ta">x² + 4x + 4 X-அச்சை வெட்டும் புள்ளிகள்</span>
+                        </td>
+                        <td class="ans-cell">1</td>
+                        <td>Ex 3.20 - Q8</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <span class="td-en">Tangents from exterior point to circle</span>
+                            <span class="td-ta">வெளிப்புறப் புள்ளி தொடுகோடுகள்</span>
+                        </td>
+                        <td class="ans-cell">2 (இரண்டு)</td>
+                        <td>Ex 4.5 - Q12</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <span class="td-en">Man goes 18m East, 24m North. Distance</span>
+                            <span class="td-ta">18m கிழக்கு, 24m வடக்கு. தொலைவு</span>
+                        </td>
+                        <td class="ans-cell">30 m</td>
+                        <td>Ex 4.6 - Q6</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <span class="td-en">Equation y = 11 is a line</span>
+                            <span class="td-ta">y = 11 என்ற நேர்க்கோடு</span>
+                        </td>
+                        <td class="ans-cell">Parallel to X-axis (X-அச்சுக்கு இணை)</td>
+                        <td>Ex 5.5 - Q9</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <span class="td-en">Ratio of tower to shadow is √3:1, angle is</span>
+                            <span class="td-ta">கோபுரம் நிழல் விகிதம் √3:1, ஏற்றக்கோணம்</span>
+                        </td>
+                        <td class="ans-cell">60°</td>
+                        <td>Ex 6.5 - Q15</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <span class="td-en">Radius of cylinder doubled, volume becomes</span>
+                            <span class="td-ta">உருளையின் ஆரம் இருமடங்கானால், கனஅளவு</span>
+                        </td>
+                        <td class="ans-cell">4 times (4 மடங்கு)</td>
+                        <td>Ex 7.5 - Q7</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <span class="td-en">Variance is 81. Standard Deviation is</span>
+                            <span class="td-ta">விலக்க வர்க்க சராசரி 81, திட்டவிலக்கம்</span>
+                        </td>
+                        <td class="ans-cell">9</td>
+                        <td>Ex 8.5 - Q4</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+
+        <div id="set1" class="tab-pane">
+            <div class="card">
+                <h2>📝 SET 1 - Final Answer Key</h2>
+                <div class="marks-section">
+                    <h4>2 Marks</h4>
+                    <div class="ans-grid">
+                        <div class="ans-item">
+                            <span class="q-title-en">15. Find A, B from A × B</span>
+                            <span class="q-title-ta">15. A × B லிருந்து A, B காண்க</span>
+                            <span class="final-ans">A={3,5}, B={2,4}</span>
+                        </div>
+                        <div class="ans-item">
+                            <span class="q-title-en">16. Find k (f∘g = g∘f)</span>
+                            <span class="q-title-ta">16. k காண்க (f∘g = g∘f)</span>
+                            <span class="final-ans">k = -1</span>
+                        </div>
+                        <div class="ans-item">
+                            <span class="q-title-en">17. Find a, b (13824 = 2^a × 3^b)</span>
+                            <span class="q-title-ta">17. a, b காண்க (13824)</span>
+                            <span class="final-ans">a=9, b=3</span>
+                        </div>
+                        <div class="ans-item">
+                            <span class="q-title-en">18. Sum 1+3+5...+55</span>
+                            <span class="q-title-ta">18. கூடுதல் 1+3+5...+55</span>
+                            <span class="final-ans">n=28, Sum=784</span>
+                        </div>
+                        <div class="ans-item">
+                            <span class="q-title-en">19. Excluded value (x+10)/8x</span>
+                            <span class="q-title-ta">19. விலக்கப்பட்ட மதிப்பு (x+10)/8x</span>
+                            <span class="final-ans">x = 0</span>
+                        </div>
+                        <div class="ans-item">
+                            <span class="q-title-en">20. Quad Eq (Sum -9, Prod 20)</span>
+                            <span class="q-title-ta">20. இருபடிச் சமன்பாடு</span>
+                            <span class="final-ans">x² + 9x + 20 = 0</span>
+                        </div>
+                        <div class="ans-item">
+                            <span class="q-title-en">22. AD bisector, find AC</span>
+                            <span class="q-title-ta">22. AD இருசமவெட்டி, AC காண்க</span>
+                            <span class="final-ans">AC = 4.5 cm</span>
+                        </div>
+                        <div class="ans-item">
+                            <span class="q-title-en">25. Hemisphere TSA (Base=1386)</span>
+                            <span class="q-title-ta">25. அரைக்கோளம் மொத்தப் பரப்பு</span>
+                            <span class="final-ans">4158 m²</span>
+                        </div>
+                        <div class="ans-item">
+                            <span class="q-title-en">26. SD of first 21 natural numbers</span>
+                            <span class="q-title-ta">26. முதல் 21 இயல் எண்கள் திட்டவிலக்கம்</span>
+                            <span class="final-ans">σ = 6.05</span>
+                        </div>
+                        <div class="ans-item">
+                            <span class="q-title-en">28. Collinear (2b+c=4)</span>
+                            <span class="q-title-ta">28. கோடமைப் புள்ளிகள் (2b+c=4)</span>
+                            <span class="final-ans">b=2, c=0</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="marks-section">
+                    <h4>5 & 8 Marks</h4>
+                    <div class="ans-grid">
+                        <div class="ans-item">
+                            <span class="q-title-en">31. Sum 3+33+333...</span>
+                            <span class="q-title-ta">31. கூடுதல் 3+33+333...</span>
+                            <span class="final-ans">Sn = [10(10ⁿ-1)/27] - n/3</span>
+                        </div>
+                        <div class="ans-item">
+                            <span class="q-title-en">32. Perfect Square a,b</span>
+                            <span class="q-title-ta">32. முழு வர்க்கம் a, b காண்க</span>
+                            <span class="final-ans">a=16, b=16</span>
+                        </div>
+                        <div class="ans-item">
+                            <span class="q-title-en">35. Area of Quadrilateral</span>
+                            <span class="q-title-ta">35. நாற்கரத்தின் பரப்பு</span>
+                            <span class="final-ans">35 sq.units</span>
+                        </div>
+                        <div class="ans-item">
+                            <span class="q-title-en">37. Two ships & Lighthouse distance</span>
+                            <span class="q-title-ta">37. கப்பல்கள் & கலங்கரை விளக்கம் தொலைவு</span>
+                            <span class="final-ans">546.4 m</span>
+                        </div>
+                        <div class="ans-item">
+                            <span class="q-title-en">39. Melted Sphere count</span>
+                            <span class="q-title-ta">39. உருக்கப்பட்ட கோளங்களின் எண்ணிக்கை</span>
+                            <span class="final-ans">512 spheres</span>
+                        </div>
+                        <div class="ans-item">
+                            <span class="q-title-en">42. AP 3 terms sum 27, prod 288</span>
+                            <span class="q-title-ta">42. A.P 3 உறுப்புகள் (கூடுதல் 27)</span>
+                            <span class="final-ans">Terms: 6, 9, 12</span>
+                        </div>
+                        <div class="ans-item">
+                            <span class="q-title-en">44(a). Graph x²+3x-4=0</span>
+                            <span class="q-title-ta">44(a). வரைபடம் x²+3x-4=0</span>
+                            <span class="final-ans">Roots: -4, 1</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="set2" class="tab-pane">
+            <div class="card">
+                <h2>📝 SET 2 - Final Answer Key</h2>
+                <div class="marks-section">
+                    <h4>2, 5 & 8 Marks</h4>
+                    <div class="ans-grid">
+                        <div class="ans-item">
+                            <span class="q-title-en">15. Domain & Range of R=x²</span>
+                            <span class="q-title-ta">15. R=x² மதிப்பகம், வீச்சகம்</span>
+                            <span class="final-ans">Dom={1..6}, Ran={1,4,9,16,25,36}</span>
+                        </div>
+                        <div class="ans-item">
+                            <span class="q-title-en">17. AP terms find k</span>
+                            <span class="q-title-ta">17. A.P உறுப்புகள் k காண்க</span>
+                            <span class="final-ans">k = 4</span>
+                        </div>
+                        <div class="ans-item">
+                            <span class="q-title-en">18. 8th term of GP</span>
+                            <span class="q-title-ta">18. G.P 8-வது உறுப்பு</span>
+                            <span class="final-ans">1/243</span>
+                        </div>
+                        <div class="ans-item">
+                            <span class="q-title-en">19. Nature of roots 15x²+11x+2=0</span>
+                            <span class="q-title-ta">19. மூலங்களின் தன்மை 15x²+11x+2=0</span>
+                            <span class="final-ans">Real & Unequal (மெய் மற்றும் சமமில்லை)</span>
+                        </div>
+                        <div class="ans-item">
+                            <span class="q-title-en">25. Cones height ratio (V: 3600, 5040)</span>
+                            <span class="q-title-ta">25. கூம்புகளின் உயர விகிதம்</span>
+                            <span class="final-ans">h1:h2 = 5:7</span>
+                        </div>
+                        <div class="ans-item">
+                            <span class="q-title-en">28. 10m East, 24m North Distance</span>
+                            <span class="q-title-ta">28. 10m கிழக்கு, 24m வடக்கு தொலைவு</span>
+                            <span class="final-ans">26 m</span>
+                        </div>
+                        <div class="ans-item">
+                            <span class="q-title-en">30. Divisible by 11 sum (100 to 1000)</span>
+                            <span class="q-title-ta">30. 11-ஆல் வகுபடும் எண்களின் கூடுதல்</span>
+                            <span class="final-ans">44550</span>
+                        </div>
+                        <div class="ans-item">
+                            <span class="q-title-en">35. Area of Quadrilateral</span>
+                            <span class="q-title-ta">35. நாற்கரத்தின் பரப்பு</span>
+                            <span class="final-ans">53 sq.units</span>
+                        </div>
+                        <div class="ans-item">
+                            <span class="q-title-en">39. Frustum volume</span>
+                            <span class="q-title-ta">39. இடைக்கண்டத்தின் கனஅளவு</span>
+                            <span class="final-ans">48510 cm³</span>
+                        </div>
+                        <div class="ans-item">
+                            <span class="q-title-en">42. Perfect square m, n</span>
+                            <span class="q-title-ta">42. முழு வர்க்கம் m, n காண்க</span>
+                            <span class="final-ans">m=-2, n=1</span>
+                        </div>
+                        <div class="ans-item">
+                            <span class="q-title-en">44(a). Graph x²-4x+3=0</span>
+                            <span class="q-title-ta">44(a). வரைபடம் x²-4x+3=0</span>
+                            <span class="final-ans">Roots: 3, 3</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="set3" class="tab-pane">
+            <div class="card">
+                <h2>📝 SET 3 - Final Answer Key</h2>
+                <div class="marks-section">
+                    <h4>2, 5 & 8 Marks</h4>
+                    <div class="ans-grid">
+                        <div class="ans-item">
+                            <span class="q-title-en">17. Which term is -54?</span>
+                            <span class="q-title-ta">17. -54 எத்தனையாவது உறுப்பு?</span>
+                            <span class="final-ans">n = 15</span>
+                        </div>
+                        <div class="ans-item">
+                            <span class="q-title-en">18. GP 10th term (8th is 768, r=2)</span>
+                            <span class="q-title-ta">18. G.P 10-வது உறுப்பு காண்க</span>
+                            <span class="final-ans">3072</span>
+                        </div>
+                        <div class="ans-item">
+                            <span class="q-title-en">19. Excluded value t/(t²-5t+6)</span>
+                            <span class="q-title-ta">19. விலக்கப்பட்ட மதிப்பு t/(t²-5t+6)</span>
+                            <span class="final-ans">t = 2, 3</span>
+                        </div>
+                        <div class="ans-item">
+                            <span class="q-title-en">24. Volume ratio height</span>
+                            <span class="q-title-ta">24. கனஅளவு விகிதம் உயரம்</span>
+                            <span class="final-ans">5:7</span>
+                        </div>
+                        <div class="ans-item">
+                            <span class="q-title-en">27. SD (Mean 15, CV 48)</span>
+                            <span class="q-title-ta">27. திட்டவிலக்கம் (சராசரி 15, CV 48)</span>
+                            <span class="final-ans">σ = 7.2</span>
+                        </div>
+                        <div class="ans-item">
+                            <span class="q-title-en">31. AP 3 terms sum 27, prod 288</span>
+                            <span class="q-title-ta">31. A.P 3 உறுப்புகள் (கூடுதல் 27)</span>
+                            <span class="final-ans">6, 9, 12</span>
+                        </div>
+                        <div class="ans-item">
+                            <span class="q-title-en">33. Perfect square m, n</span>
+                            <span class="q-title-ta">33. முழு வர்க்கம் m, n காண்க</span>
+                            <span class="final-ans">m=24, n=-32</span>
+                        </div>
+                        <div class="ans-item">
+                            <span class="q-title-en">35. Quad area 28, find k</span>
+                            <span class="q-title-ta">35. நாற்கர பரப்பு 28, k காண்க</span>
+                            <span class="final-ans">k = -5</span>
+                        </div>
+                        <div class="ans-item">
+                            <span class="q-title-en">36. Planes distance (1000, 1200 km/h)</span>
+                            <span class="q-title-ta">36. விமானங்களின் இடைப்பட்ட தொலைவு</span>
+                            <span class="final-ans">2343.3 km</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="set4" class="tab-pane">
+            <div class="card">
+                <h2>📝 SET 4 - Final Answer Key</h2>
+                <div class="marks-section">
+                    <h4>2, 5 & 8 Marks</h4>
+                    <div class="ans-grid">
+                        <div class="ans-item">
+                            <span class="q-title-en">21. AE length (Thales Theorem)</span>
+                            <span class="q-title-ta">21. AE நீளம் (தேல்ஸ் தேற்றம்)</span>
+                            <span class="final-ans">AE = 6.43cm</span>
+                        </div>
+                        <div class="ans-item">
+                            <span class="q-title-en">24. Sphere diameter (SA=154)</span>
+                            <span class="q-title-ta">24. கோளத்தின் விட்டம் (புறப்பரப்பு=154)</span>
+                            <span class="final-ans">d = 7m</span>
+                        </div>
+                        <div class="ans-item">
+                            <span class="q-title-en">31. Sum 5+55+555...</span>
+                            <span class="q-title-ta">31. கூடுதல் 5+55+555...</span>
+                            <span class="final-ans">Sn = [50(10ⁿ-1)/81] - 5n/9</span>
+                        </div>
+                        <div class="ans-item">
+                            <span class="q-title-en">33. Solve linear equations</span>
+                            <span class="q-title-ta">33. நேரிய சமன்பாடுகளைத் தீர்க்க</span>
+                            <span class="final-ans">x=2, y=-1, z=4</span>
+                        </div>
+                        <div class="ans-item">
+                            <span class="q-title-en">36. X-intercept exceeds Y by 5</span>
+                            <span class="q-title-ta">36. X-வெட்டு Y-ஐ விட 5 அதிகம்</span>
+                            <span class="final-ans">x-y-28=0</span>
+                        </div>
+                        <div class="ans-item">
+                            <span class="q-title-en">38. Capsule TSA</span>
+                            <span class="q-title-ta">38. மருந்து குப்பியின் புறப்பரப்பு</span>
+                            <span class="final-ans">220 mm²</span>
+                        </div>
+                        <div class="ans-item">
+                            <span class="q-title-en">40. Dice probabilities</span>
+                            <span class="q-title-ta">40. பகடை நிகழ்தகவுகள்</span>
+                            <span class="final-ans">3/36, 3/36, 1</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="set5" class="tab-pane">
+            <div class="card">
+                <h2>📝 SET 5 - Final Answer Key</h2>
+                <div class="marks-section">
+                    <h4>2, 5 & 8 Marks</h4>
+                    <div class="ans-grid">
+                        <div class="ans-item">
+                            <span class="q-title-en">21. ∠APB=60°, find ∠AOB</span>
+                            <span class="q-title-ta">21. ∠APB=60° எனில் ∠AOB காண்க</span>
+                            <span class="final-ans">120°</span>
+                        </div>
+                        <div class="ans-item">
+                            <span class="q-title-en">24. Volume of sphere (r=2.1)</span>
+                            <span class="q-title-ta">24. கோளத்தின் கன அளவு (r=2.1)</span>
+                            <span class="final-ans">38.808 cm³</span>
+                        </div>
+                        <div class="ans-item">
+                            <span class="q-title-en">25. SD of 8,8,8,8,8</span>
+                            <span class="q-title-ta">25. 8,8,8,8,8 திட்டவிலக்கம்</span>
+                            <span class="final-ans">σ = 0</span>
+                        </div>
+                        <div class="ans-item">
+                            <span class="q-title-en">30. AP 3 terms sum 27, prod 288</span>
+                            <span class="q-title-ta">30. A.P 3 உறுப்புகள் (கூடுதல் 27)</span>
+                            <span class="final-ans">6, 9, 12</span>
+                        </div>
+                        <div class="ans-item">
+                            <span class="q-title-en">36. Perpendicular line eq</span>
+                            <span class="q-title-ta">36. செங்குத்துக் கோட்டின் சமன்பாடு</span>
+                            <span class="final-ans">x+y-6=0</span>
+                        </div>
+                        <div class="ans-item">
+                            <span class="q-title-en">39. Frustum volume</span>
+                            <span class="q-title-ta">39. இடைக்கண்டத்தின் கனஅளவு</span>
+                            <span class="final-ans">48510 cm³</span>
+                        </div>
+                        <div class="ans-item">
+                            <span class="q-title-en">40. Dice probabilities</span>
+                            <span class="q-title-ta">40. பகடை நிகழ்தகவுகள்</span>
+                            <span class="final-ans">3/36, 15/36, 1</span>
+                        </div>
+                        <div class="ans-item">
+                            <span class="q-title-en">44(a). Graph x²+3x-4=0</span>
+                            <span class="q-title-ta">44(a). வரைபடம் x²+3x-4=0</span>
+                            <span class="final-ans">Roots: 1, -4</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="set6" class="tab-pane">
+            <div class="card">
+                <h2>📝 SET 6 - Final Answer Key</h2>
+                <div class="marks-section">
+                    <h4>2, 5 & 8 Marks</h4>
+                    <div class="ans-grid">
+                        <div class="ans-item">
+                            <span class="q-title-en">16. Excluded value (x+10)/8x</span>
+                            <span class="q-title-ta">16. விலக்கப்பட்ட மதிப்பு (x+10)/8x</span>
+                            <span class="final-ans">x = 0</span>
+                        </div>
+                        <div class="ans-item">
+                            <span class="q-title-en">17. a^b × b^a = 800</span>
+                            <span class="q-title-ta">17. a^b × b^a = 800</span>
+                            <span class="final-ans">a=2, b=5 or a=5, b=2</span>
+                        </div>
+                        <div class="ans-item">
+                            <span class="q-title-en">23. Tangent length (r=6, d=10)</span>
+                            <span class="q-title-ta">23. தொடுகோட்டின் நீளம் (r=6, d=10)</span>
+                            <span class="final-ans">8 cm</span>
+                        </div>
+                        <div class="ans-item">
+                            <span class="q-title-en">25. Hemisphere TSA (Base=1386)</span>
+                            <span class="q-title-ta">25. அரைக்கோளம் மொத்தப் பரப்பு</span>
+                            <span class="final-ans">4158 sq.m</span>
+                        </div>
+                        <div class="ans-item">
+                            <span class="q-title-en">28. GP x+6, x+12, x+15</span>
+                            <span class="q-title-ta">28. G.P x+6, x+12, x+15</span>
+                            <span class="final-ans">x = -18</span>
+                        </div>
+                        <div class="ans-item">
+                            <span class="q-title-en">35. Quad area 28, find k</span>
+                            <span class="q-title-ta">35. நாற்கர பரப்பு 28, k காண்க</span>
+                            <span class="final-ans">k = -5</span>
+                        </div>
+                        <div class="ans-item">
+                            <span class="q-title-en">37. Tower on building height</span>
+                            <span class="q-title-ta">37. கட்டடத்தின் மீதான கோபுர உயரம்</span>
+                            <span class="final-ans">21.96 m</span>
+                        </div>
+                        <div class="ans-item">
+                            <span class="q-title-en">43(b). Tangent from 8cm (r=4)</span>
+                            <span class="q-title-ta">43(b). தொடுகோட்டின் நீளம் காண்க</span>
+                            <span class="final-ans">Length = 6.92cm</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        function openTab(tabId) {
+        document.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));
+        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+        
+        document.getElementById(tabId).classList.add('active');
+        event.target.classList.add('active');
+        window.scrollTo(0, 0);
+    }
+    </script>
+</body>
+
+</html>

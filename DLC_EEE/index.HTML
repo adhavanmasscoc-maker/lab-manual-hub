@@ -1,0 +1,694 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>EE5203 - Digital Logic Circuits Lab Manual</title>
+    <style>
+        /* CSS Reset & Anti-Scroll Full View Setup */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f1f5f9;
+            color: #334155;
+            height: 100vh;
+            width: 100vw;
+            overflow: hidden;
+            display: flex;
+            flex-direction: row;
+        }
+
+        /* Top Mobile Bar (Hidden on Desktop) */
+        .mobile-top-bar {
+            display: none;
+            background-color: #0f172a;
+            color: white;
+            padding: 15px 20px;
+            align-items: center;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+        }
+
+        .menu-btn {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 24px;
+            cursor: pointer;
+            margin-right: 15px;
+        }
+
+        .mobile-top-bar h2 {
+            font-size: 18px;
+            margin: 0;
+            font-weight: 600;
+        }
+
+        /* Sidebar Navigation */
+        .sidebar {
+            width: 300px;
+            background-color: #1e293b;
+            color: #fff;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            flex-shrink: 0;
+            z-index: 999;
+            transition: transform 0.3s ease;
+        }
+
+        .sidebar-header {
+            padding: 20px;
+            background-color: #0f172a;
+            border-bottom: 3px solid #0ea5e9;
+            text-align: center;
+        }
+
+        .sidebar-header h3 {
+            font-size: 1.1rem;
+            color: #38bdf8;
+            margin: 0;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .nav-links {
+            flex-grow: 1;
+            overflow-y: auto;
+            padding-bottom: 20px;
+        }
+
+        .nav-links::-webkit-scrollbar { width: 6px; }
+        .nav-links::-webkit-scrollbar-thumb { background: #475569; border-radius: 4px; }
+
+        .nav-links a {
+            display: block;
+            color: #cbd5e1;
+            text-decoration: none;
+            padding: 14px 20px;
+            font-size: 13px;
+            font-weight: 500;
+            border-bottom: 1px solid #334155;
+            transition: all 0.2s;
+        }
+
+        .nav-links a:hover {
+            background-color: #0ea5e9;
+            color: #fff;
+            padding-left: 25px;
+        }
+
+        /* Main Content Container */
+        .main-content {
+            flex-grow: 1;
+            height: 100%;
+            overflow-y: auto;
+            padding: 30px 40px;
+            scroll-behavior: smooth;
+        }
+
+        .main-content::-webkit-scrollbar { width: 8px; }
+        .main-content::-webkit-scrollbar-thumb { background: #94a3b8; border-radius: 4px; }
+
+        .content-wrapper {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        /* Header Details */
+        .header-card {
+            background-color: #ffffff;
+            padding: 25px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            text-align: center;
+            margin-bottom: 30px;
+            border-top: 5px solid #0ea5e9;
+        }
+
+        .header-card h1 {
+            color: #0f172a;
+            font-size: 24px;
+            margin-bottom: 5px;
+            font-weight: 800;
+        }
+
+        .header-card p {
+            color: #64748b;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        /* Experiment Cards */
+        .card {
+            background-color: #ffffff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+            margin-bottom: 40px;
+            border-left: 5px solid #0ea5e9;
+        }
+
+        .card-header {
+            border-bottom: 2px solid #e2e8f0;
+            padding-bottom: 15px;
+            margin-bottom: 20px;
+        }
+
+        .card-header h2 {
+            font-size: 22px;
+            color: #0f172a;
+            margin: 0;
+            font-weight: 700;
+        }
+
+        /* Bold Section Headings */
+        h4 {
+            font-size: 16px;
+            color: #0369a1;
+            margin: 25px 0 10px 0;
+            text-transform: uppercase;
+            font-weight: 800;
+            letter-spacing: 0.5px;
+        }
+
+        p, ol {
+            color: #334155;
+            line-height: 1.7;
+            font-size: 14px;
+        }
+
+        ol { padding-left: 20px; }
+        li { margin-bottom: 6px; }
+
+        /* Code and Output Blocks */
+        pre {
+            background-color: #1e293b;
+            color: #f8fafc;
+            border-radius: 6px;
+            padding: 15px;
+            overflow-x: auto;
+            font-family: 'Consolas', 'Courier New', Courier, monospace;
+            font-size: 14px;
+            margin-top: 10px;
+            line-height: 1.4;
+        }
+
+        .output {
+            background-color: #f0fdf4;
+            color: #166534;
+            border: 1px solid #bbf7d0;
+            border-left: 5px solid #22c55e;
+            font-weight: 700;
+        }
+
+        .result {
+            background-color: #eff6ff;
+            border: 1px solid #bfdbfe;
+            border-left: 5px solid #3b82f6;
+            padding: 15px;
+            border-radius: 4px;
+            font-weight: 600;
+            color: #1e3a8a;
+            margin-top: 15px;
+        }
+
+        /* Mobile Viewport Adaptations */
+        @media screen and (max-width: 850px) {
+            body { flex-direction: column; }
+            .mobile-top-bar { display: flex; }
+            .sidebar {
+                position: fixed;
+                top: 60px;
+                left: 0;
+                height: calc(100vh - 60px);
+                transform: translateX(-100%);
+                width: 280px;
+                box-shadow: 2px 0 10px rgba(0, 0, 0, 0.2);
+            }
+            .sidebar.active { transform: translateX(0); }
+            .main-content { height: calc(100vh - 60px); padding: 15px; }
+            .card { padding: 20px; }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="mobile-top-bar">
+        <button class="menu-btn" onclick="toggleMenu()">☰</button>
+        <h2>Lab Manual</h2>
+    </div>
+
+    <div class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <h3>EE5203 Experiments</h3>
+        </div>
+        <div class="nav-links">
+            <a href="#exp1" onclick="closeMenu()">1. Study of Logic Gates</a>
+            <a href="#exp2" onclick="closeMenu()">2. Code Converters</a>
+            <a href="#exp3" onclick="closeMenu()">3. Adder and Subtractor</a>
+            <a href="#exp4" onclick="closeMenu()">4. Encoders and Decoders</a>
+            <a href="#exp5" onclick="closeMenu()">5. Magnitude Comparator</a>
+            <a href="#exp6" onclick="closeMenu()">6. Multiplexer & Demultiplexer</a>
+            <a href="#exp7" onclick="closeMenu()">7. Shift Registers</a>
+            <a href="#exp8" onclick="closeMenu()">8. Sync & Async Counter</a>
+        </div>
+    </div>
+
+    <div class="main-content" id="main-content">
+        <div class="content-wrapper">
+
+            <div class="header-card">
+                <h1>EE5203 - DIGITAL LOGIC CIRCUITS</h1>
+                <p>LAB MANUAL | DEPARTMENT OF EEE</p>
+            </div>
+
+            <div id="exp1" class="card">
+                <div class="card-header">
+                    <h2>EX NO: 1 - STUDY OF LOGIC GATES</h2>
+                </div>
+                <h4>AIM</h4>
+                <p>To study the logic gates and verify their truth tables.</p>
+
+                <h4>ALGORITHM / PROCEDURE</h4>
+                <ol>
+                    <li>Mount the required ICs (7408, 7432, 7404, 7400, 7402, 7486) on the IC trainer kit.</li>
+                    <li>Connections are given as per the logic circuit diagrams.</li>
+                    <li>Logical inputs (High/Low) are given as per the circuit diagram.</li>
+                    <li>Observe the logic output on the LEDs and verify the truth table.</li>
+                </ol>
+
+                <h4>LOGIC / BOOLEAN EXPRESSIONS</h4>
+<pre><code>// IC Specifications & Boolean Expressions
+AND GATE   (IC 7408)  => Y = A . B
+OR GATE    (IC 7432)  => Y = A + B
+NOT GATE   (IC 7404)  => Y = A'
+NAND GATE  (IC 7400)  => Y = (A . B)'
+NOR GATE   (IC 7402)  => Y = (A + B)'
+X-OR GATE  (IC 7486)  => Y = A'B + AB' = A ⊕ B
+3-I/P NAND (IC 7410)  => Y = (A . B . C)'</code></pre>
+
+                <h4>TRUTH TABLES</h4>
+<pre class="output">AND GATE:
+A  B  | Y=A.B
+0  0  |  0
+0  1  |  0
+1  0  |  0
+1  1  |  1
+
+OR GATE:
+A  B  | Y=A+B
+0  0  |  0
+0  1  |  1
+1  0  |  1
+1  1  |  1
+
+NOT GATE:
+A  | Y=A'
+0  |  1
+1  |  0
+
+NAND GATE:
+A  B  | Y=(A.B)'
+0  0  |  1
+0  1  |  1
+1  0  |  1
+1  1  |  0
+
+NOR GATE:
+A  B  | Y=(A+B)'
+0  0  |  1
+0  1  |  0
+1  0  |  0
+1  1  |  0
+
+X-OR GATE:
+A  B  | Y=A⊕B
+0  0  |  0
+0  1  |  1
+1  0  |  1
+1  1  |  0</pre>
+
+                <h4>RESULT</h4>
+                <div class="result">The logic gates are studied and its truth tables are verified successfully.</div>
+            </div>
+
+            <div id="exp2" class="card">
+                <div class="card-header">
+                    <h2>EX NO: 2 - CODE CONVERTERS</h2>
+                </div>
+                <h4>AIM</h4>
+                <p>To design and implement 4-bit (i) Binary to Gray, (ii) Gray to Binary, (iii) BCD to Excess-3, and (iv) Excess-3 to BCD code converters.</p>
+
+                <h4>ALGORITHM / PROCEDURE</h4>
+                <ol>
+                    <li>Obtain the truth tables for the required conversions.</li>
+                    <li>Derive the simplified Boolean expressions using Karnaugh Maps (K-Maps).</li>
+                    <li>Connections are given as per the derived logic circuit diagram using X-OR (7486), AND (7408), OR (7432), and NOT (7404) gates.</li>
+                    <li>Logical inputs are given and the output is verified with the truth tables.</li>
+                </ol>
+
+                <h4>LOGIC / BOOLEAN EXPRESSIONS</h4>
+<pre><code>// (i) BINARY TO GRAY CODE CONVERTER
+G3 = B3
+G2 = B3 ⊕ B2
+G1 = B1 ⊕ B2
+G0 = B1 ⊕ B0
+
+// (ii) GRAY TO BINARY CODE CONVERTER
+B3 = G3
+B2 = G3 ⊕ G2
+B1 = G3 ⊕ G2 ⊕ G1
+B0 = G3 ⊕ G2 ⊕ G1 ⊕ G0
+
+// (iii) BCD TO EXCESS-3 CODE CONVERTER
+E3 = B3 + B2(B0 + B1)
+E2 = B2 ⊕ (B1 + B0)
+E1 = B1 ⊕ B0'
+E0 = B0'
+
+// (iv) EXCESS-3 TO BCD CONVERTER
+A = X1(X2 + X3.X4)
+B = X2 ⊕ (X3' + X4')
+C = X3 ⊕ X4
+D = X4'</code></pre>
+
+                <h4>TRUTH TABLES</h4>
+<pre class="output">BINARY TO GRAY CONVERSION (Sample subset):
+B3 B2 B1 B0 | G3 G2 G1 G0
+ 0  0  0  0 |  0  0  0  0
+ 0  0  0  1 |  0  0  0  1
+ 0  0  1  0 |  0  0  1  1
+ 0  0  1  1 |  0  0  1  0
+ 0  1  0  0 |  0  1  1  0
+ 1  1  1  1 |  1  0  0  0
+
+BCD TO EXCESS-3 CONVERSION (Sample subset):
+B3 B2 B1 B0 | E3 E2 E1 E0
+ 0  0  0  0 |  0  0  1  1
+ 0  0  0  1 |  0  1  0  0
+ 0  0  1  0 |  0  1  0  1
+ 1  0  0  1 |  1  1  0  0</pre>
+
+                <h4>RESULT</h4>
+                <div class="result">Thus the following 4-bit converters (Binary to Gray, Gray to Binary, BCD to Excess-3, Excess-3 to BCD) are designed and constructed successfully.</div>
+            </div>
+
+            <div id="exp3" class="card">
+                <div class="card-header">
+                    <h2>EX NO: 3 - ADDER AND SUBTRACTOR</h2>
+                </div>
+                <h4>AIM</h4>
+                <p>To design and construct half adder, full adder, half subtractor and full subtractor circuits and verify the truth table using logic gates.</p>
+
+                <h4>ALGORITHM / PROCEDURE</h4>
+                <ol>
+                    <li>Derive the Boolean equations for Sum, Carry, Difference, and Borrow using K-Maps.</li>
+                    <li>Connections are given as per the logic circuit diagrams.</li>
+                    <li>Logical inputs are applied via the trainer kit switches.</li>
+                    <li>Observe the logic output on the LEDs and verify the truth tables.</li>
+                </ol>
+
+                <h4>LOGIC / BOOLEAN EXPRESSIONS</h4>
+<pre><code>// HALF ADDER
+SUM   = A'B + AB' = A ⊕ B
+CARRY = A . B
+
+// FULL ADDER
+SUM   = A ⊕ B ⊕ C
+CARRY = AB + BC + AC
+
+// HALF SUBTRACTOR
+DIFFERENCE = A'B + AB' = A ⊕ B
+BORROW     = A'B
+
+// FULL SUBTRACTOR
+DIFFERENCE = A ⊕ B ⊕ C
+BORROW     = A'B + AC + BC</code></pre>
+
+                <h4>TRUTH TABLES</h4>
+<pre class="output">HALF ADDER:
+A  B | CARRY SUM
+0  0 |   0    0
+0  1 |   0    1
+1  0 |   0    1
+1  1 |   1    0
+
+FULL ADDER:
+A  B  C | CARRY SUM
+0  0  0 |   0    0
+0  0  1 |   0    1
+0  1  1 |   1    0
+1  1  1 |   1    1
+
+HALF SUBTRACTOR:
+A  B | BORROW DIFF
+0  0 |   0      0
+0  1 |   1      1
+1  0 |   0      1
+1  1 |   0      0
+
+FULL SUBTRACTOR:
+A  B  C | BORROW DIFF
+0  0  0 |   0      0
+0  0  1 |   1      1
+0  1  1 |   1      0
+1  1  1 |   1      1</pre>
+
+                <h4>RESULT</h4>
+                <div class="result">Thus, the half adder, full adder, half subtractor and full subtractor circuits are designed, constructed and verified the truth table using logic gates.</div>
+            </div>
+
+            <div id="exp4" class="card">
+                <div class="card-header">
+                    <h2>EX NO: 4 - ENCODERS AND DECODERS</h2>
+                </div>
+                <h4>AIM</h4>
+                <p>To design and implement encoder and decoder using logic gates.</p>
+
+                <h4>ALGORITHM / PROCEDURE</h4>
+                <ol>
+                    <li>Derive logic for a 4:2 Encoder and a 2:4 Decoder.</li>
+                    <li>Connections are given as per the logic diagram using OR gates for Encoder and NOT/AND gates for Decoder.</li>
+                    <li>Logic inputs are given as per the truth table.</li>
+                    <li>Observe the logic output and verify with the truth tables.</li>
+                </ol>
+
+                <h4>LOGIC / BOOLEAN EXPRESSIONS</h4>
+<pre><code>// 4:2 ENCODER
+A0 = Y1 + Y3
+A1 = Y2 + Y3
+(Assumes only one input Yi is HIGH at a time)
+
+// 2:4 DECODER
+O0 = I0' . I1'
+O1 = I0  . I1'
+O2 = I0' . I1
+O3 = I0  . I1</code></pre>
+
+                <h4>TRUTH TABLES</h4>
+<pre class="output">4:2 ENCODER:
+Y3 Y2 Y1 Y0 | A1 A0
+ 0  0  0  1 |  0  0
+ 0  0  1  0 |  0  1
+ 0  1  0  0 |  1  0
+ 1  0  0  0 |  1  1
+
+2:4 DECODER:
+I1 I0 | O0 O1 O2 O3
+ 0  0 |  1  0  0  0
+ 0  1 |  0  1  0  0
+ 1  0 |  0  0  1  0
+ 1  1 |  0  0  0  1</pre>
+
+                <h4>RESULT</h4>
+                <div class="result">Thus the encoder and decoder were designed and implemented using logic gates.</div>
+            </div>
+
+            <div id="exp5" class="card">
+                <div class="card-header">
+                    <h2>EX NO: 5 - MAGNITUDE COMPARATOR</h2>
+                </div>
+                <h4>AIM</h4>
+                <p>To design and implement the magnitude comparator using MSI device (IC 7485).</p>
+
+                <h4>ALGORITHM / PROCEDURE</h4>
+                <ol>
+                    <li>Mount the 4-bit Magnitude Comparator IC 7485 on the trainer kit.</li>
+                    <li>Connections are given as per the circuit diagram. To build an 8-bit comparator, cascade two 7485 ICs.</li>
+                    <li>Apply the logical inputs for numbers A and B.</li>
+                    <li>Observe the outputs indicating A>B, A=B, or A<B and verify the truth table.</li>
+                </ol>
+
+                <h4>LOGIC / BOOLEAN EXPRESSIONS</h4>
+<pre><code>// 1-Bit Comparison Logic Basis:
+A > B  => A . B'
+A < B  => A' . B
+A = B  => (A ⊕ B)' = A ⊙ B
+
+// Expanded 4-Bit Logic (handled by IC 7485 internally):
+A = B  => (A3 ⊙ B3)(A2 ⊙ B2)(A1 ⊙ B1)(A0 ⊙ B0)
+A > B  => A3.B3' + (A3 ⊙ B3).A2.B2' + ...</code></pre>
+
+                <h4>TRUTH TABLES</h4>
+<pre class="output">8-BIT MAGNITUDE COMPARATOR:
+      A              B       | A>B  A=B  A<B
+0000 0000      0000 0000     |  0    1    0
+0000 0001      0000 0000     |  1    0    0
+0000 0000      0000 0001     |  0    0    1
+1010 1010      1010 1010     |  0    1    0</pre>
+
+                <h4>RESULT</h4>
+                <div class="result">Thus the magnitude comparator using MSI device is designed and implemented.</div>
+            </div>
+
+            <div id="exp6" class="card">
+                <div class="card-header">
+                    <h2>EX NO: 6 - MULTIPLEXER AND DEMULTIPLEXER</h2>
+                </div>
+                <h4>AIM</h4>
+                <p>To design and implement the multiplexer and demultiplexer using logic gates and study of IC 74150 and IC 74154.</p>
+
+                <h4>ALGORITHM / PROCEDURE</h4>
+                <ol>
+                    <li>Construct a 4x1 Multiplexer using AND, OR, NOT gates.</li>
+                    <li>Construct a 1x4 Demultiplexer using similar logic components.</li>
+                    <li>Apply data inputs and select line inputs.</li>
+                    <li>Observe the routed output and verify the truth table.</li>
+                </ol>
+
+                <h4>LOGIC / BOOLEAN EXPRESSIONS</h4>
+<pre><code>// 4:1 MULTIPLEXER
+Y = D0.S1'.S0' + D1.S1'.S0 + D2.S1.S0' + D3.S1.S0
+
+// 1:4 DEMULTIPLEXER
+D0 = I/P . S1'. S0'
+D1 = I/P . S1'. S0
+D2 = I/P . S1 . S0'
+D3 = I/P . S1 . S0</code></pre>
+
+                <h4>TRUTH TABLES</h4>
+<pre class="output">4:1 MULTIPLEXER:
+S1 S0 | OUTPUT (Y)
+ 0  0 |   D0
+ 0  1 |   D1
+ 1  0 |   D2
+ 1  1 |   D3
+
+1:4 DEMULTIPLEXER:
+S1 S0  I/P | D0 D1 D2 D3
+ 0  0   1  |  1  0  0  0
+ 0  1   1  |  0  1  0  0
+ 1  0   1  |  0  0  1  0
+ 1  1   1  |  0  0  0  1</pre>
+
+                <h4>RESULT</h4>
+                <div class="result">Thus the multiplexer and demultiplexer using logic gates are designed and implemented.</div>
+            </div>
+
+            <div id="exp7" class="card">
+                <div class="card-header">
+                    <h2>EX NO: 7 - SHIFT REGISTERS</h2>
+                </div>
+                <h4>AIM</h4>
+                <p>To design and implement Serial-in Serial-out (SISO), Serial-in Parallel-out (SIPO), Parallel-in Serial-out (PISO), and Parallel-in Parallel-out (PIPO) shift registers.</p>
+
+                <h4>ALGORITHM / PROCEDURE</h4>
+                <ol>
+                    <li>Utilize IC 7474 D Flip Flops to build the register stages.</li>
+                    <li>Connect the Q output of one stage to the D input of the next for serial shifting.</li>
+                    <li>Apply common clock pulses to all flip flops.</li>
+                    <li>Observe the output state changes synchronously with the clock edges.</li>
+                </ol>
+
+                <h4>LOGIC / BOOLEAN EXPRESSIONS</h4>
+<pre><code>// SISO / SIPO Basic Logic:
+D1 = Serial_In
+D2 = Q1
+D3 = Q2
+D4 = Q3
+On CLK edge: Qi = Di</code></pre>
+
+                <h4>TRUTH TABLES</h4>
+<pre class="output">SERIAL IN SERIAL OUT (SISO):
+CLK | Serial In | Serial Out
+ 1  |     1     |     0
+ 2  |     0     |     0
+ 3  |     0     |     0
+ 4  |     1     |     1  (Data '1' arrives at output)
+
+PARALLEL IN PARALLEL OUT (PIPO):
+CLK | DA DB DC DD | QA QB QC QD
+ 1  |  1  0  0  1 |  1  0  0  1
+ 2  |  0  1  1  0 |  0  1  1  0</pre>
+
+                <h4>RESULT</h4>
+                <div class="result">The Serial in serial out, Serial in parallel out, Parallel in serial out and Parallel in parallel out shift registers are designed and implemented.</div>
+            </div>
+
+            <div id="exp8" class="card">
+                <div class="card-header">
+                    <h2>EX NO: 8 - SYNCHRONOUS AND ASYNCHRONOUS COUNTER</h2>
+                </div>
+                <h4>AIM</h4>
+                <p>To design and implement synchronous and asynchronous counter.</p>
+
+                <h4>ALGORITHM / PROCEDURE</h4>
+                <ol>
+                    <li>Construct an asynchronous (ripple) decade counter using JK Flip-Flops (IC 7476).</li>
+                    <li>Use a NAND gate (IC 7400) to reset the counter upon reaching the state 10 (1010).</li>
+                    <li>Construct a synchronous counter where the clock is applied simultaneously to all flip-flops.</li>
+                    <li>Observe the counting sequence and verify the truth table.</li>
+                </ol>
+
+                <h4>LOGIC / BOOLEAN EXPRESSIONS</h4>
+<pre><code>// MOD-10 ASYNCHRONOUS (RIPPLE) COUNTER:
+Flip-Flops configured in toggle mode (J=1, K=1).
+Clock of FF(i) = Output Q of FF(i-1).
+Clear Logic (Reset at 10): 
+CLR = (QD . QB)'  // Uses NAND gate on outputs 8 & 2.</code></pre>
+
+                <h4>TRUTH TABLES</h4>
+<pre class="output">MOD-10 RIPPLE COUNTER:
+CLK | QD QC QB QA
+ 0  |  0  0  0  0
+ 1  |  0  0  0  1
+ 2  |  0  0  1  0
+ 3  |  0  0  1  1
+ 4  |  0  1  0  0
+ 5  |  0  1  0  1
+ 6  |  0  1  1  0
+ 7  |  0  1  1  1
+ 8  |  1  0  0  0
+ 9  |  1  0  0  1
+10  |  0  0  0  0  (Resets via NAND logic)</pre>
+
+                <h4>RESULT</h4>
+                <div class="result">Thus the synchronous and asynchronous counter are designed and implemented.</div>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        function toggleMenu() {
+            document.getElementById('sidebar').classList.toggle('active');
+        }
+
+        // Close menu automatically when a link is clicked on mobile
+        function closeMenu() {
+            if(window.innerWidth <= 850) {
+                document.getElementById('sidebar').classList.remove('active');
+            }
+        }
+    </script>
+</body>
+
+</html>

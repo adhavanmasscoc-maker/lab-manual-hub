@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>EC5201 Electronic Circuits Lab Manual</title>
+    <style>
+        /* CSS Reset & Anti-Scroll Full View Setup */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f8fafc;
+            color: #334155;
+            height: 100vh;
+            width: 100vw;
+            overflow: hidden;
+            display: flex;
+            flex-direction: row;
+        }
+
+        /* Mobile Top Bar */
+        .mobile-top-bar {
+            display: none;
+            background-color: #0f172a;
+            color: white;
+            padding: 15px 20px;
+            align-items: center;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+        }
+
+        .menu-btn {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 24px;
+            cursor: pointer;
+            margin-right: 15px;
+        }
+
+        .mobile-top-bar h2 {
+            font-size: 18px;
+            margin: 0;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: 300px;
+            background-color: #1e293b;
+            color: #fff;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            flex-shrink: 0;
+            z-index: 999;
+            transition: transform 0.3s ease;
+        }
+
+        .sidebar-header {
+            padding: 20px;
+            background-color: #0f172a;
+            border-bottom: 3px solid #3b82f6;
+            text-align: center;
+        }
+
+        .sidebar-header h3 {
+            font-size: 1.1rem;
+            color: #60a5fa;
+            margin: 0;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .nav-links {
+            flex-grow: 1;
+            overflow-y: auto;
+            padding-bottom: 20px;
+        }
+
+        .nav-links::-webkit-scrollbar {
+            width: 5px;
+        }
+
+        .nav-links::-webkit-scrollbar-thumb {
+            background: #475569;
+            border-radius: 4px;
+        }
+
+        .nav-links a {
+            display: block;
+            color: #cbd5e1;
+            text-decoration: none;
+            padding: 14px 20px;
+            font-size: 13px;
+            font-weight: 500;
+            border-bottom: 1px solid #334155;
+            transition: all 0.2s;
+        }
+
+        .nav-links a:hover {
+            background-color: #3b82f6;
+            color: #fff;
+            padding-left: 25px;
+        }
+
+        /* Main Content */
+        .main-content {
+            flex-grow: 1;
+            height: 100%;
+            overflow-y: auto;
+            padding: 30px 40px;
+            scroll-behavior: smooth;
+        }
+
+        .main-content::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .main-content::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 4px;
+        }
+
+        .content-wrapper {
+            max-width: 850px;
+            margin: 0 auto;
+        }
+
+        /* Cards & Typography */
+        .header-card {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            text-align: center;
+            margin-bottom: 30px;
+            border-top: 5px solid #3b82f6;
+        }
+
+        .header-card h1 {
+            color: #1e293b;
+            font-size: 22px;
+            margin-bottom: 5px;
+            font-weight: 800;
+        }
+
+        .header-card p {
+            color: #64748b;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .card {
+            background-color: #fff;
+            padding: 25px 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            margin-bottom: 40px;
+            border-left: 5px solid #3b82f6;
+        }
+
+        .card-header {
+            border-bottom: 2px solid #e2e8f0;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+
+        .card-header h2 {
+            font-size: 18px;
+            color: #0f172a;
+            margin: 0;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+
+        h4 {
+            font-size: 14px;
+            color: #1d4ed8;
+            margin: 20px 0 10px 0;
+            text-transform: uppercase;
+            font-weight: 800;
+            letter-spacing: 0.5px;
+        }
+
+        p,
+        ol,
+        ul {
+            color: #475569;
+            line-height: 1.6;
+            font-size: 14px;
+        }
+
+        ol,
+        ul {
+            padding-left: 20px;
+        }
+
+        li {
+            margin-bottom: 6px;
+        }
+
+        /* Code & Results */
+        pre {
+            background-color: #0f172a;
+            color: #f8fafc;
+            border-radius: 6px;
+            padding: 15px;
+            overflow-x: auto;
+            font-family: 'Consolas', monospace;
+            font-size: 13px;
+            margin-top: 8px;
+            line-height: 1.4;
+            border: 1px solid #1e293b;
+        }
+
+        .output {
+            background-color: #f0fdf4;
+            color: #166534;
+            border: 1px solid #bbf7d0;
+            border-left: 5px solid #22c55e;
+            font-weight: 700;
+        }
+
+        .result {
+            background-color: #eff6ff;
+            border: 1px solid #bfdbfe;
+            border-left: 5px solid #3b82f6;
+            padding: 12px 15px;
+            border-radius: 4px;
+            font-weight: 600;
+            color: #1e40af;
+            margin-top: 15px;
+            font-size: 14px;
+        }
+
+        /* Mobile Adjustments */
+        @media screen and (max-width: 800px) {
+            body {
+                flex-direction: column;
+            }
+
+            .mobile-top-bar {
+                display: flex;
+            }
+
+            .sidebar {
+                position: fixed;
+                top: 54px;
+                left: 0;
+                height: calc(100vh - 54px);
+                transform: translateX(-100%);
+                width: 280px;
+                box-shadow: 2px 0 10px rgba(0, 0, 0, 0.2);
+            }
+
+            .sidebar.active {
+                transform: translateX(0);
+            }
+
+            .main-content {
+                height: calc(100vh - 54px);
+                padding: 15px;
+            }
+
+            .card {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="mobile-top-bar">
+        <button class="menu-btn" onclick="toggleMenu()">☰</button>
+        <h2>Lab Manual</h2>
+    </div>
+
+    <div class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <h3>EC5201 Experiments</h3>
+        </div>
+        <div class="nav-links">
+            <a href="#exp1" onclick="closeMenu()">1. CE Amplifier</a>
+            <a href="#exp2" onclick="closeMenu()">2. RC Phase Shift Oscillator</a>
+            <a href="#exp3" onclick="closeMenu()">3. Wien Bridge Oscillator</a>
+            <a href="#exp4" onclick="closeMenu()">4. Hartley Oscillator</a>
+            <a href="#exp5" onclick="closeMenu()">5. Astable Multivibrator</a>
+            <a href="#exp6" onclick="closeMenu()">6. Schmitt Trigger</a>
+            <a href="#exp7" onclick="closeMenu()">7. UJT Relaxation Oscillator</a>
+            <a href="#exp8" onclick="closeMenu()">8-12. LT Spice Simulations</a>
+        </div>
+    </div>
+
+    <div class="main-content" id="main-content">
+        <div class="content-wrapper">
+
+            <div class="header-card">
+                <h1>EC5201 - ELECTRONIC CIRCUITS LAB</h1>
+                <p>STEP-BY-STEP MANUAL | OPTIMIZED COMPREHENSIVE EDITION</p>
+            </div>
+
+            <div id="exp1" class="card">
+                <div class="card-header">
+                    <h2>EX NO: 1 - Frequency Response of CE Amplifier With & Without Feedback</h2>
+                </div>
+                <h4>AIM</h4>
+                <p>To design, construct and test the frequency response of the CE amplifier with & without feedback.</p>
+
+                <h4>APPARATUS REQUIRED</h4>
+                <p>RPS (0-30V), Function Generator, CRO/DSO, BJT (BC107/BC547), Resistors, Capacitors (1µF), Bread
+                    Board.</p>
+
+                <h4>THEORY & FORMULAS</h4>
+                <p>A CE amplifier with voltage series negative feedback reduces overall voltage gain but significantly
+                    extends the bandwidth, providing a flatter mid-band gain and improving linearity.<br>
+                    <b>Gain with feedback:</b> <code>Avf = Av / (1 + Avβ)</code>
+                </p>
+
+                <h4>PROCEDURE (STEP-BY-STEP)</h4>
+                <ol>
+                    <li>Construct the CE amplifier circuit as per the diagram on the breadboard.</li>
+                    <li>Apply DC biasing (Vcc = 12V) using the RPS.</li>
+                    <li>Provide the input AC signal using the Function Generator.</li>
+                    <li>Observe the output waveforms on the CRO/DSO.</li>
+                    <li>Vary the frequency, note the output amplitude, and tabulate the readings.</li>
+                    <li>Calculate the Gain in dB: <code>Gain = 20 log10(Vo / Vin)</code>.</li>
+                    <li>Repeat the process with the feedback loop connected and plot the Frequency Response graph.</li>
+                </ol>
+
+                <h4>RESULT</h4>
+                <div class="result">The frequency response of the CE amplifier (with and without feedback) was
+                    successfully constructed and its performance tested.</div>
+            </div>
+
+            <div id="exp2" class="card">
+                <div class="card-header">
+                    <h2>EX NO: 2 - RC Phase Shift Oscillator</h2>
+                </div>
+                <h4>AIM</h4>
+                <p>To design, construct and test the performance of the RC phase shift Oscillator.</p>
+
+                <h4>THEORY & FORMULAS</h4>
+                <p>Uses three identical RC networks to provide 180° phase shift. The common-emitter amplifier provides
+                    the remaining 180° for sustained positive feedback (total 360°).<br>
+                    <b>Frequency of Oscillation:</b> <code>f = 1 / (2πRC√6)</code><br>
+                    <b>Gain Condition:</b> <code>|Av| ≥ 29</code> (Attenuation of three RC sections is 1/29).
+                </p>
+
+                <h4>PROCEDURE (STEP-BY-STEP)</h4>
+                <ol>
+                    <li>Construct the circuit utilizing a BJT (BC547) and a 3-stage RC network.</li>
+                    <li>Provide the necessary DC biasing to the circuit.</li>
+                    <li>Measure the continuous sine wave output across the collector terminal on the CRO.</li>
+                    <li>Record the amplitude and time period of the oscillation.</li>
+                    <li>Tabulate the readings and plot the output graph.</li>
+                </ol>
+
+                <h4>RESULT</h4>
+                <div class="result">The RC phase shift oscillator was constructed and its performance was tested
+                    successfully.</div>
+            </div>
+
+            <div id="exp3" class="card">
+                <div class="card-header">
+                    <h2>EX NO: 3 - Wien Bridge Oscillator</h2>
+                </div>
+                <h4>AIM</h4>
+                <p>To design, construct and test the performance of the Wien bridge oscillator.</p>
+
+                <h4>THEORY & FORMULAS</h4>
+                <p>Generates highly stable sine waves using an RC feedback network. The circuit provides zero phase
+                    shift at the resonant frequency through a series RC (high-pass) and parallel RC (low-pass)
+                    combination.<br>
+                    <b>Frequency of Oscillation:</b> <code>f = 1 / (2πRC)</code> (Assuming R1=R2=R and C1=C2=C)
+                </p>
+
+                <h4>PROCEDURE (STEP-BY-STEP)</h4>
+                <ol>
+                    <li>Construct the Wien bridge circuit using 2 transistors (BC547).</li>
+                    <li>Ensure correct placement of series and parallel RC bridge arms.</li>
+                    <li>Apply the DC power supply to the circuit.</li>
+                    <li>Observe the sinusoidal output waveform on the CRO/DSO.</li>
+                    <li>Record amplitude and time period, and plot the characteristic graph.</li>
+                </ol>
+
+                <h4>RESULT</h4>
+                <div class="result">The Wien bridge oscillator was successfully constructed and tested.</div>
+            </div>
+
+            <div id="exp4" class="card">
+                <div class="card-header">
+                    <h2>EX NO: 4 - Hartley Oscillator</h2>
+                </div>
+                <h4>AIM</h4>
+                <p>To design, construct and test the performance of the Hartley oscillator.</p>
+
+                <h4>THEORY & FORMULAS</h4>
+                <p>Employs positive feedback through an inductive voltage divider (tapped coil or L1 & L2) in an LC tank
+                    circuit, paralleled by a capacitor. The tap point feeds back to the amplifier input.<br>
+                    <b>Resonant Frequency:</b> <code>f = 1 / (2π√(LC))</code> where <code>L = L1 + L2</code> (for
+                    uncoupled coils).
+                </p>
+
+                <h4>PROCEDURE (STEP-BY-STEP)</h4>
+                <ol>
+                    <li>Construct the circuit using the BJT and LC tank network (Decade Inductance Box and 100pF
+                        capacitors).</li>
+                    <li>Apply DC biasing to power the circuit.</li>
+                    <li>Wait for oscillations to stabilize.</li>
+                    <li>Read the output sine wave on the CRO/DSO.</li>
+                    <li>Tabulate the time period and amplitude, and plot the graph.</li>
+                </ol>
+
+                <h4>RESULT</h4>
+                <div class="result">The Hartley oscillator was constructed and its performance verified.</div>
+            </div>
+
+            <div id="exp5" class="card">
+                <div class="card-header">
+                    <h2>EX NO: 5 - Astable Multivibrator</h2>
+                </div>
+                <h4>AIM</h4>
+                <p>To design, construct and test the performance of the Astable multi-vibrator.</p>
+
+                <h4>THEORY & FORMULAS</h4>
+                <p>A free-running oscillator generating continuous square waves using two cross-coupled BJT amplifiers.
+                    Positive feedback forces one transistor to saturate while the other cuts off, alternating
+                    continuously.<br>
+                    <b>Time Period:</b> <code>T ≈ 1.38 RC</code> (for symmetrical components <code>R1=R2=R</code> and
+                    <code>C1=C2=C</code>).
+                </p>
+
+                <h4>PROCEDURE (STEP-BY-STEP)</h4>
+                <ol>
+                    <li>Connect two NPN transistors (BC547) in a cross-coupled configuration with appropriate
+                        base/collector resistors and coupling capacitors.</li>
+                    <li>Provide the necessary DC power supply (Vcc).</li>
+                    <li>Connect CRO probes to the base and collector of Q1 and Q2.</li>
+                    <li>Observe the switching square waveforms.</li>
+                    <li>Tabulate the amplitude and time period, and plot the graphs for both base and collector.</li>
+                </ol>
+
+                <h4>RESULT</h4>
+                <div class="result">The Astable multi-vibrator was successfully constructed and tested.</div>
+            </div>
+
+            <div id="exp6" class="card">
+                <div class="card-header">
+                    <h2>EX NO: 6 - Schmitt Trigger</h2>
+                </div>
+                <h4>AIM</h4>
+                <p>To design, construct and test the performance of the Schmitt Trigger based on BJT.</p>
+
+                <h4>THEORY & FORMULAS</h4>
+                <p>Converts irregular or noisy waveforms into clean square waves using positive feedback via a common
+                    emitter resistor, providing hysteresis for noise-immune switching.<br>
+                    <b>Upper Threshold:</b> <code>V_UT ≈ V_E + V_BE</code> (Voltage where Q1 turns ON).<br>
+                    <b>Lower Threshold:</b> <code>V_LT</code> (Voltage where Q1 turns OFF, lower than V_UT).
+                </p>
+
+                <h4>PROCEDURE (STEP-BY-STEP)</h4>
+                <ol>
+                    <li>Construct the circuit with two BJTs sharing a common emitter resistor (Re).</li>
+                    <li>Apply DC bias and inject a sine wave input from the Function Generator.</li>
+                    <li>Observe the input sine wave and the resulting output square wave simultaneously on the CRO.</li>
+                    <li>Note the Upper Threshold (V_UT) and Lower Threshold (V_LT) voltage points.</li>
+                    <li>Tabulate the readings and plot the transfer characteristics (hysteresis loop).</li>
+                </ol>
+
+                <h4>RESULT</h4>
+                <div class="result">The Schmitt Trigger was constructed and its hysteresis performance successfully
+                    verified.</div>
+            </div>
+
+            <div id="exp7" class="card">
+                <div class="card-header">
+                    <h2>EX NO: 7 - UJT Relaxation Oscillator</h2>
+                </div>
+                <h4>AIM</h4>
+                <p>To design, construct and test the performance of the UJT relaxation Oscillator.</p>
+
+                <h4>THEORY & FORMULAS</h4>
+                <p>Generates a sawtooth waveform by continuously charging and discharging a capacitor through a UJT.
+                    When capacitor voltage reaches the peak voltage (Vp), the UJT turns ON and discharges it to the
+                    valley voltage (Vv).<br>
+                    <b>Frequency:</b> <code>f ≈ 1 / [RC * ln(1 / (1 - η))]</code> (where η is the intrinsic standoff
+                    ratio).
+                </p>
+
+                <h4>PROCEDURE (STEP-BY-STEP)</h4>
+                <ol>
+                    <li>Construct the circuit using a UJT (2N2646), a 0.01µF capacitor, and timing resistors.</li>
+                    <li>Apply the DC supply voltage.</li>
+                    <li>Observe the sawtooth wave at the Emitter terminal on the CRO.</li>
+                    <li>Observe the sharp trigger pulses at the Base 1 and Base 2 terminals.</li>
+                    <li>Record amplitudes and time periods for the waveforms.</li>
+                </ol>
+
+                <h4>RESULT</h4>
+                <div class="result">The UJT relaxation oscillator was successfully designed, constructed, and tested.
+                </div>
+            </div>
+
+            <div id="exp8" class="card">
+                <div class="card-header">
+                    <h2>EX NO: 8 to 12 - LT Spice Simulations</h2>
+                </div>
+                <h4>AIM</h4>
+                <p>To construct and test the performance of various electronic circuits using LT Spice simulation
+                    software.</p>
+                <ul>
+                    <li><b>Exp 8:</b> Astable Multivibrator using LT Spice</li>
+                    <li><b>Exp 9:</b> Schmitt Trigger using LT Spice</li>
+                    <li><b>Exp 10:</b> RC Phase Shift Oscillator using LT Spice</li>
+                    <li><b>Exp 11:</b> Hartley Oscillator using LT Spice</li>
+                    <li><b>Exp 12:</b> Frequency Response of CE Amplifier with and without Feedback using LT Spice</li>
+                </ul>
+
+                <h4>APPARATUS REQUIRED</h4>
+                <p>Personal Computer system, LT Spice software.</p>
+
+                <h4>PROCEDURE (STEP-BY-STEP FOR ALL SIMULATIONS)</h4>
+                <ol>
+                    <li>Open the LT Spice software application and create a new schematic.</li>
+                    <li>Draw the respective circuit as per the circuit diagram using the component library (Transistors,
+                        Resistors, Capacitors, Inductors, Voltage sources).</li>
+                    <li>Right-click to edit and assign exact values to all components.</li>
+                    <li>Configure the simulation window: Use <code>.tran</code> for transient (time-domain) analysis or
+                        <code>.ac</code> for AC sweep (frequency response) analysis.</li>
+                    <li>Run the simulation.</li>
+                    <li>Fix the voltage probe to the required output nodes (Collector, Emitter, etc.) to view the
+                        resulting waveforms or bode plots.</li>
+                </ol>
+
+                <h4>RESULT</h4>
+                <div class="result">All above experiments (8 through 12) were successfully drawn, simulated, and their
+                    performances were tested using LT Spice software.</div>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        function toggleMenu() { document.getElementById('sidebar').classList.toggle('active'); }
+        function closeMenu() { if(window.innerWidth <= 800) document.getElementById('sidebar').classList.remove('active'); }
+    </script>
+</body>
+
+</html>

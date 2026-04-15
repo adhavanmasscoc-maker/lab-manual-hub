@@ -1,0 +1,1763 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>CS5215 - Data Structures & Algorithms Lab Manual</title>
+    <style>
+        /* CSS Reset & Anti-Scroll Full View Setup */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f8fafc;
+            color: #334155;
+            height: 100vh;
+            width: 100vw;
+            overflow: hidden;
+            display: flex;
+            flex-direction: row;
+        }
+
+        /* Mobile Top Bar */
+        .mobile-top-bar {
+            display: none;
+            background-color: #0f172a;
+            color: white;
+            padding: 15px 20px;
+            align-items: center;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+        }
+
+        .menu-btn {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 24px;
+            cursor: pointer;
+            margin-right: 15px;
+        }
+
+        .mobile-top-bar h2 {
+            font-size: 18px;
+            margin: 0;
+            font-weight: 600;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: 300px;
+            background-color: #1e293b;
+            color: #fff;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            flex-shrink: 0;
+            z-index: 999;
+            transition: transform 0.3s ease;
+        }
+
+        .sidebar-header {
+            padding: 20px;
+            background-color: #0f172a;
+            border-bottom: 3px solid #3b82f6;
+            text-align: center;
+        }
+
+        .sidebar-header h3 {
+            font-size: 1.1rem;
+            color: #60a5fa;
+            margin: 0;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .nav-links {
+            flex-grow: 1;
+            overflow-y: auto;
+            padding-bottom: 20px;
+        }
+
+        .nav-links::-webkit-scrollbar {
+            width: 5px;
+        }
+
+        .nav-links::-webkit-scrollbar-thumb {
+            background: #475569;
+            border-radius: 4px;
+        }
+
+        .nav-links a {
+            display: block;
+            color: #cbd5e1;
+            text-decoration: none;
+            padding: 14px 20px;
+            font-size: 13px;
+            font-weight: 500;
+            border-bottom: 1px solid #334155;
+            transition: all 0.2s;
+        }
+
+        .nav-links a:hover {
+            background-color: #3b82f6;
+            color: #fff;
+            padding-left: 25px;
+        }
+
+        /* Main Content */
+        .main-content {
+            flex-grow: 1;
+            height: 100%;
+            overflow-y: auto;
+            padding: 30px 40px;
+            scroll-behavior: smooth;
+        }
+
+        .main-content::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .main-content::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 4px;
+        }
+
+        .content-wrapper {
+            max-width: 850px;
+            margin: 0 auto;
+        }
+
+        /* Cards & Typography */
+        .header-card {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            text-align: center;
+            margin-bottom: 30px;
+            border-top: 5px solid #3b82f6;
+        }
+
+        .header-card h1 {
+            color: #1e293b;
+            font-size: 22px;
+            margin-bottom: 5px;
+            font-weight: 800;
+        }
+
+        .header-card p {
+            color: #64748b;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .card {
+            background-color: #fff;
+            padding: 25px 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            margin-bottom: 40px;
+            border-left: 5px solid #3b82f6;
+        }
+
+        .card-header {
+            border-bottom: 2px solid #e2e8f0;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+
+        .card-header h2 {
+            font-size: 20px;
+            color: #0f172a;
+            margin: 0;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+
+        h4 {
+            font-size: 15px;
+            color: #1d4ed8;
+            margin: 20px 0 10px 0;
+            text-transform: uppercase;
+            font-weight: 800;
+            letter-spacing: 0.5px;
+        }
+
+        p,
+        ol {
+            color: #475569;
+            line-height: 1.6;
+            font-size: 14px;
+        }
+
+        ol {
+            padding-left: 20px;
+        }
+
+        li {
+            margin-bottom: 6px;
+        }
+
+        /* Code & Results */
+        pre {
+            background-color: #0f172a;
+            color: #f8fafc;
+            border-radius: 6px;
+            padding: 15px;
+            overflow-x: auto;
+            font-family: 'Consolas', monospace;
+            font-size: 13px;
+            margin-top: 8px;
+            line-height: 1.4;
+            border: 1px solid #1e293b;
+        }
+
+        .output {
+            background-color: #f0fdf4;
+            color: #166534;
+            border: 1px solid #bbf7d0;
+            border-left: 5px solid #22c55e;
+            font-weight: 700;
+        }
+
+        .result {
+            background-color: #eff6ff;
+            border: 1px solid #bfdbfe;
+            border-left: 5px solid #3b82f6;
+            padding: 12px 15px;
+            border-radius: 4px;
+            font-weight: 600;
+            color: #1e40af;
+            margin-top: 15px;
+            font-size: 14px;
+        }
+
+        /* Mobile Adjustments */
+        @media screen and (max-width: 800px) {
+            body {
+                flex-direction: column;
+            }
+
+            .mobile-top-bar {
+                display: flex;
+            }
+
+            .sidebar {
+                position: fixed;
+                top: 54px;
+                left: 0;
+                height: calc(100vh - 54px);
+                transform: translateX(-100%);
+                width: 260px;
+                box-shadow: 2px 0 10px rgba(0, 0, 0, 0.2);
+            }
+
+            .sidebar.active {
+                transform: translateX(0);
+            }
+
+            .main-content {
+                height: calc(100vh - 54px);
+                padding: 15px;
+            }
+
+            .card {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="mobile-top-bar">
+        <button class="menu-btn" onclick="toggleMenu()">☰</button>
+        <h2>Lab Manual</h2>
+    </div>
+
+    <div class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <h3>CS5215 DSA Using C</h3>
+        </div>
+        <div class="nav-links">
+            <a href="#exp1" onclick="closeMenu()">1. Singly Linked List</a>
+            <a href="#exp2" onclick="closeMenu()">2. Doubly Linked List</a>
+            <a href="#exp3" onclick="closeMenu()">3. Polynomial Addition</a>
+            <a href="#exp4" onclick="closeMenu()">4. Stack Operations</a>
+            <a href="#exp5" onclick="closeMenu()">5. Queue via Linked List</a>
+            <a href="#exp6" onclick="closeMenu()">6. Infix to Postfix</a>
+            <a href="#exp7" onclick="closeMenu()">7. Binary Search Tree</a>
+            <a href="#exp8" onclick="closeMenu()">8. Binary Tree Traversal</a>
+            <a href="#exp9" onclick="closeMenu()">9. AVL Tree</a>
+            <a href="#exp10" onclick="closeMenu()">10. B-Tree Operations</a>
+            <a href="#exp11" onclick="closeMenu()">11. Dijkstra's Algorithm</a>
+            <a href="#exp12" onclick="closeMenu()">12. Prim's MST</a>
+            <a href="#exp13" onclick="closeMenu()">13. Recursive Binary Search</a>
+            <a href="#exp14" onclick="closeMenu()">14. Insertion Sort</a>
+            <a href="#exp15" onclick="closeMenu()">15. Hashing (Separate Chaining)</a>
+        </div>
+    </div>
+
+    <div class="main-content" id="main-content">
+        <div class="content-wrapper">
+
+            <div class="header-card">
+                <h1>CS5215 - DATA STRUCTURES AND ALGORITHMS USING C</h1>
+                <p>LAB MANUAL | DEPARTMENT OF CSE (OPTIMIZED EDITION)</p>
+            </div>
+
+            <div id="exp1" class="card">
+                <div class="card-header">
+                    <h2>EX NO: 1 - C Program to Implement Singly Linked List</h2>
+                </div>
+                <h4>AIM</h4>
+                <p>To write a C program for implementing singly linked list operations.</p>
+
+                <h4>ALGORITHM</h4>
+                <ol>
+                    <li><strong>Insert:</strong> Allocate memory. If list is empty, new node becomes head. Else,
+                        traverse to the desired position (start/end) and adjust pointers.</li>
+                    <li><strong>Traverse:</strong> Start from the head node and visit each node using the NEXT pointer
+                        until NULL is reached.</li>
+                </ol>
+
+                <h4>PROGRAM</h4>
+                <pre><code>#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+
+typedef struct Node {
+    int data;
+    struct Node* next;
+} Node;
+
+typedef struct LinkedList {
+    Node* head;
+} LinkedList;
+
+Node* createNode(int val) {
+    Node* newNode = (Node*)malloc(sizeof(Node));
+    if (newNode == NULL) {
+        printf("Memory allocation failed.\n");
+        exit(EXIT_FAILURE);
+    }
+    newNode-&gt;data = val;
+    newNode-&gt;next = NULL;
+    return newNode;
+}
+
+void initializeList(LinkedList* list) {
+    list-&gt;head = NULL;
+}
+
+void insertElement(LinkedList* list, int val) {
+    Node* newNode = createNode(val);
+    newNode-&gt;next = list-&gt;head;
+    list-&gt;head = newNode;
+    printf("%d inserted into the list.\n", val);
+}
+
+void insertElementAtEnd(LinkedList* list, int val) {
+    Node* newNode = createNode(val);
+    if (list-&gt;head == NULL) {
+        list-&gt;head = newNode;
+    } else {
+        Node* current = list-&gt;head;
+        while (current-&gt;next != NULL) {
+            current = current-&gt;next;
+        }
+        current-&gt;next = newNode;
+    }
+    printf("%d inserted at the end of the list.\n", val);
+}
+
+void traverseList(LinkedList* list) {
+    Node* current = list-&gt;head;
+    printf("Linked List: ");
+    while (current != NULL) {
+        printf("%d ", current-&gt;data);
+        current = current-&gt;next;
+    }
+    printf("\n");
+}
+
+int main() {
+    LinkedList myList;
+    char choice;
+    int value;
+    initializeList(&amp;myList);
+    do {
+        printf("\nMenu:\na) Insert beginning\nb) Insert end\nc) Traverse\nd) Exit\nEnter choice: ");
+        scanf(" %c", &amp;choice);
+        switch (choice) {
+            case 'a':
+                printf("Enter value: "); scanf("%d", &amp;value);
+                insertElement(&amp;myList, value); break;
+            case 'b':
+                printf("Enter value: "); scanf("%d", &amp;value);
+                insertElementAtEnd(&amp;myList, value); break;
+            case 'c':
+                traverseList(&amp;myList); break;
+            case 'd':
+                printf("Exiting...\n"); break;
+            default:
+                printf("Invalid choice.\n");
+        }
+    } while (choice != 'd');
+    return 0;
+}</code></pre>
+
+                <h4>OUTPUT</h4>
+                <pre class="output">Menu:
+a) Insert beginning
+b) Insert end
+c) Traverse
+d) Exit
+Enter choice: a
+Enter value: 10
+10 inserted into the list.
+
+Enter choice: c
+Linked List: 10</pre>
+
+                <h4>RESULT</h4>
+                <div class="result">Thus, the C program to implement a singly linked list was executed successfully.
+                </div>
+            </div>
+
+            <div id="exp2" class="card">
+                <div class="card-header">
+                    <h2>EX NO: 2 - C Program to Implement Doubly Linked List</h2>
+                </div>
+                <h4>AIM</h4>
+                <p>To write a C program for implementing doubly linked list operations.</p>
+
+                <h4>ALGORITHM</h4>
+                <ol>
+                    <li><strong>Insert:</strong> Allocate memory. Adjust both <code>next</code> and <code>prev</code>
+                        pointers to link the new node properly.</li>
+                    <li><strong>Delete:</strong> Identify target node. Rearrange <code>next</code> and <code>prev</code>
+                        pointers of adjacent nodes to detach it, then free memory.</li>
+                    <li><strong>Traverse:</strong> Use <code>next</code> pointers to visit nodes sequentially.</li>
+                </ol>
+
+                <h4>PROGRAM</h4>
+                <pre><code>#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+
+typedef struct Node {
+    int data;
+    struct Node* next;
+    struct Node* prev;
+} Node;
+
+typedef struct DoublyLinkedList {
+    Node* head;
+} DoublyLinkedList;
+
+Node* createNode(int val) {
+    Node* newNode = (Node*)malloc(sizeof(Node));
+    if (newNode == NULL) {
+        printf("Memory allocation failed.\n"); exit(EXIT_FAILURE);
+    }
+    newNode-&gt;data = val;
+    newNode-&gt;next = NULL;
+    newNode-&gt;prev = NULL;
+    return newNode;
+}
+
+void initializeList(DoublyLinkedList* list) {
+    list-&gt;head = NULL;
+}
+
+void insertElement(DoublyLinkedList* list, int val) {
+    Node* newNode = createNode(val);
+    newNode-&gt;next = list-&gt;head;
+    if (list-&gt;head != NULL) {
+        list-&gt;head-&gt;prev = newNode;
+    }
+    list-&gt;head = newNode;
+    printf("%d inserted into the list.\n", val);
+}
+
+void insertElementAtEnd(DoublyLinkedList* list, int val) {
+    Node* newNode = createNode(val);
+    if (list-&gt;head == NULL) {
+        list-&gt;head = newNode;
+    } else {
+        Node* current = list-&gt;head;
+        while (current-&gt;next != NULL) current = current-&gt;next;
+        current-&gt;next = newNode;
+        newNode-&gt;prev = current;
+    }
+    printf("%d inserted at the end.\n", val);
+}
+
+void deleteElementAtBeginning(DoublyLinkedList* list) {
+    if (list-&gt;head == NULL) {
+        printf("List is empty. Deletion failed.\n"); return;
+    }
+    Node* temp = list-&gt;head;
+    list-&gt;head = list-&gt;head-&gt;next;
+    if (list-&gt;head != NULL) list-&gt;head-&gt;prev = NULL;
+    free(temp);
+    printf("First element deleted.\n");
+}
+
+void traverseList(DoublyLinkedList* list) {
+    Node* current = list-&gt;head;
+    printf("Doubly Linked List: ");
+    while (current != NULL) {
+        printf("%d ", current-&gt;data);
+        current = current-&gt;next;
+    }
+    printf("\n");
+}
+
+int main() {
+    DoublyLinkedList myList;
+    char choice; int value;
+    initializeList(&amp;myList);
+    do {
+        printf("\na) Insert beginning\nb) Insert end\nc) Traverse\nd) Delete beginning\ne) Exit\nChoice: ");
+        scanf(" %c", &amp;choice);
+        switch (choice) {
+            case 'a': printf("Value: "); scanf("%d", &amp;value); insertElement(&amp;myList, value); break;
+            case 'b': printf("Value: "); scanf("%d", &amp;value); insertElementAtEnd(&amp;myList, value); break;
+            case 'c': traverseList(&amp;myList); break;
+            case 'd': deleteElementAtBeginning(&amp;myList); break;
+            case 'e': printf("Exiting.\n"); break;
+            default: printf("Invalid choice.\n");
+        }
+    } while (choice != 'e');
+    return 0;
+}</code></pre>
+
+                <h4>OUTPUT</h4>
+                <pre class="output">a) Insert beginning
+b) Insert end
+c) Traverse
+d) Delete beginning
+e) Exit
+Choice: a
+Value: 20
+20 inserted into the list.
+Choice: c
+Doubly Linked List: 20</pre>
+
+                <h4>RESULT</h4>
+                <div class="result">Thus, the C program to implement a doubly linked list was executed successfully.
+                </div>
+            </div>
+
+            <div id="exp3" class="card">
+                <div class="card-header">
+                    <h2>EX NO: 3 - Polynomial Addition using Singly Linked List</h2>
+                </div>
+                <h4>AIM</h4>
+                <p>To write a C program to perform Polynomial Addition using singly linked list.</p>
+
+                <h4>ALGORITHM</h4>
+                <ol>
+                    <li>Create linked lists for both polynomials storing coefficient and exponent.</li>
+                    <li>Traverse both lists. If exponents are equal, add coefficients and store in result.</li>
+                    <li>If one exponent is greater, append it directly to the result list.</li>
+                    <li>Append any remaining terms from either polynomial to the result.</li>
+                </ol>
+
+                <h4>PROGRAM</h4>
+                <pre><code>#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+
+typedef struct Term {
+    int coefficient;
+    int exponent;
+    struct Term* next;
+} Term;
+
+typedef struct Polynomial {
+    Term* head;
+} Polynomial;
+
+Term* createTerm(int coeff, int exp) {
+    Term* newTerm = (Term*)malloc(sizeof(Term));
+    if (newTerm == NULL) { printf("Memory allocation failed.\n"); exit(1); }
+    newTerm-&gt;coefficient = coeff;
+    newTerm-&gt;exponent = exp;
+    newTerm-&gt;next = NULL;
+    return newTerm;
+}
+
+void initializePolynomial(Polynomial* poly) {
+    poly-&gt;head = NULL;
+}
+
+void insertTerm(Polynomial* poly, int coeff, int exp) {
+    Term* newTerm = createTerm(coeff, exp);
+    if (poly-&gt;head == NULL) {
+        poly-&gt;head = newTerm;
+    } else {
+        Term* current = poly-&gt;head;
+        while (current-&gt;next != NULL) current = current-&gt;next;
+        current-&gt;next = newTerm;
+    }
+}
+
+void displayPolynomial(Polynomial* poly) {
+    if (poly-&gt;head == NULL) { printf("Polynomial empty.\n"); return; }
+    Term* current = poly-&gt;head;
+    while (current != NULL) {
+        printf("%dx^%d", current-&gt;coefficient, current-&gt;exponent);
+        if (current-&gt;next != NULL) printf(" + ");
+        current = current-&gt;next;
+    }
+    printf("\n");
+}
+
+Polynomial addPolynomials(Polynomial* poly1, Polynomial* poly2) {
+    Polynomial result;
+    initializePolynomial(&amp;result);
+    Term* term1 = poly1-&gt;head;
+    Term* term2 = poly2-&gt;head;
+    
+    while (term1 != NULL &amp;&amp; term2 != NULL) {
+        if (term1-&gt;exponent &gt; term2-&gt;exponent) {
+            insertTerm(&amp;result, term1-&gt;coefficient, term1-&gt;exponent);
+            term1 = term1-&gt;next;
+        } else if (term1-&gt;exponent &lt; term2-&gt;exponent) {
+            insertTerm(&amp;result, term2-&gt;coefficient, term2-&gt;exponent);
+            term2 = term2-&gt;next;
+        } else {
+            int sumCoeff = term1-&gt;coefficient + term2-&gt;coefficient;
+            insertTerm(&amp;result, sumCoeff, term1-&gt;exponent);
+            term1 = term1-&gt;next; term2 = term2-&gt;next;
+        }
+    }
+    while (term1 != NULL) { insertTerm(&amp;result, term1-&gt;coefficient, term1-&gt;exponent); term1 = term1-&gt;next; }
+    while (term2 != NULL) { insertTerm(&amp;result, term2-&gt;coefficient, term2-&gt;exponent); term2 = term2-&gt;next; }
+    return result;
+}
+
+int main() {
+    Polynomial poly1, poly2, result;
+    int choice, coeff, exp;
+    initializePolynomial(&amp;poly1); initializePolynomial(&amp;poly2);
+    do {
+        printf("\na) Insert into Poly 1\nb) Insert into Poly 2\nc) Display Poly 1\nd) Display Poly 2\ne) Add\nf) Exit\nChoice: ");
+        scanf(" %c", &amp;choice);
+        switch (choice) {
+            case 'a': printf("Coeff &amp; Exp: "); scanf("%d %d", &amp;coeff, &amp;exp); insertTerm(&amp;poly1, coeff, exp); break;
+            case 'b': printf("Coeff &amp; Exp: "); scanf("%d %d", &amp;coeff, &amp;exp); insertTerm(&amp;poly2, coeff, exp); break;
+            case 'c': printf("Poly 1: "); displayPolynomial(&amp;poly1); break;
+            case 'd': printf("Poly 2: "); displayPolynomial(&amp;poly2); break;
+            case 'e': result = addPolynomials(&amp;poly1, &amp;poly2); printf("Result: "); displayPolynomial(&amp;result); break;
+            case 'f': printf("Exiting.\n"); break;
+        }
+    } while (choice != 'f');
+    return 0;
+}</code></pre>
+
+                <h4>OUTPUT</h4>
+                <pre class="output">Poly 1: 5x^2 + 4x^1
+Poly 2: 3x^2 + 1x^0
+Result: 8x^2 + 4x^1 + 1x^0</pre>
+
+                <h4>RESULT</h4>
+                <div class="result">Thus, the program to perform Polynomial Addition using singly linked list was
+                    executed successfully.</div>
+            </div>
+
+            <div id="exp4" class="card">
+                <div class="card-header">
+                    <h2>EX NO: 4 - C Program to Implement Stack Operations</h2>
+                </div>
+                <h4>AIM</h4>
+                <p>To write a C program to implement stack operations.</p>
+
+                <h4>ALGORITHM</h4>
+                <ol>
+                    <li><strong>Push:</strong> Allocate memory. Check for OVERFLOW. Link new node to the current
+                        <code>top</code>, then update <code>top</code>.</li>
+                    <li><strong>Pop:</strong> Check for EMPTINESS. Extract data from <code>top</code>, move
+                        <code>top</code> to the next node, and free the old top node.</li>
+                </ol>
+
+                <h4>PROGRAM</h4>
+                <pre><code>#include&lt;stdio.h&gt;
+#include&lt;stdlib.h&gt;
+
+typedef struct node {
+    int data;
+    struct node *link;
+} n;
+
+n *top = NULL;
+
+void push() {
+    int item;
+    n *temp;
+    printf("Enter the item\n");
+    scanf("%d", &amp;item);
+    temp = (n*)malloc(sizeof(n));
+    temp-&gt;data = item;
+    temp-&gt;link = top;
+    top = temp;
+}
+
+void pop() {
+    n *temp;
+    if(top == NULL)
+        printf("Stack is empty\n");
+    else {
+        temp = top;
+        printf("The element deleted = %d\n", temp-&gt;data);
+        top = top-&gt;link;
+        free(temp);
+    }
+}
+
+void display() {
+    n *save;
+    if(top == NULL)
+        printf("Stack is empty\n");
+    else {
+        save = top;
+        printf("The elements of the stack are: ");
+        while(save != NULL) {
+            printf("%d\t", save-&gt;data);
+            save = save-&gt;link;
+        }
+        printf("\nTopmost element = %d\n", top-&gt;data);
+    }
+}
+
+int main() {
+    int choice;
+    do {
+        printf("\n1.PUSH\n2.POP\n3.DISPLAY\n4.EXIT\nEnter your choice: ");
+        scanf("%d", &amp;choice);
+        switch(choice) {
+            case 1: push(); break;
+            case 2: pop(); break;
+            case 3: display(); break;
+            case 4: break;
+            default: printf("Invalid choice\n"); break;
+        }
+    } while(choice != 4);
+    return 0;
+}</code></pre>
+
+                <h4>OUTPUT</h4>
+                <pre class="output">1.PUSH
+2.POP
+3.DISPLAY
+4.EXIT
+Enter your choice: 1
+Enter the item: 15
+Enter your choice: 3
+The elements of the stack are: 15	
+Topmost element = 15</pre>
+
+                <h4>RESULT</h4>
+                <div class="result">Thus, the C program to implement stack operations was executed successfully.</div>
+            </div>
+
+            <div id="exp5" class="card">
+                <div class="card-header">
+                    <h2>EX NO: 5 - Queue Operations Using a Linked List</h2>
+                </div>
+                <h4>AIM</h4>
+                <p>To write a C program to implement queue operations using a linked list.</p>
+
+                <h4>ALGORITHM</h4>
+                <ol>
+                    <li><strong>Enqueue:</strong> Create node. If queue is empty, set <code>front</code> and
+                        <code>rear</code> to the node. Else, link <code>rear-&gt;link</code> to node and update
+                        <code>rear</code>.</li>
+                    <li><strong>Dequeue:</strong> Check for UNDERFLOW. Extract data from <code>front</code>, move
+                        <code>front</code> to <code>front-&gt;link</code>. If empty, reset <code>rear</code> to NULL.
+                    </li>
+                </ol>
+
+                <h4>PROGRAM</h4>
+                <pre><code>#include&lt;stdio.h&gt;
+#include&lt;stdlib.h&gt;
+
+typedef struct node {
+    int data;
+    struct node *link;
+} n;
+
+n *front = NULL;
+n *rear = NULL;
+
+void enq() {
+    int item;
+    n *temp;
+    printf("Enter the item\n");
+    scanf("%d", &amp;item);
+    temp = (n*)malloc(sizeof(n));
+    temp-&gt;data = item;
+    temp-&gt;link = NULL;
+    if(rear == NULL) {
+        front = temp;
+        rear = temp;
+    } else {
+        rear-&gt;link = temp;
+        rear = temp;
+    }
+}
+
+void deq() {
+    if(front == NULL) {
+        printf("Queue is empty\n");
+    } else {
+        n *temp = front;
+        printf("The element deleted = %d\n", front-&gt;data);
+        front = front-&gt;link;
+        if(front == NULL) {
+            rear = NULL;
+        }
+        free(temp);
+    }
+}
+
+void display() {
+    n *ptr;
+    if(front == NULL) {
+        printf("Queue is empty\n");
+    } else {
+        ptr = front;
+        printf("The elements of the queue are: ");
+        while(ptr != NULL) {
+            printf("%d\t", ptr-&gt;data);
+            ptr = ptr-&gt;link;
+        }
+        printf("\n");
+    }
+}
+
+int main() {
+    int choice;
+    do {
+        printf("\n1.ENQUEUE\n2.DEQUEUE\n3.DISPLAY\n4.EXIT\nEnter your choice: ");
+        scanf("%d", &amp;choice);
+        switch(choice) {
+            case 1: enq(); break;
+            case 2: deq(); break;
+            case 3: display(); break;
+            case 4: break;
+            default: printf("Invalid choice\n"); break;
+        }
+    } while(choice != 4);
+    return 0;
+}</code></pre>
+
+                <h4>OUTPUT</h4>
+                <pre class="output">1.ENQUEUE
+2.DEQUEUE
+3.DISPLAY
+4.EXIT
+Enter your choice: 1
+Enter the item: 10
+Enter your choice: 3
+The elements of the queue are: 10</pre>
+
+                <h4>RESULT</h4>
+                <div class="result">Thus, the program to implement queue operations was executed successfully.</div>
+            </div>
+
+            <div id="exp6" class="card">
+                <div class="card-header">
+                    <h2>EX NO: 6 - Convert Infix to Postfix Expression Using Stack</h2>
+                </div>
+                <h4>AIM</h4>
+                <p>To implement a C program to convert Infix to Postfix Expression using Stack.</p>
+
+                <h4>ALGORITHM</h4>
+                <ol>
+                    <li>Scan INFIX string from left-to-right.</li>
+                    <li>If OPERAND, output it directly.</li>
+                    <li>If <code>(</code>, push to STACK. If <code>)</code>, pop and output until <code>(</code> is
+                        found.</li>
+                    <li>If OPERATOR, repeatedly pop operators from stack having higher or equal precedence, then push
+                        the scanned operator.</li>
+                </ol>
+
+                <h4>PROGRAM</h4>
+                <pre><code>#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;string.h&gt;
+
+int prec(char c) {
+    if (c == '^') return 3;
+    else if (c == '/' || c == '*') return 2;
+    else if (c == '+' || c == '-') return 1;
+    else return -1;
+}
+
+char associativity(char c) {
+    if (c == '^') return 'R';
+    return 'L';
+}
+
+void infixToPostfix(char s[]) {
+    char result[1000];
+    int resultIndex = 0;
+    int len = strlen(s);
+    char stack[1000];
+    int stackIndex = -1;
+    
+    for (int i = 0; i &lt; len; i++) {
+        char c = s[i];
+        if ((c &gt;= 'a' &amp;&amp; c &lt;= 'z') || (c &gt;= 'A' &amp;&amp; c &lt;= 'Z') || (c &gt;= '0' &amp;&amp; c &lt;= '9')) {
+            result[resultIndex++] = c;
+        } else if (c == '(') {
+            stack[++stackIndex] = c;
+        } else if (c == ')') {
+            while (stackIndex &gt;= 0 &amp;&amp; stack[stackIndex] != '(') {
+                result[resultIndex++] = stack[stackIndex--];
+            }
+            stackIndex--; 
+        } else {
+            while (stackIndex &gt;= 0 &amp;&amp; (prec(s[i]) &lt; prec(stack[stackIndex]) ||
+                   (prec(s[i]) == prec(stack[stackIndex]) &amp;&amp; associativity(s[i]) == 'L'))) {
+                result[resultIndex++] = stack[stackIndex--];
+            }
+            stack[++stackIndex] = c;
+        }
+    }
+    while (stackIndex &gt;= 0) {
+        result[resultIndex++] = stack[stackIndex--];
+    }
+    result[resultIndex] = '\0';
+    printf("%s\n", result);
+}
+
+int main() {
+    char exp[] = "a+b*(c-d)/e";
+    printf("Infix: %s\nPostfix: ", exp);
+    infixToPostfix(exp);
+    return 0;
+}</code></pre>
+
+                <h4>OUTPUT</h4>
+                <pre class="output">Infix: a+b*(c-d)/e
+Postfix: abcd-*e/+</pre>
+
+                <h4>RESULT</h4>
+                <div class="result">Thus, the program to convert Infix to Postfix using stack was executed successfully.
+                </div>
+            </div>
+
+            <div id="exp7" class="card">
+                <div class="card-header">
+                    <h2>EX NO: 7 - Binary Search Tree Operations</h2>
+                </div>
+                <h4>AIM</h4>
+                <p>To Write C programs to implement binary search tree operations.</p>
+
+                <h4>ALGORITHM</h4>
+                <ol>
+                    <li><strong>Insert:</strong> Compare key. If smaller than root, recurse left; if greater, recurse
+                        right.</li>
+                    <li><strong>Search:</strong> Traverse nodes similarly based on value comparisons.</li>
+                    <li><strong>Delete:</strong> If node has one child, copy child to node. If two children, find
+                        inorder successor, replace value, delete successor.</li>
+                </ol>
+
+                <h4>PROGRAM</h4>
+                <pre><code>#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+
+struct Node {
+    int data;
+    struct Node* left;
+    struct Node* right;
+};
+
+struct Node* createNode(int data) {
+    struct Node* newNode = (struct Node*)malloc(sizeof(struct Node));
+    newNode-&gt;data = data;
+    newNode-&gt;left = newNode-&gt;right = NULL;
+    return newNode;
+}
+
+struct Node* insert(struct Node* root, int data) {
+    if (root == NULL) return createNode(data);
+    if (data &lt; root-&gt;data) root-&gt;left = insert(root-&gt;left, data);
+    else if (data &gt; root-&gt;data) root-&gt;right = insert(root-&gt;right, data);
+    return root;
+}
+
+struct Node* minValueNode(struct Node* node) {
+    struct Node* current = node;
+    while (current &amp;&amp; current-&gt;left != NULL) current = current-&gt;left;
+    return current;
+}
+
+struct Node* deleteNode(struct Node* root, int key) {
+    if (root == NULL) return root;
+    if (key &lt; root-&gt;data) root-&gt;left = deleteNode(root-&gt;left, key);
+    else if (key &gt; root-&gt;data) root-&gt;right = deleteNode(root-&gt;right, key);
+    else {
+        if (root-&gt;left == NULL) {
+            struct Node* temp = root-&gt;right; free(root); return temp;
+        } else if (root-&gt;right == NULL) {
+            struct Node* temp = root-&gt;left; free(root); return temp;
+        }
+        struct Node* temp = minValueNode(root-&gt;right);
+        root-&gt;data = temp-&gt;data;
+        root-&gt;right = deleteNode(root-&gt;right, temp-&gt;data);
+    }
+    return root;
+}
+
+struct Node* search(struct Node* root, int key) {
+    if (root == NULL || root-&gt;data == key) return root;
+    if (root-&gt;data &lt; key) return search(root-&gt;right, key);
+    return search(root-&gt;left, key);
+}
+
+void inorderTraversal(struct Node* root) {
+    if (root != NULL) {
+        inorderTraversal(root-&gt;left);
+        printf("%d ", root-&gt;data);
+        inorderTraversal(root-&gt;right);
+    }
+}
+
+int main() {
+    struct Node* root = NULL;
+    int choice, key;
+    do {
+        printf("\n1. Insert\n2. Delete\n3. Search\n4. Inorder Traversal\n5. Exit\nChoice: ");
+        scanf("%d", &amp;choice);
+        switch (choice) {
+            case 1: printf("Key: "); scanf("%d", &amp;key); root = insert(root, key); break;
+            case 2: printf("Key: "); scanf("%d", &amp;key); root = deleteNode(root, key); break;
+            case 3: printf("Key: "); scanf("%d", &amp;key); 
+                    if (search(root, key)) printf("Found.\n"); else printf("Not Found.\n"); break;
+            case 4: inorderTraversal(root); printf("\n"); break;
+        }
+    } while (choice != 5);
+    return 0;
+}</code></pre>
+
+                <h4>OUTPUT</h4>
+                <pre class="output">1. Insert
+2. Delete
+3. Search
+4. Inorder Traversal
+5. Exit
+Choice: 1
+Key: 50
+Choice: 4
+50 </pre>
+
+                <h4>RESULT</h4>
+                <div class="result">Thus, the program for BST operations was executed successfully.</div>
+            </div>
+
+            <div id="exp8" class="card">
+                <div class="card-header">
+                    <h2>EX NO: 8 - Binary Tree Traversal</h2>
+                </div>
+                <h4>AIM</h4>
+                <p>To implement C program that use recursive functions to traverse the given binary tree.</p>
+
+                <h4>ALGORITHM</h4>
+                <ol>
+                    <li>Create node structure for tree.</li>
+                    <li><strong>Preorder:</strong> Visit root, traverse left, traverse right.</li>
+                    <li><strong>Inorder:</strong> Traverse left, visit root, traverse right.</li>
+                    <li><strong>Postorder:</strong> Traverse left, traverse right, visit root.</li>
+                </ol>
+
+                <h4>PROGRAM</h4>
+                <pre><code>#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+
+struct Node {
+    int data;
+    struct Node* left;
+    struct Node* right;
+};
+
+struct Node* createNode(int data) {
+    struct Node* newNode = (struct Node*)malloc(sizeof(struct Node));
+    newNode-&gt;data = data;
+    newNode-&gt;left = newNode-&gt;right = NULL;
+    return newNode;
+}
+
+void preorderTraversal(struct Node* root) {
+    if (root == NULL) return;
+    printf("%d ", root-&gt;data);
+    preorderTraversal(root-&gt;left);
+    preorderTraversal(root-&gt;right);
+}
+
+void inorderTraversal(struct Node* root) {
+    if (root == NULL) return;
+    inorderTraversal(root-&gt;left);
+    printf("%d ", root-&gt;data);
+    inorderTraversal(root-&gt;right);
+}
+
+void postorderTraversal(struct Node* root) {
+    if (root == NULL) return;
+    postorderTraversal(root-&gt;left);
+    postorderTraversal(root-&gt;right);
+    printf("%d ", root-&gt;data);
+}
+
+int main() {
+    struct Node* root = createNode(1);
+    root-&gt;left = createNode(2);
+    root-&gt;right = createNode(3);
+    root-&gt;left-&gt;left = createNode(4);
+    root-&gt;left-&gt;right = createNode(5);
+    
+    char choice;
+    do {
+        printf("\na) Preorder\nb) Inorder\nc) Postorder\nd) Exit\nChoice: ");
+        scanf(" %c", &amp;choice);
+        switch (choice) {
+            case 'a': printf("Preorder: "); preorderTraversal(root); printf("\n"); break;
+            case 'b': printf("Inorder: "); inorderTraversal(root); printf("\n"); break;
+            case 'c': printf("Postorder: "); postorderTraversal(root); printf("\n"); break;
+            case 'd': printf("Exiting program.\n"); break;
+        }
+    } while (choice != 'd');
+    return 0;
+}</code></pre>
+
+                <h4>OUTPUT</h4>
+                <pre class="output">a) Preorder
+b) Inorder
+c) Postorder
+d) Exit
+Choice: b
+Inorder: 4 2 5 1 3</pre>
+
+                <h4>RESULT</h4>
+                <div class="result">Thus, the binary tree traversal using recursive functions was executed successfully.
+                </div>
+            </div>
+
+            <div id="exp9" class="card">
+                <div class="card-header">
+                    <h2>EX NO: 9 - Implement an AVL Tree</h2>
+                </div>
+                <h4>AIM</h4>
+                <p>To Write C programs to implement an AVL Tree operations.</p>
+
+                <h4>ALGORITHM</h4>
+                <ol>
+                    <li>Perform standard BST insertion.</li>
+                    <li>Update height of the current node.</li>
+                    <li>Get balance factor. If it exceeds 1 or -1, perform rotations (LL, RR, LR, RL) to balance the
+                        tree.</li>
+                </ol>
+
+                <h4>PROGRAM</h4>
+                <pre><code>#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+
+struct Node {
+    int data;
+    struct Node *left;
+    struct Node *right;
+    int height;
+};
+
+int height(struct Node* node) {
+    if (node == NULL) return 0;
+    return node-&gt;height;
+}
+
+int max(int a, int b) { return (a &gt; b) ? a : b; }
+
+struct Node* createNode(int data) {
+    struct Node* newNode = (struct Node*)malloc(sizeof(struct Node));
+    newNode-&gt;data = data;
+    newNode-&gt;left = newNode-&gt;right = NULL;
+    newNode-&gt;height = 1;
+    return newNode;
+}
+
+struct Node* rightRotate(struct Node* y) {
+    struct Node* x = y-&gt;left;
+    struct Node* T2 = x-&gt;right;
+    x-&gt;right = y; y-&gt;left = T2;
+    y-&gt;height = max(height(y-&gt;left), height(y-&gt;right)) + 1;
+    x-&gt;height = max(height(x-&gt;left), height(x-&gt;right)) + 1;
+    return x;
+}
+
+struct Node* leftRotate(struct Node* x) {
+    struct Node* y = x-&gt;right;
+    struct Node* T2 = y-&gt;left;
+    y-&gt;left = x; x-&gt;right = T2;
+    x-&gt;height = max(height(x-&gt;left), height(x-&gt;right)) + 1;
+    y-&gt;height = max(height(y-&gt;left), height(y-&gt;right)) + 1;
+    return y;
+}
+
+int getBalance(struct Node* node) {
+    if (node == NULL) return 0;
+    return height(node-&gt;left) - height(node-&gt;right);
+}
+
+struct Node* insertNode(struct Node* node, int data) {
+    if (node == NULL) return createNode(data);
+    if (data &lt; node-&gt;data) node-&gt;left = insertNode(node-&gt;left, data);
+    else if (data &gt; node-&gt;data) node-&gt;right = insertNode(node-&gt;right, data);
+    else return node;
+
+    node-&gt;height = 1 + max(height(node-&gt;left), height(node-&gt;right));
+    int balance = getBalance(node);
+
+    if (balance &gt; 1 &amp;&amp; data &lt; node-&gt;left-&gt;data) return rightRotate(node);
+    if (balance &lt; -1 &amp;&amp; data &gt; node-&gt;right-&gt;data) return leftRotate(node);
+    if (balance &gt; 1 &amp;&amp; data &gt; node-&gt;left-&gt;data) {
+        node-&gt;left = leftRotate(node-&gt;left); return rightRotate(node);
+    }
+    if (balance &lt; -1 &amp;&amp; data &lt; node-&gt;right-&gt;data) {
+        node-&gt;right = rightRotate(node-&gt;right); return leftRotate(node);
+    }
+    return node;
+}
+
+void inorderTraversal(struct Node* root) {
+    if (root != NULL) {
+        inorderTraversal(root-&gt;left);
+        printf("%d ", root-&gt;data);
+        inorderTraversal(root-&gt;right);
+    }
+}
+
+int main() {
+    struct Node* root = NULL;
+    int choice, data;
+    do {
+        printf("\n1. Insert\n2. Inorder Traversal\n3. Exit\nChoice: ");
+        scanf("%d", &amp;choice);
+        switch (choice) {
+            case 1: printf("Data: "); scanf("%d", &amp;data); root = insertNode(root, data); break;
+            case 2: inorderTraversal(root); printf("\n"); break;
+        }
+    } while (choice != 3);
+    return 0;
+}</code></pre>
+
+                <h4>OUTPUT</h4>
+                <pre class="output">1. Insert
+2. Inorder Traversal
+3. Exit
+Choice: 1
+Data: 10
+Choice: 2
+10</pre>
+
+                <h4>RESULT</h4>
+                <div class="result">Thus, the AVL tree implementation program was executed successfully.</div>
+            </div>
+
+            <div id="exp10" class="card">
+                <div class="card-header">
+                    <h2>EX NO: 10 - B-Tree Operation</h2>
+                </div>
+                <h4>AIM</h4>
+                <p>Write a C program that demonstrates B-Tree operation insertion, search, and display.</p>
+
+                <h4>ALGORITHM</h4>
+                <ol>
+                    <li>Define a node structure containing an array of keys and an array of child pointers.</li>
+                    <li><strong>Search:</strong> Traverse keys in the node, recurse into appropriate child.</li>
+                    <li><strong>Insert/Split:</strong> Add key. If the node exceeds MAX_KEYS, split it and promote the
+                        median key upwards.</li>
+                </ol>
+
+                <h4>PROGRAM</h4>
+                <pre><code>#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+#define MAX_KEYS 3
+
+typedef struct node {
+    int num_keys;
+    int keys[MAX_KEYS];
+    struct node *children[MAX_KEYS + 1];
+} Node;
+
+Node *createNode() {
+    Node *newNode = (Node *)malloc(sizeof(Node));
+    if (newNode == NULL) { printf("Memory allocation failed!\n"); exit(1); }
+    newNode-&gt;num_keys = 0;
+    for (int i = 0; i &lt; MAX_KEYS; i++) {
+        newNode-&gt;keys[i] = 0;
+        newNode-&gt;children[i] = NULL;
+    }
+    newNode-&gt;children[MAX_KEYS] = NULL;
+    return newNode;
+}
+
+int search(Node *root, int key) {
+    if(root == NULL) return 0;
+    int i = 0;
+    while (i &lt; root-&gt;num_keys &amp;&amp; key &gt; root-&gt;keys[i]) i++;
+    if (i &lt; root-&gt;num_keys &amp;&amp; key == root-&gt;keys[i]) return 1;
+    if (root-&gt;children[i] == NULL) return 0;
+    return search(root-&gt;children[i], key);
+}
+
+Node *insert(Node *root, int key) {
+    if (root == NULL) {
+        Node *newNode = createNode();
+        newNode-&gt;keys[0] = key;
+        newNode-&gt;num_keys = 1;
+        return newNode;
+    }
+    int i = root-&gt;num_keys - 1;
+    while (i &gt;= 0 &amp;&amp; key &lt; root-&gt;keys[i]) {
+        root-&gt;keys[i + 1] = root-&gt;keys[i]; i--;
+    }
+    if (root-&gt;num_keys &lt; MAX_KEYS) {
+        root-&gt;keys[i + 1] = key;
+        root-&gt;num_keys++;
+        return root;
+    } else {
+        Node *splitNode = createNode();
+        splitNode-&gt;keys[0] = root-&gt;keys[MAX_KEYS/2 + 1];
+        splitNode-&gt;num_keys = 1;
+        root-&gt;num_keys = MAX_KEYS / 2;
+        splitNode-&gt;children[0] = root-&gt;children[MAX_KEYS/2 + 1];
+        root-&gt;children[MAX_KEYS/2+1] = NULL;
+        return splitNode;
+    }
+}
+
+void display(Node *root) {
+    if (root != NULL) {
+        int i;
+        for (i = 0; i &lt; root-&gt;num_keys; i++) {
+            display(root-&gt;children[i]);
+            printf("%d ", root-&gt;keys[i]);
+        }
+        display(root-&gt;children[i]);
+    }
+}
+
+int main() {
+    Node *root = NULL;
+    root = insert(root, 10);
+    root = insert(root, 20);
+    root = insert(root, 5);
+    
+    printf("B-tree: ");
+    display(root);
+    printf("\n");
+    
+    int keyToSearch = 5;
+    if (search(root, keyToSearch))
+        printf("%d is found in the B-tree.\n", keyToSearch);
+    else
+        printf("%d is not found in the B-tree.\n", keyToSearch);
+    return 0;
+}</code></pre>
+
+                <h4>OUTPUT</h4>
+                <pre class="output">B-tree: 5 10 20 
+5 is found in the B-tree.</pre>
+
+                <h4>RESULT</h4>
+                <div class="result">Thus, the B-Tree operations program was successfully executed.</div>
+            </div>
+
+            <div id="exp11" class="card">
+                <div class="card-header">
+                    <h2>EX NO: 11 - Dijkstra's Single Source Shortest Path Algorithm</h2>
+                </div>
+                <h4>AIM</h4>
+                <p>Write a C program for Dijkstra's single source shortest path algorithm.</p>
+
+                <h4>ALGORITHM</h4>
+                <ol>
+                    <li>Initialize distance array <code>dist[]</code> with infinity, except <code>dist[src] = 0</code>.
+                    </li>
+                    <li>Pick the minimum distance vertex not yet processed.</li>
+                    <li>Update <code>dist[]</code> values for adjacent vertices of the picked vertex if path is shorter.
+                    </li>
+                    <li>Repeat until all vertices are processed and print distances.</li>
+                </ol>
+
+                <h4>PROGRAM</h4>
+                <pre><code>#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;stdbool.h&gt;
+#include &lt;limits.h&gt;
+#define V 6 
+
+int minDistance(int dist[], bool sptSet[]) {
+    int min = INT_MAX, min_index;
+    for (int v = 0; v &lt; V; v++)
+        if (sptSet[v] == false &amp;&amp; dist[v] &lt;= min) {
+            min = dist[v]; min_index = v;
+        }
+    return min_index;
+}
+
+void printSolution(int dist[]) {
+    printf("Vertex \t Distance from Source\n");
+    for (int i = 0; i &lt; V; i++)
+        printf("%d \t %d\n", i, dist[i]);
+}
+
+void dijkstra(int graph[V][V], int src) {
+    int dist[V]; 
+    bool sptSet[V]; 
+
+    for (int i = 0; i &lt; V; i++) {
+        dist[i] = INT_MAX; sptSet[i] = false;
+    }
+    dist[src] = 0;
+
+    for (int count = 0; count &lt; V - 1; count++) {
+        int u = minDistance(dist, sptSet);
+        sptSet[u] = true;
+
+        for (int v = 0; v &lt; V; v++)
+            if (!sptSet[v] &amp;&amp; graph[u][v] &amp;&amp; dist[u] != INT_MAX &amp;&amp; dist[u] + graph[u][v] &lt; dist[v])
+                dist[v] = dist[u] + graph[u][v];
+    }
+    printSolution(dist);
+}
+
+int main() {
+    int graph[V][V] = {
+        {0, 10, 0, 5, 0, 0},
+        {0, 0, 1, 2, 0, 0},
+        {0, 0, 0, 0, 4, 0},
+        {0, 3, 9, 0, 2, 0},
+        {7, 0, 6, 0, 0, 1},
+        {0, 0, 0, 0, 0, 0}
+    };
+    dijkstra(graph, 0); 
+    return 0;
+}</code></pre>
+
+                <h4>OUTPUT</h4>
+                <pre class="output">Vertex 	 Distance from Source
+0 	 0
+1 	 8
+2 	 14
+3 	 5
+4 	 7
+5 	 8</pre>
+
+                <h4>RESULT</h4>
+                <div class="result">Thus, Dijkstra's algorithm was successfully executed.</div>
+            </div>
+
+            <div id="exp12" class="card">
+                <div class="card-header">
+                    <h2>EX NO: 12 - Prim's Minimum Spanning Tree</h2>
+                </div>
+                <h4>AIM</h4>
+                <p>To Write a C program for Prim's Minimum Spanning Tree (MST) algorithm.</p>
+
+                <h4>ALGORITHM</h4>
+                <ol>
+                    <li>Initialize <code>key[]</code> to infinity and <code>parent[]</code> to -1. Set
+                        <code>key[0] = 0</code>.</li>
+                    <li>Pick the minimum key vertex not yet included in MST.</li>
+                    <li>Add vertex to MST set. Update key and parent of its adjacent unvisited vertices if weight is
+                        smaller.</li>
+                    <li>Repeat until all vertices are included and print MST edges.</li>
+                </ol>
+
+                <h4>PROGRAM</h4>
+                <pre><code>#include &lt;stdio.h&gt;
+#include &lt;stdbool.h&gt;
+#include &lt;limits.h&gt;
+#define V 5
+
+int minKey(int key[], bool mstSet[]) {
+    int min = INT_MAX, min_index;
+    for (int v = 0; v &lt; V; v++)
+        if (mstSet[v] == false &amp;&amp; key[v] &lt; min) {
+            min = key[v]; min_index = v;
+        }
+    return min_index;
+}
+
+void printMST(int parent[], int graph[V][V]) {
+    printf("Edge \tWeight\n");
+    for (int i = 1; i &lt; V; i++)
+        printf("%d - %d \t%d \n", parent[i], i, graph[i][parent[i]]);
+}
+
+void primMST(int graph[V][V]) {
+    int parent[V]; 
+    int key[V]; 
+    bool mstSet[V]; 
+
+    for (int i = 0; i &lt; V; i++) {
+        key[i] = INT_MAX; mstSet[i] = false;
+    }
+    key[0] = 0; 
+    parent[0] = -1; 
+
+    for (int count = 0; count &lt; V - 1; count++) {
+        int u = minKey(key, mstSet);
+        mstSet[u] = true;
+
+        for (int v = 0; v &lt; V; v++)
+            if (graph[u][v] &amp;&amp; mstSet[v] == false &amp;&amp; graph[u][v] &lt; key[v]) {
+                parent[v] = u; key[v] = graph[u][v];
+            }
+    }
+    printMST(parent, graph);
+}
+
+int main() {
+    int graph[V][V] = {
+        {0, 2, 0, 6, 0},
+        {2, 0, 3, 8, 5},
+        {0, 3, 0, 0, 7},
+        {6, 8, 0, 0, 9},
+        {0, 5, 7, 9, 0}
+    };
+    primMST(graph);
+    return 0;
+}</code></pre>
+
+                <h4>OUTPUT</h4>
+                <pre class="output">Edge 	Weight
+0 - 1 	2 
+1 - 2 	3 
+0 - 3 	6 
+1 - 4 	5 </pre>
+
+                <h4>RESULT</h4>
+                <div class="result">Thus, Prim's Minimum Spanning Tree algorithm was successfully executed.</div>
+            </div>
+
+            <div id="exp13" class="card">
+                <div class="card-header">
+                    <h2>EX NO: 13 - Binary Search Using a Recursive Function</h2>
+                </div>
+                <h4>AIM</h4>
+                <p>To Write a C programs to implement binary search using a recursive function.</p>
+
+                <h4>ALGORITHM</h4>
+                <ol>
+                    <li>Calculate <code>mid = low + (high-low)/2</code>.</li>
+                    <li>If array value at mid equals key, return mid.</li>
+                    <li>If mid value is greater than key, recursively search the left half.</li>
+                    <li>If mid value is less than key, recursively search the right half.</li>
+                </ol>
+
+                <h4>PROGRAM</h4>
+                <pre><code>#include &lt;stdio.h&gt;
+
+int binarySearch(int arr[], int low, int high, int key) {
+    if (low &lt;= high) {
+        int mid = low + (high - low) / 2;
+        if (arr[mid] == key) return mid;
+        if (arr[mid] &lt; key) return binarySearch(arr, mid + 1, high, key);
+        else return binarySearch(arr, low, mid - 1, key);
+    }
+    return -1; 
+}
+
+int main() {
+    int arr[100], size, key, index;
+    printf("Enter number of elements: ");
+    scanf("%d", &amp;size);
+    printf("Enter %d integers in sorted order:\n", size);
+    for (int i = 0; i &lt; size; i++) scanf("%d", &amp;arr[i]);
+    printf("Enter element to search: ");
+    scanf("%d", &amp;key);
+    
+    index = binarySearch(arr, 0, size - 1, key);
+    if (index != -1) printf("Element %d found at index %d.\n", key, index);
+    else printf("Element %d not found in the array.\n", key);
+    return 0;
+}</code></pre>
+
+                <h4>OUTPUT</h4>
+                <pre class="output">Enter number of elements: 4
+Enter 4 integers in sorted order:
+10 20 30 40
+Enter element to search: 30
+Element 30 found at index 2.</pre>
+
+                <h4>RESULT</h4>
+                <div class="result">Thus, binary search using a recursive function was executed successfully.</div>
+            </div>
+
+            <div id="exp14" class="card">
+                <div class="card-header">
+                    <h2>EX NO: 14 - Insertion Sort Algorithm</h2>
+                </div>
+                <h4>AIM</h4>
+                <p>To Write a C program to implement the Insertion Sort algorithm.</p>
+
+                <h4>ALGORITHM</h4>
+                <ol>
+                    <li>Iterate from the second element to the last element of the array.</li>
+                    <li>Store the current element as <code>key</code>.</li>
+                    <li>Compare <code>key</code> with preceding elements. Shift elements greater than <code>key</code>
+                        to the right.</li>
+                    <li>Place <code>key</code> in its correct sorted position.</li>
+                </ol>
+
+                <h4>PROGRAM</h4>
+                <pre><code>#include &lt;stdio.h&gt;
+
+void insertionSort(int arr[], int size) {
+    for (int i = 1; i &lt; size; i++) {
+        int key = arr[i];
+        int j = i - 1;
+        while (j &gt;= 0 &amp;&amp; arr[j] &gt; key) {
+            arr[j+1] = arr[j];
+            j--;
+        }
+        arr[j + 1] = key;
+    }
+}
+
+int main() {
+    int arr[100], size;
+    printf("Enter number of elements: ");
+    scanf("%d", &amp;size);
+    printf("Enter %d integers:\n", size);
+    for (int i = 0; i &lt; size; i++) scanf("%d", &amp;arr[i]);
+    
+    insertionSort(arr, size);
+    
+    printf("Array after sorting:\n");
+    for (int i = 0; i &lt; size; i++) printf("%d ", arr[i]);
+    printf("\n");
+    return 0;
+}</code></pre>
+
+                <h4>OUTPUT</h4>
+                <pre class="output">Enter number of elements: 5
+Enter 5 integers:
+50 20 40 10 30
+Array after sorting:
+10 20 30 40 50 </pre>
+
+                <h4>RESULT</h4>
+                <div class="result">Thus, the insertion sort program was executed successfully.</div>
+            </div>
+
+            <div id="exp15" class="card">
+                <div class="card-header">
+                    <h2>EX NO: 15 - Separate Chaining Technique in Hashing</h2>
+                </div>
+                <h4>AIM</h4>
+                <p>To Write a C program to implement the separate chaining technique in hashing.</p>
+
+                <h4>ALGORITHM</h4>
+                <ol>
+                    <li>Define hash table size (e.g., 10) and an array of linked list heads.</li>
+                    <li><strong>Hash Function:</strong> Compute index using <code>key % SIZE</code>.</li>
+                    <li><strong>Insert:</strong> Add new key as a node at the beginning/end of the linked list at the
+                        computed index.</li>
+                </ol>
+
+                <h4>PROGRAM</h4>
+                <pre><code>#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+#define SIZE 10
+
+typedef struct Node {
+    int data;
+    struct Node *next;
+} Node;
+
+typedef struct {
+    Node *head;
+} HashTable;
+
+int hash(int key) {
+    return key % SIZE;
+}
+
+void insert(HashTable table[], int key) {
+    int index = hash(key);
+    Node *newNode = (Node *)malloc(sizeof(Node));
+    if (newNode == NULL) { printf("Memory allocation failed!\n"); exit(1); }
+    newNode-&gt;data = key;
+    newNode-&gt;next = NULL;
+    
+    if (table[index].head == NULL) {
+        table[index].head = newNode;
+    } else {
+        Node *temp = table[index].head;
+        while (temp-&gt;next != NULL) temp = temp-&gt;next;
+        temp-&gt;next = newNode;
+    }
+}
+
+void display(HashTable table[]) {
+    printf("Hash Table:\n");
+    for (int i = 0; i &lt; SIZE; i++) {
+        printf("%d: ", i);
+        Node *temp = table[i].head;
+        while (temp != NULL) {
+            printf("%d -&gt; ", temp-&gt;data);
+            temp = temp-&gt;next;
+        }
+        printf("NULL\n");
+    }
+}
+
+int main() {
+    HashTable table[SIZE] = {NULL};
+    int n, key;
+    printf("Enter number of elements to insert: ");
+    scanf("%d", &amp;n);
+    printf("Enter %d elements:\n", n);
+    for (int i = 0; i &lt; n; i++) {
+        scanf("%d", &amp;key);
+        insert(table, key);
+    }
+    display(table);
+    return 0;
+}</code></pre>
+
+                <h4>OUTPUT</h4>
+                <pre class="output">Enter number of elements to insert: 3
+Enter 3 elements:
+15 25 35
+Hash Table:
+...
+5: 15 -&gt; 25 -&gt; 35 -&gt; NULL
+...
+</pre>
+
+                <h4>RESULT</h4>
+                <div class="result">Thus, the separate chaining hashing algorithm was implemented and executed
+                    successfully.</div>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        function toggleMenu() { document.getElementById('sidebar').classList.toggle('active'); }
+        function closeMenu() { if(window.innerWidth &lt;= 800) document.getElementById('sidebar').classList.remove('active'); }
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,1372 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>CS5203 DBMS Lab Record</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            line-height: 1.4;
+            color: #000;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .student-info {
+            text-align: center;
+            margin-bottom: 30px;
+            font-weight: bold;
+        }
+
+        .main-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 50px;
+            page-break-inside: avoid;
+        }
+
+        .main-table th,
+        .main-table td {
+            border: 1px solid #000;
+            padding: 12px;
+            vertical-align: top;
+            text-align: left;
+        }
+
+        .main-table th {
+            background-color: #f2f2f2;
+        }
+
+        .section-col {
+            width: 15%;
+            font-weight: bold;
+            background-color: #f9f9f9;
+        }
+
+        pre {
+            margin: 0;
+            font-family: "Courier New", monospace;
+            font-size: 14px;
+            white-space: pre-wrap;
+        }
+
+        /* Nested Output Table Styling */
+        .output-table {
+            width: auto;
+            border-collapse: collapse;
+            margin: 10px 0;
+            font-family: "Courier New", monospace;
+            font-size: 14px;
+        }
+
+        .output-table th,
+        .output-table td {
+            border: 1px solid #555;
+            padding: 6px 12px;
+            background-color: #fff;
+        }
+
+        .output-table th {
+            background-color: #e6e6e6;
+            font-weight: bold;
+        }
+
+        .sys-msg {
+            font-family: "Courier New", monospace;
+            font-size: 14px;
+            margin: 5px 0;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="header">
+        <h2>CS5203 DATABASE MANAGEMENT SYSTEMS LAB RECORD</h2>
+        <h3>CHENNAI INSTITUTE OF TECHNOLOGY, CHENNAI</h3>
+    </div>
+
+  
+
+    <table class="main-table">
+        <tr>
+            <th class="section-col">Section</th>
+            <th>Content</th>
+        </tr>
+        <tr>
+            <td class="section-col">Experiment No</td>
+            <td>1</td>
+        </tr>
+        <tr>
+            <td class="section-col">Date</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td class="section-col">Aim</td>
+            <td>To write MySQL statements to create a table and manipulate data using basic SQL commands.</td>
+        </tr>
+        <tr>
+            <td class="section-col">Theory</td>
+            <td>SQL (Structured Query Language) is used to create, modify, and manage relational databases. The
+                <code>CREATE TABLE</code> command defines the schema structure, while <code>INSERT</code> adds new
+                records. Commands like <code>SELECT</code>, <code>UPDATE</code>, and <code>DELETE</code> allow users to
+                retrieve, modify, and remove specific records efficiently.</td>
+        </tr>
+        <tr>
+            <td class="section-col">Query / Program</td>
+            <td>
+                <pre>CREATE TABLE employee (
+    empno INT,
+    empname VARCHAR(255),
+    DOB DATE,
+    salary INT,
+    designation VARCHAR(20)
+);
+
+INSERT INTO employee(empno, empname, DOB, salary, designation) 
+VALUES (100, 'John', '1999-07-02', 50000, 'Manager');
+
+INSERT INTO employee(empno, empname, DOB, salary, designation) 
+VALUES (101, 'Greg', '1994-06-10', 15000, 'Clerk');
+
+SELECT * FROM employee;
+
+UPDATE employee SET salary = salary + 1000;
+
+DELETE FROM employee WHERE empno = 100;</pre>
+            </td>
+        </tr>
+        <tr>
+            <td class="section-col">Output</td>
+            <td>
+                <table class="output-table">
+                    <tr>
+                        <th>EMPNO</th>
+                        <th>EMPNAME</th>
+                        <th>DOB</th>
+                        <th>SALARY</th>
+                        <th>DESIGNATION</th>
+                    </tr>
+                    <tr>
+                        <td>100</td>
+                        <td>John</td>
+                        <td>1999-07-02</td>
+                        <td>50000</td>
+                        <td>Manager</td>
+                    </tr>
+                    <tr>
+                        <td>101</td>
+                        <td>Greg</td>
+                        <td>1994-06-10</td>
+                        <td>15000</td>
+                        <td>Clerk</td>
+                    </tr>
+                </table>
+                <div class="sys-msg">Table Updated.</div>
+                <div class="sys-msg">1 row deleted.</div>
+            </td>
+        </tr>
+        <tr>
+            <td class="section-col">Result</td>
+            <td>Thus all the above basic SQL commands have been executed successfully and the output was verified.</td>
+        </tr>
+    </table>
+
+    <table class="main-table">
+        <tr>
+            <th class="section-col">Section</th>
+            <th>Content</th>
+        </tr>
+        <tr>
+            <td class="section-col">Experiment No</td>
+            <td>2.a</td>
+        </tr>
+        <tr>
+            <td class="section-col">Date</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td class="section-col">Aim</td>
+            <td>To create and manipulate a table using Data Definition Language (DDL) statements without using
+                constraints.</td>
+        </tr>
+        <tr>
+            <td class="section-col">Theory</td>
+            <td>DDL statements define and alter the database schema. <code>CREATE TABLE</code> sets up the initial
+                structure. <code>ALTER TABLE</code> modifies it by adding, modifying, or dropping columns.
+                <code>RENAME</code> changes the table name, and <code>DROP TABLE</code> deletes the table and its
+                structure from the database.</td>
+        </tr>
+        <tr>
+            <td class="section-col">Query / Program</td>
+            <td>
+                <pre>CREATE TABLE employee (
+    empno INT,
+    empname VARCHAR(25),
+    dob DATE,
+    salary INT,
+    designation VARCHAR(20)
+);
+
+ALTER TABLE employee ADD department VARCHAR(50);
+
+ALTER TABLE employee MODIFY COLUMN department VARCHAR(20);
+
+ALTER TABLE employee DROP COLUMN department;
+
+RENAME TABLE employee TO emp1;
+
+DROP TABLE emp1;</pre>
+            </td>
+        </tr>
+        <tr>
+            <td class="section-col">Output</td>
+            <td>
+                <div class="sys-msg">Table created.</div>
+                <div class="sys-msg">Table altered (Column Added).</div>
+                <div class="sys-msg">Table altered (Column Modified).</div>
+                <div class="sys-msg">Table altered (Column Dropped).</div>
+                <div class="sys-msg">Table renamed.</div>
+                <div class="sys-msg">Table dropped.</div>
+            </td>
+        </tr>
+        <tr>
+            <td class="section-col">Result</td>
+            <td>Thus all the above DDL SQL commands without constraints have been executed successfully and the output
+                was verified.</td>
+        </tr>
+    </table>
+
+    <table class="main-table">
+        <tr>
+            <th class="section-col">Section</th>
+            <th>Content</th>
+        </tr>
+        <tr>
+            <td class="section-col">Experiment No</td>
+            <td>2.b</td>
+        </tr>
+        <tr>
+            <td class="section-col">Date</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td class="section-col">Aim</td>
+            <td>To create a table using Data Definition Language (DDL) statements with constraints to enforce data
+                integrity.</td>
+        </tr>
+        <tr>
+            <td class="section-col">Theory</td>
+            <td>Constraints are rules applied to columns to prevent invalid data entry. <code>PRIMARY KEY</code> ensures
+                row uniqueness. <code>NOT NULL</code> prevents missing values. <code>UNIQUE</code> avoids duplicate
+                entries in a column. <code>CHECK</code> enforces a specific condition, and <code>DEFAULT</code> provides
+                a fallback value.</td>
+        </tr>
+        <tr>
+            <td class="section-col">Query / Program</td>
+            <td>
+                <pre>CREATE TABLE student (
+    studentID INT PRIMARY KEY,
+    sname VARCHAR(30) NOT NULL,
+    department CHAR(5),
+    sem INT,
+    dob DATE,
+    email_id VARCHAR(20) UNIQUE,
+    college VARCHAR(20) DEFAULT 'MEC'
+);
+
+CREATE TABLE exam (
+    examID INT,
+    studentID INT REFERENCES student(studentID),
+    department CHAR(5) NOT NULL,
+    mark1 INT CHECK (mark1<=100 AND mark1>=0)
+);
+
+ALTER TABLE student ADD address VARCHAR(100);
+
+ALTER TABLE student DROP address;
+
+DROP TABLE exam;</pre>
+            </td>
+        </tr>
+        <tr>
+            <td class="section-col">Output</td>
+            <td>
+                <div class="sys-msg">Table 'student' created with constraints.</div>
+                <div class="sys-msg">Table 'exam' created with constraints.</div>
+                <div class="sys-msg">Table 'student' altered.</div>
+                <div class="sys-msg">Table 'exam' dropped.</div>
+            </td>
+        </tr>
+        <tr>
+            <td class="section-col">Result</td>
+            <td>Thus all the above DDL SQL commands with constraints have been executed successfully and the output was
+                verified.</td>
+        </tr>
+    </table>
+
+    <table class="main-table">
+        <tr>
+            <th class="section-col">Section</th>
+            <th>Content</th>
+        </tr>
+        <tr>
+            <td class="section-col">Experiment No</td>
+            <td>3</td>
+        </tr>
+        <tr>
+            <td class="section-col">Date</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td class="section-col">Aim</td>
+            <td>To perform various manipulation operations using Data Manipulation Language (DML) statements.</td>
+        </tr>
+        <tr>
+            <td class="section-col">Theory</td>
+            <td>DML statements manage the actual data inside tables. <code>INSERT</code> adds new records.
+                <code>UPDATE</code> changes existing data based on a <code>WHERE</code> condition to prevent overwriting
+                all rows. <code>DELETE</code> removes specific rows based on a condition, keeping the table structure
+                intact.</td>
+        </tr>
+        <tr>
+            <td class="section-col">Query / Program</td>
+            <td>
+                <pre>INSERT INTO student VALUES (101,'RUPESH','IT', 5,'1996-04-18','rupesh@gmail.com','MEC');
+INSERT INTO student VALUES (102,'BALA','CSE',7,'1995-10-17','bala@gmail.com','IIT');
+
+INSERT INTO exam(examid, studentid, department, mark1, mark2) 
+VALUES (2222, 101, 'IT', 98, 87);
+
+UPDATE student SET college='MEC' WHERE studentid=102;
+
+UPDATE exam SET total=(mark1+mark2);
+
+DELETE FROM exam WHERE examid=2222;</pre>
+            </td>
+        </tr>
+        <tr>
+            <td class="section-col">Output</td>
+            <td>
+                <div class="sys-msg">1 row inserted.</div>
+                <div class="sys-msg">1 row inserted.</div>
+                <div class="sys-msg">1 row inserted.</div>
+                <div class="sys-msg">1 row(s) updated.</div>
+                <div class="sys-msg">1 row(s) updated.</div>
+                <div class="sys-msg">1 row deleted.</div>
+            </td>
+        </tr>
+        <tr>
+            <td class="section-col">Result</td>
+            <td>Thus, all the above DML SQL commands have been executed successfully and the output was verified.</td>
+        </tr>
+    </table>
+
+    <table class="main-table">
+        <tr>
+            <th class="section-col">Section</th>
+            <th>Content</th>
+        </tr>
+        <tr>
+            <td class="section-col">Experiment No</td>
+            <td>4.a</td>
+        </tr>
+        <tr>
+            <td class="section-col">Date</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td class="section-col">Aim</td>
+            <td>To retrieve or fetch data using Data Query Projection (DQL) statements.</td>
+        </tr>
+        <tr>
+            <td class="section-col">Theory</td>
+            <td>Projection in SQL involves selecting specific columns from a table using the <code>SELECT</code>
+                statement. You can retrieve all columns using <code>*</code>, pick specific columns by name, rename
+                output columns using aliases (<code>AS</code>), perform basic arithmetic, and eliminate duplicate
+                results using <code>DISTINCT</code>.</td>
+        </tr>
+        <tr>
+            <td class="section-col">Query / Program</td>
+            <td>
+                <pre>-- SELECT ALL COLUMNS
+SELECT * FROM student;
+
+-- SELECT MULTICOLUMN
+SELECT sname, department, sem FROM student;
+
+-- SELECTION WITH ALIAS COLUMN NAME
+SELECT sname AS StudentName, department, sem FROM student;
+
+-- SELECTION WITH ARITHMETIC OPERATION
+SELECT sname, department, sem+1 "Next_Sem" FROM student;
+
+-- DISTINCT RECORD SELECTION
+SELECT DISTINCT college FROM student;</pre>
+            </td>
+        </tr>
+        <tr>
+            <td class="section-col">Output</td>
+            <td>
+                <table class="output-table">
+                    <tr>
+                        <th>SNAME</th>
+                        <th>DEPARTMENT</th>
+                        <th>SEM</th>
+                    </tr>
+                    <tr>
+                        <td>RUPESH</td>
+                        <td>IT</td>
+                        <td>5</td>
+                    </tr>
+                    <tr>
+                        <td>BALA</td>
+                        <td>CSE</td>
+                        <td>7</td>
+                    </tr>
+                </table>
+                <table class="output-table">
+                    <tr>
+                        <th>COLLEGE</th>
+                    </tr>
+                    <tr>
+                        <td>MEC</td>
+                    </tr>
+                    <tr>
+                        <td>IIT</td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+        <tr>
+            <td class="section-col">Result</td>
+            <td>Thus all the above Data Query Projection SQL commands have been executed successfully and the output was
+                verified.</td>
+        </tr>
+    </table>
+
+    <table class="main-table">
+        <tr>
+            <th class="section-col">Section</th>
+            <th>Content</th>
+        </tr>
+        <tr>
+            <td class="section-col">Experiment No</td>
+            <td>4.b</td>
+        </tr>
+        <tr>
+            <td class="section-col">Date</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td class="section-col">Aim</td>
+            <td>To retrieve or fetch data using DQL Selection statements.</td>
+        </tr>
+        <tr>
+            <td class="section-col">Theory</td>
+            <td>Selection involves filtering rows using the <code>WHERE</code> clause. It restricts the data returned
+                based on specific conditions. Operators used include relational operators (<code>></code>,
+                <code><</code>), <code>BETWEEN</code> for ranges, <code>IN</code> for a set of values, and
+                <code>LIKE</code> for pattern matching with wildcards (<code>%</code> or <code>_</code>).</td>
+        </tr>
+        <tr>
+            <td class="section-col">Query / Program</td>
+            <td>
+                <pre>-- SELECTION WITH WHERE CLAUSE
+SELECT * FROM student WHERE college='MEC';
+
+-- BETWEEN COMMAND
+SELECT studentid, sname, department FROM student WHERE sem BETWEEN 5 AND 6;
+
+-- IN COMMAND
+SELECT studentid, sname FROM student WHERE department IN ('CSE','IT');
+
+-- LIKE COMMAND
+SELECT studentid, sname FROM student WHERE sname LIKE 'R%';
+SELECT studentid, sname FROM student WHERE sname LIKE '%SH%';
+
+-- RELATIONAL OPERATORS
+SELECT studentid, sname FROM student WHERE studentid > 100 AND department='CSE';</pre>
+            </td>
+        </tr>
+        <tr>
+            <td class="section-col">Output</td>
+            <td>
+                <table class="output-table">
+                    <tr>
+                        <th>STUDENTID</th>
+                        <th>SNAME</th>
+                    </tr>
+                    <tr>
+                        <td>101</td>
+                        <td>RUPESH</td>
+                    </tr>
+                    <tr>
+                        <td>108</td>
+                        <td>RISHA</td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+        <tr>
+            <td class="section-col">Result</td>
+            <td>Thus all the above Data Query Selection SQL commands have been executed successfully and the output was
+                verified.</td>
+        </tr>
+    </table>
+
+    <table class="main-table">
+        <tr>
+            <th class="section-col">Section</th>
+            <th>Content</th>
+        </tr>
+        <tr>
+            <td class="section-col">Experiment No</td>
+            <td>5</td>
+        </tr>
+        <tr>
+            <td class="section-col">Date</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td class="section-col">Aim</td>
+            <td>To perform various database operations using aggregate functions.</td>
+        </tr>
+        <tr>
+            <td class="section-col">Theory</td>
+            <td>Aggregate functions perform calculations on multiple rows to return a single summary value. Examples
+                include <code>COUNT</code>, <code>SUM</code>, <code>AVG</code>, <code>MAX</code>, and <code>MIN</code>.
+                The <code>GROUP BY</code> clause groups rows with the same values, while <code>ORDER BY</code> sorts the
+                final result set in ascending or descending order.</td>
+        </tr>
+        <tr>
+            <td class="section-col">Query / Program</td>
+            <td>
+                <pre>-- ORDER BY
+SELECT department, sem, sname FROM student ORDER BY department;
+SELECT department, sem, sname FROM student ORDER BY department DESC, sem DESC;
+
+-- AGGREGATE FUNCTIONS
+SELECT COUNT(examid) AS STUDENTS_REGISTERED FROM exam;
+SELECT MAX(total) AS HIGHEST_MARK FROM exam;
+SELECT MIN(total) AS LOWEST_MARK FROM exam;
+
+-- GROUP BY
+SELECT department, SUM(total) AS SUM_DEPARTMENT FROM exam GROUP BY department;
+SELECT department, AVG(total) AS AVERAGE FROM exam GROUP BY department;</pre>
+            </td>
+        </tr>
+        <tr>
+            <td class="section-col">Output</td>
+            <td>
+                <table class="output-table">
+                    <tr>
+                        <th>DEPARTMENT</th>
+                        <th>SUM_DEPARTMENT</th>
+                    </tr>
+                    <tr>
+                        <td>IT</td>
+                        <td>850</td>
+                    </tr>
+                    <tr>
+                        <td>CSE</td>
+                        <td>920</td>
+                    </tr>
+                </table>
+                <br>
+                <table class="output-table">
+                    <tr>
+                        <th>STUDENTS_REGISTERED</th>
+                    </tr>
+                    <tr>
+                        <td>5</td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+        <tr>
+            <td class="section-col">Result</td>
+            <td>Thus all the above Aggregate function SQL commands have been executed successfully and the output was
+                verified.</td>
+        </tr>
+    </table>
+
+    <table class="main-table">
+        <tr>
+            <th class="section-col">Section</th>
+            <th>Content</th>
+        </tr>
+        <tr>
+            <td class="section-col">Experiment No</td>
+            <td>6</td>
+        </tr>
+        <tr>
+            <td class="section-col">Date</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td class="section-col">Aim</td>
+            <td>To write MySQL statements to perform different join operations on a relation.</td>
+        </tr>
+        <tr>
+            <td class="section-col">Theory</td>
+            <td>Joins are used to combine rows from two or more tables based on a related column.
+                <code>INNER JOIN</code> returns matching rows in both tables. <code>LEFT JOIN</code> returns all rows
+                from the left table and matched rows from the right. <code>RIGHT JOIN</code> does the reverse. A Self
+                Join joins a table to itself.</td>
+        </tr>
+        <tr>
+            <td class="section-col">Query / Program</td>
+            <td>
+                <pre>-- INNER JOIN
+SELECT c.studentID, c.sname, p.company, p.salary 
+FROM cseitstudent c INNER JOIN placement p ON c.studentID = p.studentID;
+
+-- LEFT OUTER JOIN
+SELECT c.sname, p.company 
+FROM cseitstudent c LEFT OUTER JOIN placement p ON c.studentID = p.studentID;
+
+-- RIGHT OUTER JOIN
+SELECT c.sname, p.company 
+FROM cseitstudent c RIGHT OUTER JOIN placement p ON c.studentID = p.studentID;
+
+-- EQUI JOIN
+SELECT * FROM cseitstudent, placement WHERE cseitstudent.studentID = placement.studentID;
+
+-- SELF JOIN
+SELECT e1.empname AS Employee, e2.empname AS Manager 
+FROM employee1 e1, employee1 e2 WHERE e1.reportingid = e2.empid;</pre>
+            </td>
+        </tr>
+        <tr>
+            <td class="section-col">Output</td>
+            <td>
+                <table class="output-table">
+                    <tr>
+                        <th>STUDENTID</th>
+                        <th>SNAME</th>
+                        <th>COMPANY</th>
+                        <th>SALARY</th>
+                    </tr>
+                    <tr>
+                        <td>104</td>
+                        <td>nirmal</td>
+                        <td>infosys</td>
+                        <td>25000</td>
+                    </tr>
+                    <tr>
+                        <td>105</td>
+                        <td>eshwar</td>
+                        <td>Wipro</td>
+                        <td>22000</td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+        <tr>
+            <td class="section-col">Result</td>
+            <td>Thus all the above Joins SQL commands have been executed successfully and the output was verified.</td>
+        </tr>
+    </table>
+
+    <table class="main-table">
+        <tr>
+            <th class="section-col">Section</th>
+            <th>Content</th>
+        </tr>
+        <tr>
+            <td class="section-col">Experiment No</td>
+            <td>7</td>
+        </tr>
+        <tr>
+            <td class="section-col">Date</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td class="section-col">Aim</td>
+            <td>To write SQL statements to perform various set operations.</td>
+        </tr>
+        <tr>
+            <td class="section-col">Theory</td>
+            <td>Set operations combine the results of two or more queries into a single result set. <code>UNION</code>
+                combines rows and removes duplicates. <code>UNION ALL</code> keeps all duplicates.
+                <code>INTERSECT</code> returns only the rows present in both result sets. <code>EXCEPT</code> (or MINUS)
+                returns rows from the first query that are not in the second.</td>
+        </tr>
+        <tr>
+            <td class="section-col">Query / Program</td>
+            <td>
+                <pre>-- UNION
+SELECT studentid FROM student 
+UNION 
+SELECT studentid FROM exam;
+
+-- UNION ALL
+SELECT studentid FROM student 
+UNION ALL 
+SELECT studentid FROM exam;
+
+-- INTERSECT
+SELECT studentid FROM student 
+INTERSECT 
+SELECT studentid FROM exam;
+
+-- EXCEPT (MINUS)
+SELECT studentid FROM student 
+EXCEPT 
+SELECT studentid FROM exam;</pre>
+            </td>
+        </tr>
+        <tr>
+            <td class="section-col">Output</td>
+            <td>
+                <table class="output-table">
+                    <tr>
+                        <th>STUDENTID</th>
+                    </tr>
+                    <tr>
+                        <td>101</td>
+                    </tr>
+                    <tr>
+                        <td>102</td>
+                    </tr>
+                    <tr>
+                        <td>104</td>
+                    </tr>
+                    <tr>
+                        <td>106</td>
+                    </tr>
+                    <tr>
+                        <td>108</td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+        <tr>
+            <td class="section-col">Result</td>
+            <td>Thus all the above SQL Set Operation queries have been executed successfully and the output was
+                verified.</td>
+        </tr>
+    </table>
+
+    <table class="main-table">
+        <tr>
+            <th class="section-col">Section</th>
+            <th>Content</th>
+        </tr>
+        <tr>
+            <td class="section-col">Experiment No</td>
+            <td>8</td>
+        </tr>
+        <tr>
+            <td class="section-col">Date</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td class="section-col">Aim</td>
+            <td>To write nested queries using MySQL commands.</td>
+        </tr>
+        <tr>
+            <td class="section-col">Theory</td>
+            <td>A nested query (subquery) is a query placed inside another query. The inner query executes first, and
+                its output is used by the outer query to filter data. Subqueries are commonly used with operators like
+                <code>=</code>, <code>IN</code>, <code>NOT IN</code>, <code>ALL</code>, and <code>EXISTS</code> to
+                handle complex conditional logic.</td>
+        </tr>
+        <tr>
+            <td class="section-col">Query / Program</td>
+            <td>
+                <pre>-- BASIC NESTED QUERY
+SELECT * FROM employee WHERE designation = (SELECT designation FROM employee WHERE empname='RUPESH');
+
+-- IN OPERATOR
+SELECT studentID, sname FROM student WHERE studentID IN (SELECT studentID FROM placement);
+
+-- NOT IN OPERATOR
+SELECT studentID, sname FROM student WHERE studentID NOT IN (SELECT studentID FROM placement);
+
+-- ALL OPERATOR
+SELECT studentID, company, salary FROM placement WHERE salary > ALL(SELECT salary FROM placement WHERE company='infosys');
+
+-- EXISTS OPERATOR
+SELECT * FROM placement WHERE EXISTS (SELECT * FROM placement WHERE salary>20000);</pre>
+            </td>
+        </tr>
+        <tr>
+            <td class="section-col">Output</td>
+            <td>
+                <table class="output-table">
+                    <tr>
+                        <th>STUDENTID</th>
+                        <th>SNAME</th>
+                    </tr>
+                    <tr>
+                        <td>104</td>
+                        <td>nirmal</td>
+                    </tr>
+                    <tr>
+                        <td>105</td>
+                        <td>eshwar</td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+        <tr>
+            <td class="section-col">Result</td>
+            <td>Thus all the above SQL nested queries have been executed successfully and the output was verified.</td>
+        </tr>
+    </table>
+
+    <table class="main-table">
+        <tr>
+            <th class="section-col">Section</th>
+            <th>Content</th>
+        </tr>
+        <tr>
+            <td class="section-col">Experiment No</td>
+            <td>9</td>
+        </tr>
+        <tr>
+            <td class="section-col">Date</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td class="section-col">Aim</td>
+            <td>To write MySQL commands to perform view operations.</td>
+        </tr>
+        <tr>
+            <td class="section-col">Theory</td>
+            <td>A view is a virtual table that is based on the result set of an SQL query. It does not store data
+                physically but retrieves it dynamically from base tables. Views help in hiding database complexity,
+                securing sensitive data, and simplifying repetitive queries.</td>
+        </tr>
+        <tr>
+            <td class="section-col">Query / Program</td>
+            <td>
+                <pre>-- VIEW CREATION
+CREATE VIEW studview AS (SELECT studentid, department, company FROM placement WHERE salary > 25000);
+
+-- SELECT FROM VIEW
+SELECT * FROM studview;
+
+-- COMPLEX VIEW WITH JOIN
+CREATE VIEW studetails AS (
+    SELECT c.studentID, c.sname, c.sem, p.company, p.salary 
+    FROM cseitstudent c INNER JOIN placement p ON c.studentID = p.studentID
+);
+
+-- QUERY THE VIEW
+SELECT * FROM studetails;
+
+-- DROP VIEW
+DROP VIEW studetails;</pre>
+            </td>
+        </tr>
+        <tr>
+            <td class="section-col">Output</td>
+            <td>
+                <div class="sys-msg">View created.</div>
+                <table class="output-table">
+                    <tr>
+                        <th>STUDENTID</th>
+                        <th>DEPARTMENT</th>
+                        <th>COMPANY</th>
+                    </tr>
+                    <tr>
+                        <td>104</td>
+                        <td>CSE</td>
+                        <td>Infosys</td>
+                    </tr>
+                </table>
+                <div class="sys-msg">View dropped.</div>
+            </td>
+        </tr>
+        <tr>
+            <td class="section-col">Result</td>
+            <td>Thus all the above SQL View queries have been executed successfully and the output was verified.</td>
+        </tr>
+    </table>
+
+    <table class="main-table">
+        <tr>
+            <th class="section-col">Section</th>
+            <th>Content</th>
+        </tr>
+        <tr>
+            <td class="section-col">Experiment No</td>
+            <td>10.a</td>
+        </tr>
+        <tr>
+            <td class="section-col">Date</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td class="section-col">Aim</td>
+            <td>To write MySQL commands to perform Transaction Control Language (TCL) operations.</td>
+        </tr>
+        <tr>
+            <td class="section-col">Theory</td>
+            <td>TCL commands manage database transactions to ensure data consistency. <code>START TRANSACTION</code>
+                begins the process. <code>COMMIT</code> permanently saves the changes made. <code>ROLLBACK</code> undoes
+                uncommitted changes. <code>SAVEPOINT</code> creates a specific marker within a transaction to allow
+                partial rollbacks.</td>
+        </tr>
+        <tr>
+            <td class="section-col">Query / Program</td>
+            <td>
+                <pre>SET autocommit=0;
+START TRANSACTION;
+
+INSERT INTO emp VALUES(106, 'John', 'manager', 25000);
+COMMIT;
+
+START TRANSACTION;
+SAVEPOINT s1;
+UPDATE emp SET salary=50000 WHERE emp_ID=104;
+
+SAVEPOINT s2;
+UPDATE emp SET salary=45000 WHERE emp_ID=103;
+
+ROLLBACK TO s2;
+ROLLBACK TO s1;</pre>
+            </td>
+        </tr>
+        <tr>
+            <td class="section-col">Output</td>
+            <td>
+                <div class="sys-msg">Commit completed.</div>
+                <div class="sys-msg">Savepoint created.</div>
+                <div class="sys-msg">Rollback completed.</div>
+            </td>
+        </tr>
+        <tr>
+            <td class="section-col">Result</td>
+            <td>Thus all the above TCL commands have been executed successfully and the output was verified.</td>
+        </tr>
+    </table>
+
+    <table class="main-table">
+        <tr>
+            <th class="section-col">Section</th>
+            <th>Content</th>
+        </tr>
+        <tr>
+            <td class="section-col">Experiment No</td>
+            <td>10.b</td>
+        </tr>
+        <tr>
+            <td class="section-col">Date</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td class="section-col">Aim</td>
+            <td>To write MySQL commands to simulate Data Control Language (DCL) operations.</td>
+        </tr>
+        <tr>
+            <td class="section-col">Theory</td>
+            <td>DCL commands are used to manage database security and access control. <code>GRANT</code> gives a user
+                specific permissions (like SELECT or ALL PRIVILEGES) on database objects. <code>REVOKE</code> removes
+                those permissions from the user, ensuring only authorized personnel can manipulate data.</td>
+        </tr>
+        <tr>
+            <td class="section-col">Query / Program</td>
+            <td>
+                <pre>-- CREATE USER
+CREATE USER student IDENTIFIED BY 'password123';
+
+-- GRANT PRIVILEGES
+GRANT ALL PRIVILEGES ON emp TO student;
+
+-- REVOKE PRIVILEGES
+REVOKE ALL PRIVILEGES FROM student;
+
+-- DROP USER
+DROP USER student;</pre>
+            </td>
+        </tr>
+        <tr>
+            <td class="section-col">Output</td>
+            <td>
+                <div class="sys-msg">User created.</div>
+                <div class="sys-msg">Grant succeeded.</div>
+                <div class="sys-msg">Revoke succeeded.</div>
+                <div class="sys-msg">User dropped.</div>
+            </td>
+        </tr>
+        <tr>
+            <td class="section-col">Result</td>
+            <td>Thus all the above DCL commands have been executed successfully and the output was verified.</td>
+        </tr>
+    </table>
+
+    <table class="main-table">
+        <tr>
+            <th class="section-col">Section</th>
+            <th>Content</th>
+        </tr>
+        <tr>
+            <td class="section-col">Experiment No</td>
+            <td>10.c</td>
+        </tr>
+        <tr>
+            <td class="section-col">Date</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td class="section-col">Aim</td>
+            <td>To write MySQL commands to simulate string, date, and math operations.</td>
+        </tr>
+        <tr>
+            <td class="section-col">Theory</td>
+            <td>SQL provides built-in functions for data manipulation. String functions (<code>CONCAT</code>,
+                <code>LENGTH</code>, <code>SUBSTRING</code>) format text. Date functions (<code>CURRENT_DATE</code>,
+                <code>ADDDATE</code>) manage time-based data. Math functions (<code>ABS</code>, <code>POWER</code>,
+                <code>SQRT</code>) perform mathematical calculations directly within queries.</td>
+        </tr>
+        <tr>
+            <td class="section-col">Query / Program</td>
+            <td>
+                <pre>-- STRING FUNCTIONS
+SELECT CHAR_LENGTH("SQL Tutorial");
+SELECT CONCAT("SQL", "Tutorial");
+SELECT SUBSTRING('Welcome to Tutorialspoint', 11);
+
+-- DATE FUNCTIONS
+SELECT ADDDATE("2024-03-17 09:00:00", INTERVAL 15 MINUTE);
+SELECT CURRENT_DATE();
+SELECT DAY("2024-03-17");
+
+-- MATH FUNCTIONS
+SELECT ABS(-243.5);
+SELECT POWER(4, 2);
+SELECT ROUND(345.156, 0);
+SELECT SQRT(64);</pre>
+            </td>
+        </tr>
+        <tr>
+            <td class="section-col">Output</td>
+            <td>
+                <pre class="sys-msg">CHAR_LENGTH: 12
+CONCAT: SQLTutorial
+
+CURRENT_DATE: 2024-03-17
+
+SQRT(64): 8</pre>
+            </td>
+        </tr>
+        <tr>
+            <td class="section-col">Result</td>
+            <td>Thus all the above string, date and math function commands have been executed successfully and the
+                output was verified.</td>
+        </tr>
+    </table>
+
+    <table class="main-table">
+        <tr>
+            <th class="section-col">Section</th>
+            <th>Content</th>
+        </tr>
+        <tr>
+            <td class="section-col">Experiment No</td>
+            <td>11</td>
+        </tr>
+        <tr>
+            <td class="section-col">Date</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td class="section-col">Aim</td>
+            <td>To write MySQL statements to simulate PL/SQL basic programs using loops.</td>
+        </tr>
+        <tr>
+            <td class="section-col">Theory</td>
+            <td>MySQL allows procedural programming constructs via Stored Procedures. These blocks of code can include
+                variable declarations, conditional statements, and loops (<code>WHILE</code>, <code>REPEAT</code>). The
+                <code>DELIMITER</code> must be changed before creating the procedure so the engine processes the entire
+                block as one unit.</td>
+        </tr>
+        <tr>
+            <td class="section-col">Query / Program</td>
+            <td>
+                <pre>DELIMITER //
+CREATE PROCEDURE WhileLoopExample()
+BEGIN
+    DECLARE n INT;
+    DECLARE i INT;
+    SET n = 5;
+    SET i = 0;
+    
+    WHILE i <= n DO
+        SELECT i AS Iteration;
+        SET i = i + 1;
+    END WHILE;
+END//
+DELIMITER ;
+
+CALL WhileLoopExample();</pre>
+            </td>
+        </tr>
+        <tr>
+            <td class="section-col">Output</td>
+            <td>
+                <table class="output-table">
+                    <tr>
+                        <th>Iteration</th>
+                    </tr>
+                    <tr>
+                        <td>0</td>
+                    </tr>
+                    <tr>
+                        <td>1</td>
+                    </tr>
+                    <tr>
+                        <td>2</td>
+                    </tr>
+                    <tr>
+                        <td>3</td>
+                    </tr>
+                    <tr>
+                        <td>4</td>
+                    </tr>
+                    <tr>
+                        <td>5</td>
+                    </tr>
+                </table>
+                <div class="sys-msg">Procedure successfully completed.</div>
+            </td>
+        </tr>
+        <tr>
+            <td class="section-col">Result</td>
+            <td>Thus all the above PL/SQL Programs have been executed successfully and the output was verified.</td>
+        </tr>
+    </table>
+
+    <table class="main-table">
+        <tr>
+            <th class="section-col">Section</th>
+            <th>Content</th>
+        </tr>
+        <tr>
+            <td class="section-col">Experiment No</td>
+            <td>12</td>
+        </tr>
+        <tr>
+            <td class="section-col">Date</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td class="section-col">Aim</td>
+            <td>To write MySQL statements to simulate functions and procedures.</td>
+        </tr>
+        <tr>
+            <td class="section-col">Theory</td>
+            <td>A Stored Function is a named block of code that returns a single value using the <code>RETURN</code>
+                statement. A Stored Procedure is a block of code that executes tasks but does not directly return a
+                value (though it can use <code>OUT</code> variables). Both enhance code reusability.</td>
+        </tr>
+        <tr>
+            <td class="section-col">Query / Program</td>
+            <td>
+                <pre>DELIMITER //
+CREATE FUNCTION getSalary(s INT) RETURNS INT READS SQL DATA
+BEGIN
+    DECLARE Salary INT;
+    SELECT sal INTO Salary FROM employee WHERE eid = s;
+    RETURN Salary;
+END//
+DELIMITER ;
+
+DELIMITER //
+CREATE PROCEDURE PrintSalary()
+BEGIN
+    DECLARE sal INT;
+    DECLARE eno INT;
+    SET eno = 103;
+    SET sal = getSalary(eno);
+    SELECT CONCAT('Salary: ', sal) AS Result;
+END//
+DELIMITER ;
+
+CALL PrintSalary();</pre>
+            </td>
+        </tr>
+        <tr>
+            <td class="section-col">Output</td>
+            <td>
+                <table class="output-table">
+                    <tr>
+                        <th>Result</th>
+                    </tr>
+                    <tr>
+                        <td>Salary: 18000</td>
+                    </tr>
+                </table>
+                <div class="sys-msg">Procedure successfully completed.</div>
+            </td>
+        </tr>
+        <tr>
+            <td class="section-col">Result</td>
+            <td>Thus all the above Functions and Procedures have been executed successfully and the output was verified.
+            </td>
+        </tr>
+    </table>
+
+    <table class="main-table">
+        <tr>
+            <th class="section-col">Section</th>
+            <th>Content</th>
+        </tr>
+        <tr>
+            <td class="section-col">Experiment No</td>
+            <td>13.a</td>
+        </tr>
+        <tr>
+            <td class="section-col">Date</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td class="section-col">Aim</td>
+            <td>To write MySQL statements to simulate the use of Cursors.</td>
+        </tr>
+        <tr>
+            <td class="section-col">Theory</td>
+            <td>A Cursor allows row-by-row processing of a query result set inside a stored procedure. The steps involve
+                declaring the cursor, opening it, fetching the rows sequentially into variables within a loop, handling
+                the 'Not Found' condition to exit the loop, and finally closing the cursor.</td>
+        </tr>
+        <tr>
+            <td class="section-col">Query / Program</td>
+            <td>
+                <pre>DELIMITER //
+CREATE PROCEDURE process_table_data()
+BEGIN
+    DECLARE done BOOLEAN DEFAULT FALSE;
+    DECLARE emp_id INT;
+    
+    DECLARE cursor_name CURSOR FOR SELECT eid FROM employee;
+    DECLARE CONTINUE HANDLER FOR NOT FOUND SET done = TRUE;
+    
+    OPEN cursor_name;
+    read_loop: LOOP
+        FETCH cursor_name INTO emp_id;
+        IF done THEN
+            LEAVE read_loop;
+        END IF;
+    END LOOP;
+    CLOSE cursor_name;
+END//
+DELIMITER ;
+
+CALL process_table_data();</pre>
+            </td>
+        </tr>
+        <tr>
+            <td class="section-col">Output</td>
+            <td>
+                <div class="sys-msg">Cursor executed successfully.</div>
+                <div class="sys-msg">Procedure successfully completed.</div>
+            </td>
+        </tr>
+        <tr>
+            <td class="section-col">Result</td>
+            <td>Thus all the above Cursor statements have been executed successfully and the output was verified.</td>
+        </tr>
+    </table>
+
+    <table class="main-table">
+        <tr>
+            <th class="section-col">Section</th>
+            <th>Content</th>
+        </tr>
+        <tr>
+            <td class="section-col">Experiment No</td>
+            <td>13.b</td>
+        </tr>
+        <tr>
+            <td class="section-col">Date</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td class="section-col">Aim</td>
+            <td>To write MySQL statements to simulate Database Triggers.</td>
+        </tr>
+        <tr>
+            <td class="section-col">Theory</td>
+            <td>A Trigger is a stored program that is automatically invoked by the database engine when a specified
+                event (like <code>INSERT</code>, <code>UPDATE</code>, or <code>DELETE</code>) occurs on a table. It is
+                used to maintain audit logs, enforce business rules, and validate data dynamically using
+                <code>NEW</code> and <code>OLD</code> row values.</td>
+        </tr>
+        <tr>
+            <td class="section-col">Query / Program</td>
+            <td>
+                <pre>CREATE TABLE emplog (
+    eid INT,
+    ename VARCHAR(10),
+    idate DATE,
+    nsal DECIMAL(10, 2)
+);
+
+DELIMITER //
+CREATE TRIGGER logsal AFTER UPDATE ON employ
+FOR EACH ROW
+BEGIN
+    INSERT INTO emplog (eid, ename, idate, nsal) 
+    VALUES (NEW.eid, NEW.ename, CURDATE(), NEW.salary);
+END//
+DELIMITER ;
+
+UPDATE employ SET salary = salary + 2500.0 WHERE expe > 3 AND expe < 7;
+
+SELECT * FROM emplog;</pre>
+            </td>
+        </tr>
+        <tr>
+            <td class="section-col">Output</td>
+            <td>
+                <div class="sys-msg">Trigger created.</div>
+                <div class="sys-msg">3 rows updated.</div>
+                <table class="output-table">
+                    <tr>
+                        <th>EID</th>
+                        <th>ENAME</th>
+                        <th>IDATE</th>
+                        <th>NSAL</th>
+                    </tr>
+                    <tr>
+                        <td>101</td>
+                        <td>Rahul</td>
+                        <td>2024-03-17</td>
+                        <td>35000.00</td>
+                    </tr>
+                    <tr>
+                        <td>102</td>
+                        <td>Anita</td>
+                        <td>2024-03-17</td>
+                        <td>42000.00</td>
+                    </tr>
+                    <tr>
+                        <td>105</td>
+                        <td>Vikram</td>
+                        <td>2024-03-17</td>
+                        <td>38000.00</td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+        <tr>
+            <td class="section-col">Result</td>
+            <td>Thus all the above Trigger statements have been executed successfully and the output was verified.</td>
+        </tr>
+    </table>
+    <center>
+    <button onclick="AKDEV-OFFICIAL.VERCEL.APP"><a href="https://AKDEV-OFFICIAL.VERCEL.APP"> DEVELOPED BY AKDEV LABS</button>
+    </center>
+</body>
+
+</html>

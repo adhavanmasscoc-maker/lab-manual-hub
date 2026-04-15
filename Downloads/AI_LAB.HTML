@@ -1,0 +1,826 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Lab Manual</title>
+    <style>
+        /* Extremely Simple, Clean CSS */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f0f0;
+            color: #333;
+        }
+
+        /* Fixed Sidebar Navigation */
+        .sidebar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 250px;
+            height: 100%;
+            background-color: #222;
+            color: #fff;
+            padding-top: 20px;
+            overflow-y: auto;
+        }
+
+        .sidebar h3 {
+            text-align: center;
+            border-bottom: 1px solid #444;
+            padding-bottom: 15px;
+            margin: 0 15px 15px 15px;
+        }
+
+        .sidebar a {
+            display: block;
+            color: #ccc;
+            text-decoration: none;
+            padding: 10px 20px;
+            font-size: 14px;
+            border-bottom: 1px solid #333;
+        }
+
+        .sidebar a:hover {
+            background-color: #444;
+            color: #fff;
+        }
+
+        /* Main Content Container */
+        .content {
+            margin-left: 250px;
+            padding: 20px 40px;
+            max-width: 900px;
+        }
+
+        /* Header Details */
+        .header {
+            background-color: #fff;
+            padding: 20px;
+            border: 1px solid #ccc;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .header h1,
+        .header h2,
+        .header h3 {
+            margin: 5px 0;
+            color: #000;
+        }
+
+        /* Experiment Cards */
+        .card {
+            background-color: #fff;
+            padding: 20px 30px;
+            border: 1px solid #ccc;
+            margin-bottom: 30px;
+        }
+
+        .card-header {
+            border-bottom: 2px solid #000;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+
+        .card-header h2 {
+            margin: 0;
+            font-size: 20px;
+        }
+
+        .card-header p {
+            margin: 5px 0 0 0;
+            color: #666;
+            font-weight: bold;
+        }
+
+        /* Sub-headings */
+        h4 {
+            font-size: 16px;
+            text-decoration: underline;
+            margin-top: 25px;
+            margin-bottom: 10px;
+            color: #000;
+        }
+
+        /* Code and Preformatted text */
+        pre {
+            background-color: #eee;
+            border: 1px solid #ddd;
+            padding: 15px;
+            overflow-x: auto;
+            font-family: monospace;
+            font-size: 14px;
+        }
+
+        .output {
+            background-color: #e6f2ff;
+            border-left: 5px solid #0066cc;
+        }
+
+        .result {
+            background-color: #e6ffe6;
+            border: 1px solid #009900;
+            padding: 10px;
+            font-weight: bold;
+            color: #006600;
+        }
+
+        /* Tables */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 15px;
+        }
+
+        table,
+        th,
+        td {
+            border: 1px solid #999;
+        }
+
+        th,
+        td {
+            padding: 10px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #ddd;
+        }
+
+        ol {
+            line-height: 1.6;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="sidebar">
+        <h3>Experiments List</h3>
+        <a href="#exp1">1. Breadth First Search</a>
+        <a href="#exp2">2. Depth First Search</a>
+        <a href="#exp3">3. Alpha-Beta Pruning</a>
+        <a href="#exp4">4. Fuzzy Control Inference</a>
+        <a href="#exp5">5. NLTK Processing</a>
+        <a href="#exp6">6. Basic Image Processing</a>
+        <a href="#exp7">7. Image Enhancement</a>
+        <a href="#exp8">8. Image Features & Alignment</a>
+        <a href="#exp9">9. Image Segmentation</a>
+        <a href="#exp10">10. 3D Reconstruction</a>
+        <a href="#exp11">11. Object Detection</a>
+        <a href="#exp12">12. Healthcare Diagnosis</a>
+        <a href="#exp13">13. Automated Trading</a>
+        <a href="#exp14">14. Adaptive Learning</a>
+        <a href="#exp15">15. AI Chatbots</a>
+    </div>
+
+    <div class="content">
+
+       
+
+        <div id="exp1" class="card">
+            <div class="card-header">
+                <h2>EX NO: 1 - Implement Breadth First Search using Python</h2>
+                <p>Date: ____________</p>
+            </div>
+
+            <h4>Aim</h4>
+            <p>To write a program to implement Breadth First Search (BFS) traversal algorithm on a graph using Python.
+            </p>
+
+            <h4>Algorithm</h4>
+            <ol>
+                <li>Start BFS from the given node.</li>
+                <li>Insert the starting node into a queue.</li>
+                <li>Mark the node as visited.</li>
+                <li>Remove a node from the queue and print it.</li>
+                <li>Insert all unvisited adjacent nodes into the queue.</li>
+                <li>Repeat until the queue becomes empty.</li>
+            </ol>
+
+            <h4>Program</h4>
+            <pre><code>from collections import deque
+def bfs(graph, start):
+    visited = []
+    queue = deque([start])
+    while queue:
+        node = queue.popleft()
+        if node not in visited:
+            print(node, end=" ")
+            visited.append(node)
+            queue.extend(graph[node])
+graph = { 'A': ['B', 'C'], 'B': ['D'], 'C': ['E'], 'D': [], 'E': [] }
+print("BFS Traversal:")
+bfs(graph, 'A')</code></pre>
+
+            <h4>Output</h4>
+            <pre class="output">BFS Traversal: A B C D E</pre>
+
+            <h4>Result</h4>
+            <div class="result">The program to implement Breadth First Search was executed successfully.</div>
+        </div>
+
+        <div id="exp2" class="card">
+            <div class="card-header">
+                <h2>EX NO: 2 - Implement Depth First Search using Python</h2>
+                <p>Date: ____________</p>
+            </div>
+
+            <h4>Aim</h4>
+            <p>To write a program to implement Depth First Search (DFS) traversal algorithm on a graph using Python.</p>
+
+            <h4>Algorithm: DFS using Recursion</h4>
+            <ol>
+                <li>Start DFS from the given node.</li>
+                <li>If the node is not visited: Print the node, Mark it as visited.</li>
+                <li>For each adjacent node: Call DFS recursively.</li>
+                <li>Continue until all nodes are visited.</li>
+            </ol>
+
+            <h4>Program</h4>
+            <pre><code>def dfs(graph, start, visited=[]):
+    if start not in visited:
+        print(start, end=" ")
+        visited.append(start)
+        for node in graph[start]:
+            dfs(graph, node, visited)
+graph = { 'A': ['B', 'C'], 'B': ['D'], 'C': ['E'], 'D': [], 'E': [] }
+dfs(graph, 'A')</code></pre>
+
+            <h4>Output</h4>
+            <pre class="output">A B D C E</pre>
+
+            <h4>Result</h4>
+            <div class="result">The program to implement Depth First Search was executed successfully.</div>
+        </div>
+
+        <div id="exp3" class="card">
+            <div class="card-header">
+                <h2>EX NO: 3 - Implement Alpha-Beta Pruning using Python</h2>
+                <p>Date: ____________</p>
+            </div>
+
+            <h4>Aim</h4>
+            <p>To write a program to implement Alpha-Beta Pruning algorithm for game tree optimization using Python.</p>
+
+            <h4>Algorithm</h4>
+            <ol>
+                <li>Start from the root node (MAX player).</li>
+                <li>Initialize: Alpha = −∞ (best value for MAX), Beta = +∞ (best value for MIN).</li>
+                <li>Recursively evaluate child nodes.</li>
+                <li>Update alpha and beta values. Prune remaining branches when alpha ≥ beta.</li>
+                <li>Return the optimal value.</li>
+            </ol>
+
+            <h4>Program</h4>
+            <pre><code>import math
+def alphabeta(depth, nodeIndex, maximizingPlayer, values, alpha, beta):
+    if depth == 3:
+        return values[nodeIndex]
+    if maximizingPlayer:
+        best = -math.inf
+        for i in range(2):
+            val = alphabeta(depth+1, nodeIndex*2+i, False, values, alpha, beta)
+            best = max(best, val)
+            alpha = max(alpha, best)
+            if beta <= alpha:
+                break # pruning
+        return best
+    else:
+        best = math.inf
+        for i in range(2):
+            val = alphabeta(depth+1, nodeIndex*2+i, True, values, alpha, beta)
+            best = min(best, val)
+            beta = min(beta, best)
+            if beta <= alpha:
+                break # pruning
+        return best
+
+values = [3, 5, 6, 9, 1, 2, 0, -1]
+print("Optimal value:", alphabeta(0, 0, True, values, -math.inf, math.inf))</code></pre>
+
+            <h4>Output</h4>
+            <pre class="output">Optimal value: 5</pre>
+
+            <h4>Result</h4>
+            <div class="result">The program to implement Alpha-Beta Pruning was executed successfully.</div>
+        </div>
+
+        <div id="exp4" class="card">
+            <div class="card-header">
+                <h2>EX NO: 4 - Implement Fuzzy Control Inference System using Python</h2>
+                <p>Date: ____________</p>
+            </div>
+
+            <h4>Aim</h4>
+            <p>To write a program to implement a Fuzzy Logic Control Inference System using Python for decision-making
+                based on fuzzy rules.</p>
+
+            <h4>Algorithm</h4>
+            <ol>
+                <li>Define input variables and output variable.</li>
+                <li>Convert crisp input values into fuzzy values (fuzzification).</li>
+                <li>Apply fuzzy rules.</li>
+                <li>Combine the results of all rules (inference).</li>
+                <li>Convert fuzzy output into a crisp value (defuzzification).</li>
+                <li>Display the final output.</li>
+            </ol>
+
+            <h4>Fuzzy Rule Base</h4>
+            <table>
+                <tr>
+                    <th>Temperature</th>
+                    <th>Fan Speed</th>
+                </tr>
+                <tr>
+                    <td>Cold</td>
+                    <td>Low (1)</td>
+                </tr>
+                <tr>
+                    <td>Warm</td>
+                    <td>Medium (2)</td>
+                </tr>
+                <tr>
+                    <td>Hot</td>
+                    <td>High (3)</td>
+                </tr>
+            </table>
+
+            <h4>Program</h4>
+            <pre><code>def fuzzy_control(temp):
+    # Fuzzification
+    if temp < 20:
+        cold = 1; warm = 0; hot = 0
+    elif temp < 30:
+        cold = 0; warm = 1; hot = 0
+    else:
+        cold = 0; warm = 0; hot = 1
+        
+    # Rule base
+    fan_speed = (cold * 1) + (warm * 2) + (hot * 3)
+    return fan_speed
+
+temperature = 28
+print("Fan Speed Level:", fuzzy_control(temperature))</code></pre>
+
+            <h4>Output</h4>
+            <pre class="output">Fan Speed Level: 2</pre>
+
+            <h4>Result</h4>
+            <div class="result">The program to implement Fuzzy Control Inference System was executed successfully.</div>
+        </div>
+
+        <div id="exp5" class="card">
+            <div class="card-header">
+                <h2>EX NO: 5 - Tokenization, Stopword Removal, and Stemming using NLTK</h2>
+                <p>Date: ____________</p>
+            </div>
+
+            <h4>Aim</h4>
+            <p>To write a program to perform tokenization by word and sentence, eliminate stopwords, and perform
+                stemming operations using NLTK library in Python.</p>
+
+            <h4>Algorithm</h4>
+            <ol>
+                <li>Input a sentence.</li>
+                <li>Split the sentence into individual words (tokens).</li>
+                <li>Load English stopwords.</li>
+                <li>Remove common words like is, the, and, in.</li>
+                <li>Reduce words to their root form using a stemmer.</li>
+                <li>Display the final processed words.</li>
+            </ol>
+
+            <h4>Program</h4>
+            <pre><code>import nltk
+from nltk.tokenize import word_tokenize
+from nltk.corpus import stopwords
+from nltk.stem import PorterStemmer
+
+# Download required NLTK data
+nltk.download('punkt')
+nltk.download('stopwords')
+nltk.download('punkt_tab')
+
+text = "Artificial intelligence is changing the world"
+
+# Tokenization
+tokens = word_tokenize(text)
+
+# Stopword removal
+stop_words = set(stopwords.words('english'))
+filtered_words = [w for w in tokens if w.lower() not in stop_words]
+
+# Stemming
+ps = PorterStemmer()
+stemmed_words = [ps.stem(w) for w in filtered_words]
+
+print("Tokens:", tokens)
+print("After Stopword Removal:", filtered_words)
+print("After Stemming:", stemmed_words)</code></pre>
+
+            <h4>Output</h4>
+            <pre class="output">Tokens: ['Artificial', 'intelligence', 'is', 'changing', 'the', 'world']
+After Stopword Removal: ['Artificial', 'intelligence', 'changing', 'world']
+After Stemming: ['artifici', 'intellig', 'chang', 'world']</pre>
+
+            <h4>Result</h4>
+            <div class="result">The program to perform tokenization, stopword removal and stemming was executed
+                successfully.</div>
+        </div>
+
+        <div id="exp6" class="card">
+            <div class="card-header">
+                <h2>EX NO: 6 - Basic Image Processing using OpenCV</h2>
+                <p>Date: ____________</p>
+            </div>
+
+            <h4>Aim</h4>
+            <p>To perform basic image processing operations including cropping, resizing, grayscale conversion,
+                thresholding, and contour detection on a given input image.</p>
+
+            <h4>Algorithm</h4>
+            <ol>
+                <li>Load an image and Crop a selected region from the image.</li>
+                <li>Resize the image and Convert the image to grayscale.</li>
+                <li>Apply thresholding.</li>
+                <li>Detect contours and Display results.</li>
+            </ol>
+
+            <h4>Program</h4>
+            <pre><code>import cv2
+import matplotlib.pyplot as plt
+
+img = cv2.imread('/content/football.jpg')
+img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
+crop = img[50:200, 50:200]
+resize = cv2.resize(img, (200, 200))
+gray = cv2.cvtColor(img, cv2.COLOR_RGB2GRAY)
+
+_, thresh = cv2.threshold(gray, 127, 255, cv2.THRESH_BINARY)
+contours, _ = cv2.findContours(thresh, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+contour_img = img.copy()
+cv2.drawContours(contour_img, contours, -1, (255, 0, 0), 2)
+
+images = [img, crop, resize, gray, thresh, contour_img]
+titles = ['Original', 'Cropped', 'Resized', 'Grayscale', 'Threshold', 'Contours']
+
+plt.figure(figsize=(15,8))
+[plt.subplot(2,3,i) and plt.imshow(im, cmap='gray' if title in ['Grayscale', 'Threshold'] else None) and plt.title(title) and plt.axis('off') for i, (im, title) in enumerate(zip(images, titles), 1)]
+plt.tight_layout()
+plt.show()</code></pre>
+
+            <h4>Result</h4>
+            <div class="result">The basic image processing program using OpenCV was executed successfully.</div>
+        </div>
+
+        <div id="exp7" class="card">
+            <div class="card-header">
+                <h2>EX NO: 7 - Image Enhancement</h2>
+                <p>Date: ____________</p>
+            </div>
+
+            <h4>Aim</h4>
+            <p>To apply basic image processing techniques like grayscale conversion, color space change, sharpening,
+                blurring, and edge detection on an image.</p>
+
+            <h4>Algorithm</h4>
+            <ol>
+                <li>Load the input image.</li>
+                <li>Convert image into different color spaces.</li>
+                <li>Apply histogram equalization to enhance contrast.</li>
+                <li>Apply convolution using a kernel.</li>
+                <li>Perform image smoothing.</li>
+                <li>Compute image gradients and detect edges.</li>
+                <li>Display results.</li>
+            </ol>
+
+            <h4>Program</h4>
+            <pre><code>import cv2
+import numpy as np
+import matplotlib.pyplot as plt
+
+i = cv2.cvtColor(cv2.imread('/content/football.jpg'), cv2.COLOR_BGR2RGB)
+g = cv2.cvtColor(i, cv2.COLOR_RGB2GRAY)
+k = np.array([[0, -1, 0], [-1, 5, -1], [0, -1, 0]])
+
+imgs = [g, cv2.cvtColor(i, cv2.COLOR_RGB2HSV), cv2.equalizeHist(g), 
+        cv2.filter2D(g, -1, k), cv2.GaussianBlur(g, (5, 5), 0), cv2.Canny(g, 100, 200)]
+titles = ['Grayscale','HSV','Histogram Equalization','Sharpened (Filter2D)',
+          'Gaussian Blur','Canny Edges']
+
+plt.figure(figsize=(15, 8))
+[plt.subplot(3, 3, n) and plt.imshow(img, cmap='gray' if img.ndim == 2 else None) and plt.title(title) and plt.axis('off') for n, (img, title) in enumerate(zip(imgs, titles), 1)]
+plt.tight_layout()
+plt.show()</code></pre>
+
+            <h4>Result</h4>
+            <div class="result">The image enhancement program was executed successfully.</div>
+        </div>
+
+        <div id="exp8" class="card">
+            <div class="card-header">
+                <h2>EX NO: 8 - Image Features and Image Alignment</h2>
+                <p>Date: ____________</p>
+            </div>
+
+            <h4>Aim</h4>
+            <p>To detect and match image features using ORB algorithm.</p>
+
+            <h4>Algorithm</h4>
+            <ol>
+                <li>Load two images</li>
+                <li>Extract ORB features</li>
+                <li>Match features</li>
+                <li>Display matches</li>
+            </ol>
+
+            <h4>Program</h4>
+            <pre><code>import cv2, numpy as np, matplotlib.pyplot as plt
+i1 = cv2.imread('/content/football.jpg',0)
+i2 = cv2.imread('/content/Playing.jpg',0)
+
+kp1, d1 = cv2.ORB_create().detectAndCompute(i1,None)
+kp2, d2 = cv2.ORB_create().detectAndCompute(i2,None)
+m = cv2.BFMatcher(cv2.NORM_HAMMING,True).match(d1,d2)
+
+plt.imshow(cv2.drawMatches(i1,kp1,i2,kp2,m[:20],None))
+plt.axis('off')</code></pre>
+
+            <h4>Output</h4>
+            <pre class="output">(np.float64(-0.5), np.float64(2179.5), np.float64(719.5), np.float64(-0.5))</pre>
+
+            <h4>Result</h4>
+            <div class="result">The image features and alignment program was executed successfully.</div>
+        </div>
+
+        <div id="exp9" class="card">
+            <div class="card-header">
+                <h2>EX NO: 9 - Image segmentation using Graphcut/Grabcut</h2>
+                <p>Date: ____________</p>
+            </div>
+
+            <h4>Aim</h4>
+            <p>To implement image segmentation using the GrabCut (Graph Cut) algorithm in Python and separate foreground
+                from background.</p>
+
+            <h4>Algorithm</h4>
+            <ol>
+                <li>Load image</li>
+                <li>Apply GrabCut using rectangle</li>
+                <li>Display segmented object</li>
+            </ol>
+
+            <h4>Program</h4>
+            <pre><code>import cv2, numpy as np, matplotlib.pyplot as plt
+img = cv2.cvtColor(cv2.imread('/content/images (4).jpg'),cv2.COLOR_BGR2RGB)
+m = np.zeros(img.shape[:2],np.uint8)
+cv2.grabCut(img,m,(50,50,200,200),np.zeros((1,65)),np.zeros((1,65)),5,cv2.GC_INIT_WITH_RECT)
+plt.imshow(img*np.where((m==2)|(m==0),0,1)[:,:,None])
+plt.axis('off')</code></pre>
+
+            <h4>Result</h4>
+            <div class="result">The image segmentation program using GrabCut was executed successfully.</div>
+        </div>
+
+        <div id="exp10" class="card">
+            <div class="card-header">
+                <h2>EX NO: 10 - 3D Reconstruction: Depth Map from Stereo Images</h2>
+                <p>Date: ____________</p>
+            </div>
+
+            <h4>Aim</h4>
+            <p>To generate a depth map from a pair of stereo images using Python and OpenCV.</p>
+
+            <h4>Algorithm</h4>
+            <ol>
+                <li>Read stereo images</li>
+                <li>Compute disparity</li>
+                <li>Display depth map</li>
+            </ol>
+
+            <h4>Program</h4>
+            <pre><code>import cv2, numpy as np, matplotlib.pyplot as plt
+l = cv2.imread('/content/left.jpeg',0)
+r = cv2.imread('/content/right.jpeg',0)
+d = cv2.StereoBM_create(80,15).compute(l,r)
+plt.imshow(cv2.normalize(d,None,0,255,cv2.NORM_MINMAX),'gray')
+plt.axis('off')</code></pre>
+
+            <h4>Output</h4>
+            <pre class="output">(np.float64(-0.5), np.float64(1279.5), np.float64(1107.5), np.float64(-0.5))</pre>
+
+            <h4>Result</h4>
+            <div class="result">The 3D Reconstruction depth map program was executed successfully.</div>
+        </div>
+
+        <div id="exp11" class="card">
+            <div class="card-header">
+                <h2>EX NO: 11 - Object Detection and Tracking using Kalman Filter, Camshift</h2>
+                <p>Date: ____________</p>
+            </div>
+
+            <h4>Aim</h4>
+            <p>To detect a moving object in a video and highlight it using a bounding box.</p>
+
+            <h4>Algorithm</h4>
+            <ol>
+                <li>Convert frames to grayscale</li>
+                <li>Compute frame difference</li>
+                <li>Remove noise using threshold</li>
+                <li>Draw bounding box on moving object</li>
+                <li>Save output video</li>
+            </ol>
+
+            <h4>Program</h4>
+            <pre><code>import imageio, numpy as np
+r = imageio.get_reader('/content/slow_traffic_small.mp4')
+w = imageio.get_writer('/content/output_box.mp4', fps=10)
+
+prev = np.mean(r.get_data(0), axis=2)
+for i in range(1, 30):
+    cur = r.get_data(i)
+    gray = np.mean(cur, axis=2)
+    diff = np.abs(gray - prev)
+    y, x = np.where(diff > 40) # higher threshold
+    if len(x) > 500: # ignore small noise
+        y1, y2, x1, x2 = y.min(), y.max(), x.min(), x.max()
+        cur[y1:y2, x1:x2:5] = [0,255,0]
+        cur[y1:y2:5, x1:x2] = [0,255,0]
+        cur[(y1+y2)//2, (x1+x2)//2] = [255,0,0]
+    w.append_data(cur)
+    prev = gray
+w.close()
+print("Saved output_box.mp4")</code></pre>
+
+            <h4>Output</h4>
+            <pre class="output">Saved output_box.mp4</pre>
+
+            <h4>Result</h4>
+            <div class="result">The Object Detection and Tracking program was executed successfully.</div>
+        </div>
+
+        <div id="exp12" class="card">
+            <div class="card-header">
+                <h2>EX NO: 12 - AI in Healthcare - Disease Diagnosis and Prediction</h2>
+                <p>Date: ____________</p>
+            </div>
+
+            <h4>Aim</h4>
+            <p>To predict whether a patient has diabetes using basic data.</p>
+
+            <h4>Algorithm</h4>
+            <ol>
+                <li>Collect patient data (age, sugar level).</li>
+                <li>Train the AI model using past data.</li>
+                <li>Predict disease for a new patient.</li>
+                <li>Display the result.</li>
+            </ol>
+
+            <h4>Program</h4>
+            <pre><code>from sklearn.linear_model import LogisticRegression
+
+# Patient data: [Age, Sugar Level]
+X = [[30, 120], [40, 150], [50, 180], [25, 110]]
+y = [0, 1, 1, 0] # 0 = No Diabetes, 1 = Diabetes
+
+model = LogisticRegression()
+model.fit(X, y)
+
+# New patient
+new_patient = [[45, 160]]
+prediction = model.predict(new_patient)
+print("Diabetes Prediction:", prediction)</code></pre>
+
+            <h4>Output</h4>
+            <table>
+                <tr>
+                    <th>Output</th>
+                    <th>Meaning</th>
+                </tr>
+                <tr>
+                    <td>1</td>
+                    <td>Diabetes predicted</td>
+                </tr>
+                <tr>
+                    <td>0</td>
+                    <td>No diabetes</td>
+                </tr>
+            </table>
+
+            <h4>Result</h4>
+            <div class="result">The Disease Diagnosis and Prediction program was executed successfully.</div>
+        </div>
+
+        <div id="exp13" class="card">
+            <div class="card-header">
+                <h2>EX NO: 13 - AI in Finance - Automated Trading and Portfolio Management</h2>
+                <p>Date: ____________</p>
+            </div>
+
+            <h4>Aim</h4>
+            <p>To implement an AI-based automated trading system using simple rules.</p>
+
+            <h4>Algorithm</h4>
+            <ol>
+                <li>Read stock prices.</li>
+                <li>Compare today’s price with yesterday’s price.</li>
+                <li>If price increases → BUY.</li>
+                <li>If price decreases → SELL.</li>
+            </ol>
+
+            <h4>Program</h4>
+            <pre><code>prices = [100, 102, 101, 105]
+for i in range(1, len(prices)):
+    if prices[i] > prices[i-1]:
+        print("BUY at price", prices[i])
+    else:
+        print("SELL at price", prices[i])</code></pre>
+
+            <h4>Output</h4>
+            <pre class="output">BUY at price 102
+SELL at price 101
+BUY at price 105</pre>
+
+            <h4>Result</h4>
+            <div class="result">The Automated Trading system program was executed successfully.</div>
+        </div>
+
+        <div id="exp14" class="card">
+            <div class="card-header">
+                <h2>EX NO: 14 - AI in Education - Adaptive Learning and Assessment</h2>
+                <p>Date: ____________</p>
+            </div>
+
+            <h4>Aim</h4>
+            <p>To develop an AI-based adaptive learning system for students.</p>
+
+            <h4>Algorithm</h4>
+            <ol>
+                <li>Read student score.</li>
+                <li>Analyze performance.</li>
+                <li>Suggest learning level accordingly.</li>
+            </ol>
+
+            <h4>Program</h4>
+            <pre><code>score = int(input("Enter student score: "))
+if score < 50:
+    print("Provide Easy Level Content")
+elif score < 80:
+    print("Provide Medium Level Content")
+else:
+    print("Provide Advanced Level Content")</code></pre>
+
+            <h4>Output</h4>
+            <pre class="output">Enter student score: 85
+Advanced Level Learning Content</pre>
+
+            <h4>Result</h4>
+            <div class="result">The Adaptive Learning program was executed successfully.</div>
+        </div>
+
+        <div id="exp15" class="card">
+            <div class="card-header">
+                <h2>EX NO: 15 - AI in Customer Service - Chatbots and Virtual Assistants</h2>
+                <p>Date: ____________</p>
+            </div>
+
+            <h4>Aim</h4>
+            <p>To design a simple AI chatbot for customer service based on user questions.</p>
+
+            <h4>Algorithm</h4>
+            <ol>
+                <li>Read user input.</li>
+                <li>Match keywords.</li>
+                <li>Respond with predefined answers.</li>
+                <li>Display response.</li>
+            </ol>
+
+            <h4>Program</h4>
+            <pre><code>user = input("Ask your question: ").lower()
+if "price" in user:
+    print("The product costs ₹500")
+elif "time" in user:
+    print("Our service is available 24/7")
+elif "help" in user:
+    print("How can I assist you?")
+else:
+    print("Sorry, I don't understand")</code></pre>
+
+            <h4>Output</h4>
+            <pre class="output">Ask your question: What is the price?
+The product price is ₹500</pre>
+
+            <h4>Result</h4>
+            <div class="result">The Customer Service Chatbot program was executed successfully.</div>
+        </div>
+
+    </div>
+
+</body>
+
+</html>

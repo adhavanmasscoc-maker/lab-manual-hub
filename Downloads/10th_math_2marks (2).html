@@ -1,0 +1,759 @@
+<!DOCTYPE html>
+<html lang="ta">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>10th Maths Model Paper - Set 2</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Mukta+Malar:wght@400;600;700&family=Roboto:wght@400;500;700&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #2563eb;
+            --secondary-color: #1e40af;
+            --bg-color: #f8fafc;
+            --card-bg: #ffffff;
+            --text-color: #334155;
+            --border-color: #e2e8f0;
+        }
+
+        body {
+            font-family: 'Roboto', 'Mukta Malar', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .paper-container {
+            max-width: 900px;
+            margin: 0 auto;
+            background-color: var(--card-bg);
+            padding: 40px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            border: 1px solid var(--border-color);
+        }
+
+        .header {
+            text-align: center;
+            border-bottom: 3px double var(--primary-color);
+            padding-bottom: 20px;
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            color: var(--secondary-color);
+            margin: 0 0 10px 0;
+            font-size: 1.8rem;
+        }
+
+        .exam-details {
+            display: flex;
+            justify-content: space-between;
+            font-weight: bold;
+            color: #475569;
+            margin-top: 15px;
+        }
+
+        .part-header {
+            background-color: #f1f5f9;
+            padding: 10px 15px;
+            border-left: 4px solid var(--primary-color);
+            margin: 30px 0 20px 0;
+            font-weight: bold;
+            font-size: 1.2rem;
+            color: var(--secondary-color);
+        }
+
+        .instructions {
+            font-style: italic;
+            color: #64748b;
+            margin-bottom: 20px;
+            font-size: 0.95rem;
+        }
+
+        .question-block {
+            margin-bottom: 25px;
+            display: flex;
+        }
+
+        .q-number {
+            font-weight: bold;
+            min-width: 30px;
+            color: var(--primary-color);
+        }
+
+        .q-content {
+            flex-grow: 1;
+        }
+
+        .q-en {
+            margin-bottom: 8px;
+            color: #1e293b;
+        }
+
+        .q-ta {
+            color: #475569;
+            margin-bottom: 12px;
+        }
+
+        .options {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        @media (min-width: 768px) {
+            .options {
+                grid-template-columns: repeat(4, 1fr);
+            }
+        }
+
+        .option {
+            background-color: #f8fafc;
+            padding: 8px 12px;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+        }
+
+        .math {
+            font-family: 'Courier New', Courier, monospace;
+            font-weight: bold;
+            background: #f1f5f9;
+            padding: 2px 4px;
+            border-radius: 4px;
+        }
+
+        .or-divider {
+            text-align: center;
+            font-weight: bold;
+            color: var(--primary-color);
+            margin: 15px 0;
+            position: relative;
+        }
+
+        .or-divider::before,
+        .or-divider::after {
+            content: "";
+            position: absolute;
+            top: 50%;
+            width: 40%;
+            height: 1px;
+            background-color: var(--border-color);
+        }
+
+        .or-divider::before {
+            left: 0;
+        }
+
+        .or-divider::after {
+            right: 0;
+        }
+
+        .footer-note {
+            text-align: center;
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid var(--border-color);
+            color: #64748b;
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 600px) {
+            .paper-container {
+                padding: 20px;
+            }
+
+            .exam-details {
+                flex-direction: column;
+                text-align: center;
+                gap: 5px;
+            }
+
+            .options {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="paper-container">
+        <div class="header">
+            <h1>10th MATHS - PUBLIC EXAM PREDICTED MODEL PAPER - SET 2</h1>
+            <div class="exam-details">
+                <span>Time Allowed: 15 Mins + 3.00 Hours</span>
+                <span>Medium: English & Tamil</span>
+                <span>Maximum Marks: 100</span>
+            </div>
+        </div>
+
+        <div class="part-header">PART - I / பகுதி - I (14 &times; 1 = 14)</div>
+        <div class="instructions">
+            Note: (i) Answer all the questions. / அனைத்து வினாக்களுக்கும் விடையளிக்கவும்.<br>
+        (ii) Choose the most appropriate answer and write the option code with the answer. / சரியான விடையைத் தேர்ந்தெடுத்து குறியீட்டுடன் விடையினையும் சேர்த்து எழுதவும்.
+        </div>
+
+        <div class="question-block">
+            <div class="q-number">1.</div>
+            <div class="q-content">
+                <div class="q-en">Let <span class="math">A = {1, 2, 3, 4}</span> and
+                    <span class="math">B = {4, 8, 9, 10}</span>. A function <span class="math">f: A &rarr; B</span>
+                    given by <span class="math">f = {(1, 4), (2, 8), (3, 9), (4, 10)}</span> is a</div>
+                <div class="q-ta"><span class="math">A = {1, 2, 3, 4}, B = {4, 8, 9, 10}</span> என்க. சார்பு
+                    <span class="math">f: A &rarr; B</span> ஆனது
+                    <span class="math">f = {(1, 4), (2, 8), (3, 9), (4, 10)}</span> எனக் கொடுக்கப்பட்டால்
+                    <span class="math">f</span>-ஆனது</div>
+                <div class="options">
+                    <div class="option">(a) Many-one / பலவற்றிலிருந்து ஒன்றுக்கான சார்பு</div>
+                    <div class="option">(b) Identity / சமனிச் சார்பு</div>
+                    <div class="option">(c) One-to-one / ஒன்றுக்கொன்றான சார்பு</div>
+                    <div class="option">(d) Into / உட்சார்பு</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="question-block">
+            <div class="q-number">2.</div>
+            <div class="q-content">
+                <div class="q-en">If <span class="math">n(A) = p, n(B) = q</span> then the total number of relations
+                    that exist from A to B is</div>
+                <div class="q-ta"><span class="math">n(A) = p, n(B) = q</span> எனில் A-யிலிருந்து B-க்கு கிடைக்கும்
+                    மொத்த உறவுகளின் எண்ணிக்கை</div>
+                <div class="options">
+                    <div class="option">(a) 0</div>
+                    <div class="option">(b) 1</div>
+                    <div class="option">(c) 2<sup>pq</sup> - 1</div>
+                    <div class="option">(d) 2<sup>pq</sup></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="question-block">
+            <div class="q-number">3.</div>
+            <div class="q-content">
+                <div class="q-en">The sum of the exponents of the prime factors in the prime factorization of 1729 is
+                </div>
+                <div class="q-ta">1729-ஐப் பகா காரணிப்படுத்தும்போது, அந்தப் பகா எண்களின் அடுக்குகளின் கூடுதல்</div>
+                <div class="options">
+                    <div class="option">(a) 1</div>
+                    <div class="option">(b) 2</div>
+                    <div class="option">(c) 3</div>
+                    <div class="option">(d) 4</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="question-block">
+            <div class="q-number">4.</div>
+            <div class="q-content">
+                <div class="q-en">If 6 times of 6<sup>th</sup> term of an A.P is equal to 7 times the 7<sup>th</sup>
+                    term, then the 13<sup>th</sup> term of the A.P is</div>
+                <div class="q-ta">ஒரு கூட்டுத் தொடர்வரிசையின் 6-வது உறுப்பின் 6 மடங்கும், 7-வது உறுப்பின் 7 மடங்கும்
+                    சமம் எனில், அக்கூட்டுத் தொடர்வரிசையின் 13-வது உறுப்பு</div>
+                <div class="options">
+                    <div class="option">(a) 0</div>
+                    <div class="option">(b) 6</div>
+                    <div class="option">(c) 7</div>
+                    <div class="option">(d) 13</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="question-block">
+            <div class="q-number">5.</div>
+            <div class="q-content">
+                <div class="q-en"><span class="math">y&sup2; + 1/y&sup2;</span> is not equal to</div>
+                <div class="q-ta"><span class="math">y&sup2; + 1/y&sup2;</span> க்குச் சமமில்லாதது</div>
+                <div class="options">
+                    <div class="option">(a) (y&sup4;+1)/y&sup2;</div>
+                    <div class="option">(b) (y + 1/y)&sup2;</div>
+                    <div class="option">(c) (y - 1/y)&sup2; + 2</div>
+                    <div class="option">(d) (y + 1/y)&sup2; - 2</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="question-block">
+            <div class="q-number">6.</div>
+            <div class="q-content">
+                <div class="q-en">Graph of a linear equation is a</div>
+                <div class="q-ta">ஒரு நேரிய சமன்பாட்டின் வரைபடம் ஒரு</div>
+                <div class="options">
+                    <div class="option">(a) straight line / நேர்க்கோடு</div>
+                    <div class="option">(b) circle / வட்டம்</div>
+                    <div class="option">(c) parabola / பரவளையம்</div>
+                    <div class="option">(d) hyperbola / அதிபரவளையம்</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="question-block">
+            <div class="q-number">7.</div>
+            <div class="q-content">
+                <div class="q-en">If in triangles ABC and EDF, <span class="math">AB/DE = BC/FD</span> then they will be
+                    similar, when</div>
+                <div class="q-ta">&Delta;ABC மற்றும் &Delta;EDF-ல் <span class="math">AB/DE = BC/FD</span> எனில், அவை
+                    வடிவொத்தவையாக அமையத் தேவையான நிபந்தனை</div>
+                <div class="options">
+                    <div class="option">(a) &angle;B = &angle;E</div>
+                    <div class="option">(b) &angle;A = &angle;D</div>
+                    <div class="option">(c) &angle;B = &angle;D</div>
+                    <div class="option">(d) &angle;A = &angle;F</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="question-block">
+            <div class="q-number">8.</div>
+            <div class="q-content">
+                <div class="q-en">A man goes 18 m due east and then 24 m due north. Find the distance of his current
+                    position from the starting point?</div>
+                <div class="q-ta">ஒருவர் கிழக்கே 18 மீ சென்று பின்னர் வடக்கே 24 மீ செல்கிறார். தொடக்க நிலையிலிருந்து
+                    அவர் இருக்கும் தொலைவைக் காண்க?</div>
+                <div class="options">
+                    <div class="option">(a) 30 m</div>
+                    <div class="option">(b) 20 m</div>
+                    <div class="option">(c) 15 m</div>
+                    <div class="option">(d) 42 m</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="question-block">
+            <div class="q-number">9.</div>
+            <div class="q-content">
+                <div class="q-en">The straight line given by the equation <span class="math">y = 11</span> is</div>
+                <div class="q-ta"><span class="math">y = 11</span> என்ற சமன்பாடு குறிக்கும் நேர்க்கோடு</div>
+                <div class="options">
+                    <div class="option">(a) Parallel to X-axis / X-அச்சுக்கு இணை</div>
+                    <div class="option">(b) Parallel to Y-axis / Y-அச்சுக்கு இணை</div>
+                    <div class="option">(c) Passing through the origin / ஆதிப்புள்ளி வழிச் செல்லும்</div>
+                    <div class="option">(d) Passing through the point (0,11) / (0,11) புள்ளி வழிச் செல்லும்</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="question-block">
+            <div class="q-number">10.</div>
+            <div class="q-content">
+                <div class="q-en">If the slope of a line is 1, then the angle of inclination is</div>
+                <div class="q-ta">ஒரு நேர்க்கோட்டின் சாய்வு 1 எனில் அதன் சாய்வுக் கோணம்</div>
+                <div class="options">
+                    <div class="option">(a) 30&deg;</div>
+                    <div class="option">(b) 45&deg;</div>
+                    <div class="option">(c) 60&deg;</div>
+                    <div class="option">(d) 90&deg;</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="question-block">
+            <div class="q-number">11.</div>
+            <div class="q-content">
+                <div class="q-en">The angle of elevation of a cloud from a point h metres above a lake is &beta;. The
+                    angle of depression of its reflection in the lake is 45&deg;. The height of the cloud is</div>
+                <div class="q-ta">ஏரியின் மேலே h மீட்டர் உயரத்தில் உள்ள ஒரு புள்ளியிலிருந்து மேகத்தின் ஏற்றக்கோணம்
+                    &beta;. மேகத்தின் பிம்பத்தின் இறக்கக்கோணம் 45&deg; எனில் ஏரியிலிருந்து மேகத்தின் உயரம்</div>
+                <div class="options">
+                    <div class="option">(a) h(1+tan&beta;)/(1-tan&beta;)</div>
+                    <div class="option">(b) h(1-tan&beta;)/(1+tan&beta;)</div>
+                    <div class="option">(c) h tan(45&deg;-&beta;)</div>
+                    <div class="option">(d) none of these</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="question-block">
+            <div class="q-number">12.</div>
+            <div class="q-content">
+                <div class="q-en">The total surface area of a cylinder whose radius is 1/3 of its height is</div>
+                <div class="q-ta">ஆரம் அதன் உயரத்தில் 1/3 பங்கு உடைய உருளையின் மொத்தப் புறப்பரப்பு</div>
+                <div class="options">
+                    <div class="option">(a) 9&pi;h&sup2;/8 sq.units</div>
+                    <div class="option">(b) 24&pi;h&sup2; sq.units</div>
+                    <div class="option">(c) 8&pi;h&sup2;/9 sq.units</div>
+                    <div class="option">(d) 56&pi;h&sup2;/9 sq.units</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="question-block">
+            <div class="q-number">13.</div>
+            <div class="q-content">
+                <div class="q-en">The range of the data 8, 8, 8, 8, 8, ... 8 is</div>
+                <div class="q-ta">8, 8, 8, 8, 8, ... 8 ஆகிய தரவின் வீச்சு</div>
+                <div class="options">
+                    <div class="option">(a) 8</div>
+                    <div class="option">(b) 3</div>
+                    <div class="option">(c) 1</div>
+                    <div class="option">(d) 0</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="question-block">
+            <div class="q-number">14.</div>
+            <div class="q-content">
+                <div class="q-en">A letter is chosen at random from the English alphabets. Find the probability that the
+                    letter chosen precedes x.</div>
+                <div class="q-ta">ஆங்கில எழுத்துக்களிலிருந்து ஓர் எழுத்து சமவாய்ப்பு முறையில் தேர்ந்தெடுக்கப்படுகிறது.
+                    அந்த எழுத்து x-க்கு முந்தைய எழுத்தாக இருப்பதற்கான நிகழ்தகவு</div>
+                <div class="options">
+                    <div class="option">(a) 12/13</div>
+                    <div class="option">(b) 1/13</div>
+                    <div class="option">(c) 23/26</div>
+                    <div class="option">(d) 3/26</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="part-header">PART - II / பகுதி - II (10 &times; 2 = 20)</div>
+        <div class="instructions">
+            Note: Answer any 10 questions. Question No. 28 is compulsory. / எவையேனும் 10 வினாக்களுக்கு விடையளிக்கவும்.
+            வினா எண் 28 கட்டாயமாகும்.
+        </div>
+
+        <div class="question-block">
+            <div class="q-number">15.</div>
+            <div class="q-content">
+                <div class="q-en">Let <span class="math">A = {1,2,3,4, &hellip; 45}</span> and R be the relation defined
+                    as “is square of” on A. Write R as a subset of A &times; A. Also, find the domain and range of R.
+                </div>
+                <div class="q-ta"><span class="math">A = {1, 2, 3, 4, &hellip; 45}</span> மற்றும் R என்ற உறவு "A-ன்
+                    மீதான ஓர் எண்ணின் வர்க்கம்" என வரையறுக்கப்பட்டால் R-ஐ A &times; A-ன் உட்கணமாக எழுதுக. மேலும் R-க்கான
+                    மதிப்பகத்தையும் வீச்சகத்தையும் காண்க.</div>
+            </div>
+        </div>
+
+        <div class="question-block">
+            <div class="q-number">16.</div>
+            <div class="q-content">
+                <div class="q-en">A relation R is given by the set
+                    <span class="math">{(x,y) | y = x+3, x &isin; {0,1,2,3,4,5}}</span>. Determine its domain and range.
+                </div>
+                <div class="q-ta">R என்ற ஒரு உறவு
+                    <span class="math">{(x, y) | y = x+3, x &isin; {0, 1, 2, 3, 4, 5}}</span> எனக் கொடுக்கப்பட்டுள்ளது.
+                    இதன் மதிப்பகத்தையும் வீச்சகத்தையும் காண்க.</div>
+            </div>
+        </div>
+
+        <div class="question-block">
+            <div class="q-number">17.</div>
+            <div class="q-content">
+                <div class="q-en">If <span class="math">3+k, 18-k, 5k+1</span> are in A.P. then find the value of k.
+                </div>
+                <div class="q-ta"><span class="math">3+k, 18-k, 5k+1</span> என்பன ஒரு கூட்டுத் தொடர்வரிசையில் அமைந்தால்
+                    k-யின் மதிப்பைக் காண்க.</div>
+            </div>
+        </div>
+
+        <div class="question-block">
+            <div class="q-number">18.</div>
+            <div class="q-content">
+                <div class="q-en">Find the 8<sup>th</sup> term of the G.P. 9, 3, 1 ...</div>
+                <div class="q-ta">9, 3, 1 ... என்ற பெருக்குத் தொடர்வரிசையின் 8-வது உறுப்பைக் காண்க.</div>
+            </div>
+        </div>
+
+        <div class="question-block">
+            <div class="q-number">19.</div>
+            <div class="q-content">
+                <div class="q-en">Determine the nature of the roots for the quadratic equation
+                    <span class="math">15x&sup2; + 11x + 2 = 0</span>.</div>
+                <div class="q-ta"><span class="math">15x&sup2; + 11x + 2 = 0</span> என்ற இருபடிச் சமன்பாட்டின்
+                    மூலங்களின் தன்மையைக் காண்க.</div>
+            </div>
+        </div>
+
+        <div class="question-block">
+            <div class="q-number">20.</div>
+            <div class="q-content">
+                <div class="q-en">Simplify:
+                    <span class="math">(4x&sup2;y / 2z&sup2;) &times; (6xz&sup3; / 20y&sup4;)</span>.</div>
+                <div class="q-ta">சுருக்குக:
+                    <span class="math">(4x&sup2;y / 2z&sup2;) &times; (6xz&sup3; / 20y&sup4;)</span>.</div>
+            </div>
+        </div>
+
+        <div class="question-block">
+            <div class="q-number">21.</div>
+            <div class="q-content">
+                <div class="q-en">Let A = (1 2 \\ 3 4) and B = (4 8 \\ 1 2). Check whether AB = BA.</div>
+                <div class="q-ta">A = (1 2 \\ 3 4) மற்றும் B = (4 8 \\ 1 2) எனில் AB = BA என்பது சரியா எனச் சரிபார்க்க.
+                </div>
+            </div>
+        </div>
+
+        <div class="question-block">
+            <div class="q-number">22.</div>
+            <div class="q-content">
+                <div class="q-en">Prove that in a right-angled triangle, the square of the hypotenuse is equal to the
+                    sum of the squares of the other two sides.</div>
+                <div class="q-ta">ஒரு செங்கோண முக்கோணத்தில் கர்ணத்தின் வர்க்கம், மற்ற இரு பக்கங்களின் வர்க்கங்களின்
+                    கூடுதலுக்குச் சமம் என நிறுவுக. (தேற்றம் நிரூபிக்க வேண்டிய அவசியமில்லை, தேற்றத்தை எழுதி அதற்கான
+                    சமன்பாட்டை எழுதுக).</div>
+            </div>
+        </div>
+
+        <div class="question-block">
+            <div class="q-number">23.</div>
+            <div class="q-content">
+                <div class="q-en">Find the slope of a line joining the points (-6, 1) and (-3, 2).</div>
+                <div class="q-ta">(-6, 1) மற்றும் (-3, 2) ஆகிய புள்ளிகளை இணைக்கும் நேர்க்கோட்டின் சாய்வு காண்க.</div>
+            </div>
+        </div>
+
+        <div class="question-block">
+            <div class="q-number">24.</div>
+            <div class="q-content">
+                <div class="q-en">Prove that <span class="math">sec&theta; - cos&theta; = tan&theta; sin&theta;</span>.
+                </div>
+                <div class="q-ta">நிறுவுக: <span class="math">sec&theta; - cos&theta; = tan&theta; sin&theta;</span>.
+                </div>
+            </div>
+        </div>
+
+        <div class="question-block">
+            <div class="q-number">25.</div>
+            <div class="q-content">
+                <div class="q-en">The volumes of two cones of same base radius are 3600 cm&sup3; and 5040 cm&sup3;. Find
+                    the ratio of heights.</div>
+                <div class="q-ta">சம ஆரங்கள் கொண்ட இரு கூம்புகளின் கன அளவுகள் 3600 க.செ.மீ மற்றும் 5040 க.செ.மீ எனில்,
+                    அவற்றின் உயரங்களின் விகிதம் காண்க.</div>
+            </div>
+        </div>
+
+        <div class="question-block">
+            <div class="q-number">26.</div>
+            <div class="q-content">
+                <div class="q-en">Two coins are tossed together. What is the probability of getting different faces on
+                    the coins?</div>
+                <div class="q-ta">இரண்டு நாணயங்கள் ஒன்றாகச் சுண்டப்படும்போது வெவ்வேறு முகங்கள் கிடைக்க நிகழ்தகவு என்ன?
+                </div>
+            </div>
+        </div>
+
+        <div class="question-block">
+            <div class="q-number">27.</div>
+            <div class="q-content">
+                <div class="q-en">Find the range and coefficient of range of the following data 63, 89, 98, 125, 79,
+                    108, 117, 68.</div>
+                <div class="q-ta">63, 89, 98, 125, 79, 108, 117, 68 ஆகிய தரவின் வீச்சு மற்றும் வீச்சுக்கெழு காண்க.</div>
+            </div>
+        </div>
+
+        <div class="question-block" style="background-color: #fef2f2; padding: 10px; border-radius: 4px;">
+            <div class="q-number">28.</div>
+            <div class="q-content">
+                <div class="q-en"><strong>(Compulsory)</strong> A man goes 10m due East and then 24m due North. Find the
+                    distance from the starting point.</div>
+                <div class="q-ta"><strong>(கட்டாய வினா)</strong> ஒருவர் 10 மீ கிழக்கே சென்று பின்னர் 24 மீ வடக்கே
+                    செல்கிறார். அவர் புறப்பட்ட இடத்திலிருந்து தற்போது உள்ள தொலைவைக் காண்க.</div>
+            </div>
+        </div>
+
+        <div class="part-header">PART - III / பகுதி - III (10 &times; 5 = 50)</div>
+        <div class="instructions">
+            Note: Answer any 10 questions. Question No. 42 is compulsory. / எவையேனும் 10 வினாக்களுக்கு விடையளிக்கவும்.
+            வினா எண் 42 கட்டாயமாகும்.
+        </div>
+
+        <div class="question-block">
+            <div class="q-number">29.</div>
+            <div class="q-content">
+                <div class="q-en">Given A = {1,2,3}, B = {2,3,5}, C = {3,4} and D = {1,3,5}, check if
+                    <span class="math">(A &cap; C) &times; (B &cap; D) = (A &times; B) &cap; (C &times; D)</span> is
+                    true.</div>
+                <div class="q-ta">A = {1,2,3}, B = {2,3,5}, C = {3,4} மற்றும் D = {1,3,5} எனில்
+                    <span class="math">(A &cap; C) &times; (B &cap; D) = (A &times; B) &cap; (C &times; D)</span> என்பது
+                    உண்மையா எனச் சோதிக்கவும்.</div>
+            </div>
+        </div>
+
+        <div class="question-block">
+            <div class="q-number">30.</div>
+            <div class="q-content">
+                <div class="q-en">Find the sum of all natural numbers between 100 and 1000 which are divisible by 11.
+                </div>
+                <div class="q-ta">100-க்கும் 1000-க்கும் இடையே உள்ள 11-ஆல் வகுபடும் அனைத்து இயல் எண்களின் கூடுதல் காண்க.
+                </div>
+            </div>
+        </div>
+
+        <div class="question-block">
+            <div class="q-number">31.</div>
+            <div class="q-content">
+                <div class="q-en">If l<sup>th</sup>, m<sup>th</sup> and n<sup>th</sup> terms of an A.P. are x, y, z
+                    respectively, then show that <span class="math">(x-y)n + (y-z)l + (z-x)m = 0</span>.</div>
+                <div class="q-ta">ஒரு கூட்டுத்தொடர் வரிசையின் l-வது, m-வது மற்றும் n-வது உறுப்புகள் முறையே x, y, z எனில்
+                    <span class="math">(x-y)n + (y-z)l + (z-x)m = 0</span> எனக் காட்டுக.</div>
+            </div>
+        </div>
+
+        <div class="question-block">
+            <div class="q-number">32.</div>
+            <div class="q-content">
+                <div class="q-en">Find the square root of
+                    <span class="math">64x&sup4; - 16x&sup3; + 17x&sup2; - 2x + 1</span> by division method.</div>
+                <div class="q-ta"><span class="math">64x&sup4; - 16x&sup3; + 17x&sup2; - 2x + 1</span>-ன் வர்க்கமூலத்தை
+                    வகுத்தல் முறையில் காண்க.</div>
+            </div>
+        </div>
+
+        <div class="question-block">
+            <div class="q-number">33.</div>
+            <div class="q-content">
+                <div class="q-en">If A = (1 1 -1 \\ 2 -3 4 \\ 3 -2 3) and B = (1 -2 3 \\ -2 4 -6 \\ 5 1 -1), then find
+                    AB and BA. Are they equal?</div>
+                <div class="q-ta">A = (1 1 -1 \\ 2 -3 4 \\ 3 -2 3) மற்றும் B = (1 -2 3 \\ -2 4 -6 \\ 5 1 -1) எனில் AB
+                    மற்றும் BA-ஐக் காண்க. அவை சமமா?</div>
+            </div>
+        </div>
+
+        <div class="question-block">
+            <div class="q-number">34.</div>
+            <div class="q-content">
+                <div class="q-en">State and prove Pythagoras Theorem.</div>
+                <div class="q-ta">பிதாகரஸ் தேற்றத்தை எழுதி நிறுவுக.</div>
+            </div>
+        </div>
+
+        <div class="question-block">
+            <div class="q-number">35.</div>
+            <div class="q-content">
+                <div class="q-en">Find the area of a quadrilateral whose vertices are (-9,0), (-8,6), (-1,-2) and
+                    (-6,-3).</div>
+                <div class="q-ta">(-9,0), (-8,6), (-1,-2) மற்றும் (-6,-3) ஆகிய புள்ளிகளை முனைகளாகக் கொண்ட நாற்கரத்தின்
+                    பரப்பு காண்க.</div>
+            </div>
+        </div>
+
+        <div class="question-block">
+            <div class="q-number">36.</div>
+            <div class="q-content">
+                <div class="q-en">Find the equation of the line passing through the point (1,5) and perpendicular to the
+                    line joining the points (2,-3) and (4,2).</div>
+                <div class="q-ta">(1,5) என்ற புள்ளி வழியே செல்வதும் (2,-3) மற்றும் (4,2) ஆகிய புள்ளிகளை இணைக்கும்
+                    கோட்டிற்கு செங்குத்தானதுமான நேர்க்கோட்டின் சமன்பாட்டைக் காண்க.</div>
+            </div>
+        </div>
+
+        <div class="question-block">
+            <div class="q-number">37.</div>
+            <div class="q-content">
+                <div class="q-en">From a point on the ground, the angles of elevation of the bottom and top of a tower
+                    fixed at the top of a 30m high building are 45&deg; and 60&deg; respectively. Find the height of the
+                    tower. (&radic;3 = 1.732).</div>
+                <div class="q-ta">தரையில் உள்ள ஒரு புள்ளியிலிருந்து 30 மீ உயரமுள்ள கட்டடத்தின் மேல் அமைந்துள்ள ஒரு
+                    கோபுரத்தின் அடி மற்றும் உச்சியின் ஏற்றக்கோணங்கள் முறையே 45&deg; மற்றும் 60&deg; எனில் கோபுரத்தின்
+                    உயரம் காண்க. (&radic;3 = 1.732).</div>
+            </div>
+        </div>
+
+        <div class="question-block">
+            <div class="q-number">38.</div>
+            <div class="q-content">
+                <div class="q-en">A capsule is in the shape of a cylinder with two hemispheres stuck to each of its
+                    ends. If the length of the entire capsule is 14 mm and the diameter of the capsule is 5 mm, find its
+                    surface area.</div>
+                <div class="q-ta">ஒரு மருந்து குப்பியானது (capsule) உருளையின் இருபுறமும் அரைக்கோளம் இணைந்த வடிவில்
+                    உள்ளது. மொத்த நீளம் 14 மி.மீ மற்றும் விட்டம் 5 மி.மீ எனில் அதன் புறப்பரப்பைக் காண்க.</div>
+            </div>
+        </div>
+
+        <div class="question-block">
+            <div class="q-number">39.</div>
+            <div class="q-content">
+                <div class="q-en">The radii of two circular ends of a frustum of a cone-shaped dustbin are 15 cm and 8
+                    cm. If its depth is 63 cm, find the volume of the dustbin.</div>
+                <div class="q-ta">ஒரு கூம்பின் இடைக்கண்ட வடிவிலான குப்பைத்தொட்டியின் இரு வட்ட முனைகளின் ஆரங்கள் 15 செ.மீ
+                    மற்றும் 8 செ.மீ. அதன் ஆழம் 63 செ.மீ எனில், குப்பைத்தொட்டியின் கன அளவைக் காண்க.</div>
+            </div>
+        </div>
+
+        <div class="question-block">
+            <div class="q-number">40.</div>
+            <div class="q-content">
+                <div class="q-en">A die is rolled and a coin is tossed simultaneously. Find the probability that the die
+                    shows an odd number and the coin shows a head.</div>
+                <div class="q-ta">ஒரு பகடை உருட்டப்பட்டு அதே நேரத்தில் ஒரு நாணயம் சுண்டப்படுகிறது. பகடையில் ஒற்றைப்படை
+                    எண் மற்றும் நாணயத்தில் தலை கிடைப்பதற்கான நிகழ்தகவு காண்க.</div>
+            </div>
+        </div>
+
+        <div class="question-block">
+            <div class="q-number">41.</div>
+            <div class="q-content">
+                <div class="q-en">In a class of 50 students, 28 opted for NCC, 30 opted for NSS and 18 opted for both
+                    NCC and NSS. One of the students is selected at random. Find the probability that the student opted
+                    for exactly one of them.</div>
+                <div class="q-ta">50 மாணவர்கள் உள்ள ஒரு வகுப்பில் 28 பேர் NCC-யிலும், 30 பேர் NSS-லும், 18 பேர்
+                    இரண்டிலும் சேர்ந்துள்ளனர். சமவாய்ப்பு முறையில் ஒரு மாணவர் தேர்ந்தெடுக்கப்படும்போது அவர் இரண்டில்
+                    ஏதேனும் ஒன்றில் மட்டுமே சேர்ந்திருப்பதற்கான நிகழ்தகவு காண்க.</div>
+            </div>
+        </div>
+
+        <div class="question-block" style="background-color: #fef2f2; padding: 10px; border-radius: 4px;">
+            <div class="q-number">42.</div>
+            <div class="q-content">
+                <div class="q-en"><strong>(Compulsory)</strong> If
+                    <span class="math">36x&sup4; - 60x&sup3; + 61x&sup2; - mx + n</span> is a perfect square, find the
+                    values of m and n.</div>
+                <div class="q-ta"><strong>(கட்டாய வினா)</strong>
+                    <span class="math">36x&sup4; - 60x&sup3; + 61x&sup2; - mx + n</span> ஆனது ஒரு முழு வர்க்கம் எனில் m
+                    மற்றும் n-ன் மதிப்புகளைக் காண்க.</div>
+            </div>
+        </div>
+
+        <div class="part-header">PART - IV / பகுதி - IV (2 &times; 8 = 16)</div>
+        <div class="instructions">
+            Note: Answer the following questions. / அனைத்து வினாக்களுக்கும் விடையளிக்கவும்.
+        </div>
+
+        <div class="question-block">
+            <div class="q-number">43.</div>
+            <div class="q-content">
+                <div class="q-en">(a) Draw a triangle ABC of base BC = 5.6 cm, &angle;A = 40&deg; and the bisector of
+                    &angle;A meets BC at D such that CD = 4 cm.</div>
+                <div class="q-ta">(a) அடிப்பக்கம் BC = 5.6 செ.மீ, &angle;A = 40&deg; மற்றும் &angle;A-ன் இருசமவெட்டி
+                    BC-ஐ D-யில் சந்திக்கிறது. மேலும் CD = 4 செ.மீ என அமையும்படி &Delta;ABC வரைக.</div>
+                <div class="or-divider">OR / அல்லது</div>
+                <div class="q-en">(b) Construct a triangle similar to a given triangle PQR with its sides equal to 3/5
+                    of the corresponding sides of the triangle PQR.</div>
+                <div class="q-ta">(b) கொடுக்கப்பட்ட &Delta;PQR-க்கு ஒத்த பக்கங்களின் விகிதம் 3/5 என அமையுமாறு ஒரு
+                    வடிவொத்த முக்கோணம் வரைக.</div>
+            </div>
+        </div>
+
+        <div class="question-block">
+            <div class="q-number">44.</div>
+            <div class="q-content">
+                <div class="q-en">(a) Draw the graph of <span class="math">y = x&sup2; - 4x + 3</span> and use it to
+                    solve <span class="math">x&sup2; - 6x + 9 = 0</span>.</div>
+                <div class="q-ta">(a) <span class="math">y = x&sup2; - 4x + 3</span>-ன் வரைபடம் வரைந்து, அதனைப்
+                    பயன்படுத்தி <span class="math">x&sup2; - 6x + 9 = 0</span> என்ற சமன்பாட்டைத் தீர்க்க.</div>
+                <div class="or-divider">OR / அல்லது</div>
+                <div class="q-en">(b) A company initially started with 40 workers to complete the work by 150 days.
+                    Later, it decided to fasten up the work increasing the number of workers as shown below.<br>
+            Workers(x): 40, 50, 60, 75 -- Days(y): 150, 120, 100, 80.<br>
+            Draw graph and find the number of days required if the company uses 120 workers.</div>
+                <div class="q-ta">(b) ஒரு நிறுவனம் 40 வேலையாட்களுடன் 150 நாள்களில் ஒரு வேலையை முடிக்கத் தொடங்கியது. <br>வேலையாட்கள்(x): 40, 50, 60, 75 -- நாள்கள்(y): 150, 120, 100, 80.
+                    <br>வரைபடம் வரைந்து, 120 வேலையாட்களைப் பயன்படுத்தினால் வேலை முடிய ஆகும் நாள்களைக் காண்க.</div>
+            </div>
+        </div>
+
+        <div class="footer-note">
+            (நீங்கள் அடுத்த வினாத்தாளை (Set 3) பெற விரும்பினால் "Next" அல்லது "Set 3" என்று தட்டச்சு செய்யவும்).
+        </div>
+
+    </div>
+
+</body>
+
+</html>

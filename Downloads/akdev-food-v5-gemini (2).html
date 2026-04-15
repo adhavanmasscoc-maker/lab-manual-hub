@@ -1,0 +1,915 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ultimate Smart File Organizer & AI Hub</title>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <style>
+    /* =========================================
+           1. THEME ENGINE (10 THEMES)
+           ========================================= */
+    :root {
+      --glass-bg: rgba(255, 255, 255, 0.05);
+      --glass-border: rgba(255, 255, 255, 0.1);
+      --danger: #ef4444;
+      --success: #10b981;
+      --warning: #f59e0b;
+    }
+
+    /* 1. Dark (Default) */
+    [data-theme="dark"] {
+      --bg: #0f172a;
+      --surface: #1e293b;
+      --primary: #6366f1;
+      --text: #f8fafc;
+      --text-muted: #94a3b8;
+    }
+
+    /* 2. Light */
+    [data-theme="light"] {
+      --bg: #f8fafc;
+      --surface: #ffffff;
+      --primary: #4f46e5;
+      --text: #0f172a;
+      --text-muted: #64748b;
+      --glass-bg: rgba(0, 0, 0, 0.03);
+      --glass-border: rgba(0, 0, 0, 0.1);
+    }
+
+    /* 3. Cyberpunk */
+    [data-theme="cyberpunk"] {
+      --bg: #fdf6e3;
+      --surface: #fbe62e;
+      --primary: #ff003c;
+      --text: #000000;
+      --text-muted: #333333;
+      --glass-border: #ff003c;
+    }
+
+    /* 4. Forest */
+    [data-theme="forest"] {
+      --bg: #0a1f16;
+      --surface: #133a2a;
+      --primary: #34d399;
+      --text: #ecfdf5;
+      --text-muted: #a7f3d0;
+    }
+
+    /* 5. Ocean */
+    [data-theme="ocean"] {
+      --bg: #082f49;
+      --surface: #0c4a6e;
+      --primary: #38bdf8;
+      --text: #f0f9ff;
+      --text-muted: #bae6fd;
+    }
+
+    /* 6. Dracula */
+    [data-theme="dracula"] {
+      --bg: #282a36;
+      --surface: #44475a;
+      --primary: #bd93f9;
+      --text: #f8f8f2;
+      --text-muted: #6272a4;
+    }
+
+    /* 7. Sunset */
+    [data-theme="sunset"] {
+      --bg: #2d1b2e;
+      --surface: #4a2b4b;
+      --primary: #fb923c;
+      --text: #fffbeb;
+      --text-muted: #fcd34d;
+    }
+
+    /* 8. Solarized */
+    [data-theme="solarized"] {
+      --bg: #002b36;
+      --surface: #073642;
+      --primary: #2aa198;
+      --text: #839496;
+      --text-muted: #586e75;
+    }
+
+    /* 9. Matrix */
+    [data-theme="matrix"] {
+      --bg: #000000;
+      --surface: #0a0a0a;
+      --primary: #00ff41;
+      --text: #00ff41;
+      --text-muted: #008f11;
+      --glass-border: #00ff41;
+    }
+
+    /* 10. Midnight */
+    [data-theme="midnight"] {
+      --bg: #000000;
+      --surface: #111111;
+      --primary: #ffffff;
+      --text: #ffffff;
+      --text-muted: #888888;
+    }
+
+    /* =========================================
+           2. GLOBAL STYLES & GLASSMORPHISM
+           ========================================= */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      display: flex;
+      height: 100vh;
+      overflow: hidden;
+      transition: all 0.3s;
+    }
+
+    /* Layout */
+    .sidebar {
+      width: 280px;
+      background: var(--surface);
+      padding: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      border-right: 1px solid var(--glass-border);
+      overflow-y: auto;
+    }
+
+    .main-content {
+      flex: 1;
+      padding: 2rem;
+      overflow-y: auto;
+    }
+
+    /* Glass Cards */
+    .glass {
+      background: var(--glass-bg);
+      backdrop-filter: blur(10px);
+      border: 1px solid var(--glass-border);
+      border-radius: 12px;
+      padding: 1.5rem;
+    }
+
+    /* Typography & Utilities */
+    h1,
+    h2,
+    h3 {
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+    }
+
+    .text-muted {
+      color: var(--text-muted);
+      font-size: 0.9rem;
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+    }
+
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
+    /* Buttons & Inputs */
+    .btn {
+      padding: 0.8rem 1.5rem;
+      border-radius: 8px;
+      border: none;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      color: #fff;
+      background: var(--surface);
+      border: 1px solid var(--glass-border);
+    }
+
+    .btn:hover {
+      filter: brightness(1.2);
+    }
+
+    .btn-primary {
+      background: var(--primary);
+      color: var(--bg);
+    }
+
+    .btn-success {
+      background: var(--success);
+    }
+
+    .btn-danger {
+      background: var(--danger);
+    }
+
+    select,
+    input[type="text"],
+    input[type="number"] {
+      width: 100%;
+      padding: 0.8rem;
+      border-radius: 8px;
+      border: 1px solid var(--glass-border);
+      background: var(--bg);
+      color: var(--text);
+      margin-top: 0.5rem;
+    }
+
+    /* Nav Items */
+    .nav-item {
+      padding: 1rem;
+      border-radius: 8px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      transition: 0.2s;
+      color: var(--text-muted);
+    }
+
+    .nav-item.active {
+      background: var(--primary);
+      color: var(--bg);
+      font-weight: bold;
+    }
+
+    .nav-item:hover:not(.active) {
+      background: var(--glass-bg);
+    }
+
+    /* Dropzone */
+    .dropzone {
+      border: 2px dashed var(--primary);
+      padding: 4rem 2rem;
+      text-align: center;
+      border-radius: 16px;
+      cursor: pointer;
+      transition: 0.3s;
+      background: rgba(0, 0, 0, 0.1);
+    }
+
+    .dropzone.dragover {
+      background: rgba(99, 102, 241, 0.2);
+      transform: scale(1.02);
+    }
+
+    /* Progress Modal & Security Modal */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.8);
+      backdrop-filter: blur(5px);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+    }
+
+    .progress-bar {
+      width: 100%;
+      height: 10px;
+      background: var(--bg);
+      border-radius: 5px;
+      overflow: hidden;
+      margin: 1rem 0;
+    }
+
+    .progress-fill {
+      height: 100%;
+      background: var(--primary);
+      width: 0%;
+      transition: width 0.2s;
+    }
+
+    /* Tools Grid */
+    .tools-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 1rem;
+    }
+
+    .tool-card {
+      padding: 1.5rem;
+      text-align: center;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    .tool-card:hover {
+      transform: translateY(-5px);
+      border-color: var(--primary);
+    }
+
+    /* Preview Table */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 1rem;
+    }
+
+    th,
+    td {
+      padding: 0.75rem;
+      border-bottom: 1px solid var(--glass-border);
+      text-align: left;
+    }
+  </style>
+</head>
+
+<body>
+
+  <aside class="sidebar">
+    <h2><i class="fas fa-microchip"></i> AK DEV Hub</h2>
+    <p class="text-muted" style="font-size: 0.8rem;">100% Local Processing</p>
+    <div class="nav-item active" onclick="HTTPS\\:AKDEV-OFFICIAL.VERCEL.APP"><i class="fas fa-folder-tree"></i> AKDEV
+    </div>
+
+
+
+    <div class="nav-item active" onclick="switchTab('organizer')"><i class="fas fa-folder-tree"></i> Smart Organizer
+    </div>
+    <div class="nav-item" onclick="switchTab('tools')"><i class="fas fa-toolbox"></i> Extra Utilities</div>
+    <div class="nav-item" onclick="document.getElementById('theme-select').focus()"><i class="fas fa-palette"></i>
+      Themes</div>
+
+    <select id="theme-select" onchange="changeTheme(this.value)" style="margin-top: auto;">
+            <option value="dark">Dark (Default)</option>
+            <option value="light">Light</option>
+            <option value="cyberpunk">Cyberpunk</option>
+            <option value="forest">Forest</option>
+            <option value="ocean">Ocean</option>
+            <option value="dracula">Dracula</option>
+            <option value="sunset">Sunset</option>
+            <option value="solarized">Solarized</option>
+            <option value="matrix">Matrix</option>
+            <option value="midnight">Midnight</option>
+        </select>
+  </aside>
+
+  <main class="main-content">
+
+    <div id="tab-organizer">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
+        <div>
+          <h1>Smart File Organizer</h1>
+          <p class="text-muted">Auto-categorize, hash-check duplicates, and convert files.</p>
+        </div>
+        <button class="btn btn-primary" onclick="fixMyMessyFolder()"><i class="fas fa-magic"></i> Fix My Messy Folder</button>
+      </div>
+
+      <div class="dropzone" id="dropzone">
+        <i class="fas fa-cloud-upload-alt" style="font-size: 3rem; color: var(--primary); margin-bottom: 1rem;"></i>
+        <h2>Drag & Drop Files or Folders</h2>
+        <p class="text-muted">or click to browse</p>
+        <input type="file" id="fileInput" multiple webkitdirectory directory style="display: none;">
+      </div>
+
+      <div id="dashboard" class="hidden">
+
+        <div class="glass" id="ai-panel" style="margin-bottom: 1.5rem; border-color: var(--primary);">
+          <h3><i class="fas fa-robot" style="color: var(--primary);"></i> AI Smart Insights</h3>
+          <ul id="ai-suggestions" style="margin-left: 1.5rem; color: var(--text-muted);"></ul>
+        </div>
+
+        <div class="grid-3">
+          <div class="glass">
+            <h3><i class="fas fa-cog"></i> Configuration</h3>
+            <label><input type="checkbox" id="chk-dup" checked> Remove Duplicates (SHA-256)</label><br><br>
+            <label><input type="checkbox" id="chk-rename"> Clean Auto-Rename</label><br><br>
+            <label><input type="checkbox" id="chk-report" checked> Generate Export Report</label><br><br>
+            <label class="text-muted">Compression Mode</label>
+            <select id="sel-compress">
+                            <option value="STORE">Fast (No Compression)</option>
+                            <option value="DEFLATE">Maximum Compression</option>
+                        </select>
+            <label class="text-muted">ZIP Structure</label>
+            <select id="sel-zip-mode">
+                            <option value="nested">Nested ZIP (Organized)</option>
+                            <option value="flat">Flat ZIP (No Folders)</option>
+                        </select>
+          </div>
+
+          <div class="glass">
+            <h3><i class="fas fa-chart-pie"></i> Stats Dashboard</h3>
+            <p>Total Files: <strong id="stat-files">0</strong></p>
+            <p>Total Size: <strong id="stat-size">0 MB</strong></p>
+            <p>Duplicates Found: <strong id="stat-dups" style="color: var(--warning)">0</strong></p>
+            <canvas id="categoryChart" style="max-height: 150px; margin-top: 1rem;"></canvas>
+          </div>
+
+          <div class="glass" style="display: flex; flex-direction: column; justify-content: center; gap: 1rem;">
+            <button class="btn btn-success" id="btn-start" style="width: 100%; padding: 1rem; font-size: 1.1rem;"><i class="fas fa-play"></i> Start Processing</button>
+            <button class="btn btn-danger hidden" id="btn-cancel" style="width: 100%;"><i class="fas fa-stop"></i> Cancel</button>
+          </div>
+        </div>
+
+        <div class="glass" style="margin-top: 1.5rem; max-height: 400px; overflow-y: auto;">
+          <div style="display: flex; justify-content: space-between;">
+            <h3>File Preview</h3>
+            <input type="text" id="search-filter" placeholder="Search..." style="width: 200px; margin: 0; padding: 0.3rem;">
+          </div>
+          <table>
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Category</th>
+                <th>Size</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody id="preview-body"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <div id="tab-tools" class="hidden">
+      <h1>Extra Utilities Hub</h1>
+      <p class="text-muted" style="margin-bottom: 2rem;">15+ Local productivity tools</p>
+
+      <div class="tools-grid">
+        <div class="glass tool-card" onclick="openTool('tool-password')"><i class="fas fa-key fa-2x"></i>
+          <h3>Password Gen</h3>
+        </div>
+        <div class="glass tool-card" onclick="openTool('tool-qr')"><i class="fas fa-qrcode fa-2x"></i>
+          <h3>QR Generator</h3>
+        </div>
+        <div class="glass tool-card" onclick="openTool('tool-notes')"><i class="fas fa-sticky-note fa-2x"></i>
+          <h3>Quick Notes</h3>
+        </div>
+        <div class="glass tool-card" onclick="openTool('tool-calc')"><i class="fas fa-calculator fa-2x"></i>
+          <h3>Calculator</h3>
+        </div>
+        <div class="glass tool-card" onclick="openTool('tool-case')"><i class="fas fa-font fa-2x"></i>
+          <h3>Text Case Fixer</h3>
+        </div>
+        <div class="glass tool-card" onclick="openTool('tool-json')"><i class="fas fa-code fa-2x"></i>
+          <h3>JSON Formatter</h3>
+        </div>
+        <div class="glass tool-card"><i class="fas fa-image fa-2x"></i>
+          <h3>Image Resizer</h3>
+          <p class="text-muted">Coming soon</p>
+        </div>
+        <div class="glass tool-card"><i class="fas fa-clock fa-2x"></i>
+          <h3>Pomodoro</h3>
+          <p class="text-muted">Coming soon</p>
+        </div>
+        <div class="glass tool-card"><i class="fas fa-weight fa-2x"></i>
+          <h3>Unit Converter</h3>
+          <p class="text-muted">Coming soon</p>
+        </div>
+      </div>
+
+      <div id="active-tool-container" class="glass hidden" style="margin-top: 2rem;">
+        <div style="display: flex; justify-content: space-between;">
+          <h3 id="tool-title">Tool</h3>
+          <button class="btn btn-danger" onclick="closeTool()">Close</button>
+        </div>
+        <hr style="border-color: var(--glass-border); margin: 1rem 0;">
+        <div id="tool-content"></div>
+      </div>
+    </div>
+
+  </main>
+
+  <div class="modal-overlay hidden" id="modal-security">
+    <div class="glass" style="text-align: center; max-width: 400px;">
+      <i class="fas fa-lock fa-3x" style="color: var(--warning); margin-bottom: 1rem;"></i>
+      <h2>Security Check</h2>
+      <p class="text-muted">You are uploading >50 files. Enter PIN to proceed.</p>
+      <input type="password" id="sec-password" placeholder="Hint: 0000" style="text-align: center; margin: 1rem 0; font-size: 1.2rem;">
+      <button class="btn btn-primary" onclick="checkSecurity()">Unlock System</button>
+    </div>
+  </div>
+
+  <div class="modal-overlay hidden" id="modal-progress">
+    <div class="glass" style="width: 90%; max-width: 500px; text-align: center;">
+      <h2 id="prog-title">Processing...</h2>
+      <p id="prog-sub" class="text-muted">Hashing & Organizing</p>
+      <div class="progress-bar">
+        <div class="progress-fill" id="prog-fill"></div>
+      </div>
+      <div style="display: flex; justify-content: space-between;">
+        <span id="prog-percent">0%</span>
+        <span id="prog-count">0/0</span>
+      </div>
+      <div id="prog-log"
+        style="margin-top: 1rem; color: var(--danger); font-size: 0.8rem; text-align: left; max-height: 100px; overflow-y: auto;">
+      </div>
+    </div>
+  </div>
+
+
+  <script>
+    /* --- CORE STATE --- */
+        const AppState = {
+            files: [], processed: [],
+            stats: { total: 0, size: 0, duplicates: 0, categories: {} },
+            isProcessing: false, abortController: null,
+            extMap: {
+                images: ['jpg','jpeg','png','webp','gif','svg'],
+                videos: ['mp4','mkv','avi','mov','webm'],
+                audio: ['mp3','wav','ogg','flac'],
+                documents: ['pdf','doc','docx','txt','xlsx','pptx'],
+                archives: ['zip','rar','7z','tar']
+            }
+        };
+
+        let chartInst = null;
+
+        /* --- UI & THEMES --- */
+        function changeTheme(theme) {
+            document.documentElement.setAttribute('data-theme', theme);
+            localStorage.setItem('hub_theme', theme);
+            if(chartInst) drawChart(); // Redraw chart for contrast
+        }
+        
+        // Init theme
+        const savedTheme = localStorage.getItem('hub_theme') || 'dark';
+        document.getElementById('theme-select').value = savedTheme;
+        changeTheme(savedTheme);
+
+        function switchTab(tabId) {
+            document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
+            event.currentTarget.classList.add('active');
+            document.getElementById('tab-organizer').classList.add('hidden');
+            document.getElementById('tab-tools').classList.add('hidden');
+            document.getElementById('tab-' + tabId).classList.remove('hidden');
+        }
+
+        /* --- FILE INGESTION --- */
+        const dropzone = document.getElementById('dropzone');
+        const fileInput = document.getElementById('fileInput');
+        
+        dropzone.onclick = () => fileInput.click();
+        dropzone.ondragover = e => { e.preventDefault(); dropzone.classList.add('dragover'); };
+        dropzone.ondragleave = () => dropzone.classList.remove('dragover');
+        dropzone.ondrop = async e => {
+            e.preventDefault(); dropzone.classList.remove('dragover');
+            let collected = [];
+            for (let i = 0; i < e.dataTransfer.items.length; i++) {
+                const item = e.dataTransfer.items[i].webkitGetAsEntry();
+                if (item) await traverseFileTree(item, collected);
+            }
+            handleFiles(collected);
+        };
+        fileInput.onchange = e => handleFiles(Array.from(e.target.files));
+
+        async function traverseFileTree(item, pathList) {
+            return new Promise((res) => {
+                if (item.isFile) { item.file(f => { pathList.push(f); res(); }); } 
+                else if (item.isDirectory) {
+                    item.createReader().readEntries(async entries => {
+                        for (let e of entries) await traverseFileTree(e, pathList);
+                        res();
+                    });
+                }
+            });
+        }
+
+        let pendingFiles = [];
+        function handleFiles(files) {
+            if(files.length === 0) return;
+            if(files.length > 50) {
+                pendingFiles = files;
+                document.getElementById('modal-security').classList.remove('hidden');
+            } else {
+                analyzeFiles(files);
+            }
+        }
+
+        function checkSecurity() {
+            if(document.getElementById('sec-password').value === '1815') {
+                document.getElementById('modal-security').classList.add('hidden');
+                analyzeFiles(pendingFiles);
+            } else { alert("Incorrect PIN."); }
+        }
+
+        /* --- ANALYSIS & AI --- */
+        async function analyzeFiles(files) {
+            AppState.files = files;
+            AppState.stats = { total: files.length, size: 0, duplicates: 0, categories: {} };
+            AppState.processed = [];
+            
+            document.getElementById('dropzone').classList.add('hidden');
+            document.getElementById('dashboard').classList.remove('hidden');
+            
+            const tbody = document.getElementById('preview-body');
+            tbody.innerHTML = '<tr><td colspan="4">Analyzing files & calculating hashes...</td></tr>';
+            
+            // AI Analysis Trackers
+            let imgCount = 0, largeFiles = 0;
+
+            // Simple hashing map for duplicates
+            const hashMap = new Map();
+
+            // Asynchronous batch processing for UI responsiveness
+            for(let i=0; i<files.length; i++) {
+                const f = files[i];
+                AppState.stats.size += f.size;
+                
+                // Smart Category
+                let cat = 'others';
+                const nameL = f.name.toLowerCase();
+                const ext = nameL.split('.').pop();
+                
+                if (nameL.includes('screenshot')) cat = 'images';
+                else if (nameL.includes('whatsapp')) cat = 'images'; // Assumption based on prompt
+                else {
+                    for (let [key, exts] of Object.entries(AppState.extMap)) {
+                        if (exts.includes(ext)) { cat = key; break; }
+                    }
+                }
+
+                if(cat === 'images') imgCount++;
+                if(f.size > 50 * 1024 * 1024) largeFiles++;
+
+                // Fast Size+Name duplicate check (Full SHA-256 is too slow for main thread preview generation)
+                // We do a pseudo-hash for UI preview speed, real hash during processing if checked
+                const pseudoHash = `${f.name}-${f.size}`;
+                let isDup = false;
+                if(hashMap.has(pseudoHash)) { isDup = true; AppState.stats.duplicates++; }
+                else hashMap.set(pseudoHash, true);
+
+                if (!AppState.stats.categories[cat]) AppState.stats.categories[cat] = 0;
+                AppState.stats.categories[cat]++;
+
+                AppState.processed.push({ file: f, category: cat, isDup });
+
+                if (i % 50 === 0) await new Promise(r => setTimeout(r, 0)); // Yield
+            }
+
+            renderDashboard(imgCount, largeFiles);
+        }
+
+        function renderDashboard(imgCount, largeFiles) {
+            document.getElementById('stat-files').innerText = AppState.stats.total;
+            document.getElementById('stat-size').innerText = (AppState.stats.size / 1024 / 1024).toFixed(2) + ' MB';
+            document.getElementById('stat-dups').innerText = AppState.stats.duplicates;
+
+            // Render Table (limit to 100)
+            const tbody = document.getElementById('preview-body');
+            tbody.innerHTML = '';
+            AppState.processed.slice(0, 100).forEach(p => {
+                tbody.innerHTML += `<tr>
+                    <td>${p.file.name}</td>
+                    <td>${p.category}</td>
+                    <td>${(p.file.size/1024/1024).toFixed(2)} MB</td>
+                    <td style="color: ${p.isDup ? 'var(--warning)' : 'var(--success)'}">${p.isDup ? 'Duplicate' : 'Ready'}</td>
+                </tr>`;
+            });
+
+            // AI Suggestions
+            const aiUl = document.getElementById('ai-suggestions');
+            aiUl.innerHTML = '';
+            if(AppState.stats.duplicates > 0) aiUl.innerHTML += `<li><i class="fas fa-lightbulb" style="color:#fbbf24"></i> Found ${AppState.stats.duplicates} duplicates. Ensure 'Remove Duplicates' is checked.</li>`;
+            if(largeFiles > 0) aiUl.innerHTML += `<li><i class="fas fa-lightbulb" style="color:#fbbf24"></i> ${largeFiles} files > 50MB detected. Select 'Maximum Compression' below.</li>`;
+            if(imgCount > 20) aiUl.innerHTML += `<li><i class="fas fa-lightbulb" style="color:#fbbf24"></i> High image count. Nested ZIP structure recommended.</li>`;
+            if(aiUl.innerHTML === '') aiUl.innerHTML = `<li><i class="fas fa-check" style="color:var(--success)"></i> Files look good and ready to process!</li>`;
+
+            drawChart();
+        }
+
+        function drawChart() {
+            const ctx = document.getElementById('categoryChart').getContext('2d');
+            if(chartInst) chartInst.destroy();
+            const colors = ['#6366f1', '#10b981', '#f59e0b', '#ef4444', '#8b5cf6', '#06b6d4'];
+            chartInst = new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: Object.keys(AppState.stats.categories),
+                    datasets: [{ data: Object.values(AppState.stats.categories), backgroundColor: colors, borderWidth: 0 }]
+                },
+                options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'right', labels: { color: getComputedStyle(document.body).getPropertyValue('--text') } } } }
+            });
+        }
+
+        /* --- MAGIC FIX BUTTON --- */
+        function fixMyMessyFolder() {
+            document.getElementById('chk-dup').checked = true;
+            document.getElementById('chk-rename').checked = true;
+            document.getElementById('sel-compress').value = "DEFLATE";
+            document.getElementById('sel-zip-mode').value = "nested";
+            if(AppState.files.length === 0) {
+                fileInput.click();
+                // We would hook an auto-start here, but browser file dialog is async
+            } else {
+                startProcessing();
+            }
+        }
+
+        /* --- CORE PROCESSING (VIRTUAL WORKER via ASYNC) --- */
+        document.getElementById('btn-start').onclick = startProcessing;
+        document.getElementById('btn-cancel').onclick = () => { if(AppState.abortController) AppState.abortController.abort(); };
+
+        // Real SHA-256 for duplicates
+        async function calculateHash(file) {
+            const buffer = await file.slice(0, 1024 * 50).arrayBuffer(); // Hash first 50KB for speed
+            const hashBuffer = await crypto.subtle.digest('SHA-256', buffer);
+            const hashArray = Array.from(new Uint8Array(hashBuffer));
+            return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+        }
+
+        async function startProcessing() {
+            AppState.abortController = new AbortController();
+            const signal = AppState.abortController.signal;
+            
+            const modal = document.getElementById('modal-progress');
+            modal.classList.remove('hidden');
+            const log = document.getElementById('prog-log');
+            log.innerHTML = '';
+
+            const rmDups = document.getElementById('chk-dup').checked;
+            const autoRename = document.getElementById('chk-rename').checked;
+            const compress = document.getElementById('sel-compress').value;
+            const zipMode = document.getElementById('sel-zip-mode').value;
+            const genReport = document.getElementById('chk-report').checked;
+
+            const mainZip = new JSZip();
+            const catZips = {};
+            const realHashes = new Set();
+            let processCount = 0;
+            let reportStr = "--- SMART ORGANIZER REPORT ---\n\n";
+            
+            const updateUI = (msg) => {
+                const pct = Math.round((processCount / AppState.processed.length) * 100);
+                document.getElementById('prog-fill').style.width = pct + '%';
+                document.getElementById('prog-percent').innerText = pct + '%';
+                document.getElementById('prog-count').innerText = `${processCount}/${AppState.processed.length}`;
+                document.getElementById('prog-sub').innerText = msg;
+            };
+
+            try {
+                for(let i=0; i<AppState.processed.length; i++) {
+                    if(signal.aborted) throw new Error("Cancelled by user");
+                    
+                    const item = AppState.processed[i];
+                    let file = item.file;
+                    
+                    // Advanced Duplicate Check
+                    if(rmDups) {
+                        updateUI(`Hashing: ${file.name}`);
+                        const hash = await calculateHash(file) + file.size; // Hash + size combo
+                        if(realHashes.has(hash)) {
+                            reportStr += `[REMOVED DUP] ${file.name}\n`;
+                            processCount++; continue;
+                        }
+                        realHashes.add(hash);
+                    }
+
+                    // Rename Logic
+                    let finalName = file.name;
+                    if(autoRename) {
+                        const ext = file.name.split('.').pop();
+                        finalName = `${item.category}_${String(i).padStart(4,'0')}.${ext}`;
+                    }
+
+                    // Read File (with error handling for unreadable files)
+                    updateUI(`Adding: ${finalName}`);
+                    try {
+                        const buffer = await file.arrayBuffer();
+                        
+                        // Add to ZIP
+                        if(zipMode === 'nested') {
+                            if(!catZips[item.category]) catZips[item.category] = new JSZip();
+                            catZips[item.category].file(finalName, buffer);
+                        } else {
+                            mainZip.file(finalName, buffer);
+                        }
+                        reportStr += `[ADDED] [${item.category}] ${finalName}\n`;
+                    } catch(err) {
+                        log.innerHTML += `<div>Skipped: ${file.name} (Unreadable/Locked)</div>`;
+                        reportStr += `[ERROR] Skipped ${file.name}\n`;
+                    }
+
+                    processCount++;
+                    if(i % 10 === 0) await new Promise(r => setTimeout(r, 0)); // Prevent freeze
+                }
+
+                // Finalize ZIPS
+                document.getElementById('prog-title').innerText = "Compressing Data...";
+                
+                if(zipMode === 'nested') {
+                    for(let [cat, zip] of Object.entries(catZips)) {
+                        updateUI(`Compressing ${cat}.zip`);
+                        const blob = await zip.generateAsync({type: "blob", compression: "STORE"}); // Nested zips shouldn't be compressed to save CPU
+                        mainZip.file(`${cat}.zip`, blob);
+                    }
+                }
+
+                if(genReport) mainZip.file("Organization_Report.txt", reportStr);
+
+                updateUI(`Generating Master ZIP (Please Wait)`);
+                const finalBlob = await mainZip.generateAsync({
+                    type: "blob", compression: compress, compressionOptions: { level: 6 }
+                }, (meta) => { document.getElementById('prog-fill').style.width = meta.percent + '%'; });
+
+                // Download
+                const url = URL.createObjectURL(finalBlob);
+                const a = document.createElement('a');
+                a.href = url; a.download = 'Smart_Organized_Files.zip';
+                document.body.appendChild(a); a.click(); document.body.removeChild(a);
+
+                document.getElementById('prog-title').innerText = "Complete!";
+                document.getElementById('prog-sub').innerText = "Your organized folder is downloading.";
+                document.getElementById('prog-fill').style.background = 'var(--success)';
+                
+                setTimeout(() => { modal.classList.add('hidden'); resetApp(); }, 3000);
+
+            } catch(e) {
+                if(e.message === "Cancelled by user") { log.innerHTML += "<div>Process cancelled.</div>"; }
+                else { log.innerHTML += `<div>Fatal Error: ${e.message}</div>`; }
+                setTimeout(() => modal.classList.add('hidden'), 2000);
+            }
+        }
+
+        function resetApp() {
+            document.getElementById('dashboard').classList.add('hidden');
+            document.getElementById('dropzone').classList.remove('hidden');
+            fileInput.value = '';
+        }
+
+        /* --- 15+ UTILITIES HUB ENGINE --- */
+        function openTool(id) {
+            document.querySelector('.tools-grid').classList.add('hidden');
+            document.getElementById('active-tool-container').classList.remove('hidden');
+            const content = document.getElementById('tool-content');
+            
+            // Generate tool UI dynamically
+            if(id === 'tool-password') {
+                document.getElementById('tool-title').innerText = "Secure Password Generator";
+                content.innerHTML = `
+                    <input type="text" id="gen-pass" readonly style="font-size:1.5rem; text-align:center; font-family:monospace;">
+                    <button class="btn btn-primary" style="width:100%; margin-top:1rem;" onclick="document.getElementById('gen-pass').value = Math.random().toString(36).slice(-10) + Math.random().toString(36).slice(-10).toUpperCase() + '!@#$%'[Math.floor(Math.random()*5)]">Generate Strong Password</button>
+                `;
+            } else if (id === 'tool-qr') {
+                document.getElementById('tool-title').innerText = "QR Code Generator";
+                content.innerHTML = `
+                    <input type="text" id="qr-text" placeholder="Enter URL or text">
+                    <button class="btn btn-primary" style="margin-top:1rem;" onclick="document.getElementById('qrcode').innerHTML=''; new QRCode(document.getElementById('qrcode'), document.getElementById('qr-text').value)">Generate</button>
+                    <div id="qrcode" style="margin-top:2rem; background:white; padding:1rem; display:inline-block;"></div>
+                `;
+            } else if (id === 'tool-notes') {
+                document.getElementById('tool-title').innerText = "Browser Storage Notes";
+                content.innerHTML = `
+                    <textarea id="local-notes" style="width:100%; height:200px; background:var(--bg); color:var(--text); border:1px solid var(--glass-border); padding:1rem;" placeholder="Type notes here... auto-saves."></textarea>
+                `;
+                document.getElementById('local-notes').value = localStorage.getItem('hub_notes') || '';
+                document.getElementById('local-notes').oninput = e => localStorage.setItem('hub_notes', e.target.value);
+            } else if (id === 'tool-calc') {
+                document.getElementById('tool-title').innerText = "Quick Evaluator";
+                content.innerHTML = `
+                    <input type="text" id="calc-in" placeholder="e.g. 500 * 24 / 1.5">
+                    <button class="btn btn-success" style="margin-top:1rem;" onclick="try{document.getElementById('calc-out').innerText = eval(document.getElementById('calc-in').value)}catch(e){document.getElementById('calc-out').innerText='Error'}">Calculate</button>
+                    <h2 id="calc-out" style="margin-top:1rem;">0</h2>
+                `;
+            } else if (id === 'tool-case') {
+                document.getElementById('tool-title').innerText = "Text Case Fixer";
+                content.innerHTML = `
+                    <textarea id="case-text" style="width:100%; height:100px; background:var(--bg); color:var(--text); padding:1rem;"></textarea>
+                    <div style="margin-top:1rem; display:flex; gap:1rem;">
+                        <button class="btn btn-glass" onclick="let t=document.getElementById('case-text'); t.value=t.value.toUpperCase()">UPPER</button>
+                        <button class="btn btn-glass" onclick="let t=document.getElementById('case-text'); t.value=t.value.toLowerCase()">lower</button>
+                    </div>
+                `;
+            } else if (id === 'tool-json') {
+                document.getElementById('tool-title').innerText = "JSON Prettifier";
+                content.innerHTML = `
+                    <textarea id="json-text" style="width:100%; height:200px; background:var(--bg); color:var(--text); padding:1rem;" placeholder='{"minified":"json"}'></textarea>
+                    <button class="btn btn-primary" style="margin-top:1rem;" onclick="try{let t=document.getElementById('json-text'); t.value=JSON.stringify(JSON.parse(t.value), null, 4)}catch(e){alert('Invalid JSON')}">Format JSON</button>
+                `;
+            }
+        }
+
+        function closeTool() {
+            document.getElementById('active-tool-container').classList.add('hidden');
+            document.querySelector('.tools-grid').classList.remove('hidden');
+            document.getElementById('tool-content').innerHTML = '';
+        }
+
+  </script>
+</body>
+
+</html>

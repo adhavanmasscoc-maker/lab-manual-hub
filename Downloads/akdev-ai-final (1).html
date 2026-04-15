@@ -1,0 +1,1119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AKDev AI — by Aadhavan K</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{height:100%;overflow:hidden}
+
+:root{
+  --bg:#07080f;
+  --p1:#0e0f1a;
+  --p2:#141525;
+  --p3:#1c1e30;
+  --p4:#252740;
+  --b1:#2a2c45;
+  --b2:#363858;
+  --acc:#6c63ff;
+  --acc-dim:rgba(108,99,255,0.18);
+  --acc-glow:rgba(108,99,255,0.35);
+  --teal:#00d4b4;
+  --orange:#ff7b54;
+  --green:#4dffb4;
+  --red:#ff5e7a;
+  --yellow:#ffd166;
+  --t1:#eeeeff;
+  --t2:#9898c0;
+  --t3:#555575;
+  --sidebar:260px;
+}
+
+body{background:var(--bg);color:var(--t1);font-family:'Outfit',sans-serif;display:flex;height:100vh;overflow:hidden}
+
+/* scrollbar */
+::-webkit-scrollbar{width:3px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:var(--b1);border-radius:3px}
+
+/* ══════════ SIDEBAR ══════════ */
+.sidebar{
+  width:var(--sidebar);flex-shrink:0;
+  background:var(--p1);
+  border-right:1px solid var(--b1);
+  display:flex;flex-direction:column;
+  transition:transform .25s ease;
+}
+.sb-top{padding:20px 16px 16px;border-bottom:1px solid var(--b1)}
+.logo{display:flex;align-items:center;gap:11px;margin-bottom:16px}
+.logo-box{
+  width:38px;height:38px;border-radius:10px;flex-shrink:0;
+  background:linear-gradient(135deg,var(--acc) 0%,#a78bfa 100%);
+  display:flex;align-items:center;justify-content:center;
+  font-family:'JetBrains Mono',monospace;font-weight:600;font-size:13px;color:#fff;
+  box-shadow:0 4px 16px var(--acc-glow);
+}
+.logo-txt{line-height:1.2}
+.logo-txt strong{display:block;font-size:16px;font-weight:700;letter-spacing:-.3px}
+.logo-txt span{font-size:10px;color:var(--t3);font-family:'JetBrains Mono',monospace;letter-spacing:.4px}
+.new-btn{
+  width:100%;padding:10px;border-radius:9px;border:none;
+  background:var(--acc);color:#fff;font-family:'Outfit',sans-serif;
+  font-size:13px;font-weight:600;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;gap:8px;
+  transition:all .18s;
+}
+.new-btn:hover{background:#5a52e0;box-shadow:0 4px 20px var(--acc-glow);transform:translateY(-1px)}
+.sb-section{font-size:10px;font-family:'JetBrains Mono',monospace;color:var(--t3);letter-spacing:1px;padding:14px 16px 6px;text-transform:uppercase}
+.hlist{flex:1;overflow-y:auto;padding:4px 8px}
+.hitem{
+  padding:8px 10px;border-radius:7px;cursor:pointer;
+  font-size:12.5px;color:var(--t2);white-space:nowrap;
+  overflow:hidden;text-overflow:ellipsis;
+  display:flex;align-items:center;gap:8px;
+  transition:all .14s;margin-bottom:2px;
+}
+.hitem:hover{background:var(--p3);color:var(--t1)}
+.hitem.active{background:var(--p2);color:var(--t1);border-left:2px solid var(--acc);padding-left:8px}
+.hitem svg{flex-shrink:0;opacity:.45}
+.sb-foot{padding:12px;border-top:1px solid var(--b1)}
+.dev-card{
+  background:var(--p2);border-radius:9px;padding:11px 13px;
+  display:flex;align-items:center;gap:10px;
+}
+.dev-av{
+  width:32px;height:32px;border-radius:50%;flex-shrink:0;
+  background:linear-gradient(135deg,var(--orange),#ffb347);
+  display:flex;align-items:center;justify-content:center;
+  font-weight:700;font-size:13px;color:#fff;
+}
+.dev-txt strong{display:block;font-size:12px;font-weight:600}
+.dev-txt span{font-size:10px;color:var(--t3);font-family:'JetBrains Mono',monospace}
+
+/* ══════════ MAIN ══════════ */
+.main{flex:1;display:flex;flex-direction:column;min-width:0;overflow:hidden}
+
+/* header */
+.topbar{
+  height:56px;flex-shrink:0;
+  background:rgba(7,8,15,.9);backdrop-filter:blur(16px);
+  border-bottom:1px solid var(--b1);
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 20px;position:relative;z-index:10;
+}
+.tb-left{display:flex;align-items:center;gap:10px}
+.menu-btn{background:none;border:none;color:var(--t2);cursor:pointer;padding:4px;display:none}
+.chat-name{font-size:14px;font-weight:600;color:var(--t2)}
+.ver-tag{
+  font-size:10px;font-family:'JetBrains Mono',monospace;
+  background:var(--p3);border:1px solid var(--b1);
+  color:var(--acc);padding:3px 9px;border-radius:20px;
+}
+.tb-right{display:flex;align-items:center;gap:5px}
+.tbtn{
+  background:var(--p2);border:1px solid var(--b1);color:var(--t2);
+  padding:6px 12px;border-radius:7px;font-size:12px;font-weight:500;
+  font-family:'Outfit',sans-serif;cursor:pointer;
+  display:flex;align-items:center;gap:6px;
+  transition:all .15s;white-space:nowrap;
+}
+.tbtn:hover{background:var(--p3);border-color:var(--b2);color:var(--t1)}
+.tbtn svg{flex-shrink:0}
+
+/* ══════════ CHAT AREA ══════════ */
+#chat{flex:1;overflow-y:auto;padding:28px 0 16px;position:relative}
+
+/* welcome */
+#welcome{max-width:620px;margin:32px auto 0;padding:0 24px;text-align:center}
+.wic{
+  width:70px;height:70px;margin:0 auto 20px;border-radius:18px;
+  background:linear-gradient(135deg,var(--acc),#a78bfa);
+  display:flex;align-items:center;justify-content:center;
+  font-family:'JetBrains Mono',monospace;font-size:22px;font-weight:700;color:#fff;
+  box-shadow:0 8px 40px var(--acc-glow);
+}
+.wtitle{font-size:32px;font-weight:800;letter-spacing:-1px;margin-bottom:10px}
+.wtitle em{
+  font-style:normal;
+  background:linear-gradient(90deg,var(--acc),#a78bfa,var(--teal));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+}
+.wsub{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--t3);letter-spacing:.6px;line-height:1.9;margin-bottom:32px}
+.wgrid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.wcard{
+  background:var(--p1);border:1px solid var(--b1);
+  border-radius:10px;padding:14px 15px;text-align:left;
+  cursor:pointer;transition:all .18s;position:relative;overflow:hidden;
+}
+.wcard::before{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(135deg,var(--acc-dim),transparent);
+  opacity:0;transition:opacity .2s;
+}
+.wcard:hover{border-color:var(--acc);transform:translateY(-2px);box-shadow:0 8px 28px rgba(108,99,255,.14)}
+.wcard:hover::before{opacity:1}
+.wcard-ico{font-size:20px;margin-bottom:7px;display:block}
+.wcard-txt{font-size:12.5px;color:var(--t2);line-height:1.5;position:relative}
+.wcard:hover .wcard-txt{color:var(--t1)}
+
+/* messages */
+.mwrap{
+  max-width:800px;margin:0 auto;padding:0 24px 4px;
+  animation:up .22s ease forwards;opacity:0;transform:translateY(6px);
+}
+@keyframes up{to{opacity:1;transform:none}}
+.msg{display:flex;gap:12px;margin-bottom:22px;align-items:flex-start}
+.av{
+  width:32px;height:32px;border-radius:8px;
+  display:flex;align-items:center;justify-content:center;
+  font-family:'JetBrains Mono',monospace;font-size:9px;font-weight:600;
+  flex-shrink:0;margin-top:1px;
+}
+.av-u{background:var(--p3);border:1px solid var(--b2);color:var(--t2)}
+.av-a{
+  background:linear-gradient(135deg,var(--acc),#a78bfa);color:#fff;
+  box-shadow:0 0 14px var(--acc-glow);
+}
+.mbody{flex:1;min-width:0}
+.mmeta{display:flex;align-items:center;gap:8px;margin-bottom:7px}
+.mname{font-size:12px;font-weight:600;color:var(--t2)}
+.mname.ai{color:var(--acc)}
+.mtime{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--t3)}
+.mbtns{margin-left:auto;display:flex;gap:4px;opacity:0;transition:opacity .15s}
+.mwrap:hover .mbtns{opacity:1}
+.mbtn-sm{
+  background:none;border:1px solid var(--b1);color:var(--t3);
+  padding:3px 8px;border-radius:5px;cursor:pointer;
+  font-size:10px;font-family:'JetBrains Mono',monospace;
+  transition:all .14s;display:flex;align-items:center;gap:4px;
+}
+.mbtn-sm:hover{background:var(--p3);color:var(--t2);border-color:var(--b2)}
+
+/* message content */
+.mcontent{font-size:14.5px;line-height:1.8;color:var(--t1)}
+.mcontent p{margin-bottom:10px}
+.mcontent p:last-child{margin-bottom:0}
+.mcontent strong{color:#c4b5fd;font-weight:600}
+.mcontent em{color:var(--t2)}
+.mcontent h1,.mcontent h2,.mcontent h3{color:var(--acc);margin:14px 0 7px;font-weight:700}
+.mcontent h1{font-size:19px}.mcontent h2{font-size:16px}.mcontent h3{font-size:14px}
+.mcontent ul,.mcontent ol{padding-left:20px;margin:8px 0}
+.mcontent li{margin-bottom:5px}
+.mcontent blockquote{
+  border-left:3px solid var(--acc);padding:8px 14px;margin:10px 0;
+  background:var(--acc-dim);border-radius:0 7px 7px 0;color:var(--t2);
+}
+.mcontent a{color:var(--teal);text-decoration-style:dotted}
+.mcontent table{width:100%;border-collapse:collapse;margin:12px 0;font-size:13px}
+.mcontent th{background:var(--p3);padding:8px 12px;border:1px solid var(--b1);font-weight:600;text-align:left}
+.mcontent td{padding:8px 12px;border:1px solid var(--b1);color:var(--t2)}
+.mcontent tr:nth-child(even) td{background:var(--p2)}
+
+/* inline code */
+.mcontent code.ic{
+  font-family:'JetBrains Mono',monospace;font-size:12.5px;
+  background:rgba(108,99,255,.12);border:1px solid rgba(108,99,255,.22);
+  color:#c4b5fd;padding:1px 6px;border-radius:4px;
+}
+
+/* ══════════ CODE BLOCK ══════════ */
+.cblock{
+  margin:14px 0;border-radius:11px;overflow:hidden;
+  border:1px solid var(--b1);background:var(--p2);
+}
+.cblock-head{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:10px 14px;background:var(--p3);border-bottom:1px solid var(--b1);
+  gap:10px;
+}
+.chead-l{display:flex;align-items:center;gap:9px;min-width:0}
+.cdots{display:flex;gap:5px;flex-shrink:0}
+.cdot{width:10px;height:10px;border-radius:50%}
+.cdot:nth-child(1){background:#ff5f57}
+.cdot:nth-child(2){background:#febc2e}
+.cdot:nth-child(3){background:#28c840}
+.cfile{
+  font-family:'JetBrains Mono',monospace;font-size:12px;
+  color:var(--t1);font-weight:500;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+}
+.clang{
+  font-family:'JetBrains Mono',monospace;font-size:9px;
+  background:var(--acc-dim);border:1px solid rgba(108,99,255,.25);
+  color:var(--acc);padding:2px 8px;border-radius:20px;letter-spacing:.5px;flex-shrink:0;
+}
+.chead-r{display:flex;align-items:center;gap:6px;flex-shrink:0}
+.cbtn{
+  font-family:'JetBrains Mono',monospace;font-size:10px;
+  background:var(--p2);border:1px solid var(--b2);color:var(--t2);
+  padding:4px 10px;border-radius:5px;cursor:pointer;
+  display:flex;align-items:center;gap:5px;transition:all .15s;white-space:nowrap;
+}
+.cbtn:hover{border-color:var(--acc);color:var(--acc);background:var(--acc-dim)}
+.cbtn.dl:hover{border-color:var(--green);color:var(--green);background:rgba(77,255,180,.08)}
+.cbtn.copied{border-color:var(--green);color:var(--green);background:rgba(77,255,180,.08)}
+
+/* THE KEY FIX — code displayed as plain text, never rendered as HTML */
+.cblock-body{
+  position:relative;overflow:hidden;
+}
+.cblock-scroll{
+  overflow-x:auto;max-height:480px;overflow-y:auto;
+}
+.cblock-scroll::-webkit-scrollbar{width:4px;height:4px}
+.cblock-scroll::-webkit-scrollbar-thumb{background:var(--b2)}
+.ccode{
+  display:block;
+  font-family:'JetBrains Mono',monospace;
+  font-size:13px;line-height:1.75;
+  color:#cdd6f4;
+  padding:18px 20px;
+  white-space:pre;          /* preserve spaces/newlines */
+  word-break:keep-all;
+  /* most important: this IS a text node — never innerHTML */
+  background:transparent;
+}
+
+/* line numbers */
+.ccode-wrap{display:flex}
+.line-nums{
+  padding:18px 0 18px 14px;
+  font-family:'JetBrains Mono',monospace;
+  font-size:13px;line-height:1.75;
+  color:var(--b2);text-align:right;
+  user-select:none;flex-shrink:0;
+  background:transparent;
+  border-right:1px solid var(--b1);
+  margin-right:0;
+}
+.line-num{display:block;padding-right:14px}
+
+/* thinking animation */
+.tdots{display:flex;gap:5px;padding:4px 0;min-height:28px;align-items:center}
+.tdots span{
+  width:7px;height:7px;background:var(--acc);border-radius:50%;
+  opacity:.3;animation:bounce 1.2s ease-in-out infinite;
+}
+.tdots span:nth-child(2){animation-delay:.2s}
+.tdots span:nth-child(3){animation-delay:.4s}
+@keyframes bounce{30%{opacity:1;transform:translateY(-4px)}0%,60%,100%{opacity:.3;transform:none}}
+
+/* file attachment */
+.fatt{
+  display:inline-flex;align-items:center;gap:8px;
+  background:var(--p3);border:1px solid var(--b2);
+  border-radius:7px;padding:7px 12px;margin-bottom:10px;
+  font-size:12px;color:var(--t2);max-width:260px;
+}
+.fatt svg{color:var(--orange);flex-shrink:0}
+.fatt span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+
+/* ══════════ INPUT AREA ══════════ */
+.izone{
+  flex-shrink:0;padding:14px 20px 18px;
+  border-top:1px solid var(--b1);
+  background:rgba(7,8,15,.95);backdrop-filter:blur(16px);
+}
+.iinner{max-width:800px;margin:0 auto}
+.itoolbar{display:flex;align-items:center;gap:5px;margin-bottom:8px;flex-wrap:wrap}
+.itbtn{
+  background:var(--p2);border:1px solid var(--b1);color:var(--t3);
+  padding:5px 10px;border-radius:6px;font-family:'JetBrains Mono',monospace;font-size:10px;
+  cursor:pointer;display:flex;align-items:center;gap:5px;
+  transition:all .14s;letter-spacing:.2px;
+}
+.itbtn:hover{background:var(--p3);color:var(--t2);border-color:var(--b2)}
+.itbtn.on{background:var(--acc-dim);border-color:var(--acc);color:var(--acc)}
+.isep{width:1px;height:16px;background:var(--b1);margin:0 2px}
+
+.drop-z{
+  display:none;border:2px dashed var(--acc);border-radius:9px;
+  padding:14px;text-align:center;font-size:11px;color:var(--acc);
+  font-family:'JetBrains Mono',monospace;margin-bottom:8px;
+  background:var(--acc-dim);letter-spacing:.3px;
+  animation:dpulse 1.5s ease infinite;
+}
+.drop-z.on{display:block}
+@keyframes dpulse{50%{border-color:rgba(108,99,255,.3)}}
+
+.fchips{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:8px}
+.fchip{
+  background:var(--p3);border:1px solid var(--b2);border-radius:6px;
+  padding:5px 9px;display:flex;align-items:center;gap:6px;
+  font-size:11px;color:var(--t2);max-width:180px;
+}
+.fchip span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.fremove{background:none;border:none;color:var(--t3);cursor:pointer;font-size:14px;line-height:1;padding:0;flex-shrink:0;transition:color .14s}
+.fremove:hover{color:var(--red)}
+
+.ibox{
+  display:flex;align-items:flex-end;
+  background:var(--p1);border:1px solid var(--b2);border-radius:12px;
+  transition:border-color .2s,box-shadow .2s;
+}
+.ibox:focus-within{border-color:var(--acc);box-shadow:0 0 0 3px var(--acc-dim)}
+#inp{
+  flex:1;background:transparent;border:none;outline:none;
+  color:var(--t1);font-family:'Outfit',sans-serif;font-size:14.5px;
+  padding:14px 16px;resize:none;min-height:50px;max-height:200px;line-height:1.6;
+}
+#inp::placeholder{color:var(--t3)}
+#sinp{
+  width:38px;height:38px;margin:6px;flex-shrink:0;
+  background:var(--acc);border:none;border-radius:8px;
+  cursor:pointer;display:flex;align-items:center;justify-content:center;
+  transition:all .18s;color:#fff;
+}
+#sinp:hover:not(:disabled){background:#5a52e0;transform:scale(1.06);box-shadow:0 4px 18px var(--acc-glow)}
+#sinp:disabled{background:var(--p3);cursor:not-allowed;color:var(--t3)}
+.ihint{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--t3);text-align:center;margin-top:8px;opacity:.45;letter-spacing:.2px}
+
+/* ══════════ MODAL ══════════ */
+.overlay{
+  position:fixed;inset:0;background:rgba(0,0,0,.7);backdrop-filter:blur(6px);
+  z-index:100;display:flex;align-items:center;justify-content:center;
+  opacity:0;pointer-events:none;transition:opacity .2s;
+}
+.overlay.on{opacity:1;pointer-events:all}
+.modal{
+  background:var(--p1);border:1px solid var(--b2);border-radius:14px;
+  padding:26px;width:400px;max-width:90vw;
+  transform:scale(.95) translateY(10px);transition:transform .2s;
+}
+.overlay.on .modal{transform:none}
+.modal h3{font-size:18px;font-weight:700;margin-bottom:7px}
+.modal p{font-size:13px;color:var(--t2);margin-bottom:18px;line-height:1.6}
+.modal-btns{display:flex;gap:8px;justify-content:flex-end}
+.mdbtn{padding:9px 18px;border-radius:8px;font-family:'Outfit',sans-serif;font-size:13px;font-weight:600;cursor:pointer;transition:all .15s}
+.mdbtn.sec{background:var(--p3);border:1px solid var(--b2);color:var(--t2)}
+.mdbtn.sec:hover{color:var(--t1)}
+.mdbtn.pri{background:var(--acc);border:none;color:#fff}
+.mdbtn.pri:hover{background:#5a52e0}
+
+/* ══════════ TOAST ══════════ */
+.toast{
+  position:fixed;bottom:22px;right:22px;z-index:200;
+  background:var(--p2);border:1px solid var(--b2);border-radius:9px;
+  padding:10px 16px;font-size:13px;color:var(--t1);
+  display:flex;align-items:center;gap:9px;
+  transform:translateY(16px);opacity:0;transition:all .22s;pointer-events:none;
+  box-shadow:0 8px 32px rgba(0,0,0,.4);
+}
+.toast.on{transform:none;opacity:1}
+.tdot{width:6px;height:6px;border-radius:50%;background:var(--green);flex-shrink:0}
+.tdot.err{background:var(--red)}
+
+/* mobile */
+@media(max-width:680px){
+  .sidebar{position:fixed;left:0;top:0;bottom:0;z-index:50;transform:translateX(-100%)}
+  .sidebar.open{transform:none}
+  .menu-btn{display:block}
+  .wgrid{grid-template-columns:1fr}
+  .tbtn span{display:none}
+}
+</style>
+</head>
+<body>
+
+<!-- SIDEBAR -->
+<aside class="sidebar" id="sb">
+  <div class="sb-top">
+    <div class="logo">
+      <div class="logo-box">AK</div>
+      <div class="logo-txt">
+        <strong>AKDev AI</strong>
+        <span>by Aadhavan K</span>
+      </div>
+    </div>
+    <button class="new-btn" onclick="newChat()">
+      <svg width="13" height="13" viewBox="0 0 13 13" fill="none" stroke="currentColor" stroke-width="2.2"><line x1="6.5" y1="1" x2="6.5" y2="12"/><line x1="1" y1="6.5" x2="12" y2="6.5"/></svg>
+      New Chat
+    </button>
+  </div>
+  <div class="sb-section">History</div>
+  <div class="hlist" id="hlist">
+    <div class="hitem active" id="cur-item">
+      <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M1 1h10v8H7L4 11V9H1z"/></svg>
+      New Conversation
+    </div>
+  </div>
+  <div class="sb-foot">
+    <div class="dev-card">
+      <div class="dev-av">A</div>
+      <div class="dev-txt">
+        <strong>Aadhavan K</strong>
+        <span>Developer · AKDev AI</span>
+      </div>
+    </div>
+  </div>
+</aside>
+
+<!-- MAIN -->
+<div class="main">
+  <div class="topbar">
+    <div class="tb-left">
+      <button class="menu-btn" onclick="toggleSB()">
+        <svg width="18" height="14" viewBox="0 0 18 14" fill="none" stroke="currentColor" stroke-width="1.8"><line x1="1" y1="1" x2="17" y2="1"/><line x1="1" y1="7" x2="17" y2="7"/><line x1="1" y1="13" x2="17" y2="13"/></svg>
+      </button>
+      <span class="chat-name" id="ctitle">New Chat</span>
+      <span class="ver-tag">AKDev v3.0</span>
+    </div>
+    <div class="tb-right">
+      <button class="tbtn" onclick="exportPDF()">
+        <svg width="13" height="13" viewBox="0 0 13 13" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M2 1h6l3 3v8H2V1z"/><line x1="6.5" y1="5" x2="6.5" y2="10"/><polyline points="4,8 6.5,10.5 9,8"/></svg>
+        <span>Export PDF</span>
+      </button>
+      <button class="tbtn" onclick="copyLast()">
+        <svg width="13" height="13" viewBox="0 0 13 13" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="4" y="4" width="8" height="8" rx="1.5"/><path d="M1 9V1h8"/></svg>
+        <span>Copy Last</span>
+      </button>
+      <button class="tbtn" onclick="askClear()">
+        <svg width="13" height="13" viewBox="0 0 13 13" fill="none" stroke="currentColor" stroke-width="1.6"><polyline points="2,3 11,3"/><path d="M5 3V1h3v2"/><path d="M3 3l.7 8.3a1 1 0 001 .7h3.6a1 1 0 001-.7L10 3"/></svg>
+        <span>Clear</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- CHAT -->
+  <div id="chat">
+    <div id="welcome">
+      <div class="wic">AK</div>
+      <h1 class="wtitle">I'm <em>AKDev AI</em></h1>
+      <p class="wsub">INTELLIGENT ASSISTANT · BUILT BY AADHAVAN K<br>CODE · ANALYZE · EXPLAIN · EXPORT</p>
+      <div class="wgrid">
+        <div class="wcard" onclick="use('Write a full responsive landing page in HTML and CSS')"><span class="wcard-ico">🌐</span><div class="wcard-txt">Full HTML/CSS landing page</div></div>
+        <div class="wcard" onclick="use('Write a Python REST API with FastAPI and CRUD operations')"><span class="wcard-ico">🐍</span><div class="wcard-txt">Python FastAPI CRUD API</div></div>
+        <div class="wcard" onclick="use('Explain async/await in JavaScript with code examples')"><span class="wcard-ico">⚡</span><div class="wcard-txt">Async/await in JavaScript</div></div>
+        <div class="wcard" onclick="use('Create a React component with useState and useEffect hooks')"><span class="wcard-ico">⚛️</span><div class="wcard-txt">React hooks component</div></div>
+        <div class="wcard" onclick="use('Write SQL queries for a student management database')"><span class="wcard-ico">🗄️</span><div class="wcard-txt">SQL student database</div></div>
+        <div class="wcard" onclick="use('Explain SOLID principles with real code examples')"><span class="wcard-ico">🏗️</span><div class="wcard-txt">SOLID principles + code</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- INPUT -->
+  <div class="izone">
+    <div class="iinner">
+      <div class="itoolbar">
+        <button class="itbtn" onclick="trigFile('doc')">
+          <svg width="11" height="11" viewBox="0 0 11 11" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 1h5l2 2v7H2V1z"/><line x1="3.5" y1="5" x2="7.5" y2="5"/><line x1="3.5" y1="7" x2="7.5" y2="7"/></svg>
+          Attach Doc
+        </button>
+        <button class="itbtn" onclick="trigFile('img')">
+          <svg width="11" height="11" viewBox="0 0 11 11" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="1" y="1" width="9" height="9" rx="1.5"/><circle cx="4" cy="4" r="1"/><path d="M1 8l2.5-2.5 2 2 1.5-1.5L10 9"/></svg>
+          Image
+        </button>
+        <div class="isep"></div>
+        <button class="itbtn" id="wb" onclick="toggleWeb()">
+          <svg width="11" height="11" viewBox="0 0 11 11" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="5.5" cy="5.5" r="4"/><line x1="1.5" y1="5.5" x2="9.5" y2="5.5"/><path d="M5.5 1.5c-1.5 2-1.5 6 0 8M5.5 1.5c1.5 2 1.5 6 0 8"/></svg>
+          Web Search
+        </button>
+        <button class="itbtn" onclick="exportPDF()">
+          <svg width="11" height="11" viewBox="0 0 11 11" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 1h5l2 2v7H2V1z"/><line x1="5.5" y1="4" x2="5.5" y2="8"/><polyline points="3.5,7 5.5,9 7.5,7"/></svg>
+          Chat → PDF
+        </button>
+        <div class="isep"></div>
+        <button class="itbtn" onclick="insertFence()">
+          <svg width="11" height="11" viewBox="0 0 11 11" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="3,3 1,5.5 3,8"/><polyline points="8,3 10,5.5 8,8"/><line x1="6.2" y1="2" x2="4.8" y2="9"/></svg>
+          Code Block
+        </button>
+      </div>
+      <div class="drop-z" id="dropz">📎 Drop file here — PDF · TXT · Images supported</div>
+      <div class="fchips" id="fchips"></div>
+      <div class="ibox">
+        <textarea id="inp" placeholder="Ask AKDev anything…" rows="1"></textarea>
+        <button id="sinp" disabled onclick="send()">
+          <svg width="15" height="15" viewBox="0 0 15 15" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="square"><line x1="7.5" y1="13" x2="7.5" y2="2"/><polyline points="3,6 7.5,2 12,6"/></svg>
+        </button>
+      </div>
+      <div class="ihint">Enter → send &nbsp;·&nbsp; Shift+Enter → new line &nbsp;·&nbsp; Drag files to attach</div>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL -->
+<div class="overlay" id="modal">
+  <div class="modal">
+    <h3>Clear Chat?</h3>
+    <p>All messages in this conversation will be removed. This cannot be undone.</p>
+    <div class="modal-btns">
+      <button class="mdbtn sec" onclick="closeModal()">Cancel</button>
+      <button class="mdbtn pri" onclick="doClear()">Clear Chat</button>
+    </div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"><div class="tdot" id="tdot"></div><span id="tmsg"></span></div>
+
+<!-- FILE INPUTS -->
+<input type="file" id="fi-doc" style="display:none" accept=".pdf,.txt,.md,.csv,.json,.js,.ts,.py,.html,.css,.jsx,.tsx,.java,.go,.rs,.cpp,.c,.cs,.rb,.php,.sh,.yaml,.yml,.sql" onchange="onFile(this,'doc')">
+<input type="file" id="fi-img" style="display:none" accept="image/*" onchange="onFile(this,'img')">
+
+<script>
+// ═══════════════════════════════════════════════
+//  STATE
+// ═══════════════════════════════════════════════
+const S = {
+  hist: [],          // conversation history
+  atts: [],          // pending attachments
+  web: false,        // web search toggle
+  busy: false,       // streaming lock
+  title: 'New Chat'
+};
+
+// ═══════════════════════════════════════════════
+//  LANGUAGE → FILENAME MAP
+// ═══════════════════════════════════════════════
+const LANG_FILE = {
+  html:'index.html', htm:'index.html',
+  css:'style.css',
+  js:'script.js', javascript:'script.js',
+  ts:'index.ts', typescript:'index.ts',
+  jsx:'App.jsx', tsx:'App.tsx',
+  py:'main.py', python:'main.py',
+  java:'Main.java',
+  c:'main.c', cpp:'main.cpp',
+  cs:'Program.cs',
+  go:'main.go',
+  rs:'main.rs', rust:'main.rs',
+  php:'index.php',
+  rb:'main.rb', ruby:'main.rb',
+  swift:'main.swift',
+  kt:'Main.kt', kotlin:'Main.kt',
+  sh:'script.sh', bash:'script.sh',
+  sql:'query.sql',
+  json:'data.json',
+  xml:'data.xml',
+  yaml:'config.yaml', yml:'config.yml',
+  md:'README.md', markdown:'README.md',
+  vue:'App.vue',
+  svelte:'App.svelte',
+  dart:'main.dart',
+  r:'script.r',
+};
+
+// ═══════════════════════════════════════════════
+//  DOM REFS
+// ═══════════════════════════════════════════════
+const chatEl   = document.getElementById('chat');
+const welEl    = document.getElementById('welcome');
+const inpEl    = document.getElementById('inp');
+const sbtnEl   = document.getElementById('sinp');
+const fchipsEl = document.getElementById('fchips');
+const dropzEl  = document.getElementById('dropz');
+
+// ═══════════════════════════════════════════════
+//  INPUT
+// ═══════════════════════════════════════════════
+inpEl.addEventListener('input', () => {
+  inpEl.style.height = 'auto';
+  inpEl.style.height = Math.min(inpEl.scrollHeight, 200) + 'px';
+  sbtnEl.disabled = (!inpEl.value.trim() && !S.atts.length) || S.busy;
+});
+inpEl.addEventListener('keydown', e => {
+  if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); if (!sbtnEl.disabled) send(); }
+});
+
+// ═══════════════════════════════════════════════
+//  DRAG & DROP
+// ═══════════════════════════════════════════════
+document.addEventListener('dragover', e => { e.preventDefault(); dropzEl.classList.add('on'); });
+document.addEventListener('dragleave', e => { if (!e.relatedTarget) dropzEl.classList.remove('on'); });
+document.addEventListener('drop', e => {
+  e.preventDefault(); dropzEl.classList.remove('on');
+  [...e.dataTransfer.files].forEach(addFile);
+});
+
+// ═══════════════════════════════════════════════
+//  FILES
+// ═══════════════════════════════════════════════
+function trigFile(t) { document.getElementById(t==='doc'?'fi-doc':'fi-img').click(); }
+function onFile(el, t) { if (el.files[0]) { addFile(el.files[0]); el.value=''; } }
+
+async function addFile(f) {
+  try {
+    const isImg = f.type.startsWith('image/');
+    const content = isImg ? await toB64(f) : await toText(f);
+    S.atts.push({ name:f.name, type:isImg?'image':'text', content, mime:f.type });
+    renderChips();
+    sbtnEl.disabled = S.busy;
+    toast(`📎 ${f.name}`);
+  } catch { toast('Failed to read file', true); }
+}
+const toText = f => new Promise((res,rej) => { const r=new FileReader(); r.onload=e=>res(e.target.result); r.onerror=rej; r.readAsText(f); });
+const toB64  = f => new Promise((res,rej) => { const r=new FileReader(); r.onload=e=>res(e.target.result.split(',')[1]); r.onerror=rej; r.readAsDataURL(f); });
+
+function renderChips() {
+  fchipsEl.innerHTML = S.atts.map((f,i) => `
+    <div class="fchip">
+      <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="#ff7b54" stroke-width="1.5"><path d="M2 1h6l2 2v8H2V1z"/></svg>
+      <span>${f.name}</span>
+      <button class="fremove" onclick="rmFile(${i})">×</button>
+    </div>`).join('');
+}
+function rmFile(i) {
+  S.atts.splice(i,1); renderChips();
+  if (!S.atts.length && !inpEl.value.trim()) sbtnEl.disabled = true;
+}
+
+// ═══════════════════════════════════════════════
+//  MARKDOWN + CODE RENDERER
+//  *** CODE IS SET VIA textContent — NEVER innerHTML ***
+// ═══════════════════════════════════════════════
+
+/**
+ * Parse raw AI text into a DOM fragment.
+ * Code blocks are extracted FIRST, their content placed into
+ * <pre><code> via .textContent, so HTML is NEVER rendered.
+ */
+function renderMd(raw) {
+  const frag = document.createDocumentFragment();
+
+  // Split on code fences — capture lang + code
+  const parts = raw.split(/(```[\w./-]*\n[\s\S]*?```)/g);
+
+  for (const part of parts) {
+    const fenceMatch = part.match(/^```([\w./-]*)\n([\s\S]*?)```$/);
+    if (fenceMatch) {
+      // ── CODE BLOCK ──
+      const langRaw = fenceMatch[1].trim().toLowerCase();
+      const codeRaw = fenceMatch[2];           // raw code string
+      const fileName = LANG_FILE[langRaw] || (langRaw ? `file.${langRaw}` : 'snippet.txt');
+      const dispLang = fenceMatch[1].trim().toUpperCase() || 'CODE';
+
+      const wrap = document.createElement('div');
+      wrap.className = 'cblock';
+
+      // header
+      const head = document.createElement('div');
+      head.className = 'cblock-head';
+      head.innerHTML = `
+        <div class="chead-l">
+          <div class="cdots"><div class="cdot"></div><div class="cdot"></div><div class="cdot"></div></div>
+          <span class="cfile">${escHtml(fileName)}</span>
+          <span class="clang">${escHtml(dispLang)}</span>
+        </div>
+        <div class="chead-r">
+          <button class="cbtn" id="copy-${Math.random().toString(36).slice(2)}">
+            <svg width="11" height="11" viewBox="0 0 11 11" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="7" height="7" rx="1"/><path d="M1 8V1h7"/></svg>
+            Copy
+          </button>
+          <button class="cbtn dl">
+            <svg width="11" height="11" viewBox="0 0 11 11" fill="none" stroke="currentColor" stroke-width="1.5"><line x1="5.5" y1="1" x2="5.5" y2="7.5"/><polyline points="3,5.5 5.5,8 8,5.5"/><line x1="1" y1="10" x2="10" y2="10"/></svg>
+            Download
+          </button>
+        </div>`;
+      wrap.appendChild(head);
+
+      // body — textContent only, NEVER innerHTML for user code
+      const body = document.createElement('div');
+      body.className = 'cblock-body';
+      const scroll = document.createElement('div');
+      scroll.className = 'cblock-scroll';
+      const codeWrap = document.createElement('div');
+      codeWrap.className = 'ccode-wrap';
+
+      // line numbers
+      const lines = codeRaw.split('\n');
+      const numEl = document.createElement('div');
+      numEl.className = 'line-nums';
+      lines.forEach((_,i) => {
+        const n = document.createElement('span');
+        n.className = 'line-num';
+        n.textContent = i + 1;
+        numEl.appendChild(n);
+      });
+
+      // code — textContent sets plain text, browser CANNOT interpret it as HTML
+      const codeEl = document.createElement('code');
+      codeEl.className = 'ccode';
+      codeEl.textContent = codeRaw;  // ← THE FIX: textContent, not innerHTML
+
+      codeWrap.appendChild(numEl);
+      codeWrap.appendChild(codeEl);
+      scroll.appendChild(codeWrap);
+      body.appendChild(scroll);
+      wrap.appendChild(body);
+      frag.appendChild(wrap);
+
+      // wire copy button
+      const copyBtn = head.querySelector('.cbtn:not(.dl)');
+      copyBtn.addEventListener('click', () => {
+        navigator.clipboard.writeText(codeRaw).then(() => {
+          copyBtn.classList.add('copied');
+          copyBtn.innerHTML = `<svg width="11" height="11" viewBox="0 0 11 11" fill="none" stroke="currentColor" stroke-width="2"><polyline points="1,6 4,9 10,2"/></svg> Copied!`;
+          setTimeout(() => {
+            copyBtn.classList.remove('copied');
+            copyBtn.innerHTML = `<svg width="11" height="11" viewBox="0 0 11 11" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="7" height="7" rx="1"/><path d="M1 8V1h7"/></svg> Copy`;
+          }, 2200);
+        });
+      });
+
+      // wire download button
+      const dlBtn = head.querySelector('.cbtn.dl');
+      dlBtn.addEventListener('click', () => {
+        const blob = new Blob([codeRaw], { type: 'text/plain' });
+        const a = document.createElement('a');
+        a.href = URL.createObjectURL(blob);
+        a.download = fileName;
+        a.click();
+        URL.revokeObjectURL(a.href);
+        toast(`⬇ Downloaded ${fileName}`);
+      });
+
+    } else {
+      // ── NORMAL TEXT / MARKDOWN ──
+      if (!part.trim()) continue;
+      const div = document.createElement('div');
+      div.className = 'mcontent';
+      div.innerHTML = mdToHtml(part);
+      frag.appendChild(div);
+    }
+  }
+  return frag;
+}
+
+/** Inline markdown → safe HTML (no code blocks here, they're already extracted) */
+function mdToHtml(text) {
+  // escape any remaining HTML-like content
+  text = text
+    .replace(/`([^`\n]+)`/g, (_, c) => `<code class="ic">${escHtml(c)}</code>`)
+    .replace(/\*\*([^*\n]+)\*\*/g, '<strong>$1</strong>')
+    .replace(/\*([^*\n]+)\*/g, '<em>$1</em>')
+    .replace(/^### (.+)$/gm, '<h3>$1</h3>')
+    .replace(/^## (.+)$/gm, '<h2>$1</h2>')
+    .replace(/^# (.+)$/gm, '<h1>$1</h1>')
+    .replace(/^> (.+)$/gm, '<blockquote>$1</blockquote>')
+    .replace(/^[-*] (.+)$/gm, '<li>$1</li>');
+
+  // wrap li groups
+  text = text.replace(/(<li>.*?)(?=\n(?!<li>)|$)/gs, m => `<ul>${m}</ul>`);
+
+  // paragraphs
+  return text.split('\n').map(l => {
+    if (!l.trim()) return '<br>';
+    if (l.match(/^<(h[1-3]|li|ul|ol|blockquote|br)/)) return l;
+    return `<p>${l}</p>`;
+  }).join('');
+}
+
+function escHtml(s) {
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+// ═══════════════════════════════════════════════
+//  ADD MESSAGE TO DOM
+// ═══════════════════════════════════════════════
+function addMsg(role, text, files = []) {
+  if (welEl.parentNode) welEl.style.display = 'none';
+
+  const isAI = role === 'assistant';
+  const wrap = document.createElement('div');
+  wrap.className = 'mwrap';
+  const now = new Date().toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'});
+
+  // skeleton with avatar + meta
+  wrap.innerHTML = `
+    <div class="msg">
+      <div class="av ${isAI?'av-a':'av-u'}">${isAI?'AK':'YOU'}</div>
+      <div class="mbody">
+        <div class="mmeta">
+          <span class="mname ${isAI?'ai':''}">${isAI?'AKDev AI':'You'}</span>
+          <span class="mtime">${now}</span>
+          <div class="mbtns">
+            <button class="mbtn-sm copy-msg-btn">
+              <svg width="10" height="10" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="6" height="6" rx="1"/><path d="M1 7V1h6"/></svg>
+              Copy
+            </button>
+          </div>
+        </div>
+        ${files.map(n=>`<div class="fatt"><svg width="13" height="13" viewBox="0 0 13 13" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 1h7l2 2v9H2z"/></svg><span>${escHtml(n)}</span></div>`).join('')}
+        <div class="msgbody"></div>
+      </div>
+    </div>`;
+
+  chatEl.appendChild(wrap);
+  chatEl.scrollTop = chatEl.scrollHeight;
+
+  // copy button
+  wrap.querySelector('.copy-msg-btn').addEventListener('click', () => {
+    const t = wrap.querySelector('.msgbody').innerText;
+    navigator.clipboard.writeText(t).then(() => toast('Copied to clipboard'));
+  });
+
+  return wrap.querySelector('.msgbody');
+}
+
+// ═══════════════════════════════════════════════
+//  SEND
+// ═══════════════════════════════════════════════
+async function send() {
+  const text = inpEl.value.trim();
+  const atts = [...S.atts];
+  if ((!text && !atts.length) || S.busy) return;
+
+  S.busy = true; sbtnEl.disabled = true;
+  inpEl.value = ''; inpEl.style.height = 'auto';
+  S.atts = []; renderChips();
+
+  // title
+  if (!S.hist.length && text) {
+    const t = text.slice(0,38) + (text.length>38?'…':'');
+    S.title = t;
+    document.getElementById('ctitle').textContent = t;
+    document.getElementById('cur-item').textContent = t;
+  }
+
+  // user bubble
+  const fileNames = atts.map(a=>a.name);
+  addMsg('user', text, fileNames).appendChild((() => {
+    const d = document.createElement('div');
+    d.className = 'mcontent';
+    d.innerHTML = mdToHtml(escHtml(text));
+    return d;
+  })());
+
+  // AI bubble
+  const aibody = addMsg('assistant', '', []);
+  const typing = document.createElement('div');
+  typing.className = 'tdots';
+  typing.innerHTML = '<span></span><span></span><span></span>';
+  aibody.appendChild(typing);
+
+  // Build messages
+  let userContent = [];
+  atts.forEach(a => {
+    if (a.type === 'image') userContent.push({type:'image',source:{type:'base64',media_type:a.mime,data:a.content}});
+    else userContent.push({type:'text',text:`[Attached: ${a.name}]\n\n${a.content.slice(0,9000)}`});
+  });
+  if (text) userContent.push({type:'text',text});
+  S.hist.push({role:'user', content: userContent.length===1&&userContent[0].type==='text' ? userContent[0].text : userContent});
+
+  // animate typing dots while waiting
+  let dotFrame = 0;
+  const dotTimer = setInterval(() => {
+    dotFrame++;
+    const dots = ['⠋','⠙','⠹','⠸','⠼','⠴','⠦','⠧','⠇','⠏'];
+    typing.innerHTML = `<span style="font-family:'JetBrains Mono',monospace;font-size:13px;color:var(--acc);letter-spacing:2px">${dots[dotFrame%dots.length]} thinking…</span>`;
+  }, 100);
+
+  try {
+    const payload = {
+      model: 'claude-sonnet-4-20250514',
+      max_tokens: 4096,
+      stream: false,
+      system: `You are AKDev AI, a brilliant coding assistant and intelligent helper developed by Aadhavan K.
+RULES:
+1. Always wrap ALL code in fenced code blocks with the exact language tag: \`\`\`html  \`\`\`python  \`\`\`javascript  \`\`\`css  \`\`\`sql  etc.
+2. NEVER write bare/raw code outside of triple-backtick fences.
+3. NEVER omit the language identifier after the opening triple-backtick.
+4. Write complete working code, no placeholders or ellipsis.
+5. Never mention Claude, Anthropic, or any AI company/model. You are AKDev AI by Aadhavan K only.
+6. Be thorough, accurate, and helpful.`,
+      messages: S.hist,
+      ...(S.web ? { tools:[{type:'web_search_20250305',name:'web_search'}] } : {})
+    };
+
+    const res = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    });
+
+    clearInterval(dotTimer);
+
+    if (!res.ok) {
+      const errData = await res.json().catch(() => ({}));
+      throw new Error(errData.error?.message || `Server error ${res.status}`);
+    }
+
+    const data = await res.json();
+
+    // extract text from content blocks (handles tool_use blocks too)
+    const full = (data.content || [])
+      .filter(b => b.type === 'text')
+      .map(b => b.text)
+      .join('');
+
+    if (!full) throw new Error('Empty response from server.');
+
+    // render with typewriter effect
+    typing.remove();
+    let i = 0;
+    const chars = [...full]; // unicode-safe split
+    const CHUNK = 6; // chars per frame — controls speed
+
+    function typeChunk() {
+      i = Math.min(i + CHUNK, chars.length);
+      const partial = chars.slice(0, i).join('');
+      aibody.innerHTML = '';
+      aibody.appendChild(renderMd(partial));
+      if (i < chars.length) {
+        requestAnimationFrame(typeChunk);
+      } else {
+        // done — clean final render
+        aibody.innerHTML = '';
+        aibody.appendChild(renderMd(full));
+      }
+      chatEl.scrollTop = chatEl.scrollHeight;
+    }
+    requestAnimationFrame(typeChunk);
+
+    S.hist.push({ role:'assistant', content:full });
+
+  } catch(err) {
+    clearInterval(dotTimer);
+    typing.remove();
+    const errDiv = document.createElement('div');
+    errDiv.className = 'mcontent';
+    errDiv.innerHTML = `<div style="background:rgba(255,94,122,.08);border:1px solid rgba(255,94,122,.22);border-left:3px solid var(--red);padding:13px 15px;border-radius:8px;font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--red);line-height:1.8">
+      ⚠ <strong>${escHtml(err.message)}</strong><br>
+      <span style="opacity:.65;font-size:11px">
+        Make sure you're using this inside the Claude.ai interface where the API key is provided automatically.
+        If running locally, you need to set up a backend proxy with your API key.
+      </span>
+    </div>`;
+    aibody.appendChild(errDiv);
+    S.hist.push({ role:'assistant', content:`Error: ${err.message}` });
+  }
+
+  S.busy = false;
+  sbtnEl.disabled = !inpEl.value.trim() && !S.atts.length;
+  inpEl.focus();
+  chatEl.scrollTop = chatEl.scrollHeight;
+}
+
+// ═══════════════════════════════════════════════
+//  TOOLBAR HELPERS
+// ═══════════════════════════════════════════════
+function use(t) { inpEl.value=t; inpEl.dispatchEvent(new Event('input')); inpEl.focus(); }
+function toggleWeb() {
+  S.web = !S.web;
+  document.getElementById('wb').classList.toggle('on', S.web);
+  toast(S.web?'🌐 Web search ON':'🔒 Web search OFF');
+}
+function insertFence() {
+  const p = inpEl.selectionStart;
+  inpEl.value = inpEl.value.slice(0,p) + '```\n\n```' + inpEl.value.slice(p);
+  inpEl.setSelectionRange(p+4,p+4); inpEl.focus();
+  inpEl.dispatchEvent(new Event('input'));
+}
+function copyLast() {
+  const all = chatEl.querySelectorAll('.mwrap');
+  for (let i=all.length-1;i>=0;i--) {
+    if (all[i].querySelector('.mname.ai')) {
+      navigator.clipboard.writeText(all[i].querySelector('.msgbody').innerText).then(()=>toast('Copied last response'));
+      return;
+    }
+  }
+  toast('No AI response yet', true);
+}
+
+// ═══════════════════════════════════════════════
+//  PDF EXPORT
+// ═══════════════════════════════════════════════
+async function exportPDF() {
+  const msgs = chatEl.querySelectorAll('.mwrap');
+  if (!msgs.length) { toast('No chat to export', true); return; }
+  toast('📄 Generating PDF…');
+  try {
+    const {jsPDF} = window.jspdf;
+    const doc = new jsPDF({orientation:'portrait',unit:'mm',format:'a4'});
+    const W = doc.internal.pageSize.getWidth(), H = doc.internal.pageSize.getHeight();
+    const M = 18; let y = M;
+
+    doc.setFillColor(108,99,255); doc.rect(0,0,W,13,'F');
+    doc.setTextColor(255,255,255); doc.setFontSize(10); doc.setFont('helvetica','bold');
+    doc.text('AKDev AI — Developed by Aadhavan K', M, 9);
+    doc.setFont('helvetica','normal'); doc.setFontSize(8);
+    doc.text(new Date().toLocaleString(), W-M, 9, {align:'right'});
+    y = 22;
+
+    doc.setTextColor(20,20,50); doc.setFontSize(14); doc.setFont('helvetica','bold');
+    doc.text(S.title||'Chat Export', M, y); y+=9;
+    doc.setDrawColor(200,200,230); doc.line(M,y,W-M,y); y+=7;
+
+    msgs.forEach(wrap => {
+      const nm = wrap.querySelector('.mname')?.textContent||'';
+      const tm = wrap.querySelector('.mtime')?.textContent||'';
+      const body = wrap.querySelector('.msgbody')?.innerText?.trim()||'';
+      const isAI = nm==='AKDev AI';
+
+      if (y > H-28) { doc.addPage(); y=M; }
+      doc.setFontSize(9); doc.setFont('helvetica','bold');
+      doc.setTextColor(isAI?90:60, isAI?70:110, isAI?220:150);
+      doc.text(`${nm}  ${tm}`, M, y); y+=5;
+
+      doc.setFont('helvetica','normal'); doc.setFontSize(10); doc.setTextColor(35,35,55);
+      const lines = doc.splitTextToSize(body, W-M*2-3);
+      lines.forEach(l => {
+        if (y>H-18){doc.addPage();y=M;}
+        doc.text(l, M+(isAI?0:4), y); y+=5;
+      });
+      y+=4; doc.setDrawColor(225,225,240); doc.line(M,y,W-M,y); y+=5;
+    });
+
+    const tp = doc.internal.getNumberOfPages();
+    for (let i=1;i<=tp;i++){
+      doc.setPage(i); doc.setFontSize(8); doc.setTextColor(160,160,185);
+      doc.text(`AKDev AI by Aadhavan K  ·  Page ${i} of ${tp}`, W/2, H-7, {align:'center'});
+    }
+    doc.save(`AKDev-${Date.now()}.pdf`);
+    toast('✅ PDF saved');
+  } catch(e){ toast('PDF failed: '+e.message, true); }
+}
+
+// ═══════════════════════════════════════════════
+//  CLEAR / NEW CHAT
+// ═══════════════════════════════════════════════
+function askClear() { document.getElementById('modal').classList.add('on'); }
+function closeModal() { document.getElementById('modal').classList.remove('on'); }
+function doClear() {
+  closeModal(); S.hist=[]; S.atts=[]; renderChips();
+  chatEl.innerHTML=''; chatEl.appendChild(welEl); welEl.style.display='block';
+  inpEl.value=''; inpEl.style.height='auto'; sbtnEl.disabled=true;
+  S.title='New Chat'; document.getElementById('ctitle').textContent='New Chat';
+  document.getElementById('cur-item').textContent='New Conversation';
+  toast('Chat cleared');
+}
+function newChat() {
+  if (S.hist.length) {
+    const it = document.createElement('div');
+    it.className='hitem';
+    it.innerHTML=`<svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M1 1h10v8H7L4 11V9H1z"/></svg>${escHtml(S.title)}`;
+    it.onclick=()=>toast('Session restore coming soon');
+    document.getElementById('hlist').insertBefore(it, document.getElementById('cur-item').nextSibling);
+  }
+  doClear();
+}
+
+// ═══════════════════════════════════════════════
+//  TOAST
+// ═══════════════════════════════════════════════
+let tTimer;
+function toast(msg, err=false) {
+  const el=document.getElementById('toast');
+  document.getElementById('tdot').className='tdot'+(err?' err':'');
+  document.getElementById('tmsg').textContent=msg;
+  el.classList.add('on'); clearTimeout(tTimer);
+  tTimer=setTimeout(()=>el.classList.remove('on'),2800);
+}
+
+// ═══════════════════════════════════════════════
+//  SIDEBAR TOGGLE (mobile)
+// ═══════════════════════════════════════════════
+function toggleSB() { document.getElementById('sb').classList.toggle('open'); }
+document.addEventListener('click', e=>{
+  if (window.innerWidth<=680) {
+    const sb=document.getElementById('sb');
+    if (sb.classList.contains('open') && !sb.contains(e.target) && !e.target.closest('.menu-btn')) sb.classList.remove('open');
+  }
+});
+document.getElementById('modal').addEventListener('click',function(e){if(e.target===this)closeModal();});
+</script>
+</body>
+</html>

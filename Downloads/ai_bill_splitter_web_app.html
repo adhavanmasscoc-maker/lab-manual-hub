@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Bill Splitter</title>
+<style>
+body {
+  font-family: Arial, sans-serif;
+  background: #0f172a;
+  color: #fff;
+  padding: 20px;
+}
+.container {
+  max-width: 900px;
+  margin: auto;
+}
+textarea, input {
+  width: 100%;
+  padding: 10px;
+  margin: 10px 0;
+  border-radius: 8px;
+  border: none;
+}
+button {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 8px;
+  background: #22c55e;
+  color: #000;
+  cursor: pointer;
+  margin-top: 10px;
+}
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+th, td {
+  border: 1px solid #444;
+  padding: 8px;
+  text-align: center;
+}
+.step {
+  margin-top: 30px;
+  padding: 15px;
+  background: #1e293b;
+  border-radius: 10px;
+}
+</style>
+</head>
+<body>
+<div class="container">
+<h1>AI Bill Splitter (Interactive)</h1>
+
+<div class="step">
+<h3>PHASE 1: Paste Invoice</h3>
+<textarea id="invoice" rows="6" placeholder="Paste your invoice text here..."></textarea>
+<button onclick="processInvoice()">Process</button>
+</div>
+
+<div id="output"></div>
+</div>
+
+<script>
+let items = [];
+let people = [];
+let splits = {};
+let extraCharge = 0;
+
+function processInvoice() {
+  const text = document.getElementById('invoice').value;
+  const lines = text.split('\n');
+  items = [];
+
+  lines.forEach(line => {
+    let match = line.match(/(.*?)(\d+)\s*[xX]?\s*₹?(\d+\.?\d*)/);
+    if (match) {
+      let name = match[1].trim();
+      let qty = parseInt(match[2]);
+      let price = parseFloat(match[3]);
+      items.push({name, qty, price, total: qty * price});
+    }
+  });
+
+  displayTable();
+  askPeople();
+}
+
+function displayTable() {
+  let html = '<div class="step"><h3>Clean Table</h3><table><tr><th>Item</th><th>Qty</th><th>Price</th><th>Total</th></tr>';
+  items.forEach(i => {
+    html += `<tr><td>${i.name}</td><td>${i.qty}</td><td>${i.price}</td><td>${i.total}</td></tr>`;
+  });
+  html += '</table></div>';
+  document.getElementById('output').innerHTML = html;
+}
+
+function askPeople() {
+  let html = '<div class="step"><h3>PHASE 3: People</h3>' +
+    '<input id="names" placeholder="Enter names (comma separated)">' +
+    '<button onclick="savePeople()">Next</button></div>';
+  document.getElementById('output').innerHTML += html;
+}
+
+function savePeople() {
+  let names = document.getElementById('names').value.split(',');
+  people = names.map(n => n.trim());
+  people.forEach(p => splits[p] = 0);
+  assignItems();
+}
+
+function assignItems() {
+  let html = '<div class="step"><h3>PHASE 4: Assign Items</h3>';
+
+  items.forEach((item, index) => {
+    html += `<p>${item.name} (Qty: ${item.qty})</p>`;
+    people.forEach(p => {
+      html += `${p}: <input type="number" id="${p}_${index}" min="0" value="0"><br>`;
+    });
+  });
+
+  html += '<button onclick="calculateSplit()">Calculate</button></div>';
+  document.getElementById('output').innerHTML += html;
+}
+
+function calculateSplit() {
+  items.forEach((item, index) => {
+    let totalQty = 0;
+
+    people.forEach(p => {
+      let val = parseInt(document.getElementById(`${p}_${index}`).value) || 0;
+      totalQty += val;
+    });
+
+    people.forEach(p => {
+      let val = parseInt(document.getElementById(`${p}_${index}`).value) || 0;
+      if (val > 0) {
+        let share = (val / item.qty) * item.total;
+        splits[p] += share;
+      }
+    });
+  });
+
+  showResults();
+}
+
+function showResults() {
+  let html = '<div class="step"><h3>Final Split</h3><table><tr><th>Person</th><th>Amount</th></tr>';
+
+  people.forEach(p => {
+    html += `<tr><td>${p}</td><td>₹${splits[p].toFixed(2)}</td></tr>`;
+  });
+
+  html += '</table></div>';
+  document.getElementById('output').innerHTML += html;
+}
+</script>
+</body>
+</html>

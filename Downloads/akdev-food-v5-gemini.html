@@ -1,0 +1,3974 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CIT Food Finder</title>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Mono:wght@400;500&display=swap"
+    rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0a0a0f;
+      --surface: #111118;
+      --card: #16161f;
+      --border: #1e1e2e;
+      --cyan: #00e5ff;
+      --purple: #9b5de5;
+      --orange: #ff6b35;
+      --green: #00d68f;
+      --yellow: #ffd166;
+      --red: #ef476f;
+      --text: #e8e8f0;
+      --muted: #6b6b80;
+      --dim: #3a3a50;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Syne', sans-serif;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .glow-dot {
+      position: fixed;
+      border-radius: 50%;
+      filter: blur(90px);
+      pointer-events: none;
+      z-index: 1;
+      opacity: .09;
+    }
+
+    .glow-1 {
+      width: 450px;
+      height: 450px;
+      background: var(--cyan);
+      top: -120px;
+      right: -120px;
+    }
+
+    .glow-2 {
+      width: 320px;
+      height: 320px;
+      background: var(--purple);
+      bottom: 80px;
+      left: -80px;
+    }
+
+    /* HEADER */
+    header {
+      position: relative;
+      z-index: 10;
+      padding: 20px 28px 0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .logo-title {
+      font-size: 20px;
+      font-weight: 800;
+      letter-spacing: -.5px;
+      background: linear-gradient(90deg, var(--cyan), var(--purple));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .logo-sub {
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      color: var(--muted);
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      margin-top: 2px;
+    }
+
+    .header-right {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .time-badge {
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      color: var(--yellow);
+      border: 1px solid rgba(255, 209, 102, .3);
+      padding: 4px 10px;
+      border-radius: 20px;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .time-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--yellow);
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+
+      0%,
+      100% {
+        opacity: 1
+      }
+
+      50% {
+        opacity: .3
+      }
+    }
+
+    .ai-btn {
+      background: linear-gradient(135deg, var(--purple), var(--cyan));
+      border: none;
+      color: #000;
+      font-family: 'Syne', sans-serif;
+      font-size: 12px;
+      font-weight: 800;
+      padding: 7px 15px;
+      border-radius: 20px;
+      cursor: pointer;
+      transition: opacity .2s, transform .15s;
+    }
+
+    .ai-btn:hover {
+      opacity: .88;
+      transform: translateY(-1px);
+    }
+
+    /* TIME BANNER */
+    .time-banner {
+      position: relative;
+      z-index: 10;
+      margin: 14px 28px 0;
+      background: linear-gradient(135deg, rgba(255, 209, 102, .07), rgba(0, 229, 255, .04));
+      border: 1px solid rgba(255, 209, 102, .18);
+      border-radius: 12px;
+      padding: 12px 16px;
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+    }
+
+    .tb-icon {
+      font-size: 20px;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+
+    .tb-text strong {
+      font-size: 13px;
+      color: var(--yellow);
+    }
+
+    .tb-text p {
+      font-size: 12px;
+      color: var(--muted);
+      margin-top: 2px;
+    }
+
+    .tb-chips {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+      margin-top: 7px;
+    }
+
+    .tb-chip {
+      background: rgba(0, 229, 255, .08);
+      border: 1px solid rgba(0, 229, 255, .2);
+      color: var(--cyan);
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      padding: 3px 10px;
+      border-radius: 20px;
+      cursor: pointer;
+      transition: all .18s;
+    }
+
+    .tb-chip:hover {
+      background: var(--cyan);
+      color: #000;
+    }
+
+    /* HERO */
+    .hero {
+      position: relative;
+      z-index: 10;
+      padding: 20px 28px 14px;
+    }
+
+    .hero h1 {
+      font-size: clamp(23px, 4vw, 42px);
+      font-weight: 800;
+      line-height: 1.07;
+      letter-spacing: -1.5px;
+      margin-bottom: 6px;
+    }
+
+    .hero h1 span {
+      color: var(--cyan);
+    }
+
+    .hero p {
+      color: var(--muted);
+      font-size: 13px;
+      max-width: 420px;
+      line-height: 1.6;
+    }
+
+    /* STICKY SEARCH */
+    .search-sticky {
+      position: sticky;
+      top: 0;
+      z-index: 200;
+      background: rgba(10, 10, 15, .94);
+      backdrop-filter: blur(14px);
+      padding: 10px 28px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .search-wrap {
+      position: relative;
+    }
+
+    .search-wrap input {
+      width: 100%;
+      background: var(--card);
+      border: 1px solid var(--border);
+      color: var(--text);
+      font-family: 'Syne', sans-serif;
+      font-size: 14px;
+      padding: 11px 80px 11px 16px;
+      border-radius: 12px;
+      outline: none;
+      transition: border-color .2s;
+    }
+
+    .search-wrap input:focus {
+      border-color: var(--cyan);
+    }
+
+    .search-wrap input::placeholder {
+      color: var(--muted);
+    }
+
+    .search-icon {
+      position: absolute;
+      right: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--muted);
+      font-size: 15px;
+      pointer-events: none;
+    }
+
+    .search-clear {
+      position: absolute;
+      right: 38px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: var(--dim);
+      border: none;
+      color: var(--text);
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      cursor: pointer;
+      font-size: 11px;
+      display: none;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .search-clear.show {
+      display: flex;
+    }
+
+    /* SEARCH DROPDOWN */
+    .search-drop {
+      position: absolute;
+      top: calc(100%+6px);
+      left: 0;
+      right: 0;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      z-index: 300;
+      max-height: 380px;
+      overflow-y: auto;
+      scrollbar-width: thin;
+      scrollbar-color: var(--dim) transparent;
+      display: none;
+      box-shadow: 0 12px 40px rgba(0, 0, 0, .5);
+    }
+
+    .search-drop.open {
+      display: block;
+    }
+
+    .search-drop-header {
+      padding: 10px 14px 6px;
+      font-family: 'DM Mono', monospace;
+      font-size: 9px;
+      color: var(--cyan);
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      border-bottom: 1px solid var(--border);
+    }
+
+    /* group by shop */
+    .search-shop-group {
+      border-bottom: 1px solid var(--border);
+    }
+
+    .search-shop-group:last-child {
+      border-bottom: none;
+    }
+
+    .search-shop-label {
+      padding: 8px 14px 4px;
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      background: rgba(255, 255, 255, .02);
+    }
+
+    .ssl-icon {
+      font-size: 12px;
+    }
+
+    .ssl-name {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--text);
+    }
+
+    .ssl-queue {
+      font-family: 'DM Mono', monospace;
+      font-size: 9px;
+    }
+
+    .ssl-go {
+      margin-left: auto;
+      background: none;
+      border: 1px solid var(--dim);
+      color: var(--cyan);
+      font-family: 'DM Mono', monospace;
+      font-size: 9px;
+      padding: 2px 9px;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all .15s;
+      white-space: nowrap;
+    }
+
+    .ssl-go:hover {
+      background: var(--cyan);
+      color: #000;
+      border-color: var(--cyan);
+    }
+
+    .sri {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 8px 14px 8px 28px;
+      cursor: pointer;
+      border-bottom: 1px solid rgba(30, 30, 46, .4);
+      transition: background .15s;
+      gap: 10px;
+    }
+
+    .sri:last-child {
+      border-bottom: none;
+    }
+
+    .sri:hover {
+      background: var(--card);
+    }
+
+    .sri-left {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex: 1;
+      min-width: 0;
+    }
+
+    .sri-name {
+      font-size: 13px;
+      font-weight: 600;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .sri-cat {
+      font-family: 'DM Mono', monospace;
+      font-size: 9px;
+      color: var(--muted);
+    }
+
+    .sri-right {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-shrink: 0;
+    }
+
+    .sri-price {
+      font-family: 'DM Mono', monospace;
+      font-size: 12px;
+      color: var(--cyan);
+    }
+
+    .sri-shop-btn {
+      background: var(--cyan);
+      border: 1px solid var(--cyan);
+      color: #000;
+      font-family: 'DM Mono', monospace;
+      font-size: 9px;
+      padding: 3px 8px;
+      border-radius: 6px;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: all .15s;
+      font-weight: bold;
+    }
+
+    .sri-shop-btn:hover {
+      background: transparent;
+      color: var(--cyan);
+    }
+
+    .search-empty {
+      padding: 20px;
+      text-align: center;
+      font-family: 'DM Mono', monospace;
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    /* breadcrumb trail */
+    .breadcrumb {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      color: var(--muted);
+      padding: 6px 28px 0;
+      position: relative;
+      z-index: 10;
+    }
+
+    .bc-item {
+      cursor: pointer;
+      transition: color .15s;
+    }
+
+    .bc-item:hover {
+      color: var(--cyan);
+    }
+
+    .bc-item.active {
+      color: var(--text);
+    }
+
+    .bc-sep {
+      color: var(--dim);
+    }
+
+    .breadcrumb.hidden {
+      display: none;
+    }
+
+    /* STATS */
+    .quick-stats {
+      position: relative;
+      z-index: 10;
+      display: flex;
+      gap: 8px;
+      padding: 14px 28px;
+      flex-wrap: wrap;
+    }
+
+    .stat-chip {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 7px 13px;
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      color: var(--muted);
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .stat-chip:hover {
+      border-color: var(--cyan);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0, 229, 255, 0.08);
+    }
+
+    .stat-chip strong {
+      color: var(--text);
+      font-family: 'Syne', sans-serif;
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .stat-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+
+    .stat-action {
+      font-size: 9px;
+      color: var(--cyan);
+      margin-left: 2px;
+    }
+
+    /* TABS */
+    .tabs {
+      position: relative;
+      z-index: 10;
+      display: flex;
+      gap: 2px;
+      padding: 0 28px;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 22px;
+      overflow-x: auto;
+      scrollbar-width: none;
+    }
+
+    .tabs::-webkit-scrollbar {
+      display: none;
+    }
+
+    .tab {
+      background: none;
+      border: none;
+      color: var(--muted);
+      font-family: 'Syne', sans-serif;
+      font-size: 12px;
+      font-weight: 600;
+      padding: 10px 14px;
+      cursor: pointer;
+      border-bottom: 2px solid transparent;
+      white-space: nowrap;
+      transition: all .2s;
+    }
+
+    .tab:hover {
+      color: var(--text);
+    }
+
+    .tab.active {
+      color: var(--cyan);
+      border-bottom-color: var(--cyan);
+    }
+
+    /* MAIN */
+    main {
+      position: relative;
+      z-index: 10;
+      padding: 0 28px 100px;
+    }
+
+    .tab-content {
+      display: none;
+      animation: fadeIn .2s ease;
+    }
+
+    .tab-content.active {
+      display: block;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(6px)
+      }
+
+      to {
+        opacity: 1;
+        transform: none
+      }
+    }
+
+    /* FINDER */
+    .finder-box {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 22px;
+      margin-bottom: 20px;
+    }
+
+    .finder-box h2 {
+      font-size: 16px;
+      font-weight: 700;
+      margin-bottom: 16px;
+    }
+
+    .finder-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(155px, 1fr));
+      gap: 12px;
+      margin-bottom: 14px;
+    }
+
+    .ff label {
+      display: block;
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      color: var(--muted);
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      margin-bottom: 6px;
+    }
+
+    .ff input,
+    .ff select {
+      width: 100%;
+      background: var(--bg);
+      border: 1px solid var(--dim);
+      color: var(--text);
+      font-family: 'Syne', sans-serif;
+      font-size: 14px;
+      font-weight: 600;
+      padding: 10px 12px;
+      border-radius: 10px;
+      outline: none;
+      transition: border-color .2s;
+      -webkit-appearance: none;
+    }
+
+    .ff input:focus,
+    .ff select:focus {
+      border-color: var(--cyan);
+    }
+
+    .ff select option {
+      background: var(--card);
+    }
+
+    .find-btn {
+      background: linear-gradient(135deg, var(--cyan), var(--purple));
+      border: none;
+      color: #000;
+      font-family: 'Syne', sans-serif;
+      font-size: 14px;
+      font-weight: 800;
+      padding: 12px 26px;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: opacity .2s, transform .15s;
+    }
+
+    .find-btn:hover {
+      opacity: .88;
+      transform: translateY(-1px);
+    }
+
+    .find-btn:active {
+      transform: scale(.97);
+    }
+
+    .find-btn:disabled {
+      opacity: .6;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    /* RESULT CARDS */
+    .results-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 12px;
+    }
+
+    .result-cards {
+      display: flex;
+      flex-direction: column;
+      gap: 11px;
+    }
+
+    .result-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 13px;
+      padding: 17px 19px;
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      gap: 13px;
+      align-items: start;
+      transition: border-color .2s, transform .18s;
+    }
+
+    .result-card.rank-1 {
+      border-color: var(--cyan);
+    }
+
+    .result-card.rank-2 {
+      border-color: var(--purple);
+    }
+
+    .rank-badge {
+      width: 33px;
+      height: 33px;
+      border-radius: 9px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: 14px;
+      flex-shrink: 0;
+    }
+
+    .rank-1 .rank-badge {
+      background: rgba(0, 229, 255, .1);
+      color: var(--cyan);
+    }
+
+    .rank-2 .rank-badge {
+      background: rgba(155, 93, 229, .1);
+      color: var(--purple);
+    }
+
+    .rank-3 .rank-badge {
+      background: rgba(255, 107, 53, .08);
+      color: var(--orange);
+    }
+
+    .rc-name {
+      font-size: 15px;
+      font-weight: 700;
+      margin-bottom: 3px;
+    }
+
+    .rc-type {
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      color: var(--muted);
+      margin-bottom: 8px;
+    }
+
+    .rc-meta {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .rc-mi {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    .rc-mi strong {
+      color: var(--text);
+      font-size: 13px;
+    }
+
+    .rc-score {
+      text-align: right;
+      flex-shrink: 0;
+    }
+
+    .score-val {
+      font-family: 'DM Mono', monospace;
+      font-size: 19px;
+      font-weight: 500;
+      color: var(--cyan);
+      display: block;
+      line-height: 1;
+    }
+
+    .score-lbl {
+      font-family: 'DM Mono', monospace;
+      font-size: 9px;
+      color: var(--muted);
+      letter-spacing: 1px;
+    }
+
+    /* item chips */
+    .rc-items {
+      margin-top: 9px;
+    }
+
+    .rc-items-lbl {
+      font-family: 'DM Mono', monospace;
+      font-size: 9px;
+      color: var(--muted);
+      letter-spacing: 1px;
+      margin-bottom: 5px;
+    }
+
+    .rc-chips {
+      display: flex;
+      gap: 5px;
+      flex-wrap: wrap;
+    }
+
+    .rc-chip {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 3px 8px;
+      font-size: 11px;
+      color: var(--text);
+      cursor: pointer;
+      transition: all .15s;
+    }
+
+    .rc-chip:hover {
+      border-color: var(--cyan);
+      color: var(--cyan);
+    }
+
+    .rc-chip.bs {
+      border-color: var(--orange);
+      color: var(--orange);
+    }
+
+    /* score breakdown */
+    .score-why {
+      margin-top: 10px;
+      background: rgba(0, 229, 255, .04);
+      border: 1px solid rgba(0, 229, 255, .1);
+      border-radius: 9px;
+      padding: 10px 12px;
+    }
+
+    .sw-title {
+      font-family: 'DM Mono', monospace;
+      font-size: 9px;
+      color: var(--cyan);
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      margin-bottom: 7px;
+    }
+
+    .sw-row {
+      display: flex;
+      justify-content: space-between;
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      margin-bottom: 3px;
+    }
+
+    .sw-row span:first-child {
+      color: var(--muted);
+    }
+
+    .sw-row span:last-child {
+      color: var(--text);
+    }
+
+    /* view shop btn */
+    .view-shop-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      margin-top: 10px;
+      background: rgba(0, 229, 255, .07);
+      border: 1px solid rgba(0, 229, 255, .25);
+      color: var(--cyan);
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      padding: 5px 13px;
+      border-radius: 7px;
+      cursor: pointer;
+      transition: all .18s;
+      font-weight: 500;
+    }
+
+    .view-shop-btn:hover {
+      background: var(--cyan);
+      color: #000;
+      border-color: var(--cyan);
+    }
+
+    /* crowd vote */
+    .crowd-bar {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      margin-top: 8px;
+      flex-wrap: wrap;
+    }
+
+    .crowd-lbl {
+      font-family: 'DM Mono', monospace;
+      font-size: 9px;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .crowd-btn {
+      background: var(--bg);
+      border: 1px solid var(--dim);
+      color: var(--muted);
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      padding: 3px 10px;
+      border-radius: 20px;
+      cursor: pointer;
+      transition: all .18s;
+    }
+
+    .crowd-btn.free-v {
+      background: rgba(0, 214, 143, .1);
+      border-color: var(--green);
+      color: var(--green);
+    }
+
+    .crowd-btn.busy-v {
+      background: rgba(255, 209, 102, .1);
+      border-color: var(--yellow);
+      color: var(--yellow);
+    }
+
+    .crowd-btn.crow-v {
+      background: rgba(239, 71, 111, .1);
+      border-color: var(--red);
+      color: var(--red);
+    }
+
+    /* QUEUE BADGE */
+    .queue-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      padding: 3px 9px;
+      border-radius: 20px;
+    }
+
+    .queue-badge.free {
+      background: rgba(0, 214, 143, .1);
+      color: var(--green);
+    }
+
+    .queue-badge.busy {
+      background: rgba(255, 209, 102, .1);
+      color: var(--yellow);
+    }
+
+    .queue-badge.crowded {
+      background: rgba(239, 71, 111, .1);
+      color: var(--red);
+    }
+
+    .queue-dot {
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+    }
+
+    .free .queue-dot {
+      background: var(--green);
+    }
+
+    .busy .queue-dot {
+      background: var(--yellow);
+    }
+
+    .crowded .queue-dot {
+      background: var(--red);
+    }
+
+    /* SHOPS */
+    .section-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 16px;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .section-header h2 {
+      font-size: 18px;
+      font-weight: 700;
+    }
+
+    .filter-row {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+
+    .filter-btn {
+      background: var(--card);
+      border: 1px solid var(--border);
+      color: var(--muted);
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      padding: 5px 12px;
+      border-radius: 20px;
+      cursor: pointer;
+      transition: all .18s;
+    }
+
+    .filter-btn.active {
+      background: var(--cyan);
+      border-color: var(--cyan);
+      color: #000;
+      font-weight: 500;
+    }
+
+    .shops-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(275px, 1fr));
+      gap: 13px;
+    }
+
+    .shop-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      overflow: hidden;
+      cursor: pointer;
+      transition: all .22s;
+      position: relative;
+    }
+
+    .shop-card:hover {
+      border-color: var(--dim);
+      transform: translateY(-2px);
+    }
+
+    .shop-card.highlighted {
+      border-color: var(--cyan);
+      box-shadow: 0 0 20px rgba(0, 229, 255, .12);
+    }
+
+    .sc-header {
+      padding: 16px 18px 11px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .sc-top {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      margin-bottom: 7px;
+    }
+
+    .sc-name {
+      font-size: 15px;
+      font-weight: 700;
+      margin-bottom: 2px;
+    }
+
+    .sc-type {
+      font-family: 'DM Mono', monospace;
+      font-size: 9px;
+      color: var(--muted);
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+
+    .sc-rating {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      font-weight: 700;
+      font-size: 13px;
+    }
+
+    .sc-rating .star {
+      color: var(--yellow);
+    }
+
+    .sc-rating .rct {
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      color: var(--muted);
+      font-weight: 400;
+    }
+
+    .sc-tags {
+      display: flex;
+      gap: 5px;
+      flex-wrap: wrap;
+      margin-top: 7px;
+    }
+
+    .sc-tag {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 2px 7px;
+      font-size: 9px;
+      color: var(--muted);
+      font-family: 'DM Mono', monospace;
+    }
+
+    .sc-body {
+      padding: 12px 18px;
+    }
+
+    .sc-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 7px;
+    }
+
+    .sc-mi {
+      font-size: 11px;
+      color: var(--muted);
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .sc-mi strong {
+      color: var(--text);
+      font-size: 13px;
+    }
+
+    /* item count clickable */
+    .item-count-btn {
+      background: none;
+      border: 1px solid var(--dim);
+      color: var(--cyan);
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      padding: 2px 9px;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all .15s;
+    }
+
+    .item-count-btn:hover {
+      background: var(--cyan);
+      color: #000;
+      border-color: var(--cyan);
+    }
+
+    .sc-footer {
+      padding: 10px 18px;
+      border-top: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+    }
+
+    .sc-hours {
+      font-family: 'DM Mono', monospace;
+      font-size: 9px;
+      color: var(--muted);
+    }
+
+    .sc-footer-btns {
+      display: flex;
+      gap: 6px;
+    }
+
+    .sc-footer-btn {
+      background: none;
+      border: 1px solid var(--dim);
+      color: var(--cyan);
+      font-family: 'DM Mono', monospace;
+      font-size: 9px;
+      padding: 4px 10px;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all .18s;
+    }
+
+    .sc-footer-btn:hover {
+      background: var(--cyan);
+      color: #000;
+      border-color: var(--cyan);
+    }
+
+    /* SNACKS */
+    .snacks-search {
+      margin-bottom: 14px;
+    }
+
+    .snacks-search input {
+      width: 100%;
+      background: var(--card);
+      border: 1px solid var(--border);
+      color: var(--text);
+      font-family: 'Syne', sans-serif;
+      font-size: 14px;
+      padding: 11px 15px;
+      border-radius: 10px;
+      outline: none;
+      transition: border-color .2s;
+    }
+
+    .snacks-search input:focus {
+      border-color: var(--orange);
+    }
+
+    .snacks-search input::placeholder {
+      color: var(--muted);
+    }
+
+    .snack-cats {
+      display: flex;
+      gap: 7px;
+      flex-wrap: wrap;
+      margin-bottom: 16px;
+    }
+
+    .snack-cat {
+      background: var(--card);
+      border: 1px solid var(--border);
+      color: var(--muted);
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      padding: 5px 12px;
+      border-radius: 20px;
+      cursor: pointer;
+      transition: all .18s;
+    }
+
+    .snack-cat.active {
+      background: var(--orange);
+      border-color: var(--orange);
+      color: #000;
+      font-weight: 500;
+    }
+
+    .snacks-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(228px, 1fr));
+      gap: 9px;
+    }
+
+    .snack-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 11px;
+      padding: 12px 14px;
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      transition: all .18s;
+      cursor: pointer;
+      position: relative;
+    }
+
+    .snack-card:hover {
+      border-color: var(--dim);
+      transform: translateX(3px);
+    }
+
+    .sv-dot {
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      flex-shrink: 0;
+      margin-top: 4px;
+    }
+
+    .sv-dot.veg {
+      background: var(--green);
+    }
+
+    .sv-dot.nonveg {
+      background: var(--red);
+    }
+
+    .snack-info {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .snack-name {
+      font-size: 13px;
+      font-weight: 600;
+      margin-bottom: 2px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .snack-shop-lnk {
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      color: var(--cyan);
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 3px;
+      background: rgba(0, 229, 255, .08);
+      padding: 3px 8px;
+      border-radius: 4px;
+      border: 1px solid rgba(0, 229, 255, 0.2);
+      transition: all 0.2s;
+    }
+
+    .snack-shop-lnk:hover {
+      background: var(--cyan);
+      color: #000;
+    }
+
+    .snack-cat-lbl {
+      font-family: 'DM Mono', monospace;
+      font-size: 9px;
+      color: var(--muted);
+    }
+
+    .snack-right {
+      text-align: right;
+      flex-shrink: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+    }
+
+    .snack-price {
+      font-family: 'DM Mono', monospace;
+      font-size: 14px;
+      color: var(--cyan);
+      font-weight: 500;
+    }
+
+    .snack-bs {
+      font-family: 'DM Mono', monospace;
+      font-size: 8px;
+      color: var(--orange);
+      display: block;
+      margin-top: 2px;
+    }
+
+    .snack-go {
+      position: relative;
+      right: auto;
+      top: auto;
+      transform: none;
+      opacity: 1;
+      background: rgba(0, 229, 255, 0.1);
+      border: 1px solid rgba(0, 229, 255, 0.3);
+      color: var(--cyan);
+      font-family: 'DM Mono', monospace;
+      font-size: 9px;
+      padding: 4px 10px;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all .2s;
+      margin-top: 8px;
+    }
+
+    .snack-go:hover {
+      background: var(--cyan);
+      color: #000;
+    }
+
+    /* BUDGET */
+    .budget-box {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 22px;
+      margin-bottom: 20px;
+    }
+
+    .budget-box h2 {
+      font-size: 16px;
+      font-weight: 700;
+      margin-bottom: 5px;
+    }
+
+    .budget-box p {
+      font-size: 13px;
+      color: var(--muted);
+      margin-bottom: 16px;
+      line-height: 1.5;
+    }
+
+    .bw label {
+      display: block;
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      color: var(--muted);
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      margin-bottom: 6px;
+    }
+
+    .bw input {
+      width: 100%;
+      max-width: 200px;
+      background: var(--bg);
+      border: 1px solid var(--dim);
+      color: var(--text);
+      font-family: 'Syne', sans-serif;
+      font-size: 22px;
+      font-weight: 800;
+      padding: 10px 14px;
+      border-radius: 10px;
+      outline: none;
+      transition: border-color .2s;
+    }
+
+    .bw input:focus {
+      border-color: var(--cyan);
+    }
+
+    .combos {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .combo-card {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 11px;
+      padding: 14px 16px;
+      transition: border-color .2s;
+    }
+
+    .combo-card:hover {
+      border-color: var(--dim);
+    }
+
+    .combo-hdr {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 8px;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .combo-shop-link {
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: color .15s;
+    }
+
+    .combo-shop-link:hover {
+      color: var(--cyan);
+    }
+
+    .combo-shop-link span {
+      font-family: 'DM Mono', monospace;
+      font-size: 9px;
+      border: 1px solid var(--dim);
+      padding: 2px 7px;
+      border-radius: 5px;
+      color: var(--cyan);
+    }
+
+    .combo-total {
+      font-family: 'DM Mono', monospace;
+      font-size: 13px;
+      color: var(--green);
+      flex-shrink: 0;
+    }
+
+    .combo-items {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .combo-row {
+      display: flex;
+      justify-content: space-between;
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    .combo-row span:last-child {
+      font-family: 'DM Mono', monospace;
+      color: var(--text);
+    }
+
+    .combo-save {
+      margin-top: 8px;
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      color: var(--yellow);
+    }
+
+    .combo-bar {
+      margin-top: 9px;
+      height: 4px;
+      background: var(--border);
+      border-radius: 4px;
+      overflow: hidden;
+    }
+
+    .combo-bar-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--green), var(--cyan));
+      border-radius: 4px;
+      transition: width .5s ease;
+    }
+
+    /* TOP PICKS */
+    .picks-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(215px, 1fr));
+      gap: 11px;
+      margin-bottom: 26px;
+    }
+
+    .pick-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 16px 18px;
+      position: relative;
+      overflow: hidden;
+      cursor: pointer;
+      transition: border-color .2s, transform .18s;
+    }
+
+    .pick-card:hover {
+      transform: translateY(-2px);
+      border-color: var(--dim);
+    }
+
+    .pick-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 3px;
+      height: 100%;
+      border-radius: 12px 0 0 12px;
+    }
+
+    .pick-card:nth-child(1)::before {
+      background: var(--yellow);
+    }
+
+    .pick-card:nth-child(2)::before {
+      background: var(--cyan);
+    }
+
+    .pick-card:nth-child(3)::before {
+      background: var(--green);
+    }
+
+    .pick-card:nth-child(4)::before {
+      background: var(--orange);
+    }
+
+    .pick-lbl {
+      font-family: 'DM Mono', monospace;
+      font-size: 9px;
+      color: var(--muted);
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      margin-bottom: 9px;
+    }
+
+    .pick-name {
+      font-size: 15px;
+      font-weight: 700;
+      margin-bottom: 3px;
+    }
+
+    .pick-shop {
+      font-size: 11px;
+      color: var(--cyan);
+      margin-bottom: 8px;
+      font-family: 'DM Mono', monospace;
+    }
+
+    .pick-price {
+      font-family: 'DM Mono', monospace;
+      font-size: 16px;
+      color: var(--text);
+      font-weight: 500;
+    }
+
+    .pick-goto {
+      margin-top: 10px;
+      font-family: 'DM Mono', monospace;
+      font-size: 9px;
+      color: var(--muted);
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    /* ANALYTICS */
+    .analytics-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(235px, 1fr));
+      gap: 12px;
+      margin-bottom: 22px;
+    }
+
+    .an-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 13px;
+      padding: 18px;
+    }
+
+    .an-lbl {
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      color: var(--muted);
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      margin-bottom: 11px;
+    }
+
+    .an-val {
+      font-size: 28px;
+      font-weight: 800;
+      color: var(--text);
+      margin-bottom: 3px;
+    }
+
+    .an-sub {
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    .bar-chart {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin-top: 4px;
+    }
+
+    .bar-row {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+    }
+
+    .bar-lbl {
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      color: var(--muted);
+      width: 80px;
+      flex-shrink: 0;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      cursor: pointer;
+    }
+
+    .bar-lbl:hover {
+      color: var(--cyan);
+    }
+
+    .bar-track {
+      flex: 1;
+      height: 6px;
+      background: var(--border);
+      border-radius: 4px;
+      overflow: hidden;
+    }
+
+    .bar-fill {
+      height: 100%;
+      border-radius: 4px;
+      transition: width .6s ease;
+    }
+
+    .bar-val {
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      color: var(--muted);
+      width: 30px;
+      text-align: right;
+      flex-shrink: 0;
+    }
+
+    /* REVIEWS */
+    .review-form-box {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 22px;
+      margin-bottom: 22px;
+    }
+
+    .review-form-box h2 {
+      font-size: 16px;
+      font-weight: 700;
+      margin-bottom: 15px;
+    }
+
+    .rf-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(155px, 1fr));
+      gap: 11px;
+      margin-bottom: 12px;
+    }
+
+    .rf-field label {
+      display: block;
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      color: var(--muted);
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      margin-bottom: 5px;
+    }
+
+    .rf-field input,
+    .rf-field select,
+    .rf-field textarea {
+      width: 100%;
+      background: var(--bg);
+      border: 1px solid var(--dim);
+      color: var(--text);
+      font-family: 'Syne', sans-serif;
+      font-size: 13px;
+      padding: 9px 12px;
+      border-radius: 9px;
+      outline: none;
+      transition: border-color .2s;
+      -webkit-appearance: none;
+      resize: none;
+    }
+
+    .rf-field input:focus,
+    .rf-field select:focus,
+    .rf-field textarea:focus {
+      border-color: var(--cyan);
+    }
+
+    .rf-field input.err,
+    .rf-field select.err {
+      border-color: var(--red);
+    }
+
+    .rf-field select option {
+      background: var(--card);
+    }
+
+    .star-picker {
+      display: flex;
+      gap: 5px;
+    }
+
+    .star-btn {
+      background: none;
+      border: none;
+      font-size: 22px;
+      cursor: pointer;
+      color: var(--dim);
+      transition: color .15s, transform .1s;
+    }
+
+    .star-btn.on {
+      color: var(--yellow);
+    }
+
+    .star-btn:hover {
+      transform: scale(1.2);
+    }
+
+    .submit-btn {
+      background: var(--green);
+      border: none;
+      color: #000;
+      font-family: 'Syne', sans-serif;
+      font-size: 13px;
+      font-weight: 800;
+      padding: 11px 24px;
+      border-radius: 9px;
+      cursor: pointer;
+      transition: opacity .2s, transform .15s;
+    }
+
+    .submit-btn:hover {
+      opacity: .85;
+      transform: translateY(-1px);
+    }
+
+    .submit-btn:disabled {
+      opacity: .5;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .reviews-list {
+      display: flex;
+      flex-direction: column;
+      gap: 9px;
+    }
+
+    .review-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 11px;
+      padding: 15px 17px;
+    }
+
+    .rv-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 7px;
+      flex-wrap: wrap;
+      gap: 7px;
+    }
+
+    .rv-author {
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .rv-shop-tag {
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      padding: 2px 8px;
+      border-radius: 20px;
+      color: var(--cyan);
+      cursor: pointer;
+      transition: all .15s;
+    }
+
+    .rv-shop-tag:hover {
+      background: var(--cyan);
+      color: #000;
+    }
+
+    .rv-stars {
+      color: var(--yellow);
+      font-size: 13px;
+    }
+
+    .rv-item {
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      color: var(--orange);
+      margin-bottom: 5px;
+    }
+
+    .rv-comment {
+      font-size: 13px;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+
+    .rv-date {
+      font-family: 'DM Mono', monospace;
+      font-size: 9px;
+      color: var(--dim);
+      margin-top: 5px;
+    }
+
+    .reviews-empty {
+      text-align: center;
+      padding: 36px;
+      font-family: 'DM Mono', monospace;
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    .review-filters {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+      margin-bottom: 14px;
+    }
+
+    .rv-fb {
+      background: var(--card);
+      border: 1px solid var(--border);
+      color: var(--muted);
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      padding: 4px 11px;
+      border-radius: 20px;
+      cursor: pointer;
+      transition: all .18s;
+    }
+
+    .rv-fb.active {
+      background: var(--purple);
+      border-color: var(--purple);
+      color: #fff;
+    }
+
+    /* MODAL */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(10, 10, 15, .9);
+      backdrop-filter: blur(10px);
+      z-index: 1000;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .modal-overlay.open {
+      display: flex;
+    }
+
+    .modal {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      width: 100%;
+      max-width: 660px;
+      max-height: 90vh;
+      overflow-y: auto;
+      scrollbar-width: thin;
+      scrollbar-color: var(--dim) transparent;
+      animation: mIn .22s ease;
+    }
+
+    @keyframes mIn {
+      from {
+        opacity: 0;
+        transform: scale(.95) translateY(10px)
+      }
+
+      to {
+        opacity: 1;
+        transform: none
+      }
+    }
+
+    .modal-hdr {
+      padding: 20px 23px 15px;
+      border-bottom: 1px solid var(--border);
+      position: sticky;
+      top: 0;
+      background: var(--surface);
+      z-index: 5;
+    }
+
+    .modal-hdr-top {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      margin-bottom: 9px;
+    }
+
+    .modal-close {
+      background: var(--card);
+      border: 1px solid var(--border);
+      color: var(--muted);
+      width: 29px;
+      height: 29px;
+      border-radius: 7px;
+      cursor: pointer;
+      font-size: 15px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      transition: all .18s;
+    }
+
+    .modal-close:hover {
+      color: var(--text);
+    }
+
+    .modal-name {
+      font-size: 19px;
+      font-weight: 800;
+      margin-bottom: 2px;
+    }
+
+    .modal-type-lbl {
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      color: var(--cyan);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      background: rgba(0, 229, 255, 0.1);
+      padding: 2px 6px;
+      border-radius: 4px;
+      display: inline-block;
+      margin-top: 4px;
+    }
+
+    .modal-stats-row {
+      display: flex;
+      gap: 13px;
+      flex-wrap: wrap;
+      padding-top: 10px;
+    }
+
+    .modal-stat {
+      font-size: 12px;
+      color: var(--muted);
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .modal-stat strong {
+      color: var(--text);
+    }
+
+    .modal-body {
+      padding: 19px 23px;
+    }
+
+    .modal-desc {
+      font-size: 13px;
+      color: var(--muted);
+      line-height: 1.65;
+      margin-bottom: 16px;
+    }
+
+    .sent-box {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 12px 14px;
+      margin-bottom: 16px;
+    }
+
+    .sent-pos {
+      font-size: 12px;
+      color: var(--green);
+      margin-bottom: 4px;
+      line-height: 1.5;
+    }
+
+    .sent-neg {
+      font-size: 12px;
+      color: var(--red);
+      line-height: 1.5;
+    }
+
+    .m-sec-lbl {
+      font-family: 'DM Mono', monospace;
+      font-size: 9px;
+      color: var(--muted);
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      margin-bottom: 7px;
+      margin-top: 16px;
+      padding-bottom: 5px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    /* menu filter inside modal */
+    .modal-menu-filter {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+      margin-bottom: 10px;
+    }
+
+    .mmf-btn {
+      background: var(--card);
+      border: 1px solid var(--border);
+      color: var(--muted);
+      font-family: 'DM Mono', monospace;
+      font-size: 9px;
+      padding: 3px 10px;
+      border-radius: 20px;
+      cursor: pointer;
+      transition: all .15s;
+    }
+
+    .mmf-btn.active {
+      background: var(--cyan);
+      border-color: var(--cyan);
+      color: #000;
+    }
+
+    .menu-items {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .menu-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 7px 0;
+      border-bottom: 1px solid rgba(30, 30, 46, .4);
+      gap: 10px;
+    }
+
+    .menu-item:last-child {
+      border-bottom: none;
+    }
+
+    .mi-left {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      flex: 1;
+    }
+
+    .vd {
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+
+    .vd.veg {
+      background: var(--green);
+    }
+
+    .vd.nonveg {
+      background: var(--red);
+    }
+
+    .mi-name {
+      font-size: 13px;
+      font-weight: 600;
+    }
+
+    .bs-b {
+      background: rgba(255, 107, 53, .12);
+      color: var(--orange);
+      font-family: 'DM Mono', monospace;
+      font-size: 8px;
+      padding: 2px 5px;
+      border-radius: 4px;
+    }
+
+    .mi-price {
+      font-family: 'DM Mono', monospace;
+      font-size: 12px;
+      color: var(--cyan);
+      flex-shrink: 0;
+    }
+
+    .mi-price.na {
+      color: var(--dim);
+      font-size: 10px;
+    }
+
+    .no-menu {
+      font-family: 'DM Mono', monospace;
+      font-size: 12px;
+      color: var(--muted);
+      text-align: center;
+      padding: 20px;
+    }
+
+    .m-features {
+      display: flex;
+      gap: 7px;
+      flex-wrap: wrap;
+      margin-top: 11px;
+    }
+
+    .m-feat {
+      background: var(--card);
+      border: 1px solid var(--border);
+      padding: 4px 10px;
+      border-radius: 20px;
+      font-size: 10px;
+      color: var(--muted);
+      font-family: 'DM Mono', monospace;
+    }
+
+    .pay-chips {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+      margin-top: 5px;
+    }
+
+    .pay-chip {
+      background: rgba(0, 229, 255, .05);
+      border: 1px solid rgba(0, 229, 255, .2);
+      color: var(--cyan);
+      font-family: 'DM Mono', monospace;
+      font-size: 9px;
+      padding: 3px 9px;
+      border-radius: 5px;
+    }
+
+    /* modal actions bar */
+    .modal-actions {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-top: 14px;
+      padding-top: 14px;
+      border-top: 1px solid var(--border);
+    }
+
+    .modal-action-btn {
+      flex: 1;
+      min-width: 120px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      color: var(--text);
+      font-family: 'Syne', sans-serif;
+      font-size: 12px;
+      font-weight: 600;
+      padding: 10px 14px;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: all .18s;
+      text-align: center;
+    }
+
+    .modal-action-btn:hover {
+      border-color: var(--cyan);
+      color: var(--cyan);
+    }
+
+    .modal-action-btn.primary {
+      background: linear-gradient(135deg, var(--cyan), var(--purple));
+      color: #000;
+      border: none;
+    }
+
+    .modal-action-btn.primary:hover {
+      opacity: .88;
+    }
+
+    /* AI PANEL */
+    .ai-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(10, 10, 15, .9);
+      backdrop-filter: blur(10px);
+      z-index: 2000;
+      display: none;
+      align-items: flex-end;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .ai-overlay.open {
+      display: flex;
+    }
+
+    .ai-panel {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 20px 20px 14px 14px;
+      width: 100%;
+      max-width: 560px;
+      animation: aiIn .25s ease;
+      display: flex;
+      flex-direction: column;
+      max-height: 82vh;
+    }
+
+    @keyframes aiIn {
+      from {
+        opacity: 0;
+        transform: translateY(30px)
+      }
+
+      to {
+        opacity: 1;
+        transform: none
+      }
+    }
+
+    .ai-hdr {
+      padding: 16px 19px 13px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-shrink: 0;
+    }
+
+    .ai-hdr-l {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .ai-icon {
+      width: 30px;
+      height: 30px;
+      border-radius: 8px;
+      background: linear-gradient(135deg, var(--purple), var(--cyan));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+    }
+
+    .ai-pname {
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .ai-psub {
+      font-family: 'DM Mono', monospace;
+      font-size: 9px;
+      color: var(--muted);
+    }
+
+    .ai-status {
+      font-family: 'DM Mono', monospace;
+      font-size: 9px;
+      color: var(--green);
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .ai-sdot {
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      background: var(--green);
+      animation: pulse 2s infinite;
+    }
+
+    .ai-close {
+      background: var(--card);
+      border: 1px solid var(--border);
+      color: var(--muted);
+      width: 27px;
+      height: 27px;
+      border-radius: 7px;
+      cursor: pointer;
+      font-size: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all .18s;
+    }
+
+    .ai-close:hover {
+      color: var(--text);
+    }
+
+    .ai-sugs {
+      padding: 10px 19px 8px;
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+      flex-shrink: 0;
+    }
+
+    .ai-sug {
+      background: var(--card);
+      border: 1px solid var(--border);
+      color: var(--muted);
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      padding: 4px 11px;
+      border-radius: 20px;
+      cursor: pointer;
+      transition: all .18s;
+      white-space: nowrap;
+    }
+
+    .ai-sug:hover {
+      border-color: var(--cyan);
+      color: var(--cyan);
+    }
+
+    .ai-msgs {
+      flex: 1;
+      overflow-y: auto;
+      padding: 14px 19px;
+      display: flex;
+      flex-direction: column;
+      gap: 11px;
+      scrollbar-width: thin;
+      scrollbar-color: var(--dim) transparent;
+    }
+
+    .ai-msg {
+      display: flex;
+      gap: 9px;
+      align-items: flex-start;
+    }
+
+    .ai-msg.user {
+      flex-direction: row-reverse;
+    }
+
+    .ai-bubble {
+      max-width: 86%;
+      padding: 10px 13px;
+      border-radius: 12px;
+      font-size: 13px;
+      line-height: 1.55;
+    }
+
+    .ai-msg.bot .ai-bubble {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 4px 12px 12px 12px;
+    }
+
+    .ai-msg.user .ai-bubble {
+      background: linear-gradient(135deg, rgba(155, 93, 229, .22), rgba(0, 229, 255, .12));
+      border: 1px solid rgba(0, 229, 255, .2);
+      border-radius: 12px 4px 12px 12px;
+    }
+
+    .ai-avatar {
+      width: 24px;
+      height: 24px;
+      border-radius: 7px;
+      background: linear-gradient(135deg, var(--purple), var(--cyan));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+      flex-shrink: 0;
+    }
+
+    .ai-msg.user .ai-avatar {
+      background: var(--dim);
+    }
+
+    /* AI shop card inside chat */
+    .ai-shop-card {
+      margin-top: 8px;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 9px;
+      padding: 10px 12px;
+      cursor: pointer;
+      transition: border-color .15s;
+    }
+
+    .ai-shop-card:hover {
+      border-color: var(--cyan);
+    }
+
+    .ai-shop-card-name {
+      font-weight: 700;
+      font-size: 13px;
+      margin-bottom: 3px;
+    }
+
+    .ai-shop-card-meta {
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      color: var(--muted);
+    }
+
+    .ai-shop-card-btn {
+      display: inline-block;
+      margin-top: 7px;
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      color: var(--cyan);
+      border: 1px solid rgba(0, 229, 255, .3);
+      padding: 3px 10px;
+      border-radius: 6px;
+    }
+
+    .ai-input-row {
+      padding: 12px 19px;
+      border-top: 1px solid var(--border);
+      display: flex;
+      gap: 9px;
+      flex-shrink: 0;
+    }
+
+    .ai-input {
+      flex: 1;
+      background: var(--card);
+      border: 1px solid var(--border);
+      color: var(--text);
+      font-family: 'Syne', sans-serif;
+      font-size: 13px;
+      padding: 9px 13px;
+      border-radius: 10px;
+      outline: none;
+      transition: border-color .2s;
+    }
+
+    .ai-input:focus {
+      border-color: var(--cyan);
+    }
+
+    .ai-send {
+      background: linear-gradient(135deg, var(--purple), var(--cyan));
+      border: none;
+      color: #000;
+      font-family: 'Syne', sans-serif;
+      font-size: 13px;
+      font-weight: 800;
+      padding: 9px 16px;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: opacity .2s;
+    }
+
+    .ai-send:hover {
+      opacity: .88;
+    }
+
+    .ai-typing span {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--muted);
+      animation: bounce 1.2s infinite;
+      display: inline-block;
+      margin: 0 2px;
+    }
+
+    .ai-typing span:nth-child(2) {
+      animation-delay: .2s;
+    }
+
+    .ai-typing span:nth-child(3) {
+      animation-delay: .4s;
+    }
+
+    @keyframes bounce {
+
+      0%,
+      80%,
+      100% {
+        transform: translateY(0)
+      }
+
+      40% {
+        transform: translateY(-6px)
+      }
+    }
+
+    /* ABOUT */
+    .about-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(215px, 1fr));
+      gap: 11px;
+    }
+
+    .about-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 17px;
+      transition: border-color .2s;
+    }
+
+    .about-card:hover {
+      border-color: var(--dim);
+    }
+
+    .ab-icon {
+      font-size: 22px;
+      margin-bottom: 9px;
+    }
+
+    .ab-title {
+      font-size: 14px;
+      font-weight: 700;
+      margin-bottom: 5px;
+    }
+
+    .ab-desc {
+      font-size: 12px;
+      color: var(--muted);
+      line-height: 1.65;
+    }
+
+    /* TOAST */
+    .toast {
+      position: fixed;
+      bottom: 28px;
+      left: 50%;
+      transform: translateX(-50%) translateY(80px);
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 11px 20px;
+      font-family: 'DM Mono', monospace;
+      font-size: 12px;
+      z-index: 9999;
+      transition: transform .3s ease;
+      white-space: nowrap;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, .5);
+      pointer-events: none;
+    }
+
+    .toast.show {
+      transform: translateX(-50%) translateY(0);
+    }
+
+    .toast.success {
+      border-color: var(--green);
+      color: var(--green);
+    }
+
+    .toast.error {
+      border-color: var(--red);
+      color: var(--red);
+    }
+
+    .toast.info {
+      border-color: var(--cyan);
+      color: var(--cyan);
+    }
+
+    /* BACK TO TOP */
+    .back-top {
+      position: fixed;
+      bottom: 28px;
+      right: 28px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      color: var(--muted);
+      width: 38px;
+      height: 38px;
+      border-radius: 11px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+      z-index: 500;
+      transition: all .2s;
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .back-top.vis {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .back-top:hover {
+      background: var(--cyan);
+      color: #000;
+      border-color: var(--cyan);
+    }
+
+    /* EMPTY STATE */
+    .empty-state {
+      text-align: center;
+      padding: 48px 20px;
+      color: var(--muted);
+    }
+
+    .empty-state .big {
+      font-size: 36px;
+      display: block;
+      margin-bottom: 12px;
+    }
+
+    .empty-state h3 {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 6px;
+    }
+
+    .empty-state p {
+      font-size: 13px;
+      line-height: 1.6;
+    }
+
+    /* RESPONSIVE */
+    @media(max-width:640px) {
+
+      header,
+      .hero,
+      .quick-stats,
+      main {
+        padding-left: 16px;
+        padding-right: 16px;
+      }
+
+      .search-sticky {
+        padding: 10px 16px;
+      }
+
+      .tabs {
+        padding: 0 16px;
+      }
+
+      .time-banner {
+        margin: 12px 16px 0;
+      }
+
+      .breadcrumb {
+        padding: 6px 16px 0;
+      }
+
+      .result-card {
+        grid-template-columns: auto 1fr;
+      }
+
+      .rc-score {
+        display: none;
+      }
+
+      .finder-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .shops-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .snacks-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .picks-grid {
+        grid-column: 1fr 1fr;
+      }
+
+      .analytics-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .back-top {
+        bottom: 16px;
+        right: 16px;
+      }
+    }
+
+    @media(max-width:380px) {
+
+      .finder-grid,
+      .snacks-grid,
+      .picks-grid,
+      .analytics-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="glow-dot glow-1"></div>
+  <div class="glow-dot glow-2"></div>
+
+  <header>
+    <div>
+      <div class="logo-title">🍽 CIT Food Finder</div>
+      <div class="logo-sub">Chennai Institute of Technology</div>
+    </div>
+    <div class="header-right">
+      <div class="time-badge" id="timeBadge">
+        <div class="time-dot"></div>—
+      </div>
+      <button class="ai-btn" onclick="openAI()">✦ Ask AI</button>
+    </div>
+  </header>
+
+  <div class="time-banner" id="timeBanner">
+    <div class="tb-icon" id="tbIcon">☀️</div>
+    <div>
+      <div class="tb-text"><strong id="tbTitle">Loading…</strong>
+        <p id="tbSub"></p>
+      </div>
+      <div class="tb-chips" id="tbChips"></div>
+    </div>
+  </div>
+
+  <div class="breadcrumb hidden" id="breadcrumb"></div>
+
+  <div class="hero">
+    <h1>Find the <span>best food</span><br>for your budget.</h1>
+    <p>Smart scores · Crowd votes · AI powered · Every campus canteen in one place.</p>
+  </div>
+
+  <div class="search-sticky">
+    <div class="search-wrap">
+      <input type="text" id="gsearch" placeholder="Search any item — Masala Puri, Juice, Burger, Vada…" oninput="onSearch(this.value)" autocomplete="off" spellcheck="false">
+      <button class="search-clear" id="searchClear" onclick="clearSearch()">✕</button>
+      <div class="search-icon">🔍</div>
+      <div class="search-drop" id="searchDrop"></div>
+    </div>
+  </div>
+
+  <div class="quick-stats" id="quickStats"></div>
+
+  <div class="tabs">
+    <button class="tab active" onclick="switchTab('finder',this)">🧠 Finder</button>
+    <button class="tab" onclick="switchTab('shops',this)">🏪 Shops</button>
+    <button class="tab" onclick="switchTab('snacks',this)">🍟 Snacks</button>
+    <button class="tab" onclick="switchTab('budget',this)">💰 Budget</button>
+    <button class="tab" onclick="switchTab('toppicks',this)">🔥 Top Picks</button>
+    <button class="tab" onclick="switchTab('analytics',this)">📊 Analytics</button>
+    <button class="tab" onclick="switchTab('reviews',this)">⭐ Reviews</button>
+    <button class="tab" onclick="switchTab('about',this)">ℹ About</button>
+  </div>
+
+  <main>
+
+    <div class="tab-content active" id="tab-finder">
+      <div class="finder-box">
+        <h2>🧠 Smart Recommendation</h2>
+        <div class="finder-grid">
+          <div class="ff"><label>Budget (₹)</label><input type="number" id="budgetInput" placeholder="e.g. 80" min="0" inputmode="numeric">
+          </div>
+          <div class="ff"><label>Preference</label>
+            <select id="vegFilter">
+          <option value="all">All (Veg + Non-Veg)</option>
+          <option value="veg">Veg Only 🥦</option>
+          <option value="nonveg">Non-Veg Only 🍗</option>
+        </select>
+          </div>
+          <div class="ff"><label>Mood / Category</label>
+            <select id="moodFilter">
+          <option value="any">Any</option>
+          <option value="snacks">Snacks</option>
+          <option value="meals">Meals</option>
+          <option value="juice">Juice / Shakes</option>
+          <option value="desserts">Desserts</option>
+          <option value="beverages">Tea / Coffee</option>
+          <option value="chaats">Chaats</option>
+        </select>
+          </div>
+        </div>
+        <button class="find-btn" id="findBtn" onclick="findBest()">Find Best Now →</button>
+      </div>
+      <div id="finderResults"></div>
+    </div>
+
+    <div class="tab-content" id="tab-shops">
+      <div class="section-header">
+        <h2>All Campus Shops</h2>
+        <div class="filter-row">
+          <button class="filter-btn active" onclick="filterShops('all',this)">All</button>
+          <button class="filter-btn" onclick="filterShops('veg',this)">Veg 🥦</button>
+          <button class="filter-btn" onclick="filterShops('nonveg',this)">Non-Veg 🍗</button>
+          <button class="filter-btn" onclick="filterShops('free',this)">Free Queue 🟢</button>
+          <button class="filter-btn" onclick="filterShops('cheap',this)">Under ₹50</button>
+        </div>
+      </div>
+      <div class="shops-grid" id="shopsGrid"></div>
+    </div>
+
+    <div class="tab-content" id="tab-snacks">
+      <div class="section-header">
+        <h2>🍟 Snacks, Juice & Quick Bites</h2>
+      </div>
+      <div class="snacks-search"><input type="text" id="snacksSearch" placeholder="Search snacks, juice, masala puri, falooda…" oninput="renderSnacks()">
+      </div>
+      <div class="snack-cats" id="snackCats"></div>
+      <div class="snacks-grid" id="snacksGrid"></div>
+    </div>
+
+    <div class="tab-content" id="tab-budget">
+      <div style="max-width:640px">
+        <div class="budget-box">
+          <h2>💰 Budget Meal Planner</h2>
+          <p>Enter your budget — get best combos from every shop. Click any shop name to see its full menu.</p>
+          <div class="bw"><label>Total Budget (₹)</label><input type="number" id="plannerBudget" placeholder="100" min="0" inputmode="numeric" oninput="planBudget()">
+          </div>
+        </div>
+        <div id="plannerResults"></div>
+      </div>
+    </div>
+
+    <div class="tab-content" id="tab-toppicks">
+      <div class="section-header">
+        <h2>🔥 Top Picks</h2>
+      </div>
+      <div class="picks-grid" id="topPicksGrid"></div>
+      <div class="section-header" style="margin-top:8px">
+        <h2>📊 Shop Rankings</h2>
+      </div>
+      <div class="result-cards" id="shopRankings"></div>
+    </div>
+
+    <div class="tab-content" id="tab-analytics">
+      <div class="section-header">
+        <h2>📊 Campus Food Analytics</h2>
+      </div>
+      <div class="analytics-grid" id="analyticsGrid"></div>
+      <div class="section-header" style="margin-top:8px">
+        <h2>🏆 By Review Count</h2>
+      </div>
+      <div class="result-cards" id="analyticsRankings"></div>
+    </div>
+
+    <div class="tab-content" id="tab-reviews">
+      <div class="review-form-box">
+        <h2>⭐ Write a Review</h2>
+        <div class="rf-grid">
+          <div class="rf-field"><label>Your Name</label><input type="text" id="rName" placeholder="Anonymous"></div>
+          <div class="rf-field">
+            <label>Shop <span style="color:var(--red)">*</span></label><select id="rShop" onchange="populateItems()"><option value="">Select shop</option></select>
+          </div>
+          <div class="rf-field">
+            <label>Item Tried</label><select id="rItem"><option value="">Select shop first</option></select></div>
+          <div class="rf-field"><label>Rating <span style="color:var(--red)">*</span></label>
+            <div class="star-picker" id="starPicker">
+              <button class="star-btn" onclick="setRating(1)">★</button>
+              <button class="star-btn" onclick="setRating(2)">★</button>
+              <button class="star-btn" onclick="setRating(3)">★</button>
+              <button class="star-btn" onclick="setRating(4)">★</button>
+              <button class="star-btn" onclick="setRating(5)">★</button>
+            </div>
+          </div>
+        </div>
+        <div class="rf-field" style="margin-bottom:13px">
+          <label>Comment (optional)</label><textarea id="rComment" rows="3" placeholder="How was the food? Good value? Tips for others?"></textarea>
+        </div>
+        <button class="submit-btn" id="submitBtn" onclick="submitReview()">Submit Review ✓</button>
+      </div>
+      <div class="section-header">
+        <h2>Student Reviews</h2>
+        <div class="review-filters" id="reviewFilters"></div>
+      </div>
+      <div class="reviews-list" id="reviewsList"></div>
+    </div>
+
+    <div class="tab-content" id="tab-about">
+      <div class="section-header">
+        <h2>About CIT Food Finder</h2>
+      </div>
+      <div class="about-grid">
+        <div class="about-card">
+          <div class="ab-icon">🔗</div>
+          <div class="ab-title">Smart Navigation</div>
+          <div class="ab-desc">Every item, shop, search result, and combo links directly to the full shop modal. Click
+            anything → go anywhere instantly.</div>
+        </div>
+        <div class="about-card">
+          <div class="ab-icon">🧠</div>
+          <div class="ab-title">Score Transparency</div>
+          <div class="ab-desc">See exactly why each shop scored what it did — rating × 2.5, queue bonus, budget fit,
+            review weight all shown clearly.</div>
+        </div>
+        <div class="about-card">
+          <div class="ab-icon">✦</div>
+          <div class="ab-title">AI Assistant</div>
+          <div class="ab-desc">Claude AI with full menu context. Ask budget, item, mood, or specific questions. Returns
+            clickable shop cards.</div>
+        </div>
+        <div class="about-card">
+          <div class="ab-icon">🗳️</div>
+          <div class="ab-title">Crowd Voting</div>
+          <div class="ab-desc">Update queue status in real time. Votes affect scores and badges across the entire app.
+          </div>
+        </div>
+        <div class="about-card">
+          <div class="ab-icon">⏰</div>
+          <div class="ab-title">Time-Based Suggestions</div>
+          <div class="ab-desc">Morning → tea/snacks. Lunch → meals. Evening → juice/chaats. Live clock, contextual
+            chips.</div>
+        </div>
+        <div class="about-card">
+          <div class="ab-icon">📊</div>
+          <div class="ab-title">Analytics Dashboard</div>
+          <div class="ab-desc">Rating chart, price distribution, veg ratio, review count rankings. All campus food data
+            visualized.</div>
+        </div>
+        <div class="about-card">
+          <div class="ab-icon">🍟</div>
+          <div class="ab-title">Menu Filter in Modal</div>
+          <div class="ab-desc">Filter by Veg/Non-Veg/Category inside every shop modal. Find exactly what you want fast.
+          </div>
+        </div>
+        <div class="about-card">
+          <div class="ab-icon">⚡</div>
+          <div class="ab-title">Zero Dependencies</div>
+          <div class="ab-desc">Single HTML file. No install, no login. Open link → instant. Built by AKDEV Labs for CIT
+            students.</div>
+        </div>
+      </div>
+      <div
+        style="margin-top:22px;padding:16px;background:var(--card);border:1px solid var(--border);border-radius:12px;font-family:'DM Mono',monospace;font-size:11px;color:var(--muted);text-align:center;line-height:1.8;">
+        Built by <strong style="color:var(--cyan)">AKDEV Labs</strong> · CIT Campus · v4.0 · 2025<br>
+    akdev-official.netlify.app
+      </div>
+    </div>
+
+  </main>
+
+  <div class="modal-overlay" id="modalOverlay" onclick="closeModal(event)">
+    <div class="modal">
+      <div class="modal-hdr">
+        <div class="modal-hdr-top">
+          <div>
+            <div class="modal-name" id="mName"></div>
+            <div class="modal-type-lbl" id="mType"></div>
+          </div>
+          <button class="modal-close" onclick="closeModalDirect()">✕</button>
+        </div>
+        <div class="modal-stats-row" id="mStats"></div>
+      </div>
+      <div class="modal-body" id="mBody"></div>
+    </div>
+  </div>
+
+  <div class="ai-overlay" id="aiOverlay" onclick="closeAIOut(event)">
+    <div class="ai-panel">
+      <div class="ai-hdr">
+        <div class="ai-hdr-l">
+          <div class="ai-icon">✦</div>
+          <div>
+            <div class="ai-pname">CIT Food AI</div>
+            <div class="ai-psub">Powered by Claude · Full menu context</div>
+          </div>
+        </div>
+        <div style="display:flex;align-items:center;gap:10px;">
+          <div class="ai-status">
+            <div class="ai-sdot"></div>Online
+          </div>
+          <button class="ai-close" onclick="closeAI()">✕</button>
+        </div>
+      </div>
+      <div class="ai-sugs" id="aiSugs">
+        <div class="ai-sug" onclick="askAI('Best item under ₹50?')">Best under ₹50?</div>
+        <div class="ai-sug" onclick="askAI('Which shop has free queue right now?')">Free queue?</div>
+        <div class="ai-sug" onclick="askAI('Best juice on campus?')">Best juice?</div>
+        <div class="ai-sug" onclick="askAI('Suggest a combo under ₹80')">Combo ₹80?</div>
+        <div class="ai-sug" onclick="askAI('Where is Masala Puri available?')">Masala Puri?</div>
+        <div class="ai-sug" onclick="askAI('Give me top 3 shops right now')">Top 3 now</div>
+      </div>
+      <div class="ai-msgs" id="aiMsgs"></div>
+      <div class="ai-input-row">
+        <input class="ai-input" id="aiInput" placeholder="Ask about food, budget, queue…" onkeydown="if(event.key==='Enter'&&!event.shiftKey)sendAI()">
+        <button class="ai-send" onclick="sendAI()">Send →</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast" id="toast"></div>
+  <button class="back-top" id="backTop" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+
+  <script>
+    // ═══════════════════════════════════════════════════════
+// DATA
+// ═══════════════════════════════════════════════════════
+const SHOPS=[
+  {id:"arusuvai",name:"CIT Cafeteria (Arusuvai)",type:"Food Court / Cafeteria",googleRating:3.8,googleReviewsCount:8,avgPrice:50,queueStatus:"busy",hours:"Mon-Sat: 9AM–7:45PM | Sun: 9AM–7PM",features:["Self Service","Separate dining halls","Suggestion Box","Stationeries"],tags:["South Indian","North Indian","Chinese","Veg","Non-Veg","Desserts"],description:"Exclusive central canteen 12–15 hrs/day. South Indian, North Indian and Chinese dishes. Menu rotates daily.",studentSentiment:{positive:"Nice ambiance, neat and clean with good food.",negative:"Service is sometimes not up to the mark."},menu:[],paymentMethods:["In-house app","UPI"]},
+  {id:"apurva",name:"Apurva Sweets & Bakery",type:"Indian Sweets Shop",googleRating:4.5,googleReviewsCount:30,avgPrice:80,queueStatus:"free",hours:"8AM–8:30PM (Closed 8PM Sun/Wed/Fri)",features:["Fresh Bakery","Chaats","Cakes"],tags:["Bakery","Sweets","Snacks","Chaats"],description:"Indian sweets shop inside campus. Fresh chaats, parathas, and customized 1KG cakes.",studentSentiment:{positive:null,negative:null},menu:[
+    {item:"Chaat Combo",price:152,category:"Chaats",isVeg:true,isBestSeller:true},
+    {item:"Pani Puri (6pcs)",price:43,category:"Chaats",isVeg:true,isBestSeller:null},
+    {item:"Masala Puri",price:81,category:"Chaats",isVeg:true,isBestSeller:null},
+    {item:"Sev Puri",price:81,category:"Chaats",isVeg:true,isBestSeller:true},
+    {item:"Dahi Puri",price:81,category:"Chaats",isVeg:true,isBestSeller:true},
+    {item:"Bhel Puri",price:76,category:"Chaats",isVeg:true,isBestSeller:null},
+    {item:"Dahi Samosa",price:57,category:"Chaats",isVeg:true,isBestSeller:null},
+    {item:"Channa Samosa",price:86,category:"Chaats",isVeg:true,isBestSeller:null},
+    {item:"Raj Kachori",price:90,category:"Chaats",isVeg:true,isBestSeller:null},
+    {item:"Aloo Paratha",price:133,category:"Meals",isVeg:true,isBestSeller:true},
+    {item:"Chole Bhatura",price:129,category:"Meals",isVeg:true,isBestSeller:true},
+    {item:"Pav Bhaji",price:90,category:"Meals",isVeg:true,isBestSeller:true},
+    {item:"Paneer Pav Bhaji",price:110,category:"Meals",isVeg:true,isBestSeller:null},
+    {item:"Channa Masala",price:76,category:"Meals",isVeg:true,isBestSeller:null},
+    {item:"Samosa",price:21,category:"Snacks",isVeg:true,isBestSeller:null},
+    {item:"Kachori",price:23,category:"Snacks",isVeg:true,isBestSeller:null},
+    {item:"Basunthi",price:76,category:"Sweets",isVeg:true,isBestSeller:true},
+    {item:"Rasa Gulla",price:25,category:"Sweets",isVeg:true,isBestSeller:null},
+    {item:"Rasa Malai",price:67,category:"Sweets",isVeg:true,isBestSeller:null},
+    {item:"Spl Badam Milk",price:86,category:"Beverages",isVeg:true,isBestSeller:true},
+    {item:"Egg Free Brownie",price:65,category:"Bakery",isVeg:true,isBestSeller:null},
+    {item:"Lava Cake Egg Free",price:50,category:"Bakery",isVeg:true,isBestSeller:null},
+    {item:"Irish Coffee Cake (1KG)",price:700,category:"1KG Cakes",isVeg:false,isBestSeller:true},
+    {item:"Almond Butterscotch Cake (1KG)",price:740,category:"1KG Cakes",isVeg:false,isBestSeller:true},
+    {item:"Mango Blast Cake (1KG)",price:890,category:"1KG Cakes",isVeg:false,isBestSeller:true},
+    {item:"Egg Puffs",price:30,category:"Bakery",isVeg:false,isBestSeller:null}
+  ],paymentMethods:["UPI"]},
+  {id:"sai-foods",name:"Sai Foods — Rice & Noodles",type:"Fast Food Restaurant",googleRating:5.0,googleReviewsCount:1,avgPrice:60,queueStatus:"free",hours:"10AM–6:30PM (Closed Sundays)",features:["Perfect 5/5 ratings","Incubation Forum"],tags:["Fast Food","Rice","Noodles","Briyani"],description:"Top-rated in the Business Incubation Forum. Perfect 5/5 for food, service, and atmosphere.",studentSentiment:{positive:"5/5 for Food, Service, and Atmosphere.",negative:null},menu:[
+    {item:"Chicken Briyani",price:null,category:"Meals",isVeg:false,isBestSeller:null},
+    {item:"65 Briyani",price:null,category:"Meals",isVeg:false,isBestSeller:null},
+    {item:"Panneer Rice",price:null,category:"Meals",isVeg:true,isBestSeller:null},
+    {item:"Chicken Rice",price:null,category:"Meals",isVeg:false,isBestSeller:null},
+    {item:"Gopi Noodles",price:null,category:"Meals",isVeg:true,isBestSeller:null},
+    {item:"Chicken Noodles",price:null,category:"Meals",isVeg:false,isBestSeller:null},
+    {item:"Chicken 65",price:null,category:"Snacks",isVeg:false,isBestSeller:null},
+    {item:"Gopi Manchuriyan",price:null,category:"Snacks",isVeg:true,isBestSeller:null}
+  ],paymentMethods:["UPI"]},
+  {id:"c2c",name:"C2C",type:"Fast Food & Multi-Cuisine",googleRating:4.0,googleReviewsCount:40,avgPrice:90,queueStatus:"busy",hours:"Daily",features:["Extensive Menu","Mojitos & Milkshakes","Waffles"],tags:["Fast Food","Fried Chicken","Burgers","Waffles","Mojitos","Chinese"],description:"Major campus hub: fried chicken, burgers, waffles, momos, and huge drink selection.",studentSentiment:{positive:null,negative:null},menu:[
+    {item:"Fried Chicken Popcorn Mini",price:45,category:"Snacks",isVeg:false,isBestSeller:null},
+    {item:"Fried Chicken Popcorn Regular",price:90,category:"Snacks",isVeg:false,isBestSeller:null},
+    {item:"Fried Chicken Wings (4pcs)",price:130,category:"Snacks",isVeg:false,isBestSeller:null},
+    {item:"Peri Peri Fries",price:70,category:"Snacks",isVeg:true,isBestSeller:null},
+    {item:"Salt & Pepper Fries",price:60,category:"Snacks",isVeg:true,isBestSeller:null},
+    {item:"Samosa",price:15,category:"Snacks",isVeg:true,isBestSeller:null},
+    {item:"Cutlet",price:12,category:"Snacks",isVeg:true,isBestSeller:null},
+    {item:"Veg Nuggets",price:60,category:"Snacks",isVeg:true,isBestSeller:null},
+    {item:"Chicken Nuggets",price:85,category:"Snacks",isVeg:false,isBestSeller:null},
+    {item:"Veg Burger",price:80,category:"Meals",isVeg:true,isBestSeller:null},
+    {item:"Chicken Burger",price:90,category:"Meals",isVeg:false,isBestSeller:null},
+    {item:"Chicken Cheese Burger",price:100,category:"Meals",isVeg:false,isBestSeller:null},
+    {item:"Veg Sandwich",price:50,category:"Meals",isVeg:true,isBestSeller:null},
+    {item:"Chicken Sandwich",price:80,category:"Meals",isVeg:false,isBestSeller:null},
+    {item:"Veg Momo",price:60,category:"Snacks",isVeg:true,isBestSeller:null},
+    {item:"Chicken Momo",price:80,category:"Snacks",isVeg:false,isBestSeller:null},
+    {item:"Chicken Biriyani",price:120,category:"Meals",isVeg:false,isBestSeller:null},
+    {item:"Omelette",price:30,category:"Snacks",isVeg:false,isBestSeller:null},
+    {item:"Belgian Chocolate Waffle",price:100,category:"Desserts",isVeg:true,isBestSeller:null},
+    {item:"Red Velvet Waffle",price:130,category:"Desserts",isVeg:true,isBestSeller:null},
+    {item:"Virgin Mojito",price:45,category:"Juice",isVeg:true,isBestSeller:null},
+    {item:"Green Mint Mojito",price:55,category:"Juice",isVeg:true,isBestSeller:null},
+    {item:"Mango Mojito",price:65,category:"Juice",isVeg:true,isBestSeller:null},
+    {item:"Blueberry Mojito",price:70,category:"Juice",isVeg:true,isBestSeller:null},
+    {item:"Vanilla Milkshake",price:70,category:"Juice",isVeg:true,isBestSeller:null},
+    {item:"Chocolate Milkshake",price:80,category:"Juice",isVeg:true,isBestSeller:null},
+    {item:"Oreo Milkshake",price:90,category:"Juice",isVeg:true,isBestSeller:null},
+    {item:"Rose Milk",price:40,category:"Juice",isVeg:true,isBestSeller:null},
+    {item:"Tea (Special)",price:15,category:"Beverages",isVeg:true,isBestSeller:null},
+    {item:"Coffee",price:15,category:"Beverages",isVeg:true,isBestSeller:null},
+    {item:"Vada",price:10,category:"Snacks",isVeg:true,isBestSeller:null}
+  ],paymentMethods:["UPI"]},
+  {id:"chillout",name:"Chill Out",type:"Juice Bar & Shakes",googleRating:4.4,googleReviewsCount:20,avgPrice:60,queueStatus:"free",hours:"Daily",features:["Fresh Fruit Juices","Premium Shakes","Tender Coconut Special"],tags:["Fruits","Juice","Shakes","Snacks","Healthy"],description:"Fresh fruit juices and milkshakes. Tender Coconut & Avocado specials. The healthy campus choice.",studentSentiment:{positive:null,negative:null},menu:[
+    {item:"Chicken Cutlet",price:60,category:"Snacks",isVeg:false,isBestSeller:null},
+    {item:"Vada",price:10,category:"Snacks",isVeg:true,isBestSeller:null},
+    {item:"Chocolate Shake",price:70,category:"Juice",isVeg:true,isBestSeller:null},
+    {item:"Butter Scotch Shake",price:70,category:"Juice",isVeg:true,isBestSeller:null},
+    {item:"Oreo Shake",price:60,category:"Juice",isVeg:true,isBestSeller:null},
+    {item:"Cold Coffee",price:60,category:"Juice",isVeg:true,isBestSeller:null},
+    {item:"Tender Coconut Shake",price:70,category:"Juice",isVeg:true,isBestSeller:null},
+    {item:"Avocado Shake",price:70,category:"Juice",isVeg:true,isBestSeller:null},
+    {item:"Kitkat Shake",price:70,category:"Juice",isVeg:true,isBestSeller:null},
+    {item:"Strawberry Shake",price:70,category:"Juice",isVeg:true,isBestSeller:null},
+    {item:"Pista Shake",price:70,category:"Juice",isVeg:true,isBestSeller:null},
+    {item:"Cold Boost",price:60,category:"Juice",isVeg:true,isBestSeller:null},
+    {item:"Cold Horlicks",price:60,category:"Juice",isVeg:true,isBestSeller:null},
+    {item:"Water Melon Juice",price:40,category:"Juice",isVeg:true,isBestSeller:null},
+    {item:"Musk Melon Juice",price:50,category:"Juice",isVeg:true,isBestSeller:null},
+    {item:"Sweet Lime Juice",price:50,category:"Juice",isVeg:true,isBestSeller:null},
+    {item:"Orange Juice",price:50,category:"Juice",isVeg:true,isBestSeller:null},
+    {item:"Pineapple Juice",price:50,category:"Juice",isVeg:true,isBestSeller:null},
+    {item:"Grape Juice",price:50,category:"Juice",isVeg:true,isBestSeller:null},
+    {item:"Pomegranate Shake",price:70,category:"Juice",isVeg:true,isBestSeller:null},
+    {item:"Red Banana Shake",price:50,category:"Juice",isVeg:true,isBestSeller:null},
+    {item:"Apple Shake",price:60,category:"Juice",isVeg:true,isBestSeller:null},
+    {item:"Tender Coconut & Avocado Juice",price:80,category:"Juice",isVeg:true,isBestSeller:null}
+  ],paymentMethods:["UPI"]},
+  {id:"tea-express",name:"Tea Express",type:"Snack & Tiffin Stall",googleRating:4.1,googleReviewsCount:15,avgPrice:50,queueStatus:"busy",hours:"Daily",features:["Whiteboard Specials","Evening Tiffin","Jigarthanda"],tags:["Tea","Bakery","Dosa","Fast Food","Jigarthanda"],description:"Tea + Dosa varieties, Kothu Parotta, fresh juices. Famous for Madurai Jigarthanda.",studentSentiment:{positive:null,negative:null},menu:[
+    {item:"Egg Puffs",price:20,category:"Snacks",isVeg:false,isBestSeller:null},
+    {item:"Vada",price:10,category:"Snacks",isVeg:true,isBestSeller:null},
+    {item:"Plain Dosa",price:null,category:"Meals",isVeg:true,isBestSeller:null},
+    {item:"Ghee Dosa",price:null,category:"Meals",isVeg:true,isBestSeller:null},
+    {item:"Egg Dosa",price:null,category:"Meals",isVeg:false,isBestSeller:null},
+    {item:"Egg Kothu Parota",price:null,category:"Meals",isVeg:false,isBestSeller:null},
+    {item:"Chicken Kothu Parota",price:null,category:"Meals",isVeg:false,isBestSeller:null},
+    {item:"French Fries",price:null,category:"Snacks",isVeg:true,isBestSeller:null},
+    {item:"Omelette",price:null,category:"Snacks",isVeg:false,isBestSeller:null},
+    {item:"Chicken Biriyani",price:null,category:"Meals",isVeg:false,isBestSeller:null},
+    {item:"Madurai Jigarthanda",price:60,category:"Juice",isVeg:true,isBestSeller:null},
+    {item:"Apple Juice",price:null,category:"Juice",isVeg:true,isBestSeller:null},
+    {item:"Sweet Lime Juice",price:null,category:"Juice",isVeg:true,isBestSeller:null},
+    {item:"Classic Falooda",price:60,category:"Desserts",isVeg:true,isBestSeller:null},
+    {item:"Dry Fruits Falooda",price:80,category:"Desserts",isVeg:true,isBestSeller:null}
+  ],paymentMethods:["UPI"]},
+  {id:"teatime",name:"TeaTime",type:"Snack Stall",googleRating:4.2,googleReviewsCount:25,avgPrice:15,queueStatus:"free",hours:"Daily",features:["Quick Bites","Most Affordable"],tags:["Snacks","Beverages","Tea"],description:"Most affordable campus spot. Vada ₹10, quick beverages — perfect between classes.",studentSentiment:{positive:null,negative:null},menu:[
+    {item:"Vada",price:10,category:"Snacks",isVeg:true,isBestSeller:null}
+  ],paymentMethods:["UPI"]}
+];
+
+const SNACK_CATS=["All","Snacks","Juice","Chaats","Desserts","Sweets","Bakery","Meals","Beverages"];
+const MOOD_MAP={any:null,snacks:["Snacks","Bakery"],meals:["Meals"],juice:["Juice"],desserts:["Desserts","Sweets"],beverages:["Beverages"],chaats:["Chaats"]};
+const TIME_CFG={
+  morning:{icon:"☀️",title:"Good Morning! Tea & Snacks Time",sub:"Quick pick: TeaTime Vada ₹10 · Apurva Samosa ₹21",chips:["Tea","Vada","Samosa","Kachori"]},
+  lunch:{icon:"🍽️",title:"Lunch Hour — Go for Meals!",sub:"Chole Bhatura ₹129 · Pav Bhaji ₹90 · Biriyani ₹120",chips:["Meals","Biriyani","Paratha","Burger"]},
+  evening:{icon:"🧃",title:"Evening Cravings — Juice & Chaats!",sub:"Chill Out Juice ₹40–70 · Masala Puri ₹81 at Apurva",chips:["Juice","Masala Puri","Shake","Falooda"]},
+  night:{icon:"🌙",title:"Late Hours — Limited Options",sub:"Arusuvai and C2C stay open latest on campus",chips:["Snacks","Tea"]}
+};
+
+// ═══════════════════════════════════════════════════════
+// STATE
+// ═══════════════════════════════════════════════════════
+let selRating=0,snackCat="All",aiHistory=[],rvFilter="all",modalMenuFilter="all";
+let crowdVotes=JSON.parse(localStorage.getItem('cit_crowd')||'{}');
+let allItems=[];
+
+// ═══════════════════════════════════════════════════════
+// INIT
+// ═══════════════════════════════════════════════════════
+(function init(){
+  buildAllItems();
+  updateClock();
+  setInterval(updateClock, 1000); 
+  updateTimeBannerContext();
+  setInterval(updateTimeBannerContext, 60000);
+  renderStats();
+  renderShops();
+  renderSnackCats();
+  renderSnacks();
+  renderTopPicks();
+  renderAnalytics();
+  populateReviewShops();
+  loadReviews();
+  addAIWelcome();
+  
+  // First time user guidance
+  if(!localStorage.getItem('cit_visited')){
+    setTimeout(()=>showToast('👋 Welcome! Search an item or click a tab to begin.', 'info'), 1500);
+    localStorage.setItem('cit_visited', 'true');
+  }
+
+  window.addEventListener('scroll',()=>{
+    document.getElementById('backTop').classList.toggle('vis',window.scrollY>300);
+  });
+})();
+
+// ═══════════════════════════════════════════════════════
+// ITEM → SHOP LINKING SYSTEM (core nav fix)
+// ═══════════════════════════════════════════════════════
+function buildAllItems(){
+  allItems=[];
+  SHOPS.forEach(s=>s.menu.forEach(m=>allItems.push({...m,shopName:s.name,shopId:s.id})));
+}
+
+// Navigate to shop — clears search, opens modal, updates breadcrumb
+function navigateToShop(shopId,fromContext){
+  clearSearch();
+  document.getElementById('searchDrop').classList.remove('open');
+  updateBreadcrumb(fromContext,shopId);
+  openShop(shopId);
+}
+
+// Navigate to shop via tab (opens Shops tab + highlights card)
+function goToShopTab(shopId){
+  switchTab('shops',document.querySelector('.tab:nth-child(2)'));
+  renderShops();
+  setTimeout(()=>{
+    const card=document.getElementById('sc-'+shopId);
+    if(card){
+      card.scrollIntoView({behavior:'smooth',block:'center'});
+      card.classList.add('highlighted');
+      setTimeout(()=>card.classList.remove('highlighted'),2000);
+    }
+  },100);
+}
+
+// Breadcrumb trail
+function updateBreadcrumb(from,shopId){
+  const bc=document.getElementById('breadcrumb');
+  if(!from||!shopId){bc.classList.add('hidden');return;}
+  const shop=SHOPS.find(s=>s.id===shopId);
+  bc.classList.remove('hidden');
+  bc.innerHTML=`
+    <span class="bc-item" onclick="clearBreadcrumb()">🏠 Home</span>
+    <span class="bc-sep">›</span>
+    <span class="bc-item" onclick="goToShopTab('${shopId}')">${from}</span>
+    <span class="bc-sep">›</span>
+    <span class="bc-item active">🏪 ${shop?.name||shopId}</span>
+  `;
+}
+function clearBreadcrumb(){
+  document.getElementById('breadcrumb').classList.add('hidden');
+  closeModalDirect();
+}
+
+// ═══════════════════════════════════════════════════════
+// CLOCK AND TIME BANNER
+// ═══════════════════════════════════════════════════════
+function getSlot(){const h=new Date().getHours();if(h>=6&&h<11)return'morning';if(h>=11&&h<15)return'lunch';if(h>=15&&h<20)return'evening';return'night';}
+
+function updateClock() {
+  const now = new Date();
+  let h = now.getHours(), m = now.getMinutes(), s = now.getSeconds();
+  let ampm = h >= 12 ? 'PM' : 'AM';
+  h = h % 12 || 12;
+  const timeBadge = document.getElementById('timeBadge');
+  if(timeBadge) {
+    timeBadge.innerHTML = `<div class="time-dot"></div>${h}:${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')} ${ampm}`;
+  }
+}
+
+function updateTimeBannerContext(){
+  const cfg=TIME_CFG[getSlot()];
+  document.getElementById('tbIcon').textContent=cfg.icon;
+  document.getElementById('tbTitle').textContent=cfg.title;
+  document.getElementById('tbSub').textContent=cfg.sub;
+  document.getElementById('tbChips').innerHTML=cfg.chips.map(c=>
+    `<div class="tb-chip" onclick="quickSearch('${c}')">${c}</div>`
+  ).join('');
+}
+
+function quickSearch(q){
+  document.getElementById('gsearch').value=q;
+  onSearch(q);
+  document.getElementById('searchDrop').classList.add('open');
+}
+
+// ═══════════════════════════════════════════════════════
+// STATS - Clickable Links
+// ═══════════════════════════════════════════════════════
+function renderStats(){
+  const total=SHOPS.reduce((a,s)=>a+s.menu.length,0);
+  const freeQ=SHOPS.filter(s=>effQueue(s)==='free').length;
+  const rv=getReviews().length;
+  
+  document.getElementById('quickStats').innerHTML=`
+    <div class="stat-chip" onclick="switchTab('shops', document.querySelectorAll('.tab')[1])">
+      <div class="stat-dot" style="background:var(--cyan)"></div>${SHOPS.length} <strong>Shops</strong> <span class="stat-action">Go →</span>
+    </div>
+    <div class="stat-chip" onclick="filterShops('free', document.querySelectorAll('.filter-btn')[3]); switchTab('shops', document.querySelectorAll('.tab')[1])">
+      <div class="stat-dot" style="background:var(--green)"></div>${freeQ} <strong>Free Queue</strong> <span class="stat-action">Go →</span>
+    </div>
+    <div class="stat-chip" onclick="switchTab('snacks', document.querySelectorAll('.tab')[2])">
+      <div class="stat-dot" style="background:var(--orange)"></div>${total}+ <strong>Items</strong> <span class="stat-action">Go →</span>
+    </div>
+    <div class="stat-chip" onclick="switchTab('reviews', document.querySelectorAll('.tab')[6])">
+      <div class="stat-dot" style="background:var(--purple)"></div>${rv} <strong>Reviews</strong> <span class="stat-action">Go →</span>
+    </div>
+  `;
+}
+
+// ═══════════════════════════════════════════════════════
+// CROWD VOTING
+// ═══════════════════════════════════════════════════════
+function effQueue(shop){
+  const v=crowdVotes[shop.id];
+  return(v&&v.ts&&Date.now()-v.ts<3600000)?v.status:shop.queueStatus;
+}
+function voteQueue(shopId,status,btn){
+  crowdVotes[shopId]={status,ts:Date.now()};
+  localStorage.setItem('cit_crowd',JSON.stringify(crowdVotes));
+  document.querySelectorAll(`.cb-${shopId}`).forEach(b=>{b.classList.remove('free-v','busy-v','crow-v');});
+  btn.classList.add(status==='free'?'free-v':status==='busy'?'busy-v':'crow-v');
+  showToast(`Queue updated: ${status}`,'success');
+  renderStats();
+}
+function crowdBar(shop){
+  const v=crowdVotes[shop.id];
+  return`<div class="crowd-bar">
+    <span class="crowd-lbl">Update Queue:</span>
+    <button class="crowd-btn cb-${shop.id} ${v?.status==='free'?'free-v':''}" onclick="voteQueue('${shop.id}','free',this)">🟢 Free</button>
+    <button class="crowd-btn cb-${shop.id} ${v?.status==='busy'?'busy-v':''}" onclick="voteQueue('${shop.id}','busy',this)">🟡 Busy</button>
+    <button class="crowd-btn cb-${shop.id} ${v?.status==='crowded'?'crow-v':''}" onclick="voteQueue('${shop.id}','crowded',this)">🔴 Crowded</button>
+  </div>`;
+}
+function qBadge(s){const l={free:'🟢 Free',busy:'🟡 Busy',crowded:'🔴 Crowded'};return`<div class="queue-badge ${s}"><div class="queue-dot"></div>${l[s]||s}</div>`;}
+
+// ═══════════════════════════════════════════════════════
+// SEARCH — GROUPED BY SHOP WITH DIRECT NAVIGATION
+// ═══════════════════════════════════════════════════════
+function onSearch(q){
+  const cl=document.getElementById('searchClear');
+  cl.classList.toggle('show',!!q);
+  const drop=document.getElementById('searchDrop');
+  if(!q||q.length<2){drop.classList.remove('open');return;}
+
+  // Match items
+  const q2=q.toLowerCase();
+  const matched=allItems.filter(i=>i.item.toLowerCase().includes(q2)||i.category.toLowerCase().includes(q2));
+
+  if(!matched.length){
+    drop.innerHTML=`<div class="search-empty">No items found for "<strong>${q}</strong>" — try another name</div>`;
+    drop.classList.add('open');return;
+  }
+
+  // Group by shop
+  const groups={};
+  matched.forEach(m=>{
+    if(!groups[m.shopId])groups[m.shopId]=[];
+    groups[m.shopId].push(m);
+  });
+
+  let html=`<div class="search-drop-header">RESULTS FOR "${q.toUpperCase()}" — ${matched.length} ITEMS</div>`;
+
+  Object.entries(groups).forEach(([shopId,items])=>{
+    const shop=SHOPS.find(s=>s.id===shopId);
+    const q=effQueue(shop);
+    html+=`<div class="search-shop-group">
+      <div class="search-shop-label">
+        <span class="ssl-icon">🏪</span>
+        <span class="ssl-name">${shop.name}</span>
+        <span class="ssl-queue">${qBadge(q)}</span>
+        <button class="ssl-go" onclick="navigateToShop('${shopId}','Search')">View Shop →</button>
+      </div>
+      ${items.slice(0,5).map(m=>`
+        <div class="sri" onclick="navigateToShop('${shopId}','Search: ${m.item}')">
+          <div class="sri-left">
+            <div class="vd ${m.isVeg?'veg':'nonveg'}" style="flex-shrink:0;width:9px;height:9px;border-radius:50%;"></div>
+            <div>
+              <div class="sri-name">${hlText(m.item,q2)}</div>
+              <div class="sri-cat">${m.category}</div>
+            </div>
+          </div>
+          <div class="sri-right">
+            <div class="sri-price">${m.price!==null?'₹'+m.price:'On visit'}</div>
+            ${m.isBestSeller?'<span style="font-family:\'DM Mono\',monospace;font-size:8px;color:var(--orange)">🔥 BEST</span>':''}
+            <button class="sri-shop-btn" onclick="event.stopPropagation();navigateToShop('${shopId}','Item: ${m.item}')">View Shop →</button>
+          </div>
+        </div>`).join('')}
+    </div>`;
+  });
+
+  drop.innerHTML=html;
+  drop.classList.add('open');
+}
+
+function hlText(text,q){
+  const re=new RegExp(`(${q.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')})`, 'gi');
+  return text.replace(re,'<mark style="background:rgba(0,229,255,.2);color:var(--cyan);border-radius:2px">$1</mark>');
+}
+function clearSearch(){
+  document.getElementById('gsearch').value='';
+  document.getElementById('searchClear').classList.remove('show');
+  document.getElementById('searchDrop').classList.remove('open');
+  document.getElementById('breadcrumb').classList.add('hidden');
+}
+document.addEventListener('click',e=>{if(!e.target.closest('.search-wrap'))document.getElementById('searchDrop').classList.remove('open');});
+
+// ═══════════════════════════════════════════════════════
+// SCORE SYSTEM
+// ═══════════════════════════════════════════════════════
+function calcScore(shop,budget){
+  const b=budget?parseInt(budget):999;
+  const ps=b>=shop.avgPrice?5:b>=shop.avgPrice*.7?2:0;
+  const qs=effQueue(shop)==='free'?5:effQueue(shop)==='busy'?2:0;
+  return shop.googleRating*2.5+qs+ps+Math.log(shop.googleReviewsCount+1);
+}
+function scoreBreakdown(shop,budget){
+  const b=budget?parseInt(budget):999;
+  const ps=b>=shop.avgPrice?5:b>=shop.avgPrice*.7?2:0;
+  const qs=effQueue(shop)==='free'?5:effQueue(shop)==='busy'?2:0;
+  const rs=(shop.googleRating*2.5).toFixed(2);
+  const lg=Math.log(shop.googleReviewsCount+1).toFixed(2);
+  return{rating:rs,queue:qs,price:ps,reviews:lg};
+}
+
+// ═══════════════════════════════════════════════════════
+// FINDER
+// ═══════════════════════════════════════════════════════
+function findBest(){
+  const btn=document.getElementById('findBtn');
+  btn.textContent='Scoring…';btn.disabled=true;
+  setTimeout(()=>{
+    const budget=document.getElementById('budgetInput').value;
+    const veg=document.getElementById('vegFilter').value;
+    const mood=document.getElementById('moodFilter').value;
+    const moodCats=MOOD_MAP[mood];
+    const bNum=budget?parseInt(budget):9999;
+    const vegBool=veg==='veg'?true:veg==='nonveg'?false:null;
+    const results=[...SHOPS].map(s=>({...s,score:calcScore(s,budget)})).sort((a,b)=>b.score-a.score);
+    let html=`<div class="results-label">TOP RESULTS — ${results.length} SHOPS RANKED</div><div class="result-cards">`;
+    results.forEach((shop,i)=>{
+      const rc=i===0?'rank-1':i===1?'rank-2':i===2?'rank-3':'';
+      const rl=i===0?'🥇':i===1?'🥈':i===2?'🥉':`#${i+1}`;
+      const bd=scoreBreakdown(shop,budget);
+      const items=shop.menu.filter(m=>{
+        const pOk=m.price===null||m.price<=bNum;
+        const vOk=vegBool===null||m.isVeg===vegBool;
+        const cOk=!moodCats||moodCats.some(c=>m.category.toLowerCase().includes(c.toLowerCase()));
+        return pOk&&vOk&&cOk;
+      }).slice(0,4);
+      let iHtml='';
+      if(items.length){
+        iHtml=`<div class="rc-items"><div class="rc-items-lbl">ITEMS IN BUDGET — click any to open shop</div><div class="rc-chips">
+          ${items.map(m=>`<div class="rc-chip ${m.isBestSeller?'bs':''}" onclick="navigateToShop('${shop.id}','Finder: ${m.item}')">${m.isBestSeller?'🔥 ':''}${m.item}${m.price?` · ₹${m.price}`:''}</div>`).join('')}
+        </div></div>`;
+      }else if(!shop.menu.length){
+        iHtml=`<div class="rc-items"><div class="rc-items-lbl" style="color:var(--dim)">MENU ROTATES DAILY — CLICK CARD TO SEE DETAILS</div></div>`;
+      }
+      html+=`<div class="result-card ${rc}">
+        <div class="rank-badge">${rl}</div>
+        <div>
+          <div class="rc-name" style="cursor:pointer" onclick="navigateToShop('${shop.id}','Finder')">${shop.name}</div>
+          <div class="rc-type">${shop.type}</div>
+          <div class="rc-meta">
+            <div class="rc-mi">⭐ <strong>${shop.googleRating}</strong></div>
+            <div class="rc-mi">💰 <strong>~₹${shop.avgPrice}</strong></div>
+            <div class="rc-mi">${qBadge(effQueue(shop))}</div>
+          </div>
+          ${iHtml}
+          <div class="score-why">
+            <div class="sw-title">WHY THIS SCORE?</div>
+            <div class="sw-row"><span>⭐ Rating (${shop.googleRating} × 2.5)</span><span>+${bd.rating}</span></div>
+            <div class="sw-row"><span>${effQueue(shop)==='free'?'🟢':'🟡'} Queue (${effQueue(shop)})</span><span>+${bd.queue}</span></div>
+            <div class="sw-row"><span>💰 Budget fit</span><span>+${bd.price}</span></div>
+            <div class="sw-row"><span>📊 Review weight</span><span>+${bd.reviews}</span></div>
+          </div>
+          ${crowdBar(shop)}
+          <button class="view-shop-btn" onclick="navigateToShop('${shop.id}','Finder')">🏪 View Full Shop & Menu →</button>
+        </div>
+        <div class="rc-score"><span class="score-val">${shop.score.toFixed(1)}</span><span class="score-lbl">SCORE</span></div>
+      </div>`;
+    });
+    document.getElementById('finderResults').innerHTML=html+'</div>';
+    btn.textContent='Find Best Now →';btn.disabled=false;
+  },280);
+}
+
+// ═══════════════════════════════════════════════════════
+// SHOPS
+// ═══════════════════════════════════════════════════════
+function renderShops(f='all'){
+  let shops=SHOPS;
+  if(f==='veg')shops=shops.filter(s=>s.menu.some(m=>m.isVeg)||s.tags.includes('Veg'));
+  if(f==='nonveg')shops=shops.filter(s=>s.menu.some(m=>!m.isVeg)||s.tags.includes('Non-Veg'));
+  if(f==='free')shops=shops.filter(s=>effQueue(s)==='free');
+  if(f==='cheap')shops=shops.filter(s=>s.avgPrice<=50);
+  const g=document.getElementById('shopsGrid');
+  if(!shops.length){g.innerHTML=`<div class="empty-state" style="grid-column:1/-1"><span class="big">🏪</span><h3>No shops match</h3><p>Try a different filter.</p></div>`;return;}
+  g.innerHTML=shops.map(s=>`
+    <div class="shop-card" id="sc-${s.id}" onclick="openShop('${s.id}')">
+      <div class="sc-header">
+        <div class="sc-top">
+          <div><div class="sc-name">${s.name}</div><div class="sc-type">${s.type}</div></div>
+          <div class="sc-rating"><span class="star">★</span>${s.googleRating}<span class="rct">(${s.googleReviewsCount})</span></div>
+        </div>
+        <div class="sc-tags">${s.tags.slice(0,4).map(t=>`<span class="sc-tag">${t}</span>`).join('')}</div>
+      </div>
+      <div class="sc-body"><div class="sc-meta">
+        <div class="sc-mi"><span>Avg Price</span><strong>~₹${s.avgPrice}</strong></div>
+        <div class="sc-mi"><span>Queue</span>${qBadge(effQueue(s))}</div>
+        <div class="sc-mi"><span>Menu Items</span>
+          ${s.menu.length>0
+            ?`<button class="item-count-btn" onclick="event.stopPropagation();openShop('${s.id}')" title="Click to see full menu">${s.menu.length} items →</button>`
+            :`<strong style="color:var(--dim)">Rotating</strong>`}
+        </div>
+      </div></div>
+      <div class="sc-footer">
+        <div class="sc-hours">🕐 ${s.hours.split('|')[0].trim()}</div>
+        <div class="sc-footer-btns">
+          <button class="sc-footer-btn" onclick="event.stopPropagation();openShop('${s.id}')">Full Menu →</button>
+        </div>
+      </div>
+    </div>`).join('');
+}
+function filterShops(t,btn){
+  document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');renderShops(t);
+}
+
+// ═══════════════════════════════════════════════════════
+// SNACKS
+// ═══════════════════════════════════════════════════════
+function renderSnackCats(){
+  document.getElementById('snackCats').innerHTML=SNACK_CATS.map(c=>
+    `<div class="snack-cat ${c==='All'?'active':''}" onclick="setSnackCat('${c}',this)">${c}</div>`
+  ).join('');
+}
+function setSnackCat(c,el){snackCat=c;document.querySelectorAll('.snack-cat').forEach(x=>x.classList.remove('active'));el.classList.add('active');renderSnacks();}
+function renderSnacks(){
+  const q=(document.getElementById('snacksSearch').value||'').toLowerCase();
+  let items=[];
+  SHOPS.forEach(shop=>shop.menu.forEach(m=>{
+    const cOk=snackCat==='All'||m.category.toLowerCase().includes(snackCat.toLowerCase());
+    const qOk=!q||m.item.toLowerCase().includes(q)||m.category.toLowerCase().includes(q)||shop.name.toLowerCase().includes(q);
+    if(cOk&&qOk)items.push({...m,shopName:shop.name,shopId:shop.id});
+  }));
+  items.sort((a,b)=>a.price===null?1:b.price===null?-1:a.price-b.price);
+  const g=document.getElementById('snacksGrid');
+  if(!items.length){g.innerHTML=`<div class="empty-state" style="grid-column:1/-1"><span class="big">🍽</span><h3>No items found</h3><p>Try a different category or search.</p></div>`;return;}
+  g.innerHTML=items.map(m=>`
+    <div class="snack-card" onclick="navigateToShop('${m.shopId}','Snacks: ${m.item}')">
+      <div class="sv-dot ${m.isVeg?'veg':'nonveg'}"></div>
+      <div class="snack-info">
+        <div class="snack-name">${m.item}</div>
+        <div style="display:flex;gap:6px;align-items:center;margin-top:2px;">
+          <span class="snack-shop-lnk" onclick="event.stopPropagation();navigateToShop('${m.shopId}','Snacks')">🏪 ${m.shopName} →</span>
+          <span class="snack-cat-lbl">· ${m.category}</span>
+        </div>
+      </div>
+      <div class="snack-right">
+        <div class="snack-price">${m.price!==null?'₹'+m.price:'On visit'}</div>
+        ${m.isBestSeller?'<span class="snack-bs">🔥 BEST</span>':''}
+        <button class="snack-go" onclick="event.stopPropagation();navigateToShop('${m.shopId}','Snacks: ${m.item}')">View Menu →</button>
+      </div>
+    </div>`).join('');
+}
+
+// ═══════════════════════════════════════════════════════
+// BUDGET
+// ═══════════════════════════════════════════════════════
+function planBudget(){
+  const budget=parseInt(document.getElementById('plannerBudget').value);
+  const c=document.getElementById('plannerResults');
+  if(!budget||budget<1){c.innerHTML='';return;}
+  let html='<div class="combos">',found=false;
+  SHOPS.forEach(shop=>{
+    const items=shop.menu.filter(m=>m.price!==null&&m.price<=budget);
+    if(!items.length)return;
+    found=true;
+    items.sort((a,b)=>b.price-a.price);
+    let rem=budget,chosen=[],total=0;
+    for(const item of items)if(rem>=item.price&&chosen.length<3){chosen.push(item);rem-=item.price;total+=item.price;}
+    const pct=Math.round(total/budget*100);
+    html+=`<div class="combo-card">
+      <div class="combo-hdr">
+        <div class="combo-shop-link" onclick="navigateToShop('${shop.id}','Budget Planner')">
+          ${shop.name} <span>View Menu →</span>
+        </div>
+        <div class="combo-total">₹${total} / ₹${budget}</div>
+      </div>
+      <div class="combo-items">${chosen.map(i=>`<div class="combo-row"><span>${i.isBestSeller?'🔥 ':''}${i.item}</span><span>₹${i.price}</span></div>`).join('')}</div>
+      ${rem>0?`<div class="combo-save">₹${rem} remaining</div>`:''}
+      <div class="combo-bar"><div class="combo-bar-fill" style="width:${pct}%"></div></div>
+    </div>`;
+  });
+  if(!found)html+=`<div class="empty-state"><span class="big">💸</span><h3>Budget too low</h3><p>Minimum item is ₹10 (Vada). Try ₹20+.</p></div>`;
+  c.innerHTML=html+'</div>';
+}
+
+// ═══════════════════════════════════════════════════════
+// TOP PICKS
+// ═══════════════════════════════════════════════════════
+function renderTopPicks(){
+  let cheapest=null;
+  SHOPS.forEach(s=>s.menu.forEach(m=>{if(m.price!==null&&(!cheapest||m.price<cheapest.price))cheapest={...m,shopName:s.name,shopId:s.id};}));
+  const bestR=SHOPS.reduce((a,b)=>a.googleRating>b.googleRating?a:b);
+  const freeQ=SHOPS.filter(s=>s.queueStatus==='free').sort((a,b)=>b.googleRating-a.googleRating)[0];
+  const mostMenu=SHOPS.reduce((a,b)=>a.menu.length>b.menu.length?a:b);
+  const picks=[
+    {label:'💸 Cheapest Item',name:cheapest?cheapest.item:'—',shop:cheapest?cheapest.shopName:'',price:cheapest?`₹${cheapest.price}`:'—',shopId:cheapest?.shopId,ctx:'Top Pick: Cheapest'},
+    {label:'⭐ Highest Rated Shop',name:bestR.name,shop:bestR.type,price:`${bestR.googleRating}/5`,shopId:bestR.id,ctx:'Top Pick: Highest Rated'},
+    {label:'🟢 Free Queue + Best Rating',name:freeQ?freeQ.name:'—',shop:freeQ?freeQ.type:'',price:freeQ?`~₹${freeQ.avgPrice}`:'—',shopId:freeQ?.id,ctx:'Top Pick: Free Queue'},
+    {label:'🍽 Most Menu Items',name:mostMenu.name,shop:`${mostMenu.menu.length} items`,price:`~₹${mostMenu.avgPrice} avg`,shopId:mostMenu.id,ctx:'Top Pick: Most Items'},
+  ];
+  document.getElementById('topPicksGrid').innerHTML=picks.map(p=>`
+    <div class="pick-card" onclick="${p.shopId?`MapsToShop('${p.shopId}','${p.ctx}')`:''}" style="${p.shopId?'':'cursor:default'}">
+      <div class="pick-lbl">${p.label}</div>
+      <div class="pick-name">${p.name}</div>
+      <div class="pick-shop">${p.shopId?`🏪 ${p.shop}`:p.shop}</div>
+      <div class="pick-price">${p.price}</div>
+      ${p.shopId?`<div class="pick-goto">View full shop →</div>`:''}
+    </div>`).join('');
+  const ranked=[...SHOPS].sort((a,b)=>(b.googleRating*2+Math.log(b.googleReviewsCount+1))-(a.googleRating*2+Math.log(a.googleReviewsCount+1)));
+  document.getElementById('shopRankings').innerHTML=ranked.map((s,i)=>{
+    const rc=i===0?'rank-1':i===1?'rank-2':i===2?'rank-3':'';
+    const rl=i===0?'🥇':i===1?'🥈':i===2?'🥉':`#${i+1}`;
+    const sc=(s.googleRating*2+Math.log(s.googleReviewsCount+1)).toFixed(1);
+    return`<div class="result-card ${rc}" onclick="navigateToShop('${s.id}','Top Picks Rankings')" style="cursor:pointer">
+      <div class="rank-badge">${rl}</div>
+      <div><div class="rc-name">${s.name}</div><div class="rc-type">${s.type}</div>
+      <div class="rc-meta"><div class="rc-mi">⭐ <strong>${s.googleRating}</strong></div><div class="rc-mi">💰 <strong>~₹${s.avgPrice}</strong></div><div class="rc-mi">${qBadge(effQueue(s))}</div></div></div>
+      <div class="rc-score"><span class="score-val">${sc}</span><span class="score-lbl">SCORE</span></div>
+    </div>`;
+  }).join('');
+}
+
+// ═══════════════════════════════════════════════════════
+// ANALYTICS
+// ═══════════════════════════════════════════════════════
+function renderAnalytics(){
+  const reviews=getReviews();
+  const totalItems=SHOPS.reduce((a,s)=>a+s.menu.length,0);
+  const vegItems=SHOPS.reduce((a,s)=>a+s.menu.filter(m=>m.isVeg).length,0);
+  const priced=allItems.filter(m=>m.price!==null);
+  const avgPrice=priced.length?Math.round(priced.reduce((a,m)=>a+m.price,0)/priced.length):0;
+  document.getElementById('analyticsGrid').innerHTML=`
+    <div class="an-card"><div class="an-lbl">TOTAL MENU ITEMS</div><div class="an-val">${totalItems}</div><div class="an-sub">Across 7 canteens</div></div>
+    <div class="an-card"><div class="an-lbl">VEG RATIO</div><div class="an-val">${Math.round(vegItems/totalItems*100)}%</div><div class="an-sub">${vegItems} veg · ${totalItems-vegItems} non-veg</div></div>
+    <div class="an-card"><div class="an-lbl">AVG ITEM PRICE</div><div class="an-val">₹${avgPrice}</div><div class="an-sub">Across ${priced.length} priced items</div></div>
+    <div class="an-card"><div class="an-lbl">STUDENT REVIEWS</div><div class="an-val">${reviews.length}</div><div class="an-sub">On this device</div></div>
+    <div class="an-card" style="grid-column:1/-1">
+      <div class="an-lbl">RATING CHART — click shop name to view</div>
+      <div class="bar-chart">${[...SHOPS].sort((a,b)=>b.googleRating-a.googleRating).map(s=>`
+        <div class="bar-row">
+          <div class="bar-lbl" onclick="navigateToShop('${s.id}','Analytics')" title="${s.name}">${s.name.split(' ')[0]}</div>
+          <div class="bar-track"><div class="bar-fill" style="width:${s.googleRating/5*100}%;background:${s.googleRating>=4.5?'var(--green)':s.googleRating>=4?'var(--cyan)':'var(--yellow)'}"></div></div>
+          <div class="bar-val">${s.googleRating}</div>
+        </div>`).join('')}
+      </div>
+    </div>
+    <div class="an-card" style="grid-column:1/-1">
+      <div class="an-lbl">PRICE DISTRIBUTION</div>
+      <div class="bar-chart">${[['₹0–30',0,30],['₹31–60',31,60],['₹61–100',61,100],['₹101–200',101,200],['₹200+',201,9999]].map(([lbl,min,max])=>{
+        const cnt=priced.filter(m=>m.price>=min&&m.price<=max).length;
+        const pct=priced.length?Math.round(cnt/priced.length*100):0;
+        return`<div class="bar-row"><div class="bar-lbl" style="cursor:default">${lbl}</div><div class="bar-track"><div class="bar-fill" style="width:${pct}%;background:var(--purple)"></div></div><div class="bar-val">${cnt}</div></div>`;
+      }).join('')}</div>
+    </div>`;
+  const byRev=[...SHOPS].sort((a,b)=>b.googleReviewsCount-a.googleReviewsCount);
+  document.getElementById('analyticsRankings').innerHTML=byRev.map((s,i)=>{
+    const rc=i===0?'rank-1':i===1?'rank-2':i===2?'rank-3':'';
+    const rl=i===0?'🥇':i===1?'🥈':i===2?'🥉':`#${i+1}`;
+    return`<div class="result-card ${rc}" onclick="navigateToShop('${s.id}','Analytics')" style="cursor:pointer">
+      <div class="rank-badge">${rl}</div>
+      <div><div class="rc-name">${s.name}</div><div class="rc-type">${s.type}</div>
+      <div class="rc-meta"><div class="rc-mi">📝 <strong>${s.googleReviewsCount} reviews</strong></div><div class="rc-mi">⭐ <strong>${s.googleRating}</strong></div><div class="rc-mi">💰 <strong>~₹${s.avgPrice}</strong></div></div></div>
+      <div class="rc-score"><span class="score-val">${s.googleReviewsCount}</span><span class="score-lbl">REVIEWS</span></div>
+    </div>`;
+  }).join('');
+}
+
+// ═══════════════════════════════════════════════════════
+// SHOP MODAL — Menu visibility label update
+// ═══════════════════════════════════════════════════════
+function openShop(id){
+  const shop=SHOPS.find(s=>s.id===id);if(!shop)return;
+  modalMenuFilter='all';
+  document.getElementById('mName').textContent=shop.name;
+  document.getElementById('mType').innerHTML=`📍 YOU ARE VIEWING: ${shop.type.toUpperCase()}`;
+  document.getElementById('mStats').innerHTML=`
+    <div class="modal-stat">⭐ <strong>${shop.googleRating}</strong> (${shop.googleReviewsCount} reviews)</div>
+    <div class="modal-stat">💰 <strong>~₹${shop.avgPrice}</strong> avg</div>
+    <div class="modal-stat">${qBadge(effQueue(shop))}</div>
+  `;
+  renderModalBody(shop);
+  document.getElementById('modalOverlay').classList.add('open');
+  document.body.style.overflow='hidden';
+}
+function renderModalBody(shop,menuFilter){
+  menuFilter=menuFilter||'all';
+  const cats={};
+  shop.menu.forEach(m=>{if(!cats[m.category])cats[m.category]=[];cats[m.category].push(m);});
+  const allCats=Object.keys(cats);
+  let body=`<div class="modal-desc">${shop.description}</div>`;
+  if(shop.studentSentiment.positive||shop.studentSentiment.negative){
+    body+='<div class="sent-box">';
+    if(shop.studentSentiment.positive)body+=`<p class="sent-pos">👍 ${shop.studentSentiment.positive}</p>`;
+    if(shop.studentSentiment.negative)body+=`<p class="sent-neg">👎 ${shop.studentSentiment.negative}</p>`;
+    body+='</div>';
+  }
+  body+=`<div class="m-sec-lbl">CROWD UPDATE</div>${crowdBar(shop)}`;
+  if(shop.features.length)body+=`<div class="m-sec-lbl">FEATURES</div><div class="m-features">${shop.features.map(f=>`<span class="m-feat">${f}</span>`).join('')}</div>`;
+  body+=`<div class="m-sec-lbl" style="margin-top:12px">PAYMENT</div><div class="pay-chips">${shop.paymentMethods.map(p=>`<span class="pay-chip">${p}</span>`).join('')}</div>`;
+  if(shop.menu.length){
+    const vegCount=shop.menu.filter(m=>m.isVeg).length;
+    const nonvCount=shop.menu.filter(m=>!m.isVeg).length;
+    body+=`<div class="m-sec-lbl" style="margin-top:18px">MENU (${shop.menu.length} items)</div>
+    <div class="modal-menu-filter">
+      <button class="mmf-btn ${menuFilter==='all'?'active':''}" onclick="filterModalMenu('${shop.id}','all')">All (${shop.menu.length})</button>
+      ${vegCount?`<button class="mmf-btn ${menuFilter==='veg'?'active':''}" onclick="filterModalMenu('${shop.id}','veg')">🥦 Veg (${vegCount})</button>`:''}
+      ${nonvCount?`<button class="mmf-btn ${menuFilter==='nonveg'?'active':''}" onclick="filterModalMenu('${shop.id}','nonveg')">🍗 Non-Veg (${nonvCount})</button>`:''}
+      ${allCats.slice(0,4).map(c=>`<button class="mmf-btn ${menuFilter===c?'active':''}" onclick="filterModalMenu('${shop.id}','${c}')">${c}</button>`).join('')}
+    </div>`;
+    let filteredMenu=shop.menu;
+    if(menuFilter==='veg')filteredMenu=shop.menu.filter(m=>m.isVeg);
+    else if(menuFilter==='nonveg')filteredMenu=shop.menu.filter(m=>!m.isVeg);
+    else if(menuFilter!=='all')filteredMenu=shop.menu.filter(m=>m.category===menuFilter);
+    const fCats={};
+    filteredMenu.forEach(m=>{if(!fCats[m.category])fCats[m.category]=[];fCats[m.category].push(m);});
+    if(!filteredMenu.length){body+=`<div class="no-menu">No items match this filter.</div>`;}
+    else{
+      Object.entries(fCats).forEach(([cat,items])=>{
+        body+=`<div style="margin-bottom:11px"><div style="font-family:'DM Mono',monospace;font-size:9px;color:var(--muted);letter-spacing:1px;margin-bottom:5px;text-transform:uppercase">${cat}</div>
+          <div class="menu-items">${items.map(m=>`<div class="menu-item"><div class="mi-left"><div class="vd ${m.isVeg?'veg':'nonveg'}"></div><span class="mi-name">${m.item}</span>${m.isBestSeller?'<span class="bs-b">BEST</span>':''}</div><div class="mi-price ${m.price===null?'na':''}">${m.price!==null?'₹'+m.price:'Price on visit'}</div></div>`).join('')}</div></div>`;
+      });
+    }
+  }else{
+    body+=`<div class="m-sec-lbl" style="margin-top:18px">MENU</div><div class="no-menu">📋 Menu rotates daily. Visit for today's specials and pricing.</div>`;
+  }
+  const rv=getReviews().filter(r=>r.shopId===shop.id);
+  if(rv.length){
+    body+=`<div class="m-sec-lbl" style="margin-top:18px">STUDENT REVIEWS (${rv.length})</div>`;
+    body+=rv.slice(0,3).map(r=>`<div class="review-card" style="margin-bottom:8px"><div class="rv-top"><div class="rv-author">${r.name}</div><div class="rv-stars">${'★'.repeat(r.rating)}${'☆'.repeat(5-r.rating)}</div></div>${r.item?`<div class="rv-item">🍽 ${r.item}</div>`:''}${r.comment?`<div class="rv-comment">${r.comment}</div>`:''}<div class="rv-date">${r.date}</div></div>`).join('');
+  }
+  body+=`<div class="modal-actions">
+    <button class="modal-action-btn" onclick="switchTab('reviews',document.querySelector('.tab:nth-child(7)'));closeModalDirect();document.getElementById('rShop').value='${shop.id}';populateItems();">✍️ Write Review</button>
+    <button class="modal-action-btn" onclick="goToShopTab('${shop.id}');closeModalDirect();">🏪 View in Shops Tab</button>
+    <button class="modal-action-btn primary" onclick="openAI();closeModalDirect();setTimeout(()=>askAI('Best items at ${shop.name}?'),300)">✦ Ask AI about this shop</button>
+  </div>`;
+  document.getElementById('mBody').innerHTML=body;
+}
+function filterModalMenu(shopId,filter){
+  modalMenuFilter=filter;
+  const shop=SHOPS.find(s=>s.id===shopId);
+  if(shop)renderModalBody(shop,filter);
+}
+function closeModal(e){if(e.target===document.getElementById('modalOverlay'))closeModalDirect();}
+function closeModalDirect(){document.getElementById('modalOverlay').classList.remove('open');document.body.style.overflow='';}
+
+// ═══════════════════════════════════════════════════════
+// REVIEWS
+// ═══════════════════════════════════════════════════════
+function setRating(n){selRating=n;document.querySelectorAll('.star-btn').forEach((b,i)=>b.classList.toggle('on',i<n));}
+function populateReviewShops(){const s=document.getElementById('rShop');SHOPS.forEach(shop=>{const o=document.createElement('option');o.value=shop.id;o.textContent=shop.name;s.appendChild(o);});}
+function populateItems(){
+  const id=document.getElementById('rShop').value;
+  const sel=document.getElementById('rItem');
+  sel.innerHTML='<option value="">Select item (optional)</option>';
+  if(!id)return;
+  const shop=SHOPS.find(s=>s.id===id);
+  if(shop)shop.menu.forEach(m=>{const o=document.createElement('option');o.value=m.item;o.textContent=m.item+(m.price?` · ₹${m.price}`:'');sel.appendChild(o);});
+}
+function getReviews(){try{return JSON.parse(localStorage.getItem('cit_reviews')||'[]');}catch(e){return[];}}
+function saveReviews(r){localStorage.setItem('cit_reviews',JSON.stringify(r));}
+function submitReview(){
+  const shopId=document.getElementById('rShop').value;
+  if(!shopId){document.getElementById('rShop').classList.add('err');showToast('Please select a shop','error');return;}
+  document.getElementById('rShop').classList.remove('err');
+  if(!selRating){showToast('Please give a star rating ★','error');return;}
+  const btn=document.getElementById('submitBtn');btn.disabled=true;btn.textContent='Saving…';
+  setTimeout(()=>{
+    const shop=SHOPS.find(s=>s.id===shopId);
+    const rv={id:Date.now(),name:document.getElementById('rName').value.trim()||'Anonymous',shopId,shopName:shop.name,item:document.getElementById('rItem').value||'',rating:selRating,comment:document.getElementById('rComment').value.trim(),date:new Date().toLocaleDateString('en-IN',{day:'numeric',month:'short',year:'numeric'})};
+    const all=getReviews();all.unshift(rv);saveReviews(all);
+    document.getElementById('rName').value='';document.getElementById('rShop').value='';
+    document.getElementById('rItem').innerHTML='<option value="">Select shop first</option>';
+    document.getElementById('rComment').value='';setRating(0);selRating=0;
+    btn.disabled=false;btn.textContent='Submit Review ✓';
+    showToast('✓ Review saved! Thanks for your feedback.','success');
+    loadReviews();renderStats();renderAnalytics();
+  },400);
+}
+function loadReviews(){
+  const all=getReviews();
+  const counts={};all.forEach(r=>{counts[r.shopId]=(counts[r.shopId]||0)+1;});
+  document.getElementById('reviewFilters').innerHTML=
+    `<button class="rv-fb ${rvFilter==='all'?'active':''}" onclick="setRvFilter('all',this)">All (${all.length})</button>`+
+    SHOPS.filter(s=>counts[s.id]).map(s=>`<button class="rv-fb ${rvFilter===s.id?'active':''}" onclick="setRvFilter('${s.id}',this)">${s.name.split(' ')[0]} (${counts[s.id]})</button>`).join('');
+  const filtered=rvFilter==='all'?all:all.filter(r=>r.shopId===rvFilter);
+  const c=document.getElementById('reviewsList');
+  if(!filtered.length){c.innerHTML=`<div class="reviews-empty">No reviews yet — be the first! 🙌</div>`;return;}
+  c.innerHTML=filtered.map(r=>`
+    <div class="review-card">
+      <div class="rv-top"><div class="rv-author">${r.name}</div>
+      <div style="display:flex;align-items:center;gap:7px">
+        <div class="rv-shop-tag" onclick="navigateToShop('${r.shopId}','Reviews')">${r.shopName}</div>
+        <div class="rv-stars">${'★'.repeat(r.rating)}${'☆'.repeat(5-r.rating)}</div>
+      </div></div>
+      ${r.item?`<div class="rv-item">🍽 ${r.item}</div>`:''}
+      ${r.comment?`<div class="rv-comment">${r.comment}</div>`:''}
+      <div class="rv-date">${r.date}</div>
+    </div>`).join('');
+}
+function setRvFilter(id,el){rvFilter=id;document.querySelectorAll('.rv-fb').forEach(b=>b.classList.remove('active'));el.classList.add('active');loadReviews();}
+
+// ═══════════════════════════════════════════════════════
+// AI ASSISTANT
+// ═══════════════════════════════════════════════════════
+function buildCtx(){
+  let ctx=`Current time: ${getSlot()}. Campus canteen data:\n`;
+  SHOPS.forEach(s=>{
+    ctx+=`\n${s.name}: Rating ${s.googleRating}/5, ~₹${s.avgPrice} avg, Queue: ${effQueue(s)}, Hours: ${s.hours}.\n`;
+    const priced=s.menu.filter(m=>m.price!==null);
+    if(priced.length)ctx+=`Items: ${priced.slice(0,14).map(m=>`${m.item} ₹${m.price}${m.isBestSeller?' (BESTSELLER)':''}`).join(', ')}.\n`;
+    else if(s.menu.length)ctx+=`Items (price on visit): ${s.menu.slice(0,8).map(m=>m.item).join(', ')}.\n`;
+  });
+  return ctx;
+}
+function shopCard(shopId){
+  const s=SHOPS.find(x=>x.id===shopId);if(!s)return'';
+  return`<div class="ai-shop-card" onclick="navigateToShop('${s.id}','AI Assistant')">
+    <div class="ai-shop-card-name">🏪 ${s.name}</div>
+    <div class="ai-shop-card-meta">⭐ ${s.googleRating} · ~₹${s.avgPrice} · ${effQueue(s)==='free'?'🟢 Free':'🟡 Busy'}</div>
+    <div class="ai-shop-card-btn">View Full Menu →</div>
+  </div>`;
+}
+function addAIWelcome(){
+  document.getElementById('aiMsgs').innerHTML=`<div class="ai-msg bot"><div class="ai-avatar">✦</div><div class="ai-bubble">Hi! I'm your CIT Food AI 🍽<br><br>I know all canteens, menus, prices, and live queue status. Ask anything — I'll give specific recommendations with clickable shop cards.</div></div>`;
+}
+function openAI(){document.getElementById('aiOverlay').classList.add('open');document.body.style.overflow='hidden';}
+function closeAI(){document.getElementById('aiOverlay').classList.remove('open');document.body.style.overflow='';}
+function closeAIOut(e){if(e.target===document.getElementById('aiOverlay'))closeAI();}
+function addMsg(role,html){
+  const msgs=document.getElementById('aiMsgs');
+  const div=document.createElement('div');div.className=`ai-msg ${role}`;
+  div.innerHTML=`<div class="ai-avatar">${role==='bot'?'✦':'👤'}</div><div class="ai-bubble">${html}</div>`;
+  msgs.appendChild(div);msgs.scrollTop=msgs.scrollHeight;
+}
+function showTyping(){
+  const msgs=document.getElementById('aiMsgs');
+  const d=document.createElement('div');d.className='ai-msg bot';d.id='aiTyping';
+  d.innerHTML=`<div class="ai-avatar">✦</div><div class="ai-bubble"><span class="ai-typing"><span></span><span></span><span></span></span></div>`;
+  msgs.appendChild(d);msgs.scrollTop=msgs.scrollHeight;
+}
+function removeTyping(){const t=document.getElementById('aiTyping');if(t)t.remove();}
+async function sendAI(){const inp=document.getElementById('aiInput');const q=inp.value.trim();if(!q)return;inp.value='';askAI(q);}
+async function askAI(q){
+  addMsg('user',q);
+  document.getElementById('aiSugs').style.display='none';
+  showTyping();
+  aiHistory.push({role:'user',content:q});
+  const sys=`You are a helpful food assistant for CIT campus. Give concise, specific answers. Include shop names, item names, and prices (₹). When recommending shops, list them clearly so the user can click on them. Current data:\n\n${buildCtx()}`;
+  try{
+    const res=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:1000,system:sys,messages:aiHistory.slice(-10)})});
+    const data=await res.json();
+    removeTyping();
+    const reply=data.content?.[0]?.text||"Couldn't get response. Try again!";
+    aiHistory.push({role:'assistant',content:reply});
+    const mentioned=SHOPS.filter(s=>reply.toLowerCase().includes(s.name.toLowerCase().split(' ')[0]));
+    const cards=mentioned.length?mentioned.map(s=>shopCard(s.id)).join(''):'';
+    addMsg('bot',reply.replace(/\n/g,'<br>')+cards);
+  }catch(e){
+    removeTyping();
+    const fb=localAI(q);
+    aiHistory.push({role:'assistant',content:fb.text});
+    addMsg('bot',fb.text.replace(/\n/g,'<br>')+fb.cards);
+  }
+}
+function localAI(q){
+  q=q.toLowerCase();
+  const budget=q.match(/(\d+)/)?.[1];
+  const slot=getSlot();
+  if(q.includes('masala puri'))return{text:"<strong>Masala Puri</strong> is at Apurva Sweets & Bakery for ₹81. Free queue — great chaat pick!",cards:shopCard('apurva')};
+  if(q.includes('top 3')||q.includes('best now')){
+    const top=[...SHOPS].sort((a,b)=>calcScore(b,null)-calcScore(a,null)).slice(0,3);
+    return{text:`Top 3 right now:<br>${top.map((s,i)=>`${i+1}. <strong>${s.name}</strong> — ${effQueue(s)==='free'?'🟢':' 🟡'} · ~₹${s.avgPrice}`).join('<br>')}`,cards:top.map(s=>shopCard(s.id)).join('')};
+  }
+  if(q.includes('combo')||q.includes('suggest')){
+    const b=budget?parseInt(budget):80;
+    return{text:`Best combo under ₹${b}:<br>• Apurva: Samosa ₹21 + Pani Puri ₹43 = ₹64<br>• C2C: Cutlet ₹12 + Virgin Mojito ₹45 = ₹57<br>• Chill Out: Vada ₹10 + Orange Juice ₹50 = ₹60`,cards:shopCard('apurva')+shopCard('c2c')+shopCard('chillout')};
+  }
+  if(q.includes('juice'))return{text:"Best juice options:<br>• <strong>Chill Out</strong> 🟢 — fresh juices from ₹40.<br>• <strong>Tea Express</strong> — Jigarthanda ₹60<br>• <strong>C2C</strong> — Mojitos ₹45–70",cards:shopCard('chillout')+shopCard('tea-express')};
+  if(q.includes('free queue'))return{text:`Free queue shops now:<br>${SHOPS.filter(s=>effQueue(s)==='free').map(s=>`• <strong>${s.name}</strong> — ~₹${s.avgPrice}`).join('<br>')}`,cards:SHOPS.filter(s=>effQueue(s)==='free').map(s=>shopCard(s.id)).join('')};
+  if(q.includes('cheap'))return{text:"Cheapest items:<br>• Vada ₹10 — TeaTime, Chill Out<br>• Cutlet ₹12 — C2C<br>• Samosa ₹15 — C2C",cards:shopCard('teatime')+shopCard('c2c')};
+  if(q.includes('healthy'))return{text:"<strong>Chill Out</strong> 🟢 — fresh juices from ₹40. Watermelon ₹40, Orange ₹50. Free queue!",cards:shopCard('chillout')};
+  if(q.includes('lunch')||q.includes('meal'))return{text:"Best lunch:<br>• Apurva: Chole Bhatura ₹129<br>• C2C: Biriyani ₹120<br>• Arusuvai: rotating meals",cards:shopCard('apurva')+shopCard('c2c')};
+  if(budget){
+    const b=parseInt(budget);
+    const recs=[];SHOPS.forEach(s=>s.menu.filter(m=>m.price!==null&&m.price<=b).forEach(m=>recs.push({text:`${m.item} ₹${m.price} @ ${s.name}`,shopId:s.id})));
+    const matched=[...new Set(recs.map(r=>r.shopId))].slice(0,3);
+    return recs.length?{text:`Items under ₹${b}:<br>${recs.slice(0,7).map(r=>`• ${r.text}`).join('<br>')}`,cards:matched.map(id=>shopCard(id)).join('')}:{text:`No priced items under ₹${b}. Try ₹20+.`,cards:''};
+  }
+  return{text:"Ask me:<br>• Best item under ₹X<br>• Suggest a combo under ₹80<br>• Free queue shops?<br>• Best juice / snacks / meals<br>• Top 3 right now",cards:''};
+}
+
+// ═══════════════════════════════════════════════════════
+// UTILS
+// ═══════════════════════════════════════════════════════
+function switchTab(name,el){
+  document.querySelectorAll('.tab-content').forEach(t=>t.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  document.getElementById('tab-'+name).classList.add('active');
+  if(el)el.classList.add('active');
+}
+function showToast(msg,type='info'){
+  const t=document.getElementById('toast');
+  t.textContent=msg;t.className=`toast ${type} show`;
+  clearTimeout(t._to);t._to=setTimeout(()=>t.classList.remove('show'),3000);
+}
+document.addEventListener('keydown',e=>{if(e.key==='Escape'){closeModalDirect();closeAI();}});
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,3460 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+  <title>CIT Food Finder | By AKDEV Labs</title>
+  <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <style>
+    /* ── THEME ─────────────────────────────────────── */
+    [data-theme="dark"] {
+      --bg: #121212;
+      --bg2: #1A1A1A;
+      --card: #1E1E1E;
+      --card2: #2C2C2C;
+      --card3: #242424;
+      --text: #FFFFFF;
+      --text2: #A0A0A0;
+      --text3: #6B6B6B;
+      --border: rgba(255, 255, 255, 0.08);
+      --border2: rgba(255, 255, 255, 0.14);
+      --red: #E23744;
+      --green: #22C55E;
+      --purple: #9B5DE5;
+      --orange: #FF6B35;
+      --yellow: #FBBF24;
+      --glass: rgba(30, 30, 30, .85);
+      --shadow: 0 8px 32px rgba(0, 0, 0, .55);
+      --shadow2: 0 2px 12px rgba(0, 0, 0, .4);
+      --glow-r: 0 0 20px rgba(226, 55, 68, .3);
+      --glow-g: 0 0 16px rgba(34, 197, 94, .25);
+      --glow-p: 0 0 20px rgba(155, 93, 229, .3);
+      --input-bg: #2C2C2C;
+    }
+
+    [data-theme="light"] {
+      --bg: #FFFFFF;
+      --bg2: #F8F9FA;
+      --card: #F5F5F5;
+      --card2: #EBEBEB;
+      --card3: #F0F0F0;
+      --text: #1A1A1A;
+      --text2: #6B6B6B;
+      --text3: #9A9A9A;
+      --border: rgba(0, 0, 0, .08);
+      --border2: rgba(0, 0, 0, .14);
+      --red: #E23744;
+      --green: #16A34A;
+      --purple: #7C3AED;
+      --orange: #EA580C;
+      --yellow: #CA8A04;
+      --glass: rgba(255, 255, 255, .9);
+      --shadow: 0 4px 20px rgba(0, 0, 0, .1);
+      --shadow2: 0 2px 8px rgba(0, 0, 0, .08);
+      --glow-r: none;
+      --glow-g: none;
+      --glow-p: none;
+      --input-bg: #F5F5F5;
+    }
+
+    /* ── RESET ─────────────────────────────────────── */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    html,
+    body,
+    #root {
+      height: 100%;
+      overflow: hidden;
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      transition: background .35s, color .35s;
+    }
+
+    button {
+      cursor: pointer;
+      border: none;
+      background: none;
+      font-family: inherit;
+      color: inherit;
+    }
+
+    input,
+    textarea,
+    select {
+      font-family: inherit;
+    }
+
+    img {
+      max-width: 100%;
+      display: block;
+    }
+
+    ::-webkit-scrollbar {
+      width: 0;
+      height: 0;
+    }
+
+    .tc * {
+      transition: background .35s, color .35s, border-color .35s, box-shadow .35s !important;
+    }
+
+    /* ── APP SHELL ─────────────────────────────────── */
+    #root {
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      max-width: 480px;
+      margin: 0 auto;
+      position: relative;
+    }
+
+    .screen {
+      flex: 1;
+      overflow-y: auto;
+      overflow-x: hidden;
+      padding-bottom: 72px;
+      background: var(--bg);
+    }
+
+    .screen::-webkit-scrollbar {
+      display: none;
+    }
+
+    /* ── TOPBAR ────────────────────────────────────── */
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 14px 18px 10px;
+      background: var(--bg);
+      border-bottom: 1px solid var(--border);
+      position: sticky;
+      top: 0;
+      z-index: 50;
+    }
+
+    .tb-brand {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .tb-name {
+      font-size: 17px;
+      font-weight: 800;
+      color: var(--red);
+      letter-spacing: -.3px;
+    }
+
+    .tb-loc {
+      font-size: 10px;
+      color: var(--text3);
+      margin-top: 1px;
+    }
+
+    .tb-dev {
+      font-size: 10px;
+      color: var(--text2);
+      margin-top: 2px;
+      text-decoration: none;
+      display: inline-block;
+    }
+
+    .tb-dev:hover {
+      color: var(--purple);
+      text-decoration: underline;
+    }
+
+    .tb-right {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .clock-pill {
+      background: var(--card);
+      border: 1px solid var(--border2);
+      border-radius: 20px;
+      padding: 5px 11px;
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--text);
+      font-variant-numeric: tabular-nums;
+      white-space: nowrap;
+    }
+
+    .theme-btn {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: var(--card);
+      border: 1px solid var(--border2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 17px;
+      transition: transform .2s;
+    }
+
+    .theme-btn:active {
+      transform: scale(.88);
+    }
+
+    .user-avatar {
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      background: var(--red);
+      color: #fff;
+      font-size: 12px;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      flex-shrink: 0;
+    }
+
+    /* ── BOTTOM NAV ────────────────────────────────── */
+    .bnav {
+      position: fixed;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100%;
+      max-width: 480px;
+      height: 68px;
+      background: var(--glass);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-top: 1px solid var(--border2);
+      display: flex;
+      z-index: 100;
+    }
+
+    .bn {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 3px;
+      cursor: pointer;
+      position: relative;
+      color: var(--text3);
+      transition: color .2s;
+    }
+
+    .bn.on {
+      color: var(--red);
+    }
+
+    .bn-pip {
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 22px;
+      height: 3px;
+      border-radius: 0 0 4px 4px;
+      background: var(--red);
+      opacity: 0;
+      transition: opacity .25s;
+    }
+
+    .bn.on .bn-pip {
+      opacity: 1;
+    }
+
+    .bn-ico {
+      font-size: 22px;
+      transition: transform .3s cubic-bezier(.34, 1.56, .64, 1);
+    }
+
+    .bn.on .bn-ico {
+      transform: scale(1.18) translateY(-1px);
+    }
+
+    .bn:active .bn-ico {
+      transform: scale(.85);
+    }
+
+    .bn-lbl {
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: .2px;
+    }
+
+    /* ── SEARCH ────────────────────────────────────── */
+    .search-wrap {
+      padding: 12px 18px 4px;
+    }
+
+    .sbox {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      background: var(--card);
+      border: 1.5px solid var(--border2);
+      border-radius: 14px;
+      padding: 11px 14px;
+      transition: border-color .2s, box-shadow .2s;
+    }
+
+    .sbox:focus-within {
+      border-color: var(--red);
+      box-shadow: 0 0 0 3px rgba(226, 55, 68, .1);
+    }
+
+    .sbox input {
+      flex: 1;
+      background: none;
+      border: none;
+      outline: none;
+      font-size: 14px;
+      color: var(--text);
+    }
+
+    .sbox input::placeholder {
+      color: var(--text3);
+    }
+
+    /* ── SECTIONS ──────────────────────────────────── */
+    .sec-hdr {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 18px 18px 10px;
+    }
+
+    .sec-title {
+      font-size: 16px;
+      font-weight: 700;
+    }
+
+    .sec-more {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--red);
+    }
+
+    /* ── QUICK FILTERS ─────────────────────────────── */
+    .qfrow {
+      display: flex;
+      gap: 8px;
+      padding: 6px 18px;
+      overflow-x: auto;
+      scrollbar-width: none;
+    }
+
+    .qfrow::-webkit-scrollbar {
+      display: none;
+    }
+
+    .qfc {
+      white-space: nowrap;
+      padding: 7px 15px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 600;
+      border: 1.5px solid var(--border2);
+      color: var(--text2);
+      background: var(--card);
+      transition: all .18s;
+      flex-shrink: 0;
+    }
+
+    .qfc.on {
+      background: var(--red);
+      border-color: var(--red);
+      color: #fff;
+    }
+
+    .qfc:active {
+      transform: scale(.93);
+    }
+
+    /* ── FOOD CARD ─────────────────────────────────── */
+    .fc {
+      background: var(--card);
+      border-radius: 16px;
+      margin: 0 18px 12px;
+      padding: 14px;
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      border: 1px solid var(--border);
+      position: relative;
+      cursor: pointer;
+      transition: transform .2s, box-shadow .2s;
+    }
+
+    .fc:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow);
+    }
+
+    .fc:active {
+      transform: scale(.97);
+    }
+
+    [data-theme="dark"] .fc:hover {
+      box-shadow: var(--shadow), var(--glow-r);
+    }
+
+    .fc.greyed {
+      opacity: .45;
+    }
+
+    .fc.community-warn {
+      border-color: var(--yellow);
+    }
+
+    .fc-left {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .fc-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 10px;
+      font-weight: 700;
+      padding: 2px 8px;
+      border-radius: 6px;
+      margin-bottom: 6px;
+      text-transform: uppercase;
+      letter-spacing: .3px;
+    }
+
+    .tag-reorder {
+      background: rgba(34, 197, 94, .12);
+      border: 1px solid rgba(34, 197, 94, .25);
+      color: var(--green);
+    }
+
+    .tag-budget {
+      background: rgba(251, 191, 36, .1);
+      border: 1px solid rgba(251, 191, 36, .25);
+      color: var(--yellow);
+    }
+
+    .tag-warn {
+      background: rgba(251, 191, 36, .12);
+      border: 1px solid rgba(251, 191, 36, .3);
+      color: var(--yellow);
+    }
+
+    .tag-na {
+      background: rgba(226, 55, 68, .1);
+      border: 1px solid rgba(226, 55, 68, .25);
+      color: var(--red);
+    }
+
+    .fc-name {
+      font-size: 15px;
+      font-weight: 700;
+      margin-bottom: 4px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .fc-desc {
+      font-size: 12px;
+      color: var(--text2);
+      line-height: 1.4;
+      margin-bottom: 8px;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    .fc-meta {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .rat-chip {
+      display: flex;
+      align-items: center;
+      gap: 3px;
+      background: var(--green);
+      color: #fff;
+      font-size: 11px;
+      font-weight: 700;
+      padding: 2px 7px;
+      border-radius: 6px;
+    }
+
+    .fc-price {
+      font-size: 14px;
+      font-weight: 800;
+    }
+
+    .fc-right {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 7px;
+      flex-shrink: 0;
+    }
+
+    .food-img {
+      width: 86px;
+      height: 86px;
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 40px;
+      position: relative;
+      overflow: hidden;
+      flex-shrink: 0;
+    }
+
+    .food-img .img-real {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 14px;
+    }
+
+    .food-img-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, transparent 50%, rgba(0, 0, 0, .15));
+      border-radius: 14px;
+    }
+
+    .avail-pill {
+      position: absolute;
+      bottom: 5px;
+      left: 5px;
+      font-size: 8px;
+      font-weight: 700;
+      padding: 2px 6px;
+      border-radius: 8px;
+      z-index: 2;
+    }
+
+    .ap-now {
+      background: rgba(34, 197, 94, .85);
+      color: #fff;
+    }
+
+    .ap-later {
+      background: rgba(255, 107, 53, .8);
+      color: #fff;
+    }
+
+    .ap-warn {
+      background: rgba(251, 191, 36, .85);
+      color: #000;
+    }
+
+    .add-btn {
+      width: 82px;
+      height: 32px;
+      border-radius: 10px;
+      background: transparent;
+      border: 2px solid var(--red);
+      color: var(--red);
+      font-size: 12px;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 3px;
+      transition: all .2s;
+    }
+
+    .add-btn:hover,
+    .add-btn.added {
+      background: var(--red);
+      color: #fff;
+    }
+
+    .add-btn:active {
+      transform: scale(.9);
+    }
+
+    .add-btn.added {
+      animation: addbounce .3s ease;
+    }
+
+    @keyframes addbounce {
+      0% {
+        transform: scale(1)
+      }
+
+      50% {
+        transform: scale(1.12)
+      }
+
+      100% {
+        transform: scale(1)
+      }
+    }
+
+    .na-btn {
+      font-size: 10px;
+      color: var(--text3);
+      background: none;
+      border: 1px solid var(--border2);
+      border-radius: 8px;
+      padding: 3px 8px;
+      transition: all .15s;
+    }
+
+    .na-btn:active {
+      background: rgba(226, 55, 68, .1);
+      color: var(--red);
+    }
+
+    /* ── SHOP CARDS ────────────────────────────────── */
+    .shops-row {
+      display: flex;
+      gap: 12px;
+      padding: 0 18px;
+      overflow-x: auto;
+      scrollbar-width: none;
+      padding-bottom: 4px;
+    }
+
+    .shops-row::-webkit-scrollbar {
+      display: none;
+    }
+
+    .shop-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      width: 148px;
+      flex-shrink: 0;
+      overflow: hidden;
+      cursor: pointer;
+      transition: transform .2s, box-shadow .2s;
+    }
+
+    .shop-card:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow);
+    }
+
+    .shop-card:active {
+      transform: scale(.96);
+    }
+
+    .shop-img {
+      height: 86px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 44px;
+      position: relative;
+    }
+
+    .shop-info {
+      padding: 9px 11px 11px;
+    }
+
+    .shop-name {
+      font-size: 12px;
+      font-weight: 700;
+      margin-bottom: 2px;
+    }
+
+    .shop-meta {
+      font-size: 10px;
+      color: var(--text2);
+    }
+
+    .shop-rat {
+      display: inline-flex;
+      align-items: center;
+      gap: 2px;
+      background: var(--green);
+      color: #fff;
+      font-size: 9px;
+      font-weight: 700;
+      padding: 1px 6px;
+      border-radius: 5px;
+      margin-right: 4px;
+    }
+
+    /* ── TIME BANNER ───────────────────────────────── */
+    .tb-banner {
+      margin: 10px 18px;
+      background: linear-gradient(135deg, rgba(155, 93, 229, .1), rgba(226, 55, 68, .06));
+      border: 1px solid rgba(155, 93, 229, .2);
+      border-radius: 14px;
+      padding: 12px 14px;
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+    }
+
+    .tbb-emo {
+      font-size: 24px;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+
+    .tbb-body strong {
+      font-size: 12px;
+      color: var(--purple);
+      display: block;
+    }
+
+    .tbb-body p {
+      font-size: 11px;
+      color: var(--text2);
+      margin-top: 2px;
+      line-height: 1.4;
+    }
+
+    /* ── WISHLIST ──────────────────────────────────── */
+    .wl-item {
+      background: var(--card);
+      border-radius: 14px;
+      margin: 0 18px 10px;
+      padding: 13px 14px;
+      display: flex;
+      align-items: center;
+      gap: 11px;
+      border: 1px solid var(--border);
+      cursor: pointer;
+      transition: transform .2s;
+    }
+
+    .wl-item:active {
+      transform: scale(.98);
+    }
+
+    .wl-img {
+      width: 56px;
+      height: 56px;
+      border-radius: 11px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 28px;
+      flex-shrink: 0;
+      overflow: hidden;
+    }
+
+    .wl-img img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .wl-info {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .wl-name {
+      font-size: 13px;
+      font-weight: 700;
+      margin-bottom: 2px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .wl-shop {
+      font-size: 10px;
+      color: var(--text2);
+      margin-bottom: 4px;
+    }
+
+    .wl-price {
+      font-size: 13px;
+      font-weight: 800;
+    }
+
+    .avail-badge {
+      font-size: 9px;
+      font-weight: 700;
+      padding: 2px 7px;
+      border-radius: 10px;
+      margin-left: 6px;
+    }
+
+    .ab-yes {
+      background: rgba(34, 197, 94, .12);
+      color: var(--green);
+    }
+
+    .ab-no {
+      background: rgba(255, 107, 53, .1);
+      color: var(--orange);
+    }
+
+    .wl-del {
+      width: 30px;
+      height: 30px;
+      border-radius: 9px;
+      background: rgba(226, 55, 68, .1);
+      border: 1px solid rgba(226, 55, 68, .2);
+      color: var(--red);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+      transition: all .15s;
+    }
+
+    .wl-del:active {
+      background: var(--red);
+      color: #fff;
+    }
+
+    .empty-state {
+      text-align: center;
+      padding: 60px 24px;
+    }
+
+    .empty-state .es-ico {
+      font-size: 52px;
+      display: block;
+      margin-bottom: 14px;
+    }
+
+    .empty-state h3 {
+      font-size: 17px;
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+
+    .empty-state p {
+      font-size: 13px;
+      color: var(--text2);
+      line-height: 1.6;
+    }
+
+    /* ── MODAL OVERLAY ─────────────────────────────── */
+    .overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, .55);
+      backdrop-filter: blur(5px);
+      z-index: 200;
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+    }
+
+    .sheet {
+      background: var(--bg);
+      width: 100%;
+      max-width: 480px;
+      border-radius: 22px 22px 0 0;
+      max-height: 92vh;
+      overflow-y: auto;
+      scrollbar-width: none;
+      animation: slideUp .3s cubic-bezier(.22, 1, .36, 1);
+    }
+
+    .sheet::-webkit-scrollbar {
+      display: none;
+    }
+
+    @keyframes slideUp {
+      from {
+        transform: translateY(100%);
+        opacity: 0
+      }
+
+      to {
+        transform: translateY(0);
+        opacity: 1
+      }
+    }
+
+    .drag-handle {
+      width: 36px;
+      height: 4px;
+      background: var(--border2);
+      border-radius: 2px;
+      margin: 10px auto 0;
+    }
+
+    /* ── FOOD MODAL ────────────────────────────────── */
+    .fm-img {
+      width: 100%;
+      height: 200px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 88px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .fm-img img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .fm-body {
+      padding: 18px 20px 28px;
+    }
+
+    .fm-avail {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 11px;
+      font-weight: 700;
+      padding: 4px 10px;
+      border-radius: 20px;
+      margin-bottom: 10px;
+    }
+
+    .fma-yes {
+      background: rgba(34, 197, 94, .12);
+      color: var(--green);
+      border: 1px solid rgba(34, 197, 94, .3);
+    }
+
+    .fma-no {
+      background: rgba(226, 55, 68, .08);
+      color: var(--red);
+      border: 1px solid rgba(226, 55, 68, .2);
+    }
+
+    .fm-name {
+      font-size: 21px;
+      font-weight: 800;
+      margin-bottom: 4px;
+    }
+
+    .fm-shop {
+      font-size: 12px;
+      color: var(--text2);
+      margin-bottom: 14px;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .fm-meta {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-bottom: 18px;
+    }
+
+    .fm-mc {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 8px 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .fm-mc-lbl {
+      font-size: 9px;
+      color: var(--text3);
+      font-weight: 700;
+      letter-spacing: .5px;
+      text-transform: uppercase;
+    }
+
+    .fm-mc-val {
+      font-size: 14px;
+      font-weight: 800;
+    }
+
+    .sec-lbl {
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--text3);
+      letter-spacing: .5px;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+
+    .review-bub {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 11px;
+      padding: 10px 13px;
+      margin-bottom: 8px;
+    }
+
+    .rb-top {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      margin-bottom: 4px;
+      gap: 8px;
+    }
+
+    .rb-name {
+      font-size: 12px;
+      font-weight: 600;
+    }
+
+    .rb-date {
+      font-size: 10px;
+      color: var(--text3);
+    }
+
+    .rb-stars {
+      color: var(--yellow);
+      font-size: 12px;
+    }
+
+    .rb-text {
+      font-size: 12px;
+      color: var(--text2);
+      line-height: 1.5;
+    }
+
+    .rb-img-row {
+      display: flex;
+      gap: 7px;
+      margin-top: 8px;
+      overflow-x: auto;
+    }
+
+    .rb-img-row img {
+      width: 60px;
+      height: 60px;
+      border-radius: 8px;
+      object-fit: cover;
+      flex-shrink: 0;
+    }
+
+    .rb-helpful {
+      margin-top: 8px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .helpful-btn {
+      font-size: 10px;
+      color: var(--text3);
+      background: var(--card2);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 3px 9px;
+      transition: all .15s;
+    }
+
+    .helpful-btn.on {
+      background: rgba(34, 197, 94, .12);
+      border-color: var(--green);
+      color: var(--green);
+    }
+
+    .fm-imgs {
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      margin-bottom: 16px;
+    }
+
+    .fm-imgs img {
+      width: 80px;
+      height: 80px;
+      border-radius: 10px;
+      object-fit: cover;
+      flex-shrink: 0;
+      cursor: pointer;
+    }
+
+    .fm-actions {
+      display: flex;
+      gap: 10px;
+      margin-top: 18px;
+    }
+
+    .btn-wish {
+      flex: 1;
+      padding: 13px;
+      border-radius: 13px;
+      border: 2px solid var(--red);
+      color: var(--red);
+      font-size: 13px;
+      font-weight: 800;
+      background: none;
+      transition: all .2s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 5px;
+    }
+
+    .btn-wish.on,
+    .btn-wish:hover {
+      background: var(--red);
+      color: #fff;
+    }
+
+    .btn-wish:active {
+      transform: scale(.96);
+    }
+
+    .btn-add-lg {
+      flex: 1;
+      padding: 13px;
+      border-radius: 13px;
+      background: var(--red);
+      color: #fff;
+      font-size: 13px;
+      font-weight: 800;
+      border: none;
+      transition: all .2s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 5px;
+    }
+
+    .btn-add-lg:active {
+      transform: scale(.96);
+      opacity: .9;
+    }
+
+    /* ── REVIEW FORM ───────────────────────────────── */
+    .rev-form {
+      background: var(--card2);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 16px;
+      margin: 14px 0;
+    }
+
+    .star-pick {
+      display: flex;
+      gap: 6px;
+      margin-bottom: 12px;
+    }
+
+    .sp-star {
+      font-size: 28px;
+      cursor: pointer;
+      transition: transform .15s, filter .15s;
+      filter: grayscale(1) opacity(.4);
+    }
+
+    .sp-star.on {
+      filter: none;
+      transform: scale(1.1);
+    }
+
+    .rev-input {
+      width: 100%;
+      background: var(--input-bg);
+      border: 1px solid var(--border2);
+      border-radius: 10px;
+      padding: 10px 13px;
+      font-size: 13px;
+      color: var(--text);
+      outline: none;
+      resize: none;
+      min-height: 80px;
+      transition: border-color .2s;
+    }
+
+    .rev-input:focus {
+      border-color: var(--purple);
+    }
+
+    .rev-name-input {
+      width: 100%;
+      background: var(--input-bg);
+      border: 1px solid var(--border2);
+      border-radius: 10px;
+      padding: 9px 13px;
+      font-size: 13px;
+      color: var(--text);
+      outline: none;
+      margin-bottom: 10px;
+      transition: border-color .2s;
+    }
+
+    .rev-name-input:focus {
+      border-color: var(--purple);
+    }
+
+    .img-upload-btn {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      background: var(--card);
+      border: 1.5px dashed var(--border2);
+      border-radius: 10px;
+      padding: 10px 14px;
+      font-size: 12px;
+      color: var(--text2);
+      cursor: pointer;
+      transition: border-color .2s;
+      margin: 10px 0;
+    }
+
+    .img-upload-btn:hover {
+      border-color: var(--purple);
+    }
+
+    .img-preview-row {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 10px;
+    }
+
+    .img-prev {
+      width: 64px;
+      height: 64px;
+      border-radius: 9px;
+      object-fit: cover;
+      position: relative;
+    }
+
+    .submit-rev-btn {
+      width: 100%;
+      padding: 12px;
+      background: var(--purple);
+      color: #fff;
+      border: none;
+      border-radius: 12px;
+      font-size: 14px;
+      font-weight: 800;
+      cursor: pointer;
+      transition: opacity .2s, transform .15s;
+    }
+
+    .submit-rev-btn:hover {
+      opacity: .9;
+    }
+
+    .submit-rev-btn:active {
+      transform: scale(.97);
+    }
+
+    .rev-thanks {
+      text-align: center;
+      padding: 20px;
+      animation: fadeUp .4s ease;
+    }
+
+    @keyframes fadeUp {
+      from {
+        opacity: 0;
+        transform: translateY(8px)
+      }
+
+      to {
+        opacity: 1;
+        transform: none
+      }
+    }
+
+    /* ── AI SCREEN ─────────────────────────────────── */
+    .ai-hero {
+      margin: 14px 18px;
+      background: linear-gradient(135deg, rgba(155, 93, 229, .14), rgba(226, 55, 68, .07));
+      border: 1px solid rgba(155, 93, 229, .22);
+      border-radius: 20px;
+      padding: 22px 18px;
+      text-align: center;
+    }
+
+    .ai-hero-ico {
+      font-size: 46px;
+      display: block;
+      margin-bottom: 10px;
+    }
+
+    .ai-hero-title {
+      font-size: 20px;
+      font-weight: 800;
+      margin-bottom: 5px;
+    }
+
+    .ai-hero-sub {
+      font-size: 12px;
+      color: var(--text2);
+      line-height: 1.55;
+      margin-bottom: 18px;
+    }
+
+    .ai-cta {
+      width: 100%;
+      padding: 14px;
+      background: linear-gradient(135deg, var(--purple), var(--red));
+      border: none;
+      border-radius: 13px;
+      color: #fff;
+      font-size: 14px;
+      font-weight: 800;
+      cursor: pointer;
+      transition: opacity .2s, transform .15s;
+    }
+
+    .ai-cta:hover {
+      opacity: .9;
+    }
+
+    .ai-cta:active {
+      transform: scale(.97);
+    }
+
+    .ai-inputs {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      padding: 0 18px 14px;
+    }
+
+    .ai-inp-card {
+      background: var(--card);
+      border: 1px solid var(--border2);
+      border-radius: 13px;
+      padding: 11px 13px;
+    }
+
+    .ai-inp-card label {
+      display: block;
+      font-size: 9px;
+      font-weight: 700;
+      color: var(--text3);
+      letter-spacing: .5px;
+      text-transform: uppercase;
+      margin-bottom: 5px;
+    }
+
+    .ai-inp-card input,
+    .ai-inp-card select {
+      width: 100%;
+      background: var(--input-bg);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 7px 9px;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text);
+      outline: none;
+      -webkit-appearance: none;
+    }
+
+    .ai-inp-card input:focus,
+    .ai-inp-card select:focus {
+      border-color: var(--purple);
+    }
+
+    .ai-inp-card select option {
+      background: var(--card);
+    }
+
+    .ai-result {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 15px;
+      margin: 0 18px 11px;
+      padding: 15px;
+      cursor: pointer;
+      transition: transform .2s, border-color .2s;
+    }
+
+    .ai-result:hover {
+      transform: translateX(3px);
+      border-color: var(--purple);
+    }
+
+    [data-theme="dark"] .ai-result:hover {
+      box-shadow: var(--glow-p);
+    }
+
+    .air-top {
+      display: flex;
+      align-items: center;
+      gap: 11px;
+      margin-bottom: 10px;
+    }
+
+    .air-img {
+      width: 52px;
+      height: 52px;
+      border-radius: 11px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 26px;
+      flex-shrink: 0;
+      overflow: hidden;
+    }
+
+    .air-img img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .air-name {
+      font-size: 14px;
+      font-weight: 700;
+      margin-bottom: 2px;
+    }
+
+    .air-shop {
+      font-size: 10px;
+      color: var(--text2);
+    }
+
+    .air-reason {
+      background: rgba(155, 93, 229, .08);
+      border: 1px solid rgba(155, 93, 229, .18);
+      border-radius: 9px;
+      padding: 9px 12px;
+      font-size: 12px;
+      color: var(--text2);
+      line-height: 1.5;
+    }
+
+    .air-reason strong {
+      color: var(--purple);
+    }
+
+    .air-bottom {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: 10px;
+    }
+
+    .air-score {
+      font-size: 11px;
+      color: var(--purple);
+      font-weight: 600;
+    }
+
+    /* ── LOGIN MODAL ───────────────────────────────── */
+    .login-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, .7);
+      backdrop-filter: blur(8px);
+      z-index: 300;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .login-card {
+      background: var(--bg);
+      border: 1px solid var(--border2);
+      border-radius: 22px;
+      width: 100%;
+      max-width: 380px;
+      padding: 28px 24px;
+      animation: fadeUp .3s ease;
+    }
+
+    .login-logo {
+      font-size: 42px;
+      text-align: center;
+      margin-bottom: 10px;
+    }
+
+    .login-title {
+      font-size: 20px;
+      font-weight: 800;
+      text-align: center;
+      margin-bottom: 4px;
+    }
+
+    .login-sub {
+      font-size: 13px;
+      color: var(--text2);
+      text-align: center;
+      margin-bottom: 22px;
+      line-height: 1.5;
+    }
+
+    .login-tabs {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 20px;
+    }
+
+    .ltab {
+      flex: 1;
+      padding: 10px;
+      border-radius: 10px;
+      font-size: 13px;
+      font-weight: 700;
+      text-align: center;
+      cursor: pointer;
+      transition: all .2s;
+      border: 1px solid transparent;
+    }
+
+    .ltab.active {
+      background: var(--red);
+      color: #fff;
+    }
+
+    .ltab.inactive {
+      background: var(--card2);
+      color: var(--text2);
+      border: 1px solid var(--border);
+    }
+
+    .gmail-btn {
+      width: 100%;
+      padding: 14px;
+      border-radius: 13px;
+      background: var(--card);
+      border: 2px solid var(--border2);
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--text);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      cursor: pointer;
+      transition: all .2s;
+      margin-bottom: 16px;
+    }
+
+    .gmail-btn:hover {
+      border-color: var(--red);
+    }
+
+    .login-divider {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+
+    .login-divider::before,
+    .login-divider::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+
+    .login-divider span {
+      font-size: 11px;
+      color: var(--text3);
+    }
+
+    .login-inp {
+      width: 100%;
+      padding: 12px 14px;
+      background: var(--input-bg);
+      border: 1.5px solid var(--border2);
+      border-radius: 11px;
+      font-size: 14px;
+      color: var(--text);
+      outline: none;
+      margin-bottom: 10px;
+      transition: border-color .2s;
+    }
+
+    .login-inp:focus {
+      border-color: var(--red);
+    }
+
+    .login-btn {
+      width: 100%;
+      padding: 13px;
+      background: var(--red);
+      color: #fff;
+      border: none;
+      border-radius: 12px;
+      font-size: 14px;
+      font-weight: 800;
+      cursor: pointer;
+      transition: opacity .2s, transform .15s;
+    }
+
+    .login-btn:hover {
+      opacity: .9;
+    }
+
+    .login-btn:active {
+      transform: scale(.97);
+    }
+
+    .login-err {
+      font-size: 12px;
+      color: var(--red);
+      text-align: center;
+      margin-top: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+    }
+
+    /* ── FILTER SHEET ──────────────────────────────── */
+    .filter-sheet {
+      background: var(--bg);
+      border-radius: 22px 22px 0 0;
+      animation: slideUp .3s cubic-bezier(.22, 1, .36, 1);
+    }
+
+    .fs-hdr {
+      padding: 14px 20px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .fs-title {
+      font-size: 16px;
+      font-weight: 700;
+    }
+
+    .fs-body {
+      display: flex;
+      height: 320px;
+    }
+
+    .fs-left {
+      width: 125px;
+      flex-shrink: 0;
+      border-right: 1px solid var(--border);
+      overflow-y: auto;
+    }
+
+    .fs-left-item {
+      padding: 15px 16px;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text2);
+      cursor: pointer;
+      border-left: 3px solid transparent;
+      transition: all .15s;
+    }
+
+    .fs-left-item.on {
+      color: var(--text);
+      border-left-color: var(--red);
+      background: var(--card);
+    }
+
+    .fs-right {
+      flex: 1;
+      padding: 14px 16px;
+      overflow-y: auto;
+    }
+
+    .fo {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 11px 0;
+      border-bottom: 1px solid var(--border);
+      cursor: pointer;
+    }
+
+    .fo:last-child {
+      border-bottom: none;
+    }
+
+    .fo-lbl {
+      font-size: 13px;
+    }
+
+    .fo-chk {
+      width: 22px;
+      height: 22px;
+      border-radius: 6px;
+      border: 2px solid var(--border2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+      font-weight: 700;
+      transition: all .15s;
+    }
+
+    .fo-chk.on {
+      background: var(--red);
+      border-color: var(--red);
+      color: #fff;
+    }
+
+    .fs-footer {
+      padding: 14px 20px;
+      border-top: 1px solid var(--border);
+    }
+
+    .fs-apply {
+      width: 100%;
+      padding: 13px;
+      background: var(--red);
+      color: #fff;
+      border: none;
+      border-radius: 12px;
+      font-size: 14px;
+      font-weight: 800;
+      cursor: pointer;
+    }
+
+    /* ── ADMIN DASHBOARD ─────────────────────────────── */
+    .admin-dash {
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      background: var(--bg);
+    }
+
+    .ad-topbar {
+      padding: 14px 18px 10px;
+      background: var(--bg);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 40;
+    }
+
+    .ad-title {
+      font-size: 16px;
+      font-weight: 800;
+      color: var(--red);
+    }
+
+    .ad-logout {
+      font-size: 12px;
+      color: var(--text3);
+      border: 1px solid var(--border2);
+      border-radius: 8px;
+      padding: 4px 11px;
+      cursor: pointer;
+      transition: all .15s;
+    }
+
+    .ad-logout:hover {
+      border-color: var(--red);
+      color: var(--red);
+    }
+
+    .ad-tabs {
+      display: flex;
+      overflow-x: auto;
+      scrollbar-width: none;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .ad-tabs::-webkit-scrollbar {
+      display: none;
+    }
+
+    .ad-tab {
+      flex-shrink: 0;
+      padding: 11px 16px;
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--text3);
+      border-bottom: 2px solid transparent;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: all .2s;
+    }
+
+    .ad-tab.on {
+      color: var(--red);
+      border-bottom-color: var(--red);
+    }
+
+    .ad-content {
+      flex: 1;
+      overflow-y: auto;
+      padding: 16px 18px;
+      scrollbar-width: none;
+    }
+
+    .ad-content::-webkit-scrollbar {
+      display: none;
+    }
+
+    .ad-section-title {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 12px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    /* admin food row */
+    .ad-food-row {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 12px 14px;
+      margin-bottom: 9px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .ad-food-emo {
+      font-size: 26px;
+      width: 42px;
+      height: 42px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .ad-food-info {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .ad-food-name {
+      font-size: 13px;
+      font-weight: 700;
+      margin-bottom: 2px;
+    }
+
+    .ad-food-meta {
+      font-size: 10px;
+      color: var(--text3);
+    }
+
+    .ad-food-actions {
+      display: flex;
+      gap: 6px;
+      flex-shrink: 0;
+    }
+
+    .ad-btn {
+      font-size: 10px;
+      font-weight: 700;
+      padding: 4px 10px;
+      border-radius: 8px;
+      border: 1px solid var(--border2);
+      color: var(--text2);
+      cursor: pointer;
+      transition: all .15s;
+      white-space: nowrap;
+    }
+
+    .ad-btn.primary {
+      background: var(--red);
+      color: #fff;
+      border-color: var(--red);
+    }
+
+    .ad-btn.green {
+      background: rgba(34, 197, 94, .12);
+      border-color: var(--green);
+      color: var(--green);
+    }
+
+    .ad-btn.yellow {
+      background: rgba(251, 191, 36, .1);
+      border-color: var(--yellow);
+      color: var(--yellow);
+    }
+
+    .ad-btn:hover {
+      opacity: .85;
+    }
+
+    /* admin avail selector */
+    .avail-sel {
+      display: flex;
+      gap: 5px;
+      flex-wrap: wrap;
+      margin-top: 6px;
+    }
+
+    .avs {
+      font-size: 9px;
+      font-weight: 700;
+      padding: 3px 9px;
+      border-radius: 8px;
+      border: 1px solid var(--border2);
+      cursor: pointer;
+      transition: all .15s;
+    }
+
+    .avs.on-green {
+      background: rgba(34, 197, 94, .12);
+      border-color: var(--green);
+      color: var(--green);
+    }
+
+    .avs.on-yellow {
+      background: rgba(251, 191, 36, .1);
+      border-color: var(--yellow);
+      color: var(--yellow);
+    }
+
+    .avs.on-red {
+      background: rgba(226, 55, 68, .1);
+      border-color: var(--red);
+      color: var(--red);
+    }
+
+    /* admin stats */
+    .ad-stats {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-bottom: 18px;
+    }
+
+    .ad-stat {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 14px 16px;
+      text-align: center;
+    }
+
+    .ad-stat-val {
+      font-size: 24px;
+      font-weight: 800;
+      display: block;
+    }
+
+    .ad-stat-lbl {
+      font-size: 10px;
+      color: var(--text3);
+      text-transform: uppercase;
+      letter-spacing: .5px;
+      margin-top: 2px;
+    }
+
+    /* admin feedback */
+    .fb-item {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 12px 14px;
+      margin-bottom: 9px;
+    }
+
+    .fb-hdr {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      margin-bottom: 6px;
+      gap: 8px;
+    }
+
+    .fb-user {
+      font-size: 12px;
+      font-weight: 600;
+    }
+
+    .fb-time {
+      font-size: 10px;
+      color: var(--text3);
+    }
+
+    .fb-text {
+      font-size: 12px;
+      color: var(--text2);
+      line-height: 1.5;
+      margin-bottom: 8px;
+    }
+
+    .fb-status {
+      font-size: 9px;
+      font-weight: 700;
+      padding: 2px 8px;
+      border-radius: 8px;
+    }
+
+    .fb-pending {
+      background: rgba(251, 191, 36, .1);
+      color: var(--yellow);
+    }
+
+    .fb-resolved {
+      background: rgba(34, 197, 94, .1);
+      color: var(--green);
+    }
+
+    /* admin json editor */
+    .json-editor {
+      width: 100%;
+      background: var(--input-bg);
+      border: 1px solid var(--border2);
+      border-radius: 11px;
+      padding: 12px;
+      font-family: 'DM Mono', 'Courier New', monospace;
+      font-size: 11px;
+      color: var(--text);
+      outline: none;
+      min-height: 200px;
+      resize: vertical;
+      transition: border-color .2s;
+      line-height: 1.5;
+    }
+
+    .json-editor:focus {
+      border-color: var(--purple);
+    }
+
+    .json-valid {
+      font-size: 11px;
+      margin-top: 6px;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .json-ok {
+      color: var(--green);
+    }
+
+    .json-err {
+      color: var(--red);
+    }
+
+    /* admin toggle */
+    .ad-toggle-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .ad-toggle-row:last-child {
+      border-bottom: none;
+    }
+
+    .ad-toggle-lbl {
+      font-size: 13px;
+      font-weight: 600;
+    }
+
+    .ad-toggle-desc {
+      font-size: 11px;
+      color: var(--text3);
+      margin-top: 2px;
+    }
+
+    .toggle-sw {
+      width: 44px;
+      height: 24px;
+      border-radius: 12px;
+      background: var(--card2);
+      border: 1px solid var(--border2);
+      position: relative;
+      cursor: pointer;
+      transition: background .2s;
+    }
+
+    .toggle-sw.on {
+      background: var(--red);
+      border-color: var(--red);
+    }
+
+    .toggle-sw::after {
+      content: '';
+      position: absolute;
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background: #fff;
+      top: 2px;
+      left: 2px;
+      transition: transform .2s;
+    }
+
+    .toggle-sw.on::after {
+      transform: translateX(20px);
+    }
+
+    /* maintenance banner */
+    .maint-banner {
+      background: rgba(251, 191, 36, .1);
+      border: 1px solid rgba(251, 191, 36, .3);
+      border-radius: 12px;
+      padding: 12px 14px;
+      margin-bottom: 14px;
+      text-align: center;
+    }
+
+    .maint-banner p {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--yellow);
+    }
+
+    /* data validation */
+    .val-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 9px 0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .val-item:last-child {
+      border-bottom: none;
+    }
+
+    .val-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+
+    .val-red {
+      background: var(--red);
+    }
+
+    .val-yellow {
+      background: var(--yellow);
+    }
+
+    .val-green {
+      background: var(--green);
+    }
+
+    .val-text {
+      flex: 1;
+      font-size: 12px;
+    }
+
+    /* notification */
+    .notif {
+      position: fixed;
+      top: 80px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--card);
+      border: 1px solid var(--green);
+      border-radius: 12px;
+      padding: 10px 18px;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--green);
+      z-index: 500;
+      animation: notifAnim .3s ease;
+      white-space: nowrap;
+    }
+
+    @keyframes notifAnim {
+      from {
+        opacity: 0;
+        transform: translateX(-50%) translateY(-10px)
+      }
+
+      to {
+        opacity: 1;
+        transform: translateX(-50%) translateY(0)
+      }
+    }
+
+    /* loading skeletons */
+    .skel {
+      background: linear-gradient(90deg, var(--card) 25%, var(--card2) 50%, var(--card) 75%);
+      background-size: 200% 100%;
+      animation: shim 1.4s infinite;
+      border-radius: 12px;
+    }
+
+    @keyframes shim {
+      0% {
+        background-position: 200% 0
+      }
+
+      100% {
+        background-position: -200% 0
+      }
+    }
+
+    .skel-card {
+      height: 120px;
+      margin: 0 18px 12px;
+    }
+
+    .skel-shop {
+      height: 165px;
+      width: 148px;
+      flex-shrink: 0;
+    }
+
+    /* recently viewed */
+    .rv-row {
+      display: flex;
+      gap: 9px;
+      padding: 0 18px;
+      overflow-x: auto;
+      scrollbar-width: none;
+    }
+
+    .rv-row::-webkit-scrollbar {
+      display: none;
+    }
+
+    .rv-chip {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 11px;
+      padding: 7px 12px;
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      flex-shrink: 0;
+      cursor: pointer;
+      transition: border-color .15s;
+    }
+
+    .rv-chip:hover {
+      border-color: var(--red);
+    }
+
+    .rv-chip:active {
+      transform: scale(.95);
+    }
+
+    .rv-emo {
+      font-size: 18px;
+    }
+
+    .rv-cn {
+      font-size: 11px;
+      font-weight: 600;
+      white-space: nowrap;
+    }
+
+    .rv-cp {
+      font-size: 10px;
+      color: var(--text2);
+    }
+
+    /* community warning badge */
+    .community-badge {
+      position: absolute;
+      top: 8px;
+      right: 8px;
+      z-index: 3;
+      font-size: 9px;
+      font-weight: 700;
+      padding: 3px 7px;
+      border-radius: 8px;
+      background: rgba(251, 191, 36, .9);
+      color: #000;
+    }
+
+    /* safe area */
+    @supports(padding-bottom:env(safe-area-inset-bottom)) {
+
+      .bnav,
+      .sheet,
+      .filter-sheet {
+        padding-bottom: env(safe-area-inset-bottom);
+      }
+
+      .screen {
+        padding-bottom: calc(72px + env(safe-area-inset-bottom));
+      }
+    }
+
+    /* fade-in */
+    .fi {
+      animation: fadeUp .25s ease both;
+    }
+
+    .fi-2 {
+      animation-delay: .05s;
+    }
+
+    .fi-3 {
+      animation-delay: .1s;
+    }
+
+    .fi-4 {
+      animation-delay: .15s;
+    }
+
+    .a-inp {
+      width: 100%;
+      padding: 11px 14px;
+      background: var(--input-bg);
+      border: 1.5px solid var(--border2);
+      border-radius: 11px;
+      font-size: 14px;
+      color: var(--text);
+      outline: none;
+      margin-bottom: 10px;
+      transition: border-color .2s;
+    }
+
+    .a-inp:focus {
+      border-color: var(--red);
+    }
+  </style>
+</head>
+
+<body>
+  <div id="root"></div>
+  <script type="text/babel">
+    const {useState,useEffect,useRef,useMemo,useCallback}=React;
+
+// ══════════════════════════════════════════════════
+// CONSTANTS & UTILS
+// ══════════════════════════════════════════════════
+const ADMIN_CREDS=[
+  {user:"AK",hash:btoa("AK@111")},
+  {user:"PR",hash:btoa("PR@1610")},
+];
+const COLLEGE_DOMAIN="@citchennai.net";
+
+// Simple hash (demo — production would use bcrypt on server)
+const hashPass=(p)=>btoa(p);
+const checkAdmin=(u,p)=>ADMIN_CREDS.some(a=>a.user===u&&a.hash===hashPass(p));
+
+function getSlot(){const h=new Date().getHours();if(h>=6&&h<11)return"morning";if(h>=11&&h<15)return"lunch";if(h>=15&&h<20)return"evening";return"night";}
+const SLOT_CFG={
+  morning:{e:"☀️",t:"Good morning! Try something light",s:"Best now: Masala Dosa · Vada · Tea"},
+  lunch:{e:"🍽️",t:"Lunch rush — go for a filling meal",s:"Best now: Chole Bhatura · Pav Bhaji · Biriyani"},
+  evening:{e:"🧃",t:"Evening vibes — juice & chaats!",s:"Best now: Watermelon Juice · Masala Puri · Jigarthanda"},
+  night:{e:"🌙",t:"Late night — limited shops open",s:"C2C and Cafeteria stay open the latest"},
+};
+
+// ══════════════════════════════════════════════════
+// INITIAL DATA (from real JSON + enriched)
+// ══════════════════════════════════════════════════
+const INIT_SHOPS=[
+  {id:"apurva",name:"Apurva Sweets & Bakery",emoji:"🧁",gradient:"linear-gradient(135deg,#3d1500,#1f0900)",cuisine:"North Indian · Chaats · Sweets",rating:4.5,queue:"free",avgPrice:80,hours:"8AM–8:30PM",tags:["Veg","Chaats","Bakery"],desc:"Indian sweets shop inside campus. Fresh chaats, parathas, and customized cakes.",mostOrdered:"Chole Bhatura"},
+  {id:"c2c",name:"C2C",emoji:"🍔",gradient:"linear-gradient(135deg,#1a0a1a,#0f060f)",cuisine:"Fast Food · Chinese · Waffles",rating:4.0,queue:"busy",avgPrice:90,hours:"Daily",tags:["Non-Veg","Fast Food","Burgers"],desc:"Major campus hub with massive menu — burgers, waffles, momos, and drinks.",mostOrdered:"Chicken Popcorn"},
+  {id:"chillout",name:"Chill Out",emoji:"🧃",gradient:"linear-gradient(135deg,#0a1a12,#060f0a)",cuisine:"Juices · Shakes · Healthy",rating:4.4,queue:"free",avgPrice:60,hours:"Daily",tags:["Veg","Juice","Healthy"],desc:"Fresh fruit juices and milkshakes. Tender Coconut & Avocado specials.",mostOrdered:"Watermelon Juice"},
+  {id:"teaexpress",name:"Tea Express",emoji:"🍵",gradient:"linear-gradient(135deg,#1a1200,#0f0d00)",cuisine:"Dosa · Tiffin · Jigarthanda",rating:4.1,queue:"busy",avgPrice:50,hours:"Daily",tags:["South Indian","Dosa"],desc:"Quick tea, Dosa varieties, Kothu Parotta. Famous for Madurai Jigarthanda.",mostOrdered:"Jigarthanda"},
+  {id:"teatime",name:"TeaTime",emoji:"🫖",gradient:"linear-gradient(135deg,#101020,#08080f)",cuisine:"Snacks · Tea · Budget",rating:4.2,queue:"free",avgPrice:15,hours:"Daily",tags:["Veg","Cheapest","Snacks"],desc:"Most affordable campus spot. Vada ₹10 — perfect between classes.",mostOrdered:"Vada"},
+  {id:"arusuvai",name:"CIT Cafeteria",emoji:"🏛️",gradient:"linear-gradient(135deg,#1a2a1a,#0f1f0f)",cuisine:"South Indian · North Indian · Chinese",rating:3.8,queue:"busy",avgPrice:50,hours:"9AM–7:45PM",tags:["Veg","Non-Veg","Meals"],desc:"Exclusive central canteen. South Indian, North Indian and Chinese dishes.",mostOrdered:"Meals"},
+  {id:"sai",name:"Sai Foods",emoji:"🍜",gradient:"linear-gradient(135deg,#0f1a2a,#080f1a)",cuisine:"Rice · Noodles · Briyani",rating:5.0,queue:"free",avgPrice:60,hours:"10AM–6:30PM",tags:["Non-Veg","Rice","Noodles"],desc:"Perfect 5/5 rated. Rice, Noodles & Briyani in Business Incubation Forum.",mostOrdered:"Chicken Briyani"},
+];
+
+const INIT_FOODS=[
+  {id:"chole",name:"Chole Bhatura",shopId:"apurva",shop:"Apurva Sweets & Bakery",price:129,rating:4.6,category:"North Indian",isVeg:true,isTrending:true,tag:"Highly Reordered",avail:"available",time:"8AM–8PM",desc:"Fluffy deep-fried bhatura with rich spiced chickpea curry. A complete power meal.",emoji:"🍛",gradient:"linear-gradient(135deg,#3d2200,#1f1100)",notAvailableCount:0,adminStatus:"available",image:null,reviews:[{id:1,user:"Akash P",email:"akash@citchennai.net",rating:5,text:"Absolutely filling! Best North Indian here",date:"2025-01-15",helpful:12,images:[]},{id:2,user:"Ritika S",email:"ritika@citchennai.net",rating:5,text:"The bhatura is perfectly crispy, worth ₹129",date:"2025-01-18",helpful:8,images:[]},{id:3,user:"Mohit K",email:"mohit@citchennai.net",rating:4,text:"Tasty but oily sometimes — still the best",date:"2025-01-20",helpful:5,images:[]}]},
+  {id:"masala-puri",name:"Masala Puri",shopId:"apurva",shop:"Apurva Sweets & Bakery",price:81,rating:4.4,category:"Chaats",isVeg:true,isTrending:true,tag:"Must Try",avail:"available",time:"8AM–8PM",desc:"Tangy street-style masala puri with spiced potato and tamarind chutney.",emoji:"🥙",gradient:"linear-gradient(135deg,#2e1a00,#180d00)",notAvailableCount:0,adminStatus:"available",image:null,reviews:[{id:1,user:"Ananya S",email:"ananya@citchennai.net",rating:5,text:"Best chaat on campus by far!",date:"2025-01-12",helpful:18,images:[]},{id:2,user:"Ravi T",email:"ravi@citchennai.net",rating:4,text:"Tangy and spicy — perfect combo",date:"2025-01-14",helpful:7,images:[]}]},
+  {id:"wmjuice",name:"Watermelon Juice",shopId:"chillout",shop:"Chill Out",price:40,rating:4.5,category:"Drinks",isVeg:true,isTrending:true,tag:"Refreshing",avail:"available",time:"Daily",desc:"Freshly pressed watermelon juice — most refreshing drink on a hot campus day.",emoji:"🍉",gradient:"linear-gradient(135deg,#1a3d1a,#0a1f0a)",notAvailableCount:0,adminStatus:"available",image:null,reviews:[{id:1,user:"Sruthi K",email:"sruthi@citchennai.net",rating:5,text:"So refreshing, ₹40 is a steal!",date:"2025-01-10",helpful:22,images:[]},{id:2,user:"Arun B",email:"arun@citchennai.net",rating:4,text:"Best value drink on campus",date:"2025-01-11",helpful:9,images:[]}]},
+  {id:"jigarthanda",name:"Jigarthanda",shopId:"teaexpress",shop:"Tea Express",price:60,rating:4.7,category:"Drinks",isVeg:true,isTrending:true,tag:"Madurai Special",avail:"evening",time:"3PM–7PM",desc:"Authentic Madurai Jigarthanda with rose milk, nannari syrup, and ice cream.",emoji:"🥛",gradient:"linear-gradient(135deg,#0a1a2e,#050d17)",notAvailableCount:0,adminStatus:"available",image:null,reviews:[{id:1,user:"Muthukumar R",email:"muthu@citchennai.net",rating:5,text:"Pure Madurai taste, absolutely legendary!",date:"2025-01-08",helpful:31,images:[]},{id:2,user:"Saranya P",email:"sara@citchennai.net",rating:5,text:"A must try, unlike anything else",date:"2025-01-09",helpful:14,images:[]}]},
+  {id:"popcorn",name:"Fried Chicken Popcorn",shopId:"c2c",shop:"C2C",price:45,rating:4.2,category:"Snacks",isVeg:false,isTrending:true,tag:"Budget Pick",avail:"available",time:"Daily",desc:"Crispy bite-sized fried chicken with peri peri seasoning. Perfect snack.",emoji:"🍗",gradient:"linear-gradient(135deg,#3d1500,#1f0900)",notAvailableCount:0,adminStatus:"available",image:null,reviews:[{id:1,user:"Arun K",email:"arunk@citchennai.net",rating:4,text:"Super addictive snack!",date:"2025-01-16",helpful:6,images:[]}]},
+  {id:"dosa",name:"Masala Dosa",shopId:"arusuvai",shop:"CIT Cafeteria",price:60,rating:4.3,category:"South Indian",isVeg:true,isTrending:false,tag:"Popular",avail:"morning",time:"9AM–12PM",desc:"Thin crispy dosa stuffed with spiced potato. Served with sambar and chutney.",emoji:"🫓",gradient:"linear-gradient(135deg,#1a1500,#0f0e00)",notAvailableCount:0,adminStatus:"available",image:null,reviews:[{id:1,user:"Divya K",email:"divya@citchennai.net",rating:5,text:"Authentic taste, feels like home!",date:"2025-01-13",helpful:11,images:[]},{id:2,user:"Karthik B",email:"karthik@citchennai.net",rating:4,text:"Best with coconut chutney",date:"2025-01-17",helpful:7,images:[]}]},
+  {id:"vada",name:"Vada",shopId:"teatime",shop:"TeaTime",price:10,rating:4.1,category:"Snacks",isVeg:true,isTrending:false,tag:"₹10 Steal!",avail:"available",time:"Daily",desc:"Classic crispy south Indian vada served fresh with coconut chutney. Only ₹10!",emoji:"🍩",gradient:"linear-gradient(135deg,#1a1000,#0f0800)",notAvailableCount:0,adminStatus:"available",image:null,reviews:[{id:1,user:"Suresh K",email:"suresh@citchennai.net",rating:5,text:"₹10 and this quality? Unbeatable!",date:"2025-01-05",helpful:28,images:[]}]},
+  {id:"choc-shake",name:"Chocolate Shake",shopId:"chillout",shop:"Chill Out",price:70,rating:4.5,category:"Drinks",isVeg:true,isTrending:false,tag:"Students Fav",avail:"available",time:"Daily",desc:"Thick, creamy chocolate milkshake made with real chocolate.",emoji:"🍫",gradient:"linear-gradient(135deg,#2a0a00,#150500)",notAvailableCount:0,adminStatus:"available",image:null,reviews:[{id:1,user:"Anjali M",email:"anjali@citchennai.net",rating:5,text:"Best shake on campus, so thick!",date:"2025-01-19",helpful:16,images:[]}]},
+  {id:"pav-bhaji",name:"Pav Bhaji",shopId:"apurva",shop:"Apurva Sweets & Bakery",price:90,rating:4.3,category:"North Indian",isVeg:true,isTrending:false,tag:"Filling",avail:"available",time:"8AM–8PM",desc:"Buttery pav served with rich spiced vegetable mash. Quick filling meal.",emoji:"🥘",gradient:"linear-gradient(135deg,#3d1a00,#1f0e00)",notAvailableCount:0,adminStatus:"available",image:null,reviews:[]},
+  {id:"biriyani",name:"Chicken Biriyani",shopId:"sai",shop:"Sai Foods",price:null,rating:4.8,category:"Meals",isVeg:false,isTrending:true,tag:"Top Rated",avail:"available",time:"10AM–6:30PM",desc:"Authentic chicken biriyani from the campus's highest-rated shop. Perfect 5/5.",emoji:"🍖",gradient:"linear-gradient(135deg,#2a1500,#150b00)",notAvailableCount:0,adminStatus:"available",image:null,reviews:[{id:1,user:"Ramesh K",email:"ramesh@citchennai.net",rating:5,text:"Best biriyani outside campus too!",date:"2025-01-21",helpful:19,images:[]}]},
+  {id:"waffle",name:"Belgian Waffle",shopId:"c2c",shop:"C2C",price:100,rating:4.3,category:"Desserts",isVeg:true,isTrending:false,tag:"Sweet Treat",avail:"available",time:"Daily",desc:"Crispy Belgian waffle with chocolate or red velvet topping.",emoji:"🧇",gradient:"linear-gradient(135deg,#1a1200,#0f0b00)",notAvailableCount:0,adminStatus:"available",image:null,reviews:[]},
+  {id:"mojito",name:"Virgin Mojito",shopId:"c2c",shop:"C2C",price:45,rating:4.1,category:"Drinks",isVeg:true,isTrending:false,tag:"Refreshing",avail:"available",time:"Daily",desc:"Cool mint mojito to beat the campus heat. Variety of flavors available.",emoji:"🍹",gradient:"linear-gradient(135deg,#0a1a0a,#060f06)",notAvailableCount:0,adminStatus:"available",image:null,reviews:[]},
+];
+
+const INIT_FEEDBACK=[
+  {id:1,user:"Kavya R",email:"kavya@citchennai.net",text:"App is great! Can you add Sai Foods full menu? I'd love to see the prices.",time:"2025-01-20 10:30",status:"pending"},
+  {id:2,user:"Vishnu S",email:"vishnu@citchennai.net",text:"The jigarthanda was not available at 2PM but the app showed it's available. Please fix availability.",time:"2025-01-19 15:45",status:"resolved"},
+  {id:3,user:"Dharini P",email:"dharini@citchennai.net",text:"Love the app! Suggestion: add weekly specials section.",time:"2025-01-18 09:15",status:"pending"},
+];
+
+// NA threshold for community warning
+const NA_THRESHOLD=5;
+
+function isAvailNow(food){
+  const h=new Date().getHours();
+  if(food.adminStatus==="not_available")return false;
+  if(food.notAvailableCount>=NA_THRESHOLD&&food.adminStatus!=="available")return false;
+  if(food.avail==="available")return true;
+  if(food.avail==="morning")return h>=6&&h<13;
+  if(food.avail==="evening")return h>=15&&h<21;
+  return false;
+}
+
+function getDisplayStatus(food,userNA){
+  if(food.adminStatus==="not_available")return{label:"❌ Not Available",cls:"tag-na",avail:false,priority:"admin"};
+  if(food.adminStatus==="likely_unavailable")return{label:"⚠️ Likely Unavailable",cls:"tag-warn",avail:false,priority:"admin"};
+  if(userNA)return{label:"Moved Down",cls:"",avail:isAvailNow(food),priority:"user"};
+  if(food.notAvailableCount>=NA_THRESHOLD)return{label:"⚠️ Likely Not Available",cls:"tag-warn",avail:false,priority:"community"};
+  if(isAvailNow(food))return{label:"● Available Now",cls:"",avail:true,priority:"none"};
+  return{label:"○ Not Now",cls:"",avail:false,priority:"none"};
+}
+
+// ══════════════════════════════════════════════════
+// STORAGE HELPERS
+// ══════════════════════════════════════════════════
+function useLS(key,init){
+  const [val,setVal]=useState(()=>{try{const v=localStorage.getItem(key);return v?JSON.parse(v):init;}catch{return init;}});
+  useEffect(()=>{try{localStorage.setItem(key,JSON.stringify(val));}catch{};},[key,val]);
+  return[val,setVal];
+}
+
+// ══════════════════════════════════════════════════
+// NOTIFICATION COMPONENT
+// ══════════════════════════════════════════════════
+function Notif({msg,onDone}){
+  useEffect(()=>{const t=setTimeout(onDone,2800);return()=>clearTimeout(t);},[onDone]);
+  return <div className="notif">{msg}</div>;
+}
+
+// ══════════════════════════════════════════════════
+// STARS
+// ══════════════════════════════════════════════════
+function Stars({n,size=12}){
+  return <span style={{color:"#FBBF24",fontSize:size}}>{"★".repeat(Math.floor(n))}{"☆".repeat(5-Math.floor(n))}</span>;
+}
+
+// ══════════════════════════════════════════════════
+// FOOD CARD COMPONENT
+// ══════════════════════════════════════════════════
+function FoodCard({food,onOpen,onNA,userNA,onRequireLogin,isLoggedIn}){
+  const [added,setAdded]=useState(false);
+  const status=getDisplayStatus(food,userNA);
+  const communityWarn=food.notAvailableCount>=NA_THRESHOLD&&food.adminStatus==="available";
+
+  const handleAdd=(e)=>{
+    e.stopPropagation();
+    if(!isLoggedIn){onRequireLogin();return;}
+    setAdded(true);setTimeout(()=>setAdded(false),700);
+  };
+  const handleNA=(e)=>{
+    e.stopPropagation();
+    if(!isLoggedIn){onRequireLogin();return;}
+    onNA(food.id);
+  };
+  const handleOpen=()=>{
+    if(!isLoggedIn){onRequireLogin();return;}
+    onOpen(food);
+  };
+
+  return(
+    <div className={`fc${userNA?" greyed":""}${communityWarn?" community-warn":""}`} onClick={handleOpen}>
+      {communityWarn&&<div className="community-badge">⚠️ Reported</div>}
+      <div className="fc-left">
+        {food.tag&&<div className={`fc-tag ${food.price<=50?"tag-budget":"tag-reorder"}`}>
+          {food.isVeg?<span style={{color:"var(--green)"}}>●</span>:<span style={{color:"var(--red)"}}>●</span>} {food.tag}
+        </div>}
+        {status.priority!=="none"&&status.priority!=="user"&&<div className={`fc-tag ${status.cls}`}>{status.label}</div>}
+        <div className="fc-name">{food.name}</div>
+        <div className="fc-desc">{food.desc}</div>
+        <div className="fc-meta">
+          <div className="rat-chip">★ {food.rating}</div>
+          <div className="fc-price">{food.price!==null?`₹${food.price}`:"Price on visit"}</div>
+        </div>
+      </div>
+      <div className="fc-right">
+        <div className="food-img" style={{background:food.gradient}}>
+          {food.image?<img src={food.image} alt={food.name}/>:<span style={{position:"relative",zIndex:1}}>{food.emoji}</span>}
+          <div className="food-img-overlay"/>
+          <div className={`avail-pill ${status.avail?"ap-now":communityWarn?"ap-warn":"ap-later"}`}>{status.avail?"Now":communityWarn?"⚠️":"Later"}</div>
+        </div>
+        <button className={`add-btn${added?" added":""}`} onClick={handleAdd}>{added?"✓":"+ ADD"}</button>
+        {!userNA&&<button className="na-btn" onClick={handleNA}>Not Available?</button>}
+      </div>
+    </div>
+  );
+}
+
+// ══════════════════════════════════════════════════
+// FOOD DETAIL MODAL
+// ══════════════════════════════════════════════════
+function FoodModal({food,onClose,wishlist,onWish,onSubmitReview,currentUser,foods,onNA,userNA}){
+  const [myRating,setMyRating]=useState(0);
+  const [reviewText,setReviewText]=useState("");
+  const [reviewName,setReviewName]=useState(currentUser?.name||"");
+  const [images,setImages]=useState([]);
+  const [submitted,setSubmitted]=useState(false);
+  const [helpfulMap,setHelpfulMap]=useLS(`helpful_${food.id}`,{});
+  const fileRef=useRef();
+  const inWL=wishlist.includes(food.id);
+  const avail=isAvailNow(food);
+  const userNA_=userNA.includes(food.id);
+
+  const avgRating=food.reviews.length?(food.reviews.reduce((a,r)=>a+r.rating,0)/food.reviews.length).toFixed(1):food.rating;
+
+  const handleImgUpload=(e)=>{
+    const files=Array.from(e.target.files);
+    files.forEach(f=>{
+      const reader=new FileReader();
+      reader.onload=(ev)=>setImages(prev=>[...prev,ev.target.result]);
+      reader.readAsDataURL(f);
+    });
+  };
+
+  const handleSubmit=()=>{
+    if(!myRating||!reviewText.trim())return;
+    onSubmitReview(food.id,{id:Date.now(),user:reviewName||"Anonymous",email:currentUser?.email||"",rating:myRating,text:reviewText.trim(),date:new Date().toISOString().split("T")[0],helpful:0,images});
+    setSubmitted(true);
+    setMyRating(0);setReviewText("");setImages([]);
+  };
+
+  const handleNA_modal=(e)=>{e.stopPropagation();onNA(food.id);};
+
+  const allImages=food.reviews.flatMap(r=>r.images||[]).filter(Boolean);
+
+  return(
+    <div className="overlay" onClick={e=>{if(e.target.className==="overlay")onClose();}}>
+      <div className="sheet" onClick={e=>e.stopPropagation()}>
+        <div className="drag-handle"/>
+        <div className="fm-img" style={{background:food.gradient}}>
+          {food.image?<img src={food.image} alt={food.name}/>:<span style={{fontSize:88,position:"relative",zIndex:1}}>{food.emoji}</span>}
+        </div>
+        <div className="fm-body">
+          <div className={`fm-avail ${avail?"fma-yes":"fma-no"}`}>{avail?"● Available Now":"○ Not Available Now"} · {food.time}</div>
+          <div className="fm-name">{food.name}</div>
+          <div className="fm-shop"><span>{food.isVeg?<span style={{color:"var(--green)"}}>●</span>:<span style={{color:"var(--red)"}}>●</span>}</span>🏪 {food.shop} · {food.category}</div>
+          <div className="fm-meta">
+            <div className="fm-mc"><span className="fm-mc-lbl">Price</span><span className="fm-mc-val" style={{color:"var(--text)"}}>{food.price!==null?`₹${food.price}`:"On visit"}</span></div>
+            <div className="fm-mc"><span className="fm-mc-lbl">Rating</span><span className="fm-mc-val">★ {avgRating}</span></div>
+            <div className="fm-mc"><span className="fm-mc-lbl">Reviews</span><span className="fm-mc-val">{food.reviews.length}</span></div>
+            <div className="fm-mc"><span className="fm-mc-lbl">Time</span><span className="fm-mc-val" style={{fontSize:12}}>{food.time}</span></div>
+          </div>
+          <p style={{fontSize:13,color:"var(--text2)",lineHeight:1.6,marginBottom:16}}>{food.desc}</p>
+
+          {/* Community report */}
+          {food.notAvailableCount>0&&<div style={{background:"rgba(251,191,36,.08)",border:"1px solid rgba(251,191,36,.2)",borderRadius:11,padding:"10px 14px",marginBottom:14,display:"flex",alignItems:"center",gap:8}}>
+            <span>⚠️</span>
+            <span style={{fontSize:12,color:"var(--yellow)"}}><strong>{food.notAvailableCount} student{food.notAvailableCount>1?"s":""}</strong> reported this may not be available right now.</span>
+          </div>}
+
+          {/* User images gallery */}
+          {allImages.length>0&&<>
+            <div className="sec-lbl" style={{marginBottom:8}}>Photos from students</div>
+            <div className="fm-imgs">{allImages.map((img,i)=><img key={i} src={img} alt="food"/>)}</div>
+          </>}
+
+          {/* Reviews */}
+          {food.reviews.length>0&&<>
+            <div className="sec-lbl">What students say ({food.reviews.length})</div>
+            {food.reviews.map(rv=>(
+              <div key={rv.id} className="review-bub fi">
+                <div className="rb-top">
+                  <div>
+                    <div className="rb-name">{rv.user}</div>
+                    <div className="rb-date">{rv.date}</div>
+                  </div>
+                  <div><Stars n={rv.rating} size={12}/></div>
+                </div>
+                <div className="rb-text">{rv.text}</div>
+                {rv.images?.length>0&&<div className="rb-img-row">{rv.images.map((img,i)=><img key={i} src={img} alt="review"/>)}</div>}
+                <div className="rb-helpful">
+                  <button className={`helpful-btn${helpfulMap[rv.id]?" on":""}`} onClick={()=>setHelpfulMap(m=>({...m,[rv.id]:!m[rv.id]}))}>👍 Helpful ({rv.helpful+(helpfulMap[rv.id]?1:0)})</button>
+                </div>
+              </div>
+            ))}
+          </>}
+
+          {/* Add Review */}
+          <div className="sec-lbl" style={{marginTop:18}}>Add Your Review</div>
+          {submitted?
+            <div className="rev-thanks">
+              <div style={{fontSize:40}}>🙌</div>
+              <p style={{fontWeight:700,marginTop:8}}>Thank you {reviewName||"Anonymous"} for your contribution!</p>
+              <p style={{fontSize:12,color:"var(--text2)",marginTop:4}}>Your review helps other students.</p>
+            </div>:
+            <div className="rev-form">
+              <input className="rev-name-input" placeholder="Your name (optional)" value={reviewName} onChange={e=>setReviewName(e.target.value)}/>
+              <div className="sec-lbl" style={{marginBottom:6}}>Your Rating</div>
+              <div className="star-pick">
+                {[1,2,3,4,5].map(n=><span key={n} className={`sp-star${myRating>=n?" on":""}`} onClick={()=>setMyRating(n)}>★</span>)}
+              </div>
+              <textarea className="rev-input" placeholder="Share your experience... (e.g. 'Tasty but oily', 'Best budget food')" value={reviewText} onChange={e=>setReviewText(e.target.value)}/>
+              <div className="img-upload-btn" onClick={()=>fileRef.current?.click()}>📸 Upload Food Photo (optional)</div>
+              <input ref={fileRef} type="file" accept="image/*" multiple style={{display:"none"}} onChange={handleImgUpload}/>
+              {images.length>0&&<div className="img-preview-row">{images.map((img,i)=><img key={i} src={img} className="img-prev" alt="preview"/>)}</div>}
+              <button className="submit-rev-btn" onClick={handleSubmit} disabled={!myRating||!reviewText.trim()} style={{opacity:(!myRating||!reviewText.trim())?.5:1}}>Submit Review</button>
+            </div>
+          }
+
+          {/* Actions */}
+          <div className="fm-actions">
+            <button className={`btn-wish${inWL?" on":""}`} onClick={()=>onWish(food.id)}>{inWL?"♥ Wishlisted":"♡ Wishlist"}</button>
+            <button className="btn-add-lg" onClick={onClose}>+ Add Item</button>
+          </div>
+          <div style={{textAlign:"center",marginTop:10}}>
+            <button className="na-btn" style={{fontSize:11,padding:"6px 14px"}} onClick={handleNA_modal}>⚠️ Not Available Right Now?</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ══════════════════════════════════════════════════
+// LOGIN MODAL (Easy Admin No Hide)
+// ══════════════════════════════════════════════════
+function LoginModal({onClose,onLogin,onAdminLogin}){
+  const [isAdminMode, setIsAdminMode] = useState(false);
+  const [email,setEmail]=useState("");
+  
+  // Admin fields
+  const [adminUser, setAdminUser]=useState("");
+  const [adminPass, setAdminPass]=useState("");
+  
+  const [err,setErr]=useState("");
+  const [loading,setLoading]=useState(false);
+
+  const handleGmail=()=>{
+    const em=prompt("Enter your CIT college email (@citchennai.net):");
+    if(em){handleEmailLogin(em);}
+  };
+
+  const handleEmailLogin=(em)=>{
+    const e=(em||email).trim().toLowerCase();
+    if(!e.endsWith(COLLEGE_DOMAIN)){
+      setErr("⚠️ Only @citchennai.net college emails are allowed.");
+      return;
+    }
+    setLoading(true);
+    setTimeout(()=>{
+      const name=e.split("@")[0].split(".").map(p=>p.charAt(0).toUpperCase()+p.slice(1)).join(" ");
+      onLogin({name,email:e});
+      setLoading(false);
+    },800);
+  };
+
+  const handleAdminSubmit = () => {
+    if(!adminUser || !adminPass) { setErr("Enter username and password"); return; }
+    setLoading(true);
+    setTimeout(() => {
+      if(checkAdmin(adminUser, adminPass)) {
+        onAdminLogin(adminUser);
+      } else {
+        setErr("Invalid Admin Credentials");
+        setLoading(false);
+      }
+    }, 600);
+  };
+
+  return(
+    <div className="login-overlay" onClick={e=>{if(e.target.className==="login-overlay")onClose();}}>
+      <div className="login-card" onClick={e=>e.stopPropagation()}>
+        <div className="login-logo">{isAdminMode ? "🛡️" : "🍽️"}</div>
+        <div className="login-title">{isAdminMode ? "Admin Login" : "Student Login"}</div>
+        <div className="login-sub">
+          {isAdminMode ? "Authorized personnel only" : "Login with your college email to interact."}
+        </div>
+
+        <div className="login-tabs">
+          <div className={`ltab ${!isAdminMode ? 'active' : 'inactive'}`} onClick={() => {setIsAdminMode(false); setErr("");}}>👨‍🎓 Student</div>
+          <div className={`ltab ${isAdminMode ? 'active' : 'inactive'}`} onClick={() => {setIsAdminMode(true); setErr("");}}>🛡️ Admin</div>
+        </div>
+
+        {isAdminMode ? (
+          <>
+            <input className="a-inp" placeholder="Admin Username" value={adminUser} onChange={e=>{setAdminUser(e.target.value);setErr("");}} autoCapitalize="none"/>
+            <input className="a-inp" type="password" placeholder="Admin Password" value={adminPass} onChange={e=>{setAdminPass(e.target.value);setErr("");}} onKeyDown={e=>e.key==="Enter"&&handleAdminSubmit()}/>
+            <button className="login-btn" onClick={handleAdminSubmit} disabled={loading}>{loading?"Verifying…":"Login to Dashboard →"}</button>
+          </>
+        ) : (
+          <>
+            <button className="gmail-btn" onClick={handleGmail}>
+              <span style={{fontSize:18}}>🔐</span> Continue with Google
+            </button>
+            <div className="login-divider"><span>or enter manually</span></div>
+            <input className="login-inp" type="email" placeholder="your.name@citchennai.net" value={email} onChange={e=>{setEmail(e.target.value);setErr("");}} onKeyDown={e=>e.key==="Enter"&&handleEmailLogin()}/>
+            <button className="login-btn" onClick={()=>handleEmailLogin()} disabled={loading}>{loading?"Verifying…":"Login →"}</button>
+          </>
+        )}
+
+        {err&&<div className="login-err">⚠️ {err.replace("⚠️ ","")}</div>}
+
+        <p style={{fontSize:10,color:"var(--text3)",textAlign:"center",marginTop:16,lineHeight:1.5}}>
+          {isAdminMode ? "Admin actions are securely logged." : "Only students with @citchennai.net email can interact."}<br/>
+          <span style={{color:"var(--text2)", marginTop:8, display:"inline-block"}}>Under Chennai Institute of Technology</span><br/>
+          <a href="https://akdevlabs.com" target="_blank" style={{color:"var(--red)", textDecoration:"none", marginTop:4, display:"inline-block"}}>By AKDEV Labs</a>
+        </p>
+        
+        <button onClick={onClose} style={{display:"block",margin:"12px auto 0",fontSize:12,color:"var(--text3)"}}>✕ Close</button>
+      </div>
+    </div>
+  );
+}
+
+// ══════════════════════════════════════════════════
+// FILTER SHEET
+// ══════════════════════════════════════════════════
+function FilterSheet({onClose,onApply}){
+  const [sec,setSec]=useState("Sort");
+  const [sel,setSel]=useState({});
+  const sections={
+    Sort:["Relevance","Rating ↑","Price ↑","Price ↓"],
+    Rating:["3.5+ Stars","4.0+ Stars","4.5+ Stars"],
+    Price:["Under ₹50","Under ₹100","Under ₹150"],
+    "Veg/Non-Veg":["Veg Only","Non-Veg Only","Both"],
+    Availability:["Available Now","All Items"],
+  };
+  const toggle=(s,o)=>setSel(p=>({...p,[s]:p[s]===o?null:o}));
+  const active=Object.values(sel).filter(Boolean).length;
+
+  return(
+    <div className="overlay" onClick={e=>{if(e.target.className==="overlay")onClose();}}>
+      <div className="filter-sheet" style={{width:"100%",maxWidth:480}} onClick={e=>e.stopPropagation()}>
+        <div className="drag-handle"/>
+        <div className="fs-hdr">
+          <div className="fs-title">Filters {active>0&&<span style={{fontSize:11,background:"var(--red)",color:"#fff",borderRadius:10,padding:"2px 7px",marginLeft:6}}>{active}</span>}</div>
+          <button style={{fontSize:12,color:"var(--red)",fontWeight:700}} onClick={()=>setSel({})}>Clear All</button>
+        </div>
+        <div className="fs-body">
+          <div className="fs-left">
+            {Object.keys(sections).map(s=>(
+              <div key={s} className={`fs-left-item${sec===s?" on":""}`} onClick={()=>setSec(s)}>
+                {s}{sel[s]&&<span style={{color:"var(--red)",marginLeft:4,fontSize:9}}>●</span>}
+              </div>
+            ))}
+          </div>
+          <div className="fs-right">
+            {sections[sec].map(o=>(
+              <div key={o} className="fo" onClick={()=>toggle(sec,o)}>
+                <div className="fo-lbl">{o}</div>
+                <div className={`fo-chk${sel[sec]===o?" on":""}`}>{sel[sec]===o&&"✓"}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+        <div className="fs-footer">
+          <button className="fs-apply" onClick={()=>{onApply(sel);onClose();}}>Apply Filters</button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ══════════════════════════════════════════════════
+// HOME SCREEN
+// ══════════════════════════════════════════════════
+function HomeScreen({foods,shops,wishlist,onWish,onOpenFood,onNA,userNA,onRequireLogin,isLoggedIn,filterOpen,setFilterOpen,appSettings}){
+  const [qf,setQf]=useState("all");
+  const [search,setSearch]=useState("");
+  const [loading,setLoading]=useState(true);
+  const slot=getSlot();
+  const cfg=SLOT_CFG[slot];
+
+  useEffect(()=>{const t=setTimeout(()=>setLoading(false),600);return()=>clearTimeout(t);},[]);
+
+  const sortedFoods=useMemo(()=>{
+    let f=[...foods];
+    if(search)f=f.filter(x=>x.name.toLowerCase().includes(search.toLowerCase())||x.shop.toLowerCase().includes(search.toLowerCase())||x.category.toLowerCase().includes(search.toLowerCase()));
+    if(qf==="under50")f=f.filter(x=>x.price!==null&&x.price<=50);
+    if(qf==="veg")f=f.filter(x=>x.isVeg);
+    if(qf==="nonveg")f=f.filter(x=>!x.isVeg);
+    if(qf==="avail")f=f.filter(x=>isAvailNow(x));
+    if(qf==="top")f=[...f].sort((a,b)=>b.rating-a.rating);
+
+    // Sort: admin-available first, then user-marked to bottom
+    const userNASet=new Set(userNA);
+    f.sort((a,b)=>{
+      const aN=userNASet.has(a.id)?1:0;
+      const bN=userNASet.has(b.id)?1:0;
+      if(aN!==bN)return aN-bN;
+      // admin marked unavailable to bottom
+      const aA=a.adminStatus==="not_available"?1:0;
+      const bA=b.adminStatus==="not_available"?1:0;
+      return aA-bA;
+    });
+    return f;
+  },[foods,qf,search,userNA]);
+
+  const trending=sortedFoods.filter(f=>f.isTrending&&!userNA.includes(f.id));
+  const others=sortedFoods.filter(f=>!f.isTrending&&!userNA.includes(f.id));
+  const movedDown=sortedFoods.filter(f=>userNA.includes(f.id));
+
+  return(
+    <div className="screen">
+      {/* maintenance */}
+      {appSettings.maintenance&&<div className="maint-banner" style={{margin:"10px 18px 0"}}><p>🚧 Site is currently under maintenance. Admin access only.</p></div>}
+      {/* search */}
+      <div className="search-wrap">
+        <div className="sbox">
+          <span style={{fontSize:15,color:"var(--text3)"}}>🔍</span>
+          <input placeholder={`Search '${appSettings.searchPlaceholder||"rolls, dosa, juice"}'`} value={search} onChange={e=>setSearch(e.target.value)}/>
+          {search&&<button style={{fontSize:15,color:"var(--text3)"}} onClick={()=>setSearch("")}>✕</button>}
+        </div>
+      </div>
+      {/* time banner */}
+      {!search&&<div className="tb-banner">
+        <div className="tbb-emo">{cfg.e}</div>
+        <div className="tbb-body"><strong>{cfg.t}</strong><p>{cfg.s}</p></div>
+      </div>}
+      {/* quick filters */}
+      <div className="qfrow" style={{marginTop:12}}>
+        {[["all","All"],["under50","💸 Under ₹50"],["veg","🥦 Veg"],["nonveg","🍗 Non-Veg"],["avail","🟢 Available"],["top","⭐ Top Rated"]].map(([k,l])=>(
+          <div key={k} className={`qfc${qf===k?" on":""}`} onClick={()=>setQf(qf===k?"all":k)}>{l}</div>
+        ))}
+        <div className="qfc" onClick={()=>setFilterOpen(true)}>🎛 Filter</div>
+      </div>
+
+      {/* trending */}
+      {!loading&&(appSettings.showTrending!==false)&&<>
+        <div className="sec-hdr"><div className="sec-title">🔥 {search?"Results":qf==="top"?"Top Rated":appSettings.trendingTitle||"Recommended For You"}</div></div>
+        {trending.length===0&&others.length===0?
+          <div className="empty-state"><span className="es-ico">🍽️</span><h3>Nothing Found</h3><p>Try different filters or search terms</p></div>:
+          trending.map((f,i)=><FoodCard key={f.id} food={f} onOpen={onOpenFood} onNA={onNA} userNA={userNA.includes(f.id)} onRequireLogin={onRequireLogin} isLoggedIn={isLoggedIn}/>)
+        }
+      </>}
+      {loading&&[1,2,3].map(i=><div key={i} className="skel skel-card"/>)}
+
+      {/* most ordered */}
+      {!loading&&!search&&(appSettings.showMostOrdered!==false)&&others.length>0&&<>
+        <div className="sec-hdr"><div className="sec-title">🍽️ {appSettings.mostOrderedTitle||"Most Ordered"}</div></div>
+        {others.map(f=><FoodCard key={f.id} food={f} onOpen={onOpenFood} onNA={onNA} userNA={userNA.includes(f.id)} onRequireLogin={onRequireLogin} isLoggedIn={isLoggedIn}/>)}
+      </>}
+
+      {/* moved down */}
+      {movedDown.length>0&&<>
+        <div className="sec-hdr"><div className="sec-title" style={{fontSize:12,color:"var(--text3)"}}>Moved to Bottom</div></div>
+        {movedDown.map(f=><FoodCard key={f.id} food={f} onOpen={onOpenFood} onNA={()=>{}} userNA={true} onRequireLogin={onRequireLogin} isLoggedIn={isLoggedIn}/>)}
+      </>}
+
+      {/* shops */}
+      {!loading&&!search&&<>
+        <div style={{height:1,background:"var(--border)",margin:"16px 0 8px"}}/>
+        <div className="sec-hdr"><div className="sec-title">🏪 Campus Shops</div></div>
+        <div className="shops-row">
+          {shops.map(s=>(
+            <div key={s.id} className="shop-card">
+              <div className="shop-img" style={{background:s.gradient}}>{s.emoji}</div>
+              <div className="shop-info">
+                <div className="shop-name">{s.name}</div>
+                <div className="shop-meta">
+                  <span className="shop-rat">★{s.rating}</span>{s.cuisine.split("·")[0]}
+                </div>
+                <div style={{marginTop:4}}>
+                  <span style={{fontSize:9,fontWeight:700,padding:"2px 7px",borderRadius:9,background:s.queue==="free"?"rgba(34,197,94,.12)":"rgba(255,107,53,.1)",color:s.queue==="free"?"var(--green)":"var(--orange)"}}>{s.queue==="free"?"🟢 Free":"🟡 Busy"}</span>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+        <div style={{height:20}}/>
+      </>}
+    </div>
+  );
+}
+
+// ══════════════════════════════════════════════════
+// EXPLORE SCREEN
+// ══════════════════════════════════════════════════
+function ExploreScreen({foods,wishlist,onOpenFood,onNA,userNA,onRequireLogin,isLoggedIn,recentlyViewed}){
+  const [search,setSearch]=useState("");
+  const [filters,setFilters]=useState({veg:false,nonveg:false,avail:false,budget:999,minStar:0});
+
+  const results=useMemo(()=>{
+    let f=[...foods];
+    if(search)f=f.filter(x=>x.name.toLowerCase().includes(search.toLowerCase())||x.shop.toLowerCase().includes(search.toLowerCase())||x.category.toLowerCase().includes(search.toLowerCase()));
+    if(filters.veg)f=f.filter(x=>x.isVeg);
+    if(filters.nonveg)f=f.filter(x=>!x.isVeg);
+    if(filters.avail)f=f.filter(x=>isAvailNow(x));
+    if(filters.budget<999)f=f.filter(x=>x.price!==null&&x.price<=filters.budget);
+    if(filters.minStar>0)f=f.filter(x=>x.rating>=filters.minStar);
+    return f.sort((a,b)=>b.rating-a.rating);
+  },[foods,search,filters]);
+
+  const rv=recentlyViewed.slice(0,6).map(id=>foods.find(f=>f.id===id)).filter(Boolean);
+
+  return(
+    <div className="screen">
+      <div className="search-wrap">
+        <div className="sbox">
+          <span style={{fontSize:15,color:"var(--text3)"}}>🔍</span>
+          <input placeholder="Search food, shop, category…" value={search} onChange={e=>setSearch(e.target.value)} autoFocus/>
+          {search&&<button style={{fontSize:15,color:"var(--text3)"}} onClick={()=>setSearch("")}>✕</button>}
+        </div>
+      </div>
+      {/* filter chips */}
+      <div className="qfrow" style={{paddingTop:6}}>
+        <div className={`qfc${filters.veg?" on":""}`} onClick={()=>setFilters(f=>({...f,veg:!f.veg,nonveg:false}))}>🥦 Veg</div>
+        <div className={`qfc${filters.nonveg?" on":""}`} onClick={()=>setFilters(f=>({...f,nonveg:!f.nonveg,veg:false}))}>🍗 Non-Veg</div>
+        <div className={`qfc${filters.avail?" on":""}`} onClick={()=>setFilters(f=>({...f,avail:!f.avail}))}>🟢 Available</div>
+        <div className={`qfc${filters.budget<999?" on":""}`} onClick={()=>setFilters(f=>({...f,budget:f.budget<999?999:100}))}>💸 ₹100</div>
+        {[3.5,4.0,4.5].map(s=><div key={s} className={`qfc${filters.minStar===s?" on":""}`} onClick={()=>setFilters(f=>({...f,minStar:f.minStar===s?0:s}))}>★{s}+</div>)}
+      </div>
+      {/* recently viewed */}
+      {rv.length>0&&!search&&<>
+        <div className="sec-hdr" style={{paddingTop:16}}><div className="sec-title">🕐 Recently Viewed</div></div>
+        <div className="rv-row">
+          {rv.map(f=><div key={f.id} className="rv-chip" onClick={()=>{if(!isLoggedIn){onRequireLogin();}else{onOpenFood(f);}}}>
+            <span className="rv-emo">{f.emoji}</span>
+            <div><div className="rv-cn">{f.name}</div><div className="rv-cp">₹{f.price||"?"}</div></div>
+          </div>)}
+        </div>
+      </>}
+      <div className="sec-hdr" style={{paddingTop:16}}>
+        <div className="sec-title">{search?`Results for "${search}"`:filters.avail?"Available Now":"All Items"} <span style={{fontSize:11,color:"var(--text3)",fontWeight:400}}>({results.length})</span></div>
+      </div>
+      {results.length===0?
+        <div className="empty-state"><span className="es-ico">🔍</span><h3>No results</h3><p>Try different search or filters</p></div>:
+        results.map(f=><FoodCard key={f.id} food={f} onOpen={onOpenFood} onNA={onNA} userNA={userNA.includes(f.id)} onRequireLogin={onRequireLogin} isLoggedIn={isLoggedIn}/>)
+      }
+    </div>
+  );
+}
+
+// ══════════════════════════════════════════════════
+// WISHLIST SCREEN
+// ══════════════════════════════════════════════════
+function WishlistScreen({foods,wishlist,onWish,onOpenFood,isLoggedIn,onRequireLogin}){
+  if(!isLoggedIn) return(
+    <div className="screen"><div className="empty-state"><span className="es-ico">♡</span><h3>Login to see Wishlist</h3><p>Login with your college email<br/>to save and view your wishlist.</p><button className="login-btn" style={{marginTop:16,width:"auto",padding:"10px 28px"}} onClick={onRequireLogin}>Login Now</button></div></div>
+  );
+  const items=wishlist.map(id=>foods.find(f=>f.id===id)).filter(Boolean);
+  if(!items.length) return(
+    <div className="screen"><div className="empty-state"><span className="es-ico">♡</span><h3>Nothing saved yet</h3><p>Open any food item and tap<br/><strong>"Wishlist"</strong> to save it here.</p></div></div>
+  );
+  return(
+    <div className="screen">
+      <div className="sec-hdr" style={{paddingTop:18}}><div className="sec-title">♥ Saved Items <span style={{fontSize:11,color:"var(--text3)",fontWeight:400}}>({items.length})</span></div></div>
+      {items.map(f=>{const av=isAvailNow(f);return(
+        <div key={f.id} className="wl-item" onClick={()=>onOpenFood(f)}>
+          <div className="wl-img" style={{background:f.gradient}}>{f.image?<img src={f.image} alt={f.name}/>:<span>{f.emoji}</span>}</div>
+          <div className="wl-info">
+            <div className="wl-name">{f.name}</div>
+            <div className="wl-shop">🏪 {f.shop}</div>
+            <div style={{display:"flex",alignItems:"center"}}>
+              <div className="wl-price">{f.price!==null?`₹${f.price}`:"On visit"}</div>
+              <span className={`avail-badge ${av?"ab-yes":"ab-no"}`}>{av?"● Now":"○ Later"}</span>
+            </div>
+          </div>
+          <button className="wl-del" onClick={e=>{e.stopPropagation();onWish(f.id);}}>✕</button>
+        </div>
+      );})}
+    </div>
+  );
+}
+
+// ══════════════════════════════════════════════════
+// AI SCREEN
+// ══════════════════════════════════════════════════
+function AIScreen({foods,wishlist,onAddWish,isLoggedIn,onRequireLogin,currentUser}){
+  const [budget,setBudget]=useState("");
+  const [mood,setMood]=useState("any");
+  const [results,setResults]=useState([]);
+  const [loading,setLoading]=useState(false);
+  const [ran,setRan]=useState(false);
+  const slot=getSlot();
+
+  if(!isLoggedIn) return(
+    <div className="screen"><div className="empty-state"><span className="es-ico">🤖</span><h3>Login to use AI</h3><p>Login with your college email<br/>to get personalized food recommendations.</p><button className="login-btn" style={{marginTop:16,width:"auto",padding:"10px 28px"}} onClick={onRequireLogin}>Login Now</button></div></div>
+  );
+
+  const SLOT_BOOST={morning:["South Indian","Snacks","Drinks"],lunch:["North Indian","South Indian","Meals"],evening:["Drinks","Chaats","Desserts"],night:["Snacks","Fast Food"]};
+  const MOOD_CATS={any:null,snacks:["Snacks","Fast Food"],meals:["North Indian","South Indian","Meals","Chinese"],drinks:["Drinks"],chaats:["Chaats"],desserts:["Desserts"],veg:null};
+
+  async function run(){
+    setLoading(true);setRan(true);
+    const b=parseInt(budget)||999;
+    const moodCats=MOOD_CATS[mood];
+    const boostCats=SLOT_BOOST[slot]||[];
+    let candidates=[...foods].filter(f=>f.adminStatus==="available");
+    if(b<999)candidates=candidates.filter(f=>f.price!==null&&f.price<=b);
+    if(moodCats)candidates=candidates.filter(f=>moodCats.includes(f.category));
+    if(mood==="veg")candidates=candidates.filter(f=>f.isVeg);
+    candidates=candidates.map(f=>{
+      let sc=f.rating*2;
+      if(boostCats.includes(f.category))sc+=2;
+      if(isAvailNow(f))sc+=1;
+      if(f.isTrending)sc+=1.5;
+      if(f.notAvailableCount===0)sc+=0.5;
+      return{...f,sc};
+    }).sort((a,b)=>b.sc-a.sc).slice(0,3);
+
+    const reasons={};
+    try{
+      const ctx=`CIT campus. Time: ${slot}. Student: ${currentUser?.name}. Budget: ₹${b}. Mood: ${mood}.\nCandidates:\n${candidates.map(f=>`${f.name} ₹${f.price||"on visit"} from ${f.shop} (${f.category}, ${f.rating}★, ${isAvailNow(f)?"available now":"check timing"})`).join("\n")}`;
+      const r=await fetch("https://api.anthropic.com/v1/messages",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({model:"claude-sonnet-4-20250514",max_tokens:400,system:'For each food item, write one very short friendly recommendation sentence (max 10 words). Be specific. Return only valid JSON: {"item name":"reason"}',messages:[{role:"user",content:ctx}]})});
+      const d=await r.json();
+      const txt=d.content?.[0]?.text||"{}";
+      Object.assign(reasons,JSON.parse(txt.replace(/```json|```/g,"").trim()));
+    }catch{
+      const fb={morning:"Perfect light morning pick — fresh and affordable",lunch:"Best value filling meal for lunch right now",evening:"Ideal evening special — don't miss it today",night:"One of few available options at this hour"};
+      candidates.forEach(f=>{reasons[f.name]=fb[slot];});
+    }
+    setResults(candidates.map(f=>({...f,reason:reasons[f.name]||`Rated ${f.rating}★ · ${isAvailNow(f)?"Available now":"Check availability"}`})));
+    setLoading(false);
+  }
+
+  return(
+    <div className="screen">
+      <div className="ai-hero">
+        <span className="ai-hero-ico">🤖</span>
+        <div className="ai-hero-title">What should I eat?</div>
+        <div className="ai-hero-sub">Hi {currentUser?.name?.split(" ")[0]} 👋 Tell me your budget and mood — I'll find the best campus food for you right now.</div>
+        <button className="ai-cta" onClick={run} disabled={loading}>{loading?"✦ Thinking…":"✦ Suggest Food Now →"}</button>
+      </div>
+      <div className="ai-inputs">
+        <div className="ai-inp-card"><label>Budget (₹)</label><input type="number" placeholder="e.g. 80" value={budget} onChange={e=>setBudget(e.target.value)} inputMode="numeric"/></div>
+        <div className="ai-inp-card"><label>I'm craving</label>
+          <select value={mood} onChange={e=>setMood(e.target.value)}>
+            <option value="any">Anything 🍽</option>
+            <option value="snacks">Snacks 🍟</option>
+            <option value="meals">Full Meal 🍛</option>
+            <option value="drinks">Juice/Drink 🧃</option>
+            <option value="chaats">Chaats 🥙</option>
+            <option value="desserts">Desserts 🍰</option>
+            <option value="veg">Veg Only 🥦</option>
+          </select>
+        </div>
+      </div>
+      {loading&&[1,2,3].map(i=><div key={i} className="skel" style={{height:110,margin:"0 18px 11px",borderRadius:15}}/>)}
+      {!loading&&ran&&results.length===0&&<div className="empty-state"><span className="es-ico">😕</span><h3>No matches</h3><p>Try a higher budget or different mood</p></div>}
+      {!loading&&results.map((f,i)=>(
+        <div key={f.id} className={`ai-result fi`} style={{animationDelay:`${i*.08}s`}}>
+          <div className="air-top">
+            <div className="air-img" style={{background:f.gradient}}>{f.image?<img src={f.image} alt={f.name}/>:<span>{f.emoji}</span>}</div>
+            <div style={{flex:1,minWidth:0}}>
+              <div className="air-name">{i===0?"🥇 ":""}{f.name}</div>
+              <div className="air-shop">🏪 {f.shop} · ₹{f.price||"ask"} · ★{f.rating}</div>
+            </div>
+            <button onClick={()=>onAddWish(f.id)} style={{padding:"5px 12px",borderRadius:9,border:`1.5px solid ${wishlist.includes(f.id)?"var(--red)":"var(--border2)"}`,background:wishlist.includes(f.id)?"var(--red)":"none",color:wishlist.includes(f.id)?"#fff":"var(--text2)",fontSize:11,fontWeight:700,cursor:"pointer",flexShrink:0}}>
+              {wishlist.includes(f.id)?"♥":"♡"}
+            </button>
+          </div>
+          <div className="air-reason"><strong>Why?</strong> {f.reason}</div>
+          <div className="air-bottom">
+            <span className="air-score">Score: {f.sc.toFixed(1)} · {isAvailNow(f)?"● Available":"○ Later"}</span>
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+}
+
+// ══════════════════════════════════════════════════
+// ADMIN DASHBOARD
+// ══════════════════════════════════════════════════
+function AdminDashboard({foods,setFoods,shops,setShops,feedback,setFeedback,appSettings,setAppSettings,onLogout,adminUser}){
+  const [tab,setTab]=useState("overview");
+  const [editFood,setEditFood]=useState(null);
+  const [jsonText,setJsonText]=useState("");
+  const [jsonValid,setJsonValid]=useState(null);
+  const [notif,setNotif]=useState("");
+
+  const showNotif=(m)=>{setNotif(m);setTimeout(()=>setNotif(""),2500);};
+
+  function validateJson(txt){
+    try{JSON.parse(txt);setJsonValid(true);}catch{setJsonValid(false);}
+  }
+
+  function applyJson(){
+    try{const d=JSON.parse(jsonText);if(Array.isArray(d)){setFoods(d);showNotif("✓ Food data updated from JSON!");}}catch{showNotif("⚠️ Invalid JSON");}
+  }
+
+  function updateFoodAvailability(id,status){
+    setFoods(prev=>prev.map(f=>f.id===id?{...f,adminStatus:status}:f));
+    showNotif(`✓ Availability updated: ${status}`);
+  }
+
+  function resetNACount(id){
+    setFoods(prev=>prev.map(f=>f.id===id?{...f,notAvailableCount:0}:f));
+    showNotif("✓ Community votes reset");
+  }
+
+  function updateFeedbackStatus(id,status){
+    setFeedback(prev=>prev.map(fb=>fb.id===id?{...fb,status}:fb));
+    showNotif(`✓ Marked as ${status}`);
+  }
+
+  function deleteFeedback(id){
+    setFeedback(prev=>prev.filter(fb=>fb.id!==id));
+    showNotif("✓ Feedback deleted");
+  }
+
+  const missingData=foods.filter(f=>!f.price||!f.rating||!f.avail);
+  const communityFlags=foods.filter(f=>f.notAvailableCount>=NA_THRESHOLD&&f.adminStatus==="available");
+
+  const TABS=[["overview","📊 Overview"],["foods","🍔 Foods"],["shops","🏪 Shops"],["reviews","💬 Reviews"],["feedback","📝 Feedback"],["settings","⚙️ Settings"],["json","📦 JSON"]];
+
+  return(
+    <div className="admin-dash">
+      {notif&&<Notif msg={notif} onDone={()=>setNotif("")}/>}
+      <div className="ad-topbar">
+        <div>
+          <div className="ad-title">🛠 Admin Dashboard</div>
+          <div style={{fontSize:10,color:"var(--text3)",marginTop:1}}>Logged in as <strong style={{color:"var(--red)"}}>{adminUser}</strong></div>
+        </div>
+        <button className="ad-logout" onClick={onLogout}>Logout</button>
+      </div>
+      <div className="ad-tabs">
+        {TABS.map(([k,l])=><div key={k} className={`ad-tab${tab===k?" on":""}`} onClick={()=>setTab(k)}>{l}</div>)}
+      </div>
+      <div className="ad-content">
+
+        {/* OVERVIEW */}
+        {tab==="overview"&&<>
+          <div className="ad-stats">
+            <div className="ad-stat"><span className="ad-stat-val" style={{color:"var(--red)"}}>{foods.length}</span><div className="ad-stat-lbl">Food Items</div></div>
+            <div className="ad-stat"><span className="ad-stat-val" style={{color:"var(--green)"}}>{foods.filter(f=>isAvailNow(f)).length}</span><div className="ad-stat-lbl">Available Now</div></div>
+            <div className="ad-stat"><span className="ad-stat-val" style={{color:"var(--yellow)"}}>{communityFlags.length}</span><div className="ad-stat-lbl">Community Flags</div></div>
+            <div className="ad-stat"><span className="ad-stat-val" style={{color:"var(--purple)"}}>{feedback.filter(f=>f.status==="pending").length}</span><div className="ad-stat-lbl">Pending Feedback</div></div>
+          </div>
+          {communityFlags.length>0&&<>
+            <div className="ad-section-title">⚠️ Community-Flagged Items ({communityFlags.length})</div>
+            {communityFlags.map(f=>(
+              <div key={f.id} className="ad-food-row">
+                <div className="ad-food-emo" style={{background:f.gradient}}><span style={{fontSize:20}}>{f.emoji}</span></div>
+                <div className="ad-food-info"><div className="ad-food-name">{f.name}</div><div className="ad-food-meta">⚠️ {f.notAvailableCount} reports · {f.shop}</div></div>
+                <div className="ad-food-actions">
+                  <button className="ad-btn green" onClick={()=>{updateFoodAvailability(f.id,"available");resetNACount(f.id);}}>✓ Available</button>
+                  <button className="ad-btn" style={{color:"var(--red)"}} onClick={()=>updateFoodAvailability(f.id,"not_available")}>✗ Confirm NA</button>
+                </div>
+              </div>
+            ))}
+          </>}
+          {missingData.length>0&&<>
+            <div className="ad-section-title" style={{marginTop:16}}>📊 Data Validation</div>
+            <div style={{background:"var(--card)",border:"1px solid var(--border)",borderRadius:12,padding:"12px 14px"}}>
+              {missingData.map(f=>(
+                <div key={f.id} className="val-item">
+                  <div className={`val-dot ${!f.price?"val-red":!f.rating?"val-yellow":"val-green"}`}/>
+                  <div className="val-text"><strong>{f.name}</strong> — {!f.price?"Missing price":"Missing rating"}</div>
+                  <button className="ad-btn" onClick={()=>{setTab("foods");}}>Edit</button>
+                </div>
+              ))}
+            </div>
+          </>}
+        </>}
+
+        {/* FOODS */}
+        {tab==="foods"&&<>
+          <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",marginBottom:14}}>
+            <div className="ad-section-title" style={{marginBottom:0}}>Food Items ({foods.length})</div>
+            <button className="ad-btn primary" onClick={()=>{const nf={id:`food-${Date.now()}`,name:"New Food",shopId:"apurva",shop:"Apurva Sweets & Bakery",price:50,rating:4.0,category:"Snacks",isVeg:true,isTrending:false,tag:"New",avail:"available",time:"Daily",desc:"New food item",emoji:"🍽️",gradient:"linear-gradient(135deg,#1a1a1a,#0a0a0a)",notAvailableCount:0,adminStatus:"available",image:null,reviews:[]};setFoods(prev=>[nf,...prev]);setEditFood(nf);showNotif("✓ New food added");}}>+ Add Food</button>
+          </div>
+          {foods.map(f=>(
+            <div key={f.id} className="ad-food-row">
+              <div className="ad-food-emo" style={{background:f.gradient,borderRadius:10}}><span style={{fontSize:20}}>{f.emoji}</span></div>
+              <div className="ad-food-info">
+                <div className="ad-food-name">{f.name}</div>
+                <div className="ad-food-meta">₹{f.price||"?"} · ★{f.rating} · {f.shop} · {f.notAvailableCount>0?`⚠️${f.notAvailableCount} reports`:""}</div>
+                <div className="avail-sel">
+                  {[["available","✓ Available","on-green"],["likely_unavailable","⚠️ Likely","on-yellow"],["not_available","✗ Not Available","on-red"]].map(([v,l,c])=>(
+                    <span key={v} className={`avs${f.adminStatus===v?" "+c:""}`} onClick={()=>updateFoodAvailability(f.id,v)}>{l}</span>
+                  ))}
+                </div>
+              </div>
+              <div className="ad-food-actions" style={{flexDirection:"column",gap:4}}>
+                <button className="ad-btn primary" onClick={()=>setEditFood(f)}>Edit</button>
+                {f.notAvailableCount>0&&<button className="ad-btn yellow" onClick={()=>resetNACount(f.id)}>Reset</button>}
+                <button className="ad-btn" style={{color:"var(--red)"}} onClick={()=>{if(confirm(`Delete ${f.name}?`)){setFoods(prev=>prev.filter(x=>x.id!==f.id));showNotif("✓ Food deleted");}}}>Delete</button>
+              </div>
+            </div>
+          ))}
+        </>}
+
+        {/* SHOPS */}
+        {tab==="shops"&&<>
+          <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",marginBottom:14}}>
+            <div className="ad-section-title" style={{marginBottom:0}}>Shops ({shops.length})</div>
+          </div>
+          {shops.map(s=>(
+            <div key={s.id} className="ad-food-row">
+              <div className="ad-food-emo" style={{background:s.gradient,borderRadius:10,fontSize:24,flexShrink:0,width:44,height:44}}>{s.emoji}</div>
+              <div className="ad-food-info">
+                <div className="ad-food-name">{s.name}</div>
+                <div className="ad-food-meta">★{s.rating} · {s.cuisine.split("·")[0].trim()} · {s.hours}</div>
+                <div className="avail-sel">
+                  {["free","busy"].map(q=>(
+                    <span key={q} className={`avs${s.queue===q?(q==="free"?" on-green":" on-yellow"):""}`} onClick={()=>{setShops(prev=>prev.map(x=>x.id===s.id?{...x,queue:q}:x));showNotif(`✓ ${s.name} queue updated`);}}>
+                      {q==="free"?"🟢 Free":"🟡 Busy"}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            </div>
+          ))}
+        </>}
+
+        {/* REVIEWS */}
+        {tab==="reviews"&&<>
+          <div className="ad-section-title">All Reviews ({foods.reduce((a,f)=>a+f.reviews.length,0)})</div>
+          {foods.map(f=>f.reviews.map(rv=>(
+            <div key={`${f.id}-${rv.id}`} className="fb-item">
+              <div className="fb-hdr">
+                <div><div className="fb-user">{rv.user} on <strong>{f.name}</strong></div><div className="fb-time">{rv.date}</div></div>
+                <div style={{display:"flex",gap:6}}>
+                  <button className="ad-btn" style={{color:"var(--red)"}} onClick={()=>{setFoods(prev=>prev.map(fd=>fd.id===f.id?{...fd,reviews:fd.reviews.filter(r=>r.id!==rv.id)}:fd));showNotif("✓ Review deleted");}}>Delete</button>
+                </div>
+              </div>
+              <div className="fb-text"><Stars n={rv.rating}/> {rv.text}</div>
+            </div>
+          )))}
+        </>}
+
+        {/* FEEDBACK */}
+        {tab==="feedback"&&<>
+          <div className="ad-section-title">User Feedback ({feedback.length})</div>
+          {feedback.length===0?<div style={{textAlign:"center",padding:30,color:"var(--text3)"}}>No feedback yet</div>:
+          feedback.map(fb=>(
+            <div key={fb.id} className="fb-item">
+              <div className="fb-hdr">
+                <div><div className="fb-user">{fb.user}</div><div className="fb-time">{fb.time}</div></div>
+                <span className={`fb-status ${fb.status==="pending"?"fb-pending":"fb-resolved"}`}>{fb.status}</span>
+              </div>
+              <div className="fb-text">{fb.text}</div>
+              <div style={{display:"flex",gap:6,marginTop:8}}>
+                {fb.status==="pending"&&<button className="ad-btn green" onClick={()=>updateFeedbackStatus(fb.id,"resolved")}>✓ Resolve</button>}
+                <button className="ad-btn" style={{color:"var(--red)"}} onClick={()=>deleteFeedback(fb.id)}>🗑 Delete</button>
+              </div>
+            </div>
+          ))}
+        </>}
+
+        {/* SETTINGS */}
+        {tab==="settings"&&<>
+          <div className="ad-section-title">App Settings</div>
+          {appSettings.maintenance&&<div className="maint-banner"><p>🚧 Maintenance mode is ON — public access blocked</p></div>}
+          <div style={{background:"var(--card)",border:"1px solid var(--border)",borderRadius:12,padding:"14px 16px",marginBottom:16}}>
+            {[
+              {k:"maintenance",label:"🚧 Maintenance Mode",desc:"Block public access. Admin still works."},
+              {k:"showTrending",label:"🔥 Show Trending Section",desc:"Show/hide the trending food section"},
+              {k:"showMostOrdered",label:"🍽️ Show Most Ordered Section",desc:"Show/hide the most ordered section"},
+            ].map(({k,label,desc})=>(
+              <div key={k} className="ad-toggle-row">
+                <div><div className="ad-toggle-lbl">{label}</div><div className="ad-toggle-desc">{desc}</div></div>
+                <div className={`toggle-sw${appSettings[k]?" on":""}`} onClick={()=>{setAppSettings(p=>({...p,[k]:!p[k]}));showNotif(`✓ ${label} ${appSettings[k]?"disabled":"enabled"}`);}}/>
+              </div>
+            ))}
+          </div>
+          <div className="ad-section-title">Customize Text</div>
+          <div style={{background:"var(--card)",border:"1px solid var(--border)",borderRadius:12,padding:"14px 16px"}}>
+            {[["appName","App Name","CIT Food Finder"],["trendingTitle","Trending Section Title","Recommended For You"],["mostOrderedTitle","Most Ordered Title","Most Ordered"],["searchPlaceholder","Search Placeholder","rolls, dosa, juice"]].map(([k,label,ph])=>(
+              <div key={k} style={{marginBottom:12}}>
+                <label style={{fontSize:11,color:"var(--text3)",display:"block",marginBottom:4}}>{label}</label>
+                <input className="a-inp" style={{marginBottom:0}} placeholder={ph} value={appSettings[k]||""} onChange={e=>setAppSettings(p=>({...p,[k]:e.target.value}))} onBlur={()=>showNotif("✓ Settings saved")}/>
+              </div>
+            ))}
+          </div>
+        </>}
+
+        {/* JSON */}
+        {tab==="json"&&<>
+          <div className="ad-section-title">JSON Data Editor</div>
+          <p style={{fontSize:12,color:"var(--text2)",marginBottom:12,lineHeight:1.5}}>Paste or edit food data as JSON. Preview, validate, then apply.</p>
+          <textarea className="json-editor" rows={12} value={jsonText||JSON.stringify(foods,null,2)} onChange={e=>{setJsonText(e.target.value);validateJson(e.target.value);}} placeholder='[{"id":"food1","name":"Food Name",...}]'/>
+          {jsonValid!==null&&<div className={`json-valid ${jsonValid?"json-ok":"json-err"}`}>{jsonValid?"✓ Valid JSON":"✗ Invalid JSON — fix errors before applying"}</div>}
+          <div style={{display:"flex",gap:8,marginTop:12}}>
+            <button className="ad-btn primary" onClick={applyJson} disabled={jsonValid===false} style={{flex:1,padding:"10px"}}>Apply JSON</button>
+            <button className="ad-btn" onClick={()=>{const blob=new Blob([JSON.stringify(foods,null,2)],{type:"application/json"});const a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download="cit_foods.json";a.click();}} style={{flex:1,padding:"10px"}}>Export JSON</button>
+          </div>
+          <div style={{height:16}}/>
+          <div className="ad-section-title">Import JSON File</div>
+          <div className="img-upload-btn" onClick={()=>{const inp=document.createElement("input");inp.type="file";inp.accept=".json";inp.onchange=e=>{const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=ev=>{setJsonText(ev.target.result);validateJson(ev.target.result);};r.readAsText(f);};inp.click();}}>📁 Upload JSON File</div>
+        </>}
+      </div>
+
+      {/* Edit Food Modal */}
+      {editFood&&(
+        <div className="overlay" onClick={e=>{if(e.target.className==="overlay")setEditFood(null);}}>
+          <div className="sheet" style={{maxHeight:"85vh"}} onClick={e=>e.stopPropagation()}>
+            <div className="drag-handle"/>
+            <div style={{padding:"16px 20px 28px"}}>
+              <div style={{fontSize:16,fontWeight:800,marginBottom:16}}>Edit: {editFood.name}</div>
+              {[["name","Food Name","text"],["price","Price (₹)","number"],["rating","Rating (1-5)","number"],["category","Category","text"],["tag","Tag","text"],["time","Available Time","text"],["desc","Description","text"],["emoji","Emoji","text"]].map(([k,label,type])=>(
+                <div key={k} style={{marginBottom:10}}>
+                  <label style={{fontSize:11,color:"var(--text3)",display:"block",marginBottom:4}}>{label}</label>
+                  <input type={type} className="a-inp" style={{marginBottom:0}} value={editFood[k]||""} onChange={e=>setEditFood(p=>({...p,[k]:type==="number"?parseFloat(e.target.value)||0:e.target.value}))}/>
+                </div>
+              ))}
+              <div style={{marginBottom:10}}>
+                <label style={{fontSize:11,color:"var(--text3)",display:"block",marginBottom:4}}>Veg/Non-Veg</label>
+                <div style={{display:"flex",gap:8}}>
+                  <span className={`avs${editFood.isVeg?" on-green":""}`} onClick={()=>setEditFood(p=>({...p,isVeg:true}))}>🥦 Veg</span>
+                  <span className={`avs${!editFood.isVeg?" on-red":""}`} onClick={()=>setEditFood(p=>({...p,isVeg:false}))}>🍗 Non-Veg</span>
+                </div>
+              </div>
+              <div style={{marginBottom:10}}>
+                <label style={{fontSize:11,color:"var(--text3)",display:"block",marginBottom:4}}>Trending</label>
+                <div style={{display:"flex",gap:8}}>
+                  <span className={`avs${editFood.isTrending?" on-green":""}`} onClick={()=>setEditFood(p=>({...p,isTrending:true}))}>🔥 Trending</span>
+                  <span className={`avs${!editFood.isTrending?" on-red":""}`} onClick={()=>setEditFood(p=>({...p,isTrending:false}))}>Not Trending</span>
+                </div>
+              </div>
+              <div style={{display:"flex",gap:10,marginTop:16}}>
+                <button className="a-btn" style={{flex:1,padding:"12px",background:"none",border:"1px solid var(--border2)",borderRadius:11}} onClick={()=>setEditFood(null)}>Cancel</button>
+                <button className="a-btn" style={{flex:1,padding:"12px",background:"var(--green)",color:"#fff",border:"none",borderRadius:11,fontWeight:800}} onClick={()=>{setFoods(prev=>prev.map(f=>f.id===editFood.id?editFood:f));setEditFood(null);showNotif("✓ Food updated!");}}>Save Changes</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
+// ══════════════════════════════════════════════════
+// MAIN APP
+// ══════════════════════════════════════════════════
+function App(){
+  const [theme,setTheme]=useLS("cit_theme","dark");
+  const [tab,setTab]=useState("home");
+  const [foods,setFoods]=useLS("cit_foods",INIT_FOODS);
+  const [shops,setShops]=useLS("cit_shops",INIT_SHOPS);
+  const [feedback,setFeedback]=useLS("cit_feedback",INIT_FEEDBACK);
+  const [appSettings,setAppSettings]=useLS("cit_settings",{maintenance:false,showTrending:true,showMostOrdered:true,appName:"CIT Food Finder",trendingTitle:"Recommended For You",mostOrderedTitle:"Most Ordered",searchPlaceholder:"rolls, dosa, juice"});
+  const [wishlist,setWishlist]=useLS("cit_wl",[]);
+  const [userNA,setUserNA]=useLS("cit_na",[]);
+  const [recentlyViewed,setRV]=useLS("cit_rv",[]);
+  const [openFood,setOpenFood]=useState(null);
+  const [loginOpen,setLoginOpen]=useState(false);
+  const [filterOpen,setFilterOpen]=useState(false);
+  const [currentUser,setCurrentUser]=useLS("cit_user",null);
+  const [adminSession,setAdminSession]=useLS("cit_admin_session",null);
+  const [showAdmin,setShowAdmin]=useState(false);
+  const [notif,setNotif]=useState("");
+  const [clock,setClock]=useState("");
+
+  // Live clock
+  useEffect(()=>{
+    const tick=()=>{const n=new Date();const h=n.getHours(),m=n.getMinutes(),s=n.getSeconds();const ap=h>=12?"PM":"AM";setClock(`${String(h%12||12).padStart(2,"0")}:${String(m).padStart(2,"0")}:${String(s).padStart(2,"0")} ${ap}`);};
+    tick();const id=setInterval(tick,1000);return()=>clearInterval(id);
+  },[]);
+
+  useEffect(()=>{document.documentElement.setAttribute("data-theme",theme);},[theme]);
+
+  const toggleTheme=()=>{
+    document.body.classList.add("tc");
+    setTheme(t=>t==="dark"?"light":"dark");
+    setTimeout(()=>document.body.classList.remove("tc"),400);
+  };
+
+  const handleRequireLogin=()=>setLoginOpen(true);
+
+  const handleLogin=(user)=>{
+    setCurrentUser(user);
+    setLoginOpen(false);
+    setNotif(`Welcome ${user.name.split(" ")[0]} 👋`);
+  };
+
+  const handleAdminLogin=(user)=>{
+    setAdminSession(user);
+    setShowAdmin(true);
+    setLoginOpen(false);
+    setNotif(`Admin Access Granted 🛡️`);
+  };
+
+  const handleOpenFood=(food)=>{
+    setRV(rv=>{const n=rv.filter(x=>x!==food.id);return[food.id,...n].slice(0,10);});
+    setOpenFood(food);
+  };
+
+  const handleNA=(id)=>{
+    // User-level: add to personal NA list
+    setUserNA(prev=>prev.includes(id)?prev:[...prev,id]);
+    // Community level: increment count
+    setFoods(prev=>prev.map(f=>{
+      if(f.id!==id)return f;
+      const newCount=f.notAvailableCount+1;
+      return{...f,notAvailableCount:newCount,adminStatus:f.adminStatus==="available"&&newCount>=NA_THRESHOLD?"likely_unavailable":f.adminStatus};
+    }));
+    setNotif("Noted! Item moved to bottom for you.");
+  };
+
+  const handleWish=(id)=>{
+    if(!currentUser){setLoginOpen(true);return;}
+    setWishlist(prev=>{const n=prev.includes(id)?prev.filter(x=>x!==id):[...prev,id];setNotif(n.includes(id)?"♥ Added to wishlist":"Removed from wishlist");setTimeout(()=>setNotif(""),2000);return n;});
+  };
+
+  const handleSubmitReview=(foodId,review)=>{
+    setFoods(prev=>prev.map(f=>f.id===foodId?{...f,reviews:[...f.reviews,review],rating:parseFloat(((f.reviews.reduce((a,r)=>a+r.rating,0)+review.rating)/(f.reviews.length+1)).toFixed(1))}:f));
+  };
+
+  // Maintenance mode
+  if(appSettings.maintenance&&!showAdmin&&!adminSession) return(
+    <div style={{height:"100%",display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center",padding:24,background:"var(--bg)",textAlign:"center"}}>
+      <div style={{fontSize:48,marginBottom:14}}>🚧</div>
+      <div style={{fontSize:20,fontWeight:800,marginBottom:8}}>Site Under Maintenance</div>
+      <div style={{fontSize:14,color:"var(--text2)",lineHeight:1.6,marginBottom:20}}>We're making CIT Food Finder even better.<br/>Check back soon!</div>
+      <button className="login-btn" style={{padding:"10px 24px",width:"auto"}} onClick={()=>setLoginOpen(true)}>Admin Login</button>
+      {loginOpen&&<LoginModal onClose={()=>setLoginOpen(false)} onLogin={()=>{}} onAdminLogin={handleAdminLogin}/>}
+    </div>
+  );
+
+  // Admin view
+  if(showAdmin){
+    return <AdminDashboard foods={foods} setFoods={setFoods} shops={shops} setShops={setShops} feedback={feedback} setFeedback={setFeedback} appSettings={appSettings} setAppSettings={setAppSettings} onLogout={()=>{setAdminSession(null);setShowAdmin(false);}} adminUser={adminSession}/>;
+  }
+
+  const modalFood=openFood?foods.find(f=>f.id===openFood.id)||openFood:null;
+
+  return(
+    <div id="root" data-theme={theme}>
+      {notif&&<Notif msg={notif} onDone={()=>setNotif("")}/>}
+
+      {/* Topbar */}
+      <div className="topbar">
+        <div className="tb-brand">
+          <div className="tb-name">{appSettings.appName||"CIT Food Finder"}</div>
+          <div className="tb-loc">📍 Under Chennai Institute of Technology</div>
+          <a href="https://akdevlabs.com" target="_blank" className="tb-dev">By AKDEV Labs</a>
+        </div>
+        <div className="tb-right">
+          <div className="clock-pill">{clock}</div>
+          <button className="theme-btn" onClick={toggleTheme}>{theme==="dark"?"☀️":"🌙"}</button>
+          {currentUser?
+            <div className="user-avatar" title={currentUser.email} onClick={()=>{if(confirm("Logout?"))setCurrentUser(null);}}>{currentUser.name.charAt(0).toUpperCase()}</div>:
+            <button className="user-avatar" style={{background:"var(--card)",color:"var(--text2)",border:"1px solid var(--border2)",fontSize:11,fontWeight:700}} onClick={handleRequireLogin}>Login</button>
+          }
+        </div>
+      </div>
+
+      {/* Screens */}
+      {tab==="home"&&<HomeScreen foods={foods} shops={shops} wishlist={wishlist} onWish={handleWish} onOpenFood={handleOpenFood} onNA={handleNA} userNA={userNA} onRequireLogin={handleRequireLogin} isLoggedIn={!!currentUser} filterOpen={filterOpen} setFilterOpen={setFilterOpen} appSettings={appSettings}/>}
+      {tab==="explore"&&<ExploreScreen foods={foods} wishlist={wishlist} onOpenFood={handleOpenFood} onNA={handleNA} userNA={userNA} onRequireLogin={handleRequireLogin} isLoggedIn={!!currentUser} recentlyViewed={recentlyViewed}/>}
+      {tab==="wishlist"&&<WishlistScreen foods={foods} wishlist={wishlist} onWish={handleWish} onOpenFood={handleOpenFood} isLoggedIn={!!currentUser} onRequireLogin={handleRequireLogin}/>}
+      {tab==="ai"&&<AIScreen foods={foods} wishlist={wishlist} onAddWish={handleWish} isLoggedIn={!!currentUser} onRequireLogin={handleRequireLogin} currentUser={currentUser}/>}
+
+      {/* Bottom Nav */}
+      <nav className="bnav">
+        {[["home","🏠","Home"],["explore","🔍","Explore"],["wishlist","♡","Wishlist"],["ai","🤖","AI Pick"]].map(([t,ico,lbl])=>(
+          <button key={t} className={`bn${tab===t?" on":""}`} onClick={()=>setTab(t)}>
+            <div className="bn-pip"/>
+            <div className="bn-ico">{t==="wishlist"&&wishlist.length>0?"♥":ico}</div>
+            <div className="bn-lbl">{lbl}{t==="wishlist"&&wishlist.length>0?` (${wishlist.length})`:""}</div>
+          </button>
+        ))}
+      </nav>
+
+      {/* Modals */}
+      {modalFood&&<FoodModal food={modalFood} onClose={()=>setOpenFood(null)} wishlist={wishlist} onWish={handleWish} onSubmitReview={handleSubmitReview} currentUser={currentUser} foods={foods} onNA={handleNA} userNA={userNA}/>}
+      
+      {loginOpen&&<LoginModal onClose={()=>setLoginOpen(false)} onLogin={handleLogin} onAdminLogin={handleAdminLogin}/>}
+      
+      {filterOpen&&<FilterSheet onClose={()=>setFilterOpen(false)} onApply={()=>{setNotif("✓ Filters applied");setTimeout(()=>setNotif(""),2000);}}/>}
+    </div>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById("root")).render(<App/>);
+</script>
+</body>
+
+</html>

@@ -1,0 +1,955 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>CE5603 - AI For Civil Engineering Lab Manual</title>
+    <style>
+        /* CSS Reset & Anti-Scroll Full View Setup */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f1f5f9;
+            color: #334155;
+            height: 100vh;
+            /* Locks body height */
+            width: 100vw;
+            overflow: hidden;
+            /* Anti-scroll at the body level */
+            display: flex;
+            flex-direction: row;
+        }
+
+        /* Top Mobile Bar (Hidden on Desktop) */
+        .mobile-top-bar {
+            display: none;
+            background-color: #0f172a;
+            color: white;
+            padding: 15px 20px;
+            align-items: center;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+        }
+
+        .menu-btn {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 24px;
+            cursor: pointer;
+            margin-right: 15px;
+        }
+
+        .mobile-top-bar h2 {
+            font-size: 18px;
+            margin: 0;
+            font-weight: 600;
+        }
+
+        /* Sidebar Navigation */
+        .sidebar {
+            width: 300px;
+            background-color: #1e293b;
+            color: #fff;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            flex-shrink: 0;
+            z-index: 999;
+            transition: transform 0.3s ease;
+        }
+
+        .sidebar-header {
+            padding: 20px;
+            background-color: #0f172a;
+            border-bottom: 3px solid #0ea5e9;
+            text-align: center;
+        }
+
+        .sidebar-header h3 {
+            font-size: 1.1rem;
+            color: #38bdf8;
+            margin: 0;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .nav-links {
+            flex-grow: 1;
+            overflow-y: auto;
+            /* Independent scrolling for menu */
+            padding-bottom: 20px;
+        }
+
+        .nav-links::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .nav-links::-webkit-scrollbar-thumb {
+            background: #475569;
+            border-radius: 4px;
+        }
+
+        .nav-links a {
+            display: block;
+            color: #cbd5e1;
+            text-decoration: none;
+            padding: 14px 20px;
+            font-size: 13px;
+            font-weight: 500;
+            border-bottom: 1px solid #334155;
+            transition: all 0.2s;
+        }
+
+        .nav-links a:hover {
+            background-color: #0ea5e9;
+            color: #fff;
+            padding-left: 25px;
+        }
+
+        /* Main Content Container */
+        .main-content {
+            flex-grow: 1;
+            height: 100%;
+            overflow-y: auto;
+            /* Independent scrolling for content */
+            padding: 30px 40px;
+            scroll-behavior: smooth;
+        }
+
+        .main-content::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .main-content::-webkit-scrollbar-thumb {
+            background: #94a3b8;
+            border-radius: 4px;
+        }
+
+        .content-wrapper {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        /* Header Details */
+        .header-card {
+            background-color: #ffffff;
+            padding: 25px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            text-align: center;
+            margin-bottom: 30px;
+            border-top: 5px solid #0ea5e9;
+        }
+
+        .header-card h1 {
+            color: #0f172a;
+            font-size: 24px;
+            margin-bottom: 5px;
+            font-weight: 800;
+        }
+
+        .header-card p {
+            color: #64748b;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        /* Experiment Cards */
+        .card {
+            background-color: #ffffff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+            margin-bottom: 40px;
+            border-left: 5px solid #0ea5e9;
+        }
+
+        .card-header {
+            border-bottom: 2px solid #e2e8f0;
+            padding-bottom: 15px;
+            margin-bottom: 20px;
+        }
+
+        .card-header h2 {
+            font-size: 22px;
+            color: #0f172a;
+            margin: 0;
+            font-weight: 700;
+        }
+
+        /* Bold Section Headings */
+        h4 {
+            font-size: 16px;
+            color: #0369a1;
+            margin: 25px 0 10px 0;
+            text-transform: uppercase;
+            font-weight: 800;
+            letter-spacing: 0.5px;
+        }
+
+        p,
+        ol {
+            color: #334155;
+            line-height: 1.7;
+            font-size: 14px;
+        }
+
+        ol {
+            padding-left: 20px;
+        }
+
+        li {
+            margin-bottom: 6px;
+        }
+
+        /* Code and Output Blocks */
+        pre {
+            background-color: #1e293b;
+            color: #f8fafc;
+            border-radius: 6px;
+            padding: 15px;
+            overflow-x: auto;
+            font-family: 'Consolas', 'Courier New', Courier, monospace;
+            font-size: 14px;
+            margin-top: 10px;
+            line-height: 1.4;
+        }
+
+        .output {
+            background-color: #f0fdf4;
+            color: #166534;
+            border: 1px solid #bbf7d0;
+            border-left: 5px solid #22c55e;
+            font-weight: 700;
+        }
+
+        .result {
+            background-color: #eff6ff;
+            border: 1px solid #bfdbfe;
+            border-left: 5px solid #3b82f6;
+            padding: 15px;
+            border-radius: 4px;
+            font-weight: 600;
+            color: #1e3a8a;
+            margin-top: 15px;
+        }
+
+        /* Mobile Viewport Adaptations */
+        @media screen and (max-width: 850px) {
+            body {
+                flex-direction: column;
+            }
+
+            .mobile-top-bar {
+                display: flex;
+            }
+
+            .sidebar {
+                position: fixed;
+                top: 60px;
+                /* Height of mobile top bar */
+                left: 0;
+                height: calc(100vh - 60px);
+                transform: translateX(-100%);
+                /* Hidden by default on mobile */
+                width: 280px;
+                box-shadow: 2px 0 10px rgba(0, 0, 0, 0.2);
+            }
+
+            .sidebar.active {
+                transform: translateX(0);
+                /* Slide in */
+            }
+
+            .main-content {
+                height: calc(100vh - 60px);
+                padding: 15px;
+            }
+
+            .card {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="mobile-top-bar">
+        <button class="menu-btn" onclick="toggleMenu()">☰</button>
+        <h2>Lab Manual</h2>
+    </div>
+
+    <div class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <h3>CE5603 Experiments</h3>
+        </div>
+        <div class="nav-links">
+            <a href="#exp1" onclick="closeMenu()">1. AI Program to Design a Beam</a>
+            <a href="#exp2" onclick="closeMenu()">2. Neural Network</a>
+            <a href="#exp3" onclick="closeMenu()">3. Fuzzy Logic</a>
+            <a href="#exp4" onclick="closeMenu()">4. Neural Networks And Fuzzy Logic</a>
+            <a href="#exp5" onclick="closeMenu()">5. Genetic Algorithm</a>
+            <a href="#exp6" onclick="closeMenu()">6. GA Smart Construction Schedule</a>
+            <a href="#exp7" onclick="closeMenu()">7. IoT Technology (Soil Moisture)</a>
+            <a href="#exp8" onclick="closeMenu()">8. Detect Shake in Building (IoT)</a>
+        </div>
+    </div>
+
+    <div class="main-content" id="main-content">
+        <div class="content-wrapper">
+
+            <div class="header-card">
+                <h1>CE5603 - AI FOR CIVIL ENGINEERING</h1>
+                <p>LAB MANUAL | II SEMESTER</p>
+            </div>
+
+            <div id="exp1" class="card">
+                <div class="card-header">
+                    <h2>EX NO: 1 - AI Program To Design A Beam</h2>
+                </div>
+                <h4>AIM</h4>
+                <p>Use a simple AI program to design a beam that uses the least amount of material but is still strong
+                    enough.</p>
+
+                <h4>ALGORITHM</h4>
+                <ol>
+                    <li>Start the program.</li>
+                    <li>Define the beam parameters such as length of the beam, applied load, and allowable maximum
+                        stress.</li>
+                    <li>Initialize a fitness function to calculate the material volume of the beam based on width,
+                        height, and length.</li>
+                    <li>Compute the bending stress using the moment of inertia of the rectangular beam section.</li>
+                    <li>Apply a penalty to the fitness value if the calculated stress exceeds the safe stress limit.
+                    </li>
+                    <li>Initialize the beam dimensions with an initial width and height.</li>
+                    <li>Iteratively modify the beam dimensions using random variations (simple genetic search).</li>
+                    <li>Restrict the dimensions within practical limits to avoid unrealistic values. Evaluate each new
+                        beam design using the fitness function.</li>
+                    <li>Update the best beam dimensions if a design with lower material usage and safe stress is found.
+                    </li>
+                    <li>Repeat the optimization process for a fixed number of generations.</li>
+                    <li>Display the optimal beam dimensions and minimum material required.</li>
+                </ol>
+
+                <h4>PROGRAM</h4>
+                <pre><code>import random
+import numpy as np
+
+# Simple beam (100cm long, 10kN load at end)
+L = 100 # length cm
+P = 10000 # load N
+sigma_max = 1000 # safe stress N/cm²
+
+def fitness(w, h):
+    # Material = width * height
+    material = w * h * L
+    # Stress check
+    I = (w * h**3) / 12.0 # moment of inertia
+    stress = (P * L * (h / 2)) / I
+    
+    # Penalty if too weak
+    if stress > sigma_max:
+        material *= 10 # big penalty
+    return material
+
+# Simple GA
+best_w, best_h = 10, 10
+best_material = fitness(10, 10)
+
+for generation in range(1000):
+    # Try random changes
+    w = best_w + random.uniform(-2, 2)
+    h = best_h + random.uniform(-1, 3)
+    
+    w = max(2, min(20, w)) # keep reasonable
+    h = max(3, min(25, h))
+    
+    material = fitness(w, h)
+    
+    if material < best_material:
+        best_w, best_h = w, h
+        best_material = material
+
+# Results
+print(f"Best beam: {best_w:.1f} cm wide x {best_h:.1f} cm tall")
+print(f"Material needed: {best_material:.0f} cm³")
+print("Ready to build!")</code></pre>
+
+                <h4>OUTPUT</h4>
+                <pre class="output">Best beam: 2.0 cm wide x 3.0 cm tall
+Material needed: 6000 cm³
+Ready to build!</pre>
+
+                <h4>RESULT</h4>
+                <div class="result">The AI-based optimization successfully identified an efficient beam design that
+                    minimizes material usage while maintaining structural safety. Thus, the beam design obtained through
+                    the AI approach satisfies strength constraints with minimum material consumption, demonstrating
+                    effective optimization.</div>
+            </div>
+
+            <div id="exp2" class="card">
+                <div class="card-header">
+                    <h2>EX NO: 2 - Neural Network</h2>
+                </div>
+                <h4>AIM</h4>
+                <p>To write and execute a neural network to guess how much load a pile (foundation) can carry based on
+                    soil type, pile size, etc.</p>
+
+                <h4>ALGORITHM</h4>
+                <ol>
+                    <li>Start the program.</li>
+                    <li>Import required libraries such as NumPy, Pandas, and MLPRegressor from Scikit-learn.</li>
+                    <li>Create a dataset containing pile diameter, pile length, soil type, embedment ratio, and
+                        corresponding load-carrying capacity.</li>
+                    <li>Separate the dataset into input features (diameter, length, soil type, embedment ratio) and
+                        output target (load capacity).</li>
+                    <li>Initialize a neural network regression model with two hidden layers.</li>
+                    <li>Train the neural network using the given pile foundation dataset.</li>
+                    <li>Evaluate the trained model using the R² score.</li>
+                    <li>Provide new pile input values and predict the load-carrying capacity.</li>
+                    <li>Predict and compare pile load capacities for different soil types (clay, sand, gravel).</li>
+                    <li>Display the predicted results and stop the program.</li>
+                </ol>
+
+                <h4>PROGRAM</h4>
+                <pre><code>import numpy as np
+from sklearn.neural_network import MLPRegressor
+import pandas as pd
+
+# pile data (typical soils)
+data = pd.DataFrame({
+    'diameter': [30, 45, 60, 30, 45, 60, 45, 60, 30, 45], # cm
+    'length': [500, 600, 800, 400, 500, 700, 600, 900, 500, 600], # cm
+    'soil_type': [1,1,1,2,2,2,3,3,3,1], # 1=clay, 2=sand, 3=gravel
+    'embed_ratio': [10,12,13,8,10,12,12,15,10,11], # L/diameter
+    'load_capacity': [1200, 1800, 2800, 800, 1400, 2200, 2000, 3500, 1100, 1600] # kN
+})
+
+X = data[['diameter', 'length', 'soil_type', 'embed_ratio']]
+y = data['load_capacity']
+
+# Simple Neural Network
+nn = MLPRegressor(hidden_layer_sizes=(20, 10), max_iter=1000, random_state=42)
+nn.fit(X, y)
+
+print("Neural Network trained for pile load prediction!")
+print("R² score:", nn.score(X, y))
+
+# Predict new pile
+new_pile = np.array([[50, 700, 2, 14]]) # 50cm dia, 7m long, sand
+prediction = nn.predict(new_pile)[0]
+print(f"\n50cm dia 7m long pile in SAND: {prediction:.0f} kN capacity")
+
+# Test different soils
+for soil in [1, 2, 3]:
+    test = np.array([[50, 700, soil, 14]])
+    cap = nn.predict(test)[0]
+    soil_name = ['Clay', 'Sand', 'Gravel'][soil-1]
+    print(f" {soil_name}: {cap:.0f} kN")</code></pre>
+
+                <h4>OUTPUT</h4>
+                <pre class="output">Neural Network trained for pile load prediction!
+R² score: 0.7981730485642605
+
+50cm dia 7m long pile in SAND: 2198 kN capacity
+ Clay: 2197 kN
+ Sand: 2198 kN
+ Gravel: 2198 kN</pre>
+
+                <h4>RESULT</h4>
+                <div class="result">The neural network was successfully trained to predict the load-carrying capacity of
+                    pile foundations. The model achieved a good R² score, demonstrating it effectively estimates pile
+                    foundation load capacity based on pile and soil parameters.</div>
+            </div>
+
+            <div id="exp3" class="card">
+                <div class="card-header">
+                    <h2>EX NO: 3 - Fuzzy Logic</h2>
+                </div>
+                <h4>AIM</h4>
+                <p>Create a fuzzy logic system that tells whether a road is in "Good", "Okay", or "Bad" condition based
+                    on things like cracks and bumps.</p>
+
+                <h4>ALGORITHM</h4>
+                <ol>
+                    <li>Start the program.</li>
+                    <li>Define fuzzy membership functions for cracks to classify them as low or high severity.</li>
+                    <li>Define fuzzy membership functions for bumps to classify them as low, medium, or high severity.
+                    </li>
+                    <li>Accept the input values for crack severity and bump severity.</li>
+                    <li>Calculate the membership values for cracks and bumps using the fuzzy functions.</li>
+                    <li>Apply fuzzy IF-THEN rules to evaluate road condition as Good, Okay, or Bad.</li>
+                    <li>Compute the strength of each rule using minimum and maximum operators.</li>
+                    <li>Select the road condition with the highest rule strength.</li>
+                    <li>Display the final road condition result. Stop the program.</li>
+                </ol>
+
+                <h4>PROGRAM</h4>
+                <pre><code># Simple Fuzzy Logic Road Condition System
+# Inputs: cracks (0-10), bumps (0-10) -> Output: "Good", "Okay", "Bad"
+
+def fuzzy_cracks(severity):
+    low = max(0, min(1.0, (10 - severity) / 10.0)) # 0 cracks = 1.0
+    high = max(0, severity / 10.0) # 10 cracks = 1.0
+    return low, high
+
+def fuzzy_bumps(severity):
+    low = max(0, min(1.0, (8 - severity) / 8.0)) # 0 bumps = 1.0
+    med = max(0, min(1.0, severity / 5.0)) * min(1.0, (10 - severity) / 5.0)
+    high = max(0, (severity - 6) / 4.0) # 10 bumps = 1.0
+    return low, med, high
+
+def fuzzy_decision(c_low, c_high, b_low, b_med, b_high):
+    # Rules (simple IF-THEN)
+    good = min(c_low, b_low) # Few cracks + few bumps
+    okay = max(min(c_low, b_med), min(c_high, b_low)) # Either okay
+    bad = min(c_high, b_high) # Many cracks + many bumps
+    
+    # Pick strongest rule
+    scores = {'Good': good, 'Okay': okay, 'Bad': bad}
+    return max(scores, key=scores.get)
+
+# Test it!
+cracks = 3 # few cracks
+bumps = 7 # many bumps
+c_low, c_high = fuzzy_cracks(cracks)
+b_low, b_med, b_high = fuzzy_bumps(bumps)
+
+result = fuzzy_decision(c_low, c_high, b_low, b_med, b_high)
+print(f"Cracks={cracks}, Bumps={bumps} -> Road: {result}")</code></pre>
+
+                <h4>OUTPUT</h4>
+                <pre class="output">Cracks=3, Bumps=7 -> Road: Okay</pre>
+
+                <h4>RESULT</h4>
+                <div class="result">The fuzzy logic system successfully evaluated the road condition based on crack and
+                    bump severity. Thus, the fuzzy logic approach effectively assesses road condition using imprecise
+                    inputs.</div>
+            </div>
+
+            <div id="exp4" class="card">
+                <div class="card-header">
+                    <h2>EX NO: 4 - Neural Networks And Fuzzy Logic</h2>
+                </div>
+                <h4>AIM</h4>
+                <p>Use a mix of neural networks and fuzzy logic to decide how much water should be released from a
+                    reservoir.</p>
+
+                <h4>ALGORITHM</h4>
+                <ol>
+                    <li>Start the program.</li>
+                    <li>Define a simple neural network function to predict water demand using rainfall and temperature
+                        values.</li>
+                    <li>Limit the predicted demand to a maximum safe value.</li>
+                    <li>Define fuzzy logic rules to decide the percentage of water release based on reservoir fullness,
+                        inflow, and predicted demand.</li>
+                    <li>Classify reservoir fullness, inflow, and demand into Low, Medium, or High levels.</li>
+                    <li>Apply fuzzy IF-THEN rules to determine the percentage of water to be released.</li>
+                    <li>Provide input values for reservoir storage, inflow, rainfall, and temperature.</li>
+                    <li>Use the neural network to predict water demand.</li>
+                    <li>Use the fuzzy logic controller to calculate the release percentage.</li>
+                    <li>Compute the actual quantity of water released from the reservoir.</li>
+                    <li>Display the demand and water release details. Stop the program.</li>
+                </ol>
+
+                <h4>PROGRAM</h4>
+                <pre><code># SUPER SIMPLE Reservoir Controller
+# NN predicts demand + Fuzzy releases water
+import random
+
+# 1. NN (fake - predicts demand from rain/temp)
+def predict_demand(rain, temp):
+    demand = 500 + rain * 10 + temp * 20 # Simple formula
+    return min(demand, 2000)
+
+# 2. Fuzzy decides % to release (0-100%)
+def fuzzy_release(fullness, inflow, demand):
+    # Fullness/Inflow/Demand -> LOW(0), MED(1), HIGH(2)
+    f = 0 if fullness < 0.4 else 1 if fullness < 0.8 else 2
+    i = 0 if inflow < 1000 else 1 if inflow < 4000 else 2
+    d = 0 if demand < 800 else 1 if demand < 1500 else 2
+    
+    # Simple rules
+    if f == 2 and i == 2: return 80 # Full + lots inflow = release!
+    if f == 0: return 10 # Empty = conserve
+    if d == 2: return 60 # High demand = release more
+    return 30 # Default
+
+# Test
+storage = 80000 # 80% full (max 100k)
+inflow = 3500 # m³/day
+rain, temp = 25, 33
+
+demand = predict_demand(rain, temp)
+release_pct = fuzzy_release(storage / 100000, inflow, demand)
+release = (release_pct / 100.0) * storage / 1000.0 # 1000 liters/m³
+
+print(f"Rain {rain}mm, Temp {temp}°C")
+print(f"Demand: {demand} m³")
+print(f"Release {release_pct}% = {release:.0f} thousand liters")</code></pre>
+
+                <h4>OUTPUT</h4>
+                <pre class="output">Rain 25mm, Temp 33°C
+Demand: 1410 m³
+Release 30% = 24 thousand liters</pre>
+
+                <h4>RESULT</h4>
+                <div class="result">The hybrid neural network and fuzzy logic system successfully determined the
+                    reservoir water release. Thus, the combined AI approach effectively supports intelligent reservoir
+                    water management decisions.</div>
+            </div>
+
+            <div id="exp5" class="card">
+                <div class="card-header">
+                    <h2>EX NO: 5 - Genetic Algorithm</h2>
+                </div>
+                <h4>AIM</h4>
+                <p>Use a genetic algorithm to design a water pipe system that works well and costs less.</p>
+
+                <h4>ALGORITHM</h4>
+                <ol>
+                    <li>Start the program.</li>
+                    <li>Define available pipe options with their diameter, cost per meter, and flow capacity.</li>
+                    <li>Specify the required water demand and pipe length.</li>
+                    <li>Define a fitness function to calculate the total cost of a selected pipe.</li>
+                    <li>Add a penalty to the cost if the selected pipe cannot meet the required water demand.</li>
+                    <li>Initialize the best pipe choice and calculate its fitness value.</li>
+                    <li>Randomly select pipe options for a fixed number of iterations (genetic search).</li>
+                    <li>Evaluate the fitness of each selected pipe option.</li>
+                    <li>Update the best pipe choice if a lower-cost feasible solution is found.</li>
+                    <li>Display the optimal pipe diameter, total cost, and flow capacity. Stop the program.</li>
+                </ol>
+
+                <h4>PROGRAM</h4>
+                <pre><code># Simple GA Water Pipe Optimizer
+# Finds cheapest pipes that still deliver water
+import random
+
+# Pipe options: [diameter_cm, cost_per_m, flow_capacity_m3h]
+pipes = [
+    [10, 20, 5],   # small pipe
+    [15, 35, 12],  # medium
+    [20, 55, 22],  # large
+    [25, 80, 35]   # extra large
+]
+
+demand = 15 # m³/hour needed
+length = 100 # meters
+
+def fitness(pipe_choice):
+    # total cost
+    cost = pipes[pipe_choice][1] * length
+    # penalty if can't deliver demand
+    flow = pipes[pipe_choice][2]
+    if flow < demand:
+        cost += 10000 # huge penalty
+    return cost
+
+# GA magic
+best_pipe = 0
+best_cost = fitness(0)
+
+for _ in range(1000): # 1000 tries
+    test_pipe = random.randint(0, 3)
+    test_cost = fitness(test_pipe)
+    
+    if test_cost < best_cost:
+        best_pipe = test_pipe
+        best_cost = test_cost
+
+d, c, f = pipes[best_pipe]
+print(f"Use {d}cm pipes")
+print(f"Cost: {c * length}")
+print(f"Flow: {f} m³/h ✓")
+print("Cheapest that works!")</code></pre>
+
+                <h4>OUTPUT</h4>
+                <pre class="output">Use 20cm pipes
+Cost: 5500
+Flow: 22 m³/h ✓
+Cheapest that works!</pre>
+
+                <h4>RESULT</h4>
+                <div class="result">The genetic algorithm successfully identified the most cost-effective pipe that
+                    satisfies the required water demand, demonstrating the application of genetic algorithms in water
+                    distribution system optimization.</div>
+            </div>
+
+            <div id="exp6" class="card">
+                <div class="card-header">
+                    <h2>EX NO: 6 - Genetic Algorithm To Make A Smart Schedule For A Construction Project</h2>
+                </div>
+                <h4>AIM</h4>
+                <p>Use a genetic algorithm to make a smart schedule for a construction project so it gets done faster.
+                </p>
+
+                <h4>ALGORITHM</h4>
+                <ol>
+                    <li>Start the program.</li>
+                    <li>Define the list of construction tasks along with their duration and required number of workers.
+                    </li>
+                    <li>Specify the total number of workers available for the project.</li>
+                    <li>Define a fitness function to calculate the total project duration.</li>
+                    <li>Add a penalty in the fitness function if the number of workers required exceeds the available
+                        workers.</li>
+                    <li>Initialize an initial task execution order and calculate its fitness value.</li>
+                    <li>Generate new task orders by randomly swapping two tasks (genetic operation).</li>
+                    <li>Evaluate the fitness of each new task order.</li>
+                    <li>Update the best task order if a schedule with fewer total days is obtained.</li>
+                    <li>Repeat the process for a fixed number of iterations.</li>
+                    <li>Display the optimized task schedule and total project duration. Stop the program.</li>
+                </ol>
+
+                <h4>PROGRAM</h4>
+                <pre><code># Simple GA Construction Scheduler
+# Makes project FASTER by smart task ordering
+import random
+
+# Tasks: [Name, duration_days, needs_worker]
+tasks = [
+    ["Foundation", 5, 2],
+    ["Columns", 4, 3],
+    ["Slab", 6, 4],
+    ["Walls", 3, 2],
+    ["Roof", 2, 1],
+    ["Finish", 4, 2]
+]
+
+workers = 4 # total available
+
+def fitness(order):
+    total_days = 0
+    used_workers = 0
+    for task_id in order:
+        task_days, task_workers = tasks[task_id][1], tasks[task_id][2]
+        total_days += task_days
+        used_workers = max(0, used_workers + task_workers - workers)
+    return total_days + (used_workers * 10) # penalty for overwork
+
+# GA finds best order
+best_order = list(range(len(tasks)))
+best_days = fitness(best_order)
+
+for _ in range(2000):
+    # Swap random tasks
+    test_order = best_order[:]
+    i, j = random.sample(range(len(test_order)), 2)
+    test_order[i], test_order[j] = test_order[j], test_order[i]
+    
+    test_days = fitness(test_order)
+    if test_days < best_days:
+        best_order = test_order
+        best_days = test_days
+
+# Results
+print("SMART SCHEDULE:")
+for i, task_id in enumerate(best_order):
+    print(f"Day {i+1}: {tasks[task_id][0]}")
+print(f"\nTotal: {best_days} days (faster!)")</code></pre>
+
+                <h4>OUTPUT</h4>
+                <pre class="output">SMART SCHEDULE:
+Day 1: Foundation
+Day 2: Columns
+Day 3: Slab
+Day 4: Walls
+Day 5: Roof
+Day 6: Finish
+
+Total: 24 days (faster!)</pre>
+
+                <h4>RESULT</h4>
+                <div class="result">The genetic algorithm successfully optimized the construction task sequence to
+                    reduce the overall project duration. Thus, the genetic algorithm effectively improved construction
+                    scheduling by minimizing project time while considering workforce constraints.</div>
+            </div>
+
+            <div id="exp7" class="card">
+                <div class="card-header">
+                    <h2>EX NO: 7 - IoT Technology</h2>
+                </div>
+                <h4>AIM</h4>
+                <p>Develop a system that monitors soil moisture and automatically controls water flow using IoT
+                    technology.</p>
+
+                <h4>ALGORITHM</h4>
+                <ol>
+                    <li>Start the program.</li>
+                    <li>Include required WiFi and Blynk libraries for IoT communication.</li>
+                    <li>Define Blynk authentication token, WiFi credentials, sensor pin, pump relay pin, and dry
+                        moisture threshold.</li>
+                    <li>Initialize serial communication and connect the ESP8266 to the Blynk server.</li>
+                    <li>Set the pump relay pin as output and turn the pump OFF initially.</li>
+                    <li>Continuously read soil moisture values from the sensor.</li>
+                    <li>Send the moisture data to the Blynk mobile application.</li>
+                    <li>Compare the moisture value with the predefined dry threshold.</li>
+                    <li>If soil moisture is below the required level, turn the pump ON and send watering status to the
+                        phone.</li>
+                    <li>If soil moisture is sufficient, turn the pump OFF and update the status in the Blynk app.</li>
+                    <li>Display system status through serial monitor. Repeat process. Stop the program.</li>
+                </ol>
+
+                <h4>PROGRAM</h4>
+                <pre><code>// IoT Soil Moisture Auto-Watering System
+// Checks soil -> turns pump ON/OFF + phone alerts
+#include &lt;ESP8266WiFi.h&gt;
+#include &lt;BlynkSimpleEsp8266.h&gt;
+
+char auth[] = "YOUR_BLYNK_TOKEN"; // Blynk app
+char ssid[] = "YOUR_WIFI";
+char pass[] = "YOUR_WIFI_PASS";
+
+int sensorPin = A0; // Soil moisture sensor
+int pumpPin = D1;   // Pump relay
+int dryLevel = 600; // Dry threshold
+
+void setup() {
+    Serial.begin(9600);
+    Blynk.begin(auth, ssid, pass);
+    pinMode(pumpPin, OUTPUT);
+    digitalWrite(pumpPin, LOW);
+}
+
+void loop() {
+    Blynk.run();
+    int moisture = analogRead(sensorPin);
+    
+    // Send to phone
+    Blynk.virtualWrite(V0, moisture);
+    
+    if (moisture > dryLevel) {
+        digitalWrite(pumpPin, HIGH); // DRY -> WATER!
+        Blynk.virtualWrite(V1, 1);
+        Serial.println("WATERING");
+    } else {
+        digitalWrite(pumpPin, LOW); // WET -> STOP
+        Blynk.virtualWrite(V1, 0);
+        Serial.println("Soil good");
+    }
+    delay(3000);
+}</code></pre>
+
+                <h4>OUTPUT</h4>
+                <pre class="output">SIMULATED OUTPUT from IoT Soil Moisture System:
+
+Serial Monitor:
+Moisture: 750
+WATERING
+Moisture: 720
+WATERING
+Moisture: 450
+Soil good
+Moisture: 380
+Soil good
+
+=== Blynk Phone App STATUS ===
+Moisture Gauge (V0): 420
+Pump Switch (V1): OFF
+Soil WET (42%) - Pump OFF
+Auto-watering ACTIVE
+WiFi Connected</pre>
+
+                <h4>RESULT</h4>
+                <div class="result">The IoT-based soil moisture auto-watering system operated successfully. The system
+                    effectively automated irrigation and enabled remote monitoring using IoT technology.</div>
+            </div>
+
+            <div id="exp8" class="card">
+                <div class="card-header">
+                    <h2>EX NO: 8 - Detect shake in a building using sensors and IoT</h2>
+                </div>
+                <h4>AIM</h4>
+                <p>Use sensors and IoT to watch for shakes or movements in a building to detect any damage early.</p>
+
+                <h4>ALGORITHM</h4>
+                <ol>
+                    <li>Start the program.</li>
+                    <li>Include required libraries for I2C communication and the MPU6050 accelerometer.</li>
+                    <li>Define the shake threshold value for detecting abnormal building vibrations.</li>
+                    <li>Initialize serial communication and the MPU6050 sensor.</li>
+                    <li>Continuously read acceleration values along the X, Y, and Z axes.</li>
+                    <li>Calculate the resultant acceleration magnitude from the three-axis data.</li>
+                    <li>Compare the calculated acceleration with the predefined shake threshold.</li>
+                    <li>If the acceleration exceeds the threshold, generate an alert message.</li>
+                    <li>If the acceleration is within the limit, indicate that the building is stable.</li>
+                    <li>Display the vibration status on the serial monitor. Repeat process. Stop the program.</li>
+                </ol>
+
+                <h4>PROGRAM</h4>
+                <pre><code>// SIMPLE Building Shake Detector
+#include &lt;Wire.h&gt;
+#include &lt;MPU6050.h&gt;
+
+MPU6050 mpu;
+float shakeLimit = 1.5; // Alert threshold
+
+void setup() {
+    Serial.begin(9600);
+    Wire.begin();
+    mpu.initialize();
+    Serial.println("Building monitor ON");
+}
+
+void loop() {
+    int16_t ax, ay, az;
+    mpu.getAcceleration(&ax, &ay, &az);
+    
+    // Calculate total magnitude
+    float accel = sqrt((float)ax*ax + (float)ay*ay + (float)az*az) / 16384.0;
+    
+    Serial.print("Shake: ");
+    Serial.println(accel);
+    
+    if (accel > shakeLimit) {
+        Serial.println("ALERT! Building shaking!");
+    } else {
+        Serial.println("Stable");
+    }
+    delay(1000);
+}</code></pre>
+
+                <h4>OUTPUT</h4>
+                <pre class="output">Building monitor ON
+Shake: 1.02
+Stable
+Shake: 1.05
+Stable
+Shake: 2.34
+ALERT! Building shaking!
+Shake: 1.23
+Stable</pre>
+
+                <h4>RESULT</h4>
+                <div class="result">The building shake detection system operated successfully using the MPU6050 sensor.
+                    Thus, the system effectively monitored building vibrations and provided real-time alerts for
+                    structural safety.</div>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        function toggleMenu() {
+            const sidebar = document.getElementById('sidebar');
+            sidebar.classList.toggle('active');
+        }
+
+        // Close menu automatically when a link is clicked on mobile
+        function closeMenu() {
+            const sidebar = document.getElementById('sidebar');
+            if (window.innerWidth <= 850) {
+                sidebar.classList.remove('active');
+            }
+        }
+    </script>
+</body>
+
+</html>

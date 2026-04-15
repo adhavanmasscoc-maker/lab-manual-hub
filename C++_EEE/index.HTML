@@ -1,0 +1,1476 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>C++ Data Structures Lab Manual</title>
+    <style>
+        /* CSS Reset & Anti-Scroll Full View Setup */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f1f5f9;
+            color: #334155;
+            height: 100vh;
+            /* Locks body height */
+            width: 100vw;
+            overflow: hidden;
+            /* Anti-scroll at the body level */
+            display: flex;
+            flex-direction: row;
+        }
+
+        /* Top Mobile Bar (Hidden on Desktop) */
+        .mobile-top-bar {
+            display: none;
+            background-color: #0f172a;
+            color: white;
+            padding: 15px 20px;
+            align-items: center;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+        }
+
+        .menu-btn {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 24px;
+            cursor: pointer;
+            margin-right: 15px;
+        }
+
+        .mobile-top-bar h2 {
+            font-size: 18px;
+            margin: 0;
+        }
+
+        /* Sidebar Navigation */
+        .sidebar {
+            width: 300px;
+            background-color: #1e293b;
+            color: #fff;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            flex-shrink: 0;
+            z-index: 999;
+            transition: transform 0.3s ease;
+        }
+
+        .sidebar-header {
+            padding: 20px;
+            background-color: #0f172a;
+            border-bottom: 2px solid #0284c7;
+        }
+
+        .sidebar-header h3 {
+            font-size: 1.2rem;
+            color: #38bdf8;
+            margin: 0;
+        }
+
+        .nav-links {
+            flex-grow: 1;
+            overflow-y: auto;
+            /* Independent scrolling for menu */
+            padding-bottom: 20px;
+        }
+
+        .nav-links::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .nav-links::-webkit-scrollbar-thumb {
+            background: #475569;
+            border-radius: 4px;
+        }
+
+        .nav-links a {
+            display: block;
+            color: #cbd5e1;
+            text-decoration: none;
+            padding: 12px 20px;
+            font-size: 14px;
+            border-bottom: 1px solid #334155;
+            transition: all 0.2s;
+        }
+
+        .nav-links a:hover {
+            background-color: #0284c7;
+            color: #fff;
+            padding-left: 25px;
+            /* Slight indent effect on hover */
+        }
+
+        /* Main Content Container */
+        .main-content {
+            flex-grow: 1;
+            height: 100%;
+            overflow-y: auto;
+            /* Independent scrolling for content */
+            padding: 30px 40px;
+            scroll-behavior: smooth;
+        }
+
+        .main-content::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .main-content::-webkit-scrollbar-thumb {
+            background: #94a3b8;
+            border-radius: 4px;
+        }
+
+        .content-wrapper {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        /* Header Details */
+        .header-card {
+            background-color: #fff;
+            padding: 25px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            text-align: center;
+            margin-bottom: 30px;
+            border-top: 5px solid #0284c7;
+        }
+
+        .header-card h1 {
+            color: #0f172a;
+            font-size: 24px;
+            margin-bottom: 5px;
+        }
+
+        .header-card p {
+            color: #64748b;
+            font-weight: bold;
+        }
+
+        /* Experiment Cards */
+        .card {
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+            margin-bottom: 40px;
+            border-left: 5px solid #0284c7;
+        }
+
+        .card-header {
+            border-bottom: 2px solid #e2e8f0;
+            padding-bottom: 15px;
+            margin-bottom: 20px;
+        }
+
+        .card-header h2 {
+            font-size: 22px;
+            color: #0f172a;
+        }
+
+        h4 {
+            font-size: 16px;
+            color: #0284c7;
+            margin: 25px 0 10px 0;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        p,
+        ol {
+            color: #334155;
+            line-height: 1.7;
+        }
+
+        ol {
+            padding-left: 20px;
+        }
+
+        li {
+            margin-bottom: 5px;
+        }
+
+        /* Code and Output Blocks */
+        pre {
+            background-color: #1e293b;
+            color: #f8fafc;
+            border-radius: 6px;
+            padding: 15px;
+            overflow-x: auto;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 14px;
+            margin-top: 10px;
+        }
+
+        .output {
+            background-color: #f0fdf4;
+            color: #166534;
+            border: 1px solid #bbf7d0;
+            border-left: 5px solid #22c55e;
+            font-weight: bold;
+        }
+
+        .result {
+            background-color: #eff6ff;
+            border: 1px solid #bfdbfe;
+            border-left: 5px solid #3b82f6;
+            padding: 15px;
+            border-radius: 4px;
+            font-weight: bold;
+            color: #1e3a8a;
+            margin-top: 15px;
+        }
+
+        /* Mobile Viewport Adaptations */
+        @media screen and (max-width: 850px) {
+            body {
+                flex-direction: column;
+            }
+
+            .mobile-top-bar {
+                display: flex;
+            }
+
+            .sidebar {
+                position: fixed;
+                top: 60px;
+                /* Height of mobile top bar */
+                left: 0;
+                height: calc(100vh - 60px);
+                transform: translateX(-100%);
+                /* Hidden by default on mobile */
+                width: 280px;
+                box-shadow: 2px 0 10px rgba(0, 0, 0, 0.2);
+            }
+
+            .sidebar.active {
+                transform: translateX(0);
+                /* Slide in */
+            }
+
+            .main-content {
+                height: calc(100vh - 60px);
+                padding: 15px;
+            }
+
+            .card {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="mobile-top-bar">
+        <button class="menu-btn" onclick="toggleMenu()">☰</button>
+        <h2>Menu</h2>
+    </div>
+
+    <div class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <h3>Lab Experiments</h3>
+        </div>
+        <div class="nav-links">
+            <a href="#exp1" onclick="closeMenu()">1. Singly Linked List ADT</a>
+            <a href="#exp2" onclick="closeMenu()">2. Doubly Linked List ADT</a>
+            <a href="#exp3" onclick="closeMenu()">3. Circular Linked List ADT</a>
+            <a href="#exp4" onclick="closeMenu()">4. Polynomial Subtraction</a>
+            <a href="#exp5" onclick="closeMenu()">5. Queue via Linked List</a>
+            <a href="#exp6" onclick="closeMenu()">6. Circular Queue via LL</a>
+            <a href="#exp7" onclick="closeMenu()">7. Deque via Doubly LL</a>
+            <a href="#exp8" onclick="closeMenu()">8. Balanced Parentheses</a>
+            <a href="#exp9" onclick="closeMenu()">9. Copy Const. & Overload</a>
+            <a href="#exp10" onclick="closeMenu()">10. Inheritance & Polymorph</a>
+            <a href="#exp11" onclick="closeMenu()">11. Infix to Postfix</a>
+            <a href="#exp12" onclick="closeMenu()">12. Binary Search Tree</a>
+            <a href="#exp13" onclick="closeMenu()">13. B-Tree Search</a>
+            <a href="#exp14" onclick="closeMenu()">14. Max-Heap Operations</a>
+            <a href="#exp15" onclick="closeMenu()">15. AVL Tree Insertion</a>
+            <a href="#exp16" onclick="closeMenu()">16. Hierarchical & Runtime</a>
+            <a href="#exp17" onclick="closeMenu()">17. Default Args Ambiguity</a>
+        </div>
+    </div>
+
+    <div class="main-content" id="main-content">
+        <div class="content-wrapper">
+
+            <div class="header-card">
+                <h1>C++ PROGRAMMING AND DATA STRUCTURES LAB</h1>
+                <p>EEE STUDENTS REG NO: 34 - 65</p>
+            </div>
+
+            <div id="exp1" class="card">
+                <div class="card-header">
+                    <h2>EX NO: 1 - Implement Single Linked List ADT Operations</h2>
+                </div>
+                <h4>Aim</h4>
+                <p>To write a C++ program to implement Singly Linked List ADT operations (Insertion, Deletion, and
+                    Display).</p>
+
+                <h4>Algorithm</h4>
+                <ol>
+                    <li>Define a Node structure with data and a pointer to the next node.</li>
+                    <li>Initialize the head pointer to NULL.</li>
+                    <li><strong>Insertion:</strong> Create a new node. If the list is empty, make it the head.
+                        Otherwise, traverse to the end and link the new node.</li>
+                    <li><strong>Display:</strong> Traverse from the head to NULL, printing the data of each node.</li>
+                </ol>
+
+                <h4>Program (C++)</h4>
+                <pre><code>#include &lt;iostream&gt;
+using namespace std;
+
+struct Node {
+    int data;
+    Node* next;
+};
+
+class SinglyLinkedList {
+    Node* head;
+public:
+    SinglyLinkedList() { head = NULL; }
+    
+    void insert(int val) {
+        Node* newNode = new Node();
+        newNode-&gt;data = val;
+        newNode-&gt;next = NULL;
+        if (head == NULL) {
+            head = newNode;
+        } else {
+            Node* temp = head;
+            while (temp-&gt;next != NULL) {
+                temp = temp-&gt;next;
+            }
+            temp-&gt;next = newNode;
+        }
+    }
+    
+    void display() {
+        Node* temp = head;
+        while (temp != NULL) {
+            cout &lt;&lt; temp-&gt;data &lt;&lt; " -&gt; ";
+            temp = temp-&gt;next;
+        }
+        cout &lt;&lt; "NULL\n";
+    }
+};
+
+int main() {
+    SinglyLinkedList list;
+    list.insert(10);
+    list.insert(20);
+    list.insert(30);
+    cout &lt;&lt; "Singly Linked List: ";
+    list.display();
+    return 0;
+}</code></pre>
+
+                <h4>Output</h4>
+                <pre class="output">Singly Linked List: 10 -&gt; 20 -&gt; 30 -&gt; NULL</pre>
+
+                <h4>Result</h4>
+                <div class="result">Thus, the program to implement Single Linked List ADT was executed successfully and
+                    output verified.</div>
+            </div>
+
+            <div id="exp2" class="card">
+                <div class="card-header">
+                    <h2>EX NO: 2 - Implement Doubly Linked List ADT Operations</h2>
+                </div>
+                <h4>Aim</h4>
+                <p>To write a C++ program to implement Doubly Linked List ADT operations.</p>
+
+                <h4>Algorithm</h4>
+                <ol>
+                    <li>Define a Node structure with data, a next pointer, and a prev pointer.</li>
+                    <li><strong>Insertion:</strong> Create a new node. If empty, make it head. Otherwise, link the last
+                        node's next to it, and its prev to the last node.</li>
+                    <li><strong>Display:</strong> Traverse from head using the next pointer.</li>
+                </ol>
+
+                <h4>Program (C++)</h4>
+                <pre><code>#include &lt;iostream&gt;
+using namespace std;
+
+struct Node {
+    int data;
+    Node* next;
+    Node* prev;
+};
+
+class DoublyLinkedList {
+    Node* head;
+public:
+    DoublyLinkedList() { head = NULL; }
+    
+    void insert(int val) {
+        Node* newNode = new Node();
+        newNode-&gt;data = val;
+        newNode-&gt;next = NULL;
+        if (head == NULL) {
+            newNode-&gt;prev = NULL;
+            head = newNode;
+        } else {
+            Node* temp = head;
+            while (temp-&gt;next != NULL) temp = temp-&gt;next;
+            temp-&gt;next = newNode;
+            newNode-&gt;prev = temp;
+        }
+    }
+    
+    void display() {
+        Node* temp = head;
+        while (temp != NULL) {
+            cout &lt;&lt; temp-&gt;data &lt;&lt; " &lt;-&gt; ";
+            temp = temp-&gt;next;
+        }
+        cout &lt;&lt; "NULL\n";
+    }
+};
+
+int main() {
+    DoublyLinkedList dll;
+    dll.insert(5);
+    dll.insert(15);
+    dll.insert(25);
+    cout &lt;&lt; "Doubly Linked List: ";
+    dll.display();
+    return 0;
+}</code></pre>
+
+                <h4>Output</h4>
+                <pre class="output">Doubly Linked List: 5 &lt;-&gt; 15 &lt;-&gt; 25 &lt;-&gt; NULL</pre>
+
+                <h4>Result</h4>
+                <div class="result">Thus, the program to implement Doubly Linked List ADT was executed successfully and
+                    output verified.</div>
+            </div>
+
+            <div id="exp3" class="card">
+                <div class="card-header">
+                    <h2>EX NO: 3 - Implement Circular Linked List ADT Operations</h2>
+                </div>
+                <h4>Aim</h4>
+                <p>To write a C++ program to implement Circular Linked List ADT operations.</p>
+
+                <h4>Algorithm</h4>
+                <ol>
+                    <li>Define a Node structure with data and next pointer.</li>
+                    <li><strong>Insertion:</strong> Create a new node. If empty, point it to itself. Otherwise, traverse
+                        to the last node, point last-&gt;next to newNode, and newNode-&gt;next to head.</li>
+                    <li><strong>Display:</strong> Start from head and traverse until temp-&gt;next == head.</li>
+                </ol>
+
+                <h4>Program (C++)</h4>
+                <pre><code>#include &lt;iostream&gt;
+using namespace std;
+
+struct Node {
+    int data;
+    Node* next;
+};
+
+class CircularLinkedList {
+    Node* head;
+public:
+    CircularLinkedList() { head = NULL; }
+    
+    void insert(int val) {
+        Node* newNode = new Node();
+        newNode-&gt;data = val;
+        if (head == NULL) {
+            head = newNode;
+            newNode-&gt;next = head;
+        } else {
+            Node* temp = head;
+            while (temp-&gt;next != head) temp = temp-&gt;next;
+            temp-&gt;next = newNode;
+            newNode-&gt;next = head;
+        }
+    }
+    
+    void display() {
+        if (head == NULL) return;
+        Node* temp = head;
+        do {
+            cout &lt;&lt; temp-&gt;data &lt;&lt; " -&gt; ";
+            temp = temp-&gt;next;
+        } while (temp != head);
+        cout &lt;&lt; "(HEAD)\n";
+    }
+};
+
+int main() {
+    CircularLinkedList cll;
+    cll.insert(100);
+    cll.insert(200);
+    cll.insert(300);
+    cout &lt;&lt; "Circular List: ";
+    cll.display();
+    return 0;
+}</code></pre>
+
+                <h4>Output</h4>
+                <pre class="output">Circular List: 100 -&gt; 200 -&gt; 300 -&gt; (HEAD)</pre>
+
+                <h4>Result</h4>
+                <div class="result">Thus, the program to implement Circular Linked List ADT was executed successfully
+                    and output verified.</div>
+            </div>
+
+            <div id="exp4" class="card">
+                <div class="card-header">
+                    <h2>EX NO: 4 - Polynomial Subtraction using Singly Linked List</h2>
+                </div>
+                <h4>Aim</h4>
+                <p>To write a C++ program to perform Polynomial Subtraction using a singly linked list.</p>
+
+                <h4>Algorithm</h4>
+                <ol>
+                    <li>Define a Node with coefficient, power, and next pointer.</li>
+                    <li>Traverse both polynomials simultaneously.</li>
+                    <li>If power of poly1 &gt; poly2, add poly1's term to result and advance poly1.</li>
+                    <li>If power of poly1 &lt; poly2, subtract poly2's term, add to result, and advance poly2.</li>
+                    <li>If powers are equal, subtract coefficients, add to result, and advance both.</li>
+                </ol>
+
+                <h4>Program (C++)</h4>
+                <pre><code>#include &lt;iostream&gt;
+using namespace std;
+
+struct Node {
+    int coeff;
+    int power;
+    Node* next;
+    Node(int c, int p) : coeff(c), power(p), next(NULL) {}
+};
+
+void insertNode(Node*& head, int c, int p) {
+    Node* newNode = new Node(c, p);
+    if (!head) head = newNode;
+    else {
+        Node* temp = head;
+        while (temp-&gt;next) temp = temp-&gt;next;
+        temp-&gt;next = newNode;
+    }
+}
+
+void display(Node* head) {
+    while (head) {
+        cout &lt;&lt; head-&gt;coeff &lt;&lt; "x^" &lt;&lt; head-&gt;power &lt;&lt; (head-&gt;next ? " + " : "");
+        head = head-&gt;next;
+    }
+    cout &lt;&lt; endl;
+}
+
+Node* subtract(Node* p1, Node* p2) {
+    Node* result = NULL;
+    while (p1 && p2) {
+        if (p1-&gt;power &gt; p2-&gt;power) {
+            insertNode(result, p1-&gt;coeff, p1-&gt;power); p1 = p1-&gt;next;
+        } else if (p1-&gt;power &lt; p2-&gt;power) {
+            insertNode(result, -(p2-&gt;coeff), p2-&gt;power); p2 = p2-&gt;next;
+        } else {
+            insertNode(result, p1-&gt;coeff - p2-&gt;coeff, p1-&gt;power);
+            p1 = p1-&gt;next; p2 = p2-&gt;next;
+        }
+    }
+    while (p1) { insertNode(result, p1-&gt;coeff, p1-&gt;power); p1 = p1-&gt;next; }
+    while (p2) { insertNode(result, -(p2-&gt;coeff), p2-&gt;power); p2 = p2-&gt;next; }
+    return result;
+}
+
+int main() {
+    Node *poly1 = NULL, *poly2 = NULL;
+    insertNode(poly1, 5, 2); insertNode(poly1, 4, 1); insertNode(poly1, 2, 0); 
+    insertNode(poly2, 3, 2); insertNode(poly2, 1, 1); 
+    cout &lt;&lt; "Poly 1: "; display(poly1);
+    cout &lt;&lt; "Poly 2: "; display(poly2);
+    cout &lt;&lt; "Result: "; display(subtract(poly1, poly2));
+    return 0;
+}</code></pre>
+
+                <h4>Output</h4>
+                <pre class="output">Poly 1: 5x^2 + 4x^1 + 2x^0
+Poly 2: 3x^2 + 1x^1
+Result: 2x^2 + 3x^1 + 2x^0</pre>
+
+                <h4>Result</h4>
+                <div class="result">Thus, the program for polynomial subtraction was executed successfully and output
+                    verified.</div>
+            </div>
+
+            <div id="exp5" class="card">
+                <div class="card-header">
+                    <h2>EX NO: 5 - Queue Operations using a Linked List</h2>
+                </div>
+                <h4>Aim</h4>
+                <p>To write a C++ program to implement Queue operations (Enqueue, Dequeue) using a linked list.</p>
+
+                <h4>Algorithm</h4>
+                <ol>
+                    <li>Maintain two pointers: <code>front</code> and <code>rear</code>.</li>
+                    <li><strong>Enqueue:</strong> Add a node at the rear end. If empty, both front and rear point to the
+                        new node.</li>
+                    <li><strong>Dequeue:</strong> Remove the node from the front. If front becomes NULL, set rear to
+                        NULL.</li>
+                </ol>
+
+                <h4>Program (C++)</h4>
+                <pre><code>#include &lt;iostream&gt;
+using namespace std;
+
+struct Node {
+    int data;
+    Node* next;
+    Node(int val) : data(val), next(NULL) {}
+};
+
+class Queue {
+    Node *front, *rear;
+public:
+    Queue() { front = rear = NULL; }
+    
+    void enqueue(int val) {
+        Node* temp = new Node(val);
+        if (rear == NULL) {
+            front = rear = temp;
+            return;
+        }
+        rear-&gt;next = temp;
+        rear = temp;
+    }
+    
+    void dequeue() {
+        if (front == NULL) return;
+        Node* temp = front;
+        front = front-&gt;next;
+        if (front == NULL) rear = NULL;
+        cout &lt;&lt; "Dequeued: " &lt;&lt; temp-&gt;data &lt;&lt; endl;
+        delete temp;
+    }
+    
+    void display() {
+        Node* temp = front;
+        while (temp != NULL) {
+            cout &lt;&lt; temp-&gt;data &lt;&lt; " &lt;- ";
+            temp = temp-&gt;next;
+        }
+        cout &lt;&lt; "REAR\n";
+    }
+};
+
+int main() {
+    Queue q;
+    q.enqueue(10);
+    q.enqueue(20);
+    q.enqueue(30);
+    q.display();
+    q.dequeue();
+    q.display();
+    return 0;
+}</code></pre>
+
+                <h4>Output</h4>
+                <pre class="output">10 &lt;- 20 &lt;- 30 &lt;- REAR
+Dequeued: 10
+20 &lt;- 30 &lt;- REAR</pre>
+
+                <h4>Result</h4>
+                <div class="result">Thus, the program to implement queue operations using a linked list was executed
+                    successfully.</div>
+            </div>
+
+            <div id="exp6" class="card">
+                <div class="card-header">
+                    <h2>EX NO: 6 - Circular Queue Operations using a Linked List</h2>
+                </div>
+                <h4>Aim</h4>
+                <p>To write a C++ program to implement Circular Queue operations using a linked list.</p>
+
+                <h4>Algorithm</h4>
+                <ol>
+                    <li>Maintain a <code>rear</code> pointer. The front is always <code>rear-&gt;next</code>.</li>
+                    <li><strong>Enqueue:</strong> Insert after rear. If empty, newNode-&gt;next points to itself. Update
+                        rear.</li>
+                    <li><strong>Dequeue:</strong> Remove node at rear-&gt;next. If it's the only node, set rear to NULL.
+                    </li>
+                </ol>
+
+                <h4>Program (C++)</h4>
+                <pre><code>#include &lt;iostream&gt;
+using namespace std;
+
+struct Node {
+    int data;
+    Node* next;
+};
+
+class CircularQueue {
+    Node* rear;
+public:
+    CircularQueue() { rear = NULL; }
+    
+    void enqueue(int val) {
+        Node* temp = new Node();
+        temp-&gt;data = val;
+        if (rear == NULL) {
+            rear = temp;
+            rear-&gt;next = rear;
+        } else {
+            temp-&gt;next = rear-&gt;next;
+            rear-&gt;next = temp;
+            rear = temp;
+        }
+    }
+    
+    void dequeue() {
+        if (rear == NULL) return;
+        Node* temp = rear-&gt;next;
+        if (rear == rear-&gt;next) {
+            rear = NULL;
+        } else {
+            rear-&gt;next = temp-&gt;next;
+        }
+        cout &lt;&lt; "Dequeued: " &lt;&lt; temp-&gt;data &lt;&lt; endl;
+        delete temp;
+    }
+    
+    void display() {
+        if (rear == NULL) return;
+        Node* temp = rear-&gt;next;
+        do {
+            cout &lt;&lt; temp-&gt;data &lt;&lt; " ";
+            temp = temp-&gt;next;
+        } while (temp != rear-&gt;next);
+        cout &lt;&lt; "(Circular)\n";
+    }
+};
+
+int main() {
+    CircularQueue cq;
+    cq.enqueue(11);
+    cq.enqueue(22);
+    cq.display();
+    cq.dequeue();
+    cq.display();
+    return 0;
+}</code></pre>
+
+                <h4>Output</h4>
+                <pre class="output">11 22 (Circular)
+Dequeued: 11
+22 (Circular)</pre>
+
+                <h4>Result</h4>
+                <div class="result">Thus, the program to implement a circular queue using a linked list was executed
+                    successfully.</div>
+            </div>
+
+            <div id="exp7" class="card">
+                <div class="card-header">
+                    <h2>EX NO: 7 - Deque Operations using a Doubly Linked List</h2>
+                </div>
+                <h4>Aim</h4>
+                <p>To implement Deque (Double Ended Queue) operations using a doubly linked list.</p>
+
+                <h4>Algorithm</h4>
+                <ol>
+                    <li>Use a Doubly Linked List with <code>front</code> and <code>rear</code> pointers.</li>
+                    <li><strong>insertFront:</strong> Add node before the current front.</li>
+                    <li><strong>insertRear:</strong> Add node after the current rear.</li>
+                    <li><strong>deleteFront / deleteRear:</strong> Unlink from front/rear respectively.</li>
+                </ol>
+
+                <h4>Program (C++)</h4>
+                <pre><code>#include &lt;iostream&gt;
+using namespace std;
+
+struct Node {
+    int data;
+    Node *prev, *next;
+    Node(int val) : data(val), prev(NULL), next(NULL) {}
+};
+
+class Deque {
+    Node *front, *rear;
+public:
+    Deque() { front = rear = NULL; }
+    
+    void insertFront(int val) {
+        Node* temp = new Node(val);
+        if (front == NULL) { front = rear = temp; }
+        else { temp-&gt;next = front; front-&gt;prev = temp; front = temp; }
+    }
+    
+    void insertRear(int val) {
+        Node* temp = new Node(val);
+        if (rear == NULL) { front = rear = temp; }
+        else { temp-&gt;prev = rear; rear-&gt;next = temp; rear = temp; }
+    }
+    
+    void display() {
+        Node* temp = front;
+        while (temp != NULL) {
+            cout &lt;&lt; temp-&gt;data &lt;&lt; " ";
+            temp = temp-&gt;next;
+        }
+        cout &lt;&lt; endl;
+    }
+};
+
+int main() {
+    Deque dq;
+    dq.insertRear(10);
+    dq.insertRear(20);
+    dq.insertFront(5);
+    cout &lt;&lt; "Deque: ";
+    dq.display();
+    return 0;
+}</code></pre>
+
+                <h4>Output</h4>
+                <pre class="output">Deque: 5 10 20</pre>
+
+                <h4>Result</h4>
+                <div class="result">Thus, the Deque implementation program was executed successfully.</div>
+            </div>
+
+            <div id="exp8" class="card">
+                <div class="card-header">
+                    <h2>EX NO: 8 - Check Balanced Parentheses using Stack</h2>
+                </div>
+                <h4>Aim</h4>
+                <p>To check if a given expression with parentheses is balanced using a stack.</p>
+
+                <h4>Algorithm</h4>
+                <ol>
+                    <li>Traverse the expression string character by character.</li>
+                    <li>If an opening bracket is found, push to stack.</li>
+                    <li>If a closing bracket is found, pop from stack and check if it matches the bracket type.</li>
+                    <li>If the stack is empty at the end, the expression is balanced.</li>
+                </ol>
+
+                <h4>Program (C++)</h4>
+                <pre><code>#include &lt;iostream&gt;
+#include &lt;stack&gt;
+#include &lt;string&gt;
+using namespace std;
+
+bool isBalanced(string expr) {
+    stack&lt;char&gt; s;
+    for (int i = 0; i &lt; expr.length(); i++) {
+        if (expr[i] == '(' || expr[i] == '{' || expr[i] == '[') {
+            s.push(expr[i]);
+        } else if (expr[i] == ')' || expr[i] == '}' || expr[i] == ']') {
+            if (s.empty()) return false;
+            char top = s.top();
+            s.pop();
+            if ((expr[i] == ')' && top != '(') ||
+                (expr[i] == '}' && top != '{') ||
+                (expr[i] == ']' && top != '[')) {
+                return false;
+            }
+        }
+    }
+    return s.empty();
+}
+
+int main() {
+    string expr = "{[()]}";
+    if (isBalanced(expr))
+        cout &lt;&lt; expr &lt;&lt; " is Balanced\n";
+    else
+        cout &lt;&lt; expr &lt;&lt; " is Not Balanced\n";
+    return 0;
+}</code></pre>
+
+                <h4>Output</h4>
+                <pre class="output">{[()]} is Balanced</pre>
+
+                <h4>Result</h4>
+                <div class="result">Thus, the balanced parentheses check using stack was executed successfully.</div>
+            </div>
+
+            <div id="exp9" class="card">
+                <div class="card-header">
+                    <h2>EX NO: 9 - Copy Constructor & Function Overloading</h2>
+                </div>
+                <h4>Aim</h4>
+                <p>To demonstrate a Copy Constructor for a Person class, and Function Overloading.</p>
+
+                <h4>Algorithm</h4>
+                <ol>
+                    <li><strong>Copy Constructor:</strong> Define a class with parameterized constructor. Pass a
+                        reference to the same class to copy values.</li>
+                    <li><strong>Function Overloading:</strong> Define multiple functions with the same name but
+                        different parameters.</li>
+                </ol>
+
+                <h4>Program (C++)</h4>
+                <pre><code>#include &lt;iostream&gt;
+#include &lt;string&gt;
+using namespace std;
+
+// (i) Copy Constructor
+class Person {
+    string name;
+public:
+    Person(string n) { name = n; }
+    Person(const Person &p) { 
+        name = p.name;
+        cout &lt;&lt; "Copy constructor called for " &lt;&lt; name &lt;&lt; endl;
+    }
+    void display() { cout &lt;&lt; "Name: " &lt;&lt; name &lt;&lt; endl; }
+};
+
+// (ii) Function Overloading
+int add(int a, int b) { return a + b; }
+double add(double a, double b) { return a + b; }
+
+int main() {
+    cout &lt;&lt; "--- Copy Constructor ---\n";
+    Person p1("Alice");
+    Person p2 = p1; 
+    p2.display();
+    
+    cout &lt;&lt; "\n--- Function Overloading ---\n";
+    cout &lt;&lt; "Int add: " &lt;&lt; add(5, 10) &lt;&lt; endl;
+    cout &lt;&lt; "Double add: " &lt;&lt; add(5.5, 2.5) &lt;&lt; endl;
+    return 0;
+}</code></pre>
+                <h4>Output</h4>
+                <pre class="output">--- Copy Constructor ---
+Copy constructor called for Alice
+Name: Alice
+
+--- Function Overloading ---
+Int add: 15
+Double add: 8</pre>
+                <h4>Result</h4>
+                <div class="result">Thus, the copy constructor and function overloading programs were executed
+                    successfully.</div>
+            </div>
+
+            <div id="exp10" class="card">
+                <div class="card-header">
+                    <h2>EX NO: 10 - Inheritance & Polymorphism</h2>
+                </div>
+                <h4>Aim</h4>
+                <p>To demonstrate single inheritance and runtime polymorphism.</p>
+
+                <h4>Algorithm</h4>
+                <ol>
+                    <li><strong>Inheritance:</strong> Base class <code>Shape</code> holds dimensions. Derived class
+                        <code>Triangle</code> uses them.</li>
+                    <li><strong>Polymorphism:</strong> Base class has a virtual function. Derived classes override it.
+                    </li>
+                </ol>
+
+                <h4>Program (C++)</h4>
+                <pre><code>#include &lt;iostream&gt;
+using namespace std;
+
+// (i) Inheritance
+class Shape {
+protected:
+    double base, height;
+public:
+    void setValues(double b, double h) { base = b; height = h; }
+};
+
+class Triangle : public Shape {
+public:
+    double getArea() { return (base * height) / 2; }
+};
+
+// (ii) Polymorphism
+class ShapeBase {
+public:
+    virtual void calculateArea() { cout &lt;&lt; "Base Area" &lt;&lt; endl; }
+};
+
+class Circle : public ShapeBase {
+    float r = 5;
+public:
+    void calculateArea() override { cout &lt;&lt; "Circle Area: " &lt;&lt; 3.14 * r * r &lt;&lt; endl; }
+};
+
+int main() {
+    cout &lt;&lt; "--- Inheritance ---\n";
+    Triangle t;
+    t.setValues(10, 5);
+    cout &lt;&lt; "Triangle Area: " &lt;&lt; t.getArea() &lt;&lt; endl;
+    
+    cout &lt;&lt; "\n--- Polymorphism ---\n";
+    ShapeBase* ptr;
+    Circle c;
+    ptr = &c;
+    ptr-&gt;calculateArea(); 
+    return 0;
+}</code></pre>
+                <h4>Output</h4>
+                <pre class="output">--- Inheritance ---
+Triangle Area: 25
+
+--- Polymorphism ---
+Circle Area: 78.5</pre>
+                <h4>Result</h4>
+                <div class="result">Thus, inheritance and polymorphism concepts were executed successfully.</div>
+            </div>
+
+            <div id="exp11" class="card">
+                <div class="card-header">
+                    <h2>EX NO: 11 - Infix Expression to Postfix Expression</h2>
+                </div>
+                <h4>Aim</h4>
+                <p>To write a C++ program to convert an Infix expression into Postfix using a stack.</p>
+
+                <h4>Algorithm</h4>
+                <ol>
+                    <li>Scan the string from left to right.</li>
+                    <li>If operand, output it. If <code>(</code>, push to stack. If <code>)</code>, pop to output until
+                        <code>(</code>.</li>
+                    <li>If operator, pop from stack to output while precedence of top &gt;= current operator, then push
+                        current operator.</li>
+                </ol>
+
+                <h4>Program (C++)</h4>
+                <pre><code>#include &lt;iostream&gt;
+#include &lt;stack&gt;
+using namespace std;
+
+int prec(char c) {
+    if (c == '^') return 3;
+    else if (c == '/' || c == '*') return 2;
+    else if (c == '+' || c == '-') return 1;
+    return -1;
+}
+
+void infixToPostfix(string s) {
+    stack&lt;char&gt; st;
+    string result;
+    for (int i = 0; i &lt; s.length(); i++) {
+        char c = s[i];
+        if (isalnum(c)) result += c;
+        else if (c == '(') st.push('(');
+        else if (c == ')') {
+            while (st.top() != '(') { result += st.top(); st.pop(); }
+            st.pop();
+        } else {
+            while (!st.empty() && prec(s[i]) &lt;= prec(st.top())) {
+                result += st.top(); st.pop();
+            }
+            st.push(c);
+        }
+    }
+    while (!st.empty()) { result += st.top(); st.pop(); }
+    cout &lt;&lt; "Postfix: " &lt;&lt; result &lt;&lt; endl;
+}
+
+int main() {
+    string exp = "A+B*C";
+    cout &lt;&lt; "Infix: " &lt;&lt; exp &lt;&lt; endl;
+    infixToPostfix(exp);
+    return 0;
+}</code></pre>
+                <h4>Output</h4>
+                <pre class="output">Infix: A+B*C
+Postfix: ABC*+</pre>
+                <h4>Result</h4>
+                <div class="result">Thus, the infix to postfix conversion was executed successfully.</div>
+            </div>
+
+            <div id="exp12" class="card">
+                <div class="card-header">
+                    <h2>EX NO: 12 - Binary Search Tree (BST) Operations</h2>
+                </div>
+                <h4>Aim</h4>
+                <p>To implement operations (Insertion and Inorder traversal) on a Binary Search Tree (BST) of integers.
+                </p>
+
+                <h4>Algorithm</h4>
+                <ol>
+                    <li>Define Node structure with key, left, right.</li>
+                    <li><strong>Insert:</strong> If val &lt; root, recur left. If val &gt; root, recur right.</li>
+                    <li><strong>Inorder:</strong> Traverse left subtree, print root, traverse right subtree.</li>
+                </ol>
+
+                <h4>Program (C++)</h4>
+                <pre><code>#include &lt;iostream&gt;
+using namespace std;
+
+struct Node {
+    int key;
+    Node *left, *right;
+    Node(int item) : key(item), left(NULL), right(NULL) {}
+};
+
+Node* insert(Node* node, int key) {
+    if (node == NULL) return new Node(key);
+    if (key &lt; node-&gt;key) node-&gt;left = insert(node-&gt;left, key);
+    else if (key &gt; node-&gt;key) node-&gt;right = insert(node-&gt;right, key);
+    return node;
+}
+
+void inorder(Node* root) {
+    if (root != NULL) {
+        inorder(root-&gt;left);
+        cout &lt;&lt; root-&gt;key &lt;&lt; " ";
+        inorder(root-&gt;right);
+    }
+}
+
+int main() {
+    Node* root = NULL;
+    root = insert(root, 50);
+    insert(root, 30);
+    insert(root, 20);
+    insert(root, 40);
+    insert(root, 70);
+    cout &lt;&lt; "Inorder traversal of BST: ";
+    inorder(root);
+    return 0;
+}</code></pre>
+                <h4>Output</h4>
+                <pre class="output">Inorder traversal of BST: 20 30 40 50 70</pre>
+                <h4>Result</h4>
+                <div class="result">Thus, the Binary Search Tree operations were executed successfully.</div>
+            </div>
+
+            <div id="exp13" class="card">
+                <div class="card-header">
+                    <h2>EX NO: 13 - Search function for a B-Tree</h2>
+                </div>
+                <h4>Aim</h4>
+                <p>To implement a basic search function for a B-Tree structure.</p>
+
+                <h4>Algorithm</h4>
+                <ol>
+                    <li>Start search at root. Iterate through keys in the current node.</li>
+                    <li>If key matches, return true. If key is smaller, recurse down the corresponding child pointer.
+                    </li>
+                    <li>If leaf node is reached and not found, return false.</li>
+                </ol>
+
+                <h4>Program (C++)</h4>
+                <pre><code>#include &lt;iostream&gt;
+using namespace std;
+
+class BTreeNode {
+public:
+    int *keys; 
+    BTreeNode **C; 
+    int n; 
+    bool leaf; 
+    
+    BTreeNode(int t, bool leaf_val) {
+        keys = new int[2*t-1];
+        C = new BTreeNode*[2*t];
+        n = 0;
+        leaf = leaf_val;
+    }
+    
+    BTreeNode* search(int k) {
+        int i = 0;
+        while (i &lt; n && k &gt; keys[i]) i++;
+        if (keys[i] == k) return this;
+        if (leaf == true) return NULL;
+        return C[i]-&gt;search(k);
+    }
+};
+
+int main() {
+    BTreeNode root(3, true);
+    root.keys[0] = 10; root.keys[1] = 20; root.n = 2;
+    
+    cout &lt;&lt; "Searching for 10 in B-Tree: " &lt;&lt; (root.search(10) ? "Found" : "Not Found") &lt;&lt; endl;
+    cout &lt;&lt; "Searching for 15 in B-Tree: " &lt;&lt; (root.search(15) ? "Found" : "Not Found") &lt;&lt; endl;
+    return 0;
+}</code></pre>
+                <h4>Output</h4>
+                <pre class="output">Searching for 10 in B-Tree: Found
+Searching for 15 in B-Tree: Not Found</pre>
+                <h4>Result</h4>
+                <div class="result">Thus, the B-Tree search function was executed successfully.</div>
+            </div>
+
+            <div id="exp14" class="card">
+                <div class="card-header">
+                    <h2>EX NO: 14 - Max-Heap Data Structure Operations</h2>
+                </div>
+                <h4>Aim</h4>
+                <p>To implement operations (Insertion and Heapify) for a Max-Heap data structure.</p>
+
+                <h4>Algorithm</h4>
+                <ol>
+                    <li>Use an array to store heap elements.</li>
+                    <li><strong>Insert:</strong> Add element at end. Compare with parent and swap if it's greater.
+                        Repeat until root.</li>
+                </ol>
+
+                <h4>Program (C++)</h4>
+                <pre><code>#include &lt;iostream&gt;
+#include &lt;vector&gt;
+using namespace std;
+
+class MaxHeap {
+    vector&lt;int&gt; heap;
+    
+    void heapifyUp(int index) {
+        if (index == 0) return;
+        int parent = (index - 1) / 2;
+        if (heap[parent] &lt; heap[index]) {
+            swap(heap[parent], heap[index]);
+            heapifyUp(parent);
+        }
+    }
+public:
+    void insert(int val) {
+        heap.push_back(val);
+        heapifyUp(heap.size() - 1);
+    }
+    
+    void display() {
+        for (int i = 0; i &lt; heap.size(); i++) cout &lt;&lt; heap[i] &lt;&lt; " ";
+        cout &lt;&lt; endl;
+    }
+};
+
+int main() {
+    MaxHeap h;
+    h.insert(10); h.insert(30); h.insert(20); h.insert(40);
+    cout &lt;&lt; "Max Heap Array: ";
+    h.display();
+    return 0;
+}</code></pre>
+                <h4>Output</h4>
+                <pre class="output">Max Heap Array: 40 30 20 10</pre>
+                <h4>Result</h4>
+                <div class="result">Thus, the Max-Heap data structure operations were executed successfully.</div>
+            </div>
+
+            <div id="exp15" class="card">
+                <div class="card-header">
+                    <h2>EX NO: 15 - AVL Tree Insertion Operation</h2>
+                </div>
+                <h4>Aim</h4>
+                <p>To implement an AVL Tree insertion operation, maintaining balance factors.</p>
+
+                <h4>Algorithm</h4>
+                <ol>
+                    <li>Perform standard BST insertion.</li>
+                    <li>Update the height of the current node.</li>
+                    <li>Get balance factor. If unbalanced, perform Left/Right rotations.</li>
+                </ol>
+
+                <h4>Program (C++)</h4>
+                <pre><code>#include &lt;iostream&gt;
+using namespace std;
+
+struct Node {
+    int key, height;
+    Node *left, *right;
+    Node(int d) : key(d), height(1), left(NULL), right(NULL) {}
+};
+
+int height(Node *N) { return N ? N-&gt;height : 0; }
+int getBalance(Node *N) { return N ? height(N-&gt;left) - height(N-&gt;right) : 0; }
+
+Node *rightRotate(Node *y) {
+    Node *x = y-&gt;left;
+    Node *T2 = x-&gt;right;
+    x-&gt;right = y; y-&gt;left = T2;
+    y-&gt;height = max(height(y-&gt;left), height(y-&gt;right)) + 1;
+    x-&gt;height = max(height(x-&gt;left), height(x-&gt;right)) + 1;
+    return x;
+}
+
+Node *leftRotate(Node *x) {
+    Node *y = x-&gt;right;
+    Node *T2 = y-&gt;left;
+    y-&gt;left = x; x-&gt;right = T2;
+    x-&gt;height = max(height(x-&gt;left), height(x-&gt;right)) + 1;
+    y-&gt;height = max(height(y-&gt;left), height(y-&gt;right)) + 1;
+    return y;
+}
+
+Node* insert(Node* node, int key) {
+    if (node == NULL) return new Node(key);
+    if (key &lt; node-&gt;key) node-&gt;left = insert(node-&gt;left, key);
+    else if (key &gt; node-&gt;key) node-&gt;right = insert(node-&gt;right, key);
+    else return node;
+
+    node-&gt;height = 1 + max(height(node-&gt;left), height(node-&gt;right));
+    int balance = getBalance(node);
+
+    if (balance &gt; 1 && key &lt; node-&gt;left-&gt;key) return rightRotate(node);
+    if (balance &lt; -1 && key &gt; node-&gt;right-&gt;key) return leftRotate(node);
+
+    return node;
+}
+
+void preOrder(Node *root) {
+    if (root != NULL) {
+        cout &lt;&lt; root-&gt;key &lt;&lt; " ";
+        preOrder(root-&gt;left); preOrder(root-&gt;right);
+    }
+}
+
+int main() {
+    Node *root = NULL;
+    root = insert(root, 10); root = insert(root, 20); root = insert(root, 30);
+    cout &lt;&lt; "Preorder of constructed AVL tree: ";
+    preOrder(root);
+    return 0;
+}</code></pre>
+                <h4>Output</h4>
+                <pre class="output">Preorder of constructed AVL tree: 20 10 30</pre>
+                <h4>Result</h4>
+                <div class="result">Thus, the AVL tree insertion with balancing was executed successfully.</div>
+            </div>
+
+            <div id="exp16" class="card">
+                <div class="card-header">
+                    <h2>EX NO: 16 - Hierarchical Inheritance & Runtime Polymorphism</h2>
+                </div>
+                <h4>Aim</h4>
+                <p>To demonstrate hierarchical inheritance and runtime polymorphism.</p>
+
+                <h4>Algorithm</h4>
+                <ol>
+                    <li><strong>Hierarchical:</strong> Create one base class and multiple derived classes inheriting
+                        from the base class.</li>
+                    <li><strong>Runtime Polymorphism:</strong> Use a base pointer pointing to a derived object to call a
+                        virtual function.</li>
+                </ol>
+
+                <h4>Program (C++)</h4>
+                <pre><code>#include &lt;iostream&gt;
+using namespace std;
+
+// (i) Hierarchical Inheritance
+class Animal {
+public:
+    void eat() { cout &lt;&lt; "Animal eats." &lt;&lt; endl; }
+};
+class Dog : public Animal {
+public:
+    void bark() { cout &lt;&lt; "Dog barks." &lt;&lt; endl; }
+};
+class Cat : public Animal {
+public:
+    void meow() { cout &lt;&lt; "Cat meows." &lt;&lt; endl; }
+};
+
+// (ii) Runtime Polymorphism
+class Base {
+public:
+    virtual void show() { cout &lt;&lt; "Base Show" &lt;&lt; endl; }
+};
+class Derived : public Base {
+public:
+    void show() override { cout &lt;&lt; "Derived Show" &lt;&lt; endl; }
+};
+
+int main() {
+    cout &lt;&lt; "--- Hierarchical Inheritance ---\n";
+    Dog d; Cat c;
+    d.eat(); d.bark();
+    c.eat(); c.meow();
+
+    cout &lt;&lt; "\n--- Runtime Polymorphism ---\n";
+    Base* bPtr;
+    Derived dev;
+    bPtr = &dev;
+    bPtr-&gt;show(); 
+
+    return 0;
+}</code></pre>
+                <h4>Output</h4>
+                <pre class="output">--- Hierarchical Inheritance ---
+Animal eats.
+Dog barks.
+Animal eats.
+Cat meows.
+
+--- Runtime Polymorphism ---
+Derived Show</pre>
+                <h4>Result</h4>
+                <div class="result">Thus, hierarchical inheritance and runtime polymorphism were executed successfully.
+                </div>
+            </div>
+
+            <div id="exp17" class="card">
+                <div class="card-header">
+                    <h2>EX NO: 17 - Default Arguments & Compilation Ambiguity</h2>
+                </div>
+                <h4>Aim</h4>
+                <p>To calculateArea() for multiple shapes using default arguments, examine compilation ambiguity, and
+                    present a corrected implementation.</p>
+
+                <h4>Algorithm</h4>
+                <ol>
+                    <li>Demonstrate ambiguity: Overloading functions where default arguments make the compiler unsure
+                        which to call.</li>
+                    <li>Correction: Remove default argument overlap or use explicit signatures.</li>
+                </ol>
+
+                <h4>Program (C++)</h4>
+                <pre><code>#include &lt;iostream&gt;
+using namespace std;
+
+// CORRECTED IMPLEMENTATION: Remove default argument overlap
+int calculateArea(int s) { // Square
+    return s * s; 
+}
+
+int calculateArea(int l, int w) { // Rectangle
+    return l * w; 
+}
+
+int main() {
+    cout &lt;&lt; "--- Area Calculation (Ambiguity Resolved) ---\n";
+    cout &lt;&lt; "Area of Square (side=5): " &lt;&lt; calculateArea(5) &lt;&lt; endl;
+    cout &lt;&lt; "Area of Rectangle (len=5, wid=10): " &lt;&lt; calculateArea(5, 10) &lt;&lt; endl;
+    
+    return 0;
+}</code></pre>
+                <h4>Output</h4>
+                <pre class="output">--- Area Calculation (Ambiguity Resolved) ---
+Area of Square (side=5): 25
+Area of Rectangle (len=5, wid=10): 50</pre>
+                <h4>Result</h4>
+                <div class="result">Thus, the program to evaluate default argument ambiguity and its correction was
+                    executed successfully.</div>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        function toggleMenu() {
+            const sidebar = document.getElementById('sidebar');
+            sidebar.classList.toggle('active');
+        }
+
+        // Close menu automatically when a link is clicked on mobile
+        function closeMenu() {
+            const sidebar = document.getElementById('sidebar');
+            if(window.innerWidth <= 850) {
+                sidebar.classList.remove('active');
+            }
+        }
+    </script>
+</body>
+
+</html>

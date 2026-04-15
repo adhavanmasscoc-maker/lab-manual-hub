@@ -1,0 +1,923 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Operating Systems & Linux Scripting Lab Manual</title>
+    <style>
+        /* CSS Reset & Anti-Scroll Full View Setup */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f8fafc; color: #334155; height: 100vh; width: 100vw; overflow: hidden; display: flex; flex-direction: row; }
+
+        /* Mobile Top Bar */
+        .mobile-top-bar { display: none; background-color: #0f172a; color: white; padding: 15px 20px; align-items: center; box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); z-index: 1000; }
+        .menu-btn { background: none; border: none; color: white; font-size: 24px; cursor: pointer; margin-right: 15px; }
+        .mobile-top-bar h2 { font-size: 18px; margin: 0; font-weight: 600; }
+
+        /* Sidebar */
+        .sidebar { width: 320px; background-color: #1e293b; color: #fff; display: flex; flex-direction: column; height: 100%; flex-shrink: 0; z-index: 999; transition: transform 0.3s ease; }
+        .sidebar-header { padding: 20px; background-color: #0f172a; border-bottom: 3px solid #3b82f6; text-align: center; }
+        .sidebar-header h3 { font-size: 1.1rem; color: #60a5fa; margin: 0; text-transform: uppercase; letter-spacing: 1px; }
+        .nav-links { flex-grow: 1; overflow-y: auto; padding-bottom: 20px; }
+        .nav-links::-webkit-scrollbar { width: 6px; }
+        .nav-links::-webkit-scrollbar-thumb { background: #475569; border-radius: 4px; }
+        .nav-links a { display: block; color: #cbd5e1; text-decoration: none; padding: 14px 20px; font-size: 13px; font-weight: 500; border-bottom: 1px solid #334155; transition: all 0.2s; }
+        .nav-links a:hover { background-color: #3b82f6; color: #fff; padding-left: 25px; }
+
+        /* Main Content */
+        .main-content { flex-grow: 1; height: 100%; overflow-y: auto; padding: 30px 40px; scroll-behavior: smooth; }
+        .main-content::-webkit-scrollbar { width: 8px; }
+        .main-content::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+        .content-wrapper { max-width: 950px; margin: 0 auto; }
+
+        /* Cards & Typography */
+        .header-card { background-color: #fff; padding: 25px; border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); text-align: center; margin-bottom: 30px; border-top: 5px solid #3b82f6; }
+        .header-card h1 { color: #1e293b; font-size: 24px; margin-bottom: 5px; font-weight: 800; }
+        .header-card p { color: #64748b; font-weight: 600; font-size: 14px; }
+        
+        .card { background-color: #fff; padding: 30px; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); margin-bottom: 40px; border-left: 5px solid #3b82f6; }
+        .card-header { border-bottom: 2px solid #e2e8f0; padding-bottom: 15px; margin-bottom: 20px; }
+        .card-header h2 { font-size: 20px; color: #0f172a; margin: 0; font-weight: 700; text-transform: uppercase; }
+        
+        h4 { font-size: 16px; color: #1d4ed8; margin: 25px 0 10px 0; text-transform: uppercase; font-weight: 800; letter-spacing: 0.5px; }
+        p, ol, ul { color: #334155; line-height: 1.7; font-size: 14px; }
+        ol, ul { padding-left: 20px; margin-bottom: 15px; }
+        li { margin-bottom: 8px; }
+        
+        .step-title { font-weight: 700; color: #0f172a; margin-top: 15px; margin-bottom: 5px; display: block; }
+
+        /* Tables */
+        table { width: 100%; border-collapse: collapse; margin-top: 15px; margin-bottom: 15px; font-size: 13px; }
+        th, td { border: 1px solid #cbd5e1; padding: 10px; text-align: left; }
+        th { background-color: #f8fafc; color: #0f172a; font-weight: 700; }
+
+        /* Code & Results */
+        pre { background-color: #0f172a; color: #f8fafc; border-radius: 6px; padding: 15px; overflow-x: auto; font-family: 'Consolas', monospace; font-size: 13px; margin-top: 8px; margin-bottom: 15px; line-height: 1.5; border: 1px solid #1e293b; }
+        .output { background-color: #f0fdf4; color: #166534; border: 1px solid #bbf7d0; border-left: 5px solid #22c55e; font-weight: 700; }
+        .result { background-color: #eff6ff; border: 1px solid #bfdbfe; border-left: 5px solid #3b82f6; padding: 15px; border-radius: 4px; font-weight: 600; color: #1e40af; margin-top: 20px; font-size: 14px; }
+
+        /* Mobile Adjustments */
+        @media screen and (max-width: 800px) {
+            body { flex-direction: column; }
+            .mobile-top-bar { display: flex; }
+            .sidebar { position: fixed; top: 54px; left: 0; height: calc(100vh - 54px); transform: translateX(-100%); width: 280px; box-shadow: 2px 0 10px rgba(0, 0, 0, 0.2); }
+            .sidebar.active { transform: translateX(0); }
+            .main-content { height: calc(100vh - 54px); padding: 15px; }
+            .card { padding: 20px; }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="mobile-top-bar">
+        <button class="menu-btn" onclick="toggleMenu()">☰</button>
+        <h2>Lab Manual</h2>
+    </div>
+
+    <div class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <h3>OSLS Lab Experiments</h3>
+        </div>
+        <div class="nav-links">
+            <a href="#exp1" onclick="closeMenu()">1. Windows 10/11 on VM</a>
+            <a href="#exp2" onclick="closeMenu()">2. User Accounts & Permissions</a>
+            <a href="#exp3" onclick="closeMenu()">3. NTFS Partitions & Permissions</a>
+            <a href="#exp4" onclick="closeMenu()">4. Managing Services</a>
+            <a href="#exp5" onclick="closeMenu()">5. Linux Directories & Commands</a>
+            <a href="#exp6" onclick="closeMenu()">6. File System Navigation</a>
+            <a href="#exp7" onclick="closeMenu()">7. Installing VLSI Tools</a>
+            <a href="#exp8" onclick="closeMenu()">8. Shell Script - IF Statement</a>
+            <a href="#exp9" onclick="closeMenu()">9. Shell Script - WHILE Loop</a>
+            <a href="#exp10" onclick="closeMenu()">10. Shell Script - FOR Loop</a>
+        </div>
+    </div>
+
+    <div class="main-content" id="main-content">
+        <div class="content-wrapper">
+
+            <div class="header-card">
+                <h1>CS5212 - OPERATING SYSTEMS AND LINUX SCRIPTING</h1>
+                <p>DEPARTMENT OF ELECTRONICS & COMMUNICATION ENGINEERING</p>
+                <p>FULL DETAILED PROCEDURE MANUAL</p>
+            </div>
+
+            <div id="exp1" class="card">
+                <div class="card-header">
+                    <h2>EX NO: 1 - INSTALLING WINDOWS 10/11 ON A VIRTUAL MACHINE</h2>
+                </div>
+                <h4>AIM</h4>
+                <p>To install and configure Windows 10 or Windows 11 operating system on a Virtual Machine using Oracle VirtualBox, including setting up virtual hardware, attaching installation media, and creating a local user account.</p>
+
+                <h4>APPARATUS REQUIRED</h4>
+                <table>
+                    <tr><th>S.NO</th><th>COMPONENTS</th><th>QUANTITY</th></tr>
+                    <tr><td>1</td><td>Host Computer</td><td>1</td></tr>
+                    <tr><td>2</td><td>Software Tools</td><td>Windows 10/11 ISO file, Oracle VirtualBox</td></tr>
+                    <tr><td>3</td><td>Peripherals</td><td>Keyboard & Mouse</td></tr>
+                </table>
+
+                <h4>PROCEDURE</h4>
+                
+                <span class="step-title">Step 1: Download Windows ISO File</span>
+                <ol>
+                    <li>Visit Microsoft Software Download or Windows 11 page.</li>
+                    <li>Select edition -> Click Confirm.</li>
+                    <li>Choose language -> Click Confirm.</li>
+                    <li>Download 64-bit ISO file (approx. 5-6 GB).</li>
+                </ol>
+
+                <span class="step-title">Step 2: Install and Launch VirtualBox</span>
+                <ol>
+                    <li>Download and install VirtualBox.</li>
+                    <li>Open VirtualBox.</li>
+                </ol>
+
+                <span class="step-title">Step 3: Create a New Virtual Machine</span>
+                <ol>
+                    <li>Click "New" on the toolbar.</li>
+                    <li>Enter details:
+                        <ul>
+                            <li>Name: Windows10_VM</li>
+                            <li>Machine Folder: Default (or choose your custom folder)</li>
+                            <li>Type: Microsoft Windows</li>
+                            <li>Version: Windows 10 (64-bit) or Windows 11 (64-bit)</li>
+                        </ul>
+                    </li>
+                    <li>Click Next.</li>
+                </ol>
+
+                <span class="step-title">Step 4: Allocate Memory (RAM)</span>
+                <ol>
+                    <li>Set RAM size to at least 4096 MB (4GB) or more.</li>
+                    <li>Click Next.</li>
+                </ol>
+
+                <span class="step-title">Step 5: Create a Virtual Hard Disk</span>
+                <ol>
+                    <li>Choose "Create a virtual hard disk now" -> Click Create.</li>
+                    <li>Choose VDI (VirtualBox Disk Image) -> Click Next.</li>
+                    <li>Choose Dynamically allocated -> Click Next.</li>
+                    <li>Set size to at least 50 GB -> Click Create.</li>
+                </ol>
+
+                <span class="step-title">Step 6: Attach Windows ISO to Virtual Machine</span>
+                <ol>
+                    <li>Select the created VM -> Click Settings.</li>
+                    <li>Go to Storage tab.</li>
+                    <li>Under Controller: IDE, click the Empty disk icon.</li>
+                    <li>On the right side, click the disk icon -> Choose a disk file.</li>
+                    <li>Browse and select the downloaded Windows ISO file.</li>
+                    <li>Click OK to save settings.</li>
+                </ol>
+
+                <span class="step-title">Step 7: Start the VM</span>
+                <ol>
+                    <li>Select Windows10_VM -> Click Start.</li>
+                    <li>VM will boot from ISO and load the Windows installer.</li>
+                </ol>
+
+                <span class="step-title">Step 8: Begin Installation</span>
+                <ol>
+                    <li>Select:
+                        <ul>
+                            <li>Language: English (United States)</li>
+                            <li>Time and Currency Format: English (India)</li>
+                            <li>Keyboard: US</li>
+                        </ul>
+                    </li>
+                    <li>Click Next.</li>
+                    <li>Click Install Now.</li>
+                </ol>
+
+                <span class="step-title">Step 9: Enter Product Key or Skip</span>
+                <ol>
+                    <li>If you have a product key, enter it.</li>
+                    <li>Otherwise, click "I don't have a product key" to proceed with limited functionality.</li>
+                    <li>Choose the edition (e.g., Windows 10 Pro) -> Click Next.</li>
+                </ol>
+
+                <span class="step-title">Step 10: Accept License and Install</span>
+                <ol>
+                    <li>Accept the license agreement -> Click Next.</li>
+                    <li>Choose Custom: Install Windows only (advanced).</li>
+                    <li>Select the virtual hard disk -> Click Next.</li>
+                </ol>
+
+                <span class="step-title">Step 11: Complete Setup and User Configuration</span>
+                <ol>
+                    <li>Let Windows install and reboot.</li>
+                    <li>On first boot:
+                        <ul>
+                            <li>Choose Region -> Click Yes</li>
+                            <li>Choose Keyboard Layout -> Click Yes</li>
+                            <li>Skip second keyboard layout (optional)</li>
+                        </ul>
+                    </li>
+                    <li>Create a local account:
+                        <ul>
+                            <li>Username: e.g., StudentUser</li>
+                            <li>Password: Choose a secure password (optional)</li>
+                            <li>Set Security Questions</li>
+                        </ul>
+                    </li>
+                    <li>Choose Privacy Settings -> Turn off unnecessary options -> Click Next.</li>
+                </ol>
+
+                <h4>RESULT</h4>
+                <div class="result">Windows 10/11 operating system was successfully installed and configured on a Virtual Machine using Oracle VirtualBox. A local user account was created, and the virtual machine is fully operational.</div>
+            </div>
+
+            <div id="exp2" class="card">
+                <div class="card-header">
+                    <h2>EX NO: 2 - CREATING USER ACCOUNTS AND CONFIGURING PERMISSIONS</h2>
+                </div>
+                <h4>AIM</h4>
+                <p>To demonstrate the process of creating new user accounts and assigning appropriate permissions to ensure controlled access to system resources.</p>
+
+                <h4>APPARATUS REQUIRED</h4>
+                <table>
+                    <tr><th>S.NO</th><th>COMPONENTS</th><th>QUANTITY</th></tr>
+                    <tr><td>1</td><td>Host Computer</td><td>1</td></tr>
+                    <tr><td>2</td><td>Software Tools</td><td>Windows 10/11</td></tr>
+                    <tr><td>3</td><td>Peripherals</td><td>Keyboard & Mouse</td></tr>
+                </table>
+
+                <h4>PROCEDURE</h4>
+
+                <span class="step-title">Step 1: Open User Management</span>
+                <ol>
+                    <li>Press Win + I to open Settings.</li>
+                    <li>Navigate to Accounts -> Select Family & Other Users from the left pane.</li>
+                </ol>
+
+                <span class="step-title">Step 2: Add Three Users</span>
+                <strong>A. Add Admin User</strong>
+                <ol>
+                    <li>Click Add someone else to this PC.</li>
+                    <li>In the Microsoft account prompt, click I don't have this person's sign-in information.</li>
+                    <li>Click Add a user without a Microsoft account.</li>
+                    <li>Enter:
+                        <ul>
+                            <li>Username: AdminUser</li>
+                            <li>Password: (Create a secure password)</li>
+                        </ul>
+                    </li>
+                    <li>Click Next.</li>
+                    <li>After account is created, click on AdminUser under "Other users" -> Click Change account type.</li>
+                    <li>Set type to Administrator -> Click OK.</li>
+                </ol>
+
+                <strong>B. Add Standard User</strong>
+                <ol>
+                    <li>Repeat the above steps to create a new user:
+                        <ul>
+                            <li>Username: StandardUser</li>
+                            <li>Password: (Enter password)</li>
+                        </ul>
+                    </li>
+                    <li>Do not change the account type — Standard is default.</li>
+                </ol>
+
+                <strong>C. Add Guest User</strong>
+                <ol>
+                    <li>Again, add a user without Microsoft account.
+                        <ul>
+                            <li>Username: GuestUser</li>
+                            <li>Password: (Optional - leave blank or set a simple one)</li>
+                        </ul>
+                    </li>
+                    <li>Leave as Standard type. (Note: Classic Guest account is deprecated; emulate with limited permissions.)</li>
+                </ol>
+
+                <span class="step-title">Step 3: Set or Change Passwords (Optional)</span>
+                <ol>
+                    <li>Open Control Panel -> Navigate to User Accounts -> Manage another account.</li>
+                    <li>Select each user -> Click Change the password (or create one if not set).</li>
+                </ol>
+
+                <span class="step-title">Step 4: Configure Parental Controls for Standard User</span>
+                <strong>A. Add Standard User to Family Safety</strong>
+                <ol>
+                    <li>Open Settings -> Accounts -> Family & Other Users.</li>
+                    <li>Under Your family, click Add a family member.</li>
+                    <li>Add Standard User (or create again under child account type).</li>
+                    <li>Once added, visit https://account.microsoft.com/family and sign in.</li>
+                    <li>Select the Standard User child account -> Configure:
+                        <ul>
+                            <li>Screen time limits</li>
+                            <li>App and game restrictions</li>
+                            <li>Web filtering</li>
+                            <li>Activity reports</li>
+                        </ul>
+                    </li>
+                </ol>
+
+                <h4>RESULT</h4>
+                <div class="result">New user accounts were successfully created in the system. Appropriate permissions and access rights were assigned to each user based on their roles. Users could access only the resources allowed by their permissions.</div>
+            </div>
+
+            <div id="exp3" class="card">
+                <div class="card-header">
+                    <h2>EX NO: 3 - CREATING NTFS PARTITION AND APPLYING FOLDER-LEVEL PERMISSIONS</h2>
+                </div>
+                <h4>AIM</h4>
+                <p>To create an NTFS partition on a storage device and apply folder-level permissions to control and manage user access to files and directories.</p>
+
+                <h4>APPARATUS REQUIRED</h4>
+                <table>
+                    <tr><th>S.NO</th><th>COMPONENTS</th><th>QUANTITY</th></tr>
+                    <tr><td>1</td><td>Host Computer</td><td>1</td></tr>
+                    <tr><td>2</td><td>Software Tools</td><td>Windows 10/11</td></tr>
+                    <tr><td>3</td><td>Peripherals</td><td>Keyboard & Mouse</td></tr>
+                </table>
+
+                <h4>PROCEDURE</h4>
+
+                <span class="step-title">Part A: Creating and Formatting NTFS Partition</span>
+                <strong>Step 1: Open Disk Management</strong>
+                <ol>
+                    <li>Press Win + R, type <code>diskmgmt.msc</code>, and press Enter.</li>
+                    <li>The Disk Management console opens, showing all current volumes.</li>
+                </ol>
+
+                <strong>Step 2: Shrink an Existing Volume</strong>
+                <ol>
+                    <li>Right-click on a partition with free space (usually C:).</li>
+                    <li>Select Shrink Volume.</li>
+                    <li>Enter the amount to shrink (e.g., 10240 MB = 10GB) -> Click Shrink.</li>
+                    <li>A new Unallocated space will appear.</li>
+                </ol>
+
+                <strong>Step 3: Create a New Partition</strong>
+                <ol>
+                    <li>Right-click the Unallocated space -> Click New Simple Volume.</li>
+                    <li>Click Next in the wizard.</li>
+                    <li>Specify volume size -> Click Next.</li>
+                    <li>Assign a Drive Letter (e.g., E:) -> Click Next.</li>
+                    <li>Choose:
+                        <ul>
+                            <li>File System: NTFS</li>
+                            <li>Volume Label: e.g., DATA_PART</li>
+                            <li>Enable Perform a quick format</li>
+                        </ul>
+                    </li>
+                    <li>Click Next -> Finish.</li>
+                </ol>
+
+                <span class="step-title">Part B: FAT32 vs. NTFS - Comparison Table</span>
+                <table>
+                    <tr>
+                        <th>Feature</th>
+                        <th>FAT32</th>
+                        <th>NTFS</th>
+                    </tr>
+                    <tr>
+                        <td>Max File Size</td>
+                        <td>4 GB max</td>
+                        <td>&gt; 4 GB</td>
+                    </tr>
+                    <tr>
+                        <td>Max Partition Size</td>
+                        <td>Up to 32 GB (Windows)</td>
+                        <td>Up to 256 TB</td>
+                    </tr>
+                    <tr>
+                        <td>Security (Permissions)</td>
+                        <td>No</td>
+                        <td>Yes</td>
+                    </tr>
+                    <tr>
+                        <td>Journaling</td>
+                        <td>No</td>
+                        <td>Yes</td>
+                    </tr>
+                    <tr>
+                        <td>Compression Support</td>
+                        <td>No</td>
+                        <td>Yes</td>
+                    </tr>
+                    <tr>
+                        <td>OS Compatibility</td>
+                        <td>Windows, Linux, macOS, etc.</td>
+                        <td>Windows, Linux (limited)</td>
+                    </tr>
+                </table>
+
+                <span class="step-title">Part C: Assign NTFS Folder-Level Permissions</span>
+                <strong>Step 1: Create a Folder</strong>
+                <ol>
+                    <li>Navigate to the newly created partition (e.g., E:).</li>
+                    <li>Right-click -> New -> Folder -> Name it SharedDocs.</li>
+                </ol>
+
+                <strong>Step 2: Open Folder Security Settings</strong>
+                <ol>
+                    <li>Right-click the SharedDocs folder -> Select Properties.</li>
+                    <li>Go to the Security tab -> Click Edit.</li>
+                </ol>
+
+                <strong>Step 3: Add Users and Set Permissions</strong>
+                <ol>
+                    <li>Click Add -> Type User1 -> Click Check Names -> OK.</li>
+                    <li>With User1 selected -> Check Read permission -> Apply.</li>
+                    <li>Click Add -> Type User2 -> Click Check Names -> OK.</li>
+                    <li>With User2 selected -> Check Full Control -> Apply -> OK.</li>
+                    <li>(Optional step to add a user: Control Panel -> User Accounts -> Manage another account -> Add new user).</li>
+                </ol>
+
+                <h4>RESULT</h4>
+                <div class="result">An NTFS partition was successfully created and formatted on the storage device. Folder-level permissions were applied to restrict or grant access to specific users or groups.</div>
+            </div>
+
+            <div id="exp4" class="card">
+                <div class="card-header">
+                    <h2>EX NO: 4 - MANAGING SERVICES WITH DEPENDENCIES</h2>
+                </div>
+                <h4>AIM</h4>
+                <p>To study and implement service management with dependencies using a service manager. This includes creating, modifying, and controlling system services to ensure they start, stop, and restart in the correct order based on their dependencies.</p>
+
+                <h4>APPARATUS REQUIRED</h4>
+                <table>
+                    <tr><th>S.NO</th><th>COMPONENTS</th><th>QUANTITY</th></tr>
+                    <tr><td>1</td><td>Host Computer</td><td>1</td></tr>
+                    <tr><td>2</td><td>Software Tools</td><td>Windows 10/11</td></tr>
+                    <tr><td>3</td><td>Peripherals</td><td>Keyboard & Mouse</td></tr>
+                </table>
+
+                <h4>PROCEDURE</h4>
+                
+                <span class="step-title">Step 1: Open the Services Management Console</span>
+                <ol>
+                    <li>Press Win + R on your keyboard to open the Run dialog box.</li>
+                    <li>Type <code>services.msc</code> and press Enter.</li>
+                    <li>The Services window will appear, listing all the background services running on the system.</li>
+                </ol>
+
+                <span class="step-title">Step 2: Locate the "Windows Update" Service</span>
+                <ol>
+                    <li>In the Services window, scroll down alphabetically to find the service named Windows Update.</li>
+                    <li>Right-click on Windows Update and select Properties.</li>
+                </ol>
+
+                <span class="step-title">Step 3: Examine Dependencies</span>
+                <ol>
+                    <li>In the Properties window, click on the Dependencies tab.</li>
+                    <li>Observe two sections:
+                        <ul>
+                            <li>This service depends on the following system components (e.g., Remote Procedure Call (RPC))</li>
+                            <li>The following system components depend on this service (e.g., Delivery Optimization, BITS, or Update Orchestrator Service)</li>
+                        </ul>
+                    </li>
+                </ol>
+
+                <span class="step-title">Step 4: Stop the Service</span>
+                <ol>
+                    <li>Go back to the General tab in the same Properties window.</li>
+                    <li>Under Service status, click Stop to halt the service.</li>
+                    <li>Wait a few seconds until the service status changes to "Stopped".</li>
+                </ol>
+
+                <span class="step-title">Step 5: Disable the Service</span>
+                <ol>
+                    <li>In the same General tab, locate the Startup type drop-down menu.</li>
+                    <li>Change it from Manual or Automatic to Disabled.</li>
+                    <li>Click Apply and then OK to confirm the changes.</li>
+                </ol>
+
+                <span class="step-title">Step 6: Observe the System Behavior</span>
+                <p>After disabling the Windows Update service, expected effects are:</p>
+                <ul>
+                    <li>Windows will no longer download or install system updates.</li>
+                    <li>Microsoft Store apps and drivers may fail to update.</li>
+                    <li>Other services relying on update mechanisms (like BITS or Windows Installer) may behave unexpectedly.</li>
+                    <li>Security vulnerabilities may remain unpatched.</li>
+                    <li><em>Caution: This setting is not recommended on production systems.</em></li>
+                </ul>
+
+                <span class="step-title">Step 7: Restore the Service (Post-Experiment Cleanup)</span>
+                <ol>
+                    <li>Repeat Steps 1–2 to open Windows Update -> Properties.</li>
+                    <li>Change Startup type back to Manual or Automatic (Delayed Start).</li>
+                    <li>Click Start under Service status.</li>
+                    <li>Click Apply -> Click OK.</li>
+                </ol>
+
+                <h4>RESULT</h4>
+                <div class="result">The experiment was successfully completed. Services with dependencies were identified and managed correctly starting in the required order and stopping gracefully when required.</div>
+            </div>
+
+            <div id="exp5" class="card">
+                <div class="card-header">
+                    <h2>EX NO: 5 - EXPLORING LINUX DIRECTORIES AND COMMANDS</h2>
+                </div>
+                <h4>AIM</h4>
+                <p>To understand the structure of the Linux file system by exploring directories using basic Linux commands and to learn how to navigate, list, and manipulate files and directories from the command line.</p>
+
+                <h4>APPARATUS REQUIRED</h4>
+                <table>
+                    <tr><th>S.NO</th><th>COMPONENTS</th><th>QUANTITY</th></tr>
+                    <tr><td>1</td><td>Host Computer</td><td>1</td></tr>
+                    <tr><td>2</td><td>Software Tools</td><td>Linux OS</td></tr>
+                    <tr><td>3</td><td>Peripherals</td><td>Keyboard & Mouse</td></tr>
+                </table>
+
+                <h4>PROCEDURE</h4>
+                
+                <span class="step-title">Step 1: Open the Terminal</span>
+                <ol>
+                    <li>Press Ctrl + Alt + T (or use the terminal app in GUI).</li>
+                    <li>Make sure the shell prompt ($) is visible.</li>
+                </ol>
+
+                <span class="step-title">Step 2: View Key System Directories</span>
+                <p>Run the following command to list the contents of core system directories:</p>
+                <pre><code>ls /bin /sbin /etc /dev /home /tmp /var /usr</code></pre>
+                <ul>
+                    <li><code>/bin</code> - Basic user command binaries (e.g., ls, cp, rm)</li>
+                    <li><code>/sbin</code> - System binaries (e.g., system administration commands like shutdown)</li>
+                    <li><code>/etc</code> - Configuration files for all programs and services</li>
+                    <li><code>/dev</code> - Device files (e.g., /dev/sda, /dev/null)</li>
+                    <li><code>/home</code> - User home directories (e.g., /home/student)</li>
+                    <li><code>/tmp</code> - Temporary files</li>
+                    <li><code>/var</code> - Variable files (e.g., logs, cache, mail)</li>
+                    <li><code>/usr</code> - Secondary hierarchy for read-only user data (e.g., programs, libraries)</li>
+                </ul>
+
+                <span class="step-title">Step 3: Visualize Directory Tree Structure (Optional)</span>
+                <p>Use the tree command to visualize a folder structure:</p>
+                <pre><code>sudo apt install tree   # Only if 'tree' is not already installed
+tree /etc | head -n 30  # Limit output for readability</code></pre>
+                <p>This displays a hierarchical tree of files and subdirectories under /etc, showing configuration file locations.</p>
+
+                <span class="step-title">Step 4: Check Disk Space Usage</span>
+                <p>Run the following command to see disk usage by mounted file systems:</p>
+                <pre><code>df -h</code></pre>
+                <ul>
+                    <li>Shows space used and available on mounted partitions in human-readable format.</li>
+                    <li>Columns: Filesystem, Size, Used, Avail, Use%, Mounted on</li>
+                </ul>
+
+                <span class="step-title">Step 5: Check Directory Sizes Inside /home</span>
+                <p>This command lists disk space usage for each user's home directory:</p>
+                <pre><code>du -sh /home/*</code></pre>
+                <ul>
+                    <li><code>-s</code> : summarize only</li>
+                    <li><code>-h</code> : human-readable (e.g., MB, GB)</li>
+                    <li>Output: Each line shows space used by each user's home directory.</li>
+                </ul>
+
+                <span class="step-title">Summary of Directory Purposes</span>
+                <table>
+                    <tr><th>Directory</th><th>Purpose</th></tr>
+                    <tr><td>/etc</td><td>Contains system-wide configuration files</td></tr>
+                    <tr><td>/bin</td><td>Essential command binaries for users</td></tr>
+                    <tr><td>/sbin</td><td>System administration binaries</td></tr>
+                    <tr><td>/dev</td><td>Device files representing hardware</td></tr>
+                    <tr><td>/home</td><td>User home directories</td></tr>
+                    <tr><td>/tmp</td><td>Temporary files, cleared on reboot</td></tr>
+                    <tr><td>/var</td><td>Variable files (logs, cache, spool)</td></tr>
+                    <tr><td>/usr</td><td>Read-only user programs, libraries, docs</td></tr>
+                </table>
+
+                <h4>RESULT</h4>
+                <div class="result">Successfully navigated through various Linux directories using commands like cd, ls, and pwd. Gained knowledge of the Linux directory hierarchy and common directory contents.</div>
+            </div>
+
+            <div id="exp6" class="card">
+                <div class="card-header">
+                    <h2>EX NO: 6 - FILE SYSTEM NAVIGATION AND FILE OPERATIONS</h2>
+                </div>
+                <h4>AIM</h4>
+                <p>To understand and perform basic file system navigation using command-line or GUI and to execute common file and directory operations such as creating, renaming, copying, moving, and deleting files/directories.</p>
+
+                <h4>APPARATUS REQUIRED</h4>
+                <table>
+                    <tr><th>S.NO</th><th>COMPONENTS</th><th>QUANTITY</th></tr>
+                    <tr><td>1</td><td>Host Computer</td><td>1</td></tr>
+                    <tr><td>2</td><td>Software Tools</td><td>Linux OS</td></tr>
+                    <tr><td>3</td><td>Peripherals</td><td>Keyboard & Mouse</td></tr>
+                </table>
+
+                <h4>PROCEDURE</h4>
+                
+                <span class="step-title">Step 1: Open the Terminal</span>
+                <ul>
+                    <li>Press Ctrl + Alt + T to launch the terminal.</li>
+                </ul>
+
+                <span class="step-title">Step 2: Display Current Directory</span>
+                <p>Use the pwd command to show your current working directory:</p>
+                <pre><code>pwd</code></pre>
+                <p>This should output something like: <code>/home/student</code></p>
+
+                <span class="step-title">Step 3: Change to Your Home Directory</span>
+                <p>Navigate to the home directory using cd:</p>
+                <pre><code>cd /home/student</code></pre>
+                <p>Confirm you're in the right place:</p>
+                <pre><code>pwd</code></pre>
+
+                <span class="step-title">Step 4: List Directory Contents</span>
+                <p>Use ls -l to view files and subdirectories with details:</p>
+                <pre><code>ls -l</code></pre>
+
+                <span class="step-title">Step 5: Create Nested Directories</span>
+                <p>Use mkdir to create a directory structure:</p>
+                <pre><code>mkdir -p lab1/lab2</code></pre>
+                <ul>
+                    <li><code>-p</code> allows creation of nested folders in one command.</li>
+                </ul>
+                <p>Verify with:</p>
+                <pre><code>tree lab1</code></pre>
+                <p><em>(If tree is not installed, use <code>ls -R lab1</code> instead.)</em></p>
+
+                <span class="step-title">Step 6: Copy a File</span>
+                <p>Assume you have a file named file1.txt. Copy it into lab1:</p>
+                <pre><code>cp file1.txt lab1/</code></pre>
+                <p>Verify:</p>
+                <pre><code>ls lab1</code></pre>
+
+                <span class="step-title">Step 7: Move the File</span>
+                <p>Move the copied file into lab2:</p>
+                <pre><code>mv lab1/file1.txt lab1/lab2/</code></pre>
+                <p>Verify:</p>
+                <pre><code>ls lab1/lab2</code></pre>
+
+                <span class="step-title">Step 8: Delete the File</span>
+                <p>Remove the file from lab2:</p>
+                <pre><code>rm lab1/lab2/file1.txt</code></pre>
+                <p>Check that it's deleted:</p>
+                <pre><code>ls lab1/lab2</code></pre>
+
+                <h4>RESULT</h4>
+                <div class="result">By the end of the experiment, successfully navigated through the file system using both absolute and relative paths. Performed file operations such as: Creating and deleting files/directories. Copying and moving files between directories.</div>
+            </div>
+
+            <div id="exp7" class="card">
+                <div class="card-header">
+                    <h2>EX NO: 7 - INSTALLING VLSI TOOLS ON LINUX</h2>
+                </div>
+                <h4>AIM</h4>
+                <p>To successfully install and configure VLSI (Very Large-Scale Integration) design tools on a Linux operating system, enabling the environment to perform integrated circuit design, simulation, and verification tasks.</p>
+
+                <h4>APPARATUS REQUIRED</h4>
+                <table>
+                    <tr><th>S.NO</th><th>COMPONENTS</th><th>QUANTITY</th></tr>
+                    <tr><td>1</td><td>Host Computer</td><td>1</td></tr>
+                    <tr><td>2</td><td>Software Tools</td><td>Linux OS</td></tr>
+                    <tr><td>3</td><td>Peripherals</td><td>Keyboard & Mouse</td></tr>
+                </table>
+
+                <h4>PROCEDURE</h4>
+                
+                <span class="step-title">Step 1: Update the System</span>
+                <p>Update the system package list to ensure all repositories are up to date:</p>
+                <pre><code>sudo apt update</code></pre>
+
+                <span class="step-title">Step 2: Install Compilation Tools</span>
+                <p>Install essential tools like gcc, g++, and make for compiling VHDL and C/C++ programs:</p>
+                <pre><code>sudo apt install gcc g++ make -y</code></pre>
+
+                <span class="step-title">Step 3: Install GHDL and GTKWave</span>
+                <p>Install open-source VHDL simulator GHDL and waveform viewer GTKWave:</p>
+                <pre><code>sudo apt install ghdl gtkwave -y</code></pre>
+                <p>These tools are typically available in the default Ubuntu repositories.</p>
+
+                <span class="step-title">Step 4: Configure Environment Variables (if needed)</span>
+                <p>This step is only required if tools are installed to custom locations. If using default apt-based install, skip to Step 5.</p>
+                <ol>
+                    <li>Open the .bashrc file in the home directory:
+                        <pre><code>nano ~/.bashrc</code></pre>
+                    </li>
+                    <li>Add the following line at the end of the file (adjust path as needed):
+                        <pre><code>export PATH=$PATH:/usr/local/bin/ghdl:/usr/local/bin/gtkwave</code></pre>
+                    </li>
+                    <li>Save and exit:
+                        <ul>
+                            <li>Press Ctrl + O to save</li>
+                            <li>Press Enter</li>
+                            <li>Press Ctrl + X to exit</li>
+                        </ul>
+                    </li>
+                    <li>Reload the configuration:
+                        <pre><code>source ~/.bashrc</code></pre>
+                    </li>
+                </ol>
+
+                <span class="step-title">Step 5: Verify Installation</span>
+                <p>Check the installed versions to confirm tools are working:</p>
+                <pre><code>ghdl --version
+gtkwave --version</code></pre>
+                <p>Sample Output:</p>
+                <pre class="output">GHDL 3.0.0 (Ubuntu 22.04)
+GTKWave Analyzer v3.3.105</pre>
+
+                <h4>RESULT</h4>
+                <div class="result">The VLSI tools were successfully installed on the Linux system, and their basic functionalities were verified. The environment was set up correctly.</div>
+            </div>
+
+            <div id="exp8" class="card">
+                <div class="card-header">
+                    <h2>EX NO: 8 - SHELL SCRIPT USING IF STATEMENT</h2>
+                </div>
+                <h4>AIM</h4>
+                <p>To write and execute a shell script that uses IF statements to make decisions based on conditions, demonstrating the use of conditional logic in shell scripting.</p>
+
+                <h4>APPARATUS REQUIRED</h4>
+                <table>
+                    <tr><th>S.NO</th><th>COMPONENTS</th><th>QUANTITY</th></tr>
+                    <tr><td>1</td><td>Host Computer</td><td>1</td></tr>
+                    <tr><td>2</td><td>Software Tools</td><td>Linux OS</td></tr>
+                    <tr><td>3</td><td>Peripherals</td><td>Keyboard & Mouse</td></tr>
+                </table>
+
+                <h4>PROCEDURE</h4>
+                
+                <span class="step-title">Step 1: Open the Terminal</span>
+                <p>Launch your terminal using Ctrl + Alt + T or from the applications menu.</p>
+
+                <span class="step-title">Step 2: Create a New Script File</span>
+                <p>Create a shell script file using nano or any text editor:</p>
+                <pre><code>nano test_if.sh</code></pre>
+
+                <span class="step-title">Step 3: Write the Script</span>
+                <p>Paste the following script content:</p>
+                <pre><code>#!/bin/bash
+echo "Enter number:"
+read n
+if [ $n -gt 10 ]
+then
+    echo "Greater than 10"
+else
+    echo "10 or less"
+fi</code></pre>
+                <p>Save the script: Press Ctrl + O, then Enter to save. Press Ctrl + X to exit the editor.</p>
+
+                <span class="step-title">Step 4: Make the Script Executable</span>
+                <p>Run the following command to add execution permission:</p>
+                <pre><code>chmod +x test_if.sh</code></pre>
+
+                <span class="step-title">Step 5: Execute the Script</span>
+                <p>Run the script using:</p>
+                <pre><code>./test_if.sh</code></pre>
+                <p>Example Run:</p>
+                <pre class="output">$ ./test_if.sh
+Enter number:
+15
+Greater than 10</pre>
+
+                <h4>RESULT</h4>
+                <div class="result">The shell script using if statements was successfully created and executed. It correctly evaluated the given conditions and performed actions based on those conditions.</div>
+            </div>
+
+            <div id="exp9" class="card">
+                <div class="card-header">
+                    <h2>EX NO: 9 - SHELL SCRIPT USING WHILE STATEMENT</h2>
+                </div>
+                <h4>AIM</h4>
+                <p>To develop and execute a shell script using the while loop in Bash that demonstrates the concept of iterative execution by printing a sequence of numbers from 1 to 5.</p>
+
+                <h4>APPARATUS REQUIRED</h4>
+                <table>
+                    <tr><th>S.NO</th><th>COMPONENTS</th><th>QUANTITY</th></tr>
+                    <tr><td>1</td><td>Host Computer</td><td>1</td></tr>
+                    <tr><td>2</td><td>Software Tools</td><td>Linux OS</td></tr>
+                    <tr><td>3</td><td>Peripherals</td><td>Keyboard & Mouse</td></tr>
+                </table>
+
+                <h4>PROCEDURE</h4>
+                
+                <span class="step-title">Step 1: Open Terminal</span>
+                <ul>
+                    <li>Start your Linux system.</li>
+                    <li>Open the terminal using Ctrl + Alt + T or from the applications menu.</li>
+                </ul>
+
+                <span class="step-title">Step 2: Create a New Shell Script File</span>
+                <ul>
+                    <li>Use a text editor like nano, vi, or gedit to create a shell script.</li>
+                    <li>Example using nano:
+                        <pre><code>nano while_loop.sh</code></pre>
+                    </li>
+                </ul>
+
+                <span class="step-title">Step 3: Write the Shell Script Code</span>
+                <p>Enter the following sample script in the editor:</p>
+                <pre><code>#!/bin/bash
+
+# Initialize the counter variable i=1
+i=1
+
+# Start while loop
+while [ $i -le 5 ]
+do
+    echo "Number: $i"
+    i=$((i + 1))
+done</code></pre>
+                <p>This script prints numbers from 1 to 5 using a while loop.</p>
+
+                <span class="step-title">Step 4: Save and Exit the Editor</span>
+                <ul>
+                    <li>In nano: Press Ctrl + O -> Enter to save, and Ctrl + X to exit.</li>
+                </ul>
+
+                <span class="step-title">Step 5: Give Execute Permissions to the Script</span>
+                <p>Make the script executable using the chmod command:</p>
+                <pre><code>chmod +x while_loop.sh</code></pre>
+
+                <span class="step-title">Step 6: Run the Script</span>
+                <p>Execute the script in the terminal:</p>
+                <pre><code>./while_loop.sh</code></pre>
+                <p>You should see:</p>
+                <pre class="output">Number: 1
+Number: 2
+Number: 3
+Number: 4
+Number: 5</pre>
+
+                <span class="step-title">Step 7: Modify the Script (Optional)</span>
+                <p>Try modifying the script to read user input in a loop, perform a countdown, or run until the user enters a specific value (e.g., exit).</p>
+                <p>Example:</p>
+                <pre><code>#!/bin/bash
+input=""
+while [ "$input" != "exit" ]
+do
+    echo "Enter something (type 'exit' to quit):"
+    read input
+    echo "You entered: $input"
+done</code></pre>
+
+                <h4>RESULT</h4>
+                <div class="result">The shell script using while statements was successfully created and executed. It correctly evaluated the given conditions and performed actions based on those conditions.</div>
+            </div>
+
+            <div id="exp10" class="card">
+                <div class="card-header">
+                    <h2>EX NO: 10 - SHELL SCRIPT USING FOR LOOP</h2>
+                </div>
+                <h4>AIM</h4>
+                <p>To write and execute a shell script using the for loop to automate the task of identifying and listing all .txt files in the current directory.</p>
+
+                <h4>APPARATUS REQUIRED</h4>
+                <table>
+                    <tr><th>S.NO</th><th>COMPONENTS</th><th>QUANTITY</th></tr>
+                    <tr><td>1</td><td>Host Computer</td><td>1</td></tr>
+                    <tr><td>2</td><td>Software Tools</td><td>Linux OS</td></tr>
+                    <tr><td>3</td><td>Peripherals</td><td>Keyboard & Mouse</td></tr>
+                </table>
+
+                <h4>PROCEDURE</h4>
+
+                <span class="step-title">Step 1: Open the Terminal</span>
+                <p>Launch your Linux terminal (Ctrl + Alt + T or via the menu).</p>
+
+                <span class="step-title">Step 2: Create a New Shell Script File</span>
+                <p>Use a text editor such as nano, vi, or gedit to create a script file. Example using nano:</p>
+                <pre><code>nano for_loop.sh</code></pre>
+
+                <span class="step-title">Step 3: Write the Shell Script Using a for Loop</span>
+                <p>Enter the following script to print numbers 1 to 5:</p>
+                <pre><code>#!/bin/bash
+
+# Loop from 1 to 5
+for i in 1 2 3 4 5
+do
+    echo "Number: $i"
+done</code></pre>
+                
+                <span class="step-title">Step 4: Save and Exit</span>
+                <p>If using nano, press Ctrl + O to save and Ctrl + X to exit.</p>
+
+                <span class="step-title">Step 5: Make the Script Executable</span>
+                <p>Run the command to add execute permissions:</p>
+                <pre><code>chmod +x for_loop.sh</code></pre>
+
+                <span class="step-title">Step 6: Run the Script</span>
+                <p>Execute the script by running:</p>
+                <pre><code>./for_loop.sh</code></pre>
+
+                <h4>RESULT</h4>
+                <div class="result">The shell script using For loop was successfully created and executed. It correctly evaluated the given conditions and performed actions based on those conditions.</div>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        function toggleMenu() {
+            const sidebar = document.getElementById('sidebar');
+            sidebar.classList.toggle('active');
+        }
+
+        // Close menu automatically when a link is clicked on mobile
+        function closeMenu() {
+            const sidebar = document.getElementById('sidebar');
+            if (window.innerWidth <= 850) {
+                sidebar.classList.remove('active');
+            }
+        }
+    </script>
+</body>
+
+</html>

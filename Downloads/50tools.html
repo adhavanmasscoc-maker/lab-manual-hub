@@ -1,0 +1,1374 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>⚡ 50 Power Tools</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --neon: #00ffe7;
+    --neon2: #ff2d78;
+    --neon3: #ffe600;
+    --bg: #080c10;
+    --card: #0d1117;
+    --border: rgba(0,255,231,0.2);
+    --text: #c8d6e5;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Share Tech Mono', monospace;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 80% 40% at 20% 10%, rgba(0,255,231,0.06) 0%, transparent 60%),
+      radial-gradient(ellipse 60% 40% at 80% 90%, rgba(255,45,120,0.06) 0%, transparent 60%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  header {
+    text-align: center;
+    padding: 48px 20px 24px;
+    position: relative;
+    z-index: 2;
+  }
+
+  header h1 {
+    font-family: 'Orbitron', sans-serif;
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    font-weight: 900;
+    letter-spacing: 0.15em;
+    background: linear-gradient(90deg, var(--neon), var(--neon2), var(--neon3), var(--neon));
+    background-size: 200%;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: shimmer 4s linear infinite;
+    text-shadow: none;
+    filter: drop-shadow(0 0 20px rgba(0,255,231,0.4));
+  }
+
+  @keyframes shimmer {
+    0% { background-position: 0% 50%; }
+    100% { background-position: 200% 50%; }
+  }
+
+  header p {
+    color: rgba(200,214,229,0.5);
+    font-size: 0.85rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    margin-top: 8px;
+  }
+
+  /* Category tabs */
+  .tabs {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 8px;
+    padding: 16px 20px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(8,12,16,0.92);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .tab {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 0.65rem;
+    padding: 6px 14px;
+    border: 1px solid var(--border);
+    background: transparent;
+    color: rgba(200,214,229,0.6);
+    border-radius: 3px;
+    cursor: pointer;
+    letter-spacing: 0.1em;
+    transition: all 0.2s;
+  }
+
+  .tab:hover, .tab.active {
+    border-color: var(--neon);
+    color: var(--neon);
+    background: rgba(0,255,231,0.07);
+    box-shadow: 0 0 12px rgba(0,255,231,0.15);
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 16px;
+    padding: 20px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .box {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 18px;
+    transition: border-color 0.25s, box-shadow 0.25s, transform 0.2s;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .box::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--neon), transparent);
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+
+  .box:hover {
+    border-color: rgba(0,255,231,0.5);
+    box-shadow: 0 0 20px rgba(0,255,231,0.08), 0 4px 24px rgba(0,0,0,0.4);
+    transform: translateY(-2px);
+  }
+
+  .box:hover::before { opacity: 1; }
+
+  .box h3 {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    color: var(--neon);
+    margin-bottom: 14px;
+    text-transform: uppercase;
+  }
+
+  .box .tag {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    font-size: 0.55rem;
+    padding: 2px 7px;
+    border-radius: 2px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  .tag-math { background: rgba(255,230,0,0.15); color: var(--neon3); border: 1px solid rgba(255,230,0,0.3); }
+  .tag-text { background: rgba(0,255,231,0.1); color: var(--neon); border: 1px solid rgba(0,255,231,0.2); }
+  .tag-convert { background: rgba(255,45,120,0.1); color: var(--neon2); border: 1px solid rgba(255,45,120,0.2); }
+  .tag-util { background: rgba(130,80,255,0.1); color: #a78bfa; border: 1px solid rgba(130,80,255,0.25); }
+  .tag-health { background: rgba(0,200,100,0.1); color: #4ade80; border: 1px solid rgba(0,200,100,0.2); }
+
+  input, select, textarea {
+    width: 100%;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.1);
+    color: #fff;
+    border-radius: 4px;
+    padding: 8px 10px;
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.82rem;
+    margin-bottom: 8px;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+
+  input:focus, select:focus, textarea:focus {
+    border-color: var(--neon);
+  }
+
+  input[type="color"] {
+    height: 36px;
+    padding: 2px 4px;
+    cursor: pointer;
+  }
+
+  .row { display: flex; gap: 6px; margin-bottom: 8px; }
+  .row input { margin-bottom: 0; }
+
+  button {
+    background: transparent;
+    border: 1px solid var(--neon);
+    color: var(--neon);
+    padding: 7px 14px;
+    border-radius: 4px;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-transform: uppercase;
+  }
+
+  button:hover {
+    background: var(--neon);
+    color: var(--bg);
+    box-shadow: 0 0 16px rgba(0,255,231,0.4);
+  }
+
+  button.red { border-color: var(--neon2); color: var(--neon2); }
+  button.red:hover { background: var(--neon2); color: #fff; box-shadow: 0 0 16px rgba(255,45,120,0.4); }
+  button.yellow { border-color: var(--neon3); color: var(--neon3); }
+  button.yellow:hover { background: var(--neon3); color: #000; }
+
+  .btn-row { display: flex; gap: 6px; flex-wrap: wrap; }
+
+  .result {
+    margin-top: 10px;
+    min-height: 24px;
+    font-size: 0.85rem;
+    color: var(--neon);
+    word-break: break-all;
+    line-height: 1.5;
+    padding: 6px 0;
+    border-top: 1px solid rgba(255,255,255,0.06);
+  }
+
+  .result.big {
+    font-size: 1.4rem;
+    font-family: 'Orbitron', sans-serif;
+    font-weight: 700;
+    text-align: center;
+  }
+
+  .swatch {
+    width: 100%;
+    height: 40px;
+    border-radius: 4px;
+    margin-top: 8px;
+    border: 1px solid rgba(255,255,255,0.1);
+    transition: background 0.3s;
+  }
+
+  #clockDisplay {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: var(--neon);
+    text-align: center;
+    padding: 10px 0;
+    letter-spacing: 0.05em;
+  }
+
+  #stopDisplay {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--neon3);
+    text-align: center;
+    padding: 6px 0;
+  }
+
+  .progress-bar {
+    width: 100%;
+    height: 6px;
+    background: rgba(255,255,255,0.07);
+    border-radius: 3px;
+    margin-top: 8px;
+    overflow: hidden;
+  }
+
+  .progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--neon), var(--neon2));
+    border-radius: 3px;
+    transition: width 0.4s;
+  }
+
+  /* Hidden category filter */
+  .box[data-cat] { display: flex; flex-direction: column; }
+
+  #number { display: none; }
+  .box-num {
+    position: absolute;
+    bottom: 10px;
+    right: 12px;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 0.55rem;
+    color: rgba(255,255,255,0.15);
+  }
+
+  footer {
+    text-align: center;
+    padding: 32px;
+    color: rgba(200,214,229,0.25);
+    font-size: 0.75rem;
+    letter-spacing: 0.2em;
+    position: relative;
+    z-index: 1;
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>⚡ 50 POWER TOOLS</h1>
+  <p>Ultimate Developer & Everyday Utility Kit</p>
+</header>
+
+<div class="tabs">
+  <button class="tab active" onclick="filterCat('all')">ALL 50</button>
+  <button class="tab" onclick="filterCat('math')">MATH</button>
+  <button class="tab" onclick="filterCat('text')">TEXT</button>
+  <button class="tab" onclick="filterCat('convert')">CONVERT</button>
+  <button class="tab" onclick="filterCat('health')">HEALTH</button>
+  <button class="tab" onclick="filterCat('util')">UTILITY</button>
+</div>
+
+<div class="grid" id="grid">
+
+<!-- 1. Calculator -->
+<div class="box" data-cat="math">
+  <span class="tag tag-math">MATH</span>
+  <h3>01 · Calculator</h3>
+  <div class="row">
+    <input id="c1_a" placeholder="A" type="number">
+    <input id="c1_b" placeholder="B" type="number">
+  </div>
+  <select id="c1_op">
+    <option value="+">Add +</option>
+    <option value="-">Subtract −</option>
+    <option value="*">Multiply ×</option>
+    <option value="/">Divide ÷</option>
+    <option value="%">Modulo %</option>
+    <option value="**">Power ^</option>
+  </select>
+  <button onclick="doCalc()">CALCULATE</button>
+  <div class="result big" id="r_calc">—</div>
+  <span class="box-num">#01</span>
+</div>
+
+<!-- 2. Password Generator -->
+<div class="box" data-cat="util">
+  <span class="tag tag-util">UTIL</span>
+  <h3>02 · Password Generator</h3>
+  <div class="row">
+    <input id="passLen" type="number" value="16" placeholder="Length">
+  </div>
+  <div class="btn-row" style="margin-bottom:8px;">
+    <label><input type="checkbox" id="passUpper" checked> A-Z</label>
+    <label><input type="checkbox" id="passNum" checked> 0-9</label>
+    <label><input type="checkbox" id="passSym" checked> !@#</label>
+  </div>
+  <button onclick="genPass()">GENERATE</button>
+  <div class="result" id="r_pass" style="font-size:0.75rem;cursor:pointer;" onclick="copyText('r_pass')" title="Click to copy">—</div>
+  <span class="box-num">#02</span>
+</div>
+
+<!-- 3. Word & Char Counter -->
+<div class="box" data-cat="text">
+  <span class="tag tag-text">TEXT</span>
+  <h3>03 · Word & Char Counter</h3>
+  <textarea id="t_wc" rows="3" placeholder="Type here..."></textarea>
+  <button onclick="wordCount()">COUNT</button>
+  <div class="result" id="r_wc">—</div>
+  <span class="box-num">#03</span>
+</div>
+
+<!-- 4. Random Number -->
+<div class="box" data-cat="util">
+  <span class="tag tag-util">UTIL</span>
+  <h3>04 · Random Number</h3>
+  <div class="row">
+    <input id="rn_min" type="number" value="1" placeholder="Min">
+    <input id="rn_max" type="number" value="100" placeholder="Max">
+  </div>
+  <button onclick="randNum()">ROLL</button>
+  <div class="result big" id="r_rand">—</div>
+  <span class="box-num">#04</span>
+</div>
+
+<!-- 5. Dice Roller -->
+<div class="box" data-cat="util">
+  <span class="tag tag-util">UTIL</span>
+  <h3>05 · Dice Roller</h3>
+  <select id="diceSides">
+    <option value="4">D4</option>
+    <option value="6" selected>D6</option>
+    <option value="8">D8</option>
+    <option value="10">D10</option>
+    <option value="12">D12</option>
+    <option value="20">D20</option>
+    <option value="100">D100</option>
+  </select>
+  <button onclick="rollDice()">ROLL</button>
+  <div class="result big" id="r_dice">—</div>
+  <span class="box-num">#05</span>
+</div>
+
+<!-- 6. HEX Color Generator -->
+<div class="box" data-cat="util">
+  <span class="tag tag-util">UTIL</span>
+  <h3>06 · Color Generator</h3>
+  <button onclick="genColor()">RANDOM COLOR</button>
+  <div class="result" id="r_color" style="cursor:pointer;" onclick="copyText('r_color')" title="Click to copy">—</div>
+  <div class="swatch" id="colorSwatch"></div>
+  <span class="box-num">#06</span>
+</div>
+
+<!-- 7. Uppercase -->
+<div class="box" data-cat="text">
+  <span class="tag tag-text">TEXT</span>
+  <h3>07 · Uppercase</h3>
+  <input id="t_up" placeholder="Enter text...">
+  <button onclick="toUpper()">CONVERT</button>
+  <div class="result" id="r_up">—</div>
+  <span class="box-num">#07</span>
+</div>
+
+<!-- 8. Lowercase -->
+<div class="box" data-cat="text">
+  <span class="tag tag-text">TEXT</span>
+  <h3>08 · Lowercase</h3>
+  <input id="t_low" placeholder="Enter text...">
+  <button onclick="toLower()">CONVERT</button>
+  <div class="result" id="r_low">—</div>
+  <span class="box-num">#08</span>
+</div>
+
+<!-- 9. Reverse Text -->
+<div class="box" data-cat="text">
+  <span class="tag tag-text">TEXT</span>
+  <h3>09 · Reverse Text</h3>
+  <input id="t_rev" placeholder="Enter text...">
+  <button onclick="revText()">REVERSE</button>
+  <div class="result" id="r_rev">—</div>
+  <span class="box-num">#09</span>
+</div>
+
+<!-- 10. Palindrome Check -->
+<div class="box" data-cat="text">
+  <span class="tag tag-text">TEXT</span>
+  <h3>10 · Palindrome Check</h3>
+  <input id="t_pal" placeholder="Enter word...">
+  <button onclick="checkPal()">CHECK</button>
+  <div class="result" id="r_pal">—</div>
+  <span class="box-num">#10</span>
+</div>
+
+<!-- 11. Age Calculator -->
+<div class="box" data-cat="health">
+  <span class="tag tag-health">HEALTH</span>
+  <h3>11 · Age Calculator</h3>
+  <input type="date" id="t_dob">
+  <button onclick="calcAge()">CALCULATE</button>
+  <div class="result" id="r_age">—</div>
+  <span class="box-num">#11</span>
+</div>
+
+<!-- 12. BMI -->
+<div class="box" data-cat="health">
+  <span class="tag tag-health">HEALTH</span>
+  <h3>12 · BMI Calculator</h3>
+  <input id="bmi_h" type="number" placeholder="Height (m)">
+  <input id="bmi_w" type="number" placeholder="Weight (kg)">
+  <button onclick="calcBMI()">CHECK</button>
+  <div class="result" id="r_bmi">—</div>
+  <span class="box-num">#12</span>
+</div>
+
+<!-- 13. Percentage -->
+<div class="box" data-cat="math">
+  <span class="tag tag-math">MATH</span>
+  <h3>13 · Percentage</h3>
+  <div class="row">
+    <input id="pct_a" type="number" placeholder="Part">
+    <input id="pct_b" type="number" placeholder="Total">
+  </div>
+  <button onclick="calcPct()">FIND %</button>
+  <div class="result big" id="r_pct">—</div>
+  <span class="box-num">#13</span>
+</div>
+
+<!-- 14. Tip Calculator -->
+<div class="box" data-cat="math">
+  <span class="tag tag-math">MATH</span>
+  <h3>14 · Tip Calculator</h3>
+  <input id="tip_bill" type="number" placeholder="Bill ($)">
+  <input id="tip_pct" type="number" placeholder="Tip %" value="15">
+  <input id="tip_ppl" type="number" placeholder="People" value="1">
+  <button onclick="calcTip()">SPLIT</button>
+  <div class="result" id="r_tip">—</div>
+  <span class="box-num">#14</span>
+</div>
+
+<!-- 15. Celsius ↔ Fahrenheit -->
+<div class="box" data-cat="convert">
+  <span class="tag tag-convert">CONVERT</span>
+  <h3>15 · Temperature</h3>
+  <input id="temp_in" type="number" placeholder="Enter value">
+  <select id="temp_dir">
+    <option value="cf">Celsius → Fahrenheit</option>
+    <option value="fc">Fahrenheit → Celsius</option>
+    <option value="ck">Celsius → Kelvin</option>
+    <option value="kc">Kelvin → Celsius</option>
+  </select>
+  <button onclick="convTemp()">CONVERT</button>
+  <div class="result big" id="r_temp">—</div>
+  <span class="box-num">#15</span>
+</div>
+
+<!-- 16. Length Converter -->
+<div class="box" data-cat="convert">
+  <span class="tag tag-convert">CONVERT</span>
+  <h3>16 · Length Converter</h3>
+  <input id="len_val" type="number" placeholder="Value">
+  <select id="len_dir">
+    <option value="mkm">Meters → KM</option>
+    <option value="kmm">KM → Meters</option>
+    <option value="mft">Meters → Feet</option>
+    <option value="ftm">Feet → Meters</option>
+    <option value="kmi">KM → Miles</option>
+    <option value="ikm">Miles → KM</option>
+  </select>
+  <button onclick="convLen()">CONVERT</button>
+  <div class="result big" id="r_len">—</div>
+  <span class="box-num">#16</span>
+</div>
+
+<!-- 17. Weight Converter -->
+<div class="box" data-cat="convert">
+  <span class="tag tag-convert">CONVERT</span>
+  <h3>17 · Weight Converter</h3>
+  <input id="wt_val" type="number" placeholder="Value">
+  <select id="wt_dir">
+    <option value="kglb">KG → Pounds</option>
+    <option value="lbkg">Pounds → KG</option>
+    <option value="kgg">KG → Grams</option>
+    <option value="gkg">Grams → KG</option>
+    <option value="kgoz">KG → Ounces</option>
+    <option value="ozkg">Ounces → KG</option>
+  </select>
+  <button onclick="convWt()">CONVERT</button>
+  <div class="result big" id="r_wt">—</div>
+  <span class="box-num">#17</span>
+</div>
+
+<!-- 18. Stopwatch -->
+<div class="box" data-cat="util">
+  <span class="tag tag-util">UTIL</span>
+  <h3>18 · Stopwatch</h3>
+  <div id="stopDisplay">00:00:00</div>
+  <div class="btn-row" style="margin-top:10px;">
+    <button onclick="swStart()">START</button>
+    <button class="yellow" onclick="swPause()">PAUSE</button>
+    <button class="red" onclick="swReset()">RESET</button>
+  </div>
+  <span class="box-num">#18</span>
+</div>
+
+<!-- 19. Clock -->
+<div class="box" data-cat="util">
+  <span class="tag tag-util">UTIL</span>
+  <h3>19 · Live Clock</h3>
+  <div id="clockDisplay">--:--:--</div>
+  <div class="result" id="r_date" style="text-align:center;color:rgba(200,214,229,0.5);font-size:0.78rem;"></div>
+  <span class="box-num">#19</span>
+</div>
+
+<!-- 20. Random Quote -->
+<div class="box" data-cat="util">
+  <span class="tag tag-util">UTIL</span>
+  <h3>20 · Random Quote</h3>
+  <button onclick="showQuote()">INSPIRE ME</button>
+  <div class="result" id="r_quote" style="font-style:italic;line-height:1.6;">—</div>
+  <span class="box-num">#20</span>
+</div>
+
+<!-- 21. Prime Check -->
+<div class="box" data-cat="math">
+  <span class="tag tag-math">MATH</span>
+  <h3>21 · Prime Number Check</h3>
+  <input id="t_prime" type="number" placeholder="Enter number">
+  <button onclick="checkPrime()">CHECK</button>
+  <div class="result" id="r_prime">—</div>
+  <span class="box-num">#21</span>
+</div>
+
+<!-- 22. Binary → Decimal -->
+<div class="box" data-cat="convert">
+  <span class="tag tag-convert">CONVERT</span>
+  <h3>22 · Binary → Decimal</h3>
+  <input id="t_bin2dec" placeholder="e.g. 1010">
+  <button onclick="bin2dec()">CONVERT</button>
+  <div class="result big" id="r_bin2dec">—</div>
+  <span class="box-num">#22</span>
+</div>
+
+<!-- 23. Decimal → Binary -->
+<div class="box" data-cat="convert">
+  <span class="tag tag-convert">CONVERT</span>
+  <h3>23 · Decimal → Binary</h3>
+  <input id="t_dec2bin" type="number" placeholder="e.g. 42">
+  <button onclick="dec2bin()">CONVERT</button>
+  <div class="result big" id="r_dec2bin">—</div>
+  <span class="box-num">#23</span>
+</div>
+
+<!-- 24. HEX → RGB -->
+<div class="box" data-cat="convert">
+  <span class="tag tag-convert">CONVERT</span>
+  <h3>24 · HEX → RGB</h3>
+  <input type="color" id="t_hex2rgb" value="#00ffe7">
+  <button onclick="hex2rgb()">CONVERT</button>
+  <div class="result" id="r_hex2rgb">—</div>
+  <span class="box-num">#24</span>
+</div>
+
+<!-- 25. Loan / EMI -->
+<div class="box" data-cat="math">
+  <span class="tag tag-math">MATH</span>
+  <h3>25 · Loan / EMI</h3>
+  <input id="emi_p" type="number" placeholder="Principal ($)">
+  <input id="emi_r" type="number" placeholder="Rate (% per year)">
+  <input id="emi_n" type="number" placeholder="Months">
+  <button onclick="calcEMI()">CALCULATE</button>
+  <div class="result" id="r_emi">—</div>
+  <span class="box-num">#25</span>
+</div>
+
+<!-- 26. Compound Interest -->
+<div class="box" data-cat="math">
+  <span class="tag tag-math">MATH</span>
+  <h3>26 · Compound Interest</h3>
+  <input id="ci_p" type="number" placeholder="Principal">
+  <input id="ci_r" type="number" placeholder="Rate (% pa)">
+  <input id="ci_n" type="number" placeholder="Years">
+  <button onclick="calcCI()">CALCULATE</button>
+  <div class="result" id="r_ci">—</div>
+  <span class="box-num">#26</span>
+</div>
+
+<!-- 27. String Length -->
+<div class="box" data-cat="text">
+  <span class="tag tag-text">TEXT</span>
+  <h3>27 · String Length</h3>
+  <input id="t_slen" placeholder="Enter string">
+  <button onclick="strLen()">MEASURE</button>
+  <div class="result big" id="r_slen">—</div>
+  <span class="box-num">#27</span>
+</div>
+
+<!-- 28. Title Case -->
+<div class="box" data-cat="text">
+  <span class="tag tag-text">TEXT</span>
+  <h3>28 · Title Case</h3>
+  <input id="t_title" placeholder="Enter text...">
+  <button onclick="toTitle()">CONVERT</button>
+  <div class="result" id="r_title">—</div>
+  <span class="box-num">#28</span>
+</div>
+
+<!-- 29. Slug Generator -->
+<div class="box" data-cat="text">
+  <span class="tag tag-text">TEXT</span>
+  <h3>29 · URL Slug</h3>
+  <input id="t_slug" placeholder="e.g. Hello World!">
+  <button onclick="mkSlug()">GENERATE</button>
+  <div class="result" id="r_slug" style="cursor:pointer;" onclick="copyText('r_slug')" title="Click to copy">—</div>
+  <span class="box-num">#29</span>
+</div>
+
+<!-- 30. Char Frequency -->
+<div class="box" data-cat="text">
+  <span class="tag tag-text">TEXT</span>
+  <h3>30 · Char Frequency</h3>
+  <input id="t_freq" placeholder="Enter text">
+  <button onclick="charFreq()">ANALYZE</button>
+  <div class="result" id="r_freq" style="font-size:0.75rem;line-height:1.8;">—</div>
+  <span class="box-num">#30</span>
+</div>
+
+<!-- 31. Speed Converter -->
+<div class="box" data-cat="convert">
+  <span class="tag tag-convert">CONVERT</span>
+  <h3>31 · Speed Converter</h3>
+  <input id="spd_val" type="number" placeholder="Value">
+  <select id="spd_dir">
+    <option value="kph2mph">km/h → mph</option>
+    <option value="mph2kph">mph → km/h</option>
+    <option value="kph2ms">km/h → m/s</option>
+    <option value="ms2kph">m/s → km/h</option>
+  </select>
+  <button onclick="convSpd()">CONVERT</button>
+  <div class="result big" id="r_spd">—</div>
+  <span class="box-num">#31</span>
+</div>
+
+<!-- 32. Volume Converter -->
+<div class="box" data-cat="convert">
+  <span class="tag tag-convert">CONVERT</span>
+  <h3>32 · Volume Converter</h3>
+  <input id="vol_val" type="number" placeholder="Value">
+  <select id="vol_dir">
+    <option value="lml">Liters → mL</option>
+    <option value="mll">mL → Liters</option>
+    <option value="lgal">Liters → Gallons</option>
+    <option value="gall">Gallons → Liters</option>
+  </select>
+  <button onclick="convVol()">CONVERT</button>
+  <div class="result big" id="r_vol">—</div>
+  <span class="box-num">#32</span>
+</div>
+
+<!-- 33. Factorial -->
+<div class="box" data-cat="math">
+  <span class="tag tag-math">MATH</span>
+  <h3>33 · Factorial</h3>
+  <input id="t_fact" type="number" placeholder="e.g. 10" min="0" max="20">
+  <button onclick="calcFact()">CALCULATE</button>
+  <div class="result big" id="r_fact">—</div>
+  <span class="box-num">#33</span>
+</div>
+
+<!-- 34. Fibonacci -->
+<div class="box" data-cat="math">
+  <span class="tag tag-math">MATH</span>
+  <h3>34 · Fibonacci</h3>
+  <input id="t_fib" type="number" placeholder="n terms (max 20)">
+  <button onclick="calcFib()">GENERATE</button>
+  <div class="result" id="r_fib" style="font-size:0.78rem;">—</div>
+  <span class="box-num">#34</span>
+</div>
+
+<!-- 35. UUID Generator -->
+<div class="box" data-cat="util">
+  <span class="tag tag-util">UTIL</span>
+  <h3>35 · UUID Generator</h3>
+  <button onclick="genUUID()">GENERATE</button>
+  <div class="result" id="r_uuid" style="font-size:0.72rem;cursor:pointer;" onclick="copyText('r_uuid')" title="Click to copy">—</div>
+  <span class="box-num">#35</span>
+</div>
+
+<!-- 36. Base64 Encode -->
+<div class="box" data-cat="util">
+  <span class="tag tag-util">UTIL</span>
+  <h3>36 · Base64 Encode / Decode</h3>
+  <input id="t_b64" placeholder="Enter text or base64">
+  <div class="btn-row">
+    <button onclick="b64Enc()">ENCODE</button>
+    <button class="yellow" onclick="b64Dec()">DECODE</button>
+  </div>
+  <div class="result" id="r_b64" style="font-size:0.75rem;cursor:pointer;" onclick="copyText('r_b64')" title="Click to copy">—</div>
+  <span class="box-num">#36</span>
+</div>
+
+<!-- 37. Number to Words -->
+<div class="box" data-cat="text">
+  <span class="tag tag-text">TEXT</span>
+  <h3>37 · Number → Words</h3>
+  <input id="t_n2w" type="number" placeholder="e.g. 42">
+  <button onclick="numToWords()">CONVERT</button>
+  <div class="result" id="r_n2w">—</div>
+  <span class="box-num">#37</span>
+</div>
+
+<!-- 38. Roman Numerals -->
+<div class="box" data-cat="convert">
+  <span class="tag tag-convert">CONVERT</span>
+  <h3>38 · Roman Numerals</h3>
+  <input id="t_rom" type="number" placeholder="e.g. 2024" min="1" max="3999">
+  <button onclick="toRoman()">CONVERT</button>
+  <div class="result big" id="r_rom">—</div>
+  <span class="box-num">#38</span>
+</div>
+
+<!-- 39. Countdown Timer -->
+<div class="box" data-cat="util">
+  <span class="tag tag-util">UTIL</span>
+  <h3>39 · Countdown Timer</h3>
+  <input id="cd_sec" type="number" placeholder="Seconds" value="60">
+  <div id="cdDisplay" style="font-family:'Orbitron',sans-serif;font-size:1.6rem;color:#ff2d78;text-align:center;padding:6px 0;">60</div>
+  <div class="btn-row">
+    <button onclick="cdStart()">START</button>
+    <button class="red" onclick="cdReset()">RESET</button>
+  </div>
+  <span class="box-num">#39</span>
+</div>
+
+<!-- 40. Area Calculator -->
+<div class="box" data-cat="math">
+  <span class="tag tag-math">MATH</span>
+  <h3>40 · Area Calculator</h3>
+  <select id="area_shape">
+    <option value="circle">Circle</option>
+    <option value="rect">Rectangle</option>
+    <option value="tri">Triangle</option>
+  </select>
+  <div class="row">
+    <input id="area_a" type="number" placeholder="A / Radius">
+    <input id="area_b" type="number" placeholder="B (if needed)">
+  </div>
+  <button onclick="calcArea()">CALCULATE</button>
+  <div class="result big" id="r_area">—</div>
+  <span class="box-num">#40</span>
+</div>
+
+<!-- 41. Currency (rates) -->
+<div class="box" data-cat="convert">
+  <span class="tag tag-convert">CONVERT</span>
+  <h3>41 · Quick Currency</h3>
+  <input id="cur_amt" type="number" placeholder="Amount" value="1">
+  <select id="cur_from">
+    <option value="USD">USD</option><option value="EUR">EUR</option>
+    <option value="GBP">GBP</option><option value="INR">INR</option>
+    <option value="JPY">JPY</option><option value="AUD">AUD</option>
+  </select>
+  <select id="cur_to">
+    <option value="EUR">EUR</option><option value="USD">USD</option>
+    <option value="GBP">GBP</option><option value="INR">INR</option>
+    <option value="JPY">JPY</option><option value="AUD">AUD</option>
+  </select>
+  <button onclick="convCur()">CONVERT</button>
+  <div class="result" id="r_cur" style="font-size:0.75rem;">Rates are approximate</div>
+  <span class="box-num">#41</span>
+</div>
+
+<!-- 42. GCD & LCM -->
+<div class="box" data-cat="math">
+  <span class="tag tag-math">MATH</span>
+  <h3>42 · GCD & LCM</h3>
+  <div class="row">
+    <input id="gl_a" type="number" placeholder="A">
+    <input id="gl_b" type="number" placeholder="B">
+  </div>
+  <button onclick="calcGCDLCM()">CALCULATE</button>
+  <div class="result" id="r_gcdlcm">—</div>
+  <span class="box-num">#42</span>
+</div>
+
+<!-- 43. Square Root / Power -->
+<div class="box" data-cat="math">
+  <span class="tag tag-math">MATH</span>
+  <h3>43 · Roots & Powers</h3>
+  <input id="rp_val" type="number" placeholder="Number">
+  <div class="btn-row">
+    <button onclick="doSqrt()">√ SQRT</button>
+    <button class="yellow" onclick="doCbrt()">∛ CBRT</button>
+    <button class="red" onclick="doSquare()">x² SQ</button>
+  </div>
+  <div class="result big" id="r_rp">—</div>
+  <span class="box-num">#43</span>
+</div>
+
+<!-- 44. Color Mixer -->
+<div class="box" data-cat="util">
+  <span class="tag tag-util">UTIL</span>
+  <h3>44 · Color Mixer</h3>
+  <div class="row">
+    <input type="color" id="mix_a" value="#00ffe7">
+    <input type="color" id="mix_b" value="#ff2d78">
+  </div>
+  <button onclick="mixColors()">MIX</button>
+  <div class="result" id="r_mix">—</div>
+  <div class="swatch" id="mixSwatch"></div>
+  <span class="box-num">#44</span>
+</div>
+
+<!-- 45. Time Zone -->
+<div class="box" data-cat="util">
+  <span class="tag tag-util">UTIL</span>
+  <h3>45 · World Clocks</h3>
+  <button onclick="worldClocks()">SHOW</button>
+  <div class="result" id="r_tz" style="font-size:0.75rem;line-height:2;">—</div>
+  <span class="box-num">#45</span>
+</div>
+
+<!-- 46. Anagram Check -->
+<div class="box" data-cat="text">
+  <span class="tag tag-text">TEXT</span>
+  <h3>46 · Anagram Check</h3>
+  <div class="row">
+    <input id="an_a" placeholder="Word A">
+    <input id="an_b" placeholder="Word B">
+  </div>
+  <button onclick="checkAnagram()">CHECK</button>
+  <div class="result" id="r_anagram">—</div>
+  <span class="box-num">#46</span>
+</div>
+
+<!-- 47. Calorie Burn -->
+<div class="box" data-cat="health">
+  <span class="tag tag-health">HEALTH</span>
+  <h3>47 · Calorie Burn Est.</h3>
+  <input id="cal_wt" type="number" placeholder="Weight (kg)">
+  <input id="cal_min" type="number" placeholder="Minutes">
+  <select id="cal_act">
+    <option value="8">Running</option>
+    <option value="5">Cycling</option>
+    <option value="3.5">Walking</option>
+    <option value="7">Swimming</option>
+    <option value="6">Jumping Rope</option>
+  </select>
+  <button onclick="calcCal()">ESTIMATE</button>
+  <div class="result" id="r_cal">—</div>
+  <span class="box-num">#47</span>
+</div>
+
+<!-- 48. Water Intake -->
+<div class="box" data-cat="health">
+  <span class="tag tag-health">HEALTH</span>
+  <h3>48 · Water Intake</h3>
+  <input id="wi_wt" type="number" placeholder="Weight (kg)">
+  <select id="wi_act">
+    <option value="1">Sedentary</option>
+    <option value="1.2">Lightly Active</option>
+    <option value="1.5">Very Active</option>
+  </select>
+  <button onclick="calcWater()">CALCULATE</button>
+  <div class="result" id="r_wi">—</div>
+  <span class="box-num">#48</span>
+</div>
+
+<!-- 49. Coin Flip -->
+<div class="box" data-cat="util">
+  <span class="tag tag-util">UTIL</span>
+  <h3>49 · Coin Flip</h3>
+  <button onclick="flipCoin()">FLIP</button>
+  <div class="result big" id="r_coin" style="font-size:2.5rem;">—</div>
+  <span class="box-num">#49</span>
+</div>
+
+<!-- 50. Morse Code -->
+<div class="box" data-cat="convert">
+  <span class="tag tag-convert">CONVERT</span>
+  <h3>50 · Morse Code</h3>
+  <input id="t_morse" placeholder="Enter text...">
+  <div class="btn-row">
+    <button onclick="toMorse()">TEXT → MORSE</button>
+    <button class="yellow" onclick="fromMorse()">MORSE → TEXT</button>
+  </div>
+  <div class="result" id="r_morse" style="font-size:0.78rem;letter-spacing:0.15em;cursor:pointer;" onclick="copyText('r_morse')" title="Click to copy">—</div>
+  <span class="box-num">#50</span>
+</div>
+
+</div>
+
+<footer>⚡ 50 POWER TOOLS · Built with precision</footer>
+
+<script>
+/* ── Helpers ── */
+const $ = id => document.getElementById(id);
+const set = (id, val) => $(id).innerText = val;
+function copyText(id) {
+  const t = $(id).innerText;
+  navigator.clipboard.writeText(t).then(() => {
+    const el = $(id); const prev = el.style.color;
+    el.style.color = '#ffe600'; setTimeout(() => el.style.color = prev, 600);
+  });
+}
+
+/* ── 1. Calculator ── */
+function doCalc() {
+  const a = +$('c1_a').value, b = +$('c1_b').value, op = $('c1_op').value;
+  let r;
+  if (op === '+') r = a + b;
+  else if (op === '-') r = a - b;
+  else if (op === '*') r = a * b;
+  else if (op === '/') r = b !== 0 ? (a / b).toFixed(6) : 'ERR: /0';
+  else if (op === '%') r = a % b;
+  else r = Math.pow(a, b);
+  set('r_calc', r);
+}
+
+/* ── 2. Password Generator ── */
+function genPass() {
+  let chars = 'abcdefghijklmnopqrstuvwxyz';
+  if ($('passUpper').checked) chars += 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+  if ($('passNum').checked)   chars += '0123456789';
+  if ($('passSym').checked)   chars += '!@#$%^&*()-_=+[]{}|;:,.<>?';
+  const len = +$('passLen').value || 16;
+  let p = '';
+  for (let i = 0; i < len; i++) p += chars[Math.floor(Math.random() * chars.length)];
+  set('r_pass', p);
+}
+
+/* ── 3. Word & Char Counter ── */
+function wordCount() {
+  const t = $('t_wc').value.trim();
+  const words = t ? t.split(/\s+/).length : 0;
+  set('r_wc', `Words: ${words} · Chars: ${$('t_wc').value.length} · Lines: ${$('t_wc').value.split('\n').length}`);
+}
+
+/* ── 4. Random Number ── */
+function randNum() {
+  const a = +$('rn_min').value, b = +$('rn_max').value;
+  set('r_rand', Math.floor(Math.random() * (b - a + 1)) + a);
+}
+
+/* ── 5. Dice ── */
+function rollDice() {
+  const s = +$('diceSides').value;
+  const r = Math.floor(Math.random() * s) + 1;
+  const faces = ['⚀','⚁','⚂','⚃','⚄','⚅'];
+  const emoji = s === 6 ? ' ' + faces[r-1] : '';
+  set('r_dice', r + emoji);
+}
+
+/* ── 6. Color Generator ── */
+function genColor() {
+  const hex = '#' + Math.floor(Math.random() * 0xFFFFFF).toString(16).padStart(6,'0');
+  set('r_color', hex + ' (click to copy)');
+  $('colorSwatch').style.background = hex;
+}
+
+/* ── 7 & 8. Case ── */
+function toUpper() { set('r_up', $('t_up').value.toUpperCase()); }
+function toLower() { set('r_low', $('t_low').value.toLowerCase()); }
+
+/* ── 9. Reverse ── */
+function revText() { set('r_rev', $('t_rev').value.split('').reverse().join('')); }
+
+/* ── 10. Palindrome ── */
+function checkPal() {
+  const t = $('t_pal').value.toLowerCase().replace(/[^a-z0-9]/g,'');
+  const is = t === t.split('').reverse().join('');
+  set('r_pal', is ? '✅ YES — It\'s a palindrome!' : '❌ NO — Not a palindrome.');
+}
+
+/* ── 11. Age ── */
+function calcAge() {
+  const b = new Date($('t_dob').value), n = new Date();
+  const y = n.getFullYear() - b.getFullYear();
+  const m = n.getMonth() - b.getMonth();
+  const d = n.getDate() - b.getDate();
+  const months = ((m < 0 || (m === 0 && d < 0)) ? m + 11 : m + (d < 0 ? -1 : 0) + 12) % 12;
+  set('r_age', `${y} years · ${(months+12)%12} months`);
+}
+
+/* ── 12. BMI ── */
+function calcBMI() {
+  const h = +$('bmi_h').value, w = +$('bmi_w').value;
+  const bmi = (w / (h * h)).toFixed(1);
+  const cat = bmi < 18.5 ? 'Underweight' : bmi < 25 ? 'Normal' : bmi < 30 ? 'Overweight' : 'Obese';
+  set('r_bmi', `${bmi} — ${cat}`);
+}
+
+/* ── 13. Percentage ── */
+function calcPct() {
+  const r = (+$('pct_a').value / +$('pct_b').value * 100).toFixed(2);
+  set('r_pct', r + '%');
+}
+
+/* ── 14. Tip ── */
+function calcTip() {
+  const bill = +$('tip_bill').value, pct = +$('tip_pct').value, ppl = +$('tip_ppl').value || 1;
+  const tip = bill * pct / 100;
+  const total = bill + tip;
+  set('r_tip', `Tip: $${tip.toFixed(2)} · Total: $${total.toFixed(2)} · Per person: $${(total/ppl).toFixed(2)}`);
+}
+
+/* ── 15. Temperature ── */
+function convTemp() {
+  const v = +$('temp_in').value, d = $('temp_dir').value;
+  let r;
+  if (d==='cf') r = (v*9/5+32).toFixed(2) + ' °F';
+  else if (d==='fc') r = ((v-32)*5/9).toFixed(2) + ' °C';
+  else if (d==='ck') r = (v+273.15).toFixed(2) + ' K';
+  else r = (v-273.15).toFixed(2) + ' °C';
+  set('r_temp', r);
+}
+
+/* ── 16. Length ── */
+function convLen() {
+  const v = +$('len_val').value, d = $('len_dir').value;
+  const map = {mkm:v/1000,kmm:v*1000,mft:v*3.28084,ftm:v/3.28084,kmi:v*0.621371,ikm:v/0.621371};
+  set('r_len', map[d].toFixed(4));
+}
+
+/* ── 17. Weight ── */
+function convWt() {
+  const v = +$('wt_val').value, d = $('wt_dir').value;
+  const map = {kglb:v*2.20462,lbkg:v/2.20462,kgg:v*1000,gkg:v/1000,kgoz:v*35.274,ozkg:v/35.274};
+  set('r_wt', map[d].toFixed(4));
+}
+
+/* ── 18. Stopwatch ── */
+let swMs=0, swInt=null, swRunning=false;
+function fmtTime(ms) {
+  const h=Math.floor(ms/3600000), m=Math.floor(ms%3600000/60000), s=Math.floor(ms%60000/1000);
+  return [h,m,s].map(x=>String(x).padStart(2,'0')).join(':');
+}
+function swStart() {
+  if(swRunning) return;
+  swRunning=true;
+  let last=Date.now();
+  swInt=setInterval(()=>{ swMs+=Date.now()-last; last=Date.now(); $('stopDisplay').innerText=fmtTime(swMs); },50);
+}
+function swPause() { clearInterval(swInt); swRunning=false; }
+function swReset() { swPause(); swMs=0; $('stopDisplay').innerText='00:00:00'; }
+
+/* ── 19. Clock ── */
+setInterval(()=>{
+  const n=new Date();
+  $('clockDisplay').innerText=n.toLocaleTimeString();
+  $('r_date').innerText=n.toLocaleDateString(undefined,{weekday:'long',year:'numeric',month:'long',day:'numeric'});
+},1000);
+
+/* ── 20. Quote ── */
+const quotes=[
+  "The best way to predict the future is to invent it. — Alan Kay",
+  "Code is poetry written for machines. — Unknown",
+  "First, solve the problem. Then, write the code. — John Johnson",
+  "Simplicity is the soul of efficiency. — Austin Freeman",
+  "Any fool can write code that a computer can understand. Good programmers write code that humans can understand. — Fowler",
+  "The only way to do great work is to love what you do. — Steve Jobs",
+  "In the middle of difficulty lies opportunity. — Albert Einstein",
+  "Make it work, make it right, make it fast. — Kent Beck",
+  "Debugging is twice as hard as writing the code. — Brian Kernighan",
+  "Stay hungry, stay foolish. — Steve Jobs"
+];
+function showQuote() { set('r_quote', quotes[Math.floor(Math.random()*quotes.length)]); }
+
+/* ── 21. Prime ── */
+function checkPrime() {
+  let n = +$('t_prime').value;
+  if(n < 2) return set('r_prime', '❌ Not prime');
+  for(let i=2;i<=Math.sqrt(n);i++) if(n%i===0) return set('r_prime','❌ Not prime (divisible by '+i+')');
+  set('r_prime','✅ '+n+' is prime!');
+}
+
+/* ── 22 & 23. Binary ↔ Decimal ── */
+function bin2dec() {
+  const v = $('t_bin2dec').value;
+  const r = parseInt(v, 2);
+  set('r_bin2dec', isNaN(r) ? 'Invalid binary' : r);
+}
+function dec2bin() { set('r_dec2bin', (+$('t_dec2bin').value >>> 0).toString(2)); }
+
+/* ── 24. HEX → RGB ── */
+function hex2rgb() {
+  const hex = $('t_hex2rgb').value;
+  const r = parseInt(hex.slice(1,3),16), g = parseInt(hex.slice(3,5),16), b = parseInt(hex.slice(5,7),16);
+  set('r_hex2rgb', `rgb(${r}, ${g}, ${b}) | hsl(${Math.round(rgbToH(r,g,b))}, ${Math.round(rgbToS(r,g,b))}%, ${Math.round(rgbToL(r,g,b))}%)`);
+}
+function rgbToH(r,g,b){r/=255;g/=255;b/=255;const max=Math.max(r,g,b),min=Math.min(r,g,b);let h;if(max===min)h=0;else if(max===r)h=(60*((g-b)/(max-min))+360)%360;else if(max===g)h=60*((b-r)/(max-min))+120;else h=60*((r-g)/(max-min))+240;return h;}
+function rgbToL(r,g,b){r/=255;g/=255;b/=255;return(Math.max(r,g,b)+Math.min(r,g,b))/2*100;}
+function rgbToS(r,g,b){r/=255;g/=255;b/=255;const max=Math.max(r,g,b),min=Math.min(r,g,b),l=(max+min)/2;return max===min?0:(max-min)/(l>0.5?2-max-min:max+min)*100;}
+
+/* ── 25. EMI ── */
+function calcEMI() {
+  const p=+$('emi_p').value, r=(+$('emi_r').value/100)/12, n=+$('emi_n').value;
+  const emi = r===0 ? p/n : p*r*Math.pow(1+r,n)/(Math.pow(1+r,n)-1);
+  set('r_emi', `EMI: $${emi.toFixed(2)} · Total: $${(emi*n).toFixed(2)} · Interest: $${(emi*n-p).toFixed(2)}`);
+}
+
+/* ── 26. Compound Interest ── */
+function calcCI() {
+  const p=+$('ci_p').value, r=+$('ci_r').value/100, n=+$('ci_n').value;
+  const amt = p*Math.pow(1+r,n);
+  set('r_ci', `Amount: $${amt.toFixed(2)} · Interest: $${(amt-p).toFixed(2)}`);
+}
+
+/* ── 27. String Length ── */
+function strLen() { set('r_slen', $('t_slen').value.length + ' chars'); }
+
+/* ── 28. Title Case ── */
+function toTitle() {
+  set('r_title', $('t_title').value.toLowerCase().replace(/\b\w/g, c => c.toUpperCase()));
+}
+
+/* ── 29. Slug ── */
+function mkSlug() {
+  const s = $('t_slug').value.toLowerCase().trim().replace(/[^a-z0-9\s-]/g,'').replace(/\s+/g,'-').replace(/-+/g,'-');
+  set('r_slug', s + ' (click to copy)');
+}
+
+/* ── 30. Char Frequency ── */
+function charFreq() {
+  const t = $('t_freq').value;
+  if(!t) return;
+  const freq = {};
+  for(const c of t) freq[c] = (freq[c]||0)+1;
+  const sorted = Object.entries(freq).sort((a,b)=>b[1]-a[1]).slice(0,8);
+  set('r_freq', sorted.map(([c,n])=>`'${c==' '?'SPACE':c}':${n}`).join(' · '));
+}
+
+/* ── 31. Speed ── */
+function convSpd() {
+  const v=+$('spd_val').value, d=$('spd_dir').value;
+  const map={kph2mph:v*0.621371,mph2kph:v/0.621371,kph2ms:v/3.6,ms2kph:v*3.6};
+  set('r_spd', map[d].toFixed(4));
+}
+
+/* ── 32. Volume ── */
+function convVol() {
+  const v=+$('vol_val').value, d=$('vol_dir').value;
+  const map={lml:v*1000,mll:v/1000,lgal:v*0.264172,gall:v/0.264172};
+  set('r_vol', map[d].toFixed(4));
+}
+
+/* ── 33. Factorial ── */
+function calcFact() {
+  const n = +$('t_fact').value;
+  if(n<0||n>20) return set('r_fact','0–20 only');
+  let r=1; for(let i=2;i<=n;i++) r*=i;
+  set('r_fact', r.toLocaleString());
+}
+
+/* ── 34. Fibonacci ── */
+function calcFib() {
+  let n = Math.min(+$('t_fib').value, 20);
+  const s=[0,1]; for(let i=2;i<n;i++) s.push(s[i-1]+s[i-2]);
+  set('r_fib', s.slice(0,n).join(', '));
+}
+
+/* ── 35. UUID ── */
+function genUUID() {
+  const u='xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g,c=>{
+    const r=Math.random()*16|0; return (c==='x'?r:(r&0x3|0x8)).toString(16);
+  });
+  set('r_uuid', u + ' (click to copy)');
+}
+
+/* ── 36. Base64 ── */
+function b64Enc() { try{set('r_b64', btoa($('t_b64').value)+' (click to copy)');}catch(e){set('r_b64','Error');} }
+function b64Dec() { try{set('r_b64', atob($('t_b64').value)+' (click to copy)');}catch(e){set('r_b64','Invalid base64');} }
+
+/* ── 37. Number to Words ── */
+const ones=['','one','two','three','four','five','six','seven','eight','nine','ten','eleven','twelve','thirteen','fourteen','fifteen','sixteen','seventeen','eighteen','nineteen'];
+const tens=['','','twenty','thirty','forty','fifty','sixty','seventy','eighty','ninety'];
+function n2w(n){
+  if(n===0)return'zero';
+  if(n<0)return'negative '+n2w(-n);
+  if(n<20)return ones[n];
+  if(n<100)return tens[Math.floor(n/10)]+(n%10?' '+ones[n%10]:'');
+  if(n<1000)return ones[Math.floor(n/100)]+' hundred'+(n%100?' '+n2w(n%100):'');
+  if(n<1000000)return n2w(Math.floor(n/1000))+' thousand'+(n%1000?' '+n2w(n%1000):'');
+  return n2w(Math.floor(n/1000000))+' million'+(n%1000000?' '+n2w(n%1000000):'');
+}
+function numToWords() { set('r_n2w', n2w(+$('t_n2w').value)); }
+
+/* ── 38. Roman ── */
+function toRoman() {
+  let n=+$('t_rom').value; if(n<1||n>3999) return set('r_rom','1–3999');
+  const v=[1000,900,500,400,100,90,50,40,10,9,5,4,1];
+  const s=['M','CM','D','CD','C','XC','L','XL','X','IX','V','IV','I'];
+  let r=''; for(let i=0;i<v.length;i++) while(n>=v[i]){r+=s[i];n-=v[i];}
+  set('r_rom', r);
+}
+
+/* ── 39. Countdown ── */
+let cdLeft=60, cdInt=null;
+function cdStart() {
+  cdLeft = +$('cd_sec').value || 60;
+  clearInterval(cdInt);
+  cdInt=setInterval(()=>{
+    cdLeft--;
+    $('cdDisplay').innerText = cdLeft;
+    if(cdLeft<=0){clearInterval(cdInt);$('cdDisplay').innerText='🔔 DONE!';}
+  },1000);
+}
+function cdReset() { clearInterval(cdInt); cdLeft=+$('cd_sec').value||60; $('cdDisplay').innerText=cdLeft; }
+
+/* ── 40. Area ── */
+function calcArea() {
+  const sh=$('area_shape').value, a=+$('area_a').value, b=+$('area_b').value;
+  let r;
+  if(sh==='circle') r=(Math.PI*a*a).toFixed(4)+'  u²';
+  else if(sh==='rect') r=(a*b).toFixed(4)+'  u²';
+  else r=(0.5*a*b).toFixed(4)+'  u²';
+  set('r_area', r);
+}
+
+/* ── 41. Currency (approximate static rates vs USD) ── */
+const rates={USD:1,EUR:0.92,GBP:0.79,INR:83.1,JPY:149.5,AUD:1.54};
+function convCur() {
+  const amt=+$('cur_amt').value, from=$('cur_from').value, to=$('cur_to').value;
+  const result=(amt/rates[from]*rates[to]).toFixed(4);
+  set('r_cur', `${amt} ${from} ≈ ${result} ${to}\n(approx static rates)`);
+}
+
+/* ── 42. GCD & LCM ── */
+function gcd(a,b){return b?gcd(b,a%b):a;}
+function calcGCDLCM() {
+  const a=+$('gl_a').value, b=+$('gl_b').value;
+  const g=gcd(a,b), l=(a*b)/g;
+  set('r_gcdlcm', `GCD: ${g} · LCM: ${l}`);
+}
+
+/* ── 43. Roots & Powers ── */
+function doSqrt(){set('r_rp',Math.sqrt(+$('rp_val').value).toFixed(6));}
+function doCbrt(){set('r_rp',Math.cbrt(+$('rp_val').value).toFixed(6));}
+function doSquare(){const v=+$('rp_val').value;set('r_rp',(v*v).toLocaleString());}
+
+/* ── 44. Color Mixer ── */
+function mixColors() {
+  function h2r(h){return[parseInt(h.slice(1,3),16),parseInt(h.slice(3,5),16),parseInt(h.slice(5,7),16)];}
+  const [r1,g1,b1]=h2r($('mix_a').value), [r2,g2,b2]=h2r($('mix_b').value);
+  const mr=Math.round((r1+r2)/2), mg=Math.round((g1+g2)/2), mb=Math.round((b1+b2)/2);
+  const hex='#'+[mr,mg,mb].map(v=>v.toString(16).padStart(2,'0')).join('');
+  set('r_mix', hex);
+  $('mixSwatch').style.background = hex;
+}
+
+/* ── 45. World Clocks ── */
+function worldClocks() {
+  const zones=[
+    ['New York','America/New_York'],['London','Europe/London'],['Dubai','Asia/Dubai'],
+    ['Mumbai','Asia/Kolkata'],['Singapore','Asia/Singapore'],['Tokyo','Asia/Tokyo'],
+    ['Sydney','Australia/Sydney'],['Los Angeles','America/Los_Angeles']
+  ];
+  const now=new Date();
+  const out=zones.map(([city,tz])=>{
+    const t=now.toLocaleTimeString('en-US',{timeZone:tz,hour:'2-digit',minute:'2-digit'});
+    return `${city.padEnd(12,' ')} ${t}`;
+  }).join('\n');
+  $('r_tz').innerText=out;
+  $('r_tz').style.whiteSpace='pre';
+}
+
+/* ── 46. Anagram ── */
+function checkAnagram() {
+  const sort=s=>s.toLowerCase().replace(/\s/g,'').split('').sort().join('');
+  const is=sort($('an_a').value)===sort($('an_b').value);
+  set('r_anagram', is?'✅ YES — Anagrams!':'❌ NO — Not anagrams.');
+}
+
+/* ── 47. Calorie Burn ── */
+function calcCal() {
+  const wt=+$('cal_wt').value, min=+$('cal_min').value, met=+$('cal_act').value;
+  const cal=(met*wt*min/60).toFixed(0);
+  set('r_cal', `~${cal} kcal burned`);
+}
+
+/* ── 48. Water Intake ── */
+function calcWater() {
+  const wt=+$('wi_wt').value, act=+$('wi_act').value;
+  const ml=(wt*35*act).toFixed(0);
+  set('r_wi', `~${ml} mL/day (~${(ml/1000).toFixed(2)} L)`);
+}
+
+/* ── 49. Coin Flip ── */
+function flipCoin() { set('r_coin', Math.random()<0.5?'🪙 HEADS':'🔶 TAILS'); }
+
+/* ── 50. Morse Code ── */
+const MORSE_MAP = {A:'.-',B:'-...',C:'-.-.',D:'-..',E:'.',F:'..-.',G:'--.',H:'....',I:'..',J:'.---',K:'-.-',L:'.-..',M:'--',N:'-.',O:'---',P:'.--.',Q:'--.-',R:'.-.',S:'...',T:'-',U:'..-',V:'...-',W:'.--',X:'-..-',Y:'-.--',Z:'--..',0:'-----',1:'.----',2:'..---',3:'...--',4:'....-',5:'.....',6:'-....',7:'--...',8:'---..',9:'----.'};
+const MORSE_REV = Object.fromEntries(Object.entries(MORSE_MAP).map(([k,v])=>[v,k]));
+function toMorse(){set('r_morse',$('t_morse').value.toUpperCase().split('').map(c=>c===' '?'/':MORSE_MAP[c]||c).join(' ')+'  (click to copy)');}
+function fromMorse(){set('r_morse',$('t_morse').value.split(' / ').map(w=>w.split(' ').map(c=>MORSE_REV[c]||c).join('')).join(' ')+'  (click to copy)');}
+
+/* ── Category Filter ── */
+function filterCat(cat) {
+  document.querySelectorAll('.box').forEach(b=>{
+    b.style.display=(cat==='all'||b.dataset.cat===cat)?'flex':'none';
+  });
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  event.target.classList.add('active');
+}
+
+</script>
+</body>
+</html>

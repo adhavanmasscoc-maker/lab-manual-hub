@@ -1,0 +1,775 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ultimate Smart File Organizer & Hub</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <style>
+    /* CSS Variables & Theming */
+    :root {
+      --primary: #6366f1;
+      --primary-hover: #4f46e5;
+      --success: #10b981;
+      --danger: #ef4444;
+      --warning: #f59e0b;
+      --glass-bg: rgba(255, 255, 255, 0.05);
+      --glass-border: rgba(255, 255, 255, 0.1);
+      --text: #f8fafc;
+      --text-muted: #94a3b8;
+      --bg-color: #0f172a;
+      --surface: #1e293b;
+    }
+
+    [data-theme="light"] {
+      --glass-bg: rgba(0, 0, 0, 0.03);
+      --glass-border: rgba(0, 0, 0, 0.1);
+      --text: #0f172a;
+      --text-muted: #64748b;
+      --bg-color: #f8fafc;
+      --surface: #ffffff;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Inter', -apple-system, sans-serif;
+    }
+
+    body {
+      background-color: var(--bg-color);
+      color: var(--text);
+      min-height: 100vh;
+      display: flex;
+      transition: background-color 0.3s, color 0.3s;
+      overflow-x: hidden;
+    }
+
+    /* Layout */
+    .sidebar {
+      width: 260px;
+      background: var(--surface);
+      border-right: 1px solid var(--glass-border);
+      padding: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .main-content {
+      flex: 1;
+      padding: 2rem;
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+
+    /* Typography & Utilities */
+    h1,
+    h2,
+    h3 {
+      color: var(--text);
+    }
+
+    .text-muted {
+      color: var(--text-muted);
+      font-size: 0.9rem;
+    }
+
+    .flex {
+      display: flex;
+    }
+
+    .gap-4 {
+      gap: 1rem;
+    }
+
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1rem;
+    }
+
+    /* Glassmorphism Cards */
+    .glass-card {
+      background: var(--glass-bg);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid var(--glass-border);
+      border-radius: 16px;
+      padding: 1.5rem;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Buttons */
+    .btn {
+      padding: 0.75rem 1.5rem;
+      border-radius: 8px;
+      border: none;
+      cursor: pointer;
+      font-weight: 600;
+      transition: all 0.2s;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      color: white;
+    }
+
+    .btn-primary {
+      background: var(--primary);
+    }
+
+    .btn-primary:hover {
+      background: var(--primary-hover);
+    }
+
+    .btn-success {
+      background: var(--success);
+    }
+
+    .btn-danger {
+      background: var(--danger);
+    }
+
+    .btn-glass {
+      background: var(--glass-bg);
+      border: 1px solid var(--glass-border);
+      color: var(--text);
+    }
+
+    .btn-glass:hover {
+      background: rgba(128, 128, 128, 0.1);
+    }
+
+    .btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    /* Dropzone */
+    .dropzone {
+      border: 2px dashed var(--primary);
+      border-radius: 16px;
+      padding: 4rem 2rem;
+      text-align: center;
+      cursor: pointer;
+      background: rgba(99, 102, 241, 0.05);
+      transition: all 0.3s ease;
+    }
+
+    .dropzone.dragover {
+      background: rgba(99, 102, 241, 0.15);
+      transform: scale(1.01);
+    }
+
+    /* Toggles & Checkboxes */
+    .control-group {
+      margin-bottom: 1rem;
+    }
+
+    .control-label {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      cursor: pointer;
+      margin-bottom: 0.5rem;
+    }
+
+    /* Preview Table */
+    .table-container {
+      overflow-x: auto;
+      max-height: 400px;
+      overflow-y: auto;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: left;
+    }
+
+    th,
+    td {
+      padding: 0.75rem;
+      border-bottom: 1px solid var(--glass-border);
+    }
+
+    th {
+      background: var(--surface);
+      position: sticky;
+      top: 0;
+    }
+
+    /* Progress Modal */
+    .modal {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.8);
+      backdrop-filter: blur(5px);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .modal.active {
+      display: flex;
+    }
+
+    .progress-bar {
+      width: 100%;
+      height: 12px;
+      background: var(--surface);
+      border-radius: 6px;
+      overflow: hidden;
+      margin: 1rem 0;
+    }
+
+    .progress-fill {
+      height: 100%;
+      background: var(--primary);
+      width: 0%;
+      transition: width 0.2s;
+    }
+
+    /* Nav Items */
+    .nav-item {
+      padding: 0.75rem 1rem;
+      border-radius: 8px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      color: var(--text-muted);
+    }
+
+    .nav-item.active {
+      background: var(--primary);
+      color: white;
+    }
+
+    .nav-item:hover:not(.active) {
+      background: var(--glass-bg);
+    }
+  </style>
+</head>
+
+<body>
+
+  <aside class="sidebar">
+    <h2><i class="fas fa-layer-group"></i> OrganizerHub</h2>
+    <p class="text-muted" style="font-size: 0.8rem; margin-bottom: 1rem;">Local processing only. No uploads.</p>
+
+    <div class="nav-item active" id="nav-organizer">
+      <i class="fas fa-folder-tree"></i> Smart Organizer
+    </div>
+    <div class="nav-item" id="nav-tools">
+      <i class="fas fa-toolbox"></i> Multi-Tool Hub
+    </div>
+
+    <div style="margin-top: auto;">
+      <button class="btn btn-glass" style="width: 100%;" onclick="toggleTheme()">
+                <i class="fas fa-moon"></i> Toggle Theme
+            </button>
+    </div>
+  </aside>
+
+  <main class="main-content">
+
+    <div class="flex gap-4" style="justify-content: space-between; align-items: center;">
+      <div>
+        <h1>Smart File Organizer</h1>
+        <p class="text-muted">Auto-categorize, clean duplicates, and generate nested ZIPs instantly.</p>
+      </div>
+      <button class="btn btn-primary" id="btn-fix-mess">
+                <i class="fas fa-magic"></i> Fix My Messy Folder
+            </button>
+    </div>
+
+    <div class="dropzone" id="dropzone">
+      <i class="fas fa-cloud-upload-alt" style="font-size: 3rem; color: var(--primary); margin-bottom: 1rem;"></i>
+      <h3>Drag & Drop Files or Folders Here</h3>
+      <p class="text-muted">or click to browse</p>
+      <input type="file" id="fileInput" multiple webkitdirectory directory style="display: none;">
+    </div>
+
+    <div class="grid-3" id="dashboard-section" style="display: none;">
+
+      <div class="glass-card">
+        <h3><i class="fas fa-cog"></i> Configuration</h3>
+        <hr style="border-color: var(--glass-border); margin: 1rem 0;">
+
+        <label class="control-label">
+                    <input type="checkbox" id="chk-duplicates" checked> Remove Duplicates
+                </label>
+        <label class="control-label">
+                    <input type="checkbox" id="chk-rename"> Auto-rename Files Cleanly
+                </label>
+
+        <div class="control-group" style="margin-top: 1rem;">
+          <label class="text-muted">ZIP Structure</label>
+          <select id="sel-zip-mode" style="width: 100%; padding: 0.5rem; background: var(--surface); color: var(--text); border: 1px solid var(--glass-border); border-radius: 4px;">
+                        <option value="nested">Single Nested ZIP (organized.zip)</option>
+                        <option value="separate">Download Categories Separately</option>
+                        <option value="flat">Single Flat ZIP (No Folders)</option>
+                    </select>
+        </div>
+
+        <div class="control-group">
+          <label class="text-muted">Compression Mode</label>
+          <select id="sel-speed" style="width: 100%; padding: 0.5rem; background: var(--surface); color: var(--text); border: 1px solid var(--glass-border); border-radius: 4px;">
+                        <option value="STORE">Fast Mode (No Compression)</option>
+                        <option value="DEFLATE">Small Size (Slower)</option>
+                    </select>
+        </div>
+      </div>
+
+      <div class="glass-card">
+        <h3><i class="fas fa-chart-pie"></i> File Stats</h3>
+        <hr style="border-color: var(--glass-border); margin: 1rem 0;">
+        <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+          <span>Total Files:</span> <strong id="stat-total-files">0</strong>
+        </div>
+        <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+          <span>Total Size:</span> <strong id="stat-total-size">0 MB</strong>
+        </div>
+        <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+          <span>Duplicates Found:</span> <strong id="stat-duplicates" style="color: var(--warning)">0</strong>
+        </div>
+        <canvas id="categoryChart" style="margin-top: 1rem; max-height: 150px;"></canvas>
+      </div>
+
+      <div class="glass-card"
+        style="display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 1rem;">
+        <h3 id="ready-text">Ready to Process</h3>
+        <button class="btn btn-success" id="btn-start" style="width: 100%; padding: 1rem; font-size: 1.1rem;">
+                    <i class="fas fa-play"></i> Start Organizing
+                </button>
+        <button class="btn btn-danger" id="btn-cancel" style="width: 100%; display: none;">
+                    <i class="fas fa-stop"></i> Cancel
+                </button>
+      </div>
+    </div>
+
+    <div class="glass-card" id="preview-section" style="display: none;">
+      <div class="flex" style="justify-content: space-between; margin-bottom: 1rem;">
+        <h3><i class="fas fa-eye"></i> File Preview</h3>
+        <input type="text" id="search-filter" placeholder="Search files..." style="padding: 0.5rem; border-radius: 4px; border: 1px solid var(--glass-border); background: var(--surface); color: var(--text);">
+      </div>
+      <div class="table-container">
+        <table id="preview-table">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Category</th>
+              <th>Size</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </div>
+
+  </main>
+
+  <div class="modal" id="progress-modal">
+    <div class="glass-card" style="width: 90%; max-width: 500px; text-align: center;">
+      <h2 id="progress-title">Processing Files...</h2>
+      <p id="progress-subtitle" class="text-muted">Organizing and Zipping</p>
+
+      <div class="progress-bar">
+        <div class="progress-fill" id="progress-fill"></div>
+      </div>
+
+      <div style="display: flex; justify-content: space-between; font-size: 0.9rem;">
+        <span id="progress-percent">0%</span>
+        <span id="progress-count">0 / 0</span>
+      </div>
+
+      <div id="error-log"
+        style="margin-top: 1rem; text-align: left; color: var(--danger); font-size: 0.8rem; max-height: 100px; overflow-y: auto;">
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // --- 1. CORE STATE ---
+        let state = {
+            rawFiles: [],
+            processedFiles: [],
+            categories: {},
+            totalSize: 0,
+            duplicates: 0,
+            isProcessing: false,
+            abortController: null,
+            errors: []
+        };
+
+        // Advanced categorization map
+        const extMap = {
+            images: ['jpg','jpeg','png','webp','gif','svg','bmp'],
+            videos: ['mp4','mkv','avi','mov','wmv','flv'],
+            audio: ['mp3','wav','ogg','m4a','flac'],
+            documents: ['pdf','doc','docx','txt','ppt','pptx','xls','xlsx','csv'],
+            archives: ['zip','rar','7z','tar','gz']
+        };
+
+        let chartInstance = null;
+
+        // --- 2. DOM ELEMENTS ---
+        const dropzone = document.getElementById('dropzone');
+        const fileInput = document.getElementById('fileInput');
+        const dashboardSection = document.getElementById('dashboard-section');
+        const previewSection = document.getElementById('preview-section');
+        const tbody = document.querySelector('#preview-table tbody');
+        const btnStart = document.getElementById('btn-start');
+        
+        // --- 3. UI & THEME ---
+        function toggleTheme() {
+            const html = document.documentElement;
+            const current = html.getAttribute('data-theme');
+            html.setAttribute('data-theme', current === 'dark' ? 'light' : 'dark');
+            if(chartInstance) updateChart(); // Redraw chart for contrast
+        }
+
+        // --- 4. FILE INGESTION (Drop & Folder Support) ---
+        dropzone.addEventListener('click', () => fileInput.click());
+        dropzone.addEventListener('dragover', (e) => { e.preventDefault(); dropzone.classList.add('dragover'); });
+        dropzone.addEventListener('dragleave', () => dropzone.classList.remove('dragover'));
+        dropzone.addEventListener('drop', async (e) => {
+            e.preventDefault();
+            dropzone.classList.remove('dragover');
+            handleIngestionStart();
+            
+            const items = e.dataTransfer.items;
+            let collected = [];
+            
+            // Handle webkit directory drag/drop natively
+            for (let i = 0; i < items.length; i++) {
+                const item = items[i].webkitGetAsEntry();
+                if (item) await traverseFileTree(item, collected);
+            }
+            processIngestedFiles(collected);
+        });
+
+        fileInput.addEventListener('change', (e) => {
+            handleIngestionStart();
+            processIngestedFiles(Array.from(e.target.files));
+        });
+
+        function handleIngestionStart() {
+            state.rawFiles = [];
+            state.errors = [];
+            document.getElementById('error-log').innerHTML = '';
+        }
+
+        async function traverseFileTree(item, pathList) {
+            return new Promise((resolve) => {
+                if (item.isFile) {
+                    item.file(file => { pathList.push(file); resolve(); });
+                } else if (item.isDirectory) {
+                    const dirReader = item.createReader();
+                    dirReader.readEntries(async (entries) => {
+                        for (let i = 0; i < entries.length; i++) {
+                            await traverseFileTree(entries[i], pathList);
+                        }
+                        resolve();
+                    });
+                }
+            });
+        }
+
+        // --- 5. CORE LOGIC & ANALYSIS ---
+        async function processIngestedFiles(files) {
+            if (files.length === 0) return;
+
+            // Security Prompt Rule
+            if (files.length > 50) {
+                const pass = prompt(`You are uploading ${files.length} files. Enter pin to continue (1815):`);
+                if (pass !== "1815") {
+                    alert("Incorrect pin. Processing blocked.");
+                    return;
+                }
+            }
+
+            state.rawFiles = files;
+            analyzeFiles();
+            
+            // UI Updates
+            dashboardSection.style.display = 'grid';
+            previewSection.style.display = 'block';
+            dropzone.style.display = 'none';
+
+            // Auto-start rule if Fix Messy Folder triggered
+            if(state.isAutoStart) {
+                state.isAutoStart = false;
+                startProcessing();
+            }
+        }
+
+        function determineCategory(file) {
+            const name = file.name.toLowerCase();
+            const ext = name.split('.').pop();
+            
+            // Smart Categories
+            if (name.includes('screenshot')) return 'screenshots';
+            if (name.includes('whatsapp')) return 'whatsapp';
+
+            for (const [cat, exts] of Object.entries(extMap)) {
+                if (exts.includes(ext)) return cat;
+            }
+            return 'others';
+        }
+
+        function analyzeFiles() {
+            state.categories = {};
+            state.totalSize = 0;
+            state.duplicates = 0;
+            state.processedFiles = [];
+            
+            const seen = new Set();
+            tbody.innerHTML = '';
+
+            state.rawFiles.forEach(file => {
+                const cat = determineCategory(file);
+                state.totalSize += file.size;
+                
+                // Duplicate Logic (Name + Size)
+                const sig = `${file.name}-${file.size}`;
+                let isDup = false;
+                if (seen.has(sig)) {
+                    state.duplicates++;
+                    isDup = true;
+                } else {
+                    seen.add(sig);
+                }
+
+                // Initialize Category Array
+                if (!state.categories[cat]) state.categories[cat] = { count: 0, size: 0, files: [] };
+                state.categories[cat].count++;
+                state.categories[cat].size += file.size;
+                
+                state.processedFiles.push({ file, category: cat, isDup });
+
+                // Add to Preview UI (limit DOM rendering for massive drops)
+                if (state.processedFiles.length <= 100) {
+                    const tr = document.createElement('tr');
+                    tr.innerHTML = `
+                        <td>${file.name}</td>
+                        <td><span class="btn-glass" style="padding: 0.2rem 0.5rem; font-size:0.8rem;">${cat}</span></td>
+                        <td>${(file.size / 1024 / 1024).toFixed(2)} MB</td>
+                        <td style="color: ${isDup ? 'var(--warning)' : 'var(--success)'}">${isDup ? 'Duplicate' : 'Ready'}</td>
+                    `;
+                    tbody.appendChild(tr);
+                }
+            });
+
+            if(state.processedFiles.length > 100) {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `<td colspan="4" style="text-align:center;">... and ${state.processedFiles.length - 100} more files</td>`;
+                tbody.appendChild(tr);
+            }
+
+            // Update Stats UI
+            document.getElementById('stat-total-files').innerText = state.rawFiles.length;
+            document.getElementById('stat-total-size').innerText = (state.totalSize / 1024 / 1024).toFixed(2) + ' MB';
+            document.getElementById('stat-duplicates').innerText = state.duplicates;
+
+            updateChart();
+        }
+
+        function updateChart() {
+            const ctx = document.getElementById('categoryChart').getContext('2d');
+            const labels = Object.keys(state.categories);
+            const data = labels.map(l => state.categories[l].count);
+            
+            if(chartInstance) chartInstance.destroy();
+            
+            const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+            const color = isDark ? '#f8fafc' : '#0f172a';
+
+            chartInstance = new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels,
+                    datasets: [{
+                        data,
+                        backgroundColor: ['#6366f1', '#10b981', '#f59e0b', '#ef4444', '#8b5cf6', '#06b6d4'],
+                        borderWidth: 0
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { position: 'right', labels: { color } } }
+                }
+            });
+        }
+
+        // --- 6. EXECUTION & ZIP GENERATION ---
+        btnStart.addEventListener('click', startProcessing);
+        
+        // Fix Messy Folder button maps to Auto-start with strict settings
+        document.getElementById('btn-fix-mess').addEventListener('click', () => {
+            document.getElementById('chk-duplicates').checked = true;
+            document.getElementById('chk-rename').checked = true;
+            document.getElementById('sel-zip-mode').value = 'nested';
+            state.isAutoStart = true;
+            fileInput.click();
+        });
+
+        async function startProcessing() {
+            if (state.rawFiles.length === 0) return;
+            state.isProcessing = true;
+            state.abortController = new AbortController();
+            
+            const modal = document.getElementById('progress-modal');
+            modal.classList.add('active');
+            const errorLog = document.getElementById('error-log');
+            errorLog.innerHTML = '';
+            
+            const removeDups = document.getElementById('chk-duplicates').checked;
+            const autoRename = document.getElementById('chk-rename').checked;
+            const zipMode = document.getElementById('sel-zip-mode').value;
+            const speedMode = document.getElementById('sel-speed').value; // STORE vs DEFLATE
+
+            let finalFiles = state.processedFiles;
+            if (removeDups) {
+                finalFiles = finalFiles.filter(f => !f.isDup);
+            }
+
+            const mainZip = new JSZip();
+            let processedCount = 0;
+            const totalToProcess = finalFiles.length;
+
+            const updateProgress = (count, name) => {
+                const percent = Math.round((count / totalToProcess) * 100);
+                document.getElementById('progress-fill').style.width = `${percent}%`;
+                document.getElementById('progress-percent').innerText = `${percent}%`;
+                document.getElementById('progress-count').innerText = `${count} / ${totalToProcess}`;
+                document.getElementById('progress-subtitle').innerText = `Adding: ${name}`;
+            };
+
+            // Group files by category
+            const grouped = {};
+            finalFiles.forEach(f => {
+                if(!grouped[f.category]) grouped[f.category] = [];
+                grouped[f.category].push(f);
+            });
+
+            try {
+                // Process Categories
+                for (const [category, files] of Object.entries(grouped)) {
+                    if(state.abortController.signal.aborted) throw new Error("Cancelled by user");
+
+                    const folderOrZip = zipMode === 'flat' ? mainZip : 
+                                        (zipMode === 'nested' ? new JSZip() : new JSZip());
+                    
+                    for (let i = 0; i < files.length; i++) {
+                        const fileObj = files[i].file;
+                        let fileName = fileObj.name;
+
+                        // Rename Logic
+                        if (autoRename) {
+                            const ext = fileName.split('.').pop();
+                            fileName = `${category}_${String(i+1).padStart(4, '0')}.${ext}`;
+                        }
+
+                        // CRITICAL: File Read Try/Catch to handle Permission/NotReadable errors
+                        try {
+                            const arrayBuffer = await fileObj.arrayBuffer();
+                            if (zipMode === 'flat') {
+                                folderOrZip.file(fileName, arrayBuffer);
+                            } else {
+                                folderOrZip.file(fileName, arrayBuffer);
+                            }
+                        } catch (readError) {
+                            // Catching OS lock/permission issues specifically requested by user
+                            const errMsg = `Skipped: ${fileObj.name} (Error: The requested file could not be read, typically due to permission problems or external modification.)`;
+                            console.error(errMsg, readError);
+                            errorLog.innerHTML += `<div><i class="fas fa-exclamation-triangle"></i> ${errMsg}</div>`;
+                        }
+
+                        processedCount++;
+                        updateProgress(processedCount, fileName);
+                        
+                        // Small yield to UI thread to prevent freezing
+                        if (i % 20 === 0) await new Promise(r => setTimeout(r, 10)); 
+                    }
+
+                    // If nested, generate inner zip and add to main
+                    if (zipMode === 'nested') {
+                        document.getElementById('progress-subtitle').innerText = `Compressing ${category}.zip...`;
+                        const innerBlob = await folderOrZip.generateAsync({ type: "blob", compression: "STORE" }); // Store for nested to save CPU
+                        mainZip.file(`${category}.zip`, innerBlob);
+                    } 
+                    // If separate, trigger download instantly for this category
+                    else if (zipMode === 'separate') {
+                        document.getElementById('progress-subtitle').innerText = `Generating ${category}.zip...`;
+                        const catBlob = await folderOrZip.generateAsync({ type: "blob", compression: speedMode });
+                        triggerDownload(catBlob, `${category}_organized.zip`);
+                    }
+                }
+
+                if (zipMode === 'nested' || zipMode === 'flat') {
+                    document.getElementById('progress-title').innerText = "Finalizing Master ZIP";
+                    document.getElementById('progress-subtitle').innerText = "This may take a moment based on size...";
+                    
+                    const finalBlob = await mainZip.generateAsync({ 
+                        type: "blob", 
+                        compression: speedMode,
+                        compressionOptions: { level: 5 } // Balance between speed/size
+                    }, (metadata) => {
+                        document.getElementById('progress-fill').style.width = `${metadata.percent}%`;
+                        document.getElementById('progress-percent').innerText = `${metadata.percent.toFixed(0)}%`;
+                    });
+
+                    triggerDownload(finalBlob, 'Ultimate_Organized_Files.zip');
+                }
+
+                document.getElementById('progress-title').innerText = "Success!";
+                document.getElementById('progress-subtitle').innerText = errorLog.innerHTML === '' ? "All files processed perfectly." : "Processed with some skipped files.";
+                document.getElementById('progress-fill').style.background = 'var(--success)';
+                
+                setTimeout(() => { modal.classList.remove('active'); resetUI(); }, 3000);
+
+            } catch (err) {
+                if(err.message === "Cancelled by user") {
+                    alert("Processing cancelled.");
+                } else {
+                    alert("A fatal error occurred: " + err.message);
+                }
+                modal.classList.remove('active');
+            }
+        }
+
+        function triggerDownload(blob, filename) {
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = filename;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            setTimeout(() => URL.revokeObjectURL(url), 5000);
+        }
+
+        function resetUI() {
+            state.isProcessing = false;
+            document.getElementById('progress-title').innerText = "Processing Files...";
+            document.getElementById('progress-fill').style.background = 'var(--primary)';
+        }
+
+  </script>
+</body>
+
+</html>

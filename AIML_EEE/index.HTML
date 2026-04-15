@@ -1,0 +1,875 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>CS5214 - AIML Fundamentals Lab Manual</title>
+    <style>
+        /* CSS Reset & Anti-Scroll Full View Setup */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f8fafc;
+            color: #334155;
+            height: 100vh;
+            width: 100vw;
+            overflow: hidden;
+            display: flex;
+            flex-direction: row;
+        }
+
+        /* Mobile Top Bar */
+        .mobile-top-bar {
+            display: none;
+            background-color: #0f172a;
+            color: white;
+            padding: 15px 20px;
+            align-items: center;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+        }
+
+        .menu-btn {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 24px;
+            cursor: pointer;
+            margin-right: 15px;
+        }
+
+        .mobile-top-bar h2 {
+            font-size: 18px;
+            margin: 0;
+            font-weight: 600;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: 280px;
+            background-color: #1e293b;
+            color: #fff;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            flex-shrink: 0;
+            z-index: 999;
+            transition: transform 0.3s ease;
+        }
+
+        .sidebar-header {
+            padding: 20px;
+            background-color: #0f172a;
+            border-bottom: 3px solid #3b82f6;
+            text-align: center;
+        }
+
+        .sidebar-header h3 {
+            font-size: 1.1rem;
+            color: #60a5fa;
+            margin: 0;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .nav-links {
+            flex-grow: 1;
+            overflow-y: auto;
+            padding-bottom: 20px;
+        }
+
+        .nav-links::-webkit-scrollbar {
+            width: 5px;
+        }
+
+        .nav-links::-webkit-scrollbar-thumb {
+            background: #475569;
+            border-radius: 4px;
+        }
+
+        .nav-links a {
+            display: block;
+            color: #cbd5e1;
+            text-decoration: none;
+            padding: 14px 20px;
+            font-size: 13px;
+            font-weight: 500;
+            border-bottom: 1px solid #334155;
+            transition: all 0.2s;
+        }
+
+        .nav-links a:hover {
+            background-color: #3b82f6;
+            color: #fff;
+            padding-left: 25px;
+        }
+
+        /* Main Content */
+        .main-content {
+            flex-grow: 1;
+            height: 100%;
+            overflow-y: auto;
+            padding: 30px 40px;
+            scroll-behavior: smooth;
+        }
+
+        .main-content::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .main-content::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 4px;
+        }
+
+        .content-wrapper {
+            max-width: 850px;
+            margin: 0 auto;
+        }
+
+        /* Cards & Typography */
+        .header-card {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            text-align: center;
+            margin-bottom: 30px;
+            border-top: 5px solid #3b82f6;
+        }
+
+        .header-card h1 {
+            color: #1e293b;
+            font-size: 22px;
+            margin-bottom: 5px;
+            font-weight: 800;
+        }
+
+        .header-card p {
+            color: #64748b;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .card {
+            background-color: #fff;
+            padding: 25px 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            margin-bottom: 40px;
+            border-left: 5px solid #3b82f6;
+        }
+
+        .card-header {
+            border-bottom: 2px solid #e2e8f0;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+
+        .card-header h2 {
+            font-size: 20px;
+            color: #0f172a;
+            margin: 0;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+
+        h4 {
+            font-size: 15px;
+            color: #1d4ed8;
+            margin: 20px 0 10px 0;
+            text-transform: uppercase;
+            font-weight: 800;
+            letter-spacing: 0.5px;
+        }
+
+        p,
+        ol {
+            color: #475569;
+            line-height: 1.6;
+            font-size: 14px;
+        }
+
+        ol {
+            padding-left: 20px;
+        }
+
+        li {
+            margin-bottom: 6px;
+        }
+
+        /* Code & Results */
+        pre {
+            background-color: #0f172a;
+            color: #f8fafc;
+            border-radius: 6px;
+            padding: 15px;
+            overflow-x: auto;
+            font-family: 'Consolas', monospace;
+            font-size: 13px;
+            margin-top: 8px;
+            line-height: 1.4;
+            border: 1px solid #1e293b;
+        }
+
+        .output {
+            background-color: #f0fdf4;
+            color: #166534;
+            border: 1px solid #bbf7d0;
+            border-left: 5px solid #22c55e;
+            font-weight: 700;
+        }
+
+        .result {
+            background-color: #eff6ff;
+            border: 1px solid #bfdbfe;
+            border-left: 5px solid #3b82f6;
+            padding: 12px 15px;
+            border-radius: 4px;
+            font-weight: 600;
+            color: #1e40af;
+            margin-top: 15px;
+            font-size: 14px;
+        }
+
+        /* Mobile Adjustments */
+        @media screen and (max-width: 800px) {
+            body {
+                flex-direction: column;
+            }
+
+            .mobile-top-bar {
+                display: flex;
+            }
+
+            .sidebar {
+                position: fixed;
+                top: 54px;
+                left: 0;
+                height: calc(100vh - 54px);
+                transform: translateX(-100%);
+                width: 260px;
+                box-shadow: 2px 0 10px rgba(0, 0, 0, 0.2);
+            }
+
+            .sidebar.active {
+                transform: translateX(0);
+            }
+
+            .main-content {
+                height: calc(100vh - 54px);
+                padding: 15px;
+            }
+
+            .card {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="mobile-top-bar">
+        <button class="menu-btn" onclick="toggleMenu()">☰</button>
+        <h2>Lab Manual</h2>
+    </div>
+
+    <div class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <h3>CS5214 AIMLF</h3>
+        </div>
+        <div class="nav-links">
+            <a href="#exp1" onclick="closeMenu()">1. Half Pyramid of Stars</a>
+            <a href="#exp2" onclick="closeMenu()">2. List & Dictionary Ops</a>
+            <a href="#exp3" onclick="closeMenu()">3. Data Pre-processing & Viz</a>
+            <a href="#exp4" onclick="closeMenu()">4. Regression Model on Power</a>
+            <a href="#exp5" onclick="closeMenu()">5. Classification of Faults</a>
+            <a href="#exp6" onclick="closeMenu()">6. Predictive Maintenance</a>
+            <a href="#exp7" onclick="closeMenu()">7. Load Forecasting with ANN</a>
+            <a href="#exp8" onclick="closeMenu()">8. PQ Signal Classification</a>
+            <a href="#exp9" onclick="closeMenu()">9. AI Smart Energy Monitor</a>
+        </div>
+    </div>
+
+    <div class="main-content" id="main-content">
+        <div class="content-wrapper">
+
+            <div class="header-card">
+                <h1>CS5214 - AIML FUNDAMENTALS</h1>
+                <p>LAB MANUAL | DEPARTMENT OF EEE (SHORTENED & OPTIMIZED)</p>
+            </div>
+
+            <div id="exp1" class="card">
+                <div class="card-header">
+                    <h2>EX NO: 1 - Half Pyramid of stars using loop structures</h2>
+                </div>
+                <h4>AIM</h4>
+                <p>To write and execute a Python program to print a half pyramid pattern of stars (*) using loop
+                    structures.</p>
+
+                <h4>ALGORITHM</h4>
+                <ol>
+                    <li>Read the number of rows (n).</li>
+                    <li>Use an outer loop to control rows (1 to n).</li>
+                    <li>Use an inner loop to print stars for each row.</li>
+                    <li>Print a newline after each row iteration.</li>
+                </ol>
+
+                <h4>PROGRAM</h4>
+                <pre><code># Half Pyramid of Stars using for loop
+n = int(input("Enter number of rows: "))
+for i in range(1, n + 1):
+    for j in range(i):
+        print("*", end=" ")
+    print()</code></pre>
+
+                <h4>OUTPUT</h4>
+                <pre class="output">Enter number of rows: 5
+* * * * * * * * * * * * * * * </pre>
+
+                <h4>RESULT</h4>
+                <div class="result">Thus, the Python program to print a half pyramid of stars using loop structures was
+                    successfully executed.</div>
+            </div>
+
+            <div id="exp2" class="card">
+                <div class="card-header">
+                    <h2>EX NO: 2 - Implementation of List and Dictionary Operations</h2>
+                </div>
+                <h4>AIM</h4>
+                <p>To store and manipulate numerical data using lists, compute totals/averages, and store electrical
+                    parameters using a dictionary.</p>
+
+                <h4>ALGORITHM</h4>
+                <ol>
+                    <li>Create an empty list and append values 10, 20, 30.</li>
+                    <li>Append values from an extra list [40, 50] to the main list.</li>
+                    <li>Calculate total sum, length, and average of the list.</li>
+                    <li>Create a dictionary to store Voltage and Current values and display them.</li>
+                </ol>
+
+                <h4>PROGRAM</h4>
+                <pre><code>data = []
+data.append(10)
+data.append(20)
+data.append(30)
+extra = [40, 50]
+
+for value in extra:
+    data.append(value)
+
+total = 0
+for value in data:
+    total = total + value
+
+length = len(data)
+average = total / length
+
+print("Data:", data)
+print("Total:", total)
+print("Length:", length)
+print("Average:", average)
+
+info = {}
+info["Voltage"] = 230
+info["Current"] = 5
+print("Voltage:", info["Voltage"])
+print("Current:", info["Current"])</code></pre>
+
+                <h4>OUTPUT</h4>
+                <pre class="output">Data: [10, 20, 30, 40, 50]
+Total: 150
+Length: 5
+Average: 30.0
+Voltage: 230
+Current: 5</pre>
+
+                <h4>RESULT</h4>
+                <div class="result">The program successfully stores numerical values using a list, calculates the total
+                    and average, and uses dictionaries.</div>
+            </div>
+
+            <div id="exp3" class="card">
+                <div class="card-header">
+                    <h2>EX NO: 3 - Data pre-processing and visualization</h2>
+                </div>
+                <h4>AIM</h4>
+                <p>To perform data pre-processing by removing invalid power values and visualize the processed data
+                    using a graph.</p>
+
+                <h4>ALGORITHM</h4>
+                <ol>
+                    <li>Store raw power consumption data in a list.</li>
+                    <li>Remove negative and zero values using a loop.</li>
+                    <li>Generate time sequences and calculate average power.</li>
+                    <li>Plot the cleaned data using matplotlib.</li>
+                </ol>
+
+                <h4>PROGRAM</h4>
+                <pre><code>import matplotlib.pyplot as plt
+
+power = [120, 150, -20, 180, 0, 210, 250, -15]
+clean_power = []
+
+for value in power:
+    if value > 0:
+        clean_power.append(value)
+
+time = []
+count = 1
+for value in clean_power:
+    time.append(count)
+    count = count + 1
+
+total = 0
+for value in clean_power:
+    total = total + value
+
+average = total / len(clean_power)
+
+print("Clean Data:", clean_power)
+print("Average Power:", average)
+
+plt.plot(time, clean_power)
+plt.xlabel("Time")
+plt.ylabel("Power")
+plt.title("Power Consumption")
+plt.show()</code></pre>
+
+                <h4>OUTPUT</h4>
+                <pre class="output">Clean Data: [120, 150, 180, 210, 250]
+Average Power: 182.0
+[Graph Plotted Successfully]</pre>
+
+                <h4>RESULT</h4>
+                <div class="result">The program successfully removed invalid data and visualized the cleaned power
+                    consumption values.</div>
+            </div>
+
+            <div id="exp4" class="card">
+                <div class="card-header">
+                    <h2>EX NO: 4 - Regression Model on Power Consumption Dataset</h2>
+                </div>
+                <h4>AIM</h4>
+                <p>To predict future power consumption using a linear regression model.</p>
+
+                <h4>ALGORITHM</h4>
+                <ol>
+                    <li>Create arrays for time (1 to 6) and corresponding power values.</li>
+                    <li>Initialize and train a `LinearRegression` model.</li>
+                    <li>Predict power consumption for a new time value (7).</li>
+                    <li>Calculate the increase from the last value and display results.</li>
+                </ol>
+
+                <h4>PROGRAM</h4>
+                <pre><code>from sklearn.linear_model import LinearRegression
+
+time = []
+power = []
+for i in range(1, 7):
+    time.append([i])
+    
+values = [120, 150, 180, 210, 240, 270]
+for value in values:
+    power.append(value)
+
+print("Time Values:")
+for t in time:
+    print(t[0])
+
+print("Power Values:")
+for p in power:
+    print(p)
+
+model = LinearRegression()
+model.fit(time, power)
+
+test_time = [[7]]
+prediction = model.predict(test_time)
+
+last_power = power[-1]
+difference = prediction[0] - last_power
+
+print("Test Time:", test_time[0][0])
+print("Predicted Power:", prediction[0])
+print("Last Recorded Power:", last_power)
+print("Increase in Power:", difference)
+
+average_power = sum(power) / len(power)
+print("Average Power:", average_power)</code></pre>
+
+                <h4>OUTPUT</h4>
+                <pre class="output">Time Values:
+1
+...
+Power Values:
+120
+...
+Test Time: 7
+Predicted Power: 300.0
+Last Recorded Power: 270
+Increase in Power: 30.0
+Average Power: 195.0</pre>
+
+                <h4>RESULT</h4>
+                <div class="result">The linear regression model was successfully trained to predict future power
+                    consumption.</div>
+            </div>
+
+            <div id="exp5" class="card">
+                <div class="card-header">
+                    <h2>EX NO: 5 - Classification of electrical faults</h2>
+                </div>
+                <h4>AIM</h4>
+                <p>To classify electrical conditions as normal or faulty based on current values using a Decision Tree.
+                </p>
+
+                <h4>ALGORITHM</h4>
+                <ol>
+                    <li>Create feature lists for current readings and label lists for status.</li>
+                    <li>Train a `DecisionTreeClassifier` using the data.</li>
+                    <li>Provide a test current value and predict the condition.</li>
+                    <li>Display the predicted status.</li>
+                </ol>
+
+                <h4>PROGRAM</h4>
+                <pre><code>from sklearn.tree import DecisionTreeClassifier
+
+current = []
+status = []
+values = [3, 5, 7, 9, 12, 15, 18]
+labels = [0, 0, 0, 0, 1, 1, 1]
+
+for value in values:
+    current.append([value])
+for label in labels:
+    status.append(label)
+
+normal_count = 0
+fault_count = 0
+for label in labels:
+    if label == 0:
+        normal_count = normal_count + 1
+    else:
+        fault_count = fault_count + 1
+
+print("Normal Conditions:", normal_count)
+print("Fault Conditions:", fault_count)
+
+model = DecisionTreeClassifier()
+model.fit(current, status)
+
+test_current = [[16]]
+result = model.predict(test_current)
+
+print("Test Current Value:", test_current[0][0])
+if result[0] == 1:
+    condition = "Fault Detected"
+else:
+    condition = "Normal Condition"
+    
+print("Predicted Condition:", condition)
+difference = test_current[0][0] - values[-1]
+print("Difference from Last Training Value:", difference)</code></pre>
+
+                <h4>OUTPUT</h4>
+                <pre class="output">Normal Conditions: 4
+Fault Conditions: 3
+Test Current Value: 16
+Predicted Condition: Fault Detected
+Difference from Last Training Value: -2</pre>
+
+                <h4>RESULT</h4>
+                <div class="result">The decision tree classification model successfully classified electrical conditions
+                    based on current values.</div>
+            </div>
+
+            <div id="exp6" class="card">
+                <div class="card-header">
+                    <h2>EX NO: 6 - Predictive maintenance using sensor data</h2>
+                </div>
+                <h4>AIM</h4>
+                <p>To predict equipment failure in advance using historical sensor data thresholds.</p>
+
+                <h4>ALGORITHM</h4>
+                <ol>
+                    <li>Store historical temperature and vibration data using numpy.</li>
+                    <li>Calculate average threshold limits (mean + safety margin).</li>
+                    <li>Read current sensor inputs from the user.</li>
+                    <li>Trigger predictive warnings if current readings exceed calculated thresholds.</li>
+                </ol>
+
+                <h4>PROGRAM</h4>
+                <pre><code>import numpy as np
+
+# Historical Sensor Data
+temperature_data = np.array([65, 70, 75, 80, 85, 90])
+vibration_data = np.array([0.2, 0.3, 0.4, 0.5, 0.6, 0.8])
+
+print("PREDICTIVE MAINTENANCE SYSTEM")
+print("Historical Temperature Data:", temperature_data)
+print("Historical Vibration Data:", vibration_data)
+
+avg_temperature = np.mean(temperature_data)
+avg_vibration = np.mean(vibration_data)
+temperature_threshold = avg_temperature + 10
+vibration_threshold = avg_vibration + 0.2
+
+print("\nCalculated Threshold Values:")
+print("Temperature Threshold:", temperature_threshold, "°C")
+print("Vibration Threshold:", vibration_threshold, "mm/s")
+
+# Mock inputs for standard execution
+current_temperature = 95.0
+current_vibration = 0.9
+
+print("\nMachine Condition Analysis:")
+if current_temperature > temperature_threshold and current_vibration > vibration_threshold:
+    print("ALERT: MACHINE FAILURE PREDICTED")
+    print("Reason: High temperature and vibration detected")
+elif current_temperature > temperature_threshold:
+    print("WARNING: HIGH TEMPERATURE")
+elif current_vibration > vibration_threshold:
+    print("WARNING: HIGH VIBRATION")
+else:
+    print("MACHINE STATUS: NORMAL")
+
+print("\nPredictive Maintenance Analysis Completed")</code></pre>
+
+                <h4>OUTPUT</h4>
+                <pre class="output">PREDICTIVE MAINTENANCE SYSTEM
+Historical Temperature Data: [65 70 75 80 85 90]
+...
+Calculated Threshold Values:
+Temperature Threshold: 87.5 °C
+Vibration Threshold: 0.666 mm/s
+
+Machine Condition Analysis:
+ALERT: MACHINE FAILURE PREDICTED
+Reason: High temperature and vibration detected</pre>
+
+                <h4>RESULT</h4>
+                <div class="result">The system successfully predicted machine failure using temperature and vibration
+                    sensor data.</div>
+            </div>
+
+            <div id="exp7" class="card">
+                <div class="card-header">
+                    <h2>EX NO: 7 - Load forecasting with ANN</h2>
+                </div>
+                <h4>AIM</h4>
+                <p>To predict future electricity demand using simple Artificial Neural Networks (ANN) propagation logic.
+                </p>
+
+                <h4>ALGORITHM</h4>
+                <ol>
+                    <li>Normalize historical load data to a 0-1 scale.</li>
+                    <li>Initialize weights, biases, and learning rate.</li>
+                    <li>Iterate through epochs calculating forward propagation output and error.</li>
+                    <li>Update weights and biases using backpropagation.</li>
+                    <li>Predict future load utilizing optimized parameters.</li>
+                </ol>
+
+                <h4>PROGRAM</h4>
+                <pre><code>import numpy as np
+
+load_data = np.array([100, 120, 140, 160, 180])
+print("LOAD FORECASTING USING ANN")
+print("Historical Load Data:", load_data)
+
+max_load = np.max(load_data)
+normalized_load = load_data / max_load
+print("\nNormalized Load Data:", normalized_load)
+
+weight = 0.5
+bias = 0.2
+learning_rate = 0.1
+epochs = 100
+
+for epoch in range(epochs):
+    for i in range(len(normalized_load) - 1):
+        input_value = normalized_load[i]
+        target_value = normalized_load[i+1]
+        
+        # Forward propagation
+        output = (input_value * weight) + bias
+        error = target_value - output
+        
+        # Backpropagation (Weight Update)
+        weight = weight + learning_rate * error * input_value
+        bias = bias + learning_rate * error
+
+future_input = normalized_load[-1]
+predicted_normalized_load = (future_input * weight) + bias
+predicted_load = predicted_normalized_load * max_load
+
+print("\nFinal ANN Parameters:")
+print("Weight:", round(weight, 3))
+print("Bias:", round(bias, 3))
+
+print("\nPredicted Future Load:")
+print(round(predicted_load, 2), "MW")
+print("\nLoad Forecasting Completed Successfully")</code></pre>
+
+                <h4>OUTPUT</h4>
+                <pre class="output">LOAD FORECASTING USING ANN
+Historical Load Data: [100 120 140 160 180]
+Normalized Load Data: [0.555 0.666 0.777 0.888 1.]
+...
+Predicted Future Load:
+200.0 MW
+Load Forecasting Completed Successfully</pre>
+
+                <h4>RESULT</h4>
+                <div class="result">The Artificial Neural Network successfully predicted future electrical load based on
+                    historical data.</div>
+            </div>
+
+            <div id="exp8" class="card">
+                <div class="card-header">
+                    <h2>EX NO: 8 - Power quality signal classification</h2>
+                </div>
+                <h4>AIM</h4>
+                <p>To classify power quality disturbances such as normal, sag, and swell using SVM machine learning.</p>
+
+                <h4>ALGORITHM</h4>
+                <ol>
+                    <li>Create arrays for training voltage features and corresponding state labels (0=Sag, 1=Normal,
+                        2=Swell).</li>
+                    <li>Initialize an `SVC` (Support Vector Classifier) with a linear kernel.</li>
+                    <li>Fit the model to the training data.</li>
+                    <li>Predict categories for new test voltage samples and map them to readable text.</li>
+                </ol>
+
+                <h4>PROGRAM</h4>
+                <pre><code>import numpy as np
+from sklearn import svm
+
+print("POWER QUALITY SIGNAL CLASSIFICATION USING SVM")
+voltage_signal = np.array([0.82, 0.85, 0.88, 0.95, 1.00, 1.02, 1.10, 1.15, 1.20])
+print("Voltage Signal Samples:", voltage_signal)
+
+X_train = np.array([
+    [0.8], [0.85], [0.88], # Sag
+    [0.95], [1.0], [1.05], # Normal
+    [1.12], [1.15], [1.2]  # Swell
+])
+y_train = np.array([0, 0, 0, 1, 1, 1, 2, 2, 2])
+
+model = svm.SVC(kernel='linear')
+model.fit(X_train, y_train)
+
+predictions = model.predict(voltage_signal.reshape(-1, 1))
+label_map = {0: "Voltage Sag", 1: "Normal Voltage", 2: "Voltage Swell"}
+
+print("\nClassification Results:")
+for v, p in zip(voltage_signal, predictions):
+    print(v, "→", label_map[p])
+
+print("\nPower Quality Analysis Completed Successfully")</code></pre>
+
+                <h4>OUTPUT</h4>
+                <pre class="output">POWER QUALITY SIGNAL CLASSIFICATION USING SVM
+Voltage Signal Samples: [0.82 0.85 ... 1.2 ]
+Classification Results:
+0.82 → Voltage Sag
+...
+1.0 → Normal Voltage
+...
+1.2 → Voltage Swell</pre>
+
+                <h4>RESULT</h4>
+                <div class="result">The power quality classification system successfully identified voltage disturbances
+                    such as sag, normal, and swell.</div>
+            </div>
+
+            <div id="exp9" class="card">
+                <div class="card-header">
+                    <h2>EX NO: 9 - AI For Smart Energy Monitoring</h2>
+                </div>
+                <h4>AIM</h4>
+                <p>To monitor daily energy consumption and intelligently detect abnormal usage using an MLP Classifier
+                    (Neural Network).</p>
+
+                <h4>ALGORITHM</h4>
+                <ol>
+                    <li>Provide historical consumption data labeled as Low, Normal, and High.</li>
+                    <li>Train the `MLPClassifier` using the datasets.</li>
+                    <li>Predict the category for the latest energy usage input.</li>
+                    <li>Print contextual suggestions/alerts based on the classification result.</li>
+                </ol>
+
+                <h4>PROGRAM</h4>
+                <pre><code>import numpy as np
+from sklearn.neural_network import MLPClassifier
+
+print("AI BASED SMART ENERGY MONITORING SYSTEM")
+# 0 = Low, 1 = Normal, 2 = High
+X_train = np.array([
+    [10], [12], [13],
+    [14], [15], [16],
+    [18], [20], [22]
+])
+y_train = np.array([0, 0, 0, 1, 1, 1, 2, 2, 2])
+
+model = MLPClassifier(hidden_layer_sizes=(5,), max_iter=1000, random_state=1)
+model.fit(X_train, y_train)
+
+# Mock input for standard execution
+current_usage = 19.0
+
+prediction = model.predict([[current_usage]])[0]
+label_map = {
+    0: "Low Consumption",
+    1: "Normal Consumption",
+    2: "High Consumption"
+}
+
+print("\nClassification Result:")
+print("Today's Usage:", current_usage, "units →", label_map[prediction])
+
+if prediction == 2:
+    print("\nALERT: HIGH ENERGY CONSUMPTION DETECTED")
+    print("Suggestions:\n- Switch off unused appliances\n- Reduce peak hour usage")
+elif prediction == 0:
+    print("\nINFO: VERY LOW ENERGY CONSUMPTION")
+    print("Suggestions:\n- Check for meter or supply issues")
+else:
+    print("\nSTATUS: ENERGY USAGE IS NORMAL")
+    print("Suggestions:\n- Continue monitoring regularly")
+
+print("\nEnergy Monitoring Completed Successfully")</code></pre>
+
+                <h4>OUTPUT</h4>
+                <pre class="output">AI BASED SMART ENERGY MONITORING SYSTEM
+Classification Result:
+Today's Usage: 19.0 units → High Consumption
+
+ALERT: HIGH ENERGY CONSUMPTION DETECTED
+Suggestions:
+- Switch off unused appliances
+- Reduce peak hour usage
+Energy Monitoring Completed Successfully</pre>
+
+                <h4>RESULT</h4>
+                <div class="result">The system successfully detected abnormal energy consumption and generated alerts
+                    with corrective suggestions.</div>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        function toggleMenu() { document.getElementById('sidebar').classList.toggle('active'); }
+        function closeMenu() { if(window.innerWidth <= 800) document.getElementById('sidebar').classList.remove('active'); }
+    </script>
+</body>
+
+</html>

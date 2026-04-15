@@ -1,0 +1,1852 @@
+<!DOCTYPE html>
+<html lang="ta">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#c8972a">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Sri Jain Bankers">
+<link rel="manifest" id="pwaManifest">
+<title>Sri Jain Bankers — நம்பகமான நகை அடகு கடை, Ariyalur</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+Tamil:wght@400;600;700&family=Tiro+Tamil:ital@0;1&family=DM+Mono:wght@400;500&family=Playfair+Display:wght@700;800&display=swap" rel="stylesheet">
+<style>
+/* ════════════════════════════════════════
+   THEME SYSTEM — 5 themes
+   ════════════════════════════════════════ */
+:root,
+[data-theme="gold-dark"] {
+  --gold: #c8972a; --gold-light: #e8b84b; --gold-pale: #fdf6e3; --gold-dim: #a07820;
+  --silver: #8a9bb0; --silver-light: #c4d0de;
+  --bg: #0e0c08; --bg2: #16130d; --bg3: #1e1a10;
+  --card: #1a1610; --card2: #221e14;
+  --text: #f0e8d0; --text-dim: #a09070; --text-muted: #6a5a40;
+  --border: rgba(200,151,42,0.18); --border-bright: rgba(200,151,42,0.4);
+  --red: #e05540; --green: #4caf7a; --radius: 12px;
+  --glow: 0 0 20px rgba(200,151,42,0.25);
+  --dash-bg: linear-gradient(135deg, #12100a 0%, #1c1710 50%, #0e0c08 100%);
+}
+[data-theme="light-luxury"] {
+  --gold: #b8860b; --gold-light: #c8972a; --gold-pale: #fff8e7; --gold-dim: #8b6508;
+  --silver: #6a7a8a; --silver-light: #8a9bb0;
+  --bg: #faf7f0; --bg2: #f5f0e4; --bg3: #ede8d8;
+  --card: #ffffff; --card2: #f9f5eb;
+  --text: #1a1208; --text-dim: #5a4820; --text-muted: #9a8860;
+  --border: rgba(180,130,11,0.2); --border-bright: rgba(180,130,11,0.5);
+  --red: #c0392b; --green: #27ae60; --radius: 12px;
+  --glow: 0 4px 20px rgba(180,130,11,0.15);
+  --dash-bg: linear-gradient(135deg, #fdf8ee 0%, #f5edd8 100%);
+}
+[data-theme="royal-blue"] {
+  --gold: #5b9bd5; --gold-light: #7eb8f7; --gold-pale: #e8f4ff; --gold-dim: #3a78b5;
+  --silver: #8ab0d0; --silver-light: #b0cce8;
+  --bg: #060d1a; --bg2: #0b1628; --bg3: #101f38;
+  --card: #0d1b30; --card2: #121f38;
+  --text: #d0e8ff; --text-dim: #7098c0; --text-muted: #3a5878;
+  --border: rgba(91,155,213,0.2); --border-bright: rgba(91,155,213,0.5);
+  --red: #e05570; --green: #40c8a0; --radius: 12px;
+  --glow: 0 0 20px rgba(91,155,213,0.3);
+  --dash-bg: linear-gradient(135deg, #060e1e 0%, #0d1a35 100%);
+}
+[data-theme="emerald"] {
+  --gold: #2ecc71; --gold-light: #52d98a; --gold-pale: #e8fff2; --gold-dim: #27ae60;
+  --silver: #80a880; --silver-light: #a8c8a0;
+  --bg: #060f08; --bg2: #0b1a0d; --bg3: #102015;
+  --card: #0d1a10; --card2: #102015;
+  --text: #d0f0d8; --text-dim: #70a878; --text-muted: #3a6840;
+  --border: rgba(46,204,113,0.2); --border-bright: rgba(46,204,113,0.45);
+  --red: #e05540; --green: #52d98a; --radius: 12px;
+  --glow: 0 0 20px rgba(46,204,113,0.25);
+  --dash-bg: linear-gradient(135deg, #060e08 0%, #0d1a10 100%);
+}
+[data-theme="minimal-black"] {
+  --gold: #888; --gold-light: #bbb; --gold-pale: #f5f5f5; --gold-dim: #666;
+  --silver: #777; --silver-light: #aaa;
+  --bg: #000; --bg2: #0a0a0a; --bg3: #111;
+  --card: #0d0d0d; --card2: #131313;
+  --text: #e8e8e8; --text-dim: #888; --text-muted: #555;
+  --border: rgba(255,255,255,0.1); --border-bright: rgba(255,255,255,0.25);
+  --red: #ff4040; --green: #40ff80; --radius: 8px;
+  --glow: none;
+  --dash-bg: #000;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'DM Mono', monospace;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* ════════════════════════════════════════
+   THEME SWITCHER BUTTON
+   ════════════════════════════════════════ */
+.theme-btn {
+  position: fixed; bottom: 80px; right: 16px; z-index: 998;
+  width: 44px; height: 44px; border-radius: 50%;
+  background: var(--card2); border: 1px solid var(--border-bright);
+  color: var(--gold-light); font-size: 18px;
+  cursor: pointer; display: flex; align-items: center; justify-content: center;
+  box-shadow: var(--glow), 0 4px 16px rgba(0,0,0,0.4);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.theme-btn:hover { transform: scale(1.1) rotate(20deg); }
+.theme-label-toast {
+  position: fixed; bottom: 132px; right: 12px; z-index: 998;
+  background: var(--card2); border: 1px solid var(--border-bright);
+  padding: 5px 10px; border-radius: 8px;
+  font-size: 10px; color: var(--text-dim); letter-spacing: 0.08em;
+  opacity: 0; pointer-events: none;
+  transition: opacity 0.3s;
+}
+.theme-label-toast.show { opacity: 1; }
+
+/* ════════════════════════════════════════
+   LIVE GOLD PRICE DASHBOARD
+   ════════════════════════════════════════ */
+.gold-dashboard {
+  background: var(--dash-bg);
+  border-bottom: 1px solid var(--border);
+  padding: 40px 24px 36px;
+  position: relative;
+  overflow: hidden;
+}
+.gold-dashboard::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: radial-gradient(ellipse at 50% 0%, rgba(200,151,42,0.08) 0%, transparent 70%);
+  pointer-events: none;
+}
+.dashboard-header {
+  text-align: center; margin-bottom: 32px; position: relative;
+}
+.dashboard-eyebrow {
+  font-size: 10px; letter-spacing: 0.25em; text-transform: uppercase;
+  color: var(--gold); margin-bottom: 10px;
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+}
+.live-market-badge {
+  display: inline-flex; align-items: center; gap: 6px;
+  background: rgba(76,175,122,0.1); border: 1px solid rgba(76,175,122,0.3);
+  padding: 4px 10px; border-radius: 20px;
+  font-size: 10px; color: var(--green); letter-spacing: 0.1em;
+}
+.dashboard-title {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(20px, 5vw, 32px);
+  color: var(--gold-light); letter-spacing: 0.02em;
+}
+.dashboard-updated {
+  font-size: 10px; color: var(--text-muted); margin-top: 6px; letter-spacing: 0.06em;
+}
+
+/* Price grid */
+.price-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  max-width: 800px; margin: 0 auto;
+}
+@media (max-width: 600px) { .price-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 380px) { .price-grid { grid-template-columns: 1fr 1fr; } }
+
+.price-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 18px 14px;
+  text-align: center;
+  position: relative; overflow: hidden;
+  transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s;
+  cursor: default;
+}
+.price-card::after {
+  content: '';
+  position: absolute; inset: 0;
+  background: linear-gradient(135deg, rgba(200,151,42,0.04) 0%, transparent 60%);
+  pointer-events: none;
+}
+.price-card:hover {
+  transform: translateY(-3px);
+  border-color: var(--border-bright);
+  box-shadow: var(--glow);
+}
+.price-card.gold-24 { border-top: 2px solid var(--gold-light); }
+.price-card.silver-c { border-top: 2px solid var(--silver-light); }
+.price-card.sovereign { border-top: 2px solid #e8c87a; }
+
+.price-icon { font-size: 20px; margin-bottom: 6px; }
+.price-label {
+  font-size: 9px; letter-spacing: 0.15em; text-transform: uppercase;
+  color: var(--text-muted); margin-bottom: 8px;
+}
+.price-value {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(18px, 4vw, 26px);
+  color: var(--gold-light);
+  letter-spacing: -0.02em;
+  line-height: 1;
+  min-height: 32px;
+  display: flex; align-items: center; justify-content: center;
+}
+.price-card.silver-c .price-value { color: var(--silver-light); }
+.price-change {
+  font-size: 10px; margin-top: 5px;
+  display: flex; align-items: center; justify-content: center; gap: 3px;
+}
+.change-up { color: var(--green); }
+.change-down { color: var(--red); }
+
+/* Shimmer skeleton */
+.shimmer {
+  background: linear-gradient(90deg, var(--bg3) 25%, var(--card2) 50%, var(--bg3) 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+  border-radius: 6px;
+  display: inline-block;
+}
+@keyframes shimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+.skeleton-val { width: 80px; height: 28px; }
+.skeleton-lbl { width: 60px; height: 10px; margin: 0 auto 8px; }
+
+/* ════════════════════════════════════════
+   7-DAY TREND CHART
+   ════════════════════════════════════════ */
+.trend-section {
+  max-width: 800px; margin: 28px auto 0;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 20px;
+}
+.trend-header {
+  display: flex; justify-content: space-between; align-items: center;
+  margin-bottom: 16px;
+}
+.trend-title { font-size: 12px; color: var(--text-dim); letter-spacing: 0.08em; text-transform: uppercase; }
+.trend-subtitle { font-size: 10px; color: var(--text-muted); }
+.chart-wrap { position: relative; height: 80px; }
+canvas#trendChart { width: 100% !important; height: 80px !important; }
+.chart-labels {
+  display: flex; justify-content: space-between;
+  margin-top: 6px; font-size: 9px; color: var(--text-muted);
+  letter-spacing: 0.04em;
+}
+
+
+/* ─── HEADER ─── */
+header {
+  position: sticky; top: 0; z-index: 100;
+  background: rgba(14,12,8,0.92);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border);
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 0 24px;
+  height: 60px;
+}
+.logo {
+  font-family: 'Playfair Display', serif;
+  font-size: 20px;
+  color: var(--gold-light);
+  letter-spacing: 0.02em;
+  display: flex; align-items: center; gap: 10px;
+}
+.logo-badge {
+  width: 30px; height: 30px; border-radius: 50%;
+  background: linear-gradient(135deg, var(--gold), var(--gold-dim));
+  display: flex; align-items: center; justify-content: center;
+  font-size: 14px; color: #fff; font-family: 'DM Mono', monospace;
+  box-shadow: 0 0 12px rgba(200,151,42,0.4);
+}
+nav { display: flex; gap: 24px; }
+nav a {
+  font-size: 12px; font-weight: 500;
+  color: var(--text-dim); text-decoration: none;
+  letter-spacing: 0.08em; text-transform: uppercase;
+  transition: color 0.2s;
+}
+nav a:hover { color: var(--gold-light); }
+
+/* ─── HERO ─── */
+.hero {
+  position: relative;
+  padding: 80px 24px 60px;
+  max-width: 900px; margin: 0 auto;
+  text-align: center;
+}
+.hero-eyebrow {
+  font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase;
+  color: var(--gold); margin-bottom: 18px;
+  display: flex; align-items: center; justify-content: center; gap: 10px;
+}
+.hero-eyebrow::before, .hero-eyebrow::after {
+  content: ''; flex: 0 0 40px; height: 1px; background: var(--border-bright);
+}
+.hero h1 {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(36px, 8vw, 72px);
+  line-height: 1.1;
+  color: var(--gold-light);
+  margin-bottom: 10px;
+}
+.hero h1 span { color: var(--text-dim); font-style: italic; }
+.hero-tamil {
+  font-family: 'Noto Serif Tamil', serif;
+  font-size: 18px; color: var(--text-dim);
+  margin-bottom: 30px; font-weight: 400;
+}
+.hero-cta { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+.btn-primary {
+  padding: 14px 28px;
+  background: linear-gradient(135deg, var(--gold), var(--gold-dim));
+  color: #0e0c08; font-weight: 700; font-size: 14px;
+  border: none; border-radius: var(--radius); cursor: pointer;
+  letter-spacing: 0.05em; transition: all 0.2s;
+  text-decoration: none; display: inline-block;
+}
+.btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(200,151,42,0.35); }
+.btn-ghost {
+  padding: 14px 28px;
+  background: transparent;
+  color: var(--gold-light); font-size: 14px;
+  border: 1px solid var(--border-bright);
+  border-radius: var(--radius); cursor: pointer;
+  letter-spacing: 0.05em; transition: all 0.2s;
+  text-decoration: none; display: inline-block;
+}
+.btn-ghost:hover { background: rgba(200,151,42,0.08); }
+
+/* ─── LIVE RATES TICKER ─── */
+.rates-bar {
+  background: var(--bg2);
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  padding: 0 24px;
+  overflow: hidden; position: relative;
+}
+.rates-inner {
+  display: flex; align-items: center;
+  height: 48px; gap: 40px;
+  animation: ticker 24s linear infinite;
+  white-space: nowrap; width: max-content;
+}
+@keyframes ticker {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+.rate-item {
+  display: flex; align-items: center; gap: 10px;
+  font-size: 13px;
+}
+.rate-label { color: var(--text-muted); font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; }
+.rate-value { color: var(--gold-light); font-weight: 500; }
+.rate-up { color: var(--green); font-size: 11px; }
+.rate-dot { width: 4px; height: 4px; border-radius: 50%; background: var(--border-bright); }
+.rates-label {
+  position: absolute; left: 0; top: 0; bottom: 0;
+  width: 90px; z-index: 2;
+  background: linear-gradient(to right, var(--bg2), transparent);
+  display: flex; align-items: center; padding-left: 24px;
+  font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase;
+  color: var(--gold); font-weight: 500;
+}
+
+/* ─── SECTIONS ─── */
+.section { max-width: 900px; margin: 0 auto; padding: 70px 24px; }
+.section-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 28px; color: var(--gold-light);
+  margin-bottom: 6px;
+}
+.section-sub {
+  font-family: 'Noto Serif Tamil', serif;
+  font-size: 14px; color: var(--text-muted);
+  margin-bottom: 36px;
+}
+.divider {
+  height: 1px; background: var(--border);
+  margin: 0 24px;
+}
+
+/* ─── CALCULATOR ─── */
+.calc-wrap {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 32px;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.5), inset 0 1px 0 rgba(200,151,42,0.1);
+}
+.calc-header {
+  display: flex; justify-content: space-between; align-items: flex-start;
+  margin-bottom: 30px;
+}
+.calc-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 22px; color: var(--gold-light);
+}
+.calc-title-tamil {
+  font-family: 'Noto Serif Tamil', serif;
+  font-size: 13px; color: var(--text-muted);
+  margin-top: 3px;
+}
+.live-badge {
+  display: flex; align-items: center; gap: 6px;
+  background: rgba(76,175,122,0.12);
+  border: 1px solid rgba(76,175,122,0.25);
+  padding: 5px 10px; border-radius: 20px;
+  font-size: 11px; color: var(--green); letter-spacing: 0.05em;
+}
+.live-dot {
+  width: 6px; height: 6px; border-radius: 50%;
+  background: var(--green);
+  animation: pulse 1.5s ease-in-out infinite;
+}
+@keyframes pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.4; transform: scale(0.7); }
+}
+
+.input-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px; }
+@media (max-width: 520px) { .input-grid { grid-template-columns: 1fr; } }
+
+.field { display: flex; flex-direction: column; gap: 7px; }
+.field label {
+  font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase;
+  color: var(--text-muted); font-weight: 500;
+}
+.field label span {
+  font-family: 'Noto Serif Tamil', serif;
+  font-size: 12px; text-transform: none;
+  letter-spacing: 0; color: var(--text-muted); opacity: 0.7;
+  margin-left: 4px;
+}
+.field input, .field select {
+  background: var(--bg3);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 13px 14px;
+  color: var(--text);
+  font-family: 'DM Mono', monospace;
+  font-size: 15px;
+  transition: border-color 0.2s;
+  -webkit-appearance: none;
+  width: 100%;
+}
+.field input:focus, .field select:focus {
+  outline: none; border-color: var(--gold);
+  background: rgba(200,151,42,0.04);
+}
+.field input[type="date"]::-webkit-calendar-picker-indicator {
+  filter: invert(0.6) sepia(1) hue-rotate(5deg);
+  cursor: pointer;
+}
+.field select option { background: var(--bg3); }
+.field-full { grid-column: 1 / -1; }
+.err {
+  font-size: 11px; color: var(--red);
+  margin-top: -4px; display: none;
+  letter-spacing: 0.05em;
+}
+
+/* Type toggle */
+.type-toggle { display: flex; border: 1px solid var(--border); border-radius: 8px; overflow: hidden; }
+.type-btn {
+  flex: 1; padding: 13px; background: transparent;
+  color: var(--text-dim); font-family: 'DM Mono', monospace;
+  font-size: 13px; border: none; cursor: pointer;
+  transition: all 0.2s; display: flex; align-items: center;
+  justify-content: center; gap: 6px;
+}
+.type-btn.active-gold { background: rgba(200,151,42,0.15); color: var(--gold-light); }
+.type-btn.active-silver { background: rgba(138,155,176,0.15); color: var(--silver-light); }
+.type-btn:not(.active-gold):not(.active-silver):hover { background: rgba(255,255,255,0.04); }
+
+/* Reset btn */
+.reset-btn {
+  width: 100%; padding: 12px;
+  background: transparent; color: var(--text-muted);
+  border: 1px solid var(--border); border-radius: 8px;
+  font-family: 'DM Mono', monospace; font-size: 13px;
+  cursor: pointer; transition: all 0.2s; margin-top: 8px;
+  letter-spacing: 0.05em;
+}
+.reset-btn:hover { border-color: var(--text-muted); color: var(--text); }
+
+/* Results */
+.result-panel {
+  margin-top: 24px;
+  background: var(--card2);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  overflow: hidden;
+  transition: all 0.3s;
+}
+.result-header {
+  padding: 16px 20px;
+  background: rgba(200,151,42,0.06);
+  border-bottom: 1px solid var(--border);
+  display: flex; justify-content: space-between; align-items: center;
+}
+.result-header-label {
+  font-family: 'Noto Serif Tamil', serif;
+  font-size: 14px; color: var(--text-dim);
+}
+.rate-badge {
+  background: rgba(200,151,42,0.15);
+  color: var(--gold-light);
+  border: 1px solid rgba(200,151,42,0.3);
+  padding: 3px 10px; border-radius: 20px;
+  font-size: 11px; font-weight: 500; letter-spacing: 0.08em;
+}
+.result-body { padding: 18px 20px; }
+.result-row {
+  display: flex; justify-content: space-between; align-items: baseline;
+  margin-bottom: 12px;
+}
+.result-row-label { font-size: 12px; color: var(--text-muted); letter-spacing: 0.06em; }
+.result-row-label span {
+  font-family: 'Noto Serif Tamil', serif;
+  font-size: 11px; margin-left: 4px;
+}
+.result-row-value { font-size: 15px; color: var(--text); font-weight: 500; }
+.result-row-value.interest { color: #e0a030; }
+.result-total {
+  display: flex; justify-content: space-between; align-items: baseline;
+  border-top: 1px dashed var(--border);
+  padding-top: 14px; margin-top: 4px;
+}
+.result-total-label {
+  font-family: 'Noto Serif Tamil', serif;
+  font-size: 16px; color: var(--text);
+}
+.result-total-value { font-size: 28px; color: var(--red); font-weight: 700; letter-spacing: -0.02em; }
+
+.breakdown-box {
+  background: rgba(200,151,42,0.05);
+  border: 1px solid rgba(200,151,42,0.12);
+  border-radius: 8px; padding: 12px 14px;
+  margin: 4px 0 12px 0;
+  font-size: 12px; color: var(--text-dim);
+  line-height: 1.8; display: none;
+}
+
+/* Projections */
+.proj-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; margin-top: 20px; }
+@media (max-width: 520px) { .proj-grid { grid-template-columns: 1fr; } }
+.proj-card {
+  background: var(--bg3);
+  border: 1px solid var(--border);
+  border-radius: 10px; padding: 14px;
+  text-align: center; transition: border-color 0.2s;
+}
+.proj-card:hover { border-color: var(--border-bright); }
+.proj-label { font-size: 11px; color: var(--text-muted); letter-spacing: 0.06em; margin-bottom: 6px; }
+.proj-label-tamil {
+  font-family: 'Noto Serif Tamil', serif;
+  font-size: 10px; color: var(--text-muted); opacity: 0.6;
+  margin-bottom: 8px;
+}
+.proj-amount { font-size: 17px; color: var(--green); font-weight: 700; }
+
+.note-line {
+  font-size: 11px; color: var(--text-muted); text-align: center;
+  margin-top: 16px; letter-spacing: 0.04em;
+  font-style: italic;
+}
+.note-line span { font-family: 'Noto Serif Tamil', serif; font-size: 12px; }
+
+/* Pay & WhatsApp buttons */
+.action-row { display: flex; gap: 10px; margin-top: 16px; }
+.pay-btn {
+  flex: 1; padding: 14px;
+  background: linear-gradient(135deg, #1a7c3e, #145f30);
+  color: #fff; font-weight: 700; font-size: 13px;
+  border: none; border-radius: 10px; cursor: pointer;
+  letter-spacing: 0.04em; transition: all 0.2s;
+  font-family: 'DM Mono', monospace;
+  display: flex; align-items: center; justify-content: center; gap: 7px;
+}
+.pay-btn:hover { transform: translateY(-1px); box-shadow: 0 6px 20px rgba(26,124,62,0.4); }
+.wa-btn {
+  flex: 1; padding: 14px;
+  background: transparent;
+  color: #25d366; font-size: 13px;
+  border: 1px solid rgba(37,211,102,0.3);
+  border-radius: 10px; cursor: pointer;
+  letter-spacing: 0.04em; transition: all 0.2s;
+  font-family: 'DM Mono', monospace;
+  display: flex; align-items: center; justify-content: center; gap: 7px;
+}
+.wa-btn:hover { background: rgba(37,211,102,0.08); border-color: rgba(37,211,102,0.5); }
+
+/* Rate API status */
+.rate-api-status {
+  position: absolute; right: 16px; top: 50%; transform: translateY(-50%);
+  font-size: 10px; color: var(--text-muted); letter-spacing: 0.06em;
+  z-index: 3;
+}
+
+/* ─── RATES TABLE ─── */
+.rates-cards { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+@media (max-width: 520px) { .rates-cards { grid-template-columns: 1fr; } }
+.rate-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 24px 20px;
+}
+.rate-card-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 18px; margin-bottom: 16px;
+  display: flex; align-items: center; gap: 8px;
+}
+.rate-card.gold-card .rate-card-title { color: var(--gold-light); }
+.rate-card.silver-card .rate-card-title { color: var(--silver-light); }
+.rate-tier {
+  display: flex; justify-content: space-between;
+  padding: 10px 0; border-bottom: 1px solid var(--border);
+  font-size: 13px;
+}
+.rate-tier:last-child { border-bottom: none; }
+.tier-label { color: var(--text-dim); }
+.tier-label span { font-family: 'Noto Serif Tamil', serif; font-size: 12px; display: block; color: var(--text-muted); margin-top: 2px; }
+.tier-rate { font-weight: 700; font-size: 16px; }
+.gold-card .tier-rate { color: var(--gold-light); }
+.silver-card .tier-rate { color: var(--silver-light); }
+
+/* ─── HOW IT WORKS ─── */
+.steps { display: flex; flex-direction: column; gap: 0; }
+.step {
+  display: flex; gap: 20px; position: relative;
+  padding-bottom: 32px;
+}
+.step:last-child { padding-bottom: 0; }
+.step-left { display: flex; flex-direction: column; align-items: center; }
+.step-num {
+  width: 40px; height: 40px; border-radius: 50%;
+  background: linear-gradient(135deg, var(--gold), var(--gold-dim));
+  color: #0e0c08; font-weight: 700; font-size: 15px;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0; font-family: 'DM Mono', monospace;
+}
+.step-line {
+  flex: 1; width: 1px; background: var(--border);
+  margin-top: 8px;
+}
+.step:last-child .step-line { display: none; }
+.step-content { padding-top: 6px; }
+.step-title { font-size: 15px; color: var(--text); font-weight: 500; margin-bottom: 4px; }
+.step-title-tamil { font-family: 'Noto Serif Tamil', serif; font-size: 13px; color: var(--text-muted); display: block; margin-top: 2px; margin-bottom: 6px; }
+.step-desc { font-size: 12px; color: var(--text-muted); line-height: 1.7; }
+.docs-chips { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
+.doc-chip {
+  background: rgba(200,151,42,0.08);
+  border: 1px solid rgba(200,151,42,0.2);
+  color: var(--gold); padding: 4px 10px;
+  border-radius: 20px; font-size: 11px; letter-spacing: 0.04em;
+}
+
+/* ─── UPI PAYMENT ─── */
+.upi-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 20px; padding: 36px;
+  text-align: center;
+}
+.upi-title { font-family: 'Playfair Display', serif; font-size: 22px; color: var(--gold-light); margin-bottom: 6px; }
+.upi-title-tamil { font-family: 'Noto Serif Tamil', serif; font-size: 14px; color: var(--text-muted); margin-bottom: 24px; }
+.upi-qr {
+  width: 160px; height: 160px; margin: 0 auto 20px;
+  background: white; border-radius: 14px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 11px; color: #888; padding: 12px;
+}
+.upi-qr svg { width: 100%; height: 100%; }
+.upi-id {
+  font-size: 20px; color: var(--gold-light); font-weight: 500;
+  margin-bottom: 6px; letter-spacing: 0.02em;
+}
+.upi-note { font-size: 12px; color: var(--text-muted); }
+.upi-apps { display: flex; justify-content: center; gap: 12px; margin-top: 20px; flex-wrap: wrap; }
+.upi-app {
+  background: var(--bg3); border: 1px solid var(--border);
+  border-radius: 8px; padding: 8px 14px;
+  font-size: 12px; color: var(--text-dim);
+  display: flex; align-items: center; gap: 6px;
+}
+
+/* ─── CONTACT ─── */
+.contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+@media (max-width: 520px) { .contact-grid { grid-template-columns: 1fr; } }
+.contact-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 20px;
+}
+.contact-icon { font-size: 22px; margin-bottom: 10px; }
+.contact-label { font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-muted); margin-bottom: 6px; }
+.contact-value { font-size: 14px; color: var(--text); line-height: 1.6; }
+.contact-value a { color: var(--gold-light); text-decoration: none; }
+.map-placeholder {
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  height: 200px;
+  background: var(--bg3);
+  display: flex; align-items: center; justify-content: center;
+  color: var(--text-muted); font-size: 13px;
+  flex-direction: column; gap: 8px;
+  margin-top: 16px;
+  grid-column: 1 / -1;
+}
+
+/* ─── LEGAL ─── */
+.legal-strip {
+  background: var(--bg2);
+  border-top: 1px solid var(--border);
+  padding: 24px;
+  text-align: center;
+}
+.legal-strip p { font-size: 11px; color: var(--text-muted); line-height: 1.8; max-width: 700px; margin: 0 auto; }
+.legal-strip p span { color: var(--gold); }
+.license-badge {
+  display: inline-flex; align-items: center; gap: 6px;
+  background: rgba(200,151,42,0.08);
+  border: 1px solid rgba(200,151,42,0.2);
+  padding: 6px 12px; border-radius: 20px;
+  font-size: 11px; color: var(--gold);
+  margin-bottom: 12px; letter-spacing: 0.06em;
+}
+
+/* ─── FOOTER ─── */
+footer {
+  background: var(--bg);
+  border-top: 1px solid var(--border);
+  padding: 30px 24px;
+  text-align: center;
+  font-size: 11px; color: var(--text-muted);
+  letter-spacing: 0.05em;
+}
+footer span { color: var(--gold); }
+
+/* Mobile nav */
+@media (max-width: 600px) {
+  nav { display: none; }
+  .hero { padding: 50px 20px 40px; }
+}
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--border-bright); border-radius: 2px; }
+
+/* ─── PWA INSTALL BANNER ─── */
+.pwa-banner {
+  position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%);
+  background: var(--card2); border: 1px solid var(--border-bright);
+  border-radius: 16px; padding: 14px 20px;
+  display: flex; align-items: center; gap: 14px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.5);
+  z-index: 999; max-width: 360px; width: calc(100% - 32px);
+  animation: slideUp 0.4s ease;
+}
+@keyframes slideUp {
+  from { transform: translateX(-50%) translateY(80px); opacity: 0; }
+  to   { transform: translateX(-50%) translateY(0);    opacity: 1; }
+}
+.pwa-icon { font-size: 28px; flex-shrink: 0; }
+.pwa-text { flex: 1; }
+.pwa-text strong { font-size: 13px; color: var(--text); display: block; }
+.pwa-text span { font-size: 11px; color: var(--text-muted); }
+.pwa-install-btn {
+  padding: 8px 14px;
+  background: linear-gradient(135deg, var(--gold), var(--gold-dim));
+  color: #0e0c08; font-weight: 700; font-size: 12px;
+  border: none; border-radius: 8px; cursor: pointer;
+  font-family: 'DM Mono', monospace; white-space: nowrap;
+}
+.pwa-close {
+  background: none; border: none; color: var(--text-muted);
+  font-size: 18px; cursor: pointer; padding: 0 4px; line-height: 1;
+}
+
+/* ─── ELIGIBILITY CALCULATOR ─── */
+.elig-wrap {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 32px;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.5), inset 0 1px 0 rgba(200,151,42,0.1);
+}
+.elig-tabs { display: flex; border: 1px solid var(--border); border-radius: 10px; overflow: hidden; margin-bottom: 24px; }
+.elig-tab {
+  flex: 1; padding: 12px; background: transparent;
+  color: var(--text-dim); font-family: 'DM Mono', monospace;
+  font-size: 13px; border: none; cursor: pointer;
+  transition: all 0.2s;
+}
+.elig-tab.active { background: rgba(200,151,42,0.15); color: var(--gold-light); }
+.elig-result-box {
+  background: var(--card2);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  overflow: hidden;
+  margin-top: 20px;
+}
+.elig-result-header {
+  background: rgba(200,151,42,0.06);
+  border-bottom: 1px solid var(--border);
+  padding: 14px 18px;
+  font-size: 12px; color: var(--text-muted); letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+.elig-result-body { padding: 18px; }
+.elig-amount {
+  font-family: 'Playfair Display', serif;
+  font-size: 36px; color: var(--gold-light);
+  letter-spacing: -0.02em; margin-bottom: 4px;
+}
+.elig-sub { font-size: 12px; color: var(--text-muted); margin-bottom: 16px; }
+.elig-breakdown {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 10px;
+}
+.elig-item {
+  background: var(--bg3); border: 1px solid var(--border);
+  border-radius: 8px; padding: 10px 12px;
+}
+.elig-item-label { font-size: 10px; color: var(--text-muted); letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 4px; }
+.elig-item-value { font-size: 14px; color: var(--text); font-weight: 500; }
+.purity-selector { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 8px; }
+.purity-btn {
+  padding: 7px 14px;
+  background: var(--bg3); color: var(--text-dim);
+  border: 1px solid var(--border); border-radius: 20px;
+  font-family: 'DM Mono', monospace; font-size: 12px;
+  cursor: pointer; transition: all 0.2s;
+}
+.purity-btn.active { background: rgba(200,151,42,0.15); color: var(--gold-light); border-color: var(--border-bright); }
+</style>
+</head>
+<body>
+
+<!-- PWA INSTALL BANNER -->
+<div class="pwa-banner" id="pwaBanner" style="display:none;">
+  <div class="pwa-icon">⚖️</div>
+  <div class="pwa-text">
+    <strong>Install Sri Jain Bankers App</strong>
+    <span>உங்கள் மொபைலில் நிறுவுங்கள் · Works offline</span>
+  </div>
+  <button class="pwa-install-btn" id="pwaInstallBtn">Install</button>
+  <button class="pwa-close" onclick="document.getElementById('pwaBanner').style.display='none'">✕</button>
+</div>
+
+<!-- HEADER -->
+<header>
+  <div class="logo">
+    <div class="logo-badge">⚖</div>
+    Sri Jain Bankers
+  </div>
+  <nav>
+    <a href="#calculator">Calculator</a>
+    <a href="#eligibility">Eligibility</a>
+    <a href="#rates">Rates</a>
+    <a href="#how">How It Works</a>
+    <a href="#payment">Pay Online</a>
+    <a href="#contact">Contact</a>
+  </nav>
+</header>
+
+<!-- THEME SWITCHER -->
+<button class="theme-btn" id="themeBtn" onclick="cycleTheme()" title="Change theme">🎨</button>
+<div class="theme-label-toast" id="themeToast"></div>
+
+<!-- LIVE RATES TICKER -->
+<div class="rates-bar">
+  <div class="rates-label">Live Rates</div>
+  <div class="rates-inner" id="ratesInner"></div>
+  <div class="rate-api-status" id="rateStatus"></div>
+</div>
+
+<!-- GOLD PRICE DASHBOARD -->
+<div class="gold-dashboard" id="goldDashboard">
+  <div class="dashboard-header">
+    <div class="dashboard-eyebrow">
+      <div class="live-market-badge">
+        <span class="live-dot"></span> LIVE MARKET
+      </div>
+      தங்கம் / வெள்ளி விலை
+    </div>
+    <div class="dashboard-title">Today's Gold & Silver Rates</div>
+    <div class="dashboard-updated" id="dashUpdated">Fetching rates…</div>
+  </div>
+
+  <div class="price-grid" id="priceGrid">
+    <!-- Skeleton placeholders shown until data loads -->
+    <div class="price-card gold-24" id="pc-24k">
+      <div class="price-icon">🥇</div>
+      <div class="price-label shimmer skeleton-lbl" id="lbl-24k"> </div>
+      <div class="price-value"><span class="shimmer skeleton-val" id="val-24k"> </span></div>
+      <div class="price-change" id="chg-24k"></div>
+    </div>
+    <div class="price-card" id="pc-22k">
+      <div class="price-icon">🥇</div>
+      <div class="price-label shimmer skeleton-lbl" id="lbl-22k"> </div>
+      <div class="price-value"><span class="shimmer skeleton-val" id="val-22k"> </span></div>
+      <div class="price-change" id="chg-22k"></div>
+    </div>
+    <div class="price-card" id="pc-18k">
+      <div class="price-icon">💛</div>
+      <div class="price-label shimmer skeleton-lbl" id="lbl-18k"> </div>
+      <div class="price-value"><span class="shimmer skeleton-val" id="val-18k"> </span></div>
+      <div class="price-change" id="chg-18k"></div>
+    </div>
+    <div class="price-card" id="pc-1g">
+      <div class="price-icon">💰</div>
+      <div class="price-label shimmer skeleton-lbl" id="lbl-1g"> </div>
+      <div class="price-value"><span class="shimmer skeleton-val" id="val-1g"> </span></div>
+      <div class="price-change" id="chg-1g"></div>
+    </div>
+    <div class="price-card sovereign" id="pc-sov">
+      <div class="price-icon">👑</div>
+      <div class="price-label shimmer skeleton-lbl" id="lbl-sov"> </div>
+      <div class="price-value"><span class="shimmer skeleton-val" id="val-sov"> </span></div>
+      <div class="price-change" id="chg-sov"></div>
+    </div>
+    <div class="price-card silver-c" id="pc-slv">
+      <div class="price-icon">🥈</div>
+      <div class="price-label shimmer skeleton-lbl" id="lbl-slv"> </div>
+      <div class="price-value"><span class="shimmer skeleton-val" id="val-slv"> </span></div>
+      <div class="price-change" id="chg-slv"></div>
+    </div>
+  </div>
+
+  <!-- 7-DAY TREND -->
+  <div class="trend-section">
+    <div class="trend-header">
+      <div>
+        <div class="trend-title">7-Day Gold Trend</div>
+        <div class="trend-subtitle">Gold 22K · ₹/gram</div>
+      </div>
+      <div class="live-market-badge" style="font-size:9px;">22K GOLD</div>
+    </div>
+    <div class="chart-wrap">
+      <canvas id="trendChart"></canvas>
+    </div>
+    <div class="chart-labels" id="chartLabels"></div>
+  </div>
+</div>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-eyebrow">நம்பகமான அடகு சேவை · Ariyalur</div>
+  <h1>Sri Jain <span>Bankers</span></h1>
+  <div class="hero-tamil">உங்கள் நகைக்கு உடனடி கடன் — நம்பிக்கையுடன் · Ariyalur</div>
+  <div class="hero-cta">
+    <a href="#calculator" class="btn-primary">Calculate Interest →</a>
+    <a href="#payment" class="btn-ghost">Pay Online</a>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- CALCULATOR -->
+<section class="section" id="calculator">
+  <div class="section-title">வட்டி கணக்கீடு</div>
+  <div class="section-sub">Interest Calculator — Real-time, shop-accurate</div>
+
+  <div class="calc-wrap">
+    <div class="calc-header">
+      <div>
+        <div class="calc-title">🧮 Sri Jain Bankers Calculator</div>
+        <div class="calc-title-tamil">கடன் கணக்கீடு கருவி</div>
+      </div>
+      <div class="live-badge">
+        <span class="live-dot"></span> AUTO CALC
+      </div>
+    </div>
+
+    <div class="input-grid">
+      <div class="field">
+        <label>Loan Date <span>/ வாங்கிய தேதி</span></label>
+        <input type="date" id="loanDate">
+        <div class="err" id="dateErr">⚠ Future date not allowed</div>
+      </div>
+      <div class="field">
+        <label>Principal Amount <span>/ தொகை</span></label>
+        <input type="number" id="principal" placeholder="e.g. 10000" inputmode="numeric">
+        <div class="err" id="amtErr">⚠ Minimum ₹1,000 · Maximum ₹5,00,000</div>
+      </div>
+      <div class="field field-full">
+        <label>Loan Type <span>/ நகை வகை</span></label>
+        <div class="type-toggle">
+          <button class="type-btn active-gold" id="btnGold" onclick="setType('gold')">🥇 Gold / தங்கம்</button>
+          <button class="type-btn" id="btnSilver" onclick="setType('silver')">🥈 Silver / வெள்ளி</button>
+        </div>
+      </div>
+    </div>
+
+    <button class="reset-btn" onclick="resetCalc()">↺ Reset / அழி</button>
+
+    <!-- LIVE RESULT -->
+    <div class="result-panel" id="resultPanel">
+      <div class="result-header">
+        <div class="result-header-label">இன்றைய நிலுவை · Due as of Today</div>
+        <span class="rate-badge" id="rateBadge">—</span>
+      </div>
+      <div class="result-body">
+        <div class="result-row">
+          <div class="result-row-label">Principal<span>/ அசல்</span></div>
+          <div class="result-row-value" id="rPrincipal">₹0</div>
+        </div>
+        <div class="result-row">
+          <div class="result-row-label">Duration<span>/ காலம்</span></div>
+          <div class="result-row-value" id="rDuration">— months</div>
+        </div>
+        <div class="result-row">
+          <div class="result-row-label">Interest<span>/ வட்டி</span></div>
+          <div class="result-row-value interest" id="rInterest">₹0</div>
+        </div>
+        <div class="breakdown-box" id="breakdownBox"></div>
+        <div class="result-total">
+          <div class="result-total-label">மொத்த தொகை · Total</div>
+          <div class="result-total-value" id="rTotal">₹0</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PROJECTIONS -->
+    <div class="proj-grid">
+      <div class="proj-card">
+        <div class="proj-label">30 DAYS</div>
+        <div class="proj-label-tamil">30 நாள்</div>
+        <div class="proj-amount" id="p30">₹0</div>
+      </div>
+      <div class="proj-card">
+        <div class="proj-label">12 MONTHS</div>
+        <div class="proj-label-tamil">12 மாதம்</div>
+        <div class="proj-amount" id="p12">₹0</div>
+      </div>
+      <div class="proj-card">
+        <div class="proj-label">10 YEARS</div>
+        <div class="proj-label-tamil">10 ஆண்டு</div>
+        <div class="proj-amount" id="p120">₹0</div>
+      </div>
+    </div>
+
+    <div class="note-line">* <span>வட்டி மாத அடிப்படையில் கணக்கிடப்படுகிறது (Simple Interest).</span> · Rates may vary per shop policy.</div>
+
+    <div class="action-row">
+      <button class="pay-btn" onclick="payInterest()">💳 Pay Interest via UPI</button>
+      <button class="wa-btn" onclick="openWhatsApp()">💬 WhatsApp</button>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<div class="divider"></div>
+
+<!-- LOAN ELIGIBILITY -->
+<section class="section" id="eligibility">
+  <div class="section-title">கடன் தகுதி கணக்கீடு</div>
+  <div class="section-sub">Loan Eligibility by Gold / Silver Weight — Know before you visit</div>
+
+  <div class="elig-wrap">
+    <div class="calc-header">
+      <div>
+        <div class="calc-title">⚖️ Eligibility Calculator</div>
+        <div class="calc-title-tamil">உங்கள் நகை எடையில் எவ்வளவு கடன் கிடைக்கும்?</div>
+      </div>
+      <div class="live-badge"><span class="live-dot"></span> LIVE RATES</div>
+    </div>
+
+    <div class="elig-tabs">
+      <button class="elig-tab active" id="eligGoldTab" onclick="setEligType('gold')">🥇 Gold / தங்கம்</button>
+      <button class="elig-tab" id="eligSilverTab" onclick="setEligType('silver')">🥈 Silver / வெள்ளி</button>
+    </div>
+
+    <div class="input-grid">
+      <div class="field">
+        <label>Weight / எடை (grams)</label>
+        <input type="number" id="eligWeight" placeholder="e.g. 10" inputmode="decimal" step="0.1" oninput="calcElig()">
+      </div>
+      <div class="field" id="purityField">
+        <label>Purity / தூய்மை</label>
+        <div class="purity-selector" id="puritySelector">
+          <button class="purity-btn active" onclick="setPurity(22, this)">22K</button>
+          <button class="purity-btn" onclick="setPurity(18, this)">18K</button>
+          <button class="purity-btn" onclick="setPurity(14, this)">14K</button>
+          <button class="purity-btn" onclick="setPurity(24, this)">24K</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="elig-result-box" id="eligResultBox">
+      <div class="elig-result-header">எதிர்பார்க்கப்படும் கடன் தொகை · Expected Loan Amount</div>
+      <div class="elig-result-body">
+        <div class="elig-amount" id="eligLoanAmount">₹0</div>
+        <div class="elig-sub" id="eligSubText">Enter weight above to see your eligible loan amount</div>
+        <div class="elig-breakdown">
+          <div class="elig-item">
+            <div class="elig-item-label">Market Value</div>
+            <div class="elig-item-value" id="eligMarketVal">₹0</div>
+          </div>
+          <div class="elig-item">
+            <div class="elig-item-label">LTV Ratio</div>
+            <div class="elig-item-value" id="eligLTV">—</div>
+          </div>
+          <div class="elig-item">
+            <div class="elig-item-label">Rate Used</div>
+            <div class="elig-item-value" id="eligRateUsed">—</div>
+          </div>
+          <div class="elig-item">
+            <div class="elig-item-label">Per Gram</div>
+            <div class="elig-item-value" id="eligPerGram">—</div>
+          </div>
+        </div>
+        <div style="margin-top:14px;">
+          <button class="pay-btn" style="width:100%; margin-top:0;" onclick="useEligAmount()">
+            → Use This Amount in Calculator
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="note-line">* LTV (Loan-to-Value) based on standard pawnbroker norms. Actual amount may vary on assessment.</div>
+  </div>
+</section>
+
+<!-- INTEREST RATES -->
+<section class="section" id="rates">
+  <div class="section-title">வட்டி விகிதங்கள்</div>
+  <div class="section-sub">Interest Rate Chart — Transparent & Government-Compliant</div>
+
+  <div class="rates-cards">
+    <div class="rate-card gold-card">
+      <div class="rate-card-title">🥇 Gold / தங்கம்</div>
+      <div class="rate-tier">
+        <div class="tier-label">≤ ₹10,000 · First 6 months<span>முதல் 6 மாதம்</span></div>
+        <div class="tier-rate">2% / mo</div>
+      </div>
+      <div class="rate-tier">
+        <div class="tier-label">≤ ₹10,000 · After 6 months<span>6 மாதத்திற்கு பின்</span></div>
+        <div class="tier-rate">2.5% / mo</div>
+      </div>
+      <div class="rate-tier">
+        <div class="tier-label">> ₹10,000 · All duration<span>அனைத்து காலமும்</span></div>
+        <div class="tier-rate">3% / mo</div>
+      </div>
+    </div>
+    <div class="rate-card silver-card">
+      <div class="rate-card-title">🥈 Silver / வெள்ளி</div>
+      <div class="rate-tier">
+        <div class="tier-label">All amounts · All duration<span>அனைத்து தொகை</span></div>
+        <div class="tier-rate">4% / mo</div>
+      </div>
+      <div class="rate-tier" style="border:none; padding-top:20px;">
+        <div class="tier-label" style="font-size:11px; color: var(--text-muted);">
+          Example: ₹5,000 for 3 months<br>
+          <span style="font-family:'Noto Serif Tamil',serif;">உதாரணம்: ₹5,000 × 3 மாதம்</span>
+        </div>
+        <div style="font-size:14px; color: var(--silver-light); font-weight:600;">₹600</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- HOW IT WORKS -->
+<section class="section" id="how">
+  <div class="section-title">எப்படி வேலை செய்கிறது?</div>
+  <div class="section-sub">How It Works — Simple. Fast. Trusted.</div>
+
+  <div class="steps">
+    <div class="step">
+      <div class="step-left"><div class="step-num">1</div><div class="step-line"></div></div>
+      <div class="step-content">
+        <div class="step-title">Bring Your Jewellery + Documents</div>
+        <div class="step-title-tamil">நகை + ஆவணங்கள் கொண்டு வாருங்கள்</div>
+        <div class="step-desc">Walk in with your gold or silver jewellery. Bring valid government ID.</div>
+        <div class="docs-chips">
+          <span class="doc-chip">Aadhaar Card</span>
+          <span class="doc-chip">Photo ID</span>
+          <span class="doc-chip">Passport Photo</span>
+        </div>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-left"><div class="step-num">2</div><div class="step-line"></div></div>
+      <div class="step-content">
+        <div class="step-title">Valuation in 5 Minutes</div>
+        <div class="step-title-tamil">5 நிமிடத்தில் மதிப்பீடு</div>
+        <div class="step-desc">Our expert will weigh and assess the purity of your jewellery. You'll receive a fair valuation based on current gold/silver rates.</div>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-left"><div class="step-num">3</div><div class="step-line"></div></div>
+      <div class="step-content">
+        <div class="step-title">Instant Cash Disbursement</div>
+        <div class="step-title-tamil">உடனடியாக பணம்</div>
+        <div class="step-desc">Loan amount is handed to you within minutes. No paperwork delays. No bank account required.</div>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-left"><div class="step-num">4</div><div class="step-line"></div></div>
+      <div class="step-content">
+        <div class="step-title">Pay Interest & Redeem Anytime</div>
+        <div class="step-title-tamil">எப்போது வேண்டுமானாலும் திரும்ப வாங்கலாம்</div>
+        <div class="step-desc">Pay your interest online via UPI or in-store. Redeem your jewellery by paying the principal + total interest.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ONLINE PAYMENT -->
+<section class="section" id="payment">
+  <div class="section-title">ஆன்லைன் வட்டி செலுத்துதல்</div>
+  <div class="section-sub">Pay interest from home — GPay / PhonePe / UPI</div>
+
+  <div class="upi-card">
+    <div class="upi-title">Pay Online via UPI</div>
+    <div class="upi-title-tamil">வீட்டிலிருந்தே வட்டி கட்டுங்கள்</div>
+
+    <!-- Simple QR pattern SVG -->
+    <div class="upi-qr">
+      <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+        <!-- QR corners -->
+        <rect x="5" y="5" width="28" height="28" fill="none" stroke="#222" stroke-width="3"/>
+        <rect x="10" y="10" width="18" height="18" fill="#222"/>
+        <rect x="67" y="5" width="28" height="28" fill="none" stroke="#222" stroke-width="3"/>
+        <rect x="72" y="10" width="18" height="18" fill="#222"/>
+        <rect x="5" y="67" width="28" height="28" fill="none" stroke="#222" stroke-width="3"/>
+        <rect x="10" y="72" width="18" height="18" fill="#222"/>
+        <!-- QR data dots -->
+        <rect x="40" y="5" width="5" height="5" fill="#222"/>
+        <rect x="50" y="5" width="5" height="5" fill="#222"/>
+        <rect x="55" y="10" width="5" height="5" fill="#222"/>
+        <rect x="40" y="15" width="5" height="5" fill="#222"/>
+        <rect x="55" y="20" width="5" height="5" fill="#222"/>
+        <rect x="40" y="25" width="5" height="5" fill="#222"/>
+        <rect x="50" y="25" width="5" height="5" fill="#222"/>
+        <rect x="5" y="40" width="5" height="5" fill="#222"/>
+        <rect x="15" y="40" width="5" height="5" fill="#222"/>
+        <rect x="25" y="40" width="5" height="5" fill="#222"/>
+        <rect x="35" y="40" width="5" height="5" fill="#222"/>
+        <rect x="45" y="40" width="5" height="5" fill="#222"/>
+        <rect x="55" y="40" width="5" height="5" fill="#222"/>
+        <rect x="65" y="40" width="5" height="5" fill="#222"/>
+        <rect x="75" y="40" width="5" height="5" fill="#222"/>
+        <rect x="85" y="40" width="5" height="5" fill="#222"/>
+        <rect x="10" y="45" width="5" height="5" fill="#222"/>
+        <rect x="30" y="50" width="5" height="5" fill="#222"/>
+        <rect x="50" y="45" width="5" height="5" fill="#222"/>
+        <rect x="60" y="50" width="5" height="5" fill="#222"/>
+        <rect x="80" y="45" width="5" height="5" fill="#222"/>
+        <rect x="70" y="55" width="5" height="5" fill="#222"/>
+        <rect x="40" y="55" width="5" height="5" fill="#222"/>
+        <rect x="55" y="55" width="5" height="5" fill="#222"/>
+        <rect x="85" y="55" width="5" height="5" fill="#222"/>
+        <rect x="40" y="65" width="5" height="5" fill="#222"/>
+        <rect x="55" y="65" width="5" height="5" fill="#222"/>
+        <rect x="65" y="65" width="5" height="5" fill="#222"/>
+        <rect x="80" y="65" width="5" height="5" fill="#222"/>
+        <rect x="40" y="75" width="5" height="5" fill="#222"/>
+        <rect x="60" y="75" width="5" height="5" fill="#222"/>
+        <rect x="85" y="75" width="5" height="5" fill="#222"/>
+        <rect x="45" y="80" width="5" height="5" fill="#222"/>
+        <rect x="70" y="80" width="5" height="5" fill="#222"/>
+        <rect x="40" y="85" width="5" height="5" fill="#222"/>
+        <rect x="55" y="85" width="5" height="5" fill="#222"/>
+        <rect x="80" y="85" width="5" height="5" fill="#222"/>
+      </svg>
+    </div>
+
+    <div class="upi-id">srijainbankers@upi</div>
+    <div class="upi-note">Replace with your actual UPI ID before deploying</div>
+
+    <div class="upi-apps">
+      <div class="upi-app">📲 Google Pay</div>
+      <div class="upi-app">📲 PhonePe</div>
+      <div class="upi-app">📲 Paytm</div>
+      <div class="upi-app">📲 BHIM UPI</div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- CONTACT -->
+<section class="section" id="contact">
+  <div class="section-title">தொடர்பு கொள்ளுங்கள்</div>
+  <div class="section-sub">Contact Us — We're open 7 days a week</div>
+
+  <div class="contact-grid">
+    <div class="contact-card">
+      <div class="contact-icon">📍</div>
+      <div class="contact-label">Address / முகவரி</div>
+      <div class="contact-value">
+        <a href="https://maps.google.com/?q=33+Krishnan+Koil+Street+Ariyalur+Tamil+Nadu" target="_blank" style="color:var(--gold-light);">
+          No. 33, Krishnan Koil Street,<br>
+          Near Milk Society,<br>
+          Ariyalur, Tamil Nadu — 621 704
+        </a>
+      </div>
+    </div>
+    <div class="contact-card">
+      <div class="contact-icon">📞</div>
+      <div class="contact-label">Phone / தொலைபேசி</div>
+      <div class="contact-value">
+        <a href="tel:+919XXXXXXXXX">+91 9X-XXXX-XXXX</a><br>
+        Mon–Sat: 9 AM – 7 PM<br>
+        Sun: 10 AM – 2 PM
+      </div>
+    </div>
+    <div class="contact-card">
+      <div class="contact-icon">⚖️</div>
+      <div class="contact-label">License / உரிமம்</div>
+      <div class="contact-value">
+        TN Pawnbrokers License<br>
+        No: TN/XXXX/XXXX<br>
+        <span style="font-size:11px; color:var(--text-muted);">(Update with actual number)</span>
+      </div>
+    </div>
+    <div class="contact-card">
+      <div class="contact-icon">🕐</div>
+      <div class="contact-label">Hours / நேரம்</div>
+      <div class="contact-value">
+        Monday – Saturday<br>
+        9:00 AM – 7:00 PM<br>
+        Sunday: 10 AM – 2 PM
+      </div>
+    </div>
+    <div class="map-placeholder">
+      <span style="font-size:28px">🗺</span>
+      <span>Google Maps embed — add your iframe here</span>
+      <span style="font-size:11px; color:var(--text-muted);">maps.google.com → Share → Embed a map</span>
+    </div>
+  </div>
+</section>
+
+<!-- LEGAL STRIP -->
+<div class="legal-strip">
+  <div class="license-badge">⚖ TN Pawnbrokers Act Compliant</div>
+  <p>
+    <span>Sri Jain Bankers</span> operates under the Tamil Nadu Pawnbrokers Act.
+    All interest rates are displayed transparently as required by law.
+    License No: <span>TN/XXXX/XXXX</span> · 
+    No. 33, Krishnan Koil Street, Near Milk Society, Ariyalur — 621 704 ·
+    Phone: <span>[Your Phone]</span><br>
+    * வட்டி விகிதங்கள் கடை கொள்கையின்படி மாறலாம். Interest rates are indicative and may vary based on shop policy.
+  </p>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  Built for <span>Sri Jain Bankers</span> · No. 33, Krishnan Koil St, Ariyalur · 
+  <span>நம்பிக்கையுடன் சேவை</span>
+</footer>
+
+<script>
+// ─── CONFIG ───
+const SHOP_UPI    = 'srijainbankers@upi';   // ← replace with real UPI ID
+const SHOP_NAME   = 'Sri Jain Bankers';
+const SHOP_PHONE  = '919XXXXXXXXX';          // ← replace with real number (no + or spaces)
+
+// ─── LIVE GOLD / SILVER RATES ───
+// Uses metals-api (free tier). Fallback to static if API fails.
+let currentGoldRate   = 9250;
+let currentSilverRate = 92;
+
+function buildTicker(gold, silver) {
+  const inner = document.getElementById('ratesInner');
+  inner.innerHTML = '';
+  const items = [
+    { label: 'Gold 22K / gram',  value: `₹${gold.toLocaleString('en-IN')}`,                  change: '▲' },
+    { label: 'Gold 24K / gram',  value: `₹${Math.round(gold * 24/22).toLocaleString('en-IN')}`, change: '▲' },
+    { label: 'Silver / gram',    value: `₹${silver.toLocaleString('en-IN')}`,                change: '▼' },
+    { label: 'Min Gold Loan',    value: '₹1,000',    change: '' },
+    { label: 'Max Loan',         value: '₹5,00,000', change: '' },
+    { label: 'Payout Time',      value: '< 10 mins', change: '' },
+  ];
+  [1, 2].forEach(() => {
+    items.forEach(item => {
+      const div = document.createElement('div');
+      div.className = 'rate-item';
+      div.innerHTML = `
+        <span class="rate-label">${item.label}</span>
+        <span class="rate-value">${item.value}</span>
+        ${item.change ? `<span class="rate-up">${item.change}</span>` : ''}
+        <span class="rate-dot"></span>
+      `;
+      inner.appendChild(div);
+    });
+  });
+  // Timestamp
+  const ts = new Date().toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit' });
+  document.getElementById('rateStatus').textContent = `Updated ${ts}`;
+}
+
+async function fetchRates() {
+  try {
+    // Using a CORS-friendly metals price proxy endpoint
+    // Replace YOUR_KEY with a free key from metals.dev or goldapi.io
+    const res = await fetch(
+      'https://api.metals.dev/v1/latest?api_key=YOUR_KEY&currency=INR&unit=g',
+      { signal: AbortSignal.timeout(5000) }
+    );
+    if (!res.ok) throw new Error('API error');
+    const data = await res.json();
+    currentGoldRate   = Math.round(data.metals.gold * 22 / 24);
+    currentSilverRate = Math.round(data.metals.silver);
+    buildTicker(currentGoldRate, currentSilverRate);
+  } catch {
+    // Fallback to static — no alert, silent
+    buildTicker(currentGoldRate, currentSilverRate);
+  }
+}
+
+fetchRates();
+setInterval(fetchRates, 600000); // refresh every 10 min
+
+// ─── CALCULATOR ───
+let loanType = 'gold';
+
+function setType(t) {
+  loanType = t;
+  document.getElementById('btnGold').className   = 'type-btn' + (t === 'gold'   ? ' active-gold'   : '');
+  document.getElementById('btnSilver').className = 'type-btn' + (t === 'silver' ? ' active-silver' : '');
+  localStorage.setItem('loan_type', t);
+  calc();
+}
+
+const fmt = n => new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR', maximumFractionDigits: 0 }).format(n);
+
+function calcMonths(start, end) {
+  let m = (end.getFullYear() - start.getFullYear()) * 12 + (end.getMonth() - start.getMonth());
+  if (end.getDate() > start.getDate()) m++;
+  return Math.max(1, m);
+}
+
+function calcData(principal, type, months) {
+  let interest = 0, rateText = '', breakdownHTML = '', showBreakdown = false;
+  if (type === 'silver') {
+    interest = principal * 0.04 * months;
+    rateText = '4% / mo';
+  } else {
+    if (principal <= 10000) {
+      if (months <= 6) {
+        interest = principal * 0.02 * months;
+        rateText = '2% / mo';
+      } else {
+        const f = principal * 0.02 * 6;
+        const r = principal * 0.025 * (months - 6);
+        interest = f + r;
+        rateText = '2% → 2.5%';
+        showBreakdown = true;
+        breakdownHTML = `📊 First 6 months (2%): <b>${fmt(f)}</b> &nbsp;|&nbsp; Next ${months - 6} months (2.5%): <b>${fmt(r)}</b>`;
+      }
+    } else {
+      interest = principal * 0.03 * months;
+      rateText = '3% / mo';
+    }
+  }
+  return { interest: Math.ceil(interest), rateText, breakdownHTML, showBreakdown };
+}
+
+function calc() {
+  const pInput = document.getElementById('principal').value;
+  const dInput = document.getElementById('loanDate').value;
+  const amtErr  = document.getElementById('amtErr');
+  const dateErr = document.getElementById('dateErr');
+
+  if (!dInput || pInput === '') return;
+
+  const principal = parseFloat(pInput);
+  const start = new Date(dInput);
+  const today = new Date();
+
+  let valid = true;
+  if (isNaN(principal) || principal < 1000 || principal > 500000) {
+    amtErr.style.display = 'block'; valid = false;
+  } else { amtErr.style.display = 'none'; }
+
+  if (start > today) {
+    dateErr.style.display = 'block'; valid = false;
+  } else { dateErr.style.display = 'none'; }
+
+  if (!valid) return;
+
+  // Persist to localStorage
+  localStorage.setItem('loan_amount', principal);
+  localStorage.setItem('loan_date', dInput);
+
+  const months = calcMonths(start, today);
+  const d = calcData(principal, loanType, months);
+
+  document.getElementById('rPrincipal').textContent = fmt(principal);
+  document.getElementById('rDuration').textContent  = `${months} Month${months > 1 ? 's' : ''}`;
+  document.getElementById('rInterest').textContent  = fmt(d.interest);
+  document.getElementById('rTotal').textContent     = fmt(principal + d.interest);
+  document.getElementById('rateBadge').textContent  = d.rateText;
+
+  const bd = document.getElementById('breakdownBox');
+  if (d.showBreakdown) { bd.innerHTML = d.breakdownHTML; bd.style.display = 'block'; }
+  else { bd.style.display = 'none'; }
+
+  document.getElementById('p30').textContent  = fmt(principal + calcData(principal, loanType, 1).interest);
+  document.getElementById('p12').textContent  = fmt(principal + calcData(principal, loanType, 12).interest);
+  document.getElementById('p120').textContent = fmt(principal + calcData(principal, loanType, 120).interest);
+}
+
+function resetCalc() {
+  // Restore from localStorage if available
+  const savedAmount = localStorage.getItem('loan_amount');
+  const savedType   = localStorage.getItem('loan_type');
+  const savedDate   = localStorage.getItem('loan_date');
+
+  document.getElementById('principal').value = savedAmount || '10000';
+
+  if (savedDate) {
+    document.getElementById('loanDate').value = savedDate;
+  } else {
+    const today = new Date();
+    const d = new Date(today.getFullYear(), today.getMonth() - 1, today.getDate());
+    document.getElementById('loanDate').valueAsDate = d;
+  }
+
+  document.getElementById('amtErr').style.display  = 'none';
+  document.getElementById('dateErr').style.display = 'none';
+
+  loanType = savedType || 'gold';
+  setType(loanType);
+  calc();
+}
+
+// ─── UPI DEEP LINK PAY ───
+function payInterest() {
+  const interestText = document.getElementById('rInterest').textContent;
+  const interest = parseFloat(interestText.replace(/[₹,\s]/g, ''));
+  if (!interest || interest <= 0) {
+    alert('வட்டி கணக்கிட முதலில் தொகை மற்றும் தேதி உள்ளிடவும்.\nPlease enter loan details first.');
+    return;
+  }
+  const upiUrl = `upi://pay?pa=${SHOP_UPI}&pn=${encodeURIComponent(SHOP_NAME)}&am=${interest}&cu=INR&tn=${encodeURIComponent('Interest Payment - Sri Jain Bankers')}`;
+  window.location.href = upiUrl;
+}
+
+// ─── WHATSAPP LEAD ───
+function openWhatsApp() {
+  const amount = document.getElementById('principal').value || '10000';
+  const type   = loanType === 'gold' ? 'Gold / தங்கம்' : 'Silver / வெள்ளி';
+  const msg    = `வணக்கம் Sri Jain Bankers,\n\nநான் ₹${Number(amount).toLocaleString('en-IN')} க்கு ${type} கடன் வேண்டும்.\n\nHello Sri Jain Bankers, I need a ${type} loan for ₹${Number(amount).toLocaleString('en-IN')}. Please share details.`;
+  window.open(`https://wa.me/${SHOP_PHONE}?text=${encodeURIComponent(msg)}`, '_blank');
+}
+
+// ─── THEME SWITCHER ───
+const THEMES = [
+  { key: 'gold-dark',    label: '🌑 Gold Dark'    },
+  { key: 'light-luxury', label: '☀️ Light Luxury'  },
+  { key: 'royal-blue',   label: '💙 Royal Blue'   },
+  { key: 'emerald',      label: '💚 Emerald Green' },
+  { key: 'minimal-black',label: '⬛ Minimal Black' },
+];
+let themeIdx = 0;
+
+function applyTheme(idx) {
+  document.documentElement.setAttribute('data-theme', THEMES[idx].key);
+  localStorage.setItem('sjb_theme', idx);
+  const toast = document.getElementById('themeToast');
+  toast.textContent = THEMES[idx].label;
+  toast.classList.add('show');
+  setTimeout(() => toast.classList.remove('show'), 1800);
+}
+
+function cycleTheme() {
+  themeIdx = (themeIdx + 1) % THEMES.length;
+  applyTheme(themeIdx);
+}
+
+// Restore saved theme
+(function() {
+  const saved = localStorage.getItem('sjb_theme');
+  if (saved !== null) { themeIdx = parseInt(saved); applyTheme(themeIdx); }
+})();
+
+// ─── COUNT-UP ANIMATION ───
+function countUp(el, target, prefix = '₹', duration = 800) {
+  // Remove shimmer once we have data
+  el.classList.remove('shimmer', 'skeleton-val');
+  el.style.width = 'auto'; el.style.height = 'auto';
+  const start = 0;
+  const startTime = performance.now();
+  function step(now) {
+    const elapsed = now - startTime;
+    const progress = Math.min(elapsed / duration, 1);
+    // ease out cubic
+    const eased = 1 - Math.pow(1 - progress, 3);
+    const current = Math.round(start + (target - start) * eased);
+    el.textContent = prefix + current.toLocaleString('en-IN');
+    if (progress < 1) requestAnimationFrame(step);
+  }
+  requestAnimationFrame(step);
+}
+
+// ─── DASHBOARD UPDATE ───
+function updateDashboard(gold22, silver) {
+  const gold24 = Math.round(gold22 * 24 / 22);
+  const gold18 = Math.round(gold22 * 18 / 22);
+  const gold1g = gold22; // 1g = 22K price
+  const sov    = gold22 * 8; // sovereign = 8g
+
+  const cards = [
+    { idVal: 'val-24k', idLbl: 'lbl-24k', idChg: 'chg-24k', val: gold24, lbl: 'Gold 24K / gram', chg: '+0.4%', up: true },
+    { idVal: 'val-22k', idLbl: 'lbl-22k', idChg: 'chg-22k', val: gold22, lbl: 'Gold 22K / gram', chg: '+0.3%', up: true },
+    { idVal: 'val-18k', idLbl: 'lbl-18k', idChg: 'chg-18k', val: gold18, lbl: 'Gold 18K / gram', chg: '+0.3%', up: true },
+    { idVal: 'val-1g',  idLbl: 'lbl-1g',  idChg: 'chg-1g',  val: gold1g, lbl: '1 Gram Gold',     chg: '+0.3%', up: true },
+    { idVal: 'val-sov', idLbl: 'lbl-sov', idChg: 'chg-sov', val: sov,    lbl: '1 Sovereign (8g)',chg: '+0.3%', up: true },
+    { idVal: 'val-slv', idLbl: 'lbl-slv', idChg: 'chg-slv', val: silver, lbl: 'Silver / gram',   chg: '-0.1%', up: false, prefix: '₹' },
+  ];
+
+  cards.forEach(c => {
+    const lbl = document.getElementById(c.idLbl);
+    const val = document.getElementById(c.idVal);
+    const chg = document.getElementById(c.idChg);
+
+    lbl.classList.remove('shimmer', 'skeleton-lbl');
+    lbl.textContent = c.lbl;
+
+    countUp(val, c.val, c.prefix || '₹');
+
+    chg.innerHTML = `<span class="${c.up ? 'change-up' : 'change-down'}">${c.up ? '▲' : '▼'} ${c.chg} today</span>`;
+  });
+
+  const ts = new Date().toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+  document.getElementById('dashUpdated').textContent = `Last updated: ${ts}`;
+}
+
+// ─── 7-DAY TREND CHART (pure canvas, no lib) ───
+function drawTrendChart(baseRate) {
+  const canvas = document.getElementById('trendChart');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+  const dpr = window.devicePixelRatio || 1;
+
+  // Generate simulated 7-day data around current rate
+  const days = ['Mon','Tue','Wed','Thu','Fri','Sat','Today'];
+  const offsets = [-120, -60, 80, -40, 100, 30, 0];
+  const data = offsets.map(o => baseRate + o);
+
+  // Update labels
+  document.getElementById('chartLabels').innerHTML =
+    days.map(d => `<span>${d}</span>`).join('');
+
+  // Size canvas
+  const rect = canvas.parentElement.getBoundingClientRect();
+  const W = rect.width || 600, H = 80;
+  canvas.width  = W * dpr; canvas.height = H * dpr;
+  canvas.style.width  = W + 'px'; canvas.style.height = H + 'px';
+  ctx.scale(dpr, dpr);
+
+  const minV = Math.min(...data) - 50;
+  const maxV = Math.max(...data) + 50;
+  const range = maxV - minV;
+  const pad = { l: 8, r: 8, t: 8, b: 8 };
+  const cw = W - pad.l - pad.r;
+  const ch = H - pad.t - pad.b;
+
+  const pts = data.map((v, i) => ({
+    x: pad.l + (i / (data.length - 1)) * cw,
+    y: pad.t + (1 - (v - minV) / range) * ch
+  }));
+
+  // Get accent color from CSS variable
+  const accent = getComputedStyle(document.documentElement)
+    .getPropertyValue('--gold-light').trim() || '#e8b84b';
+
+  // Fill gradient
+  const grad = ctx.createLinearGradient(0, pad.t, 0, H);
+  grad.addColorStop(0, accent + '30');
+  grad.addColorStop(1, accent + '00');
+
+  ctx.beginPath();
+  ctx.moveTo(pts[0].x, pts[0].y);
+  for (let i = 1; i < pts.length; i++) {
+    const cpx = (pts[i-1].x + pts[i].x) / 2;
+    ctx.bezierCurveTo(cpx, pts[i-1].y, cpx, pts[i].y, pts[i].x, pts[i].y);
+  }
+  ctx.lineTo(pts[pts.length-1].x, H - pad.b);
+  ctx.lineTo(pts[0].x, H - pad.b);
+  ctx.closePath();
+  ctx.fillStyle = grad;
+  ctx.fill();
+
+  // Line
+  ctx.beginPath();
+  ctx.moveTo(pts[0].x, pts[0].y);
+  for (let i = 1; i < pts.length; i++) {
+    const cpx = (pts[i-1].x + pts[i].x) / 2;
+    ctx.bezierCurveTo(cpx, pts[i-1].y, cpx, pts[i].y, pts[i].x, pts[i].y);
+  }
+  ctx.strokeStyle = accent;
+  ctx.lineWidth = 2;
+  ctx.stroke();
+
+  // Dots
+  pts.forEach((p, i) => {
+    ctx.beginPath();
+    ctx.arc(p.x, p.y, i === pts.length - 1 ? 4 : 2.5, 0, Math.PI * 2);
+    ctx.fillStyle = i === pts.length - 1 ? accent : accent + 'aa';
+    ctx.fill();
+  });
+}
+
+// Hook dashboard update into existing fetchRates
+const _origBuildTicker = buildTicker;
+// Override buildTicker to also update dashboard
+function buildTicker(gold, silver) {
+  _origBuildTicker(gold, silver);
+  updateDashboard(gold, silver);
+  drawTrendChart(gold);
+}
+
+// Redraw chart on resize
+window.addEventListener('resize', () => drawTrendChart(currentGoldRate));
+
+// ─── PWA MANIFEST (injected inline as blob) ───
+const manifest = {
+  name: 'Sri Jain Bankers',
+  short_name: 'SJB Loans',
+  description: 'Gold & Silver Loan Calculator — Sri Jain Bankers, Ariyalur',
+  start_url: '/',
+  display: 'standalone',
+  background_color: '#0e0c08',
+  theme_color: '#c8972a',
+  orientation: 'portrait',
+  icons: [
+    { src: 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 192 192"><rect width="192" height="192" fill="%230e0c08" rx="32"/><text x="96" y="130" font-size="100" text-anchor="middle">⚖️</text></svg>', sizes: '192x192', type: 'image/svg+xml' },
+    { src: 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><rect width="512" height="512" fill="%230e0c08" rx="80"/><text x="256" y="360" font-size="280" text-anchor="middle">⚖️</text></svg>', sizes: '512x512', type: 'image/svg+xml' }
+  ]
+};
+const manifestBlob = new Blob([JSON.stringify(manifest)], { type: 'application/json' });
+document.getElementById('pwaManifest').href = URL.createObjectURL(manifestBlob);
+
+// ─── SERVICE WORKER (inline blob) ───
+const swCode = `
+const CACHE = 'sjb-v1';
+const ASSETS = ['/'];
+self.addEventListener('install', e => e.waitUntil(caches.open(CACHE).then(c => c.addAll(ASSETS))));
+self.addEventListener('fetch', e => e.respondWith(
+  caches.match(e.request).then(r => r || fetch(e.request).catch(() => caches.match('/')))
+));
+`;
+if ('serviceWorker' in navigator) {
+  const swBlob = new Blob([swCode], { type: 'application/javascript' });
+  navigator.serviceWorker.register(URL.createObjectURL(swBlob))
+    .catch(() => {}); // silent fail in non-https
+}
+
+// ─── PWA INSTALL PROMPT ───
+let deferredPrompt = null;
+window.addEventListener('beforeinstallprompt', e => {
+  e.preventDefault();
+  deferredPrompt = e;
+  document.getElementById('pwaBanner').style.display = 'flex';
+});
+document.getElementById('pwaInstallBtn').addEventListener('click', async () => {
+  if (!deferredPrompt) return;
+  deferredPrompt.prompt();
+  const { outcome } = await deferredPrompt.userChoice;
+  deferredPrompt = null;
+  document.getElementById('pwaBanner').style.display = 'none';
+});
+window.addEventListener('appinstalled', () => {
+  document.getElementById('pwaBanner').style.display = 'none';
+});
+
+// ─── LOAN ELIGIBILITY CALCULATOR ───
+let eligType   = 'gold';
+let eligPurity = 22;
+
+function setEligType(t) {
+  eligType = t;
+  document.getElementById('eligGoldTab').className   = 'elig-tab' + (t === 'gold'   ? ' active' : '');
+  document.getElementById('eligSilverTab').className = 'elig-tab' + (t === 'silver' ? ' active' : '');
+  // Show/hide purity selector (only for gold)
+  document.getElementById('purityField').style.opacity = t === 'gold' ? '1' : '0.4';
+  calcElig();
+}
+
+function setPurity(k, btn) {
+  eligPurity = k;
+  document.querySelectorAll('.purity-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  calcElig();
+}
+
+function calcElig() {
+  const weight = parseFloat(document.getElementById('eligWeight').value);
+  if (!weight || weight <= 0) {
+    document.getElementById('eligLoanAmount').textContent = '₹0';
+    document.getElementById('eligSubText').textContent = 'Enter weight above to see your eligible loan amount';
+    document.getElementById('eligMarketVal').textContent = '₹0';
+    document.getElementById('eligLTV').textContent = '—';
+    document.getElementById('eligRateUsed').textContent = '—';
+    document.getElementById('eligPerGram').textContent = '—';
+    return;
+  }
+
+  let ratePerGram, ltvRatio, rateLabel;
+
+  if (eligType === 'gold') {
+    // Adjust rate by purity: 22K base = currentGoldRate
+    ratePerGram = Math.round(currentGoldRate * eligPurity / 22);
+    ltvRatio    = 0.75;   // standard: 75% LTV for gold
+    rateLabel   = `${eligPurity}K Gold @ ₹${ratePerGram.toLocaleString('en-IN')}/g`;
+  } else {
+    ratePerGram = currentSilverRate;
+    ltvRatio    = 0.65;   // standard: 65% LTV for silver
+    rateLabel   = `Silver @ ₹${ratePerGram}/g`;
+  }
+
+  const marketValue = Math.round(weight * ratePerGram);
+  const loanAmount  = Math.round(marketValue * ltvRatio);
+
+  document.getElementById('eligLoanAmount').textContent = fmt(loanAmount);
+  document.getElementById('eligSubText').textContent    =
+    `For ${weight}g of ${eligType === 'gold' ? eligPurity + 'K gold' : 'silver'} jewellery`;
+  document.getElementById('eligMarketVal').textContent  = fmt(marketValue);
+  document.getElementById('eligLTV').textContent        = `${Math.round(ltvRatio * 100)}%`;
+  document.getElementById('eligRateUsed').textContent   = rateLabel;
+  document.getElementById('eligPerGram').textContent    = `₹${Math.round(ratePerGram * ltvRatio).toLocaleString('en-IN')} /g`;
+}
+
+function useEligAmount() {
+  const raw = document.getElementById('eligLoanAmount').textContent.replace(/[₹,\s]/g, '');
+  const amt = parseInt(raw);
+  if (amt > 0) {
+    document.getElementById('principal').value = amt;
+    localStorage.setItem('loan_amount', amt);
+    calc();
+    document.getElementById('calculator').scrollIntoView({ behavior: 'smooth' });
+  }
+}
+
+// ─── EVENT LISTENERS ───
+document.getElementById('principal').addEventListener('input', calc);
+document.getElementById('loanDate').addEventListener('change', calc);
+window.onload = resetCalc;
+</script>
+</body>
+</html>

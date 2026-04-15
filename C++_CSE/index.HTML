@@ -1,0 +1,1677 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data Structures Lab Record</title>
+    <style>
+        /* DESIGN (VERY SIMPLE) & TEXT STYLE */
+        body {
+            font-family: Arial, sans-serif;
+            color: #000;
+            background-color: #fff;
+            margin: 0 auto;
+            max-width: 850px;
+            padding: 20px;
+            line-height: 1.5;
+        }
+
+        /* Clean borders & alignment */
+        .record-header {
+            text-align: center;
+            border: 2px solid #000;
+            padding: 20px;
+            margin-bottom: 40px;
+        }
+
+        .record-header h2,
+        .record-header h3,
+        .record-header h4 {
+            margin: 5px 0;
+            font-weight: bold;
+            color: #000;
+        }
+
+        .experiment {
+            margin-bottom: 50px;
+            page-break-after: always;
+        }
+
+        .question-title {
+            font-weight: bold;
+            font-size: 1.15em;
+            margin-bottom: 15px;
+            border-bottom: 1px solid #000;
+            padding-bottom: 8px;
+            line-height: 1.4;
+        }
+
+        .exp-header {
+            font-weight: bold;
+            font-size: 1.1em;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+        }
+
+        .section-title {
+            font-weight: bold;
+            margin-top: 20px;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            text-decoration: underline;
+        }
+
+        p {
+            margin-top: 0;
+            margin-bottom: 15px;
+        }
+
+        ol {
+            margin-top: 0;
+            margin-bottom: 15px;
+            padding-left: 20px;
+        }
+
+        li {
+            margin-bottom: 5px;
+        }
+
+        /* PROGRAM SECTION */
+        .program-box,
+        .output-box {
+            border: 1px solid #000;
+            padding: 15px;
+            font-family: 'Courier New', Courier, monospace;
+            font-weight: bold;
+            color: #000;
+            background-color: transparent;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            overflow-x: hidden;
+            margin-bottom: 15px;
+        }
+
+        /* FOOTER */
+        footer {
+            text-align: center;
+            margin-top: 60px;
+            padding: 30px;
+            border-top: 2px solid #000;
+        }
+
+        footer a {
+            color: #000;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 1.1em;
+        }
+
+        /* Print optimization */
+        @media print {
+            body {
+                margin: 0;
+                padding: 0;
+            }
+
+            .experiment {
+                page-break-inside: avoid;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="record-header">
+        <h2>DEPARTMENT OF COMPUTER SCIENCE AND ENGINEERING</h2>
+        <h3>SUBJECT: DATA STRUCTURES LABORATORY</h3>
+        <h4>LANGUAGE: C++</h4>
+    </div>
+
+    <!-- EXPERIMENT 1 -->
+    <div class="experiment">
+        <div class="question-title">Q1: Write a C++ program to implement singly linked list.</div>
+        <div class="exp-header">Experiment No: 1</div>
+
+        <div class="section-title">AIM:</div>
+        <p>To write a C++ program for implementing singly linked list.</p>
+
+        <div class="section-title">ALGORITHM:</div>
+        <ol>
+            <li>Start the program.</li>
+            <li>Create a class for the node.</li>
+            <li>Create a node.</li>
+            <li>Create a singly linked list.</li>
+            <li>Insert into the list.</li>
+            <li>Delete from the list.</li>
+            <li>Search the list.</li>
+            <li>Count the no of nodes in the list.</li>
+            <li>Stop the program.</li>
+        </ol>
+
+        <div class="section-title">PROGRAM:</div>
+        <div class="program-box">#include &lt;iostream&gt;
+            using namespace std;
+
+            class Node {
+            public:
+            int data;
+            Node* next;
+            Node(int val) {
+            data = val;
+            next = NULL;
+            }
+            };
+
+            class LinkedList {
+            private:
+            Node* head;
+            public:
+            LinkedList() { head = NULL; }
+
+            void insertElementAtEnd(int val) {
+            Node* newNode = new Node(val);
+            if (!head) {
+            head = newNode;
+            } else {
+            Node* current = head;
+            while (current-&gt;next) {
+            current = current-&gt;next;
+            }
+            current-&gt;next = newNode;
+            }
+            cout &lt;&lt; val &lt;&lt; " inserted at the end of the list.\n";
+            }
+
+            void deleteElementAtBeginning() {
+            if (!head) {
+            cout &lt;&lt; "List is empty. Deletion failed.\n";
+            return;
+            }
+            Node* temp = head;
+            head = head-&gt;next;
+            delete temp;
+            cout &lt;&lt; "First element deleted from the list.\n";
+            }
+
+            void traverseList() {
+            Node* current = head;
+            cout &lt;&lt; "Linked List: ";
+            while (current) {
+            cout &lt;&lt; current-&gt;data &lt;&lt; " ";
+            current = current-&gt;next;
+            }
+            cout &lt;&lt; "\n";
+            }
+            };
+
+            int main() {
+            LinkedList myList;
+            myList.insertElementAtEnd(10);
+            myList.insertElementAtEnd(20);
+            myList.insertElementAtEnd(30);
+            myList.traverseList();
+            myList.deleteElementAtBeginning();
+            myList.traverseList();
+            return 0;
+            }</div>
+
+        <div class="section-title">OUTPUT:</div>
+        <div class="output-box">10 inserted at the end of the list.
+            20 inserted at the end of the list.
+            30 inserted at the end of the list.
+            Linked List: 10 20 30
+            First element deleted from the list.
+            Linked List: 20 30</div>
+
+        <div class="section-title">RESULT:</div>
+        <p><strong>INFERENCE:</strong> A singly linked list is a unidirectional linked list. So, you can only traverse
+            it in one direction, i.e., from head node to tail node. Through this program we learnt how to implement some
+            operations on singly linked list.</p>
+        <p>The program was successfully executed and the output was got.</p>
+    </div>
+
+    <!-- EXPERIMENT 2 -->
+    <div class="experiment">
+        <div class="question-title">Q2: Write a C++ program to implement doubly linked list.</div>
+        <div class="exp-header">Experiment No: 2</div>
+
+        <div class="section-title">AIM:</div>
+        <p>To write a C++ program for implementing doubly linked list.</p>
+
+        <div class="section-title">ALGORITHM:</div>
+        <ol>
+            <li>Start the program.</li>
+            <li>Create a class for the node.</li>
+            <li>Create a node.</li>
+            <li>Create a doubly linked list.</li>
+            <li>Insert into the list.</li>
+            <li>Delete from the list.</li>
+            <li>Print the list in reverse order.</li>
+            <li>Stop the program.</li>
+        </ol>
+
+        <div class="section-title">PROGRAM:</div>
+        <div class="program-box">#include &lt;iostream&gt;
+            using namespace std;
+
+            class Node {
+            public:
+            int data;
+            Node* next;
+            Node* prev;
+            Node(int val) {
+            data = val;
+            next = prev = NULL;
+            }
+            };
+
+            class DoublyLinkedList {
+            private:
+            Node* head;
+            public:
+            DoublyLinkedList() { head = NULL; }
+
+            void insertElementAtEnd(int val) {
+            Node* newNode = new Node(val);
+            if (!head) {
+            head = newNode;
+            } else {
+            Node* current = head;
+            while (current-&gt;next) current = current-&gt;next;
+            current-&gt;next = newNode;
+            newNode-&gt;prev = current;
+            }
+            cout &lt;&lt; val &lt;&lt; " inserted at the end of the list.\n";
+            }
+
+            void deleteElementAtEnd() {
+            if (!head) {
+            cout &lt;&lt; "List is empty. Deletion failed.\n";
+            return;
+            }
+            Node* current = head;
+            while (current-&gt;next) current = current-&gt;next;
+            if (current-&gt;prev) current-&gt;prev-&gt;next = NULL;
+            else head = NULL;
+            delete current;
+            cout &lt;&lt; "Last element deleted from the list.\n";
+            }
+
+            void traverseList() {
+            Node* current = head;
+            cout &lt;&lt; "Doubly Linked List: ";
+            while (current) {
+            cout &lt;&lt; current-&gt;data &lt;&lt; " ";
+            current = current-&gt;next;
+            }
+            cout &lt;&lt; "\n";
+            }
+            };
+
+            int main() {
+            DoublyLinkedList myList;
+            myList.insertElementAtEnd(5);
+            myList.insertElementAtEnd(15);
+            myList.insertElementAtEnd(25);
+            myList.traverseList();
+            myList.deleteElementAtEnd();
+            myList.traverseList();
+            return 0;
+            }</div>
+
+        <div class="section-title">OUTPUT:</div>
+        <div class="output-box">5 inserted at the end of the list.
+            15 inserted at the end of the list.
+            25 inserted at the end of the list.
+            Doubly Linked List: 5 15 25
+            Last element deleted from the list.
+            Doubly Linked List: 5 15</div>
+
+        <div class="section-title">RESULT:</div>
+        <p><strong>INFERENCE:</strong> A doubly linked list is a linked data structure that consists of a set of
+            sequentially linked records called nodes. Through this program we learnt how to implement some operations on
+            doubly linked list.</p>
+        <p>The program was successfully executed and the output was got.</p>
+    </div>
+
+    <!-- EXPERIMENT 3 -->
+    <div class="experiment">
+        <div class="question-title">Q3: Write a C++ program to Perform Polynomial Addition using singly linked list.
+        </div>
+        <div class="exp-header">Experiment No: 3</div>
+
+        <div class="section-title">AIM:</div>
+        <p>To write a C++ program to Perform Polynomial Addition using singly linked list.</p>
+
+        <div class="section-title">ALGORITHM:</div>
+        <ol>
+            <li>Start the program.</li>
+            <li>Insert a term into Polynomial 1.</li>
+            <li>Insert a term into Polynomial 2.</li>
+            <li>Display Polynomial 1.</li>
+            <li>Display Polynomial 2.</li>
+            <li>Add Polynomials.</li>
+            <li>Print the result.</li>
+            <li>Stop the program.</li>
+        </ol>
+
+        <div class="section-title">PROGRAM:</div>
+        <div class="program-box">#include &lt;iostream&gt;
+            using namespace std;
+
+            class Term {
+            public:
+            int coefficient;
+            int exponent;
+            Term* next;
+            Term(int coeff, int exp) : coefficient(coeff), exponent(exp), next(NULL) {}
+            };
+
+            class Polynomial {
+            private:
+            Term* head;
+            public:
+            Polynomial() : head(NULL) {}
+
+            void insertTerm(int coeff, int exp) {
+            Term* newTerm = new Term(coeff, exp);
+            if (!head) head = newTerm;
+            else {
+            Term* current = head;
+            while (current-&gt;next) current = current-&gt;next;
+            current-&gt;next = newTerm;
+            }
+            }
+
+            void displayPolynomial() {
+            if (!head) { cout &lt;&lt; "Empty\n"; return; }
+            Term* current = head;
+            while (current) {
+            cout &lt;&lt; current-&gt;coefficient &lt;&lt; "x^" &lt;&lt; current-&gt;exponent;
+            if (current-&gt;next) cout &lt;&lt; " + ";
+            current = current-&gt;next;
+            }
+            cout &lt;&lt; "\n";
+            }
+
+            Polynomial addPolynomials(const Polynomial&amp; poly) {
+            Polynomial result;
+            Term* term1 = head;
+            Term* term2 = poly.head;
+            while (term1 &amp;&amp; term2) {
+            if (term1-&gt;exponent &gt; term2-&gt;exponent) {
+            result.insertTerm(term1-&gt;coefficient, term1-&gt;exponent);
+            term1 = term1-&gt;next;
+            } else if (term1-&gt;exponent &lt; term2-&gt;exponent) {
+            result.insertTerm(term2-&gt;coefficient, term2-&gt;exponent);
+            term2 = term2-&gt;next;
+            } else {
+            int sumCoeff = term1-&gt;coefficient + term2-&gt;coefficient;
+            result.insertTerm(sumCoeff, term1-&gt;exponent);
+            term1 = term1-&gt;next;
+            term2 = term2-&gt;next;
+            }
+            }
+            while (term1) { result.insertTerm(term1-&gt;coefficient, term1-&gt;exponent); term1 = term1-&gt;next; }
+            while (term2) { result.insertTerm(term2-&gt;coefficient, term2-&gt;exponent); term2 = term2-&gt;next; }
+            return result;
+            }
+            };
+
+            int main() {
+            Polynomial poly1, poly2, result;
+            poly1.insertTerm(5, 2); poly1.insertTerm(4, 1); poly1.insertTerm(2, 0);
+            poly2.insertTerm(3, 2); poly2.insertTerm(1, 1); poly2.insertTerm(8, 0);
+
+            cout &lt;&lt; "Polynomial 1: "; poly1.displayPolynomial();
+            cout &lt;&lt; "Polynomial 2: "; poly2.displayPolynomial();
+
+            result = poly1.addPolynomials(poly2);
+            cout &lt;&lt; "Resultant Polynomial: "; result.displayPolynomial();
+            return 0;
+            }</div>
+
+        <div class="section-title">OUTPUT:</div>
+        <div class="output-box">Polynomial 1: 5x^2 + 4x^1 + 2x^0
+            Polynomial 2: 3x^2 + 1x^1 + 8x^0
+            Resultant Polynomial: 8x^2 + 5x^1 + 10x^0</div>
+
+        <div class="section-title">RESULT:</div>
+        <p><strong>INFERENCE:</strong> Polynomials are algebraic expressions that consist of constants and variables of
+            different powers. In this program we learnt to add two polynomials.</p>
+        <p>The program was successfully executed and the output was got.</p>
+    </div>
+
+    <!-- EXPERIMENT 4 -->
+    <div class="experiment">
+        <div class="question-title">Q4: Write a C++ program to implement stack operations.</div>
+        <div class="exp-header">Experiment No: 4</div>
+
+        <div class="section-title">AIM:</div>
+        <p>To write a C++ program to implement stack operations.</p>
+
+        <div class="section-title">ALGORITHM:</div>
+        <ol>
+            <li>Start the program.</li>
+            <li>Create a node.</li>
+            <li>Create a pointer to top of the stack.</li>
+            <li>Do the push operation.</li>
+            <li>Do the pop operation.</li>
+            <li>Go to the top of the stack.</li>
+            <li>Check if the stack is empty.</li>
+            <li>Stop the program.</li>
+        </ol>
+
+        <div class="section-title">PROGRAM:</div>
+        <div class="program-box">#include &lt;iostream&gt;
+            using namespace std;
+
+            class Node {
+            public:
+            int data;
+            Node* next;
+            };
+
+            class Stack {
+            private:
+            Node* top;
+            public:
+            Stack() { top = NULL; }
+
+            void push(int value) {
+            Node* newNode = new Node;
+            newNode-&gt;data = value;
+            newNode-&gt;next = top;
+            top = newNode;
+            cout &lt;&lt; "Pushed: " &lt;&lt; value &lt;&lt; endl;
+            }
+
+            void pop() {
+            if (isEmpty()) {
+            cout &lt;&lt; "Stack is empty. Cannot pop." &lt;&lt; endl;
+            return;
+            }
+            Node* temp = top;
+            top = top-&gt;next;
+            cout &lt;&lt; "Popped: " &lt;&lt; temp-&gt;data &lt;&lt; endl;
+            delete temp;
+            }
+
+            int getTop() {
+            if (isEmpty()) return -1;
+            return top-&gt;data;
+            }
+
+            bool isEmpty() { return top == NULL; }
+            };
+
+            int main() {
+            Stack stack;
+            stack.push(10);
+            stack.push(20);
+            stack.push(30);
+
+            cout &lt;&lt; "Top element: " &lt;&lt; stack.getTop() &lt;&lt; endl;
+            stack.pop();
+            cout &lt;&lt; "Top element after pop: " &lt;&lt; stack.getTop() &lt;&lt; endl;
+
+            return 0;
+            }</div>
+
+        <div class="section-title">OUTPUT:</div>
+        <div class="output-box">Pushed: 10
+            Pushed: 20
+            Pushed: 30
+            Top element: 30
+            Popped: 30
+            Top element after pop: 20</div>
+
+        <div class="section-title">RESULT:</div>
+        <p><strong>INFERENCE:</strong> A Stack is a linear data structure that holds a linear, ordered sequence of
+            elements. In this program we learnt to implement stack operations.</p>
+        <p>The program was successfully executed and the output was got.</p>
+    </div>
+
+    <!-- EXPERIMENT 5 -->
+    <div class="experiment">
+        <div class="question-title">Q5: Write a C++ programs to implement a queue operations using a linked list.</div>
+        <div class="exp-header">Experiment No: 5</div>
+
+        <div class="section-title">AIM:</div>
+        <p>To write a C++ programs to implement a queue operations using a linked list.</p>
+
+        <div class="section-title">ALGORITHM:</div>
+        <ol>
+            <li>Start the program.</li>
+            <li>Create a node.</li>
+            <li>Create a queue.</li>
+            <li>Add an element to the queue.</li>
+            <li>Delete an element from the queue.</li>
+            <li>Get the front element in the queue.</li>
+            <li>Check if the queue is empty.</li>
+            <li>Stop the program.</li>
+        </ol>
+
+        <div class="section-title">PROGRAM:</div>
+        <div class="program-box">#include &lt;iostream&gt;
+            using namespace std;
+
+            class Node {
+            public:
+            int data;
+            Node* next;
+            };
+
+            class Queue {
+            private:
+            Node* front;
+            Node* rear;
+            public:
+            Queue() { front = NULL; rear = NULL; }
+
+            void enqueue(int value) {
+            Node* newNode = new Node;
+            newNode-&gt;data = value;
+            newNode-&gt;next = NULL;
+            if (isEmpty()) {
+            front = rear = newNode;
+            } else {
+            rear-&gt;next = newNode;
+            rear = newNode;
+            }
+            cout &lt;&lt; "Enqueued: " &lt;&lt; value &lt;&lt; endl;
+            }
+
+            void dequeue() {
+            if (isEmpty()) {
+            cout &lt;&lt; "Queue is empty. Cannot dequeue." &lt;&lt; endl;
+            return;
+            }
+            Node* temp = front;
+            front = front-&gt;next;
+            if (front == NULL) { rear = NULL; }
+            cout &lt;&lt; "Dequeued: " &lt;&lt; temp-&gt;data &lt;&lt; endl;
+            delete temp;
+            }
+
+            int getFront() {
+            if (isEmpty()) return -1;
+            return front-&gt;data;
+            }
+
+            bool isEmpty() { return front == NULL; }
+
+            void displayQueue() {
+            if (isEmpty()) return;
+            Node* current = front;
+            cout &lt;&lt; "Queue elements: ";
+            while (current) {
+            cout &lt;&lt; current-&gt;data &lt;&lt; " ";
+            current = current-&gt;next;
+            }
+            cout &lt;&lt; endl;
+            }
+            };
+
+            int main() {
+            Queue queue;
+            queue.enqueue(40);
+            queue.enqueue(50);
+            queue.enqueue(60);
+            queue.displayQueue();
+            queue.dequeue();
+            queue.displayQueue();
+            return 0;
+            }</div>
+
+        <div class="section-title">OUTPUT:</div>
+        <div class="output-box">Enqueued: 40
+            Enqueued: 50
+            Enqueued: 60
+            Queue elements: 40 50 60
+            Dequeued: 40
+            Queue elements: 50 60</div>
+
+        <div class="section-title">RESULT:</div>
+        <p><strong>INFERENCE:</strong> A queue follows the FIFO (First In First Out) method and is open at both of its
+            ends. In this program we learnt to implement queue operations.</p>
+        <p>The program was successfully executed and the output was got.</p>
+    </div>
+
+    <!-- EXPERIMENT 6 -->
+    <div class="experiment">
+        <div class="question-title">Q6: Write a C++ program to convert Infix to Postfix Expression using Stack.</div>
+        <div class="exp-header">Experiment No: 6</div>
+
+        <div class="section-title">AIM:</div>
+        <p>To implement a C++ program to convert Infix to Postfix Expression using Stack.</p>
+
+        <div class="section-title">ALGORITHM:</div>
+        <ol>
+            <li>Start the program.</li>
+            <li>Read the infix expression.</li>
+            <li>Convert to postfix notation.</li>
+            <li>Print the postfix expression.</li>
+            <li>Stop the program.</li>
+        </ol>
+
+        <div class="section-title">PROGRAM:</div>
+        <div class="program-box">#include &lt;iostream&gt;
+            #include &lt;stack&gt;
+            #include &lt;string&gt;
+            #include &lt;cctype&gt;
+            using namespace std;
+
+            bool isOperator(char ch) {
+            return (ch == '+' || ch == '-' || ch == '*' || ch == '/' || ch == '^');
+            }
+
+            int getPrecedence(char op) {
+            if (op == '^') return 3;
+            else if (op == '*' || op == '/') return 2;
+            else if (op == '+' || op == '-') return 1;
+            else return 0;
+            }
+
+            string infixToPostfix(const string&amp; infix) {
+            stack&lt;char&gt; operators;
+            string postfix;
+            for (char ch : infix) {
+            if (isalnum(ch)) {
+            postfix += ch;
+            } else if (ch == '(') {
+            operators.push(ch);
+            } else if (ch == ')') {
+            while (!operators.empty() &amp;&amp; operators.top() != '(') {
+            postfix += operators.top();
+            operators.pop();
+            }
+            operators.pop();
+            } else if (isOperator(ch)) {
+            while (!operators.empty() &amp;&amp; getPrecedence(operators.top()) &gt;= getPrecedence(ch)) {
+            postfix += operators.top();
+            operators.pop();
+            }
+            operators.push(ch);
+            }
+            }
+            while (!operators.empty()) {
+            postfix += operators.top();
+            operators.pop();
+            }
+            return postfix;
+            }
+
+            int main() {
+            string infixExpression = "(A+B)*(C-D)";
+            cout &lt;&lt; "Infix Expression: " &lt;&lt; infixExpression &lt;&lt; endl;
+            cout &lt;&lt; "Postfix Expression: " &lt;&lt; infixToPostfix(infixExpression) &lt;&lt; endl;
+            return 0;
+            }</div>
+
+        <div class="section-title">OUTPUT:</div>
+        <div class="output-box">Infix Expression: (A+B)*(C-D)
+            Postfix Expression: AB+CD-*</div>
+
+        <div class="section-title">RESULT:</div>
+        <p><strong>INFERENCE:</strong> Postfix expression can be defined as an expression in which all the operators are
+            present after the operands. In this program we learnt to implement the conversion of infix to postfix
+            notation.</p>
+        <p>The program was successfully executed and the output was got.</p>
+    </div>
+
+    <!-- EXPERIMENT 7 -->
+    <div class="experiment">
+        <div class="question-title">Q7: Write C++ programs to implement binary search tree operations.</div>
+        <div class="exp-header">Experiment No: 7</div>
+
+        <div class="section-title">AIM:</div>
+        <p>To write C++ programs to implement binary search tree operations.</p>
+
+        <div class="section-title">ALGORITHM:</div>
+        <ol>
+            <li>Start the program.</li>
+            <li>Create a node.</li>
+            <li>Insert an element into a binary search tree.</li>
+            <li>Delete an element from a binary search tree.</li>
+            <li>Search for a key element in a binary search tree.</li>
+            <li>Print the results.</li>
+            <li>Stop the program.</li>
+        </ol>
+
+        <div class="section-title">PROGRAM:</div>
+        <div class="program-box">#include &lt;iostream&gt;
+            using namespace std;
+
+            class TreeNode {
+            public:
+            int data;
+            TreeNode* left;
+            TreeNode* right;
+            };
+
+            class BinarySearchTree {
+            private:
+            TreeNode* root;
+            public:
+            BinarySearchTree() { root = NULL; }
+
+            TreeNode* insert(TreeNode* node, int value) {
+            if (node == NULL) {
+            TreeNode* newNode = new TreeNode;
+            newNode-&gt;data = value;
+            newNode-&gt;left = newNode-&gt;right = NULL;
+            return newNode;
+            }
+            if (value &lt; node-&gt;data) node-&gt;left = insert(node-&gt;left, value);
+            else if (value &gt; node-&gt;data) node-&gt;right = insert(node-&gt;right, value);
+            return node;
+            }
+
+            void insert(int value) {
+            root = insert(root, value);
+            cout &lt;&lt; "Element inserted: " &lt;&lt; value &lt;&lt; endl;
+            }
+
+            bool search(TreeNode* node, int key) {
+            if (node == NULL) return false;
+            if (key == node-&gt;data) return true;
+            else if (key &lt; node-&gt;data) return search(node-&gt;left, key);
+            else return search(node-&gt;right, key);
+            }
+
+            bool search(int key) { return search(root, key); }
+
+            void displayInOrder(TreeNode* node) {
+            if (node != NULL) {
+            displayInOrder(node-&gt;left);
+            cout &lt;&lt; node-&gt;data &lt;&lt; " ";
+            displayInOrder(node-&gt;right);
+            }
+            }
+
+            void displayInOrder() {
+            cout &lt;&lt; "In-Order Traversal: ";
+            displayInOrder(root);
+            cout &lt;&lt; endl;
+            }
+            };
+
+            int main() {
+            BinarySearchTree bst;
+            bst.insert(50);
+            bst.insert(30);
+            bst.insert(70);
+            bst.insert(20);
+            bst.insert(40);
+
+            bst.displayInOrder();
+
+            cout &lt;&lt; "Search 40: " &lt;&lt; (bst.search(40) ? "Found" : "Not Found") &lt;&lt; endl;
+            cout &lt;&lt; "Search 90: " &lt;&lt; (bst.search(90) ? "Found" : "Not Found") &lt;&lt; endl;
+            return 0;
+            }</div>
+
+        <div class="section-title">OUTPUT:</div>
+        <div class="output-box">Element inserted: 50
+            Element inserted: 30
+            Element inserted: 70
+            Element inserted: 20
+            Element inserted: 40
+            In-Order Traversal: 20 30 40 50 70
+            Search 40: Found
+            Search 90: Not Found</div>
+
+        <div class="section-title">RESULT:</div>
+        <p><strong>INFERENCE:</strong> A binary search tree (BST), also called an ordered or sorted binary tree, is a
+            rooted binary tree data structure with the key of each internal node being greater than all the keys in the
+            respective node's left subtree and less than the ones in its right subtree. In this program we learnt to
+            implement binary search tree operations.</p>
+        <p>The program was successfully executed and the output was got.</p>
+    </div>
+
+    <!-- EXPERIMENT 8 -->
+    <div class="experiment">
+        <div class="question-title">Q8: Write a C++ program that use recursive functions to traverse the given binary
+            tree.</div>
+        <div class="exp-header">Experiment No: 8</div>
+
+        <div class="section-title">AIM:</div>
+        <p>To implement C++ program that use recursive functions to traverse the given binary tree.</p>
+
+        <div class="section-title">ALGORITHM:</div>
+        <ol>
+            <li>Start the program.</li>
+            <li>Node structure for binary tree.</li>
+            <li>Create a structure for binary tree.</li>
+            <li>Create a binary tree.</li>
+            <li>Do the tree traversal-inorder.</li>
+            <li>Do the tree traversal-preorder.</li>
+            <li>Do the tree traversal-postorder.</li>
+            <li>Print the results.</li>
+            <li>Stop the program.</li>
+        </ol>
+
+        <div class="section-title">PROGRAM:</div>
+        <div class="program-box">#include &lt;iostream&gt;
+            using namespace std;
+
+            struct TreeNode {
+            public:
+            int data;
+            TreeNode* left;
+            TreeNode* right;
+            };
+
+            class BinaryTree {
+            private:
+            TreeNode* root;
+            public:
+            BinaryTree() { root = NULL; }
+
+            TreeNode* createNode(int value) {
+            TreeNode* newNode = new TreeNode;
+            newNode-&gt;data = value;
+            newNode-&gt;left = newNode-&gt;right = NULL;
+            return newNode;
+            }
+
+            TreeNode* insert(TreeNode* node, int value) {
+            if (node == NULL) return createNode(value);
+            if (value &lt; node-&gt;data) node-&gt;left = insert(node-&gt;left, value);
+            else if (value &gt; node-&gt;data) node-&gt;right = insert(node-&gt;right, value);
+            return node;
+            }
+
+            void insert(int value) {
+            root = insert(root, value);
+            }
+
+            void preorderTraversal(TreeNode* node) {
+            if (node != NULL) {
+            cout &lt;&lt; node-&gt;data &lt;&lt; " ";
+            preorderTraversal(node-&gt;left);
+            preorderTraversal(node-&gt;right);
+            }
+            }
+
+            void inorderTraversal(TreeNode* node) {
+            if (node != NULL) {
+            inorderTraversal(node-&gt;left);
+            cout &lt;&lt; node-&gt;data &lt;&lt; " ";
+            inorderTraversal(node-&gt;right);
+            }
+            }
+
+            void postorderTraversal(TreeNode* node) {
+            if (node != NULL) {
+            postorderTraversal(node-&gt;left);
+            postorderTraversal(node-&gt;right);
+            cout &lt;&lt; node-&gt;data &lt;&lt; " ";
+            }
+            }
+
+            void displayAll() {
+            cout &lt;&lt; "Preorder Traversal: "; preorderTraversal(root); cout &lt;&lt; endl;
+            cout &lt;&lt; "Inorder Traversal: "; inorderTraversal(root); cout &lt;&lt; endl;
+            cout &lt;&lt; "Postorder Traversal: "; postorderTraversal(root); cout &lt;&lt; endl;
+            }
+            };
+
+            int main() {
+            BinaryTree binaryTree;
+            binaryTree.insert(40);
+            binaryTree.insert(20);
+            binaryTree.insert(60);
+            binaryTree.insert(10);
+            binaryTree.insert(30);
+
+            binaryTree.displayAll();
+            return 0;
+            }</div>
+
+        <div class="section-title">OUTPUT:</div>
+        <div class="output-box">Preorder Traversal: 40 20 10 30 60
+            Inorder Traversal: 10 20 30 40 60
+            Postorder Traversal: 10 30 20 60 40</div>
+
+        <div class="section-title">RESULT:</div>
+        <p><strong>INFERENCE:</strong> A binary search tree (BST), also called an ordered or sorted binary tree, is a
+            rooted binary tree data structure with the key of each internal node being greater than all the keys in the
+            respective node's left subtree and less than the ones in its right subtree. In this program we learnt to
+            implement binary tree traversal.</p>
+        <p>The program was successfully executed and the output was got.</p>
+    </div>
+
+    <!-- EXPERIMENT 9 -->
+    <div class="experiment">
+        <div class="question-title">Q9: Write C++ programs to implement an AVL Tree.</div>
+        <div class="exp-header">Experiment No: 9</div>
+
+        <div class="section-title">AIM:</div>
+        <p>To write C++ programs to implement an AVL Tree.</p>
+
+        <div class="section-title">ALGORITHM:</div>
+        <ol>
+            <li>Start the program.</li>
+            <li>Create a Node for AVL Tree node.</li>
+            <li>Create a class for AVL tree.</li>
+            <li>Create a new node.</li>
+            <li>Get the height of the tree.</li>
+            <li>Do the left rotation.</li>
+            <li>Do the right rotation.</li>
+            <li>Get the balance factor of a node.</li>
+            <li>Balance the tree through rotations of left and right.</li>
+            <li>Do the tree traversals.</li>
+            <li>Print the results.</li>
+            <li>Stop the program.</li>
+        </ol>
+
+        <div class="section-title">PROGRAM:</div>
+        <div class="program-box">#include &lt;iostream&gt;
+            #include &lt;algorithm&gt;
+            using namespace std;
+
+            class AVLNode {
+            public:
+            int data;
+            AVLNode* left;
+            AVLNode* right;
+            int height;
+            };
+
+            class AVLTree {
+            private:
+            AVLNode* root;
+            public:
+            AVLTree() { root = NULL; }
+
+            AVLNode* createNode(int value) {
+            AVLNode* newNode = new AVLNode;
+            newNode-&gt;data = value;
+            newNode-&gt;left = newNode-&gt;right = NULL;
+            newNode-&gt;height = 1;
+            return newNode;
+            }
+
+            int getHeight(AVLNode* node) {
+            return (node == NULL) ? 0 : node-&gt;height;
+            }
+
+            void updateHeight(AVLNode* node) {
+            node-&gt;height = 1 + max(getHeight(node-&gt;left), getHeight(node-&gt;right));
+            }
+
+            AVLNode* rightRotate(AVLNode* y) {
+            AVLNode* x = y-&gt;left;
+            AVLNode* T2 = x-&gt;right;
+            x-&gt;right = y;
+            y-&gt;left = T2;
+            updateHeight(y);
+            updateHeight(x);
+            return x;
+            }
+
+            AVLNode* leftRotate(AVLNode* x) {
+            AVLNode* y = x-&gt;right;
+            AVLNode* T2 = y-&gt;left;
+            y-&gt;left = x;
+            x-&gt;right = T2;
+            updateHeight(x);
+            updateHeight(y);
+            return y;
+            }
+
+            int getBalance(AVLNode* node) {
+            return (node == NULL) ? 0 : getHeight(node-&gt;left) - getHeight(node-&gt;right);
+            }
+
+            AVLNode* insert(AVLNode* node, int value) {
+            if (node == NULL) return createNode(value);
+            if (value &lt; node-&gt;data) node-&gt;left = insert(node-&gt;left, value);
+            else if (value &gt; node-&gt;data) node-&gt;right = insert(node-&gt;right, value);
+            else return node;
+
+            updateHeight(node);
+            int balance = getBalance(node);
+
+            if (balance &gt; 1 &amp;&amp; value &lt; node-&gt;left-&gt;data) return rightRotate(node);
+            if (balance &lt; -1 &amp;&amp; value &gt; node-&gt;right-&gt;data) return leftRotate(node);
+            if (balance &gt; 1 &amp;&amp; value &gt; node-&gt;left-&gt;data) {
+            node-&gt;left = leftRotate(node-&gt;left);
+            return rightRotate(node);
+            }
+            if (balance &lt; -1 &amp;&amp; value &lt; node-&gt;right-&gt;data) {
+            node-&gt;right = rightRotate(node-&gt;right);
+            return leftRotate(node);
+            }
+            return node;
+            }
+
+            void insert(int value) {
+            root = insert(root, value);
+            cout &lt;&lt; "Element inserted: " &lt;&lt; value &lt;&lt; endl;
+            }
+
+            void inOrderTraversal(AVLNode* node) {
+            if (node != NULL) {
+            inOrderTraversal(node-&gt;left);
+            cout &lt;&lt; node-&gt;data &lt;&lt; " ";
+            inOrderTraversal(node-&gt;right);
+            }
+            }
+
+            void inOrderTraversal() {
+            cout &lt;&lt; "In-Order Traversal: ";
+            inOrderTraversal(root);
+            cout &lt;&lt; endl;
+            }
+            };
+
+            int main() {
+            AVLTree avlTree;
+            avlTree.insert(10);
+            avlTree.insert(20);
+            avlTree.insert(30);
+            avlTree.insert(40);
+            avlTree.insert(50);
+            avlTree.insert(25);
+            avlTree.inOrderTraversal();
+            return 0;
+            }</div>
+
+        <div class="section-title">OUTPUT:</div>
+        <div class="output-box">Element inserted: 10
+            Element inserted: 20
+            Element inserted: 30
+            Element inserted: 40
+            Element inserted: 50
+            Element inserted: 25
+            In-Order Traversal: 10 20 25 30 40 50</div>
+
+        <div class="section-title">RESULT:</div>
+        <p><strong>INFERENCE:</strong> AVL tree in data structures is a popular self-balancing binary search tree where
+            the difference between the heights of left and right subtrees for any node does not exceed unity. In this
+            program we learnt to implement AVL trees.</p>
+        <p>The program was successfully executed and the output was got.</p>
+    </div>
+
+    <!-- EXPERIMENT 10 -->
+    <div class="experiment">
+        <div class="question-title">Q10: Write a C++ program that demonstrates B-Tree operation insertion, search, and
+            display.</div>
+        <div class="exp-header">Experiment No: 10</div>
+
+        <div class="section-title">AIM:</div>
+        <p>To write a C++ program that demonstrates B-Tree operation insertion, search, and display.</p>
+
+        <div class="section-title">ALGORITHM:</div>
+        <ol>
+            <li>Start the program.</li>
+            <li>Create a btree node.</li>
+            <li>Create a function for btree node.</li>
+            <li>Create a function to split the current node.</li>
+            <li>Create a function to insert a key into Btree.</li>
+            <li>Create a function to search a key in btree.</li>
+            <li>Create a function to display the tree.</li>
+            <li>Stop the program.</li>
+        </ol>
+
+        <div class="section-title">PROGRAM:</div>
+        <div class="program-box">#include &lt;iostream&gt;
+            using namespace std;
+
+            class BTreeNode {
+            public:
+            int *keys;
+            BTreeNode **children;
+            bool leaf;
+            int n;
+            };
+
+            BTreeNode* createNode(bool leaf, int degree) {
+            BTreeNode* newNode = new BTreeNode;
+            newNode-&gt;leaf = leaf;
+            newNode-&gt;n = 0;
+            newNode-&gt;keys = new int[2 * degree - 1];
+            newNode-&gt;children = new BTreeNode *[2 * degree];
+            return newNode;
+            }
+
+            void splitChild(BTreeNode* parentNode, int index, BTreeNode* child, int degree) {
+            BTreeNode* newNode = createNode(child-&gt;leaf, degree);
+            newNode-&gt;n = degree - 1;
+            for (int i = 0; i &lt; degree - 1; i++)
+            newNode-&gt;keys[i] = child-&gt;keys[i + degree];
+            if (!child-&gt;leaf) {
+            for (int i = 0; i &lt; degree; i++)
+            newNode-&gt;children[i] = child-&gt;children[i + degree];
+            }
+            child-&gt;n = degree - 1;
+            for (int i = parentNode-&gt;n; i &gt; index; i--)
+            parentNode-&gt;children[i + 1] = parentNode-&gt;children[i];
+            parentNode-&gt;children[index + 1] = newNode;
+            for (int i = parentNode-&gt;n - 1; i &gt;= index; i--)
+            parentNode-&gt;keys[i + 1] = parentNode-&gt;keys[i];
+            parentNode-&gt;keys[index] = child-&gt;keys[degree - 1];
+            parentNode-&gt;n++;
+            }
+
+            void insertNonFull(BTreeNode* node, int key, int degree) {
+            int i = node-&gt;n - 1;
+            if (node-&gt;leaf) {
+            while (i &gt;= 0 &amp;&amp; node-&gt;keys[i] &gt; key) {
+            node-&gt;keys[i + 1] = node-&gt;keys[i];
+            i--;
+            }
+            node-&gt;keys[i + 1] = key;
+            node-&gt;n++;
+            } else {
+            while (i &gt;= 0 &amp;&amp; node-&gt;keys[i] &gt; key) i--;
+            if (node-&gt;children[i + 1]-&gt;n == 2 * degree - 1) {
+            splitChild(node, i + 1, node-&gt;children[i + 1], degree);
+            if (node-&gt;keys[i + 1] &lt; key) i++;
+            }
+            insertNonFull(node-&gt;children[i + 1], key, degree);
+            }
+            }
+
+            void insert(BTreeNode*&amp; root, int key, int degree) {
+            if (!root) {
+            root = createNode(true, degree);
+            root-&gt;keys = key;
+            root-&gt;n = 1;
+            } else {
+            if (root-&gt;n == 2 * degree - 1) {
+            BTreeNode* newRoot = createNode(false, degree);
+            newRoot-&gt;children = root;
+            splitChild(newRoot, 0, root, degree);
+            int i = 0;
+            if (newRoot-&gt;keys &lt; key) i++;
+            insertNonFull(newRoot-&gt;children[i], key, degree);
+            root = newRoot;
+            } else {
+            insertNonFull(root, key, degree);
+            }
+            }
+            }
+
+            bool search(BTreeNode* root, int key) {
+            if (!root) return false;
+            int i = 0;
+            while (i &lt; root-&gt;n &amp;&amp; key &gt; root-&gt;keys[i]) i++;
+            if (i &lt; root-&gt;n &amp;&amp; key == root-&gt;keys[i]) return true;
+            if (root-&gt;leaf) return false;
+            return search(root-&gt;children[i], key);
+            }
+
+            void display(BTreeNode* root, int level) {
+            if (root) {
+            for (int i = root-&gt;n - 1; i &gt;= 0; i--) {
+            display(root-&gt;children[i + 1], level + 1);
+            for (int j = 0; j &lt; level; j++) cout &lt;&lt; " ";
+            cout &lt;&lt; root-&gt;keys[i] &lt;&lt; endl;
+            }
+            display(root-&gt;children, level + 1);
+            }
+            }
+
+            int main() {
+            BTreeNode* root = nullptr;
+            int degree = 3;
+            insert(root, 10, degree);
+            insert(root, 20, degree);
+            insert(root, 5, degree);
+            insert(root, 6, degree);
+            insert(root, 12, degree);
+
+            cout &lt;&lt; "B-Tree:\n";
+            display(root, 0);
+            return 0;
+            }</div>
+
+        <div class="section-title">OUTPUT:</div>
+        <div class="output-box">B-Tree:
+            20
+            12
+            10
+            6
+            5</div>
+
+        <div class="section-title">RESULT:</div>
+        <p><strong>INFERENCE:</strong> B-tree is a self-balancing data structure commonly used in computer science for
+            efficient storage and retrieval of large amounts of data. In this program we learnt to implement B-Tree
+            operation insertion, search, and display.</p>
+        <p>The program was successfully executed and the output was got.</p>
+    </div>
+
+    <!-- EXPERIMENT 11 -->
+    <div class="experiment">
+        <div class="question-title">Q11: Write a C++ program for Dijkstra's single source shortest path algorithm.</div>
+        <div class="exp-header">Experiment No: 11</div>
+
+        <div class="section-title">AIM:</div>
+        <p>To write a C++ program for Dijkstra's single source shortest path algorithm.</p>
+
+        <div class="section-title">ALGORITHM:</div>
+        <ol>
+            <li>Start the program.</li>
+            <li>Set the number of vertices to 9.</li>
+            <li>Find the vertex with minimum distance value, from the set of vertices not yet included in shortest path
+                tree.</li>
+            <li>Create a function to print the constructed distance.</li>
+            <li>Function that implements Dijkstra's single source shortest path algorithm for a graph represented using
+                adjacency matrix representation.</li>
+            <li>The output array. dist[i] will hold the shortest distance from src to i.</li>
+            <li>sptSet[i] will be true if vertex i is included in shortest path tree or shortest distance from src to i
+                is finalized.</li>
+            <li>Initialize all distances as INFINITE and stpSet[] as false.</li>
+            <li>Set Distance from source to itself as 0.</li>
+            <li>Find shortest path for all vertices.</li>
+            <li>Pick the minimum distance vertex from the set of vertices not yet processed.</li>
+            <li>Mark the picked vertex as processed.</li>
+            <li>Update dist value of the adjacent vertices of the picked vertex.</li>
+            <li>Print the constructed distance array.</li>
+            <li>Stop the program.</li>
+        </ol>
+
+        <div class="section-title">PROGRAM:</div>
+        <div class="program-box">#include &lt;iostream&gt;
+            #include &lt;limits.h&gt;
+            #define V 9
+            using namespace std;
+
+            int minDistance(int dist[], bool sptSet[]) {
+            int min = INT_MAX, min_index;
+            for (int v = 0; v &lt; V; v++)
+            if (sptSet[v] == false &amp;&amp; dist[v] &lt;= min)
+            min = dist[v], min_index = v;
+            return min_index;
+            }
+
+            void printSolution(int dist[], int n) {
+            cout &lt;&lt; "Vertex Distance from Source\n";
+            for (int i = 0; i &lt; V; i++)
+            cout &lt;&lt; i &lt;&lt; "\t\t\t\t" &lt;&lt; dist[i] &lt;&lt; endl;
+            }
+
+            void dijkstra(int graph[V][V], int src) {
+            int dist[V];
+            bool sptSet[V];
+            for (int i = 0; i &lt; V; i++)
+            dist[i] = INT_MAX, sptSet[i] = false;
+            dist[src] = 0;
+            for (int count = 0; count &lt; V - 1; count++) {
+            int u = minDistance(dist, sptSet);
+            sptSet[u] = true;
+            for (int v = 0; v &lt; V; v++)
+            if (!sptSet[v] &amp;&amp; graph[u][v] &amp;&amp; dist[u] != INT_MAX &amp;&amp; dist[u] + graph[u][v] &lt;
+            dist[v])
+            dist[v] = dist[u] + graph[u][v];
+            }
+            printSolution(dist, V);
+            }
+
+            int main() {
+            int graph[V][V] = {
+            {0, 4, 0, 0, 0, 0, 0, 8, 0},
+            {4, 0, 8, 0, 0, 0, 0, 11, 0},
+            {0, 8, 0, 7, 0, 4, 0, 0, 2},
+            {0, 0, 7, 0, 9, 14, 0, 0, 0},
+            {0, 0, 0, 9, 0, 10, 0, 0, 0},
+            {0, 0, 4, 14, 10, 0, 2, 0, 0},
+            {0, 0, 0, 0, 0, 2, 0, 1, 6},
+            {8, 11, 0, 0, 0, 0, 1, 0, 7},
+            {0, 0, 2, 0, 0, 0, 6, 7, 0}
+            };
+            dijkstra(graph, 0);
+            return 0;
+            }</div>
+
+        <div class="section-title">OUTPUT:</div>
+        <div class="output-box">Vertex Distance from Source
+            0 0
+            1 4
+            2 12
+            3 19
+            4 21
+            5 11
+            6 9
+            7 8
+            8 14</div>
+
+        <div class="section-title">RESULT:</div>
+        <p><strong>INFERENCE:</strong> The Dijkstra Shortest Path algorithm computes the shortest path between nodes.
+            The algorithm supports weighted graphs with positive relationship weights. In this program we learnt how to
+            implement Dijkstra Shortest Path algorithm.</p>
+        <p>The program was successfully executed and the output was got.</p>
+    </div>
+
+    <!-- EXPERIMENT 12 -->
+    <div class="experiment">
+        <div class="question-title">Q12: Write a C++ program for Prim's Minimum Spanning Tree (MST) algorithm.</div>
+        <div class="exp-header">Experiment No: 12</div>
+
+        <div class="section-title">AIM:</div>
+        <p>To write a C++ program for Prim's Minimum Spanning Tree (MST) algorithm.</p>
+
+        <div class="section-title">ALGORITHM:</div>
+        <ol>
+            <li>Start the program.</li>
+            <li>Get the number of nodes. Here it is 6.</li>
+            <li>Create a node.</li>
+            <li>Get the source node.</li>
+            <li>Get the destination node.</li>
+            <li>Get the weight of the node.</li>
+            <li>Get the minimum for each time.</li>
+            <li>Stop the program.</li>
+        </ol>
+
+        <div class="section-title">PROGRAM:</div>
+        <div class="program-box">#include &lt;iostream&gt;
+            #include &lt;limits.h&gt;
+            using namespace std;
+            #define V 5
+
+            int minKey(int key[], bool mstSet[]) {
+            int min = INT_MAX, min_index;
+            for (int v = 0; v &lt; V; v++)
+            if (mstSet[v] == false &amp;&amp; key[v] &lt; min)
+            min = key[v], min_index = v;
+            return min_index;
+            }
+
+            void printMST(int parent[], int graph[V][V]) {
+            cout &lt;&lt; "Edge \tWeight\n";
+            for (int i = 1; i &lt; V; i++)
+            cout &lt;&lt; parent[i] &lt;&lt; " - " &lt;&lt; i &lt;&lt; "\t" &lt;&lt; graph[i][parent[i]] &lt;&lt; "\n";
+            }
+
+            void primMST(int graph[V][V]) {
+            int parent[V];
+            int key[V];
+            bool mstSet[V];
+            for (int i = 0; i &lt; V; i++)
+            key[i] = INT_MAX, mstSet[i] = false;
+            key = 0;
+            parent = -1;
+            for (int count = 0; count &lt; V - 1; count++) {
+            int u = minKey(key, mstSet);
+            mstSet[u] = true;
+            for (int v = 0; v &lt; V; v++)
+            if (graph[u][v] &amp;&amp; mstSet[v] == false &amp;&amp; graph[u][v] &lt; key[v])
+            parent[v] = u, key[v] = graph[u][v];
+            }
+            printMST(parent, graph);
+            }
+
+            int main() {
+            int graph[V][V] = {
+            {0, 2, 0, 6, 0},
+            {2, 0, 3, 8, 5},
+            {0, 3, 0, 0, 7},
+            {6, 8, 0, 0, 9},
+            {0, 5, 7, 9, 0}
+            };
+            primMST(graph);
+            return 0;
+            }</div>
+
+        <div class="section-title">OUTPUT:</div>
+        <div class="output-box">Edge Weight
+            0 - 1 2
+            1 - 2 3
+            0 - 3 6
+            1 - 4 5</div>
+
+        <div class="section-title">RESULT:</div>
+        <p><strong>INFERENCE:</strong> The algorithm starts with an empty spanning tree. The idea is to maintain two
+            sets of vertices. The first set contains the vertices already included in the MST, and the other set
+            contains the vertices not yet included. At every step, it considers all the edges that connect the two sets
+            and picks the minimum weight edge from these edges. After picking the edge, it moves the other endpoint of
+            the edge to the set containing MST. Through this program we have learnt how to implement Prim's Minimum
+            Spanning Tree (MST) algorithm.</p>
+        <p>The program was successfully executed and the output was got.</p>
+    </div>
+
+    <!-- EXPERIMENT 13 -->
+    <div class="experiment">
+        <div class="question-title">Q13: Write a C++ program to implement binary search using a recursive function.
+        </div>
+        <div class="exp-header">Experiment No: 13</div>
+
+        <div class="section-title">AIM:</div>
+        <p>To write a C++ programs to implement binary search using a recursive function.</p>
+
+        <div class="section-title">ALGORITHM:</div>
+        <ol>
+            <li>Start the program.</li>
+            <li>Get the number of elements in the array.</li>
+            <li>Get the elements in the array.</li>
+            <li>Get the element to be searched.</li>
+            <li>Sort the array.</li>
+            <li>Do the binary search.</li>
+            <li>Binary search is done in recursion.</li>
+            <li>Print the results.</li>
+            <li>Stop the program.</li>
+        </ol>
+
+        <div class="section-title">PROGRAM:</div>
+        <div class="program-box">#include &lt;iostream&gt;
+            using namespace std;
+
+            int binarySearchRecursive(int arr[], int low, int high, int key) {
+            if (low &lt;= high) {
+            int mid = low + (high - low) / 2;
+            if (arr[mid] == key)
+            return mid;
+            else if (arr[mid] &gt; key)
+            return binarySearchRecursive(arr, low, mid - 1, key);
+            else
+            return binarySearchRecursive(arr, mid + 1, high, key);
+            }
+            return -1;
+            }
+
+            int main() {
+            int arr[] = {2, 5, 8, 12, 16, 23, 38, 56, 72, 91};
+            int n = sizeof(arr) / sizeof(arr);
+            int key = 23;
+
+            cout &lt;&lt; "Array elements: ";
+            for (int i = 0; i &lt; n; i++) cout &lt;&lt; arr[i] &lt;&lt; " ";
+            cout &lt;&lt; "\nEnter the element to search: " &lt;&lt; key &lt;&lt; "\n";
+
+            int result = binarySearchRecursive(arr, 0, n - 1, key);
+
+            if (result != -1) cout &lt;&lt; "Element found at index " &lt;&lt; result &lt;&lt; endl;
+            else cout &lt;&lt; "Element not found" &lt;&lt; endl;
+
+            return 0;
+            }</div>
+
+        <div class="section-title">OUTPUT:</div>
+        <div class="output-box">Array elements: 2 5 8 12 16 23 38 56 72 91
+            Enter the element to search: 23
+            Element found at index 5</div>
+
+        <div class="section-title">RESULT:</div>
+        <p><strong>INFERENCE:</strong> Binary Search divides a sorted array in half repeatedly to find the target. It is
+            very fast O(log n) for massive datasets. The recursive approach keeps dividing the array by bounds.</p>
+        <p>The program was successfully executed and the output was got.</p>
+    </div>
+
+    <!-- EXPERIMENT 14 -->
+    <div class="experiment">
+        <div class="question-title">Q14: Write a C++ program to implement the Insertion Sort algorithm.</div>
+        <div class="exp-header">Experiment No: 14</div>
+
+        <div class="section-title">AIM:</div>
+        <p>To write a C++ program to implement the Insertion Sort algorithm.</p>
+
+        <div class="section-title">ALGORITHM:</div>
+        <ol>
+            <li>Start the program.</li>
+            <li>Get the number of elements in the array.</li>
+            <li>Get the elements in the array.</li>
+            <li>Sort the array using insertion sort.</li>
+            <li>Display the array after sorting.</li>
+            <li>Stop the program.</li>
+        </ol>
+
+        <div class="section-title">PROGRAM:</div>
+        <div class="program-box">#include &lt;iostream&gt;
+            using namespace std;
+
+            void insertionSort(int arr[], int n) {
+            for (int i = 1; i &lt; n; ++i) {
+            int key = arr[i];
+            int j = i - 1;
+            while (j &gt;= 0 &amp;&amp; arr[j] &gt; key) {
+            arr[j + 1] = arr[j];
+            j = j - 1;
+            }
+            arr[j + 1] = key;
+            }
+            }
+
+            void displayArray(int arr[], int n) {
+            cout &lt;&lt; "Sorted Array: ";
+            for (int i = 0; i &lt; n; ++i) {
+            cout &lt;&lt; arr[i] &lt;&lt; " ";
+            }
+            cout &lt;&lt; endl;
+            }
+
+            int main() {
+            int arr[] = {5, 2, 4, 6, 1, 3};
+            int n = sizeof(arr) / sizeof(arr);
+
+            cout &lt;&lt; "Original Array: ";
+            for (int i = 0; i &lt; n; ++i) cout &lt;&lt; arr[i] &lt;&lt; " ";
+            cout &lt;&lt; endl;
+
+            insertionSort(arr, n);
+            displayArray(arr, n);
+            return 0;
+            }</div>
+
+        <div class="section-title">OUTPUT:</div>
+        <div class="output-box">Original Array: 5 2 4 6 1 3
+            Sorted Array: 1 2 3 4 5 6</div>
+
+        <div class="section-title">RESULT:</div>
+        <p><strong>INFERENCE:</strong> Insertion sort is a simple sorting algorithm that works similar to the way we
+            sort playing cards in our hands. The array is virtually split into a sorted and an unsorted part. Values
+            from the unsorted part are picked and placed at the correct position in the sorted part. In this program we
+            learnt to implement the Insertion Sort algorithm.</p>
+        <p>The program was successfully executed and the output was got.</p>
+    </div>
+
+    <!-- EXPERIMENT 15 -->
+    <div class="experiment" style="border-bottom: none; page-break-after: auto;">
+        <div class="question-title">Q15: Write a C++ program to implement the separate chaining technique in hashing.
+        </div>
+        <div class="exp-header">Experiment No: 15</div>
+
+        <div class="section-title">AIM:</div>
+        <p>To write a C++ program to implement the separate chaining technique in hashing</p>
+
+        <div class="section-title">ALGORITHM:</div>
+        <ol>
+            <li>Start the program.</li>
+            <li>Set Hash table size to 10.</li>
+            <li>Insert the key in the hash table.</li>
+            <li>Search a key in the hash table.</li>
+            <li>Display the hash table.</li>
+            <li>Stop the program.</li>
+        </ol>
+
+        <div class="section-title">PROGRAM:</div>
+        <div class="program-box">#include &lt;iostream&gt;
+            #include &lt;list&gt;
+            #include &lt;iterator&gt;
+            using namespace std;
+
+            class HashTable {
+            private:
+            static const int tableSize = 10;
+            list&lt;int&gt; table[tableSize];
+
+            int hashFunction(int key) {
+            return key % tableSize;
+            }
+
+            public:
+            void insertKey(int key) {
+            int index = hashFunction(key);
+            table[index].push_back(key);
+            }
+
+            void displayTable() {
+            for (int i = 0; i &lt; tableSize; ++i) {
+            cout &lt;&lt; "Bucket " &lt;&lt; i &lt;&lt; ": ";
+            for (auto x : table[i]) cout &lt;&lt; x &lt;&lt; " ";
+            cout &lt;&lt; endl;
+            }
+            }
+
+            bool searchKey(int key) {
+            int index = hashFunction(key);
+            for (auto it = table[index].begin(); it != table[index].end(); ++it) {
+            if (*it == key) return true;
+            }
+            return false;
+            }
+            };
+
+            int main() {
+            HashTable hashTable;
+            hashTable.insertKey(12);
+            hashTable.insertKey(22);
+            hashTable.insertKey(15);
+            hashTable.insertKey(25);
+            hashTable.insertKey(37);
+
+            cout &lt;&lt; "Hash Table:\n";
+            hashTable.displayTable();
+
+            cout &lt;&lt; "\nSearch for 22: " &lt;&lt; (hashTable.searchKey(22) ? "Found" : "Not Found") &lt;&lt; endl;
+            cout &lt;&lt; "Search for 99: " &lt;&lt; (hashTable.searchKey(99) ? "Found" : "Not Found") &lt;&lt; endl;
+            return 0;
+            }</div>
+
+        <div class="section-title">OUTPUT:</div>
+        <div class="output-box">Hash Table:
+            Bucket 0: 15
+            Bucket 1:
+            Bucket 2: 12 22
+            Bucket 3:
+            Bucket 4:
+            Bucket 5: 25
+            Bucket 6:
+            Bucket 7: 37
+            Bucket 8:
+            Bucket 9:
+
+            Search for 22: Found
+            Search for 99: Not Found</div>
+
+        <div class="section-title">RESULT:</div>
+        <p><strong>INFERENCE:</strong> Hashing is a technique or process of mapping keys, and values into the hash table
+            by using a hash function. It is done for faster access to elements. The efficiency of mapping depends on the
+            efficiency of the hash function used. In this program we learnt to implement separate chaining technique in
+            hashing.</p>
+        <p>The program was successfully executed and the output was got.</p>
+    </div>
+
+    <footer>
+        <b><a href="https://akdev-official.vercel.app" style="color: #000;">DEVELOPED BY AKDEV LABS</a></b>
+    </footer>
+
+</body>
+
+</html>

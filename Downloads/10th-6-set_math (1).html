@@ -1,0 +1,2854 @@
+<!DOCTYPE html>
+<html lang="ta">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AKDEV LABS - All 6 Sets Maths Public Exam Models</title>
+    <link href="https://fonts.googleapis.com/css2?family=Libre+Barcode+39&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Times New Roman', Times, serif;
+            background: #d1d5db;
+            font-size: 14.5px;
+            line-height: 1.45;
+        }
+
+        /* TAB BAR */
+        .tab-bar {
+            background: #1e293b;
+            padding: 12px 15px;
+            text-align: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.4);
+        }
+
+        .tab-btn {
+            background: transparent;
+            color: #94a3b8;
+            border: 1.5px solid #475569;
+            padding: 7px 18px;
+            margin: 3px;
+            font-size: 13px;
+            font-weight: 700;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: all 0.25s;
+            font-family: Arial, sans-serif;
+            letter-spacing: 0.5px;
+        }
+
+        .tab-btn:hover {
+            color: #e2e8f0;
+            border-color: #94a3b8;
+            background: rgba(255, 255, 255, 0.06);
+        }
+
+        .tab-btn.active {
+            color: #020408;
+            background: #00d4ff;
+            border-color: #00d4ff;
+            box-shadow: 0 0 12px rgba(0, 212, 255, 0.35);
+        }
+
+        /* SET WRAPPER */
+        .set {
+            display: none;
+            padding: 20px 0;
+        }
+
+        .set.active {
+            display: block;
+            animation: fadeIn 0.4s ease;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(8px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* PAGE (exam paper) */
+        .page {
+            max-width: 860px;
+            margin: 0 auto 20px;
+            background: #fff;
+            padding: 28px 38px 30px;
+            box-shadow: 0 2px 18px rgba(0, 0, 0, 0.22);
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* WATERMARK */
+        .wm {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) rotate(-45deg);
+            font-size: 68px;
+            color: rgba(0, 212, 255, 0.04);
+            white-space: nowrap;
+            z-index: 0;
+            font-weight: 900;
+            font-family: Arial, sans-serif;
+            letter-spacing: 4px;
+            pointer-events: none;
+            user-select: none;
+        }
+
+        .cw {
+            position: relative;
+            z-index: 1;
+        }
+
+        /* HEADER ROW */
+        .hr {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 700;
+            font-family: Arial, sans-serif;
+            font-size: 12.5px;
+            margin-bottom: 4px;
+            color: #1e293b;
+        }
+
+        /* BARCODE */
+        .bc {
+            font-family: 'Libre Barcode 39', cursive;
+            font-size: 34px;
+            font-weight: 400;
+            line-height: 0.85;
+            letter-spacing: 1px;
+            display: inline-block;
+            transform: scaleY(0.75);
+            transform-origin: top;
+        }
+
+        /* REGISTER NUMBER BOX */
+        .reg {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            margin: 10px 0 18px;
+        }
+
+        .reg-l {
+            text-align: right;
+            margin-right: 10px;
+            font-weight: 700;
+            font-size: 12px;
+            line-height: 1.5;
+            font-family: Arial, sans-serif;
+        }
+
+        .reg-b {
+            display: flex;
+        }
+
+        .rb {
+            width: 26px;
+            height: 32px;
+            border: 1.5px solid #000;
+            border-right: none;
+        }
+
+        .rb:last-child {
+            border-right: 1.5px solid #000;
+        }
+
+        /* TITLE BLOCK */
+        .tit {
+            text-align: center;
+            margin-bottom: 14px;
+            border-top: 2px solid #000;
+            border-bottom: 2px solid #000;
+            padding: 6px 0;
+        }
+
+        .tit h2 {
+            font-size: 14px;
+            margin: 2px 0;
+            font-family: Arial, sans-serif;
+        }
+
+        .tit h1 {
+            font-size: 19px;
+            margin: 3px 0;
+            font-weight: 900;
+        }
+
+        .tit h3 {
+            font-size: 13px;
+            margin: 2px 0;
+            font-weight: 400;
+            font-family: Arial, sans-serif;
+        }
+
+        /* EXAM DETAILS */
+        .ed {
+            display: flex;
+            justify-content: space-between;
+            font-weight: 700;
+            font-family: Arial, sans-serif;
+            font-size: 13px;
+            margin-bottom: 14px;
+        }
+
+        /* PART HEADING */
+        .ph {
+            text-align: center;
+            font-weight: 700;
+            font-size: 14.5px;
+            margin: 22px 0 12px;
+            background: #f1f5f9;
+            padding: 5px 10px;
+            border-top: 1.5px solid #94a3b8;
+            border-bottom: 1.5px solid #94a3b8;
+            font-family: Arial, sans-serif;
+            position: relative;
+        }
+
+        .pm {
+            float: right;
+            font-size: 13px;
+        }
+
+        /* QUESTIONS */
+        .q {
+            display: flex;
+            margin-bottom: 14px;
+            page-break-inside: avoid;
+        }
+
+        .n {
+            min-width: 30px;
+            font-weight: 700;
+            font-size: 14.5px;
+            padding-top: 1px;
+        }
+
+        .t {
+            flex-grow: 1;
+        }
+
+        .ta {
+            color: #1e293b;
+            margin-bottom: 2px;
+        }
+
+        .en {
+            color: #111;
+            margin-bottom: 7px;
+            font-weight: 500;
+        }
+
+        /* MCQ OPTIONS */
+        .opts {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 3px 8px;
+            font-size: 13.5px;
+            margin-top: 3px;
+            margin-bottom: 4px;
+        }
+
+        /* PART IV OR DIVIDER */
+        .or {
+            text-align: center;
+            font-weight: bold;
+            margin: 14px 0 12px;
+            position: relative;
+            color: #b91c1c;
+            font-family: Arial, sans-serif;
+            font-size: 13px;
+            letter-spacing: 1px;
+        }
+
+        .or::before,
+        .or::after {
+            content: "";
+            position: absolute;
+            top: 50%;
+            width: 42%;
+            height: 1px;
+            background: #cbd5e1;
+        }
+
+        .or::before {
+            left: 0;
+        }
+
+        .or::after {
+            right: 0;
+        }
+
+        /* HORIZONTAL LINE SEPARATOR */
+        .sep {
+            border: none;
+            border-top: 1px dashed #cbd5e1;
+            margin: 18px 0;
+        }
+
+        /* FOOTER */
+        .ft {
+            text-align: center;
+            font-weight: 700;
+            margin-top: 28px;
+            padding-top: 10px;
+            border-top: 1px dashed #94a3b8;
+            font-size: 11.5px;
+            font-family: Arial, sans-serif;
+            color: #64748b;
+        }
+
+        /* PRINT */
+        @media print {
+            .tab-bar {
+                display: none !important;
+            }
+
+            body {
+                background: #fff;
+            }
+
+            .set {
+                padding: 0;
+                display: block !important;
+                page-break-after: always;
+            }
+
+            .page {
+                box-shadow: none;
+                padding: 18px 25px;
+            }
+        }
+
+        /* MOBILE */
+        @media (max-width: 600px) {
+            .opts {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .page {
+                padding: 14px 14px;
+            }
+
+            .wm {
+                font-size: 36px;
+            }
+
+            .tab-btn {
+                padding: 6px 10px;
+                font-size: 12px;
+                margin: 2px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="tab-bar">
+        <button class="tab-btn active"  onclick="showSet(1,this)">SET 1</button>
+        <button class="tab-btn"         onclick="showSet(2,this)">SET 2</button>
+        <button class="tab-btn"         onclick="showSet(3,this)">SET 3</button>
+        <button class="tab-btn"         onclick="showSet(4,this)">SET 4</button>
+        <button class="tab-btn"         onclick="showSet(5,this)">SET 5</button>
+        <button class="tab-btn"         onclick="showSet(6,this)">SET 6</button>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════ SET 1 ═══ -->
+    <div id="set1" class="set active">
+        <div class="page">
+            <div class="wm">AKDEV LABS OFFICIAL</div>
+            <div class="cw">
+
+                <div class="hr">
+                    <span>www.akdev-official.vercel.app</span>
+                    <span>SET - 1 &nbsp;(PREDICTED MODEL)</span>
+                </div>
+                <div class="hr">
+                    <span style="font-family:Arial;font-size:12px;font-weight:700;letter-spacing:0.5px;">AKDEV STEALTH STUDIO</span>
+                    <span class="bc">*8511*</span>
+                </div>
+
+                <div class="reg">
+                    <div class="reg-l">பதிவு எண்<br>Register Number</div>
+                    <div class="reg-b">
+                        <div class="rb"></div>
+                        <div class="rb"></div>
+                        <div class="rb"></div>
+                        <div class="rb"></div>
+                        <div class="rb"></div>
+                        <div class="rb"></div>
+                        <div class="rb"></div>
+                    </div>
+                </div>
+
+                <div class="tit">
+                    <h2>Part - III</h2>
+                    <h1>கணிதம் / MATHEMATICS</h1>
+                    <h3>(தமிழ் மற்றும் ஆங்கில வழி / Tamil &amp; English Version)</h3>
+                </div>
+                <div class="ed">
+                    <div>கால அளவு : 3.00 மணி நேரம்]</div>
+                    <div>[மொத்த மதிப்பெண்கள் : 100</div>
+                </div>
+
+                <!-- PART I -->
+                <div class="ph">பகுதி - I &nbsp;/&nbsp; PART - I <span class="pm">14 × 1 = 14</span></div>
+
+                <div class="q"><span class="n">1.</span>
+                    <div class="t">
+                        <div class="ta">n(A × B) = 6 மற்றும் A = {1, 3} எனில் n(B) ஆனது:</div>
+                        <div class="en">If n(A × B) = 6 and A = {1, 3} then n(B) is:</div>
+                        <div class="opts"><span>(a) 1</span><span>(b) 2</span><span>(c) 3</span><span>(d) 6</span></div>
+                    </div>
+                </div>
+
+                <div class="q"><span class="n">2.</span>
+                    <div class="t">
+                        <div class="ta">f(x) = x² – x எனில் f(x – 1) – f(x + 1) ஆனது:</div>
+                        <div class="en">Let f(x) = x² – x, then f(x – 1) – f(x + 1) is:</div>
+                        <div class="opts">
+                            <span>(a) 4x</span><span>(b) 2 – 2x</span><span>(c) 2 – 4x</span><span>(d) 4x – 2</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="q"><span class="n">3.</span>
+                    <div class="t">
+                        <div class="ta">எந்த மிகை முழுவின் கனத்தையும் 9-ஆல் வகுக்கும்போது கிடைக்கும் மீதிகள்:</div>
+                        <div class="en">If the cube of any positive integer is divided by 9, then the possible
+                            remainders are:</div>
+                        <div class="opts">
+                            <span>(a) 0, 1, 8</span><span>(b) 1, 4, 8</span><span>(c) 0, 1, 3</span><span>(d) 1, 3, 5</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="q"><span class="n">4.</span>
+                    <div class="t">
+                        <div class="ta">t<sub>n</sub> என்பது ஒரு கூட்டுத்தொடரின் n-வது உறுப்பு எனில், t<sub>8n</sub> –
+                            t<sub>n</sub> ஆனது:</div>
+                        <div class="en">If t<sub>n</sub> is the n<sup>th</sup> term of an A.P., then t<sub>8n</sub> –
+                            t<sub>n</sub> is:</div>
+                        <div class="opts">
+                            <span>(a) (8n–1)d</span><span>(b) (8n–2)d</span><span>(c) (7n–2)d</span><span>(d) 7nd</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="q"><span class="n">5.</span>
+                    <div class="t">
+                        <div class="ta">x⁴ + 64 முழு வர்க்கமாக மாற்ற அதனுடன் எதைக் கூட்ட வேண்டும்?</div>
+                        <div class="en">Which should be added to make x⁴ + 64 a perfect square?</div>
+                        <div class="opts">
+                            <span>(a) 4x²</span><span>(b) 16x²</span><span>(c) 8x²</span><span>(d) –8x²</span></div>
+                    </div>
+                </div>
+
+                <div class="q"><span class="n">6.</span>
+                    <div class="t">
+                        <div class="ta">x² + 4x + 4 என்ற கோவை X-அச்சை வெட்டும் புள்ளிகளின் எண்ணிக்கை:</div>
+                        <div class="en">The number of points of intersection of x² + 4x + 4 with the X-axis is:</div>
+                        <div class="opts"><span>(a) 0</span><span>(b) 1</span><span>(c) 0 or 1</span><span>(d) 2</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="q"><span class="n">7.</span>
+                    <div class="t">
+                        <div class="ta">△ABC-ல் DE ∥ BC. AB = 3.6, AC = 2.4, AD = 2.1 எனில் AE-யின் நீளம்:</div>
+                        <div class="en">In △ABC, DE ∥ BC, AB = 3.6, AC = 2.4, AD = 2.1 then AE is:</div>
+                        <div class="opts">
+                            <span>(a) 1.4</span><span>(b) 1.8</span><span>(c) 1.2</span><span>(d) 1.05</span></div>
+                    </div>
+                </div>
+
+                <div class="q"><span class="n">8.</span>
+                    <div class="t">
+                        <div class="ta">(–5, 0), (0, –5), (5, 0) அமைக்கும் முக்கோணத்தின் பரப்பு:</div>
+                        <div class="en">The area of a triangle formed by (–5, 0), (0, –5) and (5, 0) is:</div>
+                        <div class="opts"><span>(a) 0</span><span>(b) 25</span><span>(c) 5</span><span>(d) none</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="q"><span class="n">9.</span>
+                    <div class="t">
+                        <div class="ta">(5, 7), (3, p), (6, 6) ஒரே நேர்கோட்டில் அமைந்தால் p மதிப்பு:</div>
+                        <div class="en">If (5, 7), (3, p) and (6, 6) are collinear, then p is:</div>
+                        <div class="opts"><span>(a) 3</span><span>(b) 6</span><span>(c) 9</span><span>(d) 12</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="q"><span class="n">10.</span>
+                    <div class="t">
+                        <div class="ta">tan θ + cot θ = 2 எனில் tan²θ + cot²θ மதிப்பு:</div>
+                        <div class="en">If tan θ + cot θ = 2, then tan²θ + cot²θ is:</div>
+                        <div class="opts"><span>(a) 0</span><span>(b) 1</span><span>(c) 2</span><span>(d) 4</span></div>
+                    </div>
+                </div>
+
+                <div class="q"><span class="n">11.</span>
+                    <div class="t">
+                        <div class="ta">60 m கோபுர நிழல் 30° லிருந்து 45° ஆக மாறும்போது x குறைகிறது எனில் x:</div>
+                        <div class="en">Tower is 60 m. Shadow is x shorter when sun is 45° than 30°. x is:</div>
+                        <div class="opts">
+                            <span>(a) 41.92</span><span>(b) 43.92</span><span>(c) 43</span><span>(d) 45.6</span></div>
+                    </div>
+                </div>
+
+                <div class="q"><span class="n">12.</span>
+                    <div class="t">
+                        <div class="ta">r₁ ஆர கோளம் 8 சம r₂ கோளங்களாக உருக்கப்பட்டால் r₁ : r₂:</div>
+                        <div class="en">Sphere of radius r₁ melted to 8 equal spheres of radius r₂. Then r₁ : r₂ is:
+                        </div>
+                        <div class="opts">
+                            <span>(a) 2 : 1</span><span>(b) 1 : 2</span><span>(c) 4 : 1</span><span>(d) 1 : 4</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="q"><span class="n">13.</span>
+                    <div class="t">
+                        <div class="ta">வேலை கிடைக்க நிகழ்தகவு x/3, கிடைக்காமல் இருக்க 2/3 எனில் x:</div>
+                        <div class="en">Probability of getting job is x/3, not getting is 2/3. Find x:</div>
+                        <div class="opts"><span>(a) 2</span><span>(b) 1</span><span>(c) 3</span><span>(d) 1.5</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="q"><span class="n">14.</span>
+                    <div class="t">
+                        <div class="ta">8, 8, 8, 8 … 8 தரவின் வீச்சு:</div>
+                        <div class="en">Range of data 8, 8, 8 … 8 is:</div>
+                        <div class="opts"><span>(a) 0</span><span>(b) 1</span><span>(c) 8</span><span>(d) 3</span></div>
+                    </div>
+                </div>
+
+                <!-- PART II -->
+                <div class="ph">பகுதி - II &nbsp;/&nbsp; PART - II <span class="pm">10 × 2 = 20</span></div>
+                <p style="font-size:12.5px;font-family:Arial,sans-serif;margin-bottom:10px;color:#334155;">விடையளிக்க
+                    வேண்டிய வினாக்களை தேர்வு செய்க. வினா எண் 28 கட்டாயமாக விடையளிக்க வேண்டும். / Answer any 10
+                    questions. Question No. 28 is compulsory.</p>
+
+                <div class="q"><span class="n">15.</span>
+                    <div class="t">
+                        <div class="ta">A × B = {(3,2), (3,4), (5,2), (5,4)} எனில் A மற்றும் B காண்க.</div>
+                        <div class="en">Find A and B if A × B = {(3,2), (3,4), (5,2), (5,4)}.</div>
+                    </div>
+                </div>
+
+                <div class="q"><span class="n">16.</span>
+                    <div class="t">
+                        <div class="ta">f(x) = 3x – 2, g(x) = 2x + k, f ∘ g = g ∘ f எனில் k காண்க.</div>
+                        <div class="en">Find k if f(x) = 3x – 2, g(x) = 2x + k and f ∘ g = g ∘ f.</div>
+                    </div>
+                </div>
+
+                <div class="q"><span class="n">17.</span>
+                    <div class="t">
+                        <div class="ta">13824 = 2<sup>a</sup> × 3<sup>b</sup> எனில் a மற்றும் b காண்க.</div>
+                        <div class="en">If 13824 = 2<sup>a</sup> × 3<sup>b</sup> then find a and b.</div>
+                    </div>
+                </div>
+
+                <div class="q"><span class="n">18.</span>
+                    <div class="t">
+                        <div class="ta">கூடுதல் காண்க: 1 + 3 + 5 + … + 55.</div>
+                        <div class="en">Find the sum: 1 + 3 + 5 + … + 55.</div>
+                    </div>
+                </div>
+
+                <div class="q"><span class="n">19.</span>
+                    <div class="t">
+                        <div class="ta">(x + 10) / (8x) -ன் விலக்கப்பட்ட மதிப்பு காண்க.</div>
+                        <div class="en">Find excluded values of (x + 10) / (8x).</div>
+                    </div>
+                </div>
+
+                <div class="q"><span class="n">20.</span>
+                    <div class="t">
+                        <div class="ta">மூலங்களின் கூடுதல் –9, பெருக்கற்பலன் 20 எனில் இருபடிச் சமன்பாடு காண்க.</div>
+                        <div class="en">Determine quadratic equation whose sum of roots is –9 and product is 20.</div>
+                    </div>
+                </div>
+
+                <div class="q"><span class="n">21.</span>
+                    <div class="t">
+                        <div class="ta">A =<span style="font-family:'Courier New';"> [[1 2],[3 4]] </span> எனில்
+                            (A<sup>T</sup>)<sup>T</sup> = A சரிபார்க்க.</div>
+                        <div class="en">For A = [[1 2],[3 4]], verify (A<sup>T</sup>)<sup>T</sup> = A.</div>
+                    </div>
+                </div>
+
+                <div class="q"><span class="n">22.</span>
+                    <div class="t">
+                        <div class="ta">△ABC-ல் AD கோண இருசமவெட்டி. BD = 4, DC = 3, AB = 6 எனில் AC காண்க.</div>
+                        <div class="en">In △ABC, AD bisects ∠A. BD = 4, DC = 3, AB = 6. Find AC.</div>
+                    </div>
+                </div>
+
+                <div class="q"><span class="n">23.</span>
+                    <div class="t">
+                        <div class="ta">ஆதிப்புள்ளி மற்றும் (5, √5) இணைக்கும் கோட்டின் சாய்வு காண்க.</div>
+                        <div class="en">Find slope of the line joining origin and (5, √5).</div>
+                    </div>
+                </div>
+
+                <div class="q"><span class="n">24.</span>
+                    <div class="t">
+                        <div class="ta">நிறுவுக: √((1 + cosθ)/(1 – cosθ)) = cosec θ + cot θ.</div>
+                        <div class="en">Prove: √((1 + cosθ)/(1 – cosθ)) = cosec θ + cot θ.</div>
+                    </div>
+                </div>
+
+                <div class="q"><span class="n">25.</span>
+                    <div class="t">
+                        <div class="ta">அரைக்கோளத்தின் அடிப்பரப்பு 1386 ச.செ.மீ எனில் மொத்த புறப்பரப்பு காண்க.</div>
+                        <div class="en">The base area of a hemisphere is 1386 cm². Find its total surface area.</div>
+                    </div>
+                </div>
+
+                <div class="q"><span class="n">26.</span>
+                    <div class="t">
+                        <div class="ta">முதல் 21 இயல் எண்களின் திட்டவிலக்கம் காண்க.</div>
+                        <div class="en">Find the standard deviation of the first 21 natural numbers.</div>
+                    </div>
+                </div>
+
+                <div class="q"><span class="n">27.</span>
+                    <div class="t">
+                        <div class="ta">இரு நாணயங்களை எறியும்போது வெவ்வேறு முகம் கிடைக்க நிகழ்தகவு காண்க.</div>
+                        <div class="en">Find the probability of getting different faces when two coins are tossed.</div>
+                    </div>
+                </div>
+
+                <div class="q"><span class="n">28.</span>
+                    <div class="t">
+                        <div class="ta"><b>(கட்டாய வினா)</b> P(–1, –4), Q(b, c), R(5, –1) கோடமைப் புள்ளிகள், 2b + c = 4
+                            எனில் b மற்றும் c காண்க.</div>
+                        <div class="en"><b>(Compulsory)</b> P(–1, –4), Q(b, c), R(5, –1) are collinear and 2b + c = 4.
+                            Find b and c.</div>
+                    </div>
+                </div>
+
+                <!-- PART III -->
+                <div class="ph">பகுதி - III &nbsp;/&nbsp; PART - III <span class="pm">10 × 5 = 50</span></div>
+                <p style="font-size:12.5px;font-family:Arial,sans-serif;margin-bottom:10px;color:#334155;">விடையளிக்க
+                    வேண்டிய வினாக்களை தேர்வு செய்க. வினா எண் 42 கட்டாயமாக விடையளிக்க வேண்டும். / Answer any 10
+                    questions. Question No. 42 is compulsory.</p>
+
+                <div class="q"><span class="n">29.</span>
+                    <div class="t">
+                        <div class="ta">A = {x : x < 2}, B={x : 1 < x ≤ 4}, C={3, 5} எனில் A × (B ∪ C)=(A × B) ∪ (A × C)
+                                சரிபார்க்க.</div>
+                                <div class="en">Verify A × (B ∪ C) = (A × B) ∪ (A × C) for the given sets.</div>
+                        </div>
+                    </div>
+
+                    <div class="q"><span class="n">30.</span>
+                        <div class="t">
+                            <div class="ta">f(x) = 3x – 1 சார்பை 4 முறைகளில் குறிக்க.</div>
+                            <div class="en">Represent f(x) = 3x – 1 by 4 different methods.</div>
+                        </div>
+                    </div>
+
+                    <div class="q"><span class="n">31.</span>
+                        <div class="t">
+                            <div class="ta">3 + 33 + 333 + … n உறுப்புகளின் கூடுதல் காண்க.</div>
+                            <div class="en">Find the sum to n terms of 3 + 33 + 333 + …</div>
+                        </div>
+                    </div>
+
+                    <div class="q"><span class="n">32.</span>
+                        <div class="t">
+                            <div class="ta">9x⁴ + 12x³ + 28x² + ax + b முழு வர்க்கம் எனில் a மற்றும் b காண்க.</div>
+                            <div class="en">Find a and b if 9x⁴ + 12x³ + 28x² + ax + b is a perfect square.</div>
+                        </div>
+                    </div>
+
+                    <div class="q"><span class="n">33.</span>
+                        <div class="t">
+                            <div class="ta">A மற்றும் B அணிகளுக்கு (AB)<sup>T</sup> = B<sup>T</sup>A<sup>T</sup>
+                                சரிபார்க்க.</div>
+                            <div class="en">Verify (AB)<sup>T</sup> = B<sup>T</sup>A<sup>T</sup> for given matrices A
+                                and B.</div>
+                        </div>
+                    </div>
+
+                    <div class="q"><span class="n">34.</span>
+                        <div class="t">
+                            <div class="ta">தேல்ஸ் தேற்றத்தை (அடிப்படை விகிதத் தேற்றம்) எழுதி நிறுவுக.</div>
+                            <div class="en">State and prove the Basic Proportionality Theorem (Thales Theorem).</div>
+                        </div>
+                    </div>
+
+                    <div class="q"><span class="n">35.</span>
+                        <div class="t">
+                            <div class="ta">(–9, –2), (–8, –4), (2, 2), (1, –3) நாற்கரத்தின் பரப்பு காண்க.</div>
+                            <div class="en">Find the area of the quadrilateral with vertices (–9, –2), (–8, –4), (2, 2),
+                                (1, –3).</div>
+                        </div>
+                    </div>
+
+                    <div class="q"><span class="n">36.</span>
+                        <div class="t">
+                            <div class="ta">(22, –6) வழிச் செல்வதும், X-வெட்டு Y-வெட்டை விட 5 அதிகமாகக் கொண்ட கோட்டின்
+                                சமன்பாடு காண்க.</div>
+                            <div class="en">Find the equation of a line passing through (22, –6) and whose X-intercept
+                                exceeds Y-intercept by 5.</div>
+                        </div>
+                    </div>
+
+                    <div class="q"><span class="n">37.</span>
+                        <div class="t">
+                            <div class="ta">200 m உயரமுள்ள கலங்கரை விளக்கத்தின் இரு புறமும் கப்பல்களின் தாழ்வுக்கோணங்கள்
+                                30° மற்றும் 45°. கப்பல்களுக்கிடையேயான தொலைவு காண்க.</div>
+                            <div class="en">From the top of a 200 m lighthouse, angles of depression of two ships on
+                                either side are 30° and 45°. Find the distance between the ships.</div>
+                        </div>
+                    </div>
+
+                    <div class="q"><span class="n">38.</span>
+                        <div class="t">
+                            <div class="ta">உருளையும் அரைக்கோளமும் சேர்ந்த பொம்மையின் மொத்த உயரம் 25 cm, விட்டம் 12 cm.
+                                மொத்தப் புறப்பரப்பு காண்க.</div>
+                            <div class="en">A toy is in the shape of a cylinder surmounted by a hemisphere. Total height
+                                25 cm, diameter 12 cm. Find total surface area.</div>
+                        </div>
+                    </div>
+
+                    <div class="q"><span class="n">39.</span>
+                        <div class="t">
+                            <div class="ta">16 cm ஆர உலோகக் கோளம் உருக்கப்பட்டு 2 cm ஆர சிறிய கோளங்களாக மாற்றப்படுகிறது.
+                                கோளங்களின் எண்ணிக்கை காண்க.</div>
+                            <div class="en">A metallic sphere of radius 16 cm is melted to form small spheres of radius
+                                2 cm. Find the number of spheres.</div>
+                        </div>
+                    </div>
+
+                    <div class="q"><span class="n">40.</span>
+                        <div class="t">
+                            <div class="ta">இரண்டு பகடைகளை உருட்டும்போது கூடுதல் (i) 4 (ii) 10-ஐ விட அதிகம் (iii) 13-ஐ
+                                விடக் குறைவு என்பவற்றின் நிகழ்தகவு காண்க.</div>
+                            <div class="en">Two dice are rolled. Find probability that the sum is (i) 4 (ii) greater
+                                than 10 (iii) less than 13.</div>
+                        </div>
+                    </div>
+
+                    <div class="q"><span class="n">41.</span>
+                        <div class="t">
+                            <div class="ta">ஒரு பையில் 5 சிவப்பு, 6 வெள்ளை, 7 பச்சை, 8 கருப்பு பந்துகள் உள்ளன. ஒரு பந்தை
+                                தொட்டெடுக்கும்போது (i) வெள்ளை (ii) கருப்பு அல்லது சிவப்பு கிடைக்க நிகழ்தகவு காண்க.</div>
+                            <div class="en">A bag contains 5 red, 6 white, 7 green, 8 black balls. Find probability of
+                                drawing (i) white ball (ii) black or red ball.</div>
+                        </div>
+                    </div>
+
+                    <div class="q"><span class="n">42.</span>
+                        <div class="t">
+                            <div class="ta"><b>(கட்டாய வினா)</b> கூட்டுத்தொடரில் அடுத்தடுத்த 3 உறுப்புகளின் கூடுதல் 27,
+                                பெருக்கற்பலன் 288 எனில் உறுப்புகளைக் காண்க.</div>
+                            <div class="en"><b>(Compulsory)</b> Three consecutive terms of an A.P. have sum 27 and
+                                product 288. Find the terms.</div>
+                        </div>
+                    </div>
+
+                    <!-- PART IV -->
+                    <div class="ph">பகுதி - IV &nbsp;/&nbsp; PART - IV <span class="pm">2 × 8 = 16</span></div>
+                    <p style="font-size:12.5px;font-family:Arial,sans-serif;margin-bottom:12px;color:#334155;">இரு
+                        வினாக்களுக்கும் விடையளிக்க வேண்டும். / Answer both questions.</p>
+
+                    <div class="q"><span class="n">43.</span>
+                        <div class="t">
+                            <div class="ta">(அ) 5 செ.மீ ஆரமுள்ள வட்டத்திற்கு மையத்திலிருந்து 10 செ.மீ தொலைவில் உள்ள
+                                புள்ளியிலிருந்து தொடுகோடுகள் வரைக.</div>
+                            <div class="en">(a) Draw tangents to a circle of radius 5 cm from a point 10 cm away from
+                                the centre.</div>
+                            <div class="or">அல்லது / OR</div>
+                            <div class="ta">(ஆ) கொடுக்கப்பட்ட முக்கோணத்திற்கு 7/4 என்ற அளவு காரணியில் வடிவொத்த முக்கோணம்
+                                வரைக.</div>
+                            <div class="en">(b) Construct a triangle similar to a given triangle with scale factor 7/4.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="q"><span class="n">44.</span>
+                        <div class="t">
+                            <div class="ta">(அ) y = x² + 3x – 4 வரைபடம் வரைந்து x² + 3x – 4 = 0 என்ற சமன்பாட்டைத்
+                                தீர்க்க.</div>
+                            <div class="en">(a) Draw the graph of y = x² + 3x – 4 and use it to solve x² + 3x – 4 = 0.
+                            </div>
+                            <div class="or">அல்லது / OR</div>
+                            <div class="ta">(ஆ) வேலையாட்கள்: 40, 50, 60, 75 | நாட்கள்: 150, 120, 100, 80. இதற்கான
+                                வரைபடம் வரைக.</div>
+                            <div class="en">(b) Workers: 40, 50, 60, 75 | Days: 150, 120, 100, 80. Draw the graph for
+                                the given data.</div>
+                        </div>
+                    </div>
+
+                    <div class="ft">For more study materials, visit AKDEV Official: www.akdev-official.vercel.app</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ═══════════════════════════════════════════════════════ SET 2 ═══ -->
+        <div id="set2" class="set">
+            <div class="page">
+                <div class="wm">AKDEV LABS OFFICIAL</div>
+                <div class="cw">
+
+                    <div class="hr">
+                        <span>www.akdev-official.vercel.app</span><span>SET - 2 &nbsp;(PREDICTED MODEL)</span></div>
+                    <div class="hr">
+                        <span style="font-family:Arial;font-size:12px;font-weight:700;">AKDEV STEALTH STUDIO</span><span class="bc">*8512*</span>
+                    </div>
+                    <div class="reg">
+                        <div class="reg-l">பதிவு எண்<br>Register Number</div>
+                        <div class="reg-b">
+                            <div class="rb"></div>
+                            <div class="rb"></div>
+                            <div class="rb"></div>
+                            <div class="rb"></div>
+                            <div class="rb"></div>
+                            <div class="rb"></div>
+                            <div class="rb"></div>
+                        </div>
+                    </div>
+                    <div class="tit">
+                        <h2>Part - III</h2>
+                        <h1>கணிதம் / MATHEMATICS</h1>
+                        <h3>(தமிழ் மற்றும் ஆங்கில வழி / Tamil &amp; English Version)</h3>
+                    </div>
+                    <div class="ed">
+                        <div>கால அளவு : 3.00 மணி நேரம்]</div>
+                        <div>[மொத்த மதிப்பெண்கள் : 100</div>
+                    </div>
+
+                    <div class="ph">பகுதி - I &nbsp;/&nbsp; PART - I <span class="pm">14 × 1 = 14</span></div>
+
+                    <div class="q"><span class="n">1.</span>
+                        <div class="t">
+                            <div class="ta">A = {1,2,3,4}, B = {4,8,9,10}, f = {(1,4),(2,8),(3,9),(4,10)} என்பது:</div>
+                            <div class="en">A = {1,2,3,4}, B = {4,8,9,10}, f = {(1,4),(2,8),(3,9),(4,10)} is:</div>
+                            <div class="opts">
+                                <span>(a) Many-one</span><span>(b) Identity</span><span>(c) One-to-one</span><span>(d) Into</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="q"><span class="n">2.</span>
+                        <div class="t">
+                            <div class="ta">n(A) = p, n(B) = q எனில் A-லிருந்து B-க்கு மொத்த உறவுகள்:</div>
+                            <div class="en">Total number of relations from A to B if n(A)=p, n(B)=q:</div>
+                            <div class="opts">
+                                <span>(a) 0</span><span>(b) 1</span><span>(c) 2<sup>pq</sup>–1</span><span>(d) 2<sup>pq</sup></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="q"><span class="n">3.</span>
+                        <div class="t">
+                            <div class="ta">1729-ன் பகா காரணிகளின் அடுக்குகளின் கூடுதல்:</div>
+                            <div class="en">Sum of exponents of prime factors of 1729:</div>
+                            <div class="opts"><span>(a) 1</span><span>(b) 2</span><span>(c) 3</span><span>(d) 4</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="q"><span class="n">4.</span>
+                        <div class="t">
+                            <div class="ta">கூட்டுத்தொடரில் 6t₆ = 7t₇ எனில் t₁₃:</div>
+                            <div class="en">If 6t₆ = 7t₇ in an A.P., then t₁₃ is:</div>
+                            <div class="opts"><span>(a) 0</span><span>(b) 6</span><span>(c) 7</span><span>(d) 13</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="q"><span class="n">5.</span>
+                        <div class="t">
+                            <div class="ta">y² + 1/y² க்குச் சமம் இல்லாதது:</div>
+                            <div class="en">y² + 1/y² is NOT equal to:</div>
+                            <div class="opts">
+                                <span>(a) (y⁴+1)/y²</span><span>(b) (y+1/y)²</span><span>(c) (y–1/y)²+2</span><span>(d) (y+1/y)²–2</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="q"><span class="n">6.</span>
+                        <div class="t">
+                            <div class="ta">நேரிய சமன்பாட்டின் வரைபடம்:</div>
+                            <div class="en">Graph of a linear equation is a:</div>
+                            <div class="opts">
+                                <span>(a) Line</span><span>(b) Circle</span><span>(c) Parabola</span><span>(d) Hyperbola</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="q"><span class="n">7.</span>
+                        <div class="t">
+                            <div class="ta">△ABC மற்றும் △EDF-ல் AB/DE = BC/FD எனில் வடிவொத்த நிபந்தனை:</div>
+                            <div class="en">In △ABC and △EDF, AB/DE = BC/FD. They are similar when:</div>
+                            <div class="opts">
+                                <span>(a) ∠B = ∠E</span><span>(b) ∠A = ∠D</span><span>(c) ∠B = ∠D</span><span>(d) ∠A = ∠F</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="q"><span class="n">8.</span>
+                        <div class="t">
+                            <div class="ta">18 m கிழக்கும் 24 m வடக்கும் சென்றால் தொடக்கப்புள்ளியிலிருந்து தொலைவு:</div>
+                            <div class="en">A person walks 18 m East and 24 m North. Distance from start:</div>
+                            <div class="opts">
+                                <span>(a) 30</span><span>(b) 20</span><span>(c) 15</span><span>(d) 42</span></div>
+                        </div>
+                    </div>
+
+                    <div class="q"><span class="n">9.</span>
+                        <div class="t">
+                            <div class="ta">y = 11 என்ற நேர்க்கோடு:</div>
+                            <div class="en">The line y = 11 is:</div>
+                            <div class="opts">
+                                <span>(a) ∥ X-axis</span><span>(b) ∥ Y-axis</span><span>(c) passes through (0,0)</span><span>(d) passes through (0,11)</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="q"><span class="n">10.</span>
+                        <div class="t">
+                            <div class="ta">சாய்வு 1 எனில் சாய்வுக்கோணம்:</div>
+                            <div class="en">If slope of a line is 1, its angle of inclination is:</div>
+                            <div class="opts">
+                                <span>(a) 30°</span><span>(b) 45°</span><span>(c) 60°</span><span>(d) 90°</span></div>
+                        </div>
+                    </div>
+
+                    <div class="q"><span class="n">11.</span>
+                        <div class="t">
+                            <div class="ta">மேகத்தின் ஏற்றக்கோணம் β, அதன் நீர்பரப்பு பிம்பத்தின் தாழ்வுக்கோணம் 45° எனில்
+                                மேகத்தின் உயரம்:</div>
+                            <div class="en">Elevation of cloud is β, depression of its reflection in lake is 45°. Height
+                                of cloud:</div>
+                            <div class="opts">
+                                <span>(a) h(1+tanβ)/(1–tanβ)</span><span>(b) h(1–tanβ)/(1+tanβ)</span><span>(c) h·tan(45–β)</span><span>(d) none of these</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="q"><span class="n">12.</span>
+                        <div class="t">
+                            <div class="ta">ஆரம் r = h/3 ஆன உருளையின் மொத்தப் புறப்பரப்பு:</div>
+                            <div class="en">Total surface area of a cylinder with radius r = h/3:</div>
+                            <div class="opts">
+                                <span>(a) 9πh²/8</span><span>(b) 24πh²</span><span>(c) 8πh²/9</span><span>(d) 56πh²/9</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="q"><span class="n">13.</span>
+                        <div class="t">
+                            <div class="ta">8, 8, 8 … தரவின் வீச்சு:</div>
+                            <div class="en">Range of data 8, 8, 8 … is:</div>
+                            <div class="opts"><span>(a) 8</span><span>(b) 3</span><span>(c) 1</span><span>(d) 0</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="q"><span class="n">14.</span>
+                        <div class="t">
+                            <div class="ta">ஆங்கில அகரவரிசையில் x-க்கு முந்தைய எழுத்து வரும் நிகழ்தகவு:</div>
+                            <div class="en">Probability that a letter chosen at random from the English alphabet
+                                precedes x:</div>
+                            <div class="opts">
+                                <span>(a) 12/13</span><span>(b) 1/13</span><span>(c) 23/26</span><span>(d) 3/26</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="ph">பகுதி - II &nbsp;/&nbsp; PART - II <span class="pm">10 × 2 = 20</span></div>
+                    <p style="font-size:12.5px;font-family:Arial,sans-serif;margin-bottom:10px;color:#334155;">
+                        விடையளிக்க வேண்டிய வினாக்களை தேர்வு செய்க. வினா எண் 28 கட்டாயமாக விடையளிக்க வேண்டும். / Answer
+                        any 10 questions. Question No. 28 is compulsory.</p>
+
+                    <div class="q"><span class="n">15.</span>
+                        <div class="t">
+                            <div class="ta">R என்பது "x-ன் வர்க்கம் y" என்ற உறவு, A = {1, 2, 3, …, 45}. R-ன் மதிப்பகம்
+                                மற்றும் வீச்சகம் காண்க.</div>
+                            <div class="en">R is "x is square of y" on A = {1,...,45}. Find domain and range of R.</div>
+                        </div>
+                    </div>
+
+                    <div class="q"><span class="n">16.</span>
+                        <div class="t">
+                            <div class="ta">y = x + 3 மற்றும் x ∈ {0, 1, 2, 3, 4, 5} எனில் உறவின் மதிப்பகம் மற்றும்
+                                வீச்சகம் காண்க.</div>
+                            <div class="en">For R = {(x, y) | y = x + 3, x ∈ {0,1,2,3,4,5}}, find domain and range.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="q"><span class="n">17.</span>
+                        <div class="t">
+                            <div class="ta">3 + k, 18 – k, 5k + 1 ஆகியவை கூட்டுத்தொடரில் இருந்தால் k காண்க.</div>
+                            <div class="en">If 3+k, 18–k, 5k+1 are in A.P., find k.</div>
+                        </div>
+                    </div>
+
+                    <div class="q"><span class="n">18.</span>
+                        <div class="t">
+                            <div class="ta">9, 3, 1 … என்ற குணத்தொடரின் 8-வது உறுப்பு காண்க.</div>
+                            <div class="en">Find the 8th term of the G.P. 9, 3, 1 …</div>
+                        </div>
+                    </div>
+
+                    <div class="q"><span class="n">19.</span>
+                        <div class="t">
+                            <div class="ta">15x² + 11x + 2 = 0 என்ற சமன்பாட்டின் மூலங்களின் தன்மை ஆராய்க.</div>
+                            <div class="en">Determine the nature of roots of 15x² + 11x + 2 = 0.</div>
+                        </div>
+                    </div>
+
+                    <div class="q"><span class="n">20.</span>
+                        <div class="t">
+                            <div class="ta">சுருக்குக: (4x²y / 2z²) × (6xz³ / 20y⁴).</div>
+                            <div class="en">Simplify: (4x²y / 2z²) × (6xz³ / 20y⁴).</div>
+                        </div>
+                    </div>
+
+                    <div class="q"><span class="n">21.</span>
+                        <div class="t">
+                            <div class="ta">A = [[1 2],[3 4]], B = [[4 8],[1 2]] எனில் AB = BA ஆகுமா என சரிபார்க்க.
+                            </div>
+                            <div class="en">A = [[1 2],[3 4]], B = [[4 8],[1 2]]. Check whether AB = BA.</div>
+                        </div>
+                    </div>
+
+                    <div class="q"><span class="n">22.</span>
+                        <div class="t">
+                            <div class="ta">பிதாகரஸ் தேற்றத்தின் கூற்றை எழுதுக.</div>
+                            <div class="en">Write the statement of Pythagoras' theorem.</div>
+                        </div>
+                    </div>
+
+                    <div class="q"><span class="n">23.</span>
+                        <div class="t">
+                            <div class="ta">(–6, 1) மற்றும் (–3, 2) இணைக்கும் கோட்டின் சாய்வு காண்க.</div>
+                            <div class="en">Find the slope of the line joining (–6, 1) and (–3, 2).</div>
+                        </div>
+                    </div>
+
+                    <div class="q"><span class="n">24.</span>
+                        <div class="t">
+                            <div class="ta">நிறுவுக: sec θ – cos θ = tan θ sin θ.</div>
+                            <div class="en">Prove: sec θ – cos θ = tan θ sin θ.</div>
+                        </div>
+                    </div>
+
+                    <div class="q"><span class="n">25.</span>
+                        <div class="t">
+                            <div class="ta">சம ஆரமுடைய இரு கூம்புகளின் கனவளவுகள் 3600 cm³ மற்றும் 5040 cm³. அவற்றின் உயர
+                                விகிதம் காண்க.</div>
+                            <div class="en">Volumes of two cones with equal base radius are 3600 cm³ and 5040 cm³. Find
+                                the ratio of their heights.</div>
+                        </div>
+                    </div>
+
+                    <div class="q"><span class="n">26.</span>
+                        <div class="t">
+                            <div class="ta">இரு நாணயங்களை எறியும்போது வெவ்வேறு முகம் கிடைக்க நிகழ்தகவு காண்க.</div>
+                            <div class="en">Find the probability of getting different faces when two coins are tossed.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="q"><span class="n">27.</span>
+                        <div class="t">
+                            <div class="ta">63, 89, 98, 125, 79, 108, 117, 68 என்ற தரவின் வீச்சு மற்றும் வீச்சுக்கெழு
+                                காண்க.</div>
+                            <div class="en">Find the range and coefficient of range of: 63, 89, 98, 125, 79, 108, 117,
+                                68.</div>
+                        </div>
+                    </div>
+
+                    <div class="q"><span class="n">28.</span>
+                        <div class="t">
+                            <div class="ta"><b>(கட்டாய வினா)</b> ஒருவர் 10 m கிழக்காகவும் 24 m வடக்காகவும் சென்றால்
+                                தொடக்கப்புள்ளியிலிருந்து எவ்வளவு தொலைவில் உள்ளார்?</div>
+                            <div class="en"><b>(Compulsory)</b> A person walks 10 m East and 24 m North. Find the
+                                distance from the starting point.</div>
+                        </div>
+                    </div>
+
+                    <div class="ph">பகுதி - III &nbsp;/&nbsp; PART - III <span class="pm">10 × 5 = 50</span></div>
+                    <p style="font-size:12.5px;font-family:Arial,sans-serif;margin-bottom:10px;color:#334155;">
+                        விடையளிக்க வேண்டிய வினாக்களை தேர்வு செய்க. வினா எண் 42 கட்டாயமாக விடையளிக்க வேண்டும். / Answer
+                        any 10 questions. Question No. 42 is compulsory.</p>
+
+                    <div class="q"><span class="n">29.</span>
+                        <div class="t">
+                            <div class="ta">(A ∩ C) × (B ∩ D) = (A × B) ∩ (C × D) எனச் சரிபார்க்க.</div>
+                            <div class="en">Verify (A ∩ C) × (B ∩ D) = (A × B) ∩ (C × D) for given sets.</div>
+                        </div>
+                    </div>
+                    <div class="q"><span class="n">30.</span>
+                        <div class="t">
+                            <div class="ta">100 முதல் 1000 வரை 11-ஆல் வகுபடும் எண்களின் கூடுதல் காண்க.</div>
+                            <div class="en">Find the sum of numbers between 100 and 1000 which are divisible by 11.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="q"><span class="n">31.</span>
+                        <div class="t">
+                            <div class="ta">கூட்டுத்தொடரின் l, m, n-வது உறுப்புகள் முறையே x, y, z எனில் (x–y)n + (y–z)l
+                                + (z–x)m = 0 நிறுவுக.</div>
+                            <div class="en">If the l, m, n-th terms of an A.P. are x, y, z, prove (x–y)n + (y–z)l +
+                                (z–x)m = 0.</div>
+                        </div>
+                    </div>
+                    <div class="q"><span class="n">32.</span>
+                        <div class="t">
+                            <div class="ta">64x⁴ – 16x³ + 17x² – 2x + 1-ன் வர்க்கமூலம் காண்க.</div>
+                            <div class="en">Find the square root of 64x⁴ – 16x³ + 17x² – 2x + 1.</div>
+                        </div>
+                    </div>
+                    <div class="q"><span class="n">33.</span>
+                        <div class="t">
+                            <div class="ta">A = [[1 1 –1],[2 –3 4],[3 –2 3]], B = [[1 –2 3],[–2 4 –6],[5 1 –1]] எனில் AB
+                                மற்றும் BA காண்க.</div>
+                            <div class="en">Find AB and BA for the given matrices A and B.</div>
+                        </div>
+                    </div>
+                    <div class="q"><span class="n">34.</span>
+                        <div class="t">
+                            <div class="ta">பிதாகரஸ் தேற்றத்தை எழுதி நிறுவுக.</div>
+                            <div class="en">State and prove Pythagoras' theorem.</div>
+                        </div>
+                    </div>
+                    <div class="q"><span class="n">35.</span>
+                        <div class="t">
+                            <div class="ta">(–9, 0), (–8, 6), (–1, –2), (–6, –3) நாற்கரத்தின் பரப்பு காண்க.</div>
+                            <div class="en">Find the area of the quadrilateral with vertices (–9,0), (–8,6), (–1,–2),
+                                (–6,–3).</div>
+                        </div>
+                    </div>
+                    <div class="q"><span class="n">36.</span>
+                        <div class="t">
+                            <div class="ta">(1, 5) வழிச் செல்வதும் (2, –3) மற்றும் (4, 2) இணைக்கும் கோட்டிற்கு
+                                செங்குத்தானதுமான கோட்டின் சமன்பாடு காண்க.</div>
+                            <div class="en">Find the equation of the line passing through (1, 5) and perpendicular to
+                                the line joining (2, –3) and (4, 2).</div>
+                        </div>
+                    </div>
+                    <div class="q"><span class="n">37.</span>
+                        <div class="t">
+                            <div class="ta">30 m உயரமுள்ள கட்டடத்தின் மேல் உள்ள கோபுரத்தின் அடி மற்றும் உச்சியின்
+                                ஏற்றக்கோணங்கள் 45° மற்றும் 60°. கோபுரத்தின் உயரம் காண்க.</div>
+                            <div class="en">From a point on the ground, elevation angles to bottom and top of a tower on
+                                a 30 m building are 45° and 60°. Find the tower height.</div>
+                        </div>
+                    </div>
+                    <div class="q"><span class="n">38.</span>
+                        <div class="t">
+                            <div class="ta">மருந்துக் குப்பியின் (உருளை + இரு அரைக்கோளம்) மொத்த நீளம் 14 mm, விட்டம் 5
+                                mm. புறப்பரப்பு காண்க.</div>
+                            <div class="en">A capsule (cylinder + two hemispheres) has total length 14 mm and diameter 5
+                                mm. Find the surface area.</div>
+                        </div>
+                    </div>
+                    <div class="q"><span class="n">39.</span>
+                        <div class="t">
+                            <div class="ta">இடைக்கண்டத்தின் மேல் ஆரம் 15 cm, கீழ் ஆரம் 8 cm, ஆழம் 63 cm. கனவளவு காண்க.
+                            </div>
+                            <div class="en">A frustum has top radius 15 cm, bottom radius 8 cm, height 63 cm. Find its
+                                volume.</div>
+                        </div>
+                    </div>
+                    <div class="q"><span class="n">40.</span>
+                        <div class="t">
+                            <div class="ta">ஒரு பகடையும் ஒரு நாணயமும் ஒரே நேரத்தில் சுண்டப்படும்போது ஒற்றை எண்ணும்
+                                தலையும் கிடைக்க நிகழ்தகவு காண்க.</div>
+                            <div class="en">A die and a coin are tossed simultaneously. Find the probability of getting
+                                an odd number and a head.</div>
+                        </div>
+                    </div>
+                    <div class="q"><span class="n">41.</span>
+                        <div class="t">
+                            <div class="ta">50 மாணவர்களில் 28 பேர் NCC, 30 பேர் NSS, 18 பேர் இரண்டிலும் உள்ளனர். ஏதேனும்
+                                ஒன்றில் மட்டும் சேர்ந்தவர் நிகழ்தகவு காண்க.</div>
+                            <div class="en">Of 50 students, 28 are in NCC, 30 in NSS, 18 in both. Find probability of
+                                being in exactly one.</div>
+                        </div>
+                    </div>
+                    <div class="q"><span class="n">42.</span>
+                        <div class="t">
+                            <div class="ta"><b>(கட்டாய வினா)</b> 36x⁴ – 60x³ + 61x² – mx + n முழு வர்க்கம் எனில் m
+                                மற்றும் n காண்க.</div>
+                            <div class="en"><b>(Compulsory)</b> Find m and n if 36x⁴ – 60x³ + 61x² – mx + n is a perfect
+                                square.</div>
+                        </div>
+                    </div>
+
+                    <div class="ph">பகுதி - IV &nbsp;/&nbsp; PART - IV <span class="pm">2 × 8 = 16</span></div>
+                    <p style="font-size:12.5px;font-family:Arial,sans-serif;margin-bottom:12px;color:#334155;">இரு
+                        வினாக்களுக்கும் விடையளிக்க வேண்டும். / Answer both questions.</p>
+
+                    <div class="q"><span class="n">43.</span>
+                        <div class="t">
+                            <div class="ta">(அ) அடிப்பக்கம் BC = 5.6 cm, ∠A = 40°, கோண இருசமவெட்டி BC-ஐ D-ல் வெட்ட CD =
+                                4 cm ஆகும்படி முக்கோணம் வரைக.</div>
+                            <div class="en">(a) Draw a triangle with base BC = 5.6 cm, ∠A = 40°, and the bisector of ∠A
+                                meeting BC at D such that CD = 4 cm.</div>
+                            <div class="or">அல்லது / OR</div>
+                            <div class="ta">(ஆ) கொடுக்கப்பட்ட முக்கோணத்திற்கு 3/5 என்ற அளவு காரணியில் வடிவொத்த முக்கோணம்
+                                வரைக.</div>
+                            <div class="en">(b) Construct a triangle similar to a given triangle with scale factor 3/5.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="q"><span class="n">44.</span>
+                        <div class="t">
+                            <div class="ta">(அ) y = x² – 4x + 3 வரைபடம் வரைந்து x² – 6x + 9 = 0 என்ற சமன்பாட்டைத்
+                                தீர்க்க.</div>
+                            <div class="en">(a) Draw the graph of y = x² – 4x + 3 and use it to solve x² – 6x + 9 = 0.
+                            </div>
+                            <div class="or">அல்லது / OR</div>
+                            <div class="ta">(ஆ) ஒரு பேருந்து 50 கி.மீ/மணி வேகத்தில் சீராக பயணிக்கிறது. தொலைவு-நேரம்
+                                வரைபடம் வரைக.</div>
+                            <div class="en">(b) A bus travels at a uniform speed of 50 km/hr. Draw the distance-time
+                                graph.</div>
+                        </div>
+                    </div>
+
+                    <div class="ft">For more study materials, visit AKDEV Official: www.akdev-official.vercel.app</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ═══════════════════════════════════════════════════════ SET 3 ═══ -->
+        <div id="set3" class="set">
+            <div class="page">
+                <div class="wm">AKDEV LABS OFFICIAL</div>
+                <div class="cw">
+
+                    <div class="hr">
+                        <span>www.akdev-official.vercel.app</span><span>SET - 3 &nbsp;(PREDICTED MODEL)</span></div>
+                    <div class="hr">
+                        <span style="font-family:Arial;font-size:12px;font-weight:700;">AKDEV STEALTH STUDIO</span><span class="bc">*8513*</span>
+                    </div>
+                    <div class="reg">
+                        <div class="reg-l">பதிவு எண்<br>Register Number</div>
+                        <div class="reg-b">
+                            <div class="rb"></div>
+                            <div class="rb"></div>
+                            <div class="rb"></div>
+                            <div class="rb"></div>
+                            <div class="rb"></div>
+                            <div class="rb"></div>
+                            <div class="rb"></div>
+                        </div>
+                    </div>
+                    <div class="tit">
+                        <h2>Part - III</h2>
+                        <h1>கணிதம் / MATHEMATICS</h1>
+                        <h3>(தமிழ் மற்றும் ஆங்கில வழி / Tamil &amp; English Version)</h3>
+                    </div>
+                    <div class="ed">
+                        <div>கால அளவு : 3.00 மணி நேரம்]</div>
+                        <div>[மொத்த மதிப்பெண்கள் : 100</div>
+                    </div>
+
+                    <div class="ph">பகுதி - I &nbsp;/&nbsp; PART - I <span class="pm">14 × 1 = 14</span></div>
+                    <div class="q"><span class="n">1.</span>
+                        <div class="t">
+                            <div class="ta">f : A → B இருபுற சார்பு (bijection), n(B) = 7 எனில் n(A):</div>
+                            <div class="en">f : A → B is a bijection and n(B) = 7. Then n(A) is:</div>
+                            <div class="opts"><span>(a) 1</span><span>(b) 49</span><span>(c) 14</span><span>(d) 7</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="q"><span class="n">2.</span>
+                        <div class="t">
+                            <div class="ta">3/16, 1/8, 1/12, 1/18 … என்ற தொடரின் அடுத்த உறுப்பு:</div>
+                            <div class="en">The next term of 3/16, 1/8, 1/12, 1/18 … is:</div>
+                            <div class="opts">
+                                <span>(a) 2/3</span><span>(b) 1/24</span><span>(c) 1/27</span><span>(d) 1/81</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="q"><span class="n">3.</span>
+                        <div class="t">
+                            <div class="ta">65 மற்றும் 117-ன் HCF = 65m – 117 எனில் m:</div>
+                            <div class="en">HCF of 65 and 117 is 65m – 117. Then m is:</div>
+                            <div class="opts"><span>(a) 4</span><span>(b) 2</span><span>(c) 1</span><span>(d) 3</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="q"><span class="n">4.</span>
+                        <div class="t">
+                            <div class="ta">y² + 1/y² க்கு சமம் இல்லாதது:</div>
+                            <div class="en">y² + 1/y² is NOT equal to:</div>
+                            <div class="opts">
+                                <span>(a) (y⁴+1)/y²</span><span>(b) (y+1/y)²</span><span>(c) (y–1/y)²+2</span><span>(d) (y+1/y)²–2</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="q"><span class="n">5.</span>
+                        <div class="t">
+                            <div class="ta">x² + 4x + 4 என்ற கோவை X-அச்சை வெட்டும் புள்ளிகளின் எண்ணிக்கை:</div>
+                            <div class="en">Number of points of intersection of x² + 4x + 4 with X-axis:</div>
+                            <div class="opts">
+                                <span>(a) 0</span><span>(b) 1</span><span>(c) 0 or 1</span><span>(d) 2</span></div>
+                        </div>
+                    </div>
+                    <div class="q"><span class="n">6.</span>
+                        <div class="t">
+                            <div class="ta">△ABC மற்றும் △EDF-ல் AB/DE = BC/FD எனில் வடிவொத்த நிபந்தனை:</div>
+                            <div class="en">In △ABC and △EDF, AB/DE = BC/FD. They are similar when:</div>
+                            <div class="opts">
+                                <span>(a) ∠B = ∠E</span><span>(b) ∠A = ∠D</span><span>(c) ∠B = ∠D</span><span>(d) ∠A = ∠F</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="q"><span class="n">7.</span>
+                        <div class="t">
+                            <div class="ta">(0,0), (1,0), (0,1) ஆகிய புள்ளிகள் அமைக்கும் முக்கோணத்தின் சுற்றளவு:</div>
+                            <div class="en">Perimeter of the triangle formed by (0,0), (1,0), (0,1):</div>
+                            <div class="opts">
+                                <span>(a) √2</span><span>(b) 2</span><span>(c) 2 + √2</span><span>(d) 2 – √2</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="q"><span class="n">8.</span>
+                        <div class="t">
+                            <div class="ta">18 m கிழக்கும் 24 m வடக்கும் சென்றால் தொடக்கப்புள்ளியிலிருந்து தொலைவு:</div>
+                            <div class="en">18 m East, 24 m North. Distance from starting point:</div>
+                            <div class="opts">
+                                <span>(a) 30</span><span>(b) 20</span><span>(c) 15</span><span>(d) 42</span></div>
+                        </div>
+                    </div>
+                    <div class="q"><span class="n">9.</span>
+                        <div class="t">
+                            <div class="ta">x = 11 என்ற நேர்க்கோடு:</div>
+                            <div class="en">The line x = 11 is:</div>
+                            <div class="opts">
+                                <span>(a) ∥ X-axis</span><span>(b) ∥ Y-axis</span><span>(c) passes origin</span><span>(d) passes (0,11)</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="q"><span class="n">10.</span>
+                        <div class="t">
+                            <div class="ta">tan θ + cot θ = 2 எனில் tan²θ + cot²θ:</div>
+                            <div class="en">If tan θ + cot θ = 2, then tan²θ + cot²θ is:</div>
+                            <div class="opts"><span>(a) 0</span><span>(b) 1</span><span>(c) 2</span><span>(d) 4</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="q"><span class="n">11.</span>
+                        <div class="t">
+                            <div class="ta">ஆரம் 5 cm, சாய்உயரம் 13 cm ஆன கூம்பின் உயரம்:</div>
+                            <div class="en">Height of a cone with radius 5 cm and slant height 13 cm:</div>
+                            <div class="opts">
+                                <span>(a) 12</span><span>(b) 10</span><span>(c) 13</span><span>(d) 5</span></div>
+                        </div>
+                    </div>
+                    <div class="q"><span class="n">12.</span>
+                        <div class="t">
+                            <div class="ta">இரண்டு அரைக்கோளங்களை வளைவுப்பரப்பு ஒட்டி இணைக்கும்போது கிடைக்கும்
+                                திண்மத்தின் வளைவுப் புறப்பரப்பு:</div>
+                            <div class="en">CSA of solid formed by joining two hemispheres along their curved surfaces:
+                            </div>
+                            <div class="opts">
+                                <span>(a) 4πr²</span><span>(b) 6πr²</span><span>(c) 3πr²</span><span>(d) 8πr²</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="q"><span class="n">13.</span>
+                        <div class="t">
+                            <div class="ta">ஒரு தரவின் விலக்க வர்க்க சராசரி 81 எனில் திட்டவிலக்கம்:</div>
+                            <div class="en">If variance of a data set is 81, then standard deviation is:</div>
+                            <div class="opts">
+                                <span>(a) 81</span><span>(b) 9</span><span>(c) 18</span><span>(d) 40.5</span></div>
+                        </div>
+                    </div>
+                    <div class="q"><span class="n">14.</span>
+                        <div class="t">
+                            <div class="ta">வேலை கிடைக்க நிகழ்தகவு x/3, கிடைக்காமல் இருக்க 2/3 எனில் x:</div>
+                            <div class="en">Probability of getting a job is x/3, not getting is 2/3. Find x:</div>
+                            <div class="opts"><span>(a) 2</span><span>(b) 1</span><span>(c) 3</span><span>(d) 1.5</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="ph">பகுதி - II &nbsp;/&nbsp; PART - II <span class="pm">10 × 2 = 20</span></div>
+                    <p style="font-size:12.5px;font-family:Arial,sans-serif;margin-bottom:10px;color:#334155;">
+                        விடையளிக்க வேண்டிய வினாக்களை தேர்வு செய்க. வினா எண் 28 கட்டாயமாக விடையளிக்க வேண்டும். / Answer
+                        any 10 questions. Question No. 28 is compulsory.</p>
+
+                    <div class="q"><span class="n">15.</span>
+                        <div class="t">
+                            <div class="ta">R = {(x,y) | y = x + 3, x ∈ {0,1,2,3,4,5}} -ன் மதிப்பகம் மற்றும் வீச்சகம்
+                                காண்க.</div>
+                            <div class="en">Find domain and range of R = {(x,y) | y = x + 3, x ∈ {0,1,2,3,4,5}}.</div>
+                        </div>
+                    </div>
+                    <div class="q"><span class="n">16.</span>
+                        <div class="t">
+                            <div class="ta">A = {1,3,5}, B = {2,3} எனில் A × B மற்றும் B × A காண்க.</div>
+                            <div class="en">A = {1,3,5}, B = {2,3}. Find A × B and B × A.</div>
+                        </div>
+                    </div>
+                    <div class="q"><span class="n">17.</span>
+                        <div class="t">
+                            <div class="ta">16, 11, 6 … என்ற தொடரில் –54 எத்தனையாவது உறுப்பு?</div>
+                            <div class="en">Which term of 16, 11, 6 … is –54?</div>
+                        </div>
+                    </div>
+                    <div class="q"><span class="n">18.</span>
+                        <div class="t">
+                            <div class="ta">ஒரு குணத்தொடரின் 8-வது உறுப்பு 768, பொது விகிதம் r = 2. 10-வது உறுப்பு
+                                காண்க.</div>
+                            <div class="en">The 8th term of a G.P. is 768 and common ratio r = 2. Find the 10th term.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="q"><span class="n">19.</span>
+                        <div class="t">
+                            <div class="ta">t / (t² – 5t + 6) -ன் விலக்கப்பட்ட மதிப்புகள் காண்க.</div>
+                            <div class="en">Find the excluded values of t / (t² – 5t + 6).</div>
+                        </div>
+                    </div>
+                    <div class="q"><span class="n">20.</span>
+                        <div class="t">
+                            <div class="ta">மூலங்களின் கூடுதல் –9, பெருக்கற்பலன் 20 ஆன இருபடிச் சமன்பாடு காண்க.</div>
+                            <div class="en">Find the quadratic equation with sum of roots –9 and product 20.</div>
+                        </div>
+                    </div>
+                    <div class="q"><span class="n">21.</span>
+                        <div class="t">
+                            <div class="ta">△ABC-ல் AD கோண இருசமவெட்டி. BD = 4, DC = 3, AB = 6 எனில் AC காண்க.</div>
+                            <div class="en">In △ABC, AD bisects ∠A. BD = 4, DC = 3, AB = 6. Find AC.</div>
+                        </div>
+                    </div>
+                    <div class="q"><span class="n">22.</span>
+                        <div class="t">
+                            <div class="ta">(–3,1), (–1,3), (2,6) கோடமைப் புள்ளிகள் எனக் காட்டுக.</div>
+                            <div class="en">Show that (–3,1), (–1,3), (2,6) are collinear.</div>
+                        </div>
+                    </div>
+                    <div class="q"><span class="n">23.</span>
+                        <div class="t">
+                            <div class="ta">நிறுவுக: sec θ – cos θ = tan θ sin θ.</div>
+                            <div class="en">Prove: sec θ – cos θ = tan θ sin θ.</div>
+                        </div>
+                    </div>
+                    <div class="q"><span class="n">24.</span>
+                        <div class="t">
+                            <div class="ta">சம ஆரமுடைய இரு கூம்புகளின் கனவளவுகள் 3600 cm³ மற்றும் 5040 cm³. உயர விகிதம்
+                                காண்க.</div>
+                            <div class="en">Volumes of two cones with equal base radius are 3600 cm³ and 5040 cm³. Find
+                                ratio of heights.</div>
+                        </div>
+                    </div>
+                    <div class="q"><span class="n">25.</span>
+                        <div class="t">
+                            <div class="ta">கூடுதல் காண்க: 1 + 3 + 5 + … + 55.</div>
+                            <div class="en">Find the sum: 1 + 3 + 5 + … + 55.</div>
+                        </div>
+                    </div>
+                    <div class="q"><span class="n">26.</span>
+                        <div class="t">
+                            <div class="ta">ஒரு நாணயமும் ஒரு பகடையும் சுண்டப்படும்போது தலையும் ஒற்றை எண்ணும் கிடைக்க
+                                நிகழ்தகவு காண்க.</div>
+                            <div class="en">A coin and a die are tossed. Find probability of getting head and odd
+                                number.</div>
+                        </div>
+                    </div>
+                    <div class="q"><span class="n">27.</span>
+                        <div class="t">
+                            <div class="ta">சராசரி 15, மாறுபாட்டுக் கெழு 48% எனில் திட்டவிலக்கம் காண்க.</div>
+                            <div class="en">Mean is 15, coefficient of variation is 48%. Find standard deviation.</div>
+                        </div>
+                    </div>
+                    <div class="q"><span class="n">28.</span>
+                        <div class="t">
+                            <div class="ta"><b>(கட்டாய வினா)</b> A = [[3 1],[–1 2]] எனில் A² – 5A – 2I = 0 எனச்
+                                சரிபார்க்க.</div>
+                            <div class="en"><b>(Compulsory)</b> For A = [[3 1],[–1 2]], verify A² – 5A – 2I = 0.</div>
+                        </div>
+                    </div>
+
+                    <div class="ph">பகுதி - III &nbsp;/&nbsp; PART - III <span class="pm">10 × 5 = 50</span></div>
+                    <p style="font-size:12.5px;font-family:Arial,sans-serif;margin-bottom:10px;color:#334155;">
+                        விடையளிக்க வேண்டிய வினாக்களை தேர்வு செய்க. வினா எண் 42 கட்டாயமாக விடையளிக்க வேண்டும். / Answer
+                        any 10 questions. Question No. 42 is compulsory.</p>
+
+                    <div class="q"><span class="n">29.</span>
+                        <div class="t">
+                            <div class="ta">(A ∩ B) × C = (A × C) ∩ (B × C) எனச் சரிபார்க்க.</div>
+                            <div class="en">Verify (A ∩ B) × C = (A × C) ∩ (B × C).</div>
+                        </div>
+                    </div>
+                    <div class="q"><span class="n">30.</span>
+                        <div class="t">
+                            <div class="ta">(f ∘ g) ∘ h = f ∘ (g ∘ h) எனச் சரிபார்க்க.</div>
+                            <div class="en">Verify (f ∘ g) ∘ h = f ∘ (g ∘ h) for given functions.</div>
+                        </div>
+                    </div>
+                    <div class="q"><span class="n">31.</span>
+                        <div class="t">
+                            <div class="ta">கூட்டுத்தொடரில் அடுத்தடுத்த 3 உறுப்புகளின் கூடுதல் 27, பெருக்கற்பலன் 288.
+                                உறுப்புகளைக் காண்க.</div>
+                            <div class="en">Three consecutive terms of an A.P. have sum 27 and product 288. Find the
+                                terms.</div>
+                        </div>
+                    </div>
+                    <div class="q"><span class="n">32.</span>
+                        <div class="t">
+                            <div class="ta">300 முதல் 600 வரை 7-ஆல் வகுபடும் எண்களின் கூடுதல் காண்க.</div>
+                            <div class="en">Find the sum of numbers from 300 to 600 that are divisible by 7.</div>
+                        </div>
+                    </div>
+                    <div class="q"><span class="n">33.</span>
+                        <div class="t">
+                            <div class="ta">x⁴ – 8x³ + mx² + nx + 16 முழு வர்க்கம் எனில் m மற்றும் n காண்க.</div>
+                            <div class="en">Find m and n if x⁴ – 8x³ + mx² + nx + 16 is a perfect square.</div>
+                        </div>
+                    </div>
+                    <div class="q"><span class="n">34.</span>
+                        <div class="t">
+                            <div class="ta">கோண இருசமவெட்டித் தேற்றத்தை எழுதி நிறுவுக.</div>
+                            <div class="en">State and prove the Angle Bisector Theorem.</div>
+                        </div>
+                    </div>
+                    <div class="q"><span class="n">35.</span>
+                        <div class="t">
+                            <div class="ta">(–4,–2), (–3,k), (3,–2), (2,3) நாற்கரத்தின் பரப்பு 28 எனில் k காண்க.</div>
+                            <div class="en">Find k if the area of quadrilateral (–4,–2), (–3,k), (3,–2), (2,3) is 28 sq.
+                                units.</div>
+                        </div>
+                    </div>
+                    <div class="q"><span class="n">36.</span>
+                        <div class="t">
+                            <div class="ta">(22, –6) வழிச் செல்வதும் X-வெட்டு Y-வெட்டை விட 5 அதிகமாகக் கொண்ட கோட்டின்
+                                சமன்பாடு காண்க.</div>
+                            <div class="en">Find the equation of the line through (22,–6) with X-intercept exceeding
+                                Y-intercept by 5.</div>
+                        </div>
+                    </div>
+                    <div class="q"><span class="n">37.</span>
+                        <div class="t">
+                            <div class="ta">இரு விமானங்கள் 1000 km/h மற்றும் 1200 km/h வேகத்தில் செங்குத்தாக பறக்கின்றன.
+                                1.5 மணி நேரம் கழித்து அவற்றுக்கிடையேயான தொலைவு காண்க.</div>
+                            <div class="en">Two planes fly at right angles at 1000 km/h and 1200 km/h. Find their
+                                distance after 1.5 hours.</div>
+                        </div>
+                    </div>
+                    <div class="q"><span class="n">38.</span>
+                        <div class="t">
+                            <div class="ta">கீழ்கண்ட அணிகளுக்கு AB மற்றும் BA காண்க.</div>
+                            <div class="en">For the given matrices, find AB and BA.</div>
+                        </div>
+                    </div>
+                    <div class="q"><span class="n">39.</span>
+                        <div class="t">
+                            <div class="ta">16 cm ஆர உலோகக் கோளம் உருக்கப்பட்டு 2 cm ஆர கோளங்களாக மாற்றப்படுகிறது.
+                                எத்தனை கோளங்கள் கிடைக்கும்?</div>
+                            <div class="en">A metallic sphere of radius 16 cm is melted into spheres of radius 2 cm. How
+                                many spheres are obtained?</div>
+                        </div>
+                    </div>
+                    <div class="q"><span class="n">40.</span>
+                        <div class="t">
+                            <div class="ta">இடைக்கண்டத்தின் ஆரங்கள் 8 cm மற்றும் 20 cm, உயரம் 16 cm. பாலின் ஒரு லிட்டர்
+                                விலை ரூ.40 எனில் தொட்டியை நிரப்ப ஆகும் செலவு காண்க.</div>
+                            <div class="en">A frustum has radii 8 cm and 20 cm, height 16 cm. Milk costs Rs.40 per
+                                litre. Find the cost to fill it.</div>
+                        </div>
+                    </div>
+                    <div class="q"><span class="n">41.</span>
+                        <div class="t">
+                            <div class="ta">50 மாணவர்களில் 28 பேர் NCC, 30 பேர் NSS, 18 பேர் இரண்டிலும் உள்ளனர். ஏதேனும்
+                                ஒன்றில் மட்டும் உள்ளவர் நிகழ்தகவு காண்க.</div>
+                            <div class="en">Of 50 students, 28 are in NCC, 30 in NSS, 18 in both. Find probability of
+                                being in exactly one.</div>
+                        </div>
+                    </div>
+                    <div class="q"><span class="n">42.</span>
+                        <div class="t">
+                            <div class="ta"><b>(கட்டாய வினா)</b> 30 m உயரமுள்ள கட்டடத்தின் மேல் உள்ள கோபுரத்தின் அடி
+                                மற்றும் உச்சியின் ஏற்றக்கோணங்கள் 45° மற்றும் 60°. கோபுரத்தின் உயரம் காண்க.</div>
+                            <div class="en"><b>(Compulsory)</b> From a point on the ground, elevation angles to bottom
+                                and top of a tower on a 30 m building are 45° and 60°. Find the tower height.</div>
+                        </div>
+                    </div>
+
+                    <div class="ph">பகுதி - IV &nbsp;/&nbsp; PART - IV <span class="pm">2 × 8 = 16</span></div>
+                    <p style="font-size:12.5px;font-family:Arial,sans-serif;margin-bottom:12px;color:#334155;">இரு
+                        வினாக்களுக்கும் விடையளிக்க வேண்டும். / Answer both questions.</p>
+
+                    <div class="q"><span class="n">43.</span>
+                        <div class="t">
+                            <div class="ta">(அ) 4.5 cm ஆரமுள்ள வட்டத்திற்கு மாற்று வட்டத்துண்டு தேற்றத்தைப் பயன்படுத்தி
+                                தொடுகோடு வரைக.</div>
+                            <div class="en">(a) Draw a tangent to a circle of radius 4.5 cm using the alternate segment
+                                theorem.</div>
+                            <div class="or">அல்லது / OR</div>
+                            <div class="ta">(ஆ) கொடுக்கப்பட்ட முக்கோணத்திற்கு 7/4 என்ற அளவு காரணியில் வடிவொத்த முக்கோணம்
+                                வரைக.</div>
+                            <div class="en">(b) Construct a triangle similar to a given triangle with scale factor 7/4.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="q"><span class="n">44.</span>
+                        <div class="t">
+                            <div class="ta">(அ) y = x² – 4x + 3 வரைபடம் வரைந்து x² – 6x + 9 = 0 என்ற சமன்பாட்டைத்
+                                தீர்க்க.</div>
+                            <div class="en">(a) Draw the graph of y = x² – 4x + 3 and use it to solve x² – 6x + 9 = 0.
+                            </div>
+                            <div class="or">அல்லது / OR</div>
+                            <div class="ta">(ஆ) ஒரு பேருந்து 50 கி.மீ/மணி வேகத்தில் சீராக பயணிக்கிறது. தொலைவு-நேரம்
+                                வரைபடம் வரைக.</div>
+                            <div class="en">(b) A bus travels at a uniform speed of 50 km/hr. Draw the distance-time
+                                graph.</div>
+                        </div>
+                    </div>
+
+                    <div class="ft">For more study materials, visit AKDEV Official: www.akdev-official.vercel.app</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ═══════════════════════════════════════════════════════ SET 4 ═══ -->
+        <div id="set4" class="set">
+            <div class="page">
+                <div class="wm">AKDEV LABS OFFICIAL</div>
+                <div class="cw">
+
+                    <div class="hr">
+                        <span>www.akdev-official.vercel.app</span><span>SET - 4 &nbsp;(PREDICTED MODEL)</span></div>
+                    <div class="hr">
+                        <span style="font-family:Arial;font-size:12px;font-weight:700;">AKDEV STEALTH STUDIO</span><span class="bc">*8514*</span>
+                    </div>
+                    <div class="reg">
+                        <div class="reg-l">பதிவு எண்<br>Register Number</div>
+                        <div class="reg-b">
+                            <div class="rb"></div>
+                            <div class="rb"></div>
+                            <div class="rb"></div>
+                            <div class="rb"></div>
+                            <div class="rb"></div>
+                            <div class="rb"></div>
+                            <div class="rb"></div>
+                        </div>
+                    </div>
+                    <div class="tit">
+                        <h2>Part - III</h2>
+                        <h1>கணிதம் / MATHEMATICS</h1>
+                        <h3>(தமிழ் மற்றும் ஆங்கில வழி / Tamil &amp; English Version)</h3>
+                    </div>
+                    <div class="ed">
+                        <div>கால அளவு : 3.00 மணி நேரம்]</div>
+                        <div>[மொத்த மதிப்பெண்கள் : 100</div>
+                    </div>
+
+                    <div class="ph">பகுதி - I &nbsp;/&nbsp; PART - I <span class="pm">14 × 1 = 14</span></div>
+                    <div class="q"><span class="n">1.</span>
+                        <div class="t">
+                            <div class="ta">A = {1,2,3,4,5}-லிருந்து B-க்கு 1024 உறவுகள் இருந்தால் n(B):</div>
+                            <div class="en">If the number of relations from A = {1,2,3,4,5} to B is 1024, then n(B):
+                            </div>
+                            <div class="opts"><span>(a) 3</span><span>(b) 2</span><span>(c) 4</span><span>(d) 8</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="q"><span class="n">2.</span>
+                        <div class="t">
+                            <div class="ta">f(x) = (–1)<sup>x</sup>-ன் வீச்சகம்:</div>
+                            <div class="en">Range of f(x) = (–1)<sup>x</sup> is:</div>
+                            <div class="opts">
+                                <span>(a) {1}</span><span>(b) ℕ</span><span>(c) {1, –1}</span><span>(d) ℤ</span></div>
+                        </div>
+                    </div>
+                    <div class="q"><span class="n">3.</span>
+                        <div class="t">
+                            <div class="ta">கூட்டுத்தொடரில் 31 உறுப்புகள் உள்ளன. 16-வது உறுப்பு m எனில் கூடுதல்:</div>
+                            <div class="en">An A.P. has 31 terms and its 16th term is m. Sum of all terms:</div>
+                            <div class="opts">
+                                <span>(a) 16m</span><span>(b) 62m</span><span>(c) 31m</span><span>(d) 31m/2</span></div>
+                        </div>
+                    </div>
+                    <div class="q"><span class="n">4.</span>
+                        <div class="t">
+                            <div class="ta">x⁴ + 64 முழு வர்க்கமாக மாற்ற கூட்ட வேண்டியது:</div>
+                            <div class="en">What should be added to x⁴ + 64 to make it a perfect square?</div>
+                            <div class="opts">
+                                <span>(a) 4x²</span><span>(b) 16x²</span><span>(c) 8x²</span><span>(d) –8x²</span></div>
+                        </div>
+                    </div>
+                    <div class="q"><span class="n">5.</span>
+                        <div class="t">
+                            <div class="ta">x² + 4x + 4 என்ற கோவை X-அச்சை வெட்டும் புள்ளிகளின் எண்ணிக்கை:</div>
+                            <div class="en">Number of points of intersection of x² + 4x + 4 with the X-axis:</div>
+                            <div class="opts">
+                                <span>(a) 0</span><span>(b) 1</span><span>(c) 0 or 1</span><span>(d) 2</span></div>
+                        </div>
+                    </div>
+                    <div class="q"><span class="n">6.</span>
+                        <div class="t">
+                            <div class="ta">A என்பது 2 × 3 அணி, B என்பது 3 × 2 அணி எனில் AB-ன் வரிசை:</div>
+                            <div class="en">A is a 2 × 3 matrix, B is a 3 × 2 matrix. Order of AB:</div>
+                            <div class="opts">
+                                <span>(a) 2 × 2</span><span>(b) 3 × 3</span><span>(c) 2 × 3</span><span>(d) 3 × 2</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="q"><span class="n">7.</span>
+                        <div class="t">
+                            <div class="ta">△ABC-ல் DE ∥ BC. AB = 3.6, AC = 2.4, AD = 2.1 எனில் AE:</div>
+                            <div class="en">In △ABC, DE ∥ BC, AB = 3.6, AC = 2.4, AD = 2.1. Then AE is:</div>
+                            <div class="opts">
+                                <span>(a) 1.4</span><span>(b) 1.8</span><span>(c) 1.2</span><span>(d) 1.05</span></div>
+                        </div>
+                    </div>
+                    <div class="q"><span class="n">8.</span>
+                        <div class="t">
+                            <div class="ta">வட்டத்திற்கு வெளியே உள்ள புள்ளியிலிருந்து எத்தனை தொடுகோடுகள் வரையலாம்?</div>
+                            <div class="en">Number of tangents that can be drawn to a circle from an external point:
+                            </div>
+                            <div class="opts">
+                                <span>(a) 1</span><span>(b) 2</span><span>(c) Infinite</span><span>(d) 0</span></div>
+                        </div>
+                    </div>
+                    <div class="q"><span class="n">9.</span>
+                        <div class="t">
+                            <div class="ta">(0,0) மற்றும் (–8,8) இணைக்கும் கோட்டிற்கு செங்குத்தான கோட்டின் சாய்வு:</div>
+                            <div class="en">Slope of a line perpendicular to the line joining (0,0) and (–8,8):</div>
+                            <div class="opts">
+                                <span>(a) –1</span><span>(b) 1</span><span>(c) 1/3</span><span>(d) –8</span></div>
+                        </div>
+                    </div>
+                    <div class="q"><span class="n">10.</span>
+                        <div class="t">
+                            <div class="ta">சாய்வு 1 ஆன கோட்டின் சாய்வுக்கோணம்:</div>
+                            <div class="en">Angle of inclination of a line with slope 1:</div>
+                            <div class="opts">
+                                <span>(a) 30°</span><span>(b) 45°</span><span>(c) 60°</span><span>(d) 90°</span></div>
+                        </div>
+                    </div>
+                    <div class="q"><span class="n">11.</span>
+                        <div class="t">
+                            <div class="ta">கோபுரத்தின் நிழலும் உயரமும் √3 : 1 விகிதத்தில் இருந்தால் ஏற்றக்கோணம்:</div>
+                            <div class="en">If a tower's shadow to height ratio is √3 : 1, angle of elevation is:</div>
+                            <div class="opts">
+                                <span>(a) 45°</span><span>(b) 30°</span><span>(c) 90°</span><span>(d) 60°</span></div>
+                        </div>
+                    </div>
+                    <div class="q"><span class="n">12.</span>
+                        <div class="t">
+                            <div class="ta">அரைக்கோளத்தின் மொத்தப் புறப்பரப்பு r²-ன் எத்தனை மடங்கு?</div>
+                            <div class="en">Total surface area of a hemisphere is how many times r²?</div>
+                            <div class="opts">
+                                <span>(a) π</span><span>(b) 4π</span><span>(c) 3π</span><span>(d) 2π</span></div>
+                        </div>
+                    </div>
+                    <div class="q"><span class="n">13.</span>
+                        <div class="t">
+                            <div class="ta">விலக்க வர்க்க சராசரி 81 எனில் திட்டவிலக்கம்:</div>
+                            <div class="en">If variance is 81, standard deviation is:</div>
+                            <div class="opts">
+                                <span>(a) 81</span><span>(b) 9</span><span>(c) 18</span><span>(d) 40.5</span></div>
+                        </div>
+                    </div>
+                    <div class="q"><span class="n">14.</span>
+                        <div class="t">
+                            <div class="ta">வேலை கிடைக்க நிகழ்தகவு x/3, கிடைக்காமல் 2/3 எனில் x:</div>
+                            <div class="en">Probability of getting a job is x/3, not getting is 2/3. Find x:</div>
+                            <div class="opts"><span>(a) 2</span><span>(b) 1</span><span>(c) 3</span><span>(d) 1.5</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="ph">பகுதி - II &nbsp;/&nbsp; PART - II <span class="pm">10 × 2 = 20</span></div>
+                    <p style="font-size:12.5px;font-family:Arial,sans-serif;margin-bottom:10px;color:#334155;">
+                        விடையளிக்க வேண்டிய வினாக்களை தேர்வு செய்க. வினா எண் 28 கட்டாயமாக விடையளிக்க வேண்டும். / Answer
+                        any 10 questions. Question No. 28 is compulsory.</p>
+
+                    <div class="q"><span class="n">15.</span>
+                        <div class="t">
+                            <div class="ta">R என்பது "x-ன் வர்க்கம் y" என்ற உறவு, A = {1, 2, 3, …, 45}. R எழுதுக.</div>
+                            <div class="en">R is "x is square of y" on A = {1,...,45}. Write R.</div>
+                        </div>
+                    </div>
+                    <div class="q"><span class="n">16.</span>
+                        <div class="t">
+                            <div class="ta">f ∘ g = g ∘ f, f(x) = 3x – 2, g(x) = 2x + k எனில் k காண்க.</div>
+                            <div class="en">If f ∘ g = g ∘ f with f(x) = 3x – 2, g(x) = 2x + k, find k.</div>
+                        </div>
+                    </div>
+                    <div class="q"><span class="n">17.</span>
+                        <div class="t">
+                            <div class="ta">16, 11, 6 … என்ற தொடரில் –54 எத்தனையாவது உறுப்பு?</div>
+                            <div class="en">Which term of 16, 11, 6 … is –54?</div>
+                        </div>
+                    </div>
+                    <div class="q"><span class="n">18.</span>
+                        <div class="t">
+                            <div class="ta">(7p + 2) / (8p² + 13p + 5)-ன் விலக்கப்பட்ட மதிப்புகள் காண்க.</div>
+                            <div class="en">Find excluded values of (7p + 2) / (8p² + 13p + 5).</div>
+                        </div>
+                    </div>
+                    <div class="q"><span class="n">19.</span>
+                        <div class="t">
+                            <div class="ta">மூலங்களின் கூடுதல் –9, பெருக்கற்பலன் 20 ஆன இருபடிச் சமன்பாடு காண்க.</div>
+                            <div class="en">Find the quadratic equation with sum of roots –9 and product 20.</div>
+                        </div>
+                    </div>
+                    <div class="q"><span class="n">20.</span>
+                        <div class="t">
+                            <div class="ta">A = [[1 2],[3 4]] எனில் (A<sup>T</sup>)<sup>T</sup> = A சரிபார்க்க.</div>
+                            <div class="en">For A = [[1 2],[3 4]], verify (A<sup>T</sup>)<sup>T</sup> = A.</div>
+                        </div>
+                    </div>
+                    <div class="q"><span class="n">21.</span>
+                        <div class="t">
+                            <div class="ta">AD/DB = 3/4, AC = 15 எனில் AE காண்க.</div>
+                            <div class="en">If AD/DB = 3/4 and AC = 15, find AE.</div>
+                        </div>
+                    </div>
+                    <div class="q"><span class="n">22.</span>
+                        <div class="t">
+                            <div class="ta">(–3,1), (–1,3), (2,6) கோடமைப் புள்ளிகள் எனக் காட்டுக.</div>
+                            <div class="en">Show that (–3,1), (–1,3), (2,6) are collinear.</div>
+                        </div>
+                    </div>
+                    <div class="q"><span class="n">23.</span>
+                        <div class="t">
+                            <div class="ta">நிறுவுக: sec θ – cos θ = tan θ sin θ.</div>
+                            <div class="en">Prove: sec θ – cos θ = tan θ sin θ.</div>
+                        </div>
+                    </div>
+                    <div class="q"><span class="n">24.</span>
+                        <div class="t">
+                            <div class="ta">ஒரு கோளத்தின் மொத்தப் புறப்பரப்பு 154 cm² எனில் அதன் விட்டம் காண்க.</div>
+                            <div class="en">Total surface area of a sphere is 154 cm². Find its diameter.</div>
+                        </div>
+                    </div>
+                    <div class="q"><span class="n">25.</span>
+                        <div class="t">
+                            <div class="ta">முதல் 21 இயல் எண்களின் திட்டவிலக்கம் காண்க.</div>
+                            <div class="en">Find the standard deviation of the first 21 natural numbers.</div>
+                        </div>
+                    </div>
+                    <div class="q"><span class="n">26.</span>
+                        <div class="t">
+                            <div class="ta">இரு நாணயங்களை எறியும்போது வெவ்வேறு முகம் கிடைக்க நிகழ்தகவு காண்க.</div>
+                            <div class="en">Find the probability of getting different faces when two coins are tossed.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="q"><span class="n">27.</span>
+                        <div class="t">
+                            <div class="ta">குணத்தொடரின் 8-வது உறுப்பு 768, r = 2. 10-வது உறுப்பு காண்க.</div>
+                            <div class="en">8th term of a G.P. is 768 and r = 2. Find the 10th term.</div>
+                        </div>
+                    </div>
+                    <div class="q"><span class="n">28.</span>
+                        <div class="t">
+                            <div class="ta"><b>(கட்டாய வினா)</b> 13824 = 2<sup>a</sup> × 3<sup>b</sup> எனில் a மற்றும் b
+                                காண்க.</div>
+                            <div class="en"><b>(Compulsory)</b> If 13824 = 2<sup>a</sup> × 3<sup>b</sup>, find a and b.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="ph">பகுதி - III &nbsp;/&nbsp; PART - III <span class="pm">10 × 5 = 50</span></div>
+                    <p style="font-size:12.5px;font-family:Arial,sans-serif;margin-bottom:10px;color:#334155;">
+                        விடையளிக்க வேண்டிய வினாக்களை தேர்வு செய்க. வினா எண் 42 கட்டாயமாக விடையளிக்க வேண்டும். / Answer
+                        any 10 questions. Question No. 42 is compulsory.</p>
+
+                    <div class="q"><span class="n">29.</span>
+                        <div class="t">
+                            <div class="ta">A × (B – C) = (A × B) – (A × C) எனச் சரிபார்க்க.</div>
+                            <div class="en">Verify A × (B – C) = (A × B) – (A × C).</div>
+                        </div>
+                    </div>
+                    <div class="q"><span class="n">30.</span>
+                        <div class="t">
+                            <div class="ta">f(x) = 3x – 1 சார்பை 4 முறைகளில் குறிக்க.</div>
+                            <div class="en">Represent f(x) = 3x – 1 by 4 different methods.</div>
+                        </div>
+                    </div>
+                    <div class="q"><span class="n">31.</span>
+                        <div class="t">
+                            <div class="ta">5 + 55 + 555 + … n உறுப்புகளின் கூடுதல் காண்க.</div>
+                            <div class="en">Find the sum to n terms of 5 + 55 + 555 + …</div>
+                        </div>
+                    </div>
+                    <div class="q"><span class="n">32.</span>
+                        <div class="t">
+                            <div class="ta">64x⁴ – 16x³ + 17x² – 2x + 1-ன் வர்க்கமூலம் காண்க.</div>
+                            <div class="en">Find the square root of 64x⁴ – 16x³ + 17x² – 2x + 1.</div>
+                        </div>
+                    </div>
+                    <div class="q"><span class="n">33.</span>
+                        <div class="t">
+                            <div class="ta">x + y + z = 5, 2x – y + z = 9, x – 2y + 3z = 16 என்ற சமன்பாடுகளை அணி
+                                முறையில் தீர்க்க.</div>
+                            <div class="en">Solve using matrix method: x + y + z = 5, 2x – y + z = 9, x – 2y + 3z = 16.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="q"><span class="n">34.</span>
+                        <div class="t">
+                            <div class="ta">பிதாகரஸ் தேற்றத்தை எழுதி நிறுவுக.</div>
+                            <div class="en">State and prove Pythagoras' theorem.</div>
+                        </div>
+                    </div>
+                    <div class="q"><span class="n">35.</span>
+                        <div class="t">
+                            <div class="ta">(–9,–2), (–8,–4), (2,2), (1,–3) நாற்கரத்தின் பரப்பு காண்க.</div>
+                            <div class="en">Find the area of quadrilateral with vertices (–9,–2), (–8,–4), (2,2),
+                                (1,–3).</div>
+                        </div>
+                    </div>
+                    <div class="q"><span class="n">36.</span>
+                        <div class="t">
+                            <div class="ta">(22, –6) வழிச் செல்வதும் X-வெட்டு Y-வெட்டை விட 5 அதிகமாகக் கொண்ட கோட்டின்
+                                சமன்பாடு காண்க.</div>
+                            <div class="en">Find the equation of the line through (22,–6) with X-intercept exceeding
+                                Y-intercept by 5.</div>
+                        </div>
+                    </div>
+                    <div class="q"><span class="n">37.</span>
+                        <div class="t">
+                            <div class="ta">இரு விமானங்கள் 1000 km/h மற்றும் 1200 km/h வேகத்தில் செங்குத்தாக பறக்கின்றன.
+                                1.5 மணி நேரத்தில் தொலைவு காண்க.</div>
+                            <div class="en">Two planes fly perpendicularly at 1000 km/h and 1200 km/h. Find distance
+                                between them after 1.5 hours.</div>
+                        </div>
+                    </div>
+                    <div class="q"><span class="n">38.</span>
+                        <div class="t">
+                            <div class="ta">மருந்துக் குப்பியின் (உருளை + இரு அரைக்கோளம்) மொத்த நீளம் 14 mm, விட்டம் 5
+                                mm. புறப்பரப்பு காண்க.</div>
+                            <div class="en">A capsule (cylinder + two hemispheres) has length 14 mm and diameter 5 mm.
+                                Find surface area.</div>
+                        </div>
+                    </div>
+                    <div class="q"><span class="n">39.</span>
+                        <div class="t">
+                            <div class="ta">16 cm ஆர கோளம் உருக்கப்பட்டு 2 cm ஆர கோளங்களாக மாற்றப்படுகிறது. எண்ணிக்கை
+                                காண்க.</div>
+                            <div class="en">Sphere of radius 16 cm is melted into spheres of radius 2 cm. Find the
+                                count.</div>
+                        </div>
+                    </div>
+                    <div class="q"><span class="n">40.</span>
+                        <div class="t">
+                            <div class="ta">இரண்டு பகடைகளை உருட்டும்போது கூடுதல் (i) 4 (ii) 10-ஐ விட அதிகம் (iii) 13-ஐ
+                                விடக் குறைவு என்பவற்றின் நிகழ்தகவு காண்க.</div>
+                            <div class="en">Two dice rolled. Find probability of sum (i) 4 (ii) greater than 10 (iii)
+                                less than 13.</div>
+                        </div>
+                    </div>
+                    <div class="q"><span class="n">41.</span>
+                        <div class="t">
+                            <div class="ta">50 மாணவர்களில் 28 NCC, 30 NSS, 18 இரண்டிலும். ஏதேனும் ஒன்றில் மட்டும்
+                                நிகழ்தகவு காண்க.</div>
+                            <div class="en">50 students: 28 NCC, 30 NSS, 18 both. Find probability of exactly one.</div>
+                        </div>
+                    </div>
+                    <div class="q"><span class="n">42.</span>
+                        <div class="t">
+                            <div class="ta"><b>(கட்டாய வினா)</b> A மற்றும் B அணிகளுக்கு (AB)<sup>T</sup> =
+                                B<sup>T</sup>A<sup>T</sup> சரிபார்க்க.</div>
+                            <div class="en"><b>(Compulsory)</b> Verify (AB)<sup>T</sup> = B<sup>T</sup>A<sup>T</sup> for
+                                given matrices.</div>
+                        </div>
+                    </div>
+
+                    <div class="ph">பகுதி - IV &nbsp;/&nbsp; PART - IV <span class="pm">2 × 8 = 16</span></div>
+                    <p style="font-size:12.5px;font-family:Arial,sans-serif;margin-bottom:12px;color:#334155;">இரு
+                        வினாக்களுக்கும் விடையளிக்க வேண்டும். / Answer both questions.</p>
+
+                    <div class="q"><span class="n">43.</span>
+                        <div class="t">
+                            <div class="ta">(அ) 5 cm ஆரமுள்ள வட்டத்திற்கு மையத்திலிருந்து 10 cm தொலைவில் உள்ள
+                                புள்ளியிலிருந்து தொடுகோடுகள் வரைக.</div>
+                            <div class="en">(a) Draw tangents to a circle of radius 5 cm from a point 10 cm away from
+                                the centre.</div>
+                            <div class="or">அல்லது / OR</div>
+                            <div class="ta">(ஆ) கொடுக்கப்பட்ட முக்கோணத்திற்கு 7/4 என்ற அளவு காரணியில் வடிவொத்த முக்கோணம்
+                                வரைக.</div>
+                            <div class="en">(b) Construct a triangle similar to a given triangle with scale factor 7/4.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="q"><span class="n">44.</span>
+                        <div class="t">
+                            <div class="ta">(அ) y = x² – 4x + 3 வரைபடம் வரைந்து x² – 6x + 9 = 0 என்ற சமன்பாட்டைத்
+                                தீர்க்க.</div>
+                            <div class="en">(a) Draw the graph of y = x² – 4x + 3 and use it to solve x² – 6x + 9 = 0.
+                            </div>
+                            <div class="or">அல்லது / OR</div>
+                            <div class="ta">(ஆ) வேலையாட்கள்: 40, 50, 60, 75 | நாட்கள்: 150, 120, 100, 80. வரைபடம் வரைக.
+                            </div>
+                            <div class="en">(b) Workers: 40, 50, 60, 75 | Days: 150, 120, 100, 80. Draw the graph.</div>
+                        </div>
+                    </div>
+
+                    <div class="ft">For more study materials, visit AKDEV Official: www.akdev-official.vercel.app</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ═══════════════════════════════════════════════════════ SET 5 ═══ -->
+        <div id="set5" class="set">
+            <div class="page">
+                <div class="wm">AKDEV LABS OFFICIAL</div>
+                <div class="cw">
+
+                    <div class="hr">
+                        <span>www.akdev-official.vercel.app</span><span>SET - 5 &nbsp;(PREDICTED MODEL)</span></div>
+                    <div class="hr">
+                        <span style="font-family:Arial;font-size:12px;font-weight:700;">AKDEV STEALTH STUDIO</span><span class="bc">*8515*</span>
+                    </div>
+                    <div class="reg">
+                        <div class="reg-l">பதிவு எண்<br>Register Number</div>
+                        <div class="reg-b">
+                            <div class="rb"></div>
+                            <div class="rb"></div>
+                            <div class="rb"></div>
+                            <div class="rb"></div>
+                            <div class="rb"></div>
+                            <div class="rb"></div>
+                            <div class="rb"></div>
+                        </div>
+                    </div>
+                    <div class="tit">
+                        <h2>Part - III</h2>
+                        <h1>கணிதம் / MATHEMATICS</h1>
+                        <h3>(தமிழ் மற்றும் ஆங்கில வழி / Tamil &amp; English Version)</h3>
+                    </div>
+                    <div class="ed">
+                        <div>கால அளவு : 3.00 மணி நேரம்]</div>
+                        <div>[மொத்த மதிப்பெண்கள் : 100</div>
+                    </div>
+
+                    <div class="ph">பகுதி - I &nbsp;/&nbsp; PART - I <span class="pm">14 × 1 = 14</span></div>
+                    <div class="q"><span class="n">1.</span>
+                        <div class="t">
+                            <div class="ta">(a+2, 4) மற்றும் (5, 2a+b) சமம் எனில் (a, b):</div>
+                            <div class="en">If (a+2, 4) and (5, 2a+b) are equal ordered pairs, then (a,b) is:</div>
+                            <div class="opts">
+                                <span>(a) (2,–2)</span><span>(b) (5,1)</span><span>(c) (2,3)</span><span>(d) (3,–2)</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="q"><span class="n">2.</span>
+                        <div class="t">
+                            <div class="ta">n(A × B) = 6, A = {1, 3} எனில் n(B):</div>
+                            <div class="en">If n(A × B) = 6 and A = {1, 3}, then n(B) is:</div>
+                            <div class="opts"><span>(a) 1</span><span>(b) 2</span><span>(c) 3</span><span>(d) 6</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="q"><span class="n">3.</span>
+                        <div class="t">
+                            <div class="ta">1729-ன் பகா காரணிகளின் அடுக்குகளின் கூடுதல்:</div>
+                            <div class="en">Sum of exponents in prime factorisation of 1729:</div>
+                            <div class="opts"><span>(a) 1</span><span>(b) 2</span><span>(c) 3</span><span>(d) 4</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="q"><span class="n">4.</span>
+                        <div class="t">
+                            <div class="ta">F₁ = 1, F₂ = 3, Fₙ = Fₙ₋₁ + Fₙ₋₂ எனில் F₅:</div>
+                            <div class="en">If F₁ = 1, F₂ = 3, Fₙ = Fₙ₋₁ + Fₙ₋₂, then F₅ is:</div>
+                            <div class="opts"><span>(a) 3</span><span>(b) 5</span><span>(c) 8</span><span>(d) 11</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="q"><span class="n">5.</span>
+                        <div class="t">
+                            <div class="ta">x² – 2x – 24 மற்றும் x² – kx – 6-ன் மீ.பொ.வ (x – 6) எனில் k:</div>
+                            <div class="en">HCF of x² – 2x – 24 and x² – kx – 6 is (x – 6). Then k is:</div>
+                            <div class="opts"><span>(a) 3</span><span>(b) 5</span><span>(c) 6</span><span>(d) 8</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="q"><span class="n">6.</span>
+                        <div class="t">
+                            <div class="ta">நேரிய சமன்பாட்டின் வரைபடம்:</div>
+                            <div class="en">The graph of a linear equation is a:</div>
+                            <div class="opts">
+                                <span>(a) Line</span><span>(b) Circle</span><span>(c) Parabola</span><span>(d) Hyperbola</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="q"><span class="n">7.</span>
+                        <div class="t">
+                            <div class="ta">வட்டத்திற்கு வெளியே உள்ள புள்ளியிலிருந்து தொடுகோடுகளின் எண்ணிக்கை:</div>
+                            <div class="en">Number of tangents from an external point to a circle:</div>
+                            <div class="opts">
+                                <span>(a) 1</span><span>(b) 2</span><span>(c) 0</span><span>(d) infinite</span></div>
+                        </div>
+                    </div>
+                    <div class="q"><span class="n">8.</span>
+                        <div class="t">
+                            <div class="ta">△ABC-ல் AD கோண இருசமவெட்டி. AB = 8, BD = 6, DC = 3 எனில் AC:</div>
+                            <div class="en">In △ABC, AD bisects ∠A. AB = 8, BD = 6, DC = 3. Then AC is:</div>
+                            <div class="opts"><span>(a) 6</span><span>(b) 4</span><span>(c) 3</span><span>(d) 8</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="q"><span class="n">9.</span>
+                        <div class="t">
+                            <div class="ta">(0,0), (1,0), (0,1) அமைக்கும் முக்கோணத்தின் பரப்பு:</div>
+                            <div class="en">Area of triangle formed by (0,0), (1,0), (0,1):</div>
+                            <div class="opts"><span>(a) 1/2</span><span>(b) 1</span><span>(c) 2</span><span>(d) 0</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="q"><span class="n">10.</span>
+                        <div class="t">
+                            <div class="ta">(14, 10) மற்றும் (14, –6) இணைக்கும் கோட்டின் சாய்வு:</div>
+                            <div class="en">Slope of the line joining (14, 10) and (14, –6):</div>
+                            <div class="opts">
+                                <span>(a) 0</span><span>(b) Undefined</span><span>(c) 1</span><span>(d) –1</span></div>
+                        </div>
+                    </div>
+                    <div class="q"><span class="n">11.</span>
+                        <div class="t">
+                            <div class="ta">கோபுரத்தின் நிழலும் உயரமும் √3 : 1 விகிதத்தில் இருந்தால் ஏற்றக்கோணம்:</div>
+                            <div class="en">If shadow to height ratio of a tower is √3 : 1, angle of elevation is:</div>
+                            <div class="opts">
+                                <span>(a) 30°</span><span>(b) 45°</span><span>(c) 60°</span><span>(d) 90°</span></div>
+                        </div>
+                    </div>
+                    <div class="q"><span class="n">12.</span>
+                        <div class="t">
+                            <div class="ta">உருளையின் ஆரம் இரு மடங்கானால் கனவளவு எத்தனை மடங்காகும்?</div>
+                            <div class="en">If radius of a cylinder is doubled, its volume becomes:</div>
+                            <div class="opts">
+                                <span>(a) 2 times</span><span>(b) 3 times</span><span>(c) 4 times</span><span>(d) same</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="q"><span class="n">13.</span>
+                        <div class="t">
+                            <div class="ta">8, 8, 8 … தரவின் வீச்சு:</div>
+                            <div class="en">Range of data 8, 8, 8 … is:</div>
+                            <div class="opts"><span>(a) 0</span><span>(b) 1</span><span>(c) 8</span><span>(d) 3</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="q"><span class="n">14.</span>
+                        <div class="t">
+                            <div class="ta">ஒரு புத்தகத்தின் பக்க எண்களில் ஒற்றை இலக்கம் 7-ஐ விடக் குறைவாக வரும்
+                                நிகழ்தகவு:</div>
+                            <div class="en">Probability that unit digit of a page number is less than 7:</div>
+                            <div class="opts">
+                                <span>(a) 3/10</span><span>(b) 7/10</span><span>(c) 3/9</span><span>(d) 7/9</span></div>
+                        </div>
+                    </div>
+
+                    <div class="ph">பகுதி - II &nbsp;/&nbsp; PART - II <span class="pm">10 × 2 = 20</span></div>
+                    <p style="font-size:12.5px;font-family:Arial,sans-serif;margin-bottom:10px;color:#334155;">
+                        விடையளிக்க வேண்டிய வினாக்களை தேர்வு செய்க. வினா எண் 28 கட்டாயமாக விடையளிக்க வேண்டும். / Answer
+                        any 10 questions. Question No. 28 is compulsory.</p>
+
+                    <div class="q"><span class="n">15.</span>
+                        <div class="t">
+                            <div class="ta">A = {1,2,3}, B = {பகா எண்கள் < 10}. A × B மற்றும் B × A காண்க.</div>
+                                    <div class="en">A = {1,2,3}, B = {prime numbers < 10}. Find A × B and B × A.</div>
+                                    </div>
+                            </div>
+                            <div class="q"><span class="n">16.</span>
+                                <div class="t">
+                                    <div class="ta">R = {(x,y) | y = x + 3, x ∈ {0,1,2,3,4,5}}-ன் மதிப்பகம் மற்றும்
+                                        வீச்சகம் காண்க.</div>
+                                    <div class="en">Find domain and range of R = {(x,y) | y = x + 3, x ∈ {0,1,2,3,4,5}}.
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="q"><span class="n">17.</span>
+                                <div class="t">
+                                    <div class="ta">கூடுதல் காண்க: 1 + 3 + 5 + … + 55.</div>
+                                    <div class="en">Find the sum: 1 + 3 + 5 + … + 55.</div>
+                                </div>
+                            </div>
+                            <div class="q"><span class="n">18.</span>
+                                <div class="t">
+                                    <div class="ta">15x² + 11x + 2 = 0 என்ற சமன்பாட்டின் மூலங்களின் தன்மை ஆராய்க.</div>
+                                    <div class="en">Determine the nature of roots of 15x² + 11x + 2 = 0.</div>
+                                </div>
+                            </div>
+                            <div class="q"><span class="n">19.</span>
+                                <div class="t">
+                                    <div class="ta">A = [[1 2],[3 4]] எனில் (A<sup>T</sup>)<sup>T</sup> = A சரிபார்க்க.
+                                    </div>
+                                    <div class="en">For A = [[1 2],[3 4]], verify (A<sup>T</sup>)<sup>T</sup> = A.</div>
+                                </div>
+                            </div>
+                            <div class="q"><span class="n">20.</span>
+                                <div class="t">
+                                    <div class="ta">சம ஆரமுடைய இரு கூம்புகளின் கனவளவுகள் 3600 cm³ மற்றும் 5040 cm³.
+                                        அவற்றின் உயர விகிதம் காண்க.</div>
+                                    <div class="en">Volumes of two cones with equal base radius are 3600 cm³ and 5040
+                                        cm³. Find ratio of heights.</div>
+                                </div>
+                            </div>
+                            <div class="q"><span class="n">21.</span>
+                                <div class="t">
+                                    <div class="ta">ஒரு புள்ளியிலிருந்து வட்டத்திற்கு PA மற்றும் PB தொடுகோடுகள்
+                                        வரைகிறோம். ∠APB = 60° எனில் ∠AOB காண்க.</div>
+                                    <div class="en">PA and PB are tangents to a circle. ∠APB = 60°. Find ∠AOB.</div>
+                                </div>
+                            </div>
+                            <div class="q"><span class="n">22.</span>
+                                <div class="t">
+                                    <div class="ta">(–3,1), (–1,3), (2,6) கோடமைப் புள்ளிகள் எனக் காட்டுக.</div>
+                                    <div class="en">Show that (–3,1), (–1,3), (2,6) are collinear.</div>
+                                </div>
+                            </div>
+                            <div class="q"><span class="n">23.</span>
+                                <div class="t">
+                                    <div class="ta">நிறுவுக: sec θ – cos θ = tan θ sin θ.</div>
+                                    <div class="en">Prove: sec θ – cos θ = tan θ sin θ.</div>
+                                </div>
+                            </div>
+                            <div class="q"><span class="n">24.</span>
+                                <div class="t">
+                                    <div class="ta">ஆரம் 2.1 cm உடைய கோளத்தின் கனவளவு காண்க.</div>
+                                    <div class="en">Find the volume of a sphere of radius 2.1 cm.</div>
+                                </div>
+                            </div>
+                            <div class="q"><span class="n">25.</span>
+                                <div class="t">
+                                    <div class="ta">8, 8, 8, 8, 8 என்ற தரவின் திட்டவிலக்கம் காண்க.</div>
+                                    <div class="en">Find the standard deviation of 8, 8, 8, 8, 8.</div>
+                                </div>
+                            </div>
+                            <div class="q"><span class="n">26.</span>
+                                <div class="t">
+                                    <div class="ta">ஒரு நாணயமும் ஒரு பகடையும் சுண்டப்படும்போது தலையும் ஒற்றை எண்ணும்
+                                        கிடைக்க நிகழ்தகவு காண்க.</div>
+                                    <div class="en">A coin and a die are tossed. Find probability of getting head and an
+                                        odd number.</div>
+                                </div>
+                            </div>
+                            <div class="q"><span class="n">27.</span>
+                                <div class="t">
+                                    <div class="ta">t / (t² – 5t + 6)-ன் விலக்கப்பட்ட மதிப்புகள் காண்க.</div>
+                                    <div class="en">Find the excluded values of t / (t² – 5t + 6).</div>
+                                </div>
+                            </div>
+                            <div class="q"><span class="n">28.</span>
+                                <div class="t">
+                                    <div class="ta"><b>(கட்டாய வினா)</b> 3 + k, 18 – k, 5k + 1 ஆகியவை கூட்டுத்தொடரில்
+                                        இருந்தால் k காண்க.</div>
+                                    <div class="en"><b>(Compulsory)</b> If 3+k, 18–k, 5k+1 are in A.P., find k.</div>
+                                </div>
+                            </div>
+
+                            <div class="ph">பகுதி - III &nbsp;/&nbsp; PART - III <span class="pm">10 × 5 = 50</span>
+                            </div>
+                            <p style="font-size:12.5px;font-family:Arial,sans-serif;margin-bottom:10px;color:#334155;">
+                                விடையளிக்க வேண்டிய வினாக்களை தேர்வு செய்க. வினா எண் 42 கட்டாயமாக விடையளிக்க வேண்டும். /
+                                Answer any 10 questions. Question No. 42 is compulsory.</p>
+
+                            <div class="q"><span class="n">29.</span>
+                                <div class="t">
+                                    <div class="ta">A × (B ∪ C) = (A × B) ∪ (A × C) எனச் சரிபார்க்க.</div>
+                                    <div class="en">Verify A × (B ∪ C) = (A × B) ∪ (A × C).</div>
+                                </div>
+                            </div>
+                            <div class="q"><span class="n">30.</span>
+                                <div class="t">
+                                    <div class="ta">கூட்டுத்தொடரில் அடுத்தடுத்த 3 உறுப்புகளின் கூடுதல் 27, பெருக்கற்பலன்
+                                        288. உறுப்புகளைக் காண்க.</div>
+                                    <div class="en">Three consecutive A.P. terms have sum 27 and product 288. Find the
+                                        terms.</div>
+                                </div>
+                            </div>
+                            <div class="q"><span class="n">31.</span>
+                                <div class="t">
+                                    <div class="ta">3 + 33 + 333 + … n உறுப்புகளின் கூடுதல் காண்க.</div>
+                                    <div class="en">Find the sum to n terms of 3 + 33 + 333 + …</div>
+                                </div>
+                            </div>
+                            <div class="q"><span class="n">32.</span>
+                                <div class="t">
+                                    <div class="ta">9x⁴ + 12x³ + 28x² + ax + b முழு வர்க்கம் எனில் a மற்றும் b காண்க.
+                                    </div>
+                                    <div class="en">Find a and b if 9x⁴ + 12x³ + 28x² + ax + b is a perfect square.
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="q"><span class="n">33.</span>
+                                <div class="t">
+                                    <div class="ta">x + y + z = 5, 2x – y + z = 9, x – 2y + 3z = 16 என்ற சமன்பாடுகளை அணி
+                                        முறையில் தீர்க்க.</div>
+                                    <div class="en">Solve using matrix method: x + y + z = 5, 2x – y + z = 9, x – 2y +
+                                        3z = 16.</div>
+                                </div>
+                            </div>
+                            <div class="q"><span class="n">34.</span>
+                                <div class="t">
+                                    <div class="ta">தேல்ஸ் தேற்றத்தை (அடிப்படை விகிதத் தேற்றம்) எழுதி நிறுவுக.</div>
+                                    <div class="en">State and prove the Basic Proportionality Theorem (Thales Theorem).
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="q"><span class="n">35.</span>
+                                <div class="t">
+                                    <div class="ta">(–9,0), (–8,6), (–1,–2), (–6,–3) நாற்கரத்தின் பரப்பு காண்க.</div>
+                                    <div class="en">Find the area of quadrilateral with vertices (–9,0), (–8,6),
+                                        (–1,–2), (–6,–3).</div>
+                                </div>
+                            </div>
+                            <div class="q"><span class="n">36.</span>
+                                <div class="t">
+                                    <div class="ta">(1, 5) வழிச் செல்வதும் (2, –3) மற்றும் (4, 2) இணைக்கும் கோட்டிற்கு
+                                        செங்குத்தானதுமான கோட்டின் சமன்பாடு காண்க.</div>
+                                    <div class="en">Find the equation of the line through (1,5) and perpendicular to the
+                                        line joining (2,–3) and (4,2).</div>
+                                </div>
+                            </div>
+                            <div class="q"><span class="n">37.</span>
+                                <div class="t">
+                                    <div class="ta">30 m உயரமுள்ள கட்டடத்தின் மேல் உள்ள கோபுரத்தின் அடி மற்றும்
+                                        உச்சியின் ஏற்றக்கோணங்கள் 45° மற்றும் 60°. கோபுரத்தின் உயரம் காண்க.</div>
+                                    <div class="en">From a point on ground, elevation angles to bottom and top of a
+                                        tower on a 30 m building are 45° and 60°. Find tower height.</div>
+                                </div>
+                            </div>
+                            <div class="q"><span class="n">38.</span>
+                                <div class="t">
+                                    <div class="ta">உருளையும் அரைக்கோளமும் சேர்ந்த பொம்மையின் மொத்த உயரம் 25 cm, விட்டம்
+                                        12 cm. மொத்தப் புறப்பரப்பு காண்க.</div>
+                                    <div class="en">A toy is in the shape of a cylinder surmounted by a hemisphere.
+                                        Total height 25 cm, diameter 12 cm. Find TSA.</div>
+                                </div>
+                            </div>
+                            <div class="q"><span class="n">39.</span>
+                                <div class="t">
+                                    <div class="ta">இடைக்கண்டத்தின் ஆரங்கள் 28 cm மற்றும் 7 cm, உயரம் 45 cm. கனவளவு
+                                        காண்க.</div>
+                                    <div class="en">A frustum has radii 28 cm and 7 cm, height 45 cm. Find its volume.
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="q"><span class="n">40.</span>
+                                <div class="t">
+                                    <div class="ta">இரண்டு பகடைகளை உருட்டும்போது கூடுதல் (i) 4 (ii) பகா எண் (iii) 13-ஐ
+                                        விடக் குறைவு என்பவற்றின் நிகழ்தகவு காண்க.</div>
+                                    <div class="en">Two dice rolled. Find probability of sum being (i) 4 (ii) a prime
+                                        number (iii) less than 13.</div>
+                                </div>
+                            </div>
+                            <div class="q"><span class="n">41.</span>
+                                <div class="t">
+                                    <div class="ta">f(x) = x², g(x) = 2x, h(x) = x + 4 எனில் (f ∘ g) ∘ h = f ∘ (g ∘ h)
+                                        எனச் சரிபார்க்க.</div>
+                                    <div class="en">f(x) = x², g(x) = 2x, h(x) = x+4. Verify (f ∘ g) ∘ h = f ∘ (g ∘ h).
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="q"><span class="n">42.</span>
+                                <div class="t">
+                                    <div class="ta"><b>(கட்டாய வினா)</b> A = [[3 1],[–1 2]] எனில் A² – 5A – 2I = 0 எனச்
+                                        சரிபார்க்க.</div>
+                                    <div class="en"><b>(Compulsory)</b> For A = [[3 1],[–1 2]], verify A² – 5A – 2I = 0.
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="ph">பகுதி - IV &nbsp;/&nbsp; PART - IV <span class="pm">2 × 8 = 16</span></div>
+                            <p style="font-size:12.5px;font-family:Arial,sans-serif;margin-bottom:12px;color:#334155;">
+                                இரு வினாக்களுக்கும் விடையளிக்க வேண்டும். / Answer both questions.</p>
+
+                            <div class="q"><span class="n">43.</span>
+                                <div class="t">
+                                    <div class="ta">(அ) கொடுக்கப்பட்ட முக்கோணத்திற்கு 3/5 என்ற அளவு காரணியில் வடிவொத்த
+                                        முக்கோணம் வரைக.</div>
+                                    <div class="en">(a) Construct a triangle similar to a given triangle with scale
+                                        factor 3/5.</div>
+                                    <div class="or">அல்லது / OR</div>
+                                    <div class="ta">(ஆ) 4.5 cm ஆரமுள்ள வட்டத்திற்கு மாற்று வட்டத்துண்டு தேற்றத்தைப்
+                                        பயன்படுத்தி தொடுகோடு வரைக.</div>
+                                    <div class="en">(b) Draw a tangent to a circle of radius 4.5 cm using the alternate
+                                        segment theorem.</div>
+                                </div>
+                            </div>
+
+                            <div class="q"><span class="n">44.</span>
+                                <div class="t">
+                                    <div class="ta">(அ) y = x² + 3x – 4 வரைபடம் வரைந்து x² + 3x – 4 = 0 என்ற
+                                        சமன்பாட்டைத் தீர்க்க.</div>
+                                    <div class="en">(a) Draw the graph of y = x² + 3x – 4 and use it to solve x² + 3x –
+                                        4 = 0.</div>
+                                    <div class="or">அல்லது / OR</div>
+                                    <div class="ta">(ஆ) வேலையாட்கள்: 40, 50, 60, 75 | நாட்கள்: 150, 120, 100, 80.
+                                        வரைபடம் வரைந்து 120 வேலையாட்களுக்கான நாட்கள் காண்க.</div>
+                                    <div class="en">(b) Workers: 40,50,60,75 | Days: 150,120,100,80. Draw the graph and
+                                        find days for 120 workers.</div>
+                                </div>
+                            </div>
+
+                            <div class="ft">For more study materials, visit AKDEV Official:
+                                www.akdev-official.vercel.app</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ═══════════════════════════════════════════════════════ SET 6 ═══ -->
+                <div id="set6" class="set">
+                    <div class="page">
+                        <div class="wm">AKDEV LABS OFFICIAL</div>
+                        <div class="cw">
+
+                            <div class="hr">
+                                <span>www.akdev-official.vercel.app</span><span>SET - 6 &nbsp;(PREDICTED MODEL)</span>
+                            </div>
+                            <div class="hr">
+                                <span style="font-family:Arial;font-size:12px;font-weight:700;">AKDEV STEALTH STUDIO</span><span class="bc">*8516*</span>
+                            </div>
+                            <div class="reg">
+                                <div class="reg-l">பதிவு எண்<br>Register Number</div>
+                                <div class="reg-b">
+                                    <div class="rb"></div>
+                                    <div class="rb"></div>
+                                    <div class="rb"></div>
+                                    <div class="rb"></div>
+                                    <div class="rb"></div>
+                                    <div class="rb"></div>
+                                    <div class="rb"></div>
+                                </div>
+                            </div>
+                            <div class="tit">
+                                <h2>Part - III</h2>
+                                <h1>கணிதம் / MATHEMATICS</h1>
+                                <h3>(தமிழ் மற்றும் ஆங்கில வழி / Tamil &amp; English Version)</h3>
+                            </div>
+                            <div class="ed">
+                                <div>கால அளவு : 3.00 மணி நேரம்]</div>
+                                <div>[மொத்த மதிப்பெண்கள் : 100</div>
+                            </div>
+
+                            <div class="ph">பகுதி - I &nbsp;/&nbsp; PART - I <span class="pm">14 × 1 = 14</span></div>
+                            <div class="q"><span class="n">1.</span>
+                                <div class="t">
+                                    <div class="ta">A = {1,2}, B = {1,2,3,4}, C = {5,6}, D = {5,6,7,8} எனில் எது உண்மை?
+                                    </div>
+                                    <div class="en">If A={1,2}, B={1,2,3,4}, C={5,6}, D={5,6,7,8}, which is true?</div>
+                                    <div class="opts">
+                                        <span>(a) (A×C) ⊂ (B×D)</span><span>(b) (B×D) ⊂ (A×C)</span><span>(c) (A×B) ⊂ (A×D)</span><span>(d) (D×A) ⊂ (B×A)</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="q"><span class="n">2.</span>
+                                <div class="t">
+                                    <div class="ta">n(A) = p, n(B) = q எனில் A-லிருந்து B-க்கு மொத்த உறவுகள்:</div>
+                                    <div class="en">Total number of relations from A to B if n(A) = p, n(B) = q:</div>
+                                    <div class="opts">
+                                        <span>(a) 0</span><span>(b) 1</span><span>(c) 2<sup>pq</sup>–1</span><span>(d) 2<sup>pq</sup></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="q"><span class="n">3.</span>
+                                <div class="t">
+                                    <div class="ta">a<sup>m</sup>, a<sup>m+1</sup>, a<sup>m+2</sup>-ன் மீ.பொ.வ:</div>
+                                    <div class="en">GCD of a<sup>m</sup>, a<sup>m+1</sup>, a<sup>m+2</sup> is:</div>
+                                    <div class="opts">
+                                        <span>(a) a<sup>m</sup></span><span>(b) a<sup>m+1</sup></span><span>(c) a<sup>m+2</sup></span><span>(d) 1</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="q"><span class="n">4.</span>
+                                <div class="t">
+                                    <div class="ta">3 மாறிகளை கொண்ட 3 சமன்பாடுகள் தீர்வு இல்லாமல் போகும் நிலை:</div>
+                                    <div class="en">Three equations in three variables are inconsistent when planes:
+                                    </div>
+                                    <div class="opts">
+                                        <span>(a) intersect at a point</span><span>(b) intersect in a line</span><span>(c) coincide</span><span>(d) do not intersect</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="q"><span class="n">5.</span>
+                                <div class="t">
+                                    <div class="ta">1² + 2² + … + 10²-ன் மதிப்பு:</div>
+                                    <div class="en">Value of 1² + 2² + … + 10² is:</div>
+                                    <div class="opts">
+                                        <span>(a) 385</span><span>(b) 285</span><span>(c) 3025</span><span>(d) 100</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="q"><span class="n">6.</span>
+                                <div class="t">
+                                    <div class="ta">18 m கிழக்கும் 24 m வடக்கும் சென்றால் தொடக்கப்புள்ளியிலிருந்து
+                                        தொலைவு:</div>
+                                    <div class="en">18 m East, 24 m North. Distance from starting point:</div>
+                                    <div class="opts">
+                                        <span>(a) 30</span><span>(b) 20</span><span>(c) 15</span><span>(d) 42</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="q"><span class="n">7.</span>
+                                <div class="t">
+                                    <div class="ta">△ABC-ல் ∠B = 60°, ∠C = 50°, △ABC ~ △DEF எனில் ∠D:</div>
+                                    <div class="en">△ABC has ∠B = 60°, ∠C = 50°, △ABC ~ △DEF. Then ∠D is:</div>
+                                    <div class="opts">
+                                        <span>(a) 40°</span><span>(b) 70°</span><span>(c) 30°</span><span>(d) 110°</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="q"><span class="n">8.</span>
+                                <div class="t">
+                                    <div class="ta">சாய்வு 1 ஆன கோட்டின் சாய்வுக்கோணம்:</div>
+                                    <div class="en">Angle of inclination of a line with slope 1:</div>
+                                    <div class="opts">
+                                        <span>(a) 30°</span><span>(b) 45°</span><span>(c) 60°</span><span>(d) 90°</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="q"><span class="n">9.</span>
+                                <div class="t">
+                                    <div class="ta">y = 11 என்ற நேர்க்கோடு:</div>
+                                    <div class="en">The line y = 11 is:</div>
+                                    <div class="opts">
+                                        <span>(a) ∥ X-axis</span><span>(b) ∥ Y-axis</span><span>(c) passes through origin</span><span>(d) passes through (0,11)</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="q"><span class="n">10.</span>
+                                <div class="t">
+                                    <div class="ta">√((1 + cosθ) / (1 – cosθ)) =</div>
+                                    <div class="en">√((1 + cosθ) / (1 – cosθ)) =</div>
+                                    <div class="opts">
+                                        <span>(a) cosec θ + cot θ</span><span>(b) sec θ + tan θ</span><span>(c) sin θ + cos θ</span><span>(d) tan θ</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="q"><span class="n">11.</span>
+                                <div class="t">
+                                    <div class="ta">ஆரம் r = h/3 ஆன உருளையின் மொத்தப் புறப்பரப்பு:</div>
+                                    <div class="en">TSA of a cylinder with radius r = h/3:</div>
+                                    <div class="opts">
+                                        <span>(a) 9πh²/8</span><span>(b) 24πh²</span><span>(c) 8πh²/9</span><span>(d) 56πh²/9</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="q"><span class="n">12.</span>
+                                <div class="t">
+                                    <div class="ta">r₁ ஆர கோளம் 8 சம r₂ கோளங்களாக உருக்கப்பட்டால் r₁ : r₂:</div>
+                                    <div class="en">Sphere of radius r₁ melted to 8 equal spheres of radius r₂. Then r₁
+                                        : r₂:</div>
+                                    <div class="opts">
+                                        <span>(a) 2 : 1</span><span>(b) 1 : 2</span><span>(c) 4 : 1</span><span>(d) 1 : 4</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="q"><span class="n">13.</span>
+                                <div class="t">
+                                    <div class="ta">இயலாத நிகழ்ச்சியின் நிகழ்தகவு:</div>
+                                    <div class="en">Probability of an impossible event is:</div>
+                                    <div class="opts">
+                                        <span>(a) 1</span><span>(b) 0</span><span>(c) 0.5</span><span>(d) Infinity</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="q"><span class="n">14.</span>
+                                <div class="t">
+                                    <div class="ta">முதல் 20 இயல் எண்களின் விலக்க வர்க்க சராசரி:</div>
+                                    <div class="en">Variance of the first 20 natural numbers:</div>
+                                    <div class="opts">
+                                        <span>(a) 33.25</span><span>(b) 44.25</span><span>(c) 33.00</span><span>(d) 0</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="ph">பகுதி - II &nbsp;/&nbsp; PART - II <span class="pm">10 × 2 = 20</span></div>
+                            <p style="font-size:12.5px;font-family:Arial,sans-serif;margin-bottom:10px;color:#334155;">
+                                விடையளிக்க வேண்டிய வினாக்களை தேர்வு செய்க. வினா எண் 28 கட்டாயமாக விடையளிக்க வேண்டும். /
+                                Answer any 10 questions. Question No. 28 is compulsory.</p>
+
+                            <div class="q"><span class="n">15.</span>
+                                <div class="t">
+                                    <div class="ta">A × B = {(3,2),(3,4),(5,2),(5,4)} எனில் A மற்றும் B காண்க.</div>
+                                    <div class="en">Find A and B if A × B = {(3,2),(3,4),(5,2),(5,4)}.</div>
+                                </div>
+                            </div>
+                            <div class="q"><span class="n">16.</span>
+                                <div class="t">
+                                    <div class="ta">(x + 10) / (8x)-ன் விலக்கப்பட்ட மதிப்பு காண்க.</div>
+                                    <div class="en">Find excluded value of (x + 10) / (8x).</div>
+                                </div>
+                            </div>
+                            <div class="q"><span class="n">17.</span>
+                                <div class="t">
+                                    <div class="ta">aᵇ × bᵃ = 800 எனில் a மற்றும் b காண்க.</div>
+                                    <div class="en">If aᵇ × bᵃ = 800, find a and b.</div>
+                                </div>
+                            </div>
+                            <div class="q"><span class="n">18.</span>
+                                <div class="t">
+                                    <div class="ta">a, 3a, 5a, … என்ற தொடரின் n-உறுப்புகளின் கூடுதல் காண்க.</div>
+                                    <div class="en">Find the sum to n terms of a, 3a, 5a, …</div>
+                                </div>
+                            </div>
+                            <div class="q"><span class="n">19.</span>
+                                <div class="t">
+                                    <div class="ta">x² + 9x + 20 = 0 என்ற சமன்பாட்டின் மூலங்கள் காண்க.</div>
+                                    <div class="en">Find the roots of x² + 9x + 20 = 0.</div>
+                                </div>
+                            </div>
+                            <div class="q"><span class="n">20.</span>
+                                <div class="t">
+                                    <div class="ta">சுருக்குக: (4x²y / 2z²) × (6xz³ / 20y⁴).</div>
+                                    <div class="en">Simplify: (4x²y / 2z²) × (6xz³ / 20y⁴).</div>
+                                </div>
+                            </div>
+                            <div class="q"><span class="n">21.</span>
+                                <div class="t">
+                                    <div class="ta">(–3,1), (–1,3), (2,6) கோடமைப் புள்ளிகள் எனக் காட்டுக.</div>
+                                    <div class="en">Show that (–3,1), (–1,3), (2,6) are collinear.</div>
+                                </div>
+                            </div>
+                            <div class="q"><span class="n">22.</span>
+                                <div class="t">
+                                    <div class="ta">1/3 மற்றும் –3 சாய்வு கொண்ட கோடுகள் செங்குத்தானவையா?</div>
+                                    <div class="en">Are lines with slopes 1/3 and –3 perpendicular to each other?</div>
+                                </div>
+                            </div>
+                            <div class="q"><span class="n">23.</span>
+                                <div class="t">
+                                    <div class="ta">6 cm ஆரமுள்ள வட்டத்திற்கு 10 cm தொலைவிலிருந்து தொடுகோட்டின் நீளம்
+                                        காண்க.</div>
+                                    <div class="en">Find the length of tangent to a circle of radius 6 cm from a point
+                                        10 cm away.</div>
+                                </div>
+                            </div>
+                            <div class="q"><span class="n">24.</span>
+                                <div class="t">
+                                    <div class="ta">நிறுவுக: sec θ – cos θ = tan θ sin θ.</div>
+                                    <div class="en">Prove: sec θ – cos θ = tan θ sin θ.</div>
+                                </div>
+                            </div>
+                            <div class="q"><span class="n">25.</span>
+                                <div class="t">
+                                    <div class="ta">அரைக்கோளத்தின் அடிப்பரப்பு 1386 cm² எனில் மொத்தப் புறப்பரப்பு காண்க.
+                                    </div>
+                                    <div class="en">Base area of a hemisphere is 1386 cm². Find its total surface area.
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="q"><span class="n">26.</span>
+                                <div class="t">
+                                    <div class="ta">63, 89, 98, 125, 79, 108, 117, 68 என்ற தரவின் வீச்சு மற்றும்
+                                        வீச்சுக்கெழு காண்க.</div>
+                                    <div class="en">Find range and coefficient of range of: 63, 89, 98, 125, 79, 108,
+                                        117, 68.</div>
+                                </div>
+                            </div>
+                            <div class="q"><span class="n">27.</span>
+                                <div class="t">
+                                    <div class="ta">இரு நாணயங்களை எறியும்போது வெவ்வேறு முகம் கிடைக்க நிகழ்தகவு காண்க.
+                                    </div>
+                                    <div class="en">Find the probability of getting different faces when two coins are
+                                        tossed.</div>
+                                </div>
+                            </div>
+                            <div class="q"><span class="n">28.</span>
+                                <div class="t">
+                                    <div class="ta"><b>(கட்டாய வினா)</b> x + 6, x + 12, x + 15 குணத்தொடரில் இருந்தால் x
+                                        காண்க.</div>
+                                    <div class="en"><b>(Compulsory)</b> If x+6, x+12, x+15 are in G.P., find x.</div>
+                                </div>
+                            </div>
+
+                            <div class="ph">பகுதி - III &nbsp;/&nbsp; PART - III <span class="pm">10 × 5 = 50</span>
+                            </div>
+                            <p style="font-size:12.5px;font-family:Arial,sans-serif;margin-bottom:10px;color:#334155;">
+                                விடையளிக்க வேண்டிய வினாக்களை தேர்வு செய்க. வினா எண் 42 கட்டாயமாக விடையளிக்க வேண்டும். /
+                                Answer any 10 questions. Question No. 42 is compulsory.</p>
+
+                            <div class="q"><span class="n">29.</span>
+                                <div class="t">
+                                    <div class="ta">(A ∩ B) × C = (A × C) ∩ (B × C) எனச் சரிபார்க்க.</div>
+                                    <div class="en">Verify (A ∩ B) × C = (A × C) ∩ (B × C).</div>
+                                </div>
+                            </div>
+                            <div class="q"><span class="n">30.</span>
+                                <div class="t">
+                                    <div class="ta">f(x) = 2x+3, g(x) = 1–2x, h(x) = 3x எனில் f ∘ (g ∘ h) = (f ∘ g) ∘ h
+                                        நிறுவுக.</div>
+                                    <div class="en">f(x) = 2x+3, g(x) = 1–2x, h(x) = 3x. Prove f ∘ (g ∘ h) = (f ∘ g) ∘
+                                        h.</div>
+                                </div>
+                            </div>
+                            <div class="q"><span class="n">31.</span>
+                                <div class="t">
+                                    <div class="ta">5 + 55 + 555 + … n உறுப்புகளின் கூடுதல் காண்க.</div>
+                                    <div class="en">Find the sum to n terms of 5 + 55 + 555 + …</div>
+                                </div>
+                            </div>
+                            <div class="q"><span class="n">32.</span>
+                                <div class="t">
+                                    <div class="ta">x⁴ – 8x³ + mx² + nx + 16 முழு வர்க்கம் எனில் m மற்றும் n காண்க.
+                                    </div>
+                                    <div class="en">Find m and n if x⁴ – 8x³ + mx² + nx + 16 is a perfect square.</div>
+                                </div>
+                            </div>
+                            <div class="q"><span class="n">33.</span>
+                                <div class="t">
+                                    <div class="ta">x + y + z = 5, 2x – y + z = 9, x – 2y + 3z = 16 என்ற சமன்பாடுகளை அணி
+                                        முறையில் தீர்க்க.</div>
+                                    <div class="en">Solve using matrix method: x + y + z = 5, 2x – y + z = 9, x – 2y +
+                                        3z = 16.</div>
+                                </div>
+                            </div>
+                            <div class="q"><span class="n">34.</span>
+                                <div class="t">
+                                    <div class="ta">கோண இருசமவெட்டித் தேற்றத்தை எழுதி நிறுவுக.</div>
+                                    <div class="en">State and prove the Angle Bisector Theorem.</div>
+                                </div>
+                            </div>
+                            <div class="q"><span class="n">35.</span>
+                                <div class="t">
+                                    <div class="ta">(–4,–2), (–3,k), (3,–2), (2,3) நாற்கரத்தின் பரப்பு 28 எனில் k காண்க.
+                                    </div>
+                                    <div class="en">Find k if area of quadrilateral (–4,–2), (–3,k), (3,–2), (2,3) is 28
+                                        sq. units.</div>
+                                </div>
+                            </div>
+                            <div class="q"><span class="n">36.</span>
+                                <div class="t">
+                                    <div class="ta">(22, –6) வழிச் செல்வதும் X-வெட்டு Y-வெட்டை விட 5 அதிகமாகக் கொண்ட
+                                        கோட்டின் சமன்பாடு காண்க.</div>
+                                    <div class="en">Find the equation of the line through (22,–6) with X-intercept
+                                        exceeding Y-intercept by 5.</div>
+                                </div>
+                            </div>
+                            <div class="q"><span class="n">37.</span>
+                                <div class="t">
+                                    <div class="ta">200 m உயரமுள்ள கலங்கரை விளக்கத்தின் இரு புறமும் கப்பல்களின்
+                                        தாழ்வுக்கோணங்கள் 30° மற்றும் 45°. கப்பல்களுக்கிடையேயான தொலைவு காண்க.</div>
+                                    <div class="en">From a 200 m lighthouse, angles of depression of two ships are 30°
+                                        and 45°. Find the distance between the ships.</div>
+                                </div>
+                            </div>
+                            <div class="q"><span class="n">38.</span>
+                                <div class="t">
+                                    <div class="ta">16 cm ஆர உலோகக் கோளம் உருக்கப்பட்டு 2 cm ஆர கோளங்களாக
+                                        மாற்றப்படுகிறது. எண்ணிக்கை காண்க.</div>
+                                    <div class="en">A metallic sphere of radius 16 cm is melted into spheres of radius 2
+                                        cm. Find the number of spheres.</div>
+                                </div>
+                            </div>
+                            <div class="q"><span class="n">39.</span>
+                                <div class="t">
+                                    <div class="ta">30 m தொலைவிலிருந்து ஒரு கட்டடத்தின் உச்சியின் ஏற்றக்கோணம் 45°,
+                                        அடியின் ஏற்றக்கோணம் 30°. கட்டடத்தின் உயரம் காண்க.</div>
+                                    <div class="en">From 30 m away, elevation of top of a building is 45° and bottom is
+                                        30°. Find the building height.</div>
+                                </div>
+                            </div>
+                            <div class="q"><span class="n">40.</span>
+                                <div class="t">
+                                    <div class="ta">50 மாணவர்களில் 28 பேர் NCC, 30 பேர் NSS, 18 பேர் இரண்டிலும் உள்ளனர்.
+                                        ஏதேனும் ஒன்றில் மட்டும் சேர நிகழ்தகவு காண்க.</div>
+                                    <div class="en">Of 50 students, 28 in NCC, 30 in NSS, 18 in both. Find probability
+                                        of being in exactly one.</div>
+                                </div>
+                            </div>
+                            <div class="q"><span class="n">41.</span>
+                                <div class="t">
+                                    <div class="ta">நிறுவுக: (sin³A + cos³A)/(sinA + cosA) + (sin³A – cos³A)/(sinA –
+                                        cosA) = 2.</div>
+                                    <div class="en">Prove: (sin³A + cos³A)/(sinA + cosA) + (sin³A – cos³A)/(sinA – cosA)
+                                        = 2.</div>
+                                </div>
+                            </div>
+                            <div class="q"><span class="n">42.</span>
+                                <div class="t">
+                                    <div class="ta"><b>(கட்டாய வினா)</b> 36x⁴ – 60x³ + 61x² – mx + n முழு வர்க்கம் எனில்
+                                        m மற்றும் n காண்க.</div>
+                                    <div class="en"><b>(Compulsory)</b> Find m and n if 36x⁴ – 60x³ + 61x² – mx + n is a
+                                        perfect square.</div>
+                                </div>
+                            </div>
+
+                            <div class="ph">பகுதி - IV &nbsp;/&nbsp; PART - IV <span class="pm">2 × 8 = 16</span></div>
+                            <p style="font-size:12.5px;font-family:Arial,sans-serif;margin-bottom:12px;color:#334155;">
+                                இரு வினாக்களுக்கும் விடையளிக்க வேண்டும். / Answer both questions.</p>
+
+                            <div class="q"><span class="n">43.</span>
+                                <div class="t">
+                                    <div class="ta">(அ) கொடுக்கப்பட்ட முக்கோணத்திற்கு 6/5 என்ற அளவு காரணியில் வடிவொத்த
+                                        முக்கோணம் வரைக.</div>
+                                    <div class="en">(a) Construct a triangle similar to a given triangle with scale
+                                        factor 6/5.</div>
+                                    <div class="or">அல்லது / OR</div>
+                                    <div class="ta">(ஆ) 4 cm ஆரமுள்ள வட்டத்திற்கு மையத்திலிருந்து 8 cm தொலைவில் உள்ள
+                                        புள்ளியிலிருந்து தொடுகோடுகள் வரைக.</div>
+                                    <div class="en">(b) Draw tangents to a circle of radius 4 cm from a point 8 cm away
+                                        from the centre.</div>
+                                </div>
+                            </div>
+
+                            <div class="q"><span class="n">44.</span>
+                                <div class="t">
+                                    <div class="ta">(அ) y = x² – 4x + 3 வரைபடம் வரைந்து x² – 6x + 9 = 0 என்ற
+                                        சமன்பாட்டைத் தீர்க்க.</div>
+                                    <div class="en">(a) Draw the graph of y = x² – 4x + 3 and use it to solve x² – 6x +
+                                        9 = 0.</div>
+                                    <div class="or">அல்லது / OR</div>
+                                    <div class="ta">(ஆ) வேலையாட்கள்: 40, 50, 60, 75 | நாட்கள்: 150, 120, 100, 80.
+                                        இதற்கான வரைபடம் வரைக.</div>
+                                    <div class="en">(b) Workers: 40,50,60,75 | Days: 150,120,100,80. Draw the graph for
+                                        the given data.</div>
+                                </div>
+                            </div>
+
+                            <div class="ft">For more study materials, visit AKDEV Official:
+                                www.akdev-official.vercel.app</div>
+                        </div>
+                    </div>
+                </div>
+
+                <script>
+                    function showSet(n, btn) {
+  document.querySelectorAll('.set').forEach(function(s) { s.classList.remove('active'); });
+  document.querySelectorAll('.tab-btn').forEach(function(b) { b.classList.remove('active'); });
+  document.getElementById('set' + n).classList.add('active');
+  btn.classList.add('active');
+  window.scrollTo(0, 0);
+}
+                </script>
+</body>
+
+</html>

@@ -1,0 +1,775 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CIT Chennai - AI Complete Revision Notes</title>
+  <style>
+    :root {
+      --bg-color: #f4f6f9;
+      --card-bg: #ffffff;
+      --text-main: #212529;
+      --heading-color: #1a202c;
+      --primary-accent: #3182ce;
+      --yellow-hl: #fef08a;
+      --green-adv: #c6f6d5;
+      --red-dis: #fed7d7;
+      --border-light: #e2e8f0;
+    }
+
+    body {
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      background-color: var(--bg-color);
+      color: var(--text-main);
+      line-height: 1.6;
+      margin: 0;
+      padding: 20px;
+    }
+
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    h1,
+    h2,
+    h3,
+    h4 {
+      color: var(--heading-color);
+    }
+
+    .main-title {
+      text-align: center;
+      font-size: 2.5rem;
+      margin-bottom: 10px;
+      color: var(--primary-accent);
+    }
+
+    .subtitle {
+      text-align: center;
+      font-size: 1.2rem;
+      color: #4a5568;
+      margin-bottom: 40px;
+    }
+
+    .unit-card {
+      background-color: var(--card-bg);
+      border-radius: 10px;
+      padding: 30px;
+      margin-bottom: 40px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+      border-top: 5px solid var(--primary-accent);
+    }
+
+    .highlight {
+      background-color: var(--yellow-hl);
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-weight: 600;
+      color: #000;
+    }
+
+    .q-card {
+      background-color: #f8fafc;
+      border-left: 4px solid var(--primary-accent);
+      padding: 15px 20px;
+      margin-bottom: 15px;
+      border-radius: 0 8px 8px 0;
+    }
+
+    .q-card strong {
+      color: var(--primary-accent);
+    }
+
+    .ans-16-card {
+      border: 1px solid var(--border-light);
+      border-radius: 8px;
+      padding: 20px;
+      margin-bottom: 25px;
+      background: #fff;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 20px 0;
+      background: #fff;
+    }
+
+    th,
+    td {
+      border: 1px solid var(--border-light);
+      padding: 12px;
+      text-align: left;
+    }
+
+    th {
+      background-color: #edf2f7;
+      font-weight: 600;
+    }
+
+    ul,
+    ol {
+      margin-left: 20px;
+      margin-bottom: 15px;
+    }
+
+    .trick-box {
+      background-color: #ebf8ff;
+      border-left: 4px solid #4299e1;
+      padding: 15px;
+      margin: 20px 0;
+      border-radius: 0 8px 8px 0;
+      font-style: italic;
+    }
+
+    .qp-container {
+      background-color: #fff;
+      border: 2px dashed #cbd5e0;
+      padding: 30px;
+      margin-bottom: 30px;
+      border-radius: 10px;
+    }
+
+    .qp-header {
+      text-align: center;
+      border-bottom: 2px solid #000;
+      padding-bottom: 15px;
+      margin-bottom: 20px;
+    }
+
+    .adv {
+      background-color: var(--green-adv);
+      padding: 2px 5px;
+      border-radius: 3px;
+      font-weight: bold;
+    }
+
+    .dis {
+      background-color: var(--red-dis);
+      padding: 2px 5px;
+      border-radius: 3px;
+      font-weight: bold;
+    }
+
+    hr {
+      border: 0;
+      height: 1px;
+      background: var(--border-light);
+      margin: 30px 0;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="container">
+    <h1 class="main-title">CIT Chennai - AI Semester Exam Vault</h1>
+    <div class="subtitle">Complete Revision Notes | 2 Marks | 16 Marks | Question Papers</div>
+
+    <div class="unit-card" id="unit1">
+      <h2>📘 UNIT 1: Introduction to AI and Problem Solving</h2>
+
+      <div class="trick-box">
+        <strong>🧠 Memory Trick (Agent Types):</strong> <b>S-M-G-U-L</b> (Simple, Model, Goal, Utility, Learning)
+      </div>
+
+      <h3>📗 2 Mark Questions</h3>
+      <div class="q-card">
+        <p><strong>Q: Define Artificial Intelligence.</strong></p>
+        <p><strong>Ans:</strong><br>
+          <strong>Definition:</strong> AI is the ability of a machine to perform tasks that require human intelligence,
+          such as learning, reasoning, and problem-solving.<br>
+          <span class="highlight">🟡 Key Point:</span> AI aims to build rational agents that act to achieve the best
+          outcome.
+        </p>
+      </div>
+      <div class="q-card">
+        <p><strong>Q: What is an AI Agent?</strong></p>
+        <p><strong>Ans:</strong><br>
+          <strong>Definition:</strong> An entity that perceives its environment through sensors and acts upon it through
+          actuators.<br>
+          <span class="highlight">🟡 Key Point:</span> Agent = Architecture + Program.
+        </p>
+      </div>
+      <div class="q-card">
+        <p><strong>Q: Differentiate between BFS and DFS.</strong></p>
+        <p><strong>Ans:</strong><br>
+          <strong>Definition:</strong> BFS expands level-by-level using a Queue (FIFO). DFS expands branch-by-branch
+          using a Stack (LIFO).<br>
+          <span class="highlight">🟡 Key Point:</span> BFS guarantees the shortest path, while DFS saves memory.
+        </p>
+      </div>
+      <div class="q-card">
+        <p><strong>Q: Define Heuristic Function (h(n)).</strong></p>
+        <p><strong>Ans:</strong><br>
+          <strong>Definition:</strong> An estimate of the cheapest path cost from the current node to the goal node.<br>
+          <span class="highlight">🟡 Key Point:</span> Used in informed searches like A* to guide the algorithm
+          efficiently.
+        </p>
+      </div>
+
+      <h3>📙 16 Mark Answers</h3>
+      <div class="ans-16-card">
+        <h4>🔥 Q1: Explain Agent Structure and its Types in detail. (16 Marks)</h4>
+        <ol>
+          <li><strong>Definition:</strong> An agent program maps percepts (inputs) to actions (outputs) and runs on a
+            computing architecture.</li>
+          <li><strong>Explanation (Step-by-step):</strong>
+            <ul>
+              <li><strong>Simple Reflex Agents:</strong> Act only on current percepts. Uses IF-THEN condition-action
+                rules.</li>
+              <li><strong>Model-Based Reflex Agents:</strong> Maintain internal state to track parts of the environment
+                they cannot currently see.</li>
+              <li><strong>Goal-Based Agents:</strong> Combine state information with goal information to choose actions
+                that achieve the goal.</li>
+              <li><strong>Utility-Based Agents:</strong> Choose actions that maximize a "happiness" or efficiency
+                metric.</li>
+              <li><strong>Learning Agents:</strong> Can improve their performance over time through a critic and
+                learning element.</li>
+            </ul>
+          </li>
+          <li><strong>Diagram:</strong> Draw a box labeled "Agent" with "Sensors" taking in "Percepts" from the
+            "Environment", and "Actuators" sending "Actions" back.</li>
+          <li><strong>Example:</strong> A self-driving car acting as a Model-Based agent navigating traffic.</li>
+          <li><span class="adv">⭐ Advantages:</span> Modular, scalable, and capable of handling dynamic environments.
+          </li>
+          <li><span class="dis">⚠ Disadvantages:</span> Complex agents require high computational power to process
+            utility functions in real-time.</li>
+          <li><strong>🌍 Applications:</strong> Autonomous vehicles, NPC behavior in video games, Smart home systems.
+          </li>
+          <li><strong>✅ Conclusion:</strong> Choosing the right agent architecture depends entirely on whether the
+            environment is observable, deterministic, and static.</li>
+        </ol>
+      </div>
+
+      <div class="ans-16-card">
+        <h4>🔥 Q2: Explain Constraint Satisfaction Problem (CSP) and Backtracking. (16 Marks)</h4>
+        <ol>
+          <li><strong>Definition:</strong> A problem defined by a set of variables, a domain of values for each
+            variable, and constraints that limit allowable value combinations.</li>
+          <li><strong>Explanation (Step-by-step):</strong>
+            <ul>
+              <li>Define Variables (X).</li>
+              <li>Define Domains (D) - possible values.</li>
+              <li>Define Constraints (C) - rules (e.g., X1 != X2).</li>
+              <li><strong>Backtracking Search:</strong> Assign a value to a variable. Check constraints. If valid, move
+                to the next variable. If invalid, go back (backtrack) and try a different value.</li>
+            </ul>
+          </li>
+          <li><strong>Diagram:</strong> Draw a search tree where branches represent assignments. Show a red cross "X"
+            where a constraint fails, indicating a backtrack.</li>
+          <li><strong>Example:</strong> The 8-Queens Problem (placing 8 queens on a chessboard so none attack each
+            other).</li>
+          <li><span class="adv">⭐ Advantages:</span> Prunes huge portions of the search space early, saving computation
+            time.</li>
+          <li><span class="dis">⚠ Disadvantages:</span> Can still be slow (exponential time) for extremely large,
+            heavily constrained problems without good heuristics.</li>
+          <li><strong>🌍 Applications:</strong> Timetable scheduling, Map coloring, Sudoku solvers.</li>
+          <li><strong>✅ Conclusion:</strong> CSPs shift the focus from finding a path to simply finding a state that
+            satisfies all logical rules.</li>
+        </ol>
+      </div>
+
+      <h3>📕 Keywords & Tamil Meanings</h3>
+      <table>
+        <tr>
+          <th>Keyword</th>
+          <th>Tamil Meaning</th>
+        </tr>
+        <tr>
+          <td>Artificial Intelligence</td>
+          <td>செயற்கை நுண்ணறிவு</td>
+        </tr>
+        <tr>
+          <td>Search Algorithm</td>
+          <td>தேடல் அல்காரிதம்</td>
+        </tr>
+        <tr>
+          <td>Heuristics</td>
+          <td>அனுமான அறிவு</td>
+        </tr>
+        <tr>
+          <td>Constraint</td>
+          <td>கட்டுப்பாடு / நிபந்தனை</td>
+        </tr>
+      </table>
+
+      <h3>📊 Summary & Last Minute Revision</h3>
+      <ul>
+        <li><strong>A* Formula:</strong> <span class="highlight">f(n) = g(n) + h(n)</span> (Actual cost + Estimated
+          cost).</li>
+        <li><strong>Uninformed Search:</strong> Blind search (BFS, DFS). No domain knowledge.</li>
+        <li><strong>Informed Search:</strong> Uses heuristics (A*, Greedy). Highly efficient.</li>
+      </ul>
+    </div>
+
+    <div class="unit-card" id="unit2">
+      <h2>📘 UNIT 2: Knowledge Representation</h2>
+
+      <div class="trick-box">
+        <strong>🧠 Memory Trick (KR Types):</strong> <b>S-F-C-S</b> (Semantic Nets, Frames, Conceptual Dependency,
+        Scripts)
+      </div>
+
+      <h3>📗 2 Mark Questions</h3>
+      <div class="q-card">
+        <p><strong>Q: What is Knowledge Representation (KR)?</strong></p>
+        <p><strong>Ans:</strong><br>
+          <strong>Definition:</strong> The method of structuring real-world information so that an AI system can reason
+          and solve problems.<br>
+          <span class="highlight">🟡 Key Point:</span> Transforms data into actionable intelligence.
+        </p>
+      </div>
+      <div class="q-card">
+        <p><strong>Q: What are Semantic Networks?</strong></p>
+        <p><strong>Ans:</strong><br>
+          <strong>Definition:</strong> A graphical representation of knowledge using nodes (objects) and edges
+          (relationships like IS-A, HAS-A).<br>
+          <span class="highlight">🟡 Key Point:</span> Easy for humans to read but lacks formal logical semantics.
+        </p>
+      </div>
+
+      <h3>📙 16 Mark Answers</h3>
+      <div class="ans-16-card">
+        <h4>🔥 Q1: Explain Knowledge Representation using Frames. (16 Marks)</h4>
+        <ol>
+          <li><strong>Definition:</strong> A data structure used to divide knowledge into substructures representing
+            stereotyped situations.</li>
+          <li><strong>Explanation (Step-by-step):</strong>
+            <ul>
+              <li>Similar to Object-Oriented Programming (OOP) classes.</li>
+              <li>Consists of <strong>Slots</strong> (attributes like "Color" or "Legs").</li>
+              <li>Contains <strong>Fillers</strong> (values like "Red" or "4").</li>
+              <li>Supports <strong>Inheritance</strong> (a "Car" frame inherits properties from a "Vehicle" frame).</li>
+              <li>Includes <strong>Facets</strong> (default values, procedures like IF-NEEDED).</li>
+            </ul>
+          </li>
+          <li><strong>Diagram:</strong> Draw a table with Frame Name at the top, followed by rows of Slots and their
+            corresponding Fillers.</li>
+          <li><strong>Example:</strong> A "Student" frame with slots for Roll No, Name, and Default University (CIT).
+          </li>
+          <li><span class="adv">⭐ Advantages:</span> Groups related knowledge naturally; excellent for handling default
+            expectations.</li>
+          <li><span class="dis">⚠ Disadvantages:</span> Rigid structure; difficult to handle exceptions or highly
+            dynamic data.</li>
+          <li><strong>🌍 Applications:</strong> Database schemas, Expert systems, Natural Language Understanding.</li>
+          <li><strong>✅ Conclusion:</strong> Frames bridge the gap between human cognitive categorization and machine
+            memory organization.</li>
+        </ol>
+      </div>
+
+      <h3>📕 Keywords & Tamil Meanings</h3>
+      <table>
+        <tr>
+          <th>Keyword</th>
+          <th>Tamil Meaning</th>
+        </tr>
+        <tr>
+          <td>Knowledge</td>
+          <td>அறிவு</td>
+        </tr>
+        <tr>
+          <td>Semantic</td>
+          <td>சொற்பொருள்</td>
+        </tr>
+        <tr>
+          <td>Inheritance</td>
+          <td>மரபுரிமை</td>
+        </tr>
+      </table>
+    </div>
+
+    <div class="unit-card" id="unit3">
+      <h2>📘 UNIT 3: Fuzzy and Predictive Logic</h2>
+
+      <div class="trick-box">
+        <strong>🧠 Memory Trick (Chaining):</strong> Forward = Data to Goal. Backward = Goal to Data.
+      </div>
+
+      <h3>📗 2 Mark Questions</h3>
+      <div class="q-card">
+        <p><strong>Q: What is First-Order Logic (FOL)?</strong></p>
+        <p><strong>Ans:</strong><br>
+          <strong>Definition:</strong> A formal logic system using variables, predicates, and quantifiers (Universal &
+          Existential).<br>
+          <span class="highlight">🟡 Key Point:</span> More expressive than Propositional logic.
+        </p>
+      </div>
+      <div class="q-card">
+        <p><strong>Q: What is a Fuzzy Set?</strong></p>
+        <p><strong>Ans:</strong><br>
+          <strong>Definition:</strong> A mathematical set without a crisp boundary, where elements have a degree of
+          membership between 0 and 1.<br>
+          <span class="highlight">🟡 Key Point:</span> Handles vague human concepts like "tall" or "hot".
+        </p>
+      </div>
+
+      <h3>📙 16 Mark Answers</h3>
+      <div class="ans-16-card">
+        <h4>🔥 Q1: Explain Forward and Backward Chaining. (16 Marks)</h4>
+        <ol>
+          <li><strong>Definition:</strong> Two inference algorithms used in rule-based expert systems to deduce
+            conclusions.</li>
+          <li><strong>Explanation (Step-by-step):</strong>
+            <ul>
+              <li><strong>Forward Chaining:</strong> Data-driven. Starts with known facts. Triggers rules whose premises
+                match the facts. Adds new conclusions to the facts base. Repeats until the goal is found.</li>
+              <li><strong>Backward Chaining:</strong> Goal-driven. Starts with the hypothesis (goal). Finds rules that
+                can conclude this goal. Checks if the premises are known facts. If not, sets them as new sub-goals.</li>
+            </ul>
+          </li>
+          <li><strong>Diagram:</strong> Draw flowcharts: [Facts -> Rules -> Goal] for Forward, and [Goal -> Rules ->
+            Facts] for Backward.</li>
+          <li><strong>Example:</strong> Forward: Smoke sensor detects smoke -> Triggers Fire Alarm rule. Backward:
+            Doctor suspects cancer (Goal) -> Orders blood tests to verify premises.</li>
+          <li><span class="adv">⭐ Advantages:</span> Forward is excellent for real-time monitoring. Backward is highly
+            efficient for targeted queries.</li>
+          <li><span class="dis">⚠ Disadvantages:</span> Forward can generate massive amounts of useless facts. Backward
+            fails if the goal is completely unknown.</li>
+          <li><strong>🌍 Applications:</strong> Production systems, Prolog programming, Medical diagnosis systems.</li>
+          <li><strong>✅ Conclusion:</strong> The choice depends on the problem: use Forward when data is abundant, and
+            Backward when you have a specific hypothesis to prove.</li>
+        </ol>
+      </div>
+
+      <h3>📕 Keywords & Tamil Meanings</h3>
+      <table>
+        <tr>
+          <th>Keyword</th>
+          <th>Tamil Meaning</th>
+        </tr>
+        <tr>
+          <td>Logic</td>
+          <td>தர்க்கம்</td>
+        </tr>
+        <tr>
+          <td>Inference</td>
+          <td>அனுமானம்</td>
+        </tr>
+        <tr>
+          <td>Fuzzy</td>
+          <td>தெளிவற்ற</td>
+        </tr>
+      </table>
+    </div>
+
+    <div class="unit-card" id="unit4">
+      <h2>📘 UNIT 4: AI Tools</h2>
+
+      <div class="trick-box">
+        <strong>🧠 Exam Tip:</strong> Mentioning tools like "Jupyter Notebook" and "Python" in your answers adds
+        technical credibility!
+      </div>
+
+      <h3>📗 2 Mark Questions</h3>
+      <div class="q-card">
+        <p><strong>Q: What is Natural Language Processing (NLP)?</strong></p>
+        <p><strong>Ans:</strong><br>
+          <strong>Definition:</strong> A branch of AI that enables machines to understand, interpret, and generate human
+          language.<br>
+          <span class="highlight">🟡 Key Point:</span> Involves Tokenization, Stopword removal, and Lemmatization.
+        </p>
+      </div>
+      <div class="q-card">
+        <p><strong>Q: What is OpenCV?</strong></p>
+        <p><strong>Ans:</strong><br>
+          <strong>Definition:</strong> Open Source Computer Vision Library used for real-time image and video
+          processing.<br>
+          <span class="highlight">🟡 Key Point:</span> Used for face detection and image filtering.
+        </p>
+      </div>
+
+      <h3>📙 16 Mark Answers</h3>
+      <div class="ans-16-card">
+        <h4>🔥 Q1: Explain NLP Preprocessing and Pre-trained Models (BERT). (16 Marks)</h4>
+        <ol>
+          <li><strong>Definition:</strong> The pipeline of cleaning raw text data and feeding it into advanced deep
+            learning models to extract meaning.</li>
+          <li><strong>Explanation (Step-by-step):</strong>
+            <ul>
+              <li><strong>Text Cleaning:</strong> Converting to lowercase, removing punctuation and special characters.
+              </li>
+              <li><strong>Tokenization:</strong> Splitting sentences into individual words or sub-words.</li>
+              <li><strong>Stopword Removal:</strong> Filtering out common words (e.g., "is", "the") that carry little
+                meaning.</li>
+              <li><strong>Pre-trained Models (BERT):</strong> Bidirectional Encoder Representations from Transformers.
+                Instead of training from scratch, developers use this pre-trained model and fine-tune it for specific
+                tasks.</li>
+            </ul>
+          </li>
+          <li><strong>Diagram:</strong> Draw a pipeline block diagram: Raw Text -> Cleaning -> Tokenization -> BERT
+            Model -> Output (Sentiment/Intent).</li>
+          <li><strong>Example:</strong> Classifying a Google Review as Positive or Negative.</li>
+          <li><span class="adv">⭐ Advantages:</span> BERT understands context from both left-to-right and right-to-left
+            simultaneously, providing massive accuracy leaps.</li>
+          <li><span class="dis">⚠ Disadvantages:</span> Highly resource-intensive; requires significant GPU power.</li>
+          <li><strong>🌍 Applications:</strong> Chatbots, Search Engines, Auto-correct, Translation.</li>
+          <li><strong>✅ Conclusion:</strong> Pre-trained models like BERT have revolutionized NLP by making advanced
+            context understanding accessible to developers.</li>
+        </ol>
+      </div>
+
+      <h3>📕 Keywords & Tamil Meanings</h3>
+      <table>
+        <tr>
+          <th>Keyword</th>
+          <th>Tamil Meaning</th>
+        </tr>
+        <tr>
+          <td>Language</td>
+          <td>மொழி</td>
+        </tr>
+        <tr>
+          <td>Image Processing</td>
+          <td>பட செயலாக்கம்</td>
+        </tr>
+        <tr>
+          <td>Prediction</td>
+          <td>முன்கணிப்பு</td>
+        </tr>
+      </table>
+    </div>
+
+    <div class="unit-card" id="unit5">
+      <h2>📘 UNIT 5: Applications of AI</h2>
+
+      <div class="trick-box">
+        <strong>🧠 Memory Trick (AI Ethics):</strong> <b>F-A-T-P</b> (Fairness, Accountability, Transparency, Privacy).
+      </div>
+
+      <h3>📗 2 Mark Questions</h3>
+      <div class="q-card">
+        <p><strong>Q: How is AI used in Healthcare?</strong></p>
+        <p><strong>Ans:</strong><br>
+          <strong>Definition:</strong> AI is used for analyzing medical images (X-rays/MRIs) and predicting disease
+          outbreaks using patient records.<br>
+          <span class="highlight">🟡 Key Point:</span> Acts as a highly accurate second opinion for doctors.
+        </p>
+      </div>
+      <div class="q-card">
+        <p><strong>Q: What is a Robo-Advisor?</strong></p>
+        <p><strong>Ans:</strong><br>
+          <strong>Definition:</strong> An AI-driven financial platform that provides automated, algorithmic portfolio
+          management.<br>
+          <span class="highlight">🟡 Key Point:</span> Minimizes human intervention and lowers investment costs.
+        </p>
+      </div>
+
+      <h3>📙 16 Mark Answers</h3>
+      <div class="ans-16-card">
+        <h4>🔥 Q1: Discuss Societal Concerns and Ethics in AI. (16 Marks)</h4>
+        <ol>
+          <li><strong>Definition:</strong> The moral implications, biases, and societal risks associated with deploying
+            AI systems at a global scale.</li>
+          <li><strong>Explanation (Step-by-step):</strong>
+            <ul>
+              <li><strong>Bias & Fairness:</strong> AI models trained on historical human data often inherit racist or
+                sexist biases (e.g., biased hiring algorithms).</li>
+              <li><strong>Privacy:</strong> Massive data scraping, surveillance, and deepfakes violate personal consent.
+              </li>
+              <li><strong>Job Displacement:</strong> Automation threatens cognitive and manual jobs across various
+                sectors.</li>
+              <li><strong>Transparency ("Black Box"):</strong> Deep learning models are unexplainable. We know the
+                output, but not <em>how</em> the AI arrived at the decision.</li>
+            </ul>
+          </li>
+          <li><strong>Diagram:</strong> Draw a structure showing the "Four Pillars of Ethical AI": Fairness, Privacy,
+            Transparency, Accountability.</li>
+          <li><strong>Example:</strong> A facial recognition software failing to accurately identify minorities, leading
+            to false arrests.</li>
+          <li><span class="adv">⭐ Advantages of Ethical AI:</span> Builds consumer trust and ensures legal/regulatory
+            compliance.</li>
+          <li><span class="dis">⚠ Disadvantages (of ignoring ethics):</span> Massive lawsuits, brand destruction, and
+            severe societal harm.</li>
+          <li><strong>🌍 Applications:</strong> AI Auditing tools, Explainable AI (XAI) frameworks in healthcare.</li>
+          <li><strong>✅ Conclusion:</strong> Strict ethical frameworks and government regulations must be integrated
+            during AI development, not as an afterthought.</li>
+        </ol>
+      </div>
+
+      <h3>📕 Keywords & Tamil Meanings</h3>
+      <table>
+        <tr>
+          <th>Keyword</th>
+          <th>Tamil Meaning</th>
+        </tr>
+        <tr>
+          <td>Healthcare</td>
+          <td>சுகாதாரம்</td>
+        </tr>
+        <tr>
+          <td>Finance</td>
+          <td>நிதி</td>
+        </tr>
+        <tr>
+          <td>Ethics</td>
+          <td>நெறிமுறைகள்</td>
+        </tr>
+      </table>
+    </div>
+
+    <h2 class="main-title" style="margin-top: 50px;">🎯 Final Question Papers</h2>
+    <div class="subtitle">CIT Chennai Pattern (5 Sets)</div>
+
+    <div class="qp-container">
+      <div class="qp-header">
+        <h3>CIT CHENNAI - ARTIFICIAL INTELLIGENCE</h3>
+        <p><strong>MODEL QUESTION PAPER - SET 1</strong><br>Time: 3 Hours | Max Marks: 100</p>
+      </div>
+      <h4>PART A (10 × 2 = 20 Marks)</h4>
+      <ol>
+        <li>Define Artificial Intelligence.</li>
+        <li>What is an AI Agent?</li>
+        <li>State the difference between BFS and DFS.</li>
+        <li>Define Knowledge Representation.</li>
+        <li>What is a Semantic Network?</li>
+        <li>Define First-Order Logic (FOL).</li>
+        <li>What is a Fuzzy Set?</li>
+        <li>Define NLP Preprocessing.</li>
+        <li>What is OpenCV?</li>
+        <li>List two applications of AI in Healthcare.</li>
+      </ol>
+      <h4>PART B (5 × 16 = 80 Marks)</h4>
+      <p>11. (a) Explain Agent Structure and its types in detail. (16)<br><strong>OR</strong><br>(b) Explain Constraint Satisfaction Problem (CSP) and Backtracking. (16)
+      </p>
+      <p>12. (a) Explain Knowledge Representation using Frames. (16)<br><strong>OR</strong><br>(b) Explain Scripts and Conceptual Dependencies. (16)
+      </p>
+      <p>13. (a) Explain Forward and Backward Chaining with examples. (16)<br><strong>OR</strong><br>(b) Explain Operations on Fuzzy Sets and Fuzzy Systems. (16)
+      </p>
+      <p>14. (a) Explain NLP text cleaning and the use of BERT models. (16)<br><strong>OR</strong><br>(b) Design chatbots using rule-based and ML techniques. (16)
+      </p>
+      <p>15. (a) Explain the role of AI in Healthcare (Diagnosis and Prediction). (16)<br><strong>OR</strong><br>(b) Discuss Societal Concerns and Ethics in AI systems. (16)
+      </p>
+    </div>
+
+    <div class="qp-container">
+      <div class="qp-header">
+        <h3>CIT CHENNAI - ARTIFICIAL INTELLIGENCE</h3>
+        <p><strong>MODEL QUESTION PAPER - SET 2</strong><br>Time: 3 Hours | Max Marks: 100</p>
+      </div>
+      <h4>PART A (10 × 2 = 20 Marks)</h4>
+      <ol>
+        <li>What is State Space Search?</li>
+        <li>Define Heuristic Function.</li>
+        <li>What are Slots and Fillers in Frames?</li>
+        <li>Give an example of a Semantic Link.</li>
+        <li>Differentiate Crisp Set and Fuzzy Set.</li>
+        <li>What is Modus Ponens?</li>
+        <li>Define Named Entity Recognition (NER).</li>
+        <li>What is Transfer Learning?</li>
+        <li>What is a Robo-Advisor?</li>
+        <li>State two ethical concerns in AI.</li>
+      </ol>
+      <h4>PART B (5 × 16 = 80 Marks)</h4>
+      <p>11. (a) Explain Problem Solving using Informed Search (A* Algorithm). (16)<br><strong>OR</strong><br>(b) Differentiate Uninformed and Informed Search with examples. (16)
+      </p>
+      <p>12. (a) Explain Knowledge Representation using Semantic Networks. (16)<br><strong>OR</strong><br>(b) Explain Types of Knowledge and Approaches to KR. (16)
+      </p>
+      <p>13. (a) Explain Inference in First-Order Logic. (16)<br><strong>OR</strong><br>(b) Discuss Logical Agents and Predicate Logic. (16)
+      </p>
+      <p>14. (a) Explain Image loading and filtering using OpenCV. (16)<br><strong>OR</strong><br>(b) Explain Predictive models using Regression and Classification. (16)
+      </p>
+      <p>15. (a) Summarize AI in Finance (Automated Trading and Fraud Detection). (16)<br><strong>OR</strong><br>(b) Explain Adaptive learning and AI-based assessment in Education. (16)
+      </p>
+    </div>
+
+    <div class="qp-container">
+      <div class="qp-header">
+        <h3>CIT CHENNAI - ARTIFICIAL INTELLIGENCE</h3>
+        <p><strong>MODEL QUESTION PAPER - SET 3</strong><br>Time: 3 Hours | Max Marks: 100</p>
+      </div>
+      <h4>PART A (10 × 2 = 20 Marks)</h4>
+      <ol>
+        <li>What is the Turing Test?</li>
+        <li>Differentiate A* and AO* algorithms.</li>
+        <li>What is a Script in KR?</li>
+        <li>Define Conceptual Dependency.</li>
+        <li>What are Fuzzy Relational Equations?</li>
+        <li>Define Universal Quantifier.</li>
+        <li>What is Sentiment Analysis?</li>
+        <li>Why use Google Colab for AI?</li>
+        <li>Define algorithmic trading.</li>
+        <li>What is Explainable AI (XAI)?</li>
+      </ol>
+      <h4>PART B (5 × 16 = 80 Marks)</h4>
+      <p>11. (a) Explain Problem Solving by Searching using Uninformed search. (16)<br><strong>OR</strong><br>(b) Explain Agent Structure and its types. (16)
+      </p>
+      <p>12. (a) Explain Extended Semantic Networks in detail. (16)<br><strong>OR</strong><br>(b) Explain Knowledge Representation using Frames and Scripts. (16)
+      </p>
+      <p>13. (a) Explain Forward and Backward Chaining. (16)<br><strong>OR</strong><br>(b) Explain First-Order Logic in detail. (16)
+      </p>
+      <p>14. (a) Develop a system for simple classification using pre-trained models. (16)<br><strong>OR</strong><br>(b) Perform Face or object detection using Python. (16)
+      </p>
+      <p>15. (a) Design a system for AI in Healthcare. (16)<br><strong>OR</strong><br>(b) Compare and contrast chatbots and virtual assistants. (16)
+      </p>
+    </div>
+
+    <div class="qp-container">
+      <div class="qp-header">
+        <h3>CIT CHENNAI - ARTIFICIAL INTELLIGENCE</h3>
+        <p><strong>MODEL QUESTION PAPER - SET 4</strong><br>Time: 3 Hours | Max Marks: 100</p>
+      </div>
+      <h4>PART A (10 × 2 = 20 Marks)</h4>
+      <ol>
+        <li>What is Backtracking?</li>
+        <li>Define Rationality.</li>
+        <li>List the CD primitives.</li>
+        <li>What is Procedural Knowledge?</li>
+        <li>Define Data-driven reasoning.</li>
+        <li>What is Goal-driven reasoning?</li>
+        <li>What is Tokenization?</li>
+        <li>State the use of Haar Cascades.</li>
+        <li>How does AI help in fraud detection?</li>
+        <li>What is a Virtual Assistant?</li>
+      </ol>
+      <h4>PART B (5 × 16 = 80 Marks)</h4>
+      <p>11. (a) Explain Constraint Satisfaction Problem (CSP) with the 8-Queens problem. (16)<br><strong>OR</strong><br>(b) Explain A* Search algorithm with an example. (16)
+      </p>
+      <p>12. (a) Explain Knowledge representation using Conceptual dependencies. (16)<br><strong>OR</strong><br>(b) Explain Knowledge representation using Semantic Network. (16)
+      </p>
+      <p>13. (a) Explain Operations on Fuzzy Relations and Fuzzy Systems. (16)<br><strong>OR</strong><br>(b) Explain Inference in First-Order Logic. (16)
+      </p>
+      <p>14. (a) Design Chatbots using rule-based and ML techniques. (16)<br><strong>OR</strong><br>(b) Perform text cleaning and demonstrate the use of BERT in NLP. (16)
+      </p>
+      <p>15. (a) Summarize AI in Finance and Portfolio Management. (16)<br><strong>OR</strong><br>(b) Discuss Societal Concerns and Ethics in AI. (16)
+      </p>
+    </div>
+
+    <div class="qp-container">
+      <div class="qp-header">
+        <h3>CIT CHENNAI - ARTIFICIAL INTELLIGENCE</h3>
+        <p><strong>MODEL QUESTION PAPER - SET 5 (COMPREHENSIVE)</strong><br>Time: 3 Hours | Max Marks: 100</p>
+      </div>
+      <h4>PART A (10 × 2 = 20 Marks)</h4>
+      <ol>
+        <li>Define an AI Agent.</li>
+        <li>What is an Informed Search?</li>
+        <li>What is Knowledge Representation?</li>
+        <li>Define Frames.</li>
+        <li>What is a Fuzzy System?</li>
+        <li>Differentiate Forward and Backward Chaining.</li>
+        <li>What is NLP?</li>
+        <li>Name two algorithms for Predictive Modeling.</li>
+        <li>How is AI used in Education?</li>
+        <li>What is Data Bias in AI?</li>
+      </ol>
+      <h4>PART B (5 × 16 = 80 Marks)</h4>
+      <p>11. (a) Explain Problem Solving by Searching using Uninformed search. (16)<br><strong>OR</strong><br>(b) Explain Agent Structure and its types. (16)
+      </p>
+      <p>12. (a) Explain Knowledge representation using Scripts. (16)<br><strong>OR</strong><br>(b) Explain Knowledge representation using Frames. (16)
+      </p>
+      <p>13. (a) Explain Operations of Fuzzy Sets and Crisp Relations. (16)<br><strong>OR</strong><br>(b) Explain Forward and Backward Chaining. (16)
+      </p>
+      <p>14. (a) Explain Image loading and filtering using OpenCV. (16)<br><strong>OR</strong><br>(b) Explain Predictive models using regression and classification. (16)
+      </p>
+      <p>15. (a) Explain Adaptive learning and AI-based assessment in education. (16)<br><strong>OR</strong><br>(b) Explain the role of AI in healthcare covering disease diagnosis. (16)
+      </p>
+    </div>
+
+  </div>
+
+</body>
+
+</html>

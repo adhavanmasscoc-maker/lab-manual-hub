@@ -1,0 +1,1004 @@
+<!DOCTYPE html>
+<html lang="ta">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="theme-color" content="#1c1c1e">
+    <title>Sri Jain Bankers — கடன் கணக்கீடு</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Noto+Serif+Tamil:wght@400;600;700&family=Inter:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        /* ═══════════════════════════════════
+   5 MUTED THEMES
+═══════════════════════════════════ */
+        :root,
+        [data-theme="charcoal"] {
+            --bg: #1c1c1e;
+            --bg2: #2c2c2e;
+            --card: #2c2c2e;
+            --card2: #3a3a3c;
+            --inp: #1c1c1e;
+            --bdr: #48484a;
+            --acc: #ffd60a;
+            --acc2: #ffc300;
+            --txt: #f5f5f7;
+            --txt2: #aeaeb2;
+            --txt3: #636366;
+            --red: #ff453a;
+            --grn: #32d74b;
+            --npbg: #2c2c2e;
+            --npk: #3a3a3c;
+            --npb: #48484a;
+        }
+
+        [data-theme="slate"] {
+            --bg: #0f172a;
+            --bg2: #1e293b;
+            --card: #1e293b;
+            --card2: #293548;
+            --inp: #0f172a;
+            --bdr: #334155;
+            --acc: #7dd3fc;
+            --acc2: #38bdf8;
+            --txt: #f1f5f9;
+            --txt2: #94a3b8;
+            --txt3: #475569;
+            --red: #f87171;
+            --grn: #4ade80;
+            --npbg: #1e293b;
+            --npk: #293548;
+            --npb: #334155;
+        }
+
+        [data-theme="forest"] {
+            --bg: #0d1f12;
+            --bg2: #162a1c;
+            --card: #162a1c;
+            --card2: #1e3828;
+            --inp: #0d1f12;
+            --bdr: #2d4a38;
+            --acc: #86efac;
+            --acc2: #4ade80;
+            --txt: #f0fdf4;
+            --txt2: #86efac;
+            --txt3: #4a7c59;
+            --red: #fca5a5;
+            --grn: #86efac;
+            --npbg: #162a1c;
+            --npk: #1e3828;
+            --npb: #2d4a38;
+        }
+
+        [data-theme="cream"] {
+            --bg: #faf8f3;
+            --bg2: #f0ece0;
+            --card: #ffffff;
+            --card2: #f5f1e8;
+            --inp: #f0ece0;
+            --bdr: #d4cbb8;
+            --acc: #92400e;
+            --acc2: #b45309;
+            --txt: #1c1917;
+            --txt2: #57534e;
+            --txt3: #a8a29e;
+            --red: #b91c1c;
+            --grn: #15803d;
+            --npbg: #f0ece0;
+            --npk: #ffffff;
+            --npb: #d4cbb8;
+        }
+
+        [data-theme="midnight"] {
+            --bg: #000000;
+            --bg2: #111111;
+            --card: #111111;
+            --card2: #1a1a1a;
+            --inp: #000000;
+            --bdr: #2a2a2a;
+            --acc: #e2e8f0;
+            --acc2: #cbd5e1;
+            --txt: #f8fafc;
+            --txt2: #94a3b8;
+            --txt3: #334155;
+            --red: #f87171;
+            --grn: #6ee7b7;
+            --npbg: #111111;
+            --npk: #1a1a1a;
+            --npb: #2a2a2a;
+        }
+
+        body {
+            background: var(--bg);
+            color: var(--txt);
+            font-family: 'Inter', sans-serif;
+            min-height: 100dvh;
+            overflow-x: hidden;
+        }
+
+        /* ═══════ HEADER ═══════ */
+        .hdr {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px 20px 12px;
+            background: var(--bg2);
+            border-bottom: 1px solid var(--bdr);
+        }
+
+        .shop-name {
+            font-family: 'Noto Serif Tamil', serif;
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--txt);
+        }
+
+        .shop-sub {
+            font-size: 12px;
+            color: var(--txt3);
+            margin-top: 3px;
+        }
+
+        .live-pill {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--grn);
+            letter-spacing: 0.05em;
+            background: color-mix(in srgb, var(--grn) 12%, transparent);
+            border: 1px solid color-mix(in srgb, var(--grn) 30%, transparent);
+            padding: 5px 10px;
+            border-radius: 20px;
+        }
+
+        .dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: var(--grn);
+            animation: blink 1.4s ease-in-out infinite;
+        }
+
+        @keyframes blink {
+
+            0%,
+            100% {
+                opacity: 1
+            }
+
+            50% {
+                opacity: .25
+            }
+        }
+
+        /* ═══════ THEME BAR ═══════ */
+        .theme-bar {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 20px;
+            background: var(--bg2);
+            border-bottom: 1px solid var(--bdr);
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .theme-bar::-webkit-scrollbar {
+            display: none;
+        }
+
+        .t-lbl {
+            font-size: 11px;
+            color: var(--txt3);
+            white-space: nowrap;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+        }
+
+        .tp {
+            flex-shrink: 0;
+            padding: 7px 14px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 700;
+            cursor: pointer;
+            border: 2px solid transparent;
+            white-space: nowrap;
+            transition: border-color 0.15s, transform 0.1s;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .tp:active {
+            transform: scale(0.93);
+        }
+
+        .tp.sel {
+            border-color: var(--acc) !important;
+        }
+
+        .tp-c {
+            background: #2c2c2e;
+            color: #ffd60a;
+        }
+
+        .tp-s {
+            background: #1e293b;
+            color: #7dd3fc;
+        }
+
+        .tp-f {
+            background: #162a1c;
+            color: #86efac;
+        }
+
+        .tp-cr {
+            background: #f0ece0;
+            color: #92400e;
+        }
+
+        .tp-m {
+            background: #111111;
+            color: #e2e8f0;
+            border: 2px solid #2a2a2a;
+        }
+
+        /* ═══════ PAGE BODY ═══════ */
+        .page {
+            padding: 16px 16px 0;
+        }
+
+        /* ═══════ DURATION TABS ═══════ */
+        .dur-tabs {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 8px;
+            margin-bottom: 16px;
+        }
+
+        .dt {
+            background: var(--card);
+            border: 2px solid var(--bdr);
+            border-radius: 12px;
+            padding: 11px 4px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.15s;
+        }
+
+        .dt .dm {
+            font-size: 13px;
+            font-weight: 800;
+            color: var(--txt2);
+            display: block;
+        }
+
+        .dt .ds {
+            font-family: 'Noto Serif Tamil', serif;
+            font-size: 11px;
+            color: var(--txt3);
+            display: block;
+            margin-top: 3px;
+        }
+
+        .dt.active {
+            background: color-mix(in srgb, var(--acc) 15%, transparent);
+            border-color: var(--acc);
+        }
+
+        .dt.active .dm {
+            color: var(--acc);
+        }
+
+        .dt.active .ds {
+            color: var(--acc2);
+        }
+
+        /* Date input */
+        .date-row {
+            margin-bottom: 14px;
+            display: none;
+        }
+
+        .date-row label {
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--txt3);
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            display: block;
+            margin-bottom: 6px;
+        }
+
+        input[type="date"] {
+            width: 100%;
+            background: var(--inp);
+            border: 2px solid var(--bdr);
+            border-radius: 10px;
+            padding: 13px 14px;
+            color: var(--txt);
+            font-family: 'Inter', sans-serif;
+            font-size: 16px;
+            font-weight: 600;
+            -webkit-appearance: none;
+        }
+
+        input[type="date"]:focus {
+            outline: none;
+            border-color: var(--acc);
+        }
+
+        input[type="date"]::-webkit-calendar-picker-indicator {
+            filter: invert(0.6);
+            cursor: pointer;
+        }
+
+        /* ═══════ AMOUNT + TYPE ═══════ */
+        .top-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-bottom: 14px;
+        }
+
+        .inp-lbl {
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--txt3);
+            text-transform: uppercase;
+            letter-spacing: 0.09em;
+            margin-bottom: 6px;
+            display: block;
+        }
+
+        .inp-lbl .t {
+            font-family: 'Noto Serif Tamil', serif;
+            text-transform: none;
+            font-weight: 500;
+            font-size: 12px;
+        }
+
+        .amt-box {
+            background: var(--inp);
+            border: 2px solid var(--bdr);
+            border-radius: 10px;
+            padding: 11px 14px;
+            min-height: 52px;
+            display: flex;
+            align-items: center;
+            transition: border-color 0.15s;
+        }
+
+        .amt-box.active {
+            border-color: var(--acc);
+        }
+
+        .amt-rs {
+            font-size: 17px;
+            font-weight: 700;
+            color: var(--txt3);
+            margin-right: 3px;
+        }
+
+        .amt-val {
+            font-size: 24px;
+            font-weight: 800;
+            color: var(--txt);
+            letter-spacing: -0.02em;
+            line-height: 1;
+        }
+
+        .amt-val.z {
+            color: var(--txt3);
+        }
+
+        .type-toggle {
+            border: 2px solid var(--bdr);
+            border-radius: 10px;
+            overflow: hidden;
+            display: flex;
+            min-height: 52px;
+        }
+
+        .tb {
+            flex: 1;
+            background: transparent;
+            border: none;
+            font-family: 'Inter', sans-serif;
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--txt3);
+            cursor: pointer;
+            padding: 6px 4px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 2px;
+            transition: all 0.15s;
+            line-height: 1.2;
+        }
+
+        .tb span {
+            font-family: 'Noto Serif Tamil', serif;
+            font-size: 11px;
+            font-weight: 500;
+        }
+
+        .tb.tg {
+            background: color-mix(in srgb, var(--acc) 15%, transparent);
+            color: var(--acc);
+        }
+
+        .tb.ts {
+            background: color-mix(in srgb, var(--txt2) 12%, transparent);
+            color: var(--txt2);
+        }
+
+        .err {
+            font-size: 12px;
+            color: var(--red);
+            margin-top: 5px;
+            font-weight: 600;
+            display: none;
+        }
+
+        /* ═══════ RESULT PANEL ═══════ */
+        .rp {
+            background: var(--card);
+            border: 2px solid var(--bdr);
+            border-radius: 14px;
+            overflow: hidden;
+            margin-bottom: 14px;
+        }
+
+        .rp-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 16px;
+            background: color-mix(in srgb, var(--acc) 8%, transparent);
+            border-bottom: 1px solid var(--bdr);
+        }
+
+        .rp-title {
+            font-family: 'Noto Serif Tamil', serif;
+            font-size: 15px;
+            color: var(--txt2);
+            font-weight: 700;
+        }
+
+        .rate-tag {
+            font-size: 13px;
+            font-weight: 800;
+            color: var(--acc);
+            background: color-mix(in srgb, var(--acc) 14%, transparent);
+            border: 1px solid color-mix(in srgb, var(--acc) 35%, transparent);
+            padding: 3px 10px;
+            border-radius: 20px;
+        }
+
+        .rp-body {
+            padding: 14px 16px;
+        }
+
+        .rrow {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            margin-bottom: 12px;
+        }
+
+        .rl {
+            font-size: 14px;
+            color: var(--txt3);
+            font-weight: 600;
+            line-height: 1.4;
+        }
+
+        .rl .t {
+            font-family: 'Noto Serif Tamil', serif;
+            font-size: 13px;
+            display: block;
+        }
+
+        .rv {
+            font-size: 20px;
+            font-weight: 800;
+            color: var(--txt);
+        }
+
+        .rv.int {
+            color: var(--acc);
+        }
+
+        .bd {
+            background: color-mix(in srgb, var(--acc) 8%, transparent);
+            border-left: 3px solid var(--acc);
+            border-radius: 8px;
+            padding: 10px 12px;
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--txt2);
+            line-height: 2;
+            margin-bottom: 12px;
+            display: none;
+            white-space: pre-line;
+        }
+
+        .total-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            border-top: 2px dashed var(--bdr);
+            padding-top: 14px;
+            margin-top: 4px;
+        }
+
+        .total-lbl {
+            font-family: 'Noto Serif Tamil', serif;
+            font-size: 18px;
+            color: var(--txt);
+            font-weight: 700;
+        }
+
+        .total-val {
+            font-size: 36px;
+            font-weight: 800;
+            color: var(--red);
+            letter-spacing: -0.03em;
+        }
+
+        /* ═══════ PROJECTIONS ═══════ */
+        .proj-row {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px;
+            margin-bottom: 16px;
+        }
+
+        .pc {
+            background: var(--card);
+            border: 2px solid var(--bdr);
+            border-radius: 12px;
+            padding: 12px 6px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.15s;
+        }
+
+        .pc.active {
+            border-color: var(--acc);
+            background: color-mix(in srgb, var(--acc) 10%, transparent);
+        }
+
+        .pc:active {
+            transform: scale(0.96);
+        }
+
+        .pc-l {
+            font-size: 11px;
+            font-weight: 800;
+            color: var(--txt3);
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+        }
+
+        .pc-lt {
+            font-family: 'Noto Serif Tamil', serif;
+            font-size: 10px;
+            color: var(--txt3);
+            margin-bottom: 6px;
+        }
+
+        .pc-v {
+            font-size: 15px;
+            font-weight: 800;
+            color: var(--grn);
+        }
+
+        /* ═══════ NUMPAD — always visible ═══════ */
+        .np-wrap {
+            background: var(--npbg);
+            border-top: 2px solid var(--bdr);
+            padding: 12px 16px 20px;
+        }
+
+        .np-display {
+            background: var(--inp);
+            border: 2px solid var(--acc);
+            border-radius: 12px;
+            padding: 10px 16px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 12px;
+        }
+
+        .np-lbl {
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--txt3);
+            letter-spacing: 0.07em;
+            text-transform: uppercase;
+        }
+
+        .np-val {
+            font-size: 28px;
+            font-weight: 800;
+            color: var(--acc);
+            letter-spacing: -0.02em;
+        }
+
+        .np-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px;
+        }
+
+        .nk {
+            background: var(--npk);
+            border: 1.5px solid var(--npb);
+            border-radius: 12px;
+            height: 64px;
+            font-family: 'Inter', sans-serif;
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--txt);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.1s, transform 0.08s;
+            -webkit-user-select: none;
+            user-select: none;
+        }
+
+        .nk:active {
+            transform: scale(0.90);
+            background: color-mix(in srgb, var(--acc) 22%, var(--npk));
+        }
+
+        .nk.k0 {
+            font-size: 17px;
+            color: var(--txt2);
+            font-weight: 700;
+        }
+
+        .nk.kdel {
+            color: var(--red);
+            font-size: 26px;
+        }
+
+        .rst {
+            width: 100%;
+            margin-top: 10px;
+            padding: 14px;
+            background: transparent;
+            color: var(--txt3);
+            border: 2px solid var(--bdr);
+            border-radius: 10px;
+            font-family: 'Inter', sans-serif;
+            font-size: 14px;
+            font-weight: 700;
+            cursor: pointer;
+            letter-spacing: 0.04em;
+            transition: all 0.15s;
+        }
+
+        .rst:active {
+            border-color: var(--txt2);
+            color: var(--txt);
+            transform: scale(0.98);
+        }
+
+        .foot {
+            font-size: 11px;
+            color: var(--txt3);
+            text-align: center;
+            padding: 8px 16px 14px;
+            line-height: 1.7;
+        }
+
+        .foot span {
+            font-family: 'Noto Serif Tamil', serif;
+            font-size: 12px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- HEADER -->
+    <div class="hdr">
+        <div>
+            <div class="shop-name">Sri Jain Bankers</div>
+            <div class="shop-sub">Ariyalur · கடன் கணக்கீடு</div>
+        </div>
+        <div class="live-pill"><span class="dot"></span>LIVE CALC</div>
+    </div>
+
+    <!-- THEME BAR -->
+    <div class="theme-bar">
+        <span class="t-lbl">Theme :</span>
+        <button class="tp tp-c sel" data-t="charcoal" onclick="setTheme('charcoal')">🌑 Charcoal</button>
+        <button class="tp tp-s"    data-t="slate"    onclick="setTheme('slate')">🌊 Slate</button>
+        <button class="tp tp-f"    data-t="forest"   onclick="setTheme('forest')">🌿 Forest</button>
+        <button class="tp tp-cr"   data-t="cream"    onclick="setTheme('cream')">☕ Cream</button>
+        <button class="tp tp-m"    data-t="midnight" onclick="setTheme('midnight')">⬛ Midnight</button>
+    </div>
+
+    <div class="page">
+
+        <!-- DURATION TABS -->
+        <div class="dur-tabs">
+            <div class="dt active" id="d30" onclick="setDur('30d')">
+                <span class="dm">30 Days</span><span class="ds">30 நாள்</span></div>
+            <div class="dt" id="d12" onclick="setDur('12m')">
+                <span class="dm">12 Mo</span><span class="ds">12 மாதம்</span></div>
+            <div class="dt" id="d10y" onclick="setDur('10y')">
+                <span class="dm">10 Yrs</span><span class="ds">10 ஆண்டு</span></div>
+            <div class="dt" id="ddt" onclick="setDur('date')"><span class="dm">📅</span><span class="ds">தேதி</span>
+            </div>
+        </div>
+
+        <!-- DATE ROW -->
+        <div class="date-row" id="dateRow">
+            <label>Loan Date / வாங்கிய தேதி</label>
+            <input type="date" id="loanDate" onchange="calc()">
+            <div class="err" id="dateErr">⚠ Future date not allowed / தவறான தேதி</div>
+        </div>
+
+        <!-- AMOUNT + TYPE -->
+        <div class="top-row">
+            <div>
+                <span class="inp-lbl">Amount / <span class="t">தொகை</span></span>
+                <div class="amt-box" id="amtBox">
+                    <span class="amt-rs">₹</span>
+                    <span class="amt-val" id="amtDisp">10,000</span>
+                </div>
+                <div class="err" id="amtErr">Min ₹1,000 · Max ₹5,00,000</div>
+            </div>
+            <div>
+                <span class="inp-lbl">Type / <span class="t">வகை</span></span>
+                <div class="type-toggle">
+                    <button class="tb tg" id="btnG" onclick="setType('gold')">🥇 Gold<span>தங்கம்</span></button>
+                    <button class="tb"    id="btnS" onclick="setType('silver')">🥈 Silver<span>வெள்ளி</span></button>
+                </div>
+            </div>
+        </div>
+
+        <!-- RESULT -->
+        <div class="rp">
+            <div class="rp-top">
+                <span class="rp-title">இன்றைய நிலுவை · Due Today</span>
+                <span class="rate-tag" id="rateTag">—</span>
+            </div>
+            <div class="rp-body">
+                <div class="rrow">
+                    <div class="rl">Principal<span class="t">அசல்</span></div>
+                    <div class="rv" id="rAsal">₹0</div>
+                </div>
+                <div class="rrow">
+                    <div class="rl">Duration<span class="t">காலம்</span></div>
+                    <div class="rv" id="rDur">—</div>
+                </div>
+                <div class="rrow">
+                    <div class="rl">Interest<span class="t">வட்டி</span></div>
+                    <div class="rv int" id="rInt">₹0</div>
+                </div>
+                <div class="bd" id="bd"></div>
+                <div class="total-row">
+                    <div class="total-lbl">மொத்தம் · Total</div>
+                    <div class="total-val" id="rTotal">₹0</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- PROJECTIONS -->
+        <div class="proj-row">
+            <div class="pc active" id="pc30" onclick="setDur('30d')">
+                <div class="pc-l">30 DAYS</div>
+                <div class="pc-lt">30 நாள்</div>
+                <div class="pc-v" id="pv30">₹—</div>
+            </div>
+            <div class="pc" id="pc12" onclick="setDur('12m')">
+                <div class="pc-l">12 MO</div>
+                <div class="pc-lt">12 மாதம்</div>
+                <div class="pc-v" id="pv12">₹—</div>
+            </div>
+            <div class="pc" id="pc10y" onclick="setDur('10y')">
+                <div class="pc-l">10 YRS</div>
+                <div class="pc-lt">10 ஆண்டு</div>
+                <div class="pc-v" id="pv10y">₹—</div>
+            </div>
+        </div>
+
+    </div><!-- /.page -->
+
+    <!-- NUMPAD — always visible -->
+    <div class="np-wrap">
+        <div class="np-display">
+            <span class="np-lbl">Enter Amount ₹</span>
+            <span class="np-val" id="npVal">10,000</span>
+        </div>
+        <div class="np-grid">
+            <div class="nk" onclick="np('1')">1</div>
+            <div class="nk" onclick="np('2')">2</div>
+            <div class="nk" onclick="np('3')">3</div>
+            <div class="nk" onclick="np('4')">4</div>
+            <div class="nk" onclick="np('5')">5</div>
+            <div class="nk" onclick="np('6')">6</div>
+            <div class="nk" onclick="np('7')">7</div>
+            <div class="nk" onclick="np('8')">8</div>
+            <div class="nk" onclick="np('9')">9</div>
+            <div class="nk k0" onclick="np('000')">000</div>
+            <div class="nk" onclick="np('0')">0</div>
+            <div class="nk kdel" onclick="npDel()">⌫</div>
+        </div>
+        <button class="rst" onclick="doReset()">↺  Reset · அழி</button>
+    </div>
+
+    <div class="foot">* <span>வட்டி மாத அடிப்படையில் — Simple Interest.</span> Rates may vary per shop.</div>
+
+    <script>
+        // ── THEME ──
+function setTheme(t) {
+  document.documentElement.setAttribute('data-theme', t);
+  localStorage.setItem('sjbc_t', t);
+  document.querySelectorAll('.tp').forEach(p => p.classList.toggle('sel', p.dataset.t === t));
+}
+
+// ── STATE ──
+let loanType = 'gold', durMode = '30d', raw = '10000';
+
+const fmtN = n => Math.round(n).toLocaleString('en-IN');
+const fmtR = n => '₹' + fmtN(n);
+
+// ── NUMPAD ──
+function np(d) {
+  if (raw === '0') raw = '';
+  raw = (raw + d).slice(0, 7);
+  sync(); calc();
+}
+function npDel() {
+  raw = raw.slice(0, -1) || '0';
+  sync(); calc();
+}
+function sync() {
+  const n = parseInt(raw) || 0, s = fmtN(n);
+  document.getElementById('amtDisp').textContent = s;
+  document.getElementById('npVal').textContent   = s;
+  document.getElementById('amtDisp').className   = 'amt-val' + (n === 0 ? ' z' : '');
+  document.getElementById('amtBox').className    = 'amt-box' + (n >= 1000 ? ' active' : '');
+}
+
+// ── DURATION ──
+function setDur(m) {
+  durMode = m;
+  ['d30','d12','d10y','ddt'].forEach(i => document.getElementById(i).classList.remove('active'));
+  ['pc30','pc12','pc10y'].forEach(i => document.getElementById(i).classList.remove('active'));
+  const map = {'30d':'d30','12m':'d12','10y':'d10y','date':'ddt'};
+  const pmap = {'30d':'pc30','12m':'pc12','10y':'pc10y'};
+  document.getElementById(map[m]).classList.add('active');
+  if (pmap[m]) document.getElementById(pmap[m]).classList.add('active');
+  document.getElementById('dateRow').style.display = m === 'date' ? 'block' : 'none';
+  calc();
+}
+
+// ── TYPE ──
+function setType(t) {
+  loanType = t;
+  document.getElementById('btnG').className = 'tb' + (t==='gold' ? ' tg' : '');
+  document.getElementById('btnS').className = 'tb' + (t==='silver' ? ' ts' : '');
+  localStorage.setItem('sjbc_type', t);
+  calc();
+}
+
+// ── MONTHS ──
+function getMonths() {
+  if (durMode==='30d') return 1;
+  if (durMode==='12m') return 12;
+  if (durMode==='10y') return 120;
+  const dv = document.getElementById('loanDate').value;
+  if (!dv) return null;
+  const s = new Date(dv), today = new Date();
+  if (s > today) { document.getElementById('dateErr').style.display='block'; return null; }
+  document.getElementById('dateErr').style.display = 'none';
+  let mo = (today.getFullYear()-s.getFullYear())*12 + (today.getMonth()-s.getMonth());
+  if (today.getDate() > s.getDate()) mo++;
+  return Math.max(1, mo);
+}
+function durLabel(mo) {
+  if (durMode==='30d') return '1 Month · 1 மாதம்';
+  if (durMode==='12m') return '12 Months · 12 மாதம்';
+  if (durMode==='10y') return '10 Years · 10 ஆண்டு';
+  return mo + (mo>1?' Months':' Month') + ' · ' + mo + ' மாதம்';
+}
+
+// ── INTEREST LOGIC ──
+function calcInt(p, type, mo) {
+  let i=0, rate='', bd='', showBd=false;
+  if (type==='silver') {
+    i = p * 0.04 * mo; rate = '4% / மாதம்';
+  } else {
+    if (p <= 10000) {
+      if (mo <= 6) { i = p * 0.02 * mo; rate = '2% / மாதம்'; }
+      else {
+        const f = p*0.02*6, r = p*0.025*(mo-6);
+        i = f+r; rate = '2% → 2.5%'; showBd = true;
+        bd = 'முதல் 6 மாதம் (2%): ' + fmtR(f) + '\nமீதி ' + (mo-6) + ' மாதம் (2.5%): ' + fmtR(r);
+      }
+    } else { i = p * 0.03 * mo; rate = '3% / மாதம்'; }
+  }
+  return { i: Math.ceil(i), rate, bd, showBd };
+}
+
+// ── MAIN CALC ──
+function calc() {
+  const p = parseInt(raw) || 0;
+  const err = document.getElementById('amtErr');
+  if (p < 1000 || p > 500000) {
+    err.style.display = 'block';
+    ['pv30','pv12','pv10y'].forEach(id => document.getElementById(id).textContent = '₹—');
+    return;
+  }
+  err.style.display = 'none';
+  localStorage.setItem('sjbc_amt', raw);
+
+  const mo = getMonths();
+  if (mo === null) return;
+  const d = calcInt(p, loanType, mo);
+
+  document.getElementById('rAsal').textContent    = fmtR(p);
+  document.getElementById('rDur').textContent     = durLabel(mo);
+  document.getElementById('rInt').textContent     = fmtR(d.i);
+  document.getElementById('rTotal').textContent   = fmtR(p + d.i);
+  document.getElementById('rateTag').textContent  = d.rate;
+  const bx = document.getElementById('bd');
+  bx.style.display = d.showBd ? 'block' : 'none';
+  if (d.showBd) bx.textContent = d.bd;
+
+  document.getElementById('pv30').textContent  = fmtR(p + calcInt(p, loanType, 1).i);
+  document.getElementById('pv12').textContent  = fmtR(p + calcInt(p, loanType, 12).i);
+  document.getElementById('pv10y').textContent = fmtR(p + calcInt(p, loanType, 120).i);
+}
+
+// ── RESET ──
+function doReset() {
+  raw = '10000'; sync();
+  setType('gold'); setDur('30d');
+  const t = new Date();
+  document.getElementById('loanDate').valueAsDate = new Date(t.getFullYear(), t.getMonth()-1, t.getDate());
+  document.getElementById('amtErr').style.display = 'none';
+  document.getElementById('dateErr').style.display = 'none';
+  calc();
+}
+
+// ── INIT ──
+window.onload = function() {
+  const sa = localStorage.getItem('sjbc_amt');
+  const st = localStorage.getItem('sjbc_type');
+  const sth = localStorage.getItem('sjbc_t');
+  if (sa) raw = sa;
+  if (sth) setTheme(sth); else setTheme('charcoal');
+  sync();
+  if (st) setType(st);
+  const t = new Date();
+  document.getElementById('loanDate').valueAsDate = new Date(t.getFullYear(), t.getMonth()-1, t.getDate());
+  calc();
+};
+    </script>
+</body>
+
+</html>
