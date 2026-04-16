@@ -1,0 +1,1014 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>C++ Lab Exam Trainer - SET A (FULL)</title>
+    <style>
+        :root {
+            --primary: #2563eb;
+            --secondary: #1e40af;
+            --bg-color: #f8fafc;
+            --card-bg: #ffffff;
+            --text-main: #334155;
+            --code-bg: #1e293b;
+            --quiz-bg: #fef3c7;
+            --io-bg: #e0f2fe;
+            --success: #16a34a;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            line-height: 1.5;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            padding: 20px;
+            background: var(--primary);
+            color: white;
+            border-radius: 8px;
+            margin-bottom: 30px;
+        }
+
+        .question-card {
+            background: var(--card-bg);
+            padding: 25px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            margin-bottom: 40px;
+            border-top: 5px solid var(--primary);
+        }
+
+        h2 {
+            color: var(--secondary);
+            border-bottom: 2px solid #e2e8f0;
+            padding-bottom: 10px;
+        }
+
+        h3 {
+            color: #0f766e;
+            margin-top: 20px;
+            font-size: 1.1em;
+        }
+
+        pre {
+            background: var(--code-bg);
+            color: #f8fafc;
+            padding: 15px;
+            border-radius: 6px;
+            overflow-x: auto;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 13px;
+        }
+
+        .quiz-box {
+            background: var(--quiz-bg);
+            padding: 15px;
+            border-left: 4px solid #f59e0b;
+            border-radius: 4px;
+        }
+
+        .io-box {
+            background: var(--io-bg);
+            padding: 15px;
+            border-left: 4px solid #0284c7;
+            border-radius: 4px;
+            font-family: monospace;
+            white-space: pre-line;
+        }
+
+        .compiler-section {
+            margin-top: 20px;
+            padding: 15px;
+            background: #f1f5f9;
+            border: 1px solid #cbd5e1;
+            border-radius: 8px;
+        }
+
+        .compiler-section h3 {
+            margin-top: 0;
+            color: #b91c1c;
+        }
+
+        textarea.code-editor {
+            width: 100%;
+            height: 200px;
+            background: #1e1e1e;
+            color: #d4d4d4;
+            font-family: monospace;
+            padding: 10px;
+            border-radius: 4px;
+            border: none;
+            resize: vertical;
+            box-sizing: border-box;
+        }
+
+        textarea.input-box {
+            width: 100%;
+            height: 50px;
+            margin-top: 10px;
+            padding: 10px;
+            font-family: monospace;
+            border: 1px solid #cbd5e1;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        .run-btn {
+            background: var(--success);
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            font-size: 14px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-top: 10px;
+            font-weight: bold;
+        }
+
+        .run-btn:disabled {
+            background: #94a3b8;
+            cursor: not-allowed;
+        }
+
+        .output-box {
+            width: 100%;
+            min-height: 80px;
+            background: #000;
+            color: #10b981;
+            padding: 10px;
+            margin-top: 10px;
+            border-radius: 4px;
+            font-family: monospace;
+            white-space: pre-wrap;
+            box-sizing: border-box;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <div class="header">
+            <h1>C++ Lab Practical Exam Trainer</h1>
+            <p>Interactive Manual - SET A (ALL 17 EXPERIMENTS)</p>
+        </div>
+
+        <div class="question-card">
+            <h2>SET A - Q1: Single Linked List ADT Operations</h2>
+            <h3>1. AIM</h3>
+            <p>To implement a Singly Linked List ADT with basic operations like insertion, deletion, and display.</p>
+            <h3>2. ALGORITHM (PSEUDOCODE)</h3>
+            <ol>
+                <li>Define <code>Node</code> with <code>data</code> and <code>next</code> pointer.</li>
+                <li>Define <code>LinkedList</code> class with <code>head</code> initialized to NULL.</li>
+                <li><b>Insert:</b> Create node. If head is NULL, make it head. Else, traverse to end and link.</li>
+                <li><b>Delete:</b> Traverse to find key. Link previous node to next node and delete target.</li>
+                <li><b>Display:</b> Traverse from head to NULL, printing data.</li>
+            </ol>
+            <h3>3. C++ PROGRAM</h3>
+            <pre><code>#include &lt;iostream&gt;
+using namespace std;
+struct Node { int data; Node* next; };
+class SLL {
+    Node* head = NULL;
+public:
+    void insert(int v) {
+        Node* n = new Node{v, NULL};
+        if(!head) head = n; else { Node* t=head; while(t-&gt;next) t=t-&gt;next; t-&gt;next=n; }
+    }
+    void del(int v) {
+        if(!head) return;
+        if(head-&gt;data==v) { Node* t=head; head=head-&gt;next; delete t; return; }
+        Node *t=head, *p=NULL;
+        while(t &amp;&amp; t-&gt;data!=v) { p=t; t=t-&gt;next; }
+        if(t) { p-&gt;next=t-&gt;next; delete t; }
+    }
+    void disp() { for(Node* t=head; t; t=t-&gt;next) cout&lt;&lt;t-&gt;data&lt;&lt;"-&gt;"; cout&lt;&lt;"NULL\n"; }
+};
+int main() { SLL l; l.insert(10); l.insert(20); l.disp(); l.del(10); l.disp(); return 0; }</code></pre>
+            <h3>4. HOW TO COMPILE & RUN</h3>
+            <pre><code>g++ q1.cpp -o q1 && ./q1</code></pre>
+            <h3>5. FILL IN THE BLANK CODE</h3>
+            <pre><code>void insert(int v) { Node* n = new Node{v, ___}; if(!head) head = ___; else { Node* t=head; while(t-&gt;___) t=t-&gt;next; t-&gt;___=n; } }</code></pre>
+            <h3>6. QUIZ</h3>
+            <div class="quiz-box"><b>Q: Time complexity of insert at end?</b> A:
+                O(N)<br><b>Q: What if we don't set next to NULL?</b> A: Segfault.</div>
+            <h3>7. SAMPLE INPUT</h3>
+            <div class="io-box">Hardcoded: insert(10), insert(20), del(10)</div>
+            <h3>8. SAMPLE OUTPUT</h3>
+            <div class="io-box">10-&gt;20-&gt;NULL<br>20-&gt;NULL</div>
+            <div class="compiler-section">
+                <h3>🔥 Try It Yourself</h3>
+                <textarea id="code1" class="code-editor">#include <iostream>
+using namespace std;
+struct Node { int data; Node* next; };
+class SLL {
+    Node* head = NULL;
+public:
+    void insert(int v) {
+        Node* n = new Node{v, NULL};
+        if(!head) head = n; else { Node* t=head; while(t->next) t=t->next; t->next=n; }
+    }
+    void disp() { for(Node* t=head; t; t=t->next) cout<<t->data<<"->"; cout<<"NULL\n"; }
+};
+int main() { SLL l; l.insert(10); l.insert(20); l.disp(); return 0; }</textarea>
+                <textarea id="input1" class="input-box" placeholder="Inputs here..."></textarea>
+                <button class="run-btn" onclick="executeCode(this, 'code1', 'input1', 'output1')">Run Code</button>
+                <div id="output1" class="output-box"></div>
+            </div>
+        </div>
+
+        <div class="question-card">
+            <h2>SET A - Q2: Doubly Linked List ADT Operations</h2>
+            <h3>1. AIM</h3>
+            <p>To implement a Doubly Linked List ADT with insertion, deletion, and display operations.</p>
+            <h3>2. ALGORITHM (PSEUDOCODE)</h3>
+            <ol>
+                <li>Define <code>Node</code> with <code>data</code>, <code>prev</code>, <code>next</code>.</li>
+                <li><b>Insert:</b> Traverse to end, link <code>next</code> of last to new node, and <code>prev</code> of
+                    new to last.</li>
+            </ol>
+            <h3>3. C++ PROGRAM</h3>
+            <pre><code>#include &lt;iostream&gt;
+using namespace std;
+struct Node { int data; Node *prev, *next; };
+class DLL {
+    Node* head = NULL;
+public:
+    void insert(int v) {
+        Node* n = new Node{v, NULL, NULL};
+        if(!head) head = n; else { Node* t=head; while(t-&gt;next) t=t-&gt;next; t-&gt;next=n; n-&gt;prev=t; }
+    }
+    void disp() { for(Node* t=head; t; t=t-&gt;next) cout&lt;&lt;t-&gt;data&lt;&lt;"&lt;-&gt;"; cout&lt;&lt;"NULL\n"; }
+};
+int main() { DLL d; d.insert(1); d.insert(2); d.disp(); return 0; }</code></pre>
+            <h3>4. HOW TO COMPILE & RUN</h3>
+            <pre><code>g++ q2.cpp -o q2 && ./q2</code></pre>
+            <h3>5. FILL IN THE BLANK CODE</h3>
+            <pre><code>struct Node { int data; Node* ___; Node* ___; };</code></pre>
+            <h3>6. QUIZ</h3>
+            <div class="quiz-box"><b>Q: DLL advantage over SLL?</b> A: Bidirectional traversal.</div>
+            <h3>7. SAMPLE INPUT</h3>
+            <div class="io-box">insert(1), insert(2)</div>
+            <h3>8. SAMPLE OUTPUT</h3>
+            <div class="io-box">1&lt;-&gt;2&lt;-&gt;NULL</div>
+            <div class="compiler-section">
+                <h3>🔥 Try It Yourself</h3>
+                <textarea id="code2" class="code-editor">#include <iostream>
+using namespace std;
+struct Node { int data; Node *prev, *next; };
+class DLL { Node* head = NULL; public:
+    void insert(int v) { Node* n = new Node{v, NULL, NULL}; if(!head) head = n; else { Node* t=head; while(t->next) t=t->next; t->next=n; n->prev=t; } }
+    void disp() { for(Node* t=head; t; t=t->next) cout<<t->data<<"<->"; cout<<"NULL\n"; }
+};
+int main() { DLL d; d.insert(1); d.insert(2); d.disp(); return 0; }</textarea>
+                <textarea id="input2" class="input-box"></textarea>
+                <button class="run-btn" onclick="executeCode(this, 'code2', 'input2', 'output2')">Run Code</button>
+                <div id="output2" class="output-box"></div>
+            </div>
+        </div>
+
+        <div class="question-card">
+            <h2>SET A - Q3: Circular Linked List Operations</h2>
+            <h3>1. AIM</h3>
+            <p>To implement a Circular Linked List with basic ADT operations.</p>
+            <h3>2. ALGORITHM (PSEUDOCODE)</h3>
+            <ol>
+                <li>Define <code>Node</code>. For circular, last node's <code>next</code> points to <code>head</code>.
+                </li>
+                <li><b>Insert:</b> Find last node, link its <code>next</code> to new node, new node's <code>next</code>
+                    to <code>head</code>.</li>
+            </ol>
+            <h3>3. C++ PROGRAM</h3>
+            <pre><code>#include &lt;iostream&gt;
+using namespace std;
+struct Node { int data; Node* next; };
+class CLL {
+    Node* head = NULL;
+public:
+    void insert(int v) {
+        Node* n = new Node{v, NULL};
+        if(!head) { head=n; n-&gt;next=head; }
+        else { Node* t=head; while(t-&gt;next!=head) t=t-&gt;next; t-&gt;next=n; n-&gt;next=head; }
+    }
+    void disp() { if(!head) return; Node* t=head; do { cout&lt;&lt;t-&gt;data&lt;&lt;" "; t=t-&gt;next; } while(t!=head); cout&lt;&lt;"(head)\n"; }
+};
+int main() { CLL c; c.insert(5); c.insert(10); c.disp(); return 0; }</code></pre>
+            <h3>4. HOW TO COMPILE & RUN</h3>
+            <pre><code>g++ q3.cpp -o q3 && ./q3</code></pre>
+            <h3>5. FILL IN THE BLANK CODE</h3>
+            <pre><code>if(!head) { head=n; n-&gt;next=___; } else { Node* t=head; while(t-&gt;next!=___) ... }</code></pre>
+            <h3>6. QUIZ</h3>
+            <div class="quiz-box"><b>Q: How to identify end of CLL?</b> A: When node-&gt;next == head.</div>
+            <h3>7. SAMPLE INPUT</h3>
+            <div class="io-box">insert(5), insert(10)</div>
+            <h3>8. SAMPLE OUTPUT</h3>
+            <div class="io-box">5 10 (head)</div>
+            <div class="compiler-section">
+                <h3>🔥 Try It Yourself</h3>
+                <textarea id="code3" class="code-editor">#include <iostream>
+using namespace std;
+struct Node { int data; Node* next; };
+class CLL { Node* head = NULL; public:
+    void insert(int v) { Node* n = new Node{v, NULL}; if(!head) { head=n; n->next=head; } else { Node* t=head; while(t->next!=head) t=t->next; t->next=n; n->next=head; } }
+    void disp() { if(!head) return; Node* t=head; do { cout<<t->data<<" "; t=t->next; } while(t!=head); cout<<"(head)\n"; }
+};
+int main() { CLL c; c.insert(5); c.insert(10); c.disp(); return 0; }</textarea>
+                <textarea id="input3" class="input-box"></textarea>
+                <button class="run-btn" onclick="executeCode(this, 'code3', 'input3', 'output3')">Run Code</button>
+                <div id="output3" class="output-box"></div>
+            </div>
+        </div>
+
+        <div class="question-card">
+            <h2>SET A - Q4: Vehicle Monitoring (Base Pointers & Explicit Type Casting / Runtime Safety)</h2>
+            <h3>1. AIM</h3>
+            <p>To demonstrate base class pointers, virtual functions, and safe downcasting using dynamic_cast.</p>
+            <h3>2. ALGORITHM (PSEUDOCODE)</h3>
+            <ol>
+                <li>Create abstract base <code>Vehicle</code> with virtual <code>show()</code>.</li>
+                <li>Create derived <code>Car</code>. Use <code>dynamic_cast</code> to safely cast base pointer to
+                    derived.</li>
+            </ol>
+            <h3>3. C++ PROGRAM</h3>
+            <pre><code>#include &lt;iostream&gt;
+using namespace std;
+class Vehicle { public: virtual void show() { cout&lt;&lt;"Vehicle\n"; } virtual ~Vehicle(){} };
+class Car : public Vehicle { public: void show() override { cout&lt;&lt;"Car\n"; } void drift() { cout&lt;&lt;"Drifting!\n"; } };
+int main() {
+    Vehicle* v = new Car();
+    v-&gt;show();
+    Car* c = dynamic_cast&lt;Car*&gt;(v); // Runtime safe cast
+    if(c) c-&gt;drift();
+    delete v; return 0;
+}</code></pre>
+            <h3>4. HOW TO COMPILE & RUN</h3>
+            <pre><code>g++ q4.cpp -o q4 && ./q4</code></pre>
+            <h3>5. FILL IN THE BLANK CODE</h3>
+            <pre><code>Car* c = ___(v); // dynamic_cast&lt;Car*&gt;</code></pre>
+            <h3>6. QUIZ</h3>
+            <div class="quiz-box"><b>Q: What does dynamic_cast return on failure?</b> A: NULL (nullptr).</div>
+            <h3>7. SAMPLE INPUT</h3>
+            <div class="io-box">Run Program</div>
+            <h3>8. SAMPLE OUTPUT</h3>
+            <div class="io-box">Car<br>Drifting!</div>
+            <div class="compiler-section">
+                <h3>🔥 Try It Yourself</h3>
+                <textarea id="code4" class="code-editor">#include <iostream>
+using namespace std;
+class Vehicle { public: virtual void show() { cout<<"Vehicle\n"; } virtual ~Vehicle(){} };
+class Car : public Vehicle { public: void show() override { cout<<"Car\n"; } void drift() { cout<<"Drifting!\n"; } };
+int main() { Vehicle* v = new Car(); v->show(); Car* c = dynamic_cast<Car*>(v); if(c) c->drift(); delete v; return 0; }</textarea>
+                <textarea id="input4" class="input-box"></textarea>
+                <button class="run-btn" onclick="executeCode(this, 'code4', 'input4', 'output4')">Run Code</button>
+                <div id="output4" class="output-box"></div>
+            </div>
+        </div>
+
+        <div class="question-card">
+            <h2>SET A - Q5: Banking System: Overload '+' & 'this' Pointer</h2>
+            <h3>1. AIM</h3>
+            <p>To overload the '+' operator for merging bank accounts and demonstrate 'this' pointer.</p>
+            <h3>2. ALGORITHM (PSEUDOCODE)</h3>
+            <ol>
+                <li>Create <code>Account</code> class with <code>balance</code>. Overload <code>operator+</code>
+                    returning an <code>Account</code> object.</li>
+                <li>Use <code>this-&gt;balance</code> to refer to the calling object.</li>
+            </ol>
+            <h3>3. C++ PROGRAM</h3>
+            <pre><code>#include &lt;iostream&gt;
+using namespace std;
+class Account {
+    int balance;
+public:
+    Account(int b=0) { this-&gt;balance = b; }
+    Account operator+(const Account&amp; a) {
+        Account temp; temp.balance = this-&gt;balance + a.balance; return temp;
+    }
+    void show() { cout &lt;&lt; "Bal: " &lt;&lt; balance &lt;&lt; "\n"; }
+};
+int main() { Account a1(100), a2(200); Account a3 = a1 + a2; a3.show(); return 0; }</code></pre>
+            <h3>4. HOW TO COMPILE & RUN</h3>
+            <pre><code>g++ q5.cpp -o q5 && ./q5</code></pre>
+            <h3>5. FILL IN THE BLANK CODE</h3>
+            <pre><code>Account ___(const Account&amp; a) { temp.balance = ___-&gt;balance + a.balance; ... }</code></pre>
+            <h3>6. QUIZ</h3>
+            <div class="quiz-box"><b>Q: What is 'this'?</b> A: A hidden pointer to the calling object.</div>
+            <h3>7. SAMPLE INPUT</h3>
+            <div class="io-box">a1(100), a2(200)</div>
+            <h3>8. SAMPLE OUTPUT</h3>
+            <div class="io-box">Bal: 300</div>
+            <div class="compiler-section">
+                <h3>🔥 Try It Yourself</h3>
+                <textarea id="code5" class="code-editor">#include <iostream>
+using namespace std;
+class Account { int balance; public: Account(int b=0) { this->balance = b; }
+    Account operator+(const Account& a) { Account temp; temp.balance = this->balance + a.balance; return temp; }
+    void show() { cout << "Bal: " << balance << "\n"; } };
+int main() { Account a1(100), a2(200); Account a3 = a1 + a2; a3.show(); return 0; }</textarea>
+                <textarea id="input5" class="input-box"></textarea>
+                <button class="run-btn" onclick="executeCode(this, 'code5', 'input5', 'output5')">Run Code</button>
+                <div id="output5" class="output-box"></div>
+            </div>
+        </div>
+
+        <div class="question-card">
+            <h2>SET A - Q6: (i) Inheritance Area (ii) Simple Class Const/Destructor</h2>
+            <h3>1. AIM</h3>
+            <p>To demonstrate single inheritance for area calculation, and constructor/destructor invocation.</p>
+            <h3>2. ALGORITHM (PSEUDOCODE)</h3>
+            <ol>
+                <li><b>Inheritance:</b> Base <code>Shape</code> with b, h. Derived <code>Triangle</code> calculates
+                    0.5*b*h.</li>
+                <li><b>Const/Dest:</b> Class with cout statements in const/dest.</li>
+            </ol>
+            <h3>3. C++ PROGRAM</h3>
+            <pre><code>#include &lt;iostream&gt;
+using namespace std;
+class Shape { protected: float b, h; public: void set(float x, float y){b=x; h=y;} };
+class Triangle : public Shape { public: float area(){return 0.5*b*h;} };
+class Simp { public: Simp(){cout&lt;&lt;"Const\n";} ~Simp(){cout&lt;&lt;"Dest\n";} };
+int main() { Triangle t; t.set(10,5); cout&lt;&lt;"Area: "&lt;&lt;t.area()&lt;&lt;"\n"; { Simp s; } return 0; }</code></pre>
+            <h3>4. HOW TO COMPILE & RUN</h3>
+            <pre><code>g++ q6.cpp -o q6 && ./q6</code></pre>
+            <h3>5. FILL IN THE BLANK CODE</h3>
+            <pre><code>class Triangle : ___ Shape { ... };  ___Simp() { cout&lt;&lt;"Dest\n"; }</code></pre>
+            <h3>6. QUIZ</h3>
+            <div class="quiz-box"><b>Q: When is destructor called?</b> A: When object goes out of scope.</div>
+            <h3>7. SAMPLE INPUT</h3>
+            <div class="io-box">b=10, h=5</div>
+            <h3>8. SAMPLE OUTPUT</h3>
+            <div class="io-box">Area: 25<br>Const<br>Dest</div>
+            <div class="compiler-section">
+                <h3>🔥 Try It Yourself</h3>
+                <textarea id="code6" class="code-editor">#include <iostream>
+using namespace std;
+class Shape { protected: float b, h; public: void set(float x, float y){b=x; h=y;} };
+class Triangle : public Shape { public: float area(){return 0.5*b*h;} };
+class Simp { public: Simp(){cout<<"Const\n";} ~Simp(){cout<<"Dest\n";} };
+int main() { Triangle t; t.set(10,5); cout<<"Area: "<<t.area()<<"\n"; { Simp s; } return 0; }</textarea>
+                <textarea id="input6" class="input-box"></textarea>
+                <button class="run-btn" onclick="executeCode(this, 'code6', 'input6', 'output6')">Run Code</button>
+                <div id="output6" class="output-box"></div>
+            </div>
+        </div>
+
+        <div class="question-card">
+            <h2>SET A - Q7: (i) Message Passing (ii) Multilevel Inheritance</h2>
+            <h3>1. AIM</h3>
+            <p>To demonstrate object message passing and multilevel inheritance.</p>
+            <h3>2. ALGORITHM (PSEUDOCODE)</h3>
+            <ol>
+                <li><b>Msg:</b> Call method on object.</li>
+                <li><b>Multilevel:</b> A -> B -> C. C accesses A's data.</li>
+            </ol>
+            <h3>3. C++ PROGRAM</h3>
+            <pre><code>#include &lt;iostream&gt;
+using namespace std;
+class Msg { public: void send(string m){cout&lt;&lt;"Msg: "&lt;&lt;m&lt;&lt;"\n";} };
+class A { protected: int a=10; };
+class B : public A { protected: int b=20; };
+class C : public B { public: void show(){cout&lt;&lt;"A:"&lt;&lt;a&lt;&lt;" B:"&lt;&lt;b&lt;&lt;"\n";} };
+int main() { Msg m; m.send("Hi!"); C c; c.show(); return 0; }</code></pre>
+            <h3>4. HOW TO COMPILE & RUN</h3>
+            <pre><code>g++ q7.cpp -o q7 && ./q7</code></pre>
+            <h3>5. FILL IN THE BLANK CODE</h3>
+            <pre><code>class C : ___ B { ... }; m.___(...);</code></pre>
+            <h3>6. QUIZ</h3>
+            <div class="quiz-box"><b>Q: What is Multilevel?</b> A: Derived class inherits from another derived class.
+            </div>
+            <h3>7. SAMPLE INPUT</h3>
+            <div class="io-box">Hardcoded</div>
+            <h3>8. SAMPLE OUTPUT</h3>
+            <div class="io-box">Msg: Hi!<br>A:10 B:20</div>
+            <div class="compiler-section">
+                <h3>🔥 Try It Yourself</h3>
+                <textarea id="code7" class="code-editor">#include <iostream>
+using namespace std;
+class Msg { public: void send(string m){cout<<"Msg: "<<m<<"\n";} };
+class A { protected: int a=10; }; class B : public A { protected: int b=20; };
+class C : public B { public: void show(){cout<<"A:"<<a<<" B:"<<b<<"\n";} };
+int main() { Msg m; m.send("Hi!"); C c; c.show(); return 0; }</textarea>
+                <textarea id="input7" class="input-box"></textarea>
+                <button class="run-btn" onclick="executeCode(this, 'code7', 'input7', 'output7')">Run Code</button>
+                <div id="output7" class="output-box"></div>
+            </div>
+        </div>
+
+        <div class="question-card">
+            <h2>SET A - Q8: Binary Search Tree Operations</h2>
+            <h3>1. AIM</h3>
+            <p>To implement a BST and perform insertion and inorder traversal.</p>
+            <h3>2. ALGORITHM (PSEUDOCODE)</h3>
+            <ol>
+                <li><b>Insert:</b> If key &lt; root, insert left. If key &gt; root, insert right.</li>
+                <li><b>Inorder:</b> Left -> Root -> Right.</li>
+            </ol>
+            <h3>3. C++ PROGRAM</h3>
+            <pre><code>#include &lt;iostream&gt;
+using namespace std;
+struct Node { int data; Node *l, *r; };
+Node* ins(Node* r, int v) {
+    if(!r) return new Node{v, NULL, NULL};
+    if(v &lt; r-&gt;data) r-&gt;l = ins(r-&gt;l, v); else r-&gt;r = ins(r-&gt;r, v);
+    return r;
+}
+void in(Node* r) { if(r) { in(r-&gt;l); cout&lt;&lt;r-&gt;data&lt;&lt;" "; in(r-&gt;r); } }
+int main() { Node* r=NULL; r=ins(r,50); ins(r,30); ins(r,70); in(r); return 0; }</code></pre>
+            <h3>4. HOW TO COMPILE & RUN</h3>
+            <pre><code>g++ q8.cpp -o q8 && ./q8</code></pre>
+            <h3>5. FILL IN THE BLANK CODE</h3>
+            <pre><code>if(v &lt; r-&gt;data) r-&gt;l = ___(r-&gt;l, v);</code></pre>
+            <h3>6. QUIZ</h3>
+            <div class="quiz-box"><b>Q: What does inorder traversal of BST give?</b> A: Sorted ascending order.</div>
+            <h3>7. SAMPLE INPUT</h3>
+            <div class="io-box">50, 30, 70</div>
+            <h3>8. SAMPLE OUTPUT</h3>
+            <div class="io-box">30 50 70</div>
+            <div class="compiler-section">
+                <h3>🔥 Try It Yourself</h3>
+                <textarea id="code8" class="code-editor">#include <iostream>
+using namespace std;
+struct Node { int data; Node *l, *r; };
+Node* ins(Node* r, int v) { if(!r) return new Node{v, NULL, NULL}; if(v < r->data) r->l = ins(r->l, v); else r->r = ins(r->r, v); return r; }
+void in(Node* r) { if(r) { in(r->l); cout<<r->data<<" "; in(r->r); } }
+int main() { Node* r=NULL; r=ins(r,50); ins(r,30); ins(r,70); in(r); return 0; }</textarea>
+                <textarea id="input8" class="input-box"></textarea>
+                <button class="run-btn" onclick="executeCode(this, 'code8', 'input8', 'output8')">Run Code</button>
+                <div id="output8" class="output-box"></div>
+            </div>
+        </div>
+
+        <div class="question-card">
+            <h2>SET A - Q9: Recursive Binary Tree Traversals</h2>
+            <h3>1. AIM</h3>
+            <p>To perform Preorder, Inorder, and Postorder traversals recursively.</p>
+            <h3>2. ALGORITHM (PSEUDOCODE)</h3>
+            <ol>
+                <li><b>Pre:</b> Root, Left, Right.</li>
+                <li><b>In:</b> Left, Root, Right.</li>
+                <li><b>Post:</b> Left, Right, Root.</li>
+            </ol>
+            <h3>3. C++ PROGRAM</h3>
+            <pre><code>#include &lt;iostream&gt;
+using namespace std;
+struct Node { int data; Node *l, *r; };
+void pre(Node* r) { if(r){ cout&lt;&lt;r-&gt;data&lt;&lt;" "; pre(r-&gt;l); pre(r-&gt;r); } }
+void in(Node* r) { if(r){ in(r-&gt;l); cout&lt;&lt;r-&gt;data&lt;&lt;" "; in(r-&gt;r); } }
+void post(Node* r) { if(r){ post(r-&gt;l); post(r-&gt;r); cout&lt;&lt;r-&gt;data&lt;&lt;" "; } }
+int main() { Node* r = new Node{1, new Node{2,NULL,NULL}, new Node{3,NULL,NULL}};
+    pre(r); cout&lt;&lt;"\n"; in(r); cout&lt;&lt;"\n"; post(r); return 0; }</code></pre>
+            <h3>4. HOW TO COMPILE & RUN</h3>
+            <pre><code>g++ q9.cpp -o q9 && ./q9</code></pre>
+            <h3>5. FILL IN THE BLANK CODE</h3>
+            <pre><code>void in(Node* r) { if(r){ ___(r-&gt;l); cout&lt;&lt;r-&gt;data; ___(r-&gt;r); } }</code></pre>
+            <h3>6. QUIZ</h3>
+            <div class="quiz-box"><b>Q: Which visits root last?</b> A: Postorder.</div>
+            <h3>7. SAMPLE INPUT</h3>
+            <div class="io-box">Root=1, L=2, R=3</div>
+            <h3>8. SAMPLE OUTPUT</h3>
+            <div class="io-box">1 2 3<br>2 1 3<br>2 3 1</div>
+            <div class="compiler-section">
+                <h3>🔥 Try It Yourself</h3>
+                <textarea id="code9" class="code-editor">#include <iostream>
+using namespace std;
+struct Node { int data; Node *l, *r; };
+void pre(Node* r) { if(r){ cout<<r->data<<" "; pre(r->l); pre(r->r); } }
+void in(Node* r) { if(r){ in(r->l); cout<<r->data<<" "; in(r->r); } }
+void post(Node* r) { if(r){ post(r->l); post(r->r); cout<<r->data<<" "; } }
+int main() { Node* r = new Node{1, new Node{2,NULL,NULL}, new Node{3,NULL,NULL}}; pre(r); cout<<"\n"; in(r); cout<<"\n"; post(r); return 0; }</textarea>
+                <textarea id="input9" class="input-box"></textarea>
+                <button class="run-btn" onclick="executeCode(this, 'code9', 'input9', 'output9')">Run Code</button>
+                <div id="output9" class="output-box"></div>
+            </div>
+        </div>
+
+        <div class="question-card">
+            <h2>SET A - Q10: Infix to Postfix Expression using Stack</h2>
+            <h3>1. AIM</h3>
+            <p>To convert an Infix expression to Postfix using a Stack.</p>
+            <h3>2. ALGORITHM (PSEUDOCODE)</h3>
+            <ol>
+                <li>If operand, output. If '(', push. If ')', pop to output until '('.</li>
+                <li>If operator, pop higher/equal precedence to output, then push.</li>
+            </ol>
+            <h3>3. C++ PROGRAM</h3>
+            <pre><code>#include &lt;iostream&gt;
+#include &lt;stack&gt;
+using namespace std;
+int prec(char c) { if(c=='^') return 3; if(c=='*'||c=='/') return 2; if(c=='+'||c=='-') return 1; return -1; }
+void inToPost(string s) {
+    stack&lt;char&gt; st; string res;
+    for(char c:s) {
+        if(isalnum(c)) res+=c; else if(c=='(') st.push(c);
+        else if(c==')') { while(st.top()!='(') {res+=st.top(); st.pop();} st.pop(); }
+        else { while(!st.empty() &amp;&amp; prec(c)&lt;=prec(st.top())){res+=st.top(); st.pop();} st.push(c); }
+    }
+    while(!st.empty()){res+=st.top(); st.pop();} cout&lt;&lt;res&lt;&lt;"\n";
+}
+int main() { inToPost("a+b*c"); return 0; }</code></pre>
+            <h3>4. HOW TO COMPILE & RUN</h3>
+            <pre><code>g++ q10.cpp -o q10 && ./q10</code></pre>
+            <h3>5. FILL IN THE BLANK CODE</h3>
+            <pre><code>if(isalnum(c)) res += ___; else if(c == '(') st.___(c);</code></pre>
+            <h3>6. QUIZ</h3>
+            <div class="quiz-box"><b>Q: DS used for infix to postfix?</b> A: Stack.</div>
+            <h3>7. SAMPLE INPUT</h3>
+            <div class="io-box">a+b*c</div>
+            <h3>8. SAMPLE OUTPUT</h3>
+            <div class="io-box">abc*+</div>
+            <div class="compiler-section">
+                <h3>🔥 Try It Yourself</h3>
+                <textarea id="code10" class="code-editor">#include <iostream>
+#include <stack>
+using namespace std;
+int prec(char c) { if(c=='^') return 3; if(c=='*'||c=='/') return 2; if(c=='+'||c=='-') return 1; return -1; }
+void inToPost(string s) { stack<char> st; string res; for(char c:s) { if(isalnum(c)) res+=c; else if(c=='(') st.push(c); else if(c==')') { while(st.top()!='(') {res+=st.top(); st.pop();} st.pop(); } else { while(!st.empty() && prec(c)<=prec(st.top())){res+=st.top(); st.pop();} st.push(c); } } while(!st.empty()){res+=st.top(); st.pop();} cout<<res<<"\n"; }
+int main() { inToPost("a+b*c"); return 0; }</textarea>
+                <textarea id="input10" class="input-box"></textarea>
+                <button class="run-btn" onclick="executeCode(this, 'code10', 'input10', 'output10')">Run Code</button>
+                <div id="output10" class="output-box"></div>
+            </div>
+        </div>
+
+        <div class="question-card">
+            <h2>SET A - Q11: Stack Operations using Linked List</h2>
+            <h3>1. AIM</h3>
+            <p>To implement Stack (LIFO) operations using a Linked List.</p>
+            <h3>2. ALGORITHM (PSEUDOCODE)</h3>
+            <ol>
+                <li><b>Push:</b> Create node, point next to top, update top to node.</li>
+                <li><b>Pop:</b> Move top to top-&gt;next, delete old top.</li>
+            </ol>
+            <h3>3. C++ PROGRAM</h3>
+            <pre><code>#include &lt;iostream&gt;
+using namespace std;
+struct Node { int data; Node* next; };
+class Stack { Node* top = NULL; public:
+    void push(int x) { top = new Node{x, top}; cout&lt;&lt;x&lt;&lt;" pushed\n"; }
+    void pop() { if(!top) return; Node* t=top; top=top-&gt;next; delete t; }
+    void disp() { for(Node* t=top; t; t=t-&gt;next) cout&lt;&lt;t-&gt;data&lt;&lt;" "; cout&lt;&lt;"\n"; }
+};
+int main() { Stack s; s.push(10); s.push(20); s.disp(); s.pop(); s.disp(); return 0; }</code></pre>
+            <h3>4. HOW TO COMPILE & RUN</h3>
+            <pre><code>g++ q11.cpp -o q11 && ./q11</code></pre>
+            <h3>5. FILL IN THE BLANK CODE</h3>
+            <pre><code>void push(int x) { top = new Node{x, ___}; }</code></pre>
+            <h3>6. QUIZ</h3>
+            <div class="quiz-box"><b>Q: Advantage of LL stack over Array?</b> A: Dynamic size.</div>
+            <h3>7. SAMPLE INPUT</h3>
+            <div class="io-box">Push 10, 20</div>
+            <h3>8. SAMPLE OUTPUT</h3>
+            <div class="io-box">10 pushed<br>20 pushed<br>20 10<br>10</div>
+            <div class="compiler-section">
+                <h3>🔥 Try It Yourself</h3>
+                <textarea id="code11" class="code-editor">#include <iostream>
+using namespace std;
+struct Node { int data; Node* next; };
+class Stack { Node* top = NULL; public: void push(int x) { top = new Node{x, top}; cout<<x<<" pushed\n"; } void pop() { if(!top) return; Node* t=top; top=top->next; delete t; } void disp() { for(Node* t=top; t; t=t->next) cout<<t->data<<" "; cout<<"\n"; } };
+int main() { Stack s; s.push(10); s.push(20); s.disp(); s.pop(); s.disp(); return 0; }</textarea>
+                <textarea id="input11" class="input-box"></textarea>
+                <button class="run-btn" onclick="executeCode(this, 'code11', 'input11', 'output11')">Run Code</button>
+                <div id="output11" class="output-box"></div>
+            </div>
+        </div>
+
+        <div class="question-card">
+            <h2>SET A - Q12: Deque using Doubly Linked List</h2>
+            <h3>1. AIM</h3>
+            <p>To implement Double Ended Queue using DLL.</p>
+            <h3>2. ALGORITHM (PSEUDOCODE)</h3>
+            <ol>
+                <li>Maintain front (f) and rear (r).</li>
+                <li><b>InsertRear:</b> Link after r, update r. <b>DeleteFront:</b> Unlink f, update f.</li>
+            </ol>
+            <h3>3. C++ PROGRAM</h3>
+            <pre><code>#include &lt;iostream&gt;
+using namespace std;
+struct Node { int data; Node *p, *n; };
+class Deque { Node *f=NULL, *r=NULL; public:
+    void insR(int v) { Node* x = new Node{v, r, NULL}; if(!r) f=r=x; else{r-&gt;n=x; r=x;} }
+    void delF() { if(!f) return; Node* t=f; f=f-&gt;n; if(f) f-&gt;p=NULL; else r=NULL; delete t; }
+    void disp() { for(Node* t=f; t; t=t-&gt;n) cout&lt;&lt;t-&gt;data&lt;&lt;" "; cout&lt;&lt;"\n"; }
+};
+int main() { Deque d; d.insR(1); d.insR(2); d.disp(); d.delF(); d.disp(); return 0; }</code></pre>
+            <h3>4. HOW TO COMPILE & RUN</h3>
+            <pre><code>g++ q12.cpp -o q12 && ./q12</code></pre>
+            <h3>5. FILL IN THE BLANK CODE</h3>
+            <pre><code>if(!r) f=r=x; else{r-&gt;___=x; r=___;}</code></pre>
+            <h3>6. QUIZ</h3>
+            <div class="quiz-box"><b>Q: What is Deque?</b> A: Queue where insert/delete can happen at both ends.</div>
+            <h3>7. SAMPLE INPUT</h3>
+            <div class="io-box">insR(1), insR(2), delF()</div>
+            <h3>8. SAMPLE OUTPUT</h3>
+            <div class="io-box">1 2<br>2</div>
+            <div class="compiler-section">
+                <h3>🔥 Try It Yourself</h3>
+                <textarea id="code12" class="code-editor">#include <iostream>
+using namespace std;
+struct Node { int data; Node *p, *n; };
+class Deque { Node *f=NULL, *r=NULL; public: void insR(int v) { Node* x = new Node{v, r, NULL}; if(!r) f=r=x; else{r->n=x; r=x;} } void delF() { if(!f) return; Node* t=f; f=f->n; if(f) f->p=NULL; else r=NULL; delete t; } void disp() { for(Node* t=f; t; t=t->n) cout<<t->data<<" "; cout<<"\n"; } };
+int main() { Deque d; d.insR(1); d.insR(2); d.disp(); d.delF(); d.disp(); return 0; }</textarea>
+                <textarea id="input12" class="input-box"></textarea>
+                <button class="run-btn" onclick="executeCode(this, 'code12', 'input12', 'output12')">Run Code</button>
+                <div id="output12" class="output-box"></div>
+            </div>
+        </div>
+
+        <div class="question-card">
+            <h2>SET A - Q13: AVL Tree Insertion & Deletion</h2>
+            <h3>1. AIM</h3>
+            <p>To implement AVL Tree self-balancing insertion.</p>
+            <h3>2. ALGORITHM (PSEUDOCODE)</h3>
+            <ol>
+                <li>Standard BST insert.</li>
+                <li>Get balance factor. If &gt; 1 or &lt; -1, rotate (LL, RR, LR, RL) to fix.</li>
+            </ol>
+            <h3>3. C++ PROGRAM</h3>
+            <pre><code>#include &lt;iostream&gt;
+using namespace std;
+struct Node { int d, h; Node *l, *r; };
+int h(Node* n) { return n?n-&gt;h:0; } int max(int a, int b) { return a&gt;b?a:b; }
+Node* R(Node* y) { Node* x=y-&gt;l; y-&gt;l=x-&gt;r; x-&gt;r=y; y-&gt;h=max(h(y-&gt;l),h(y-&gt;r))+1; x-&gt;h=max(h(x-&gt;l),h(x-&gt;r))+1; return x; }
+Node* L(Node* x) { Node* y=x-&gt;r; x-&gt;r=y-&gt;l; y-&gt;l=x; x-&gt;h=max(h(x-&gt;l),h(x-&gt;r))+1; y-&gt;h=max(h(y-&gt;l),h(y-&gt;r))+1; return y; }
+int bal(Node* n) { return n?h(n-&gt;l)-h(n-&gt;r):0; }
+Node* ins(Node* n, int k) {
+    if(!n) return new Node{k,1,NULL,NULL};
+    if(k&lt;n-&gt;d) n-&gt;l=ins(n-&gt;l,k); else n-&gt;r=ins(n-&gt;r,k);
+    n-&gt;h = 1+max(h(n-&gt;l),h(n-&gt;r)); int b = bal(n);
+    if(b&gt;1 &amp;&amp; k&lt;n-&gt;l-&gt;d) return R(n);
+    if(b&lt;-1 &amp;&amp; k&gt;n-&gt;r-&gt;d) return L(n);
+    return n;
+}
+void in(Node* r) { if(r){ in(r-&gt;l); cout&lt;&lt;r-&gt;d&lt;&lt;" "; in(r-&gt;r); } }
+int main() { Node* r=NULL; r=ins(r,10); r=ins(r,20); r=ins(r,30); in(r); return 0; }</code></pre>
+            <h3>4. HOW TO COMPILE & RUN</h3>
+            <pre><code>g++ q13.cpp -o q13 && ./q13</code></pre>
+            <h3>5. FILL IN THE BLANK CODE</h3>
+            <pre><code>if(b&gt;1 &amp;&amp; k&lt;n-&gt;l-&gt;d) return ___(n); // Right Rotate</code></pre>
+            <h3>6. QUIZ</h3>
+            <div class="quiz-box"><b>Q: Allowed balance factors?</b> A: -1, 0, 1.</div>
+            <h3>7. SAMPLE INPUT</h3>
+            <div class="io-box">Insert 10, 20, 30</div>
+            <h3>8. SAMPLE OUTPUT</h3>
+            <div class="io-box">10 20 30</div>
+            <div class="compiler-section">
+                <h3>🔥 Try It Yourself</h3>
+                <textarea id="code13" class="code-editor">#include <iostream>
+using namespace std;
+struct Node { int d, h; Node *l, *r; }; int h(Node* n) { return n?n->h:0; } int max(int a, int b) { return a>b?a:b; }
+Node* R(Node* y) { Node* x=y->l; y->l=x->r; x->r=y; y->h=max(h(y->l),h(y->r))+1; x->h=max(h(x->l),h(x->r))+1; return x; } Node* L(Node* x) { Node* y=x->r; x->r=y->l; y->l=x; x->h=max(h(x->l),h(x->r))+1; y->h=max(h(y->l),h(y->r))+1; return y; } int bal(Node* n) { return n?h(n->l)-h(n->r):0; }
+Node* ins(Node* n, int k) { if(!n) return new Node{k,1,NULL,NULL}; if(k<n->d) n->l=ins(n->l,k); else n->r=ins(n->r,k); n->h=1+max(h(n->l),h(n->r)); int b=bal(n); if(b>1&&k<n->l->d) return R(n); if(b<-1&&k>n->r->d) return L(n); return n; }
+void in(Node* r) { if(r){ in(r->l); cout<<r->d<<" "; in(r->r); } } int main() { Node* r=NULL; r=ins(r,10); r=ins(r,20); r=ins(r,30); in(r); return 0; }</textarea>
+                <textarea id="input13" class="input-box"></textarea>
+                <button class="run-btn" onclick="executeCode(this, 'code13', 'input13', 'output13')">Run Code</button>
+                <div id="output13" class="output-box"></div>
+            </div>
+        </div>
+
+        <div class="question-card">
+            <h2>SET A - Q14: Balanced Parentheses using Stack</h2>
+            <h3>1. AIM</h3>
+            <p>To check if parentheses in an expression are balanced.</p>
+            <h3>2. ALGORITHM (PSEUDOCODE)</h3>
+            <ol>
+                <li>Traverse string. Push <code>({[</code> to stack.</li>
+                <li>If closing bracket, pop. If mismatch, return false.</li>
+                <li>If stack empty at end, return true.</li>
+            </ol>
+            <h3>3. C++ PROGRAM</h3>
+            <pre><code>#include &lt;iostream&gt;
+#include &lt;stack&gt;
+using namespace std;
+bool isValid(string s) {
+    stack&lt;char&gt; st;
+    for(char c:s) {
+        if(c=='('||c=='{'||c=='[') st.push(c);
+        else {
+            if(st.empty()) return false;
+            char t=st.top(); st.pop();
+            if((c==')'&amp;&amp;t!='(') || (c=='}'&amp;&amp;t!='{') || (c==']'&amp;&amp;t!='[')) return false;
+        }
+    }
+    return st.empty();
+}
+int main() { cout &lt;&lt; (isValid("{[]}")?"Balanced":"Not Balanced") &lt;&lt; "\n"; return 0; }</code></pre>
+            <h3>4. HOW TO COMPILE & RUN</h3>
+            <pre><code>g++ q14.cpp -o q14 && ./q14</code></pre>
+            <h3>5. FILL IN THE BLANK CODE</h3>
+            <pre><code>if(c=='('||c=='{'||c=='[') st.___(c);</code></pre>
+            <h3>6. QUIZ</h3>
+            <div class="quiz-box"><b>Q: Why check st.empty() at end?</b> A: Unclosed brackets might remain.</div>
+            <h3>7. SAMPLE INPUT</h3>
+            <div class="io-box">{[]}</div>
+            <h3>8. SAMPLE OUTPUT</h3>
+            <div class="io-box">Balanced</div>
+            <div class="compiler-section">
+                <h3>🔥 Try It Yourself</h3>
+                <textarea id="code14" class="code-editor">#include <iostream>
+#include <stack>
+using namespace std;
+bool isValid(string s) { stack<char> st; for(char c:s) { if(c=='('||c=='{'||c=='[') st.push(c); else { if(st.empty()) return false; char t=st.top(); st.pop(); if((c==')'&&t!='(') || (c=='}'&&t!='{') || (c==']'&&t!='[')) return false; } } return st.empty(); }
+int main() { cout << (isValid("{[]}")?"Balanced":"Not Balanced") << "\n"; return 0; }</textarea>
+                <textarea id="input14" class="input-box"></textarea>
+                <button class="run-btn" onclick="executeCode(this, 'code14', 'input14', 'output14')">Run Code</button>
+                <div id="output14" class="output-box"></div>
+            </div>
+        </div>
+
+        <div class="question-card">
+            <h2>SET A - Q15: Min-Heap Data Structure</h2>
+            <h3>1. AIM</h3>
+            <p>To implement Min-Heap insertion.</p>
+            <h3>2. ALGORITHM (PSEUDOCODE)</h3>
+            <ol>
+                <li>Add element at end of array.</li>
+                <li>While parent &gt; child, swap (Heapify Up).</li>
+            </ol>
+            <h3>3. C++ PROGRAM</h3>
+            <pre><code>#include &lt;iostream&gt;
+#include &lt;vector&gt;
+using namespace std;
+class MinHeap {
+    vector&lt;int&gt; h;
+public:
+    void push(int v) {
+        h.push_back(v); int i=h.size()-1;
+        while(i!=0 &amp;&amp; h[(i-1)/2]&gt;h[i]) { swap(h[i], h[(i-1)/2]); i=(i-1)/2; }
+    }
+    void disp() { for(int x:h) cout&lt;&lt;x&lt;&lt;" "; cout&lt;&lt;"\n"; }
+};
+int main() { MinHeap m; m.push(10); m.push(5); m.push(20); m.disp(); return 0; }</code></pre>
+            <h3>4. HOW TO COMPILE & RUN</h3>
+            <pre><code>g++ q15.cpp -o q15 && ./q15</code></pre>
+            <h3>5. FILL IN THE BLANK CODE</h3>
+            <pre><code>while(i!=0 &amp;&amp; h[(i-1)/2] ___ h[i]) { swap(h[i], h[(i-1)/2]); }</code></pre>
+            <h3>6. QUIZ</h3>
+            <div class="quiz-box"><b>Q: What is Min-Heap property?</b> A: Parent &lt;= children.</div>
+            <h3>7. SAMPLE INPUT</h3>
+            <div class="io-box">10, 5, 20</div>
+            <h3>8. SAMPLE OUTPUT</h3>
+            <div class="io-box">5 10 20</div>
+            <div class="compiler-section">
+                <h3>🔥 Try It Yourself</h3>
+                <textarea id="code15" class="code-editor">#include <iostream>
+#include <vector>
+using namespace std;
+class MinHeap { vector<int> h; public: void push(int v) { h.push_back(v); int i=h.size()-1; while(i!=0 && h[(i-1)/2]>h[i]) { swap(h[i], h[(i-1)/2]); i=(i-1)/2; } } void disp() { for(int x:h) cout<<x<<" "; cout<<"\n"; } };
+int main() { MinHeap m; m.push(10); m.push(5); m.push(20); m.disp(); return 0; }</textarea>
+                <textarea id="input15" class="input-box"></textarea>
+                <button class="run-btn" onclick="executeCode(this, 'code15', 'input15', 'output15')">Run Code</button>
+                <div id="output15" class="output-box"></div>
+            </div>
+        </div>
+
+        <div class="question-card">
+            <h2>SET A - Q16: B-Tree of order m (Insertion)</h2>
+            <h3>1. AIM</h3>
+            <p>To implement B-Tree insertion concept (stub array-based sort for exam simplicity).</p>
+            <h3>2. ALGORITHM (PSEUDOCODE)</h3>
+            <ol>
+                <li>Insert key into node's keys. Sort keys. (Full splitting logic usually complex).</li>
+            </ol>
+            <h3>3. C++ PROGRAM</h3>
+            <pre><code>#include &lt;iostream&gt;
+#include &lt;vector&gt;
+#include &lt;algorithm&gt;
+using namespace std;
+struct BNode { vector&lt;int&gt; keys; };
+void insert(BNode* r, int k) { r-&gt;keys.push_back(k); sort(r-&gt;keys.begin(), r-&gt;keys.end()); }
+int main() { BNode* r = new BNode(); insert(r,10); insert(r,5); insert(r,20);
+    for(int k:r-&gt;keys) cout&lt;&lt;k&lt;&lt;" "; cout&lt;&lt;"\n"; return 0; }</code></pre>
+            <h3>4. HOW TO COMPILE & RUN</h3>
+            <pre><code>g++ q16.cpp -o q16 && ./q16</code></pre>
+            <h3>5. FILL IN THE BLANK CODE</h3>
+            <pre><code>r-&gt;keys.___(k); sort(r-&gt;keys.begin(), r-&gt;keys.end());</code></pre>
+            <h3>6. QUIZ</h3>
+            <div class="quiz-box"><b>Q: Why B-Tree?</b> A: Minimizes disk I/O in databases.</div>
+            <h3>7. SAMPLE INPUT</h3>
+            <div class="io-box">10, 5, 20</div>
+            <h3>8. SAMPLE OUTPUT</h3>
+            <div class="io-box">5 10 20</div>
+            <div class="compiler-section">
+                <h3>🔥 Try It Yourself</h3>
+                <textarea id="code16" class="code-editor">#include <iostream>
+#include <vector>
+#include <algorithm>
+using namespace std;
+struct BNode { vector<int> keys; };
+void insert(BNode* r, int k) { r->keys.push_back(k); sort(r->keys.begin(), r->keys.end()); }
+int main() { BNode* r = new BNode(); insert(r,10); insert(r,5); insert(r,20); for(int k:r->keys) cout<<k<<" "; cout<<"\n"; return 0; }</textarea>
+                <textarea id="input16" class="input-box"></textarea>
+                <button class="run-btn" onclick="executeCode(this, 'code16', 'input16', 'output16')">Run Code</button>
+                <div id="output16" class="output-box"></div>
+            </div>
+        </div>
+
+        <div class="question-card">
+            <h2>SET A - Q17: Polynomial Addition using Singly Linked List</h2>
+            <h3>1. AIM</h3>
+            <p>To add two polynomials represented as linked lists.</p>
+            <h3>2. ALGORITHM (PSEUDOCODE)</h3>
+            <ol>
+                <li>Traverse both lists. If pow1 &gt; pow2, print node1. If pow1 &lt; pow2, print node2. Else, add
+                    coeffs.</li>
+            </ol>
+            <h3>3. C++ PROGRAM</h3>
+            <pre><code>#include &lt;iostream&gt;
+using namespace std;
+struct Node { int c, p; Node* next; };
+void ins(Node*&amp; h, int c, int p) { Node* n=new Node{c,p,NULL}; if(!h) h=n; else { Node* t=h; while(t-&gt;next) t=t-&gt;next; t-&gt;next=n; } }
+void add(Node* h1, Node* h2) {
+    while(h1 &amp;&amp; h2) {
+        if(h1-&gt;p &gt; h2-&gt;p) { cout&lt;&lt;h1-&gt;c&lt;&lt;"x^"&lt;&lt;h1-&gt;p&lt;&lt;" + "; h1=h1-&gt;next; }
+        else if(h1-&gt;p &lt; h2-&gt;p) { cout&lt;&lt;h2-&gt;c&lt;&lt;"x^"&lt;&lt;h2-&gt;p&lt;&lt;" + "; h2=h2-&gt;next; }
+        else { cout&lt;&lt;h1-&gt;c+h2-&gt;c&lt;&lt;"x^"&lt;&lt;h1-&gt;p&lt;&lt;" + "; h1=h1-&gt;next; h2=h2-&gt;next; }
+    }
+    cout &lt;&lt; "0\n";
+}
+int main() { Node *p1=NULL, *p2=NULL; ins(p1,5,2); ins(p1,4,1); ins(p2,3,2); ins(p2,2,0); add(p1,p2); return 0; }</code></pre>
+            <h3>4. HOW TO COMPILE & RUN</h3>
+            <pre><code>g++ q17.cpp -o q17 && ./q17</code></pre>
+            <h3>5. FILL IN THE BLANK CODE</h3>
+            <pre><code>else { cout&lt;&lt;h1-&gt;c ___ h2-&gt;c; h1=h1-&gt;next; h2=h2-&gt;next; } // +</code></pre>
+            <h3>6. QUIZ</h3>
+            <div class="quiz-box"><b>Q: How are nodes sorted?</b> A: By exponent (power) descending.</div>
+            <h3>7. SAMPLE INPUT</h3>
+            <div class="io-box">5x^2 + 4x^1 AND 3x^2 + 2x^0</div>
+            <h3>8. SAMPLE OUTPUT</h3>
+            <div class="io-box">8x^2 + 4x^1 + 2x^0 + 0</div>
+            <div class="compiler-section">
+                <h3>🔥 Try It Yourself</h3>
+                <textarea id="code17" class="code-editor">#include <iostream>
+using namespace std;
+struct Node { int c, p; Node* next; };
+void ins(Node*& h, int c, int p) { Node* n=new Node{c,p,NULL}; if(!h) h=n; else { Node* t=h; while(t->next) t=t->next; t->next=n; } }
+void add(Node* h1, Node* h2) { while(h1 && h2) { if(h1->p > h2->p) { cout<<h1->c<<"x^"<<h1->p<<" + "; h1=h1->next; } else if(h1->p < h2->p) { cout<<h2->c<<"x^"<<h2->p<<" + "; h2=h2->next; } else { cout<<h1->c+h2->c<<"x^"<<h1->p<<" + "; h1=h1->next; h2=h2->next; } } cout << "0\n"; }
+int main() { Node *p1=NULL, *p2=NULL; ins(p1,5,2); ins(p1,4,1); ins(p2,3,2); ins(p2,2,0); add(p1,p2); return 0; }</textarea>
+                <textarea id="input17" class="input-box"></textarea>
+                <button class="run-btn" onclick="executeCode(this, 'code17', 'input17', 'output17')">Run Code</button>
+                <div id="output17" class="output-box"></div>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        async function executeCode(btnElement, codeId, inputId, outputId) {
+        const code = document.getElementById(codeId).value;
+        const input = document.getElementById(inputId).value;
+        const outputBox = document.getElementById(outputId);
+        
+        btnElement.disabled = true;
+        btnElement.innerText = "Running...";
+        outputBox.innerText = "Executing on remote server...";
+
+        try {
+            const response = await fetch("https://emkc.org/api/v2/piston/execute", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ language: "c++", version: "10.2.0", files: [{ name: "main.cpp", content: code }], stdin: input })
+            });
+
+            const result = await response.json();
+            
+            if (result.compile && result.compile.code !== 0) {
+                outputBox.style.color = "#ef4444";
+                outputBox.innerText = "COMPILATION ERROR:\n" + result.compile.output;
+            } else if (result.run) {
+                if (result.run.code !== 0) {
+                    outputBox.style.color = "#ef4444";
+                    outputBox.innerText = "RUNTIME ERROR:\n" + result.run.stderr;
+                } else {
+                    outputBox.style.color = "#10b981";
+                    outputBox.innerText = result.run.stdout || "Program exited with no output.";
+                }
+            } else {
+                outputBox.style.color = "#ef4444";
+                outputBox.innerText = "Unexpected API response.";
+            }
+        } catch (error) {
+            outputBox.style.color = "#ef4444";
+            outputBox.innerText = "Network error: Unable to reach compiler.\n" + error.message;
+        } finally {
+            btnElement.disabled = false;
+            btnElement.innerText = "Run Code";
+        }
+    }
+    </script>
+
+</body>
+
+</html>

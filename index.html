@@ -94,6 +94,21 @@ button {
 button:hover {
     background: linear-gradient(135deg,#5a0fbf,#1f63d8);
 }
+textarea {
+    height: 110px;
+    resize: none;
+}
+
+button {
+    background: linear-gradient(135deg,#6a11cb,#2575fc);
+    font-weight: bold;
+    transition: 0.3s;
+}
+
+button:hover {
+    transform: scale(1.05);
+}
+
 
     </style>
 </head>
@@ -109,21 +124,30 @@ button:hover {
     <!-- CARDS CONTAINER -->
     <div class="container" id="cardContainer"></div>
 
-    <!-- FEEDBACK -->
-<div style="margin-top:60px; padding:20px; background:#fff; border-radius:15px; width:80%; margin-left:auto; margin-right:auto; box-shadow:0 4px 10px rgba(0,0,0,0.1);">
+   <!-- FEEDBACK -->
+<div style="margin-top:60px; padding:25px; background:#fff; border-radius:15px; width:85%; margin-left:auto; margin-right:auto; box-shadow:0 4px 15px rgba(0,0,0,0.1);">
 
-    <h2>💬 Help Us Improve</h2>
-    <p>What do you want next? 📘 Notes, Question Papers, Important Topics, or New Subjects?</p>
+    <h2>💬 Suggestions & Requests</h2>
+
+    <p>
+        What do you need next? 📘 <br>
+        Notes, Question Papers, Important Topics, or New Subjects.
+    </p>
+
+    <p style="font-size:14px; color:#555;">
+        ⚡ Updates and fixes are added regularly based on your requests.
+    </p>
 
     <input type="text" id="name" placeholder="Your Name (optional)"><br>
 
-    <textarea id="feedback" placeholder="Example: Add OS notes, previous year questions, or more ECE subjects..."></textarea><br>
+    <textarea id="feedback" placeholder="Example: Add OS notes, PYQ, or more ECE subjects..."></textarea><br>
 
-    <button onclick="submitFeedback()">🚀 Submit Suggestion</button>
+    <button onclick="submitFeedback()">Submit Request</button>
 
     <p id="msg"></p>
 
 </div>
+
 
 
     <!-- FOOTER -->
@@ -230,7 +254,7 @@ function submitFeedback() {
     const payload = {
         ID: "lab_" + Date.now(),
         SiteName: "Lab Manual Hub",
-        Type: "Typename",
+        Type: "name",
         Name: "",            // keep empty or remove if not needed
         Email: name,         // ✅ NAME stored in EMAIL column
         Rating: "N/A",
@@ -254,11 +278,10 @@ function submitFeedback() {
     })
     .then(() => {
         msg.style.color = "green";
-        msg.innerText = "✅ Feedback saved successfully!";
+        msg.innerText = "✅ Request received! Updates will be added soon.";
+
         document.getElementById("name").value = "";
         document.getElementById("feedback").value = "";
- document.getElementById("Typename").value = "";
-
     })
     .catch((err) => {
         console.error(err);
