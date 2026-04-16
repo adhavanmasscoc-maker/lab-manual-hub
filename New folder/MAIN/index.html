@@ -1,0 +1,1182 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>C++ Programming & Data Structures Lab Manual</title>
+    <style>
+        /* CSS Reset & Anti-Scroll Full View Setup */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f8fafc;
+            color: #334155;
+            height: 100vh;
+            width: 100vw;
+            overflow: hidden;
+            display: flex;
+            flex-direction: row;
+        }
+
+        /* Mobile Top Bar */
+        .mobile-top-bar {
+            display: none;
+            background-color: #0f172a;
+            color: white;
+            padding: 15px 20px;
+            align-items: center;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+        }
+
+        .menu-btn {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 24px;
+            cursor: pointer;
+            margin-right: 15px;
+        }
+
+        .mobile-top-bar h2 {
+            font-size: 18px;
+            margin: 0;
+            font-weight: 600;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: 280px;
+            background-color: #1e293b;
+            color: #fff;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            flex-shrink: 0;
+            z-index: 999;
+            transition: transform 0.3s ease;
+        }
+
+        .sidebar-header {
+            padding: 20px;
+            background-color: #0f172a;
+            border-bottom: 3px solid #3b82f6;
+            text-align: center;
+        }
+
+        .sidebar-header h3 {
+            font-size: 1.1rem;
+            color: #60a5fa;
+            margin: 0;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .nav-links {
+            flex-grow: 1;
+            overflow-y: auto;
+            padding-bottom: 20px;
+        }
+
+        .nav-links::-webkit-scrollbar {
+            width: 5px;
+        }
+
+        .nav-links::-webkit-scrollbar-thumb {
+            background: #475569;
+            border-radius: 4px;
+        }
+
+        .nav-links a {
+            display: block;
+            color: #cbd5e1;
+            text-decoration: none;
+            padding: 14px 20px;
+            font-size: 13px;
+            font-weight: 500;
+            border-bottom: 1px solid #334155;
+            transition: all 0.2s;
+        }
+
+        .nav-links a:hover {
+            background-color: #3b82f6;
+            color: #fff;
+            padding-left: 25px;
+        }
+
+        /* Main Content */
+        .main-content {
+            flex-grow: 1;
+            height: 100%;
+            overflow-y: auto;
+            padding: 30px 40px;
+            scroll-behavior: smooth;
+        }
+
+        .main-content::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .main-content::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 4px;
+        }
+
+        .content-wrapper {
+            max-width: 850px;
+            margin: 0 auto;
+        }
+
+        /* Cards & Typography */
+        .header-card {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            text-align: center;
+            margin-bottom: 30px;
+            border-top: 5px solid #3b82f6;
+        }
+
+        .header-card h1 {
+            color: #1e293b;
+            font-size: 22px;
+            margin-bottom: 5px;
+            font-weight: 800;
+        }
+
+        .header-card p {
+            color: #64748b;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .card {
+            background-color: #fff;
+            padding: 25px 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            margin-bottom: 40px;
+            border-left: 5px solid #3b82f6;
+        }
+
+        .card-header {
+            border-bottom: 2px solid #e2e8f0;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+
+        .card-header h2 {
+            font-size: 20px;
+            color: #0f172a;
+            margin: 0;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+
+        h4 {
+            font-size: 15px;
+            color: #1d4ed8;
+            margin: 20px 0 10px 0;
+            text-transform: uppercase;
+            font-weight: 800;
+            letter-spacing: 0.5px;
+        }
+
+        p,
+        ol {
+            color: #475569;
+            line-height: 1.6;
+            font-size: 14px;
+        }
+
+        ol {
+            padding-left: 20px;
+        }
+
+        li {
+            margin-bottom: 6px;
+        }
+
+        /* Code & Results */
+        pre {
+            background-color: #0f172a;
+            color: #f8fafc;
+            border-radius: 6px;
+            padding: 15px;
+            overflow-x: auto;
+            font-family: 'Consolas', monospace;
+            font-size: 13px;
+            margin-top: 8px;
+            line-height: 1.4;
+            border: 1px solid #1e293b;
+        }
+
+        .output {
+            background-color: #f0fdf4;
+            color: #166534;
+            border: 1px solid #bbf7d0;
+            border-left: 5px solid #22c55e;
+            font-weight: 700;
+        }
+
+        .result {
+            background-color: #eff6ff;
+            border: 1px solid #bfdbfe;
+            border-left: 5px solid #3b82f6;
+            padding: 12px 15px;
+            border-radius: 4px;
+            font-weight: 600;
+            color: #1e40af;
+            margin-top: 15px;
+            font-size: 14px;
+        }
+
+        /* Mobile Adjustments */
+        @media screen and (max-width: 800px) {
+            body {
+                flex-direction: column;
+            }
+
+            .mobile-top-bar {
+                display: flex;
+            }
+
+            .sidebar {
+                position: fixed;
+                top: 54px;
+                left: 0;
+                height: calc(100vh - 54px);
+                transform: translateX(-100%);
+                width: 260px;
+                box-shadow: 2px 0 10px rgba(0, 0, 0, 0.2);
+            }
+
+            .sidebar.active {
+                transform: translateX(0);
+            }
+
+            .main-content {
+                height: calc(100vh - 54px);
+                padding: 15px;
+            }
+
+            .card {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="mobile-top-bar">
+        <button class="menu-btn" onclick="toggleMenu()">☰</button>
+        <h2>Lab Manual</h2>
+    </div>
+
+    <div class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <h3>CS5211 C++ & DS</h3>
+        </div>
+        <div class="nav-links">
+            <a href="#exp1" onclick="closeMenu()">1. Constructor & Destructor</a>
+            <a href="#exp2" onclick="closeMenu()">2. Copy Constructor</a>
+            <a href="#exp3" onclick="closeMenu()">3. Function Overloading</a>
+            <a href="#exp4" onclick="closeMenu()">4. Inheritance</a>
+            <a href="#exp5" onclick="closeMenu()">5. Polymorphism</a>
+            <a href="#exp6" onclick="closeMenu()">6. Stack Implementation</a>
+            <a href="#exp7" onclick="closeMenu()">7. Queue Implementation</a>
+            <a href="#exp8" onclick="closeMenu()">8. Expression Evaluation</a>
+            <a href="#exp9" onclick="closeMenu()">9. Infix to Postfix</a>
+            <a href="#exp10" onclick="closeMenu()">10. Singly Linked List</a>
+            <a href="#exp11" onclick="closeMenu()">11. Doubly Linked List</a>
+            <a href="#exp12" onclick="closeMenu()">12. Binary Tree Traversal</a>
+            <a href="#exp13" onclick="closeMenu()">13. Binary Search Tree</a>
+        </div>
+    </div>
+
+    <div class="main-content" id="main-content">
+        <div class="content-wrapper">
+
+            <div class="header-card">
+                <h1>CS5211 - C++ PROGRAMMING & DATA STRUCTURES</h1>
+                <p>LAB MANUAL | OPTIMIZED EDITION</p>
+            </div>
+
+            <div id="exp1" class="card">
+                <div class="card-header">
+                    <h2>EX NO: 1 - Constructor and Destructor</h2>
+                </div>
+                <h4>AIM</h4>
+                <p>To create a class called 'SimpleClass' and demonstrate the invocation of its Constructor and
+                    Destructor.</p>
+
+                <h4>ALGORITHM</h4>
+                <ol>
+                    <li>Define a class <code>SimpleClass</code>.</li>
+                    <li>Create a Constructor to print an initialization message.</li>
+                    <li>Create a Destructor (<code>~SimpleClass</code>) to print a destruction message.</li>
+                    <li>In <code>main()</code>, create an object. Observe automatic constructor/destructor calls.</li>
+                </ol>
+
+                <h4>PROGRAM</h4>
+                <pre><code>#include &lt;iostream&gt;
+using namespace std;
+
+class SimpleClass {
+public:
+    SimpleClass() {
+        cout &lt;&lt; "Constructor: Object of SimpleClass created." &lt;&lt; endl;
+    }
+    ~SimpleClass() {
+        cout &lt;&lt; "Destructor: Object of SimpleClass destroyed." &lt;&lt; endl;
+    }
+    void status() {
+        cout &lt;&lt; "Message: The class instance is currently in use." &lt;&lt; endl;
+    }
+};
+
+int main() {
+    cout &lt;&lt; "--- Program Execution Starts ---" &lt;&lt; endl;
+    SimpleClass obj;
+    obj.status();
+    cout &lt;&lt; "--- Program Execution Ends ---" &lt;&lt; endl;
+    return 0;
+}</code></pre>
+
+                <h4>OUTPUT</h4>
+                <pre class="output">--- Program Execution Starts ---
+Constructor: Object of SimpleClass created.
+Message: The class instance is currently in use.
+--- Program Execution Ends ---
+Destructor: Object of SimpleClass destroyed.</pre>
+
+                <h4>RESULT</h4>
+                <div class="result">The program successfully demonstrates that the constructor is called upon object
+                    creation, and the destructor is called automatically before termination.</div>
+            </div>
+
+            <div id="exp2" class="card">
+                <div class="card-header">
+                    <h2>EX NO: 2 - Copy Constructor</h2>
+                </div>
+                <h4>AIM</h4>
+                <p>To create a Person class and demonstrate the use of a Copy Constructor to replicate an existing
+                    object.</p>
+
+                <h4>ALGORITHM</h4>
+                <ol>
+                    <li>Define a <code>Person</code> class with <code>name</code> and <code>age</code>.</li>
+                    <li>Define a Parameterized Constructor to initialize data.</li>
+                    <li>Define a Copy Constructor: <code>Person(const Person &source)</code> to copy members.</li>
+                    <li>In <code>main()</code>, instantiate object 1, then create object 2 as a copy of object 1.</li>
+                </ol>
+
+                <h4>PROGRAM</h4>
+                <pre><code>#include &lt;iostream&gt;
+#include &lt;string&gt;
+using namespace std;
+
+class Person {
+private:
+    string name; int age;
+public:
+    Person(string n, int a) {
+        name = n; age = a;
+        cout &lt;&lt; "Parameterized Constructor called." &lt;&lt; endl;
+    }
+    Person(const Person &source) {
+        name = source.name; age = source.age;
+        cout &lt;&lt; "Copy Constructor called." &lt;&lt; endl;
+    }
+    void display() {
+        cout &lt;&lt; "Name: " &lt;&lt; name &lt;&lt; ", Age: " &lt;&lt; age &lt;&lt; endl;
+    }
+};
+
+int main() {
+    cout &lt;&lt; "--- Initializing Original Object ---" &lt;&lt; endl;
+    Person person1("Alice", 25);
+    person1.display();
+    
+    cout &lt;&lt; "\n--- Initializing Copied Object ---" &lt;&lt; endl;
+    Person person2 = person1;
+    person2.display();
+    return 0;
+}</code></pre>
+
+                <h4>OUTPUT</h4>
+                <pre class="output">--- Initializing Original Object ---
+Parameterized Constructor called.
+Name: Alice, Age: 25
+
+--- Initializing Copied Object ---
+Copy Constructor called.
+Name: Alice, Age: 25</pre>
+
+                <h4>RESULT</h4>
+                <div class="result">The copy constructor successfully cloned the data from the source object to the new
+                    object.</div>
+            </div>
+
+            <div id="exp3" class="card">
+                <div class="card-header">
+                    <h2>EX NO: 3 - Function Overloading</h2>
+                </div>
+                <h4>AIM</h4>
+                <p>To demonstrate function overloading by creating multiple <code>add()</code> functions handling
+                    different numbers of parameters.</p>
+
+                <h4>ALGORITHM</h4>
+                <ol>
+                    <li>Define a <code>Calculator</code> class.</li>
+                    <li>Create overloaded <code>add</code> functions taking 2, 3, and 4 integer parameters.</li>
+                    <li>Call the functions with different argument counts and print results.</li>
+                </ol>
+
+                <h4>PROGRAM</h4>
+                <pre><code>#include &lt;iostream&gt;
+using namespace std;
+
+class Calculator {
+public:
+    int add(int a, int b) { return a + b; }
+    int add(int a, int b, int c) { return a + b + c; }
+    int add(int a, int b, int c, int d) { return a + b + c + d; }
+};
+
+int main() {
+    Calculator calc;
+    cout &lt;&lt; "--- Calculator: Function Overloading ---" &lt;&lt; endl;
+    cout &lt;&lt; "Sum of 10 + 20 = " &lt;&lt; calc.add(10, 20) &lt;&lt; endl;
+    cout &lt;&lt; "Sum of 10 + 20 + 30 = " &lt;&lt; calc.add(10, 20, 30) &lt;&lt; endl;
+    cout &lt;&lt; "Sum of 10 + 20 + 30 + 40 = " &lt;&lt; calc.add(10, 20, 30, 40) &lt;&lt; endl;
+    return 0;
+}</code></pre>
+
+                <h4>OUTPUT</h4>
+                <pre class="output">--- Calculator: Function Overloading ---
+Sum of 10 + 20 = 30
+Sum of 10 + 20 + 30 = 60
+Sum of 10 + 20 + 30 + 40 = 100</pre>
+
+                <h4>RESULT</h4>
+                <div class="result">The program successfully demonstrated function overloading using the same function
+                    name with varying parameter counts.</div>
+            </div>
+
+            <div id="exp4" class="card">
+                <div class="card-header">
+                    <h2>EX NO: 4 - Inheritance</h2>
+                </div>
+                <h4>AIM</h4>
+                <p>To calculate the area of a triangle using the concept of Single Inheritance.</p>
+
+                <h4>ALGORITHM</h4>
+                <ol>
+                    <li>Define a Base Class <code>Shape</code> with protected variables width and height, and a
+                        <code>setValues</code> function.</li>
+                    <li>Define a Derived Class <code>Triangle</code> inheriting from <code>Shape</code> with a
+                        <code>getArea()</code> method.</li>
+                    <li>Instantiate <code>Triangle</code>, set dimensions using the base method, and calculate area.
+                    </li>
+                </ol>
+
+                <h4>PROGRAM</h4>
+                <pre><code>#include &lt;iostream&gt;
+using namespace std;
+
+class Shape {
+protected:
+    double width, height;
+public:
+    void setValues(double w, double h) {
+        width = w; height = h;
+    }
+};
+
+class Triangle : public Shape {
+public:
+    double getArea() {
+        return (width * height) / 2;
+    }
+};
+
+int main() {
+    Triangle tri;
+    double b = 10, h = 5;
+    cout &lt;&lt; "--- Triangle Area Calculator ---" &lt;&lt; endl;
+    tri.setValues(b, h);
+    cout &lt;&lt; "Base: " &lt;&lt; b &lt;&lt; " Height: " &lt;&lt; h &lt;&lt; endl;
+    cout &lt;&lt; "Calculated Area: " &lt;&lt; tri.getArea() &lt;&lt; endl;
+    return 0;
+}</code></pre>
+
+                <h4>OUTPUT</h4>
+                <pre class="output">--- Triangle Area Calculator ---
+Base: 10 Height: 5
+Calculated Area: 25</pre>
+
+                <h4>RESULT</h4>
+                <div class="result">The program successfully demonstrated single inheritance, reusing Base class methods
+                    in the Derived class.</div>
+            </div>
+
+            <div id="exp5" class="card">
+                <div class="card-header">
+                    <h2>EX NO: 5 - Polymorphism</h2>
+                </div>
+                <h4>AIM</h4>
+                <p>To demonstrate polymorphism using a base class Shape and derived classes Circle and Rectangle to
+                    calculate area.</p>
+
+                <h4>ALGORITHM</h4>
+                <ol>
+                    <li>Create Base Class <code>Shape</code> with a virtual <code>calculateArea()</code> method.</li>
+                    <li>Create Derived Classes <code>Circle</code> and <code>Rectangle</code> that override the virtual
+                        method.</li>
+                    <li>Use a Base Class Pointer (<code>Shape*</code>) to call the area functions at runtime
+                        dynamically.</li>
+                </ol>
+
+                <h4>PROGRAM</h4>
+                <pre><code>#include &lt;iostream&gt;
+using namespace std;
+
+class Shape {
+public:
+    virtual void calculateArea() {
+        cout &lt;&lt; "Area of generic shape is undefined." &lt;&lt; endl;
+    }
+};
+
+class Circle : public Shape {
+private: float radius;
+public:
+    Circle(float r) : radius(r) {}
+    void calculateArea() override {
+        cout &lt;&lt; "Area of Circle: " &lt;&lt; 3.14 * radius * radius &lt;&lt; endl;
+    }
+};
+
+class Rectangle : public Shape {
+private: float length, width;
+public:
+    Rectangle(float l, float w) : length(l), width(w) {}
+    void calculateArea() override {
+        cout &lt;&lt; "Area of Rectangle: " &lt;&lt; length * width &lt;&lt; endl;
+    }
+};
+
+int main() {
+    Shape* shapePtr;
+    Circle c(5);
+    Rectangle r(4, 6);
+    
+    cout &lt;&lt; "--- Demonstrating Polymorphism ---" &lt;&lt; endl;
+    shapePtr = &c;
+    shapePtr-&gt;calculateArea(); 
+    
+    shapePtr = &r;
+    shapePtr-&gt;calculateArea(); 
+    return 0;
+}</code></pre>
+
+                <h4>OUTPUT</h4>
+                <pre class="output">--- Demonstrating Polymorphism ---
+Area of Circle: 78.5
+Area of Rectangle: 24</pre>
+
+                <h4>RESULT</h4>
+                <div class="result">Polymorphism was successfully demonstrated. The Base pointer dynamically executed
+                    the correct overridden method at runtime.</div>
+            </div>
+
+            <div id="exp6" class="card">
+                <div class="card-header">
+                    <h2>EX NO: 6 - Stack Implementation</h2>
+                </div>
+                <h4>AIM</h4>
+                <p>To implement a Stack data structure in C++ using an array-based approach within a class.</p>
+
+                <h4>ALGORITHM</h4>
+                <ol>
+                    <li>Define a class <code>Stack</code> with an array and an integer <code>top</code> initialized to
+                        -1.</li>
+                    <li><strong>Push:</strong> Check for overflow. Increment top and insert the value.</li>
+                    <li><strong>Pop:</strong> Check for underflow. Retrieve value and decrement top.</li>
+                </ol>
+
+                <h4>PROGRAM</h4>
+                <pre><code>#include &lt;iostream&gt;
+using namespace std;
+#define MAX 5
+
+class Stack {
+    int top; int arr[MAX];
+public:
+    Stack() { top = -1; }
+    bool push(int x) {
+        if (top &gt;= (MAX - 1)) {
+            cout &lt;&lt; "Stack Overflow!" &lt;&lt; endl; return false;
+        }
+        arr[++top] = x;
+        cout &lt;&lt; x &lt;&lt; " pushed into stack\n";
+        return true;
+    }
+    int pop() {
+        if (top &lt; 0) {
+            cout &lt;&lt; "Stack Underflow!\n"; return 0;
+        }
+        return arr[top--];
+    }
+    int peek() {
+        if (top &lt; 0) return 0;
+        return arr[top];
+    }
+};
+
+int main() {
+    Stack s;
+    cout &lt;&lt; "--- Stack Operations ---" &lt;&lt; endl;
+    s.push(10); s.push(20); s.push(30);
+    cout &lt;&lt; "Top element is: " &lt;&lt; s.peek() &lt;&lt; endl;
+    cout &lt;&lt; s.pop() &lt;&lt; " popped from stack\n";
+    cout &lt;&lt; "Top element after pop: " &lt;&lt; s.peek() &lt;&lt; endl;
+    return 0;
+}</code></pre>
+
+                <h4>OUTPUT</h4>
+                <pre class="output">--- Stack Operations ---
+10 pushed into stack
+20 pushed into stack
+30 pushed into stack
+Top element is: 30
+30 popped from stack
+Top element after pop: 20</pre>
+
+                <h4>RESULT</h4>
+                <div class="result">The Stack implementation successfully demonstrated LIFO property behavior.</div>
+            </div>
+
+            <div id="exp7" class="card">
+                <div class="card-header">
+                    <h2>EX NO: 7 - Queue Implementation</h2>
+                </div>
+                <h4>AIM</h4>
+                <p>To implement a Queue data structure in C++ using an array-based approach.</p>
+
+                <h4>ALGORITHM</h4>
+                <ol>
+                    <li>Define a class <code>Queue</code> with array, <code>front</code> (-1), and <code>rear</code>
+                        (-1).</li>
+                    <li><strong>Enqueue:</strong> Check if full. Increment <code>rear</code> and store the value.</li>
+                    <li><strong>Dequeue:</strong> Check if empty. Retrieve value at <code>front</code> and increment
+                        <code>front</code>.</li>
+                </ol>
+
+                <h4>PROGRAM</h4>
+                <pre><code>#include &lt;iostream&gt;
+using namespace std;
+#define MAX 5
+
+class Queue {
+private:
+    int items[MAX], front, rear;
+public:
+    Queue() { front = -1; rear = -1; }
+    bool isFull() { return (rear == MAX - 1); }
+    bool isEmpty() { return (front == -1 || front &gt; rear); }
+    
+    void enqueue(int element) {
+        if (isFull()) cout &lt;&lt; "Queue Overflow!\n";
+        else {
+            if (front == -1) front = 0;
+            items[++rear] = element;
+            cout &lt;&lt; "Enqueued: " &lt;&lt; element &lt;&lt; endl;
+        }
+    }
+    int dequeue() {
+        if (isEmpty()) return -1;
+        int element = items[front++];
+        if (front &gt; rear) front = rear = -1;
+        return element;
+    }
+    void display() {
+        if (!isEmpty()) {
+            cout &lt;&lt; "Queue elements: ";
+            for (int i = front; i &lt;= rear; i++) cout &lt;&lt; items[i] &lt;&lt; " ";
+            cout &lt;&lt; endl;
+        }
+    }
+};
+
+int main() {
+    Queue q;
+    cout &lt;&lt; "--- Queue Operations ---" &lt;&lt; endl;
+    q.enqueue(10); q.enqueue(20); q.enqueue(30);
+    q.display();
+    cout &lt;&lt; "Dequeued element: " &lt;&lt; q.dequeue() &lt;&lt; endl;
+    cout &lt;&lt; "After Dequeue "; q.display();
+    return 0;
+}</code></pre>
+
+                <h4>OUTPUT</h4>
+                <pre class="output">--- Queue Operations ---
+Enqueued: 10
+Enqueued: 20
+Enqueued: 30
+Queue elements: 10 20 30 
+Dequeued element: 10
+After Dequeue Queue elements: 20 30</pre>
+
+                <h4>RESULT</h4>
+                <div class="result">The Queue program executed successfully, confirming the FIFO property of the data
+                    structure.</div>
+            </div>
+
+            <div id="exp8" class="card">
+                <div class="card-header">
+                    <h2>EX NO: 8 - Expression Evaluation</h2>
+                </div>
+                <h4>AIM</h4>
+                <p>To evaluate a given infix mathematical expression using stack-based logic.</p>
+
+                <h4>ALGORITHM</h4>
+                <ol>
+                    <li>Create two stacks: <code>values</code> (for integers) and <code>ops</code> (for operators).</li>
+                    <li>Push numbers into <code>values</code>. For operators, pop and apply operations based on
+                        precedence rules.</li>
+                    <li>Process parenthesis <code>( )</code> recursively by evaluating sub-expressions.</li>
+                    <li>The final result remains in the <code>values</code> stack.</li>
+                </ol>
+
+                <h4>PROGRAM</h4>
+                <pre><code>#include &lt;iostream&gt;
+#include &lt;stack&gt;
+#include &lt;string&gt;
+#include &lt;cctype&gt;
+using namespace std;
+
+int precedence(char op) {
+    if (op == '+' || op == '-') return 1;
+    if (op == '*' || op == '/') return 2;
+    return 0;
+}
+int applyOp(int a, int b, char op) {
+    switch (op) {
+        case '+': return a + b;
+        case '-': return a - b;
+        case '*': return a * b;
+        case '/': return a / b;
+    } return 0;
+}
+
+int evaluate(string tokens) {
+    stack&lt;int&gt; values; stack&lt;char&gt; ops;
+    for (int i = 0; i &lt; tokens.length(); i++) {
+        if (isspace(tokens[i])) continue;
+        if (isdigit(tokens[i])) {
+            int val = 0;
+            while (i &lt; tokens.length() &amp;&amp; isdigit(tokens[i]))
+                val = (val * 10) + (tokens[i++] - '0');
+            values.push(val); i--;
+        }
+        else if (tokens[i] == '(') ops.push(tokens[i]);
+        else if (tokens[i] == ')') {
+            while (!ops.empty() &amp;&amp; ops.top() != '(') {
+                int b = values.top(); values.pop();
+                int a = values.top(); values.pop();
+                char op = ops.top(); ops.pop();
+                values.push(applyOp(a, b, op));
+            }
+            if (!ops.empty()) ops.pop();
+        }
+        else {
+            while (!ops.empty() &amp;&amp; precedence(ops.top()) &gt;= precedence(tokens[i])) {
+                int b = values.top(); values.pop();
+                int a = values.top(); values.pop();
+                char op = ops.top(); ops.pop();
+                values.push(applyOp(a, b, op));
+            }
+            ops.push(tokens[i]);
+        }
+    }
+    while (!ops.empty()) {
+        int b = values.top(); values.pop();
+        int a = values.top(); values.pop();
+        char op = ops.top(); ops.pop();
+        values.push(applyOp(a, b, op));
+    }
+    return values.top();
+}
+
+int main() {
+    string exp = "10+2*6";
+    cout &lt;&lt; "Expression: " &lt;&lt; exp &lt;&lt; "\nResult: " &lt;&lt; evaluate(exp) &lt;&lt; endl;
+    return 0;
+}</code></pre>
+
+                <h4>OUTPUT</h4>
+                <pre class="output">Expression: 10+2*6
+Result: 22</pre>
+
+                <h4>RESULT</h4>
+                <div class="result">The program successfully implements infix expression evaluation respecting BODMAS
+                    operator precedence.</div>
+            </div>
+
+            <div id="exp9" class="card">
+                <div class="card-header">
+                    <h2>EX NO: 9 - Infix to Postfix Notation</h2>
+                </div>
+                <h4>AIM</h4>
+                <p>To convert a given infix expression into its equivalent postfix expression using a stack.</p>
+
+                <h4>ALGORITHM</h4>
+                <ol>
+                    <li>Scan infix expression. Output operands directly.</li>
+                    <li>Push <code>(</code> to stack. If <code>)</code>, pop and output until <code>(</code>.</li>
+                    <li>For operators, pop operators from the stack with higher or equal precedence to output, then push
+                        the current operator.</li>
+                </ol>
+
+                <h4>PROGRAM</h4>
+                <pre><code>#include &lt;iostream&gt;
+#include &lt;stack&gt;
+#include &lt;string&gt;
+using namespace std;
+
+int prec(char c) {
+    if (c == '^') return 3;
+    else if (c == '/' || c == '*') return 2;
+    else if (c == '+' || c == '-') return 1;
+    return -1;
+}
+
+void infixToPostfix(string s) {
+    stack&lt;char&gt; st; string result;
+    for (int i = 0; i &lt; s.length(); i++) {
+        char c = s[i];
+        if (isalnum(c)) result += c;
+        else if (c == '(') st.push('(');
+        else if (c == ')') {
+            while (st.top() != '(') {
+                result += st.top(); st.pop();
+            }
+            st.pop();
+        }
+        else {
+            while (!st.empty() &amp;&amp; prec(s[i]) &lt;= prec(st.top())) {
+                result += st.top(); st.pop();
+            }
+            st.push(c);
+        }
+    }
+    while (!st.empty()) { result += st.top(); st.pop(); }
+    cout &lt;&lt; "Postfix Expression: " &lt;&lt; result &lt;&lt; endl;
+}
+
+int main() {
+    string exp = "A+B*C";
+    cout &lt;&lt; "Infix Expression: " &lt;&lt; exp &lt;&lt; endl;
+    infixToPostfix(exp);
+    return 0;
+}</code></pre>
+
+                <h4>OUTPUT</h4>
+                <pre class="output">Infix Expression: A+B*C
+Postfix Expression: ABC*+</pre>
+
+                <h4>RESULT</h4>
+                <div class="result">The infix to postfix conversion was successfully executed.</div>
+            </div>
+
+            <div id="exp10" class="card">
+                <div class="card-header">
+                    <h2>EX NO: 10 - Singly Linked List</h2>
+                </div>
+                <h4>AIM</h4>
+                <p>To implement a Singly Linked List and perform Insertion, Deletion, and Traversing.</p>
+
+                <h4>ALGORITHM</h4>
+                <ol>
+                    <li>Define a <code>Node</code> structure with data and <code>next</code> pointer.</li>
+                    <li><strong>Insert:</strong> Traverse to the end of the list and link a newly created node.</li>
+                    <li><strong>Delete:</strong> Search for the node. Bypass it by linking the previous node to its next
+                        node.</li>
+                </ol>
+
+                <h4>PROGRAM</h4>
+                <pre><code>#include &lt;iostream&gt;
+using namespace std;
+
+struct Node { int data; Node* next; };
+
+class LinkedList {
+    Node* head;
+public:
+    LinkedList() { head = NULL; }
+    void insert(int val) {
+        Node* newNode = new Node();
+        newNode-&gt;data = val; newNode-&gt;next = NULL;
+        if (!head) head = newNode;
+        else {
+            Node* temp = head;
+            while (temp-&gt;next) temp = temp-&gt;next;
+            temp-&gt;next = newNode;
+        }
+    }
+    void deleteNode(int key) {
+        Node *temp = head, *prev = NULL;
+        if (temp &amp;&amp; temp-&gt;data == key) {
+            head = temp-&gt;next; delete temp; return;
+        }
+        while (temp &amp;&amp; temp-&gt;data != key) {
+            prev = temp; temp = temp-&gt;next;
+        }
+        if (!temp) return;
+        prev-&gt;next = temp-&gt;next;
+        delete temp;
+    }
+    void display() {
+        Node* temp = head;
+        while (temp) { cout &lt;&lt; temp-&gt;data &lt;&lt; " -&gt; "; temp = temp-&gt;next; }
+        cout &lt;&lt; "NULL" &lt;&lt; endl;
+    }
+};
+
+int main() {
+    LinkedList list;
+    list.insert(10); list.insert(20); list.insert(30);
+    list.display();
+    list.deleteNode(20);
+    list.display();
+    return 0;
+}</code></pre>
+
+                <h4>OUTPUT</h4>
+                <pre class="output">10 -&gt; 20 -&gt; 30 -&gt; NULL
+10 -&gt; 30 -&gt; NULL</pre>
+
+                <h4>RESULT</h4>
+                <div class="result">The Singly Linked List was successfully implemented enabling dynamic memory
+                    manipulation.</div>
+            </div>
+
+            <div id="exp11" class="card">
+                <div class="card-header">
+                    <h2>EX NO: 11 - Doubly Linked List</h2>
+                </div>
+                <h4>AIM</h4>
+                <p>To implement a Doubly Linked List and perform Insertion, Deletion, and Forward Traversal.</p>
+
+                <h4>ALGORITHM</h4>
+                <ol>
+                    <li>Define a <code>Node</code> with data, <code>next</code>, and <code>prev</code> pointers.</li>
+                    <li><strong>Insert:</strong> Traverse to end, link new node, set its <code>prev</code> to the last
+                        node.</li>
+                    <li><strong>Delete:</strong> Unlink node by updating <code>next</code> of the previous and
+                        <code>prev</code> of the next node.</li>
+                </ol>
+
+                <h4>PROGRAM</h4>
+                <pre><code>#include &lt;iostream&gt;
+using namespace std;
+
+struct Node { int data; Node* next; Node* prev; };
+
+class DoublyLinkedList {
+    Node* head;
+public:
+    DoublyLinkedList() { head = NULL; }
+    void insert(int val) {
+        Node* newNode = new Node();
+        newNode-&gt;data = val; newNode-&gt;next = NULL;
+        if (!head) { newNode-&gt;prev = NULL; head = newNode; }
+        else {
+            Node* temp = head;
+            while (temp-&gt;next) temp = temp-&gt;next;
+            temp-&gt;next = newNode; newNode-&gt;prev = temp;
+        }
+    }
+    void deleteNode(int key) {
+        if (!head) return;
+        Node* temp = head;
+        while (temp &amp;&amp; temp-&gt;data != key) temp = temp-&gt;next;
+        if (!temp) return;
+        if (temp == head) head = temp-&gt;next;
+        if (temp-&gt;next) temp-&gt;next-&gt;prev = temp-&gt;prev;
+        if (temp-&gt;prev) temp-&gt;prev-&gt;next = temp-&gt;next;
+        delete temp;
+    }
+    void displayForward() {
+        Node* temp = head;
+        while (temp) { cout &lt;&lt; temp-&gt;data &lt;&lt; " &lt;-&gt; "; temp = temp-&gt;next; }
+        cout &lt;&lt; "NULL\n";
+    }
+};
+
+int main() {
+    DoublyLinkedList dll;
+    dll.insert(10); dll.insert(20); dll.insert(30);
+    dll.displayForward();
+    dll.deleteNode(20);
+    dll.displayForward();
+    return 0;
+}</code></pre>
+
+                <h4>OUTPUT</h4>
+                <pre class="output">10 &lt;-&gt; 20 &lt;-&gt; 30 &lt;-&gt; NULL
+10 &lt;-&gt; 30 &lt;-&gt; NULL</pre>
+
+                <h4>RESULT</h4>
+                <div class="result">The Doubly Linked List was successfully implemented providing bidirectional data
+                    manipulation.</div>
+            </div>
+
+            <div id="exp12" class="card">
+                <div class="card-header">
+                    <h2>EX NO: 12 - Binary Tree Traversal</h2>
+                </div>
+                <h4>AIM</h4>
+                <p>To create a binary tree and perform Preorder, Inorder, and Postorder traversals using recursion.</p>
+
+                <h4>ALGORITHM</h4>
+                <ol>
+                    <li>Define a <code>Node</code> structure (left, right, data).</li>
+                    <li><strong>Preorder:</strong> Visit Root, then recur left, then recur right.</li>
+                    <li><strong>Inorder:</strong> Recur left, then visit Root, then recur right.</li>
+                    <li><strong>Postorder:</strong> Recur left, then recur right, then visit Root.</li>
+                </ol>
+
+                <h4>PROGRAM</h4>
+                <pre><code>#include &lt;iostream&gt;
+using namespace std;
+
+struct Node {
+    int data; Node *left, *right;
+    Node(int val) { data = val; left = right = NULL; }
+};
+
+void printPreorder(Node* node) {
+    if (!node) return;
+    cout &lt;&lt; node-&gt;data &lt;&lt; " ";
+    printPreorder(node-&gt;left); printPreorder(node-&gt;right);
+}
+void printInorder(Node* node) {
+    if (!node) return;
+    printInorder(node-&gt;left);
+    cout &lt;&lt; node-&gt;data &lt;&lt; " ";
+    printInorder(node-&gt;right);
+}
+void printPostorder(Node* node) {
+    if (!node) return;
+    printPostorder(node-&gt;left); printPostorder(node-&gt;right);
+    cout &lt;&lt; node-&gt;data &lt;&lt; " ";
+}
+
+int main() {
+    Node* root = new Node(1);
+    root-&gt;left = new Node(2); root-&gt;right = new Node(3);
+    root-&gt;left-&gt;left = new Node(4); root-&gt;left-&gt;right = new Node(5);
+    
+    cout &lt;&lt; "Preorder: "; printPreorder(root); cout &lt;&lt; endl;
+    cout &lt;&lt; "Inorder: "; printInorder(root); cout &lt;&lt; endl;
+    cout &lt;&lt; "Postorder: "; printPostorder(root); cout &lt;&lt; endl;
+    return 0;
+}</code></pre>
+
+                <h4>OUTPUT</h4>
+                <pre class="output">Preorder: 1 2 4 5 3 
+Inorder: 4 2 5 1 3 
+Postorder: 4 5 2 3 1 </pre>
+
+                <h4>RESULT</h4>
+                <div class="result">The recursive calls successfully visited the nodes in the correct mathematical order
+                    for binary tree traversal.</div>
+            </div>
+
+            <div id="exp13" class="card">
+                <div class="card-header">
+                    <h2>EX NO: 13 - Binary Search Tree</h2>
+                </div>
+                <h4>AIM</h4>
+                <p>To implement a Binary Search Tree and perform insertion and inorder traversal (for sorted output).
+                </p>
+
+                <h4>ALGORITHM</h4>
+                <ol>
+                    <li>Define a BST <code>Node</code> structure.</li>
+                    <li><strong>Insert:</strong> Recursively compare keys. Insert left if smaller, right if larger.</li>
+                    <li><strong>Inorder:</strong> Traverse left, visit root, traverse right to print elements in
+                        ascending order.</li>
+                </ol>
+
+                <h4>PROGRAM</h4>
+                <pre><code>#include &lt;iostream&gt;
+using namespace std;
+
+struct Node {
+    int key; Node *left, *right;
+    Node(int item) { key = item; left = right = NULL; }
+};
+
+class BinarySearchTree {
+public:
+    Node* root;
+    BinarySearchTree() { root = NULL; }
+    
+    Node* insert(Node* node, int key) {
+        if (!node) return new Node(key);
+        if (key &lt; node-&gt;key) node-&gt;left = insert(node-&gt;left, key);
+        else if (key &gt; node-&gt;key) node-&gt;right = insert(node-&gt;right, key);
+        return node;
+    }
+    void inorder(Node* root) {
+        if (root) {
+            inorder(root-&gt;left);
+            cout &lt;&lt; root-&gt;key &lt;&lt; " ";
+            inorder(root-&gt;right);
+        }
+    }
+};
+
+int main() {
+    BinarySearchTree bst;
+    bst.root = bst.insert(bst.root, 50);
+    bst.insert(bst.root, 30); bst.insert(bst.root, 20);
+    bst.insert(bst.root, 40); bst.insert(bst.root, 70);
+    bst.insert(bst.root, 60); bst.insert(bst.root, 80);
+    
+    cout &lt;&lt; "Inorder traversal (Sorted Order): ";
+    bst.inorder(bst.root);
+    cout &lt;&lt; endl;
+    return 0;
+}</code></pre>
+
+                <h4>OUTPUT</h4>
+                <pre class="output">Inorder traversal (Sorted Order): 20 30 40 50 60 70 80 </pre>
+
+                <h4>RESULT</h4>
+                <div class="result">The Binary Search Tree was successfully implemented, confirming elements were sorted
+                    following the Left &lt; Root &lt; Right property.</div>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        function toggleMenu() { document.getElementById('sidebar').classList.toggle('active'); }
+        function closeMenu() { if(window.innerWidth <= 800) document.getElementById('sidebar').classList.remove('active'); }
+    </script>
+</body>
+
+</html>

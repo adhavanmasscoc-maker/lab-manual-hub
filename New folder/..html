@@ -1,0 +1,2622 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>C++ ECE Lab — All 52 Experiments</title>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&family=Syne:wght@400;600;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #0d0f14;
+  --surface: #13161d;
+  --surface2: #1a1e28;
+  --border: #252836;
+  --accent-a: #ff416c;
+  --accent-b: #38ef7d;
+  --accent-c: #6a78fc;
+  --accent-k: #f59e0b;
+  --text: #e2e8f0;
+  --text-muted: #64748b;
+  --text-dim: #94a3b8;
+  --code-bg: #0a0c10;
+  --green: #10b981;
+  --red: #ef4444;
+  --sidebar-w: 290px;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;display:flex;flex-direction:column}
+
+/* ─── TOP BAR ─── */
+#topbar{
+  position:sticky;top:0;z-index:200;
+  display:flex;align-items:center;gap:12px;
+  background:var(--surface);border-bottom:1px solid var(--border);
+  padding:10px 18px;height:56px;
+}
+#topbar h1{font-family:'Syne',sans-serif;font-size:1rem;font-weight:800;color:#fff;white-space:nowrap;letter-spacing:.5px}
+#topbar h1 span{color:var(--accent-c)}
+#menu-btn{background:none;border:none;color:var(--text-dim);font-size:22px;cursor:pointer;display:none}
+#search-wrap{flex:1;max-width:420px;position:relative}
+#search{
+  width:100%;padding:7px 14px 7px 36px;
+  background:var(--surface2);border:1px solid var(--border);
+  border-radius:8px;color:var(--text);font-size:13px;font-family:'Inter',sans-serif;
+  outline:none;transition:border .2s;
+}
+#search:focus{border-color:var(--accent-c)}
+#search-wrap svg{position:absolute;left:10px;top:50%;transform:translateY(-50%);opacity:.4;pointer-events:none}
+.filter-btns{display:flex;gap:6px;flex-shrink:0}
+.flt{padding:5px 13px;border-radius:20px;border:1px solid var(--border);background:transparent;color:var(--text-dim);font-size:12px;cursor:pointer;font-family:'Inter',sans-serif;transition:.2s}
+.flt:hover,.flt.active{border-color:var(--accent-c);color:var(--accent-c);background:rgba(106,120,252,.1)}
+.flt[data-set="A"].active{border-color:var(--accent-a);color:var(--accent-a);background:rgba(255,65,108,.1)}
+.flt[data-set="B"].active{border-color:var(--accent-b);color:var(--accent-b);background:rgba(56,239,125,.1)}
+.flt[data-set="C"].active{border-color:var(--accent-c);color:var(--accent-c);background:rgba(106,120,252,.1)}
+
+/* ─── LAYOUT ─── */
+#layout{display:flex;flex:1;overflow:hidden;height:calc(100vh - 56px)}
+
+/* ─── SIDEBAR ─── */
+#sidebar{
+  width:var(--sidebar-w);flex-shrink:0;
+  background:var(--surface);border-right:1px solid var(--border);
+  display:flex;flex-direction:column;overflow:hidden;
+}
+#sidebar-inner{overflow-y:auto;flex:1}
+#sidebar-inner::-webkit-scrollbar{width:4px}
+#sidebar-inner::-webkit-scrollbar-thumb{background:var(--border);border-radius:4px}
+.set-label{
+  padding:10px 14px 6px;font-size:10px;font-weight:600;letter-spacing:1.5px;
+  color:var(--text-muted);text-transform:uppercase;position:sticky;top:0;
+  background:var(--surface);z-index:2;border-bottom:1px solid var(--border);
+}
+.set-label[data-sl="A"]{color:var(--accent-a)}
+.set-label[data-sl="B"]{color:var(--accent-b)}
+.set-label[data-sl="C"]{color:var(--accent-c)}
+.nav-item{
+  display:block;padding:9px 14px;font-size:12px;color:var(--text-dim);
+  cursor:pointer;border-bottom:1px solid rgba(255,255,255,.03);
+  transition:.15s;text-decoration:none;border-left:3px solid transparent;
+}
+.nav-item:hover{background:var(--surface2);color:var(--text);border-left-color:var(--accent-c)}
+.nav-item.active{background:rgba(106,120,252,.12);color:var(--accent-c);border-left-color:var(--accent-c)}
+.nav-item[data-set="A"]:hover,.nav-item[data-set="A"].active{border-left-color:var(--accent-a);color:var(--accent-a);background:rgba(255,65,108,.07)}
+.nav-item[data-set="B"]:hover,.nav-item[data-set="B"].active{border-left-color:var(--accent-b);color:var(--accent-b);background:rgba(56,239,125,.07)}
+.nav-item.hidden{display:none}
+
+/* ─── MAIN ─── */
+#main{flex:1;overflow-y:auto;padding:24px 28px}
+#main::-webkit-scrollbar{width:5px}
+#main::-webkit-scrollbar-thumb{background:var(--border);border-radius:4px}
+
+/* ─── CARDS ─── */
+.exp-card{
+  background:var(--surface);border:1px solid var(--border);
+  border-radius:14px;padding:28px;margin-bottom:32px;
+  scroll-margin-top:24px;transition:.2s;
+}
+.exp-card:hover{border-color:var(--border)}
+.exp-card.hidden{display:none}
+.exp-header{display:flex;align-items:flex-start;gap:14px;margin-bottom:20px;padding-bottom:16px;border-bottom:1px solid var(--border)}
+.exp-num{
+  font-family:'Syne',sans-serif;font-size:12px;font-weight:800;letter-spacing:1px;
+  padding:4px 10px;border-radius:6px;white-space:nowrap;flex-shrink:0;
+}
+.set-A .exp-num{background:rgba(255,65,108,.15);color:var(--accent-a)}
+.set-B .exp-num{background:rgba(56,239,125,.12);color:var(--accent-b)}
+.set-C .exp-num{background:rgba(106,120,252,.15);color:var(--accent-c)}
+.exp-title{font-family:'Syne',sans-serif;font-size:1.05rem;font-weight:700;color:#fff;line-height:1.4}
+
+/* sections */
+.section-block{margin:16px 0}
+.section-label{
+  font-size:10px;font-weight:700;letter-spacing:1.8px;text-transform:uppercase;
+  color:var(--text-muted);margin-bottom:8px;
+}
+.aim-text{color:var(--text-dim);font-size:14px;line-height:1.7}
+.algo-list{padding-left:18px;color:var(--text-dim);font-size:13px;line-height:1.9}
+.algo-list li{margin-bottom:4px}
+.algo-list code{
+  background:rgba(255,255,255,.07);border-radius:4px;padding:1px 6px;
+  font-family:'JetBrains Mono',monospace;font-size:11.5px;color:var(--accent-c);
+}
+
+/* code block */
+.code-block{
+  background:var(--code-bg);border-radius:10px;overflow:hidden;
+  border:1px solid rgba(255,255,255,.06);
+}
+.code-block-header{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:8px 14px;background:rgba(255,255,255,.03);border-bottom:1px solid rgba(255,255,255,.06);
+}
+.code-lang{font-size:10px;font-weight:600;letter-spacing:1px;color:var(--text-muted);text-transform:uppercase}
+.copy-btn{
+  background:none;border:1px solid var(--border);border-radius:5px;
+  color:var(--text-muted);font-size:11px;padding:2px 8px;cursor:pointer;transition:.2s;
+}
+.copy-btn:hover{border-color:var(--accent-c);color:var(--accent-c)}
+pre{
+  padding:16px;overflow-x:auto;font-family:'JetBrains Mono',monospace;
+  font-size:12.5px;line-height:1.8;color:#c9d1d9;
+}
+pre::-webkit-scrollbar{height:4px}
+pre::-webkit-scrollbar-thumb{background:var(--border)}
+
+/* fill blank */
+.fill-block{
+  background:rgba(245,158,11,.07);border:1px solid rgba(245,158,11,.2);
+  border-radius:8px;padding:14px;font-family:'JetBrains Mono',monospace;
+  font-size:12px;color:#fde68a;line-height:1.8;white-space:pre-wrap;
+}
+
+/* quiz */
+.quiz-block{background:rgba(106,120,252,.08);border:1px solid rgba(106,120,252,.2);border-radius:8px;padding:14px}
+.quiz-q{font-size:13px;font-weight:600;color:#a5b4fc;margin-bottom:6px}
+.quiz-a{font-size:13px;color:var(--text-dim);padding-left:14px;border-left:2px solid var(--accent-c)}
+
+/* io */
+.io-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.io-box{
+  background:var(--code-bg);border:1px solid var(--border);border-radius:8px;
+  padding:12px;font-family:'JetBrains Mono',monospace;font-size:12px;color:#86efac;
+  white-space:pre-wrap;line-height:1.7;
+}
+.io-box.input-io{color:#93c5fd}
+.io-label{font-size:10px;font-weight:600;letter-spacing:1.2px;text-transform:uppercase;color:var(--text-muted);margin-bottom:6px}
+
+/* compiler */
+.compiler-wrap{
+  margin-top:20px;background:var(--surface2);border:1px solid var(--border);
+  border-radius:12px;overflow:hidden;
+}
+.compiler-header{
+  display:flex;align-items:center;gap:10px;padding:10px 16px;
+  background:rgba(255,255,255,.03);border-bottom:1px solid var(--border);
+}
+.compiler-header svg{color:var(--accent-b)}
+.compiler-header span{font-size:13px;font-weight:600;color:var(--accent-b)}
+.compiler-body{padding:14px}
+.code-editor-ta{
+  width:100%;min-height:180px;max-height:380px;
+  background:var(--code-bg);color:#c9d1d9;
+  font-family:'JetBrains Mono',monospace;font-size:12px;line-height:1.7;
+  padding:12px;border:1px solid var(--border);border-radius:8px;
+  resize:vertical;outline:none;transition:border .2s;
+}
+.code-editor-ta:focus{border-color:var(--accent-c)}
+.compiler-row{display:grid;grid-template-columns:1fr auto;gap:10px;margin-top:10px;align-items:start}
+.stdin-ta{
+  width:100%;height:52px;background:var(--surface);
+  color:var(--text);font-family:'JetBrains Mono',monospace;font-size:12px;
+  padding:8px 12px;border:1px solid var(--border);border-radius:8px;
+  resize:none;outline:none;transition:border .2s;
+}
+.stdin-ta:focus{border-color:var(--accent-c)}
+.run-btn{
+  background:linear-gradient(135deg,#11998e,#38ef7d);color:#0a0c10;
+  border:none;padding:10px 22px;border-radius:8px;font-size:13px;font-weight:700;
+  cursor:pointer;font-family:'Syne',sans-serif;letter-spacing:.5px;white-space:nowrap;
+  transition:.2s;height:52px;
+}
+.run-btn:hover{opacity:.9;transform:translateY(-1px)}
+.run-btn:disabled{background:var(--border);color:var(--text-muted);cursor:not-allowed;transform:none}
+.output-ta{
+  width:100%;min-height:80px;background:#000;color:var(--green);
+  font-family:'JetBrains Mono',monospace;font-size:12px;line-height:1.7;
+  padding:12px;border-radius:8px;margin-top:10px;white-space:pre-wrap;
+  border:1px solid rgba(255,255,255,.05);
+}
+.output-ta.error{color:var(--red)}
+
+/* no results */
+#no-results{display:none;text-align:center;padding:60px 20px;color:var(--text-muted)}
+#no-results svg{opacity:.3;margin-bottom:16px}
+
+/* ─── MOBILE ─── */
+@media(max-width:768px){
+  #menu-btn{display:block}
+  #layout{overflow:visible;height:auto;flex-direction:column}
+  #sidebar{
+    position:fixed;top:56px;left:0;bottom:0;z-index:150;
+    transform:translateX(-100%);transition:transform .3s;
+  }
+  #sidebar.open{transform:translateX(0)}
+  #main{height:auto;overflow:visible;padding:16px}
+  .io-row{grid-template-columns:1fr}
+  .compiler-row{grid-template-columns:1fr}
+  .run-btn{width:100%;height:44px}
+  .filter-btns{display:none}
+  #topbar h1{font-size:.9rem}
+}
+</style>
+</head>
+<body>
+
+<!-- TOP BAR -->
+<header id="topbar">
+  <button id="menu-btn" onclick="toggleSidebar()">☰</button>
+  <h1>C++ ECE Lab <span>//</span> All 52</h1>
+  <div id="search-wrap">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+    <input id="search" type="text" placeholder="Search experiments..." oninput="filterAll()">
+  </div>
+  <div class="filter-btns">
+    <button class="flt active" data-set="ALL" onclick="setFilter('ALL')">All</button>
+    <button class="flt" data-set="A" onclick="setFilter('A')">Set A</button>
+    <button class="flt" data-set="B" onclick="setFilter('B')">Set B</button>
+    <button class="flt" data-set="C" onclick="setFilter('C')">Set C</button>
+  </div>
+</header>
+
+<div id="layout">
+  <!-- SIDEBAR -->
+  <nav id="sidebar">
+    <div id="sidebar-inner"></div>
+  </nav>
+
+  <!-- MAIN CONTENT -->
+  <main id="main">
+    <div id="exp-list"></div>
+    <div id="no-results">
+      <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+      <p style="font-size:15px">No experiments match your search.</p>
+    </div>
+  </main>
+</div>
+
+<script>
+// ══════════════════════════════════════════════════
+//  EXPERIMENT DATA — ALL 52
+// ══════════════════════════════════════════════════
+const experiments = [
+
+// ────────────────── SET A (17) ──────────────────
+{
+  set:'A', num:1, id:'a1',
+  title:'Single Linked List ADT Operations',
+  aim:'To implement a Singly Linked List ADT with basic operations like insertion, deletion, and display.',
+  algo:['Define Node with data and next pointer.','Define LinkedList class with head initialized to NULL.','Insert: Create node. If head is NULL, make it head. Else, traverse to end and link.','Delete: Traverse to find key. Link previous node to next node and delete target.','Display: Traverse from head to NULL, printing data.'],
+  code:`#include <iostream>
+using namespace std;
+
+struct Node { int data; Node* next; };
+
+class SLL {
+    Node* head = NULL;
+public:
+    void insert(int v) {
+        Node* n = new Node{v, NULL};
+        if(!head) head = n;
+        else { Node* t=head; while(t->next) t=t->next; t->next=n; }
+    }
+    void del(int v) {
+        if(!head) return;
+        if(head->data==v) { Node* t=head; head=head->next; delete t; return; }
+        Node *t=head, *p=NULL;
+        while(t && t->data!=v) { p=t; t=t->next; }
+        if(t) { p->next=t->next; delete t; }
+    }
+    void disp() { for(Node* t=head; t; t=t->next) cout<<t->data<<"->"; cout<<"NULL\\n"; }
+};
+
+int main() {
+    SLL l;
+    l.insert(10); l.insert(20); l.insert(30);
+    l.disp();
+    l.del(10);
+    l.disp();
+    return 0;
+}`,
+  fill:'void insert(int v) { Node* n = new Node{v, ___}; if(!head) head = ___; else { Node* t=head; while(t->___) t=t->next; t->___=n; } }',
+  quiz:[
+    {q:'What is the time complexity of inserting at end of SLL?', a:'O(N) — must traverse to last node.'},
+    {q:'What if we don\'t set next pointer to NULL on new node?', a:'Dangling pointer → likely segmentation fault.'},
+    {q:'What keyword frees heap memory in C++?', a:'delete'}
+  ],
+  sampleIn:'Hardcoded: insert(10), insert(20), insert(30), del(10)',
+  sampleOut:'10->20->30->NULL\n20->30->NULL'
+},
+{
+  set:'A', num:2, id:'a2',
+  title:'Doubly Linked List ADT Operations',
+  aim:'To implement a Doubly Linked List ADT with insertion, deletion, and display operations.',
+  algo:['Define Node with data, prev, and next pointers.','Insert: Traverse to end, link next of last to new node, and prev of new to last.','Delete: Update prev and next pointers of neighboring nodes.','Display: Traverse from head, printing data and arrows.'],
+  code:`#include <iostream>
+using namespace std;
+
+struct Node { int data; Node *prev, *next; };
+
+class DLL {
+    Node* head = NULL;
+public:
+    void insert(int v) {
+        Node* n = new Node{v, NULL, NULL};
+        if(!head) head = n;
+        else { Node* t=head; while(t->next) t=t->next; t->next=n; n->prev=t; }
+    }
+    void del(int v) {
+        for(Node* t=head; t; t=t->next) {
+            if(t->data==v) {
+                if(t->prev) t->prev->next=t->next;
+                else head=t->next;
+                if(t->next) t->next->prev=t->prev;
+                delete t; return;
+            }
+        }
+    }
+    void disp() { for(Node* t=head; t; t=t->next) cout<<t->data<<"<->"; cout<<"NULL\\n"; }
+};
+
+int main() {
+    DLL d;
+    d.insert(1); d.insert(2); d.insert(3);
+    d.disp();
+    d.del(2);
+    d.disp();
+    return 0;
+}`,
+  fill:'struct Node { int data; Node* ___; Node* ___; };',
+  quiz:[
+    {q:'Advantage of DLL over SLL?', a:'Bidirectional traversal — can go forward and backward.'},
+    {q:'What is the extra memory cost in DLL?', a:'One extra pointer (prev) per node.'},
+    {q:'What is the output of disp() when only one node exists?', a:'data<->NULL'}
+  ],
+  sampleIn:'insert(1), insert(2), insert(3), del(2)',
+  sampleOut:'1<->2<->3<->NULL\n1<->3<->NULL'
+},
+{
+  set:'A', num:3, id:'a3',
+  title:'Circular Linked List Operations',
+  aim:'To implement a Circular Linked List with basic ADT operations.',
+  algo:['Define Node. For circular, last node\'s next points to head.','Insert: Find last node, link its next to new node, new node\'s next to head.','Display: Use do-while loop; stop when back at head.'],
+  code:`#include <iostream>
+using namespace std;
+
+struct Node { int data; Node* next; };
+
+class CLL {
+    Node* head = NULL;
+public:
+    void insert(int v) {
+        Node* n = new Node{v, NULL};
+        if(!head) { head=n; n->next=head; }
+        else { Node* t=head; while(t->next!=head) t=t->next; t->next=n; n->next=head; }
+    }
+    void disp() {
+        if(!head) return;
+        Node* t=head;
+        do { cout<<t->data<<" "; t=t->next; } while(t!=head);
+        cout<<"(back to head)\\n";
+    }
+};
+
+int main() {
+    CLL c;
+    c.insert(5); c.insert(10); c.insert(15);
+    c.disp();
+    return 0;
+}`,
+  fill:'if(!head) { head=n; n->next=___; } else { Node* t=head; while(t->next!=___) t=t->next; ... }',
+  quiz:[
+    {q:'How to identify end of CLL traversal?', a:'When node->next == head.'},
+    {q:'CLL advantage over normal LL?', a:'No NULL — circular access, useful for round-robin scheduling.'},
+    {q:'What loop is preferred to traverse a CLL?', a:'do-while — ensures at least one iteration.'}
+  ],
+  sampleIn:'insert(5), insert(10), insert(15)',
+  sampleOut:'5 10 15 (back to head)'
+},
+{
+  set:'A', num:4, id:'a4',
+  title:'Vehicle Monitoring — dynamic_cast & Runtime Type Safety',
+  aim:'To demonstrate base class pointers, explicit type casting (dynamic_cast), and runtime type safety.',
+  algo:['Define base Vehicle class with virtual show().','Define derived Car class overriding show() and adding drift().','Create Vehicle* pointing to Car object.','Use dynamic_cast to safely convert and call drift().'],
+  code:`#include <iostream>
+using namespace std;
+
+class Vehicle {
+public:
+    virtual void show() { cout<<"Vehicle\\n"; }
+    virtual ~Vehicle() {}
+};
+
+class Car : public Vehicle {
+public:
+    void show() override { cout<<"Car\\n"; }
+    void drift() { cout<<"Drifting!\\n"; }
+};
+
+class Bike : public Vehicle {
+public:
+    void show() override { cout<<"Bike\\n"; }
+};
+
+int main() {
+    Vehicle* v = new Car();
+    v->show();
+    Car* c = dynamic_cast<Car*>(v);
+    if(c) c->drift();
+
+    Vehicle* b = new Bike();
+    Car* x = dynamic_cast<Car*>(b);
+    if(!x) cout<<"Not a Car — cast failed safely\\n";
+
+    delete v; delete b;
+    return 0;
+}`,
+  fill:'Car* c = ___(v); // dynamic_cast<Car*>',
+  quiz:[
+    {q:'What does dynamic_cast return on failure for pointers?', a:'nullptr (NULL).'},
+    {q:'What must base class have for dynamic_cast to work?', a:'At least one virtual function (polymorphic type).'},
+    {q:'static_cast vs dynamic_cast?', a:'static_cast is compile-time; dynamic_cast is runtime-safe.'}
+  ],
+  sampleIn:'Run Program',
+  sampleOut:'Car\nDrifting!\nNot a Car — cast failed safely'
+},
+{
+  set:'A', num:5, id:'a5',
+  title:'Banking System — Operator Overloading & this Pointer',
+  aim:'To overload the + operator for merging bank accounts and demonstrate the this pointer.',
+  algo:['Create Account class with balance.','Overload operator+ to merge balances of two Account objects.','Use this->balance to refer to the calling object\'s member.','Return the merged Account object.'],
+  code:`#include <iostream>
+using namespace std;
+
+class Account {
+    int balance;
+public:
+    Account(int b=0) { this->balance = b; }
+    Account operator+(const Account& a) {
+        Account temp;
+        temp.balance = this->balance + a.balance;
+        return temp;
+    }
+    void show() { cout << "Balance: " << balance << "\\n"; }
+};
+
+int main() {
+    Account a1(100), a2(200);
+    Account a3 = a1 + a2;
+    a1.show();
+    a2.show();
+    a3.show();
+    return 0;
+}`,
+  fill:'Account ___(const Account& a) { temp.balance = ___->balance + a.balance; ... }',
+  quiz:[
+    {q:'What is the this pointer?', a:'A hidden pointer to the calling object of the member function.'},
+    {q:'Can we overload all operators?', a:'No. :: . .* sizeof cannot be overloaded.'},
+    {q:'What does operator+ return?', a:'A new Account object with merged balance.'}
+  ],
+  sampleIn:'a1(100), a2(200)',
+  sampleOut:'Balance: 100\nBalance: 200\nBalance: 300'
+},
+{
+  set:'A', num:6, id:'a6',
+  title:'Inheritance Area & Constructor/Destructor',
+  aim:'To demonstrate single inheritance for area calculation, and constructor/destructor invocation.',
+  algo:['Base Shape with b, h. Derived Triangle calculates 0.5*b*h.','Constructor prints message when object is created.','Destructor prints message when object goes out of scope.'],
+  code:`#include <iostream>
+using namespace std;
+
+class Shape {
+protected:
+    float b, h;
+public:
+    void set(float x, float y) { b=x; h=y; }
+};
+
+class Triangle : public Shape {
+public:
+    Triangle() { cout<<"Triangle created\\n"; }
+    ~Triangle() { cout<<"Triangle destroyed\\n"; }
+    float area() { return 0.5*b*h; }
+};
+
+int main() {
+    { Triangle t; t.set(10,5); cout<<"Area: "<<t.area()<<"\\n"; }
+    cout<<"After scope\\n";
+    return 0;
+}`,
+  fill:'class Triangle : ___ Shape { ... };  ___Triangle() { cout<<"Dest\\n"; }',
+  quiz:[
+    {q:'When is destructor called?', a:'When object goes out of scope or delete is called.'},
+    {q:'Can derived class access protected members?', a:'Yes — protected means accessible in derived classes.'},
+    {q:'What access specifier allows outside access?', a:'public'}
+  ],
+  sampleIn:'b=10, h=5',
+  sampleOut:'Triangle created\nArea: 25\nTriangle destroyed\nAfter scope'
+},
+{
+  set:'A', num:7, id:'a7',
+  title:'Message Passing & Multilevel Inheritance',
+  aim:'To demonstrate object message passing and multilevel inheritance in C++.',
+  algo:['Msg: Call method on object — sending message to object.','Multilevel: A -> B -> C. C inherits from B which inherits from A.','C can access protected members of A through B.'],
+  code:`#include <iostream>
+using namespace std;
+
+class Msg { public: void send(string m) { cout<<"Msg: "<<m<<"\\n"; } };
+
+class A { protected: int a=10; };
+class B : public A { protected: int b=20; };
+class C : public B {
+public:
+    void show() { cout<<"A:"<<a<<" B:"<<b<<"\\n"; }
+};
+
+int main() {
+    Msg m; m.send("Hello from ECE Lab!");
+    C c; c.show();
+    return 0;
+}`,
+  fill:'class C : ___ B { ... }; m.___(...);\n',
+  quiz:[
+    {q:'What is Multilevel Inheritance?', a:'A derived class inherits from another derived class (chain).'},
+    {q:'What is message passing in OOP?', a:'Calling a method on an object to trigger behavior.'},
+    {q:'Can class C access private members of A?', a:'No — only protected or public members.'}
+  ],
+  sampleIn:'Hardcoded',
+  sampleOut:'Msg: Hello from ECE Lab!\nA:10 B:20'
+},
+{
+  set:'A', num:8, id:'a8',
+  title:'Stack ADT using Array',
+  aim:'To implement a Stack (LIFO) using an array with push, pop, and display operations.',
+  algo:['Use an array with a top index initialized to -1.','Push: Increment top, store element. Check overflow.','Pop: Decrement top. Check underflow.','Display: Print from top to 0.'],
+  code:`#include <iostream>
+using namespace std;
+
+class Stack {
+    int arr[100], top=-1;
+public:
+    void push(int v) {
+        if(top>=99) { cout<<"Overflow\\n"; return; }
+        arr[++top]=v;
+    }
+    void pop() {
+        if(top<0) { cout<<"Underflow\\n"; return; }
+        cout<<"Popped: "<<arr[top--]<<"\\n";
+    }
+    void disp() {
+        for(int i=top; i>=0; i--) cout<<arr[i]<<" ";
+        cout<<"\\n";
+    }
+    bool isEmpty() { return top==-1; }
+};
+
+int main() {
+    Stack s;
+    s.push(10); s.push(20); s.push(30);
+    s.disp();
+    s.pop();
+    s.disp();
+    return 0;
+}`,
+  fill:'void push(int v) { arr[___top]=v; }  void pop() { cout<<arr[top___]<<" "; }',
+  quiz:[
+    {q:'What does LIFO stand for?', a:'Last In First Out.'},
+    {q:'What is overflow in Stack?', a:'Pushing when stack is full (top >= MAX-1).'},
+    {q:'Applications of Stack?', a:'Function calls, undo operations, expression evaluation.'}
+  ],
+  sampleIn:'push(10), push(20), push(30), pop',
+  sampleOut:'30 20 10\nPopped: 30\n20 10'
+},
+{
+  set:'A', num:9, id:'a9',
+  title:'Queue using Array (FIFO)',
+  aim:'To implement a Queue (FIFO) using an array with enqueue and dequeue operations.',
+  algo:['Maintain front and rear indices.','Enqueue: Increment rear, store element. Check overflow.','Dequeue: Increment front. Check underflow.','Display: Print from front to rear.'],
+  code:`#include <iostream>
+using namespace std;
+
+class Queue {
+    int arr[100], front=0, rear=-1, size=0;
+public:
+    void enq(int v) {
+        if(size>=100) { cout<<"Full\\n"; return; }
+        arr[++rear]=v; size++;
+    }
+    void deq() {
+        if(size==0) { cout<<"Empty\\n"; return; }
+        cout<<"Dequeued: "<<arr[front++]<<"\\n"; size--;
+    }
+    void disp() {
+        for(int i=front; i<=rear; i++) cout<<arr[i]<<" ";
+        cout<<"\\n";
+    }
+};
+
+int main() {
+    Queue q;
+    q.enq(10); q.enq(20); q.enq(30);
+    q.disp();
+    q.deq();
+    q.disp();
+    return 0;
+}`,
+  fill:'void enq(int v) { arr[___rear]=v; size___; }',
+  quiz:[
+    {q:'What is FIFO?', a:'First In First Out — first element inserted is first removed.'},
+    {q:'Problem with array-based queue?', a:'Front moves but space behind it is wasted (use circular queue to fix).'},
+    {q:'Real-world queue example?', a:'CPU scheduling, printer queue, BFS.'}
+  ],
+  sampleIn:'enq(10), enq(20), enq(30), deq',
+  sampleOut:'10 20 30\nDequeued: 10\n20 30'
+},
+{
+  set:'A', num:10, id:'a10',
+  title:'Binary Search Tree (BST) Operations',
+  aim:'To implement BST with insertion, search, and inorder traversal.',
+  algo:['Insert: Compare with root. Go left if smaller, right if greater.','Search: Traverse left/right comparing keys.','Inorder: Left → Root → Right gives sorted output.'],
+  code:`#include <iostream>
+using namespace std;
+
+struct Node { int data; Node *left=NULL, *right=NULL; };
+
+class BST {
+    Node* root=NULL;
+    Node* ins(Node* r, int v) {
+        if(!r) return new Node{v};
+        if(v<r->data) r->left=ins(r->left,v);
+        else r->right=ins(r->right,v);
+        return r;
+    }
+    void inorder(Node* r) { if(!r) return; inorder(r->left); cout<<r->data<<" "; inorder(r->right); }
+    bool search(Node* r, int v) { if(!r) return false; if(r->data==v) return true; return v<r->data ? search(r->left,v) : search(r->right,v); }
+public:
+    void insert(int v) { root=ins(root,v); }
+    void display() { inorder(root); cout<<"\\n"; }
+    bool find(int v) { return search(root,v); }
+};
+
+int main() {
+    BST b;
+    b.insert(50); b.insert(30); b.insert(70); b.insert(20); b.insert(40);
+    cout<<"Inorder: "; b.display();
+    cout<<"Find 30: "<<(b.find(30)?"Found":"Not Found")<<"\\n";
+    cout<<"Find 90: "<<(b.find(90)?"Found":"Not Found")<<"\\n";
+    return 0;
+}`,
+  fill:'if(v<r->data) r->left=ins(r->___,v); else r->right=ins(r->___,v);',
+  quiz:[
+    {q:'BST inorder traversal gives?', a:'Sorted (ascending) output.'},
+    {q:'Worst case BST search?', a:'O(N) — when tree is skewed (unbalanced).'},
+    {q:'Best case BST search?', a:'O(log N) — balanced tree.'}
+  ],
+  sampleIn:'insert 50,30,70,20,40',
+  sampleOut:'Inorder: 20 30 40 50 70\nFind 30: Found\nFind 90: Not Found'
+},
+{
+  set:'A', num:11, id:'a11',
+  title:'Graph BFS Traversal',
+  aim:'To implement Breadth First Search (BFS) on a graph using adjacency list.',
+  algo:['Build adjacency list from edge input.','Mark all nodes unvisited.','Start BFS from source: enqueue source, mark visited.','Dequeue a node, process it, enqueue unvisited neighbors.'],
+  code:`#include <iostream>
+#include <vector>
+#include <queue>
+using namespace std;
+
+class Graph {
+    int V;
+    vector<vector<int>> adj;
+public:
+    Graph(int v): V(v), adj(v) {}
+    void addEdge(int u, int v) { adj[u].push_back(v); adj[v].push_back(u); }
+    void bfs(int start) {
+        vector<bool> vis(V,false);
+        queue<int> q;
+        vis[start]=true; q.push(start);
+        cout<<"BFS: ";
+        while(!q.empty()) {
+            int u=q.front(); q.pop(); cout<<u<<" ";
+            for(int w:adj[u]) if(!vis[w]) { vis[w]=true; q.push(w); }
+        }
+        cout<<"\\n";
+    }
+};
+
+int main() {
+    Graph g(6);
+    g.addEdge(0,1); g.addEdge(0,2); g.addEdge(1,3); g.addEdge(2,4); g.addEdge(3,5);
+    g.bfs(0);
+    return 0;
+}`,
+  fill:'vis[start]=true; q.push(___); while(!q.empty()) { int u=q.___(); q.pop(); ... }',
+  quiz:[
+    {q:'Data structure used in BFS?', a:'Queue (FIFO).'},
+    {q:'BFS time complexity?', a:'O(V + E) where V=vertices, E=edges.'},
+    {q:'BFS finds shortest path in?', a:'Unweighted graphs.'}
+  ],
+  sampleIn:'6 nodes, edges: 0-1,0-2,1-3,2-4,3-5',
+  sampleOut:'BFS: 0 1 2 3 4 5'
+},
+{
+  set:'A', num:12, id:'a12',
+  title:'Graph DFS Traversal',
+  aim:'To implement Depth First Search (DFS) on a graph using recursion.',
+  algo:['Build adjacency list.','Mark start node visited, print it.','Recursively visit all unvisited neighbors.','DFS explores as deep as possible before backtracking.'],
+  code:`#include <iostream>
+#include <vector>
+using namespace std;
+
+class Graph {
+    int V;
+    vector<vector<int>> adj;
+    void dfs(int u, vector<bool>& vis) {
+        vis[u]=true; cout<<u<<" ";
+        for(int w:adj[u]) if(!vis[w]) dfs(w,vis);
+    }
+public:
+    Graph(int v): V(v), adj(v) {}
+    void addEdge(int u, int v) { adj[u].push_back(v); adj[v].push_back(u); }
+    void run(int start) {
+        vector<bool> vis(V,false);
+        cout<<"DFS: "; dfs(start,vis); cout<<"\\n";
+    }
+};
+
+int main() {
+    Graph g(6);
+    g.addEdge(0,1); g.addEdge(0,2); g.addEdge(1,3); g.addEdge(2,4); g.addEdge(3,5);
+    g.run(0);
+    return 0;
+}`,
+  fill:'void dfs(int u, vector<bool>& vis) { vis[u]=___; ... for(int w:adj[u]) if(!___[w]) dfs(w,vis); }',
+  quiz:[
+    {q:'Data structure used in DFS?', a:'Stack (implicit via recursion or explicit stack).'},
+    {q:'DFS time complexity?', a:'O(V + E).'},
+    {q:'BFS vs DFS: which explores level by level?', a:'BFS explores level by level.'}
+  ],
+  sampleIn:'6 nodes, same edges as BFS',
+  sampleOut:'DFS: 0 1 3 5 2 4'
+},
+{
+  set:'A', num:13, id:'a13',
+  title:'Stack using Linked List',
+  aim:'To implement a Stack using a Linked List (dynamic memory, no overflow).',
+  algo:['Each push creates a new node at top.','Each pop removes the top node.','No fixed size — grows dynamically.'],
+  code:`#include <iostream>
+using namespace std;
+
+struct Node { int data; Node* next; };
+
+class Stack {
+    Node* top=NULL;
+public:
+    void push(int v) { Node* n=new Node{v,top}; top=n; }
+    void pop() {
+        if(!top) { cout<<"Empty\\n"; return; }
+        cout<<"Popped: "<<top->data<<"\\n";
+        Node* t=top; top=top->next; delete t;
+    }
+    void disp() { for(Node* t=top; t; t=t->next) cout<<t->data<<" "; cout<<"\\n"; }
+};
+
+int main() {
+    Stack s;
+    s.push(1); s.push(2); s.push(3);
+    s.disp();
+    s.pop();
+    s.disp();
+    return 0;
+}`,
+  fill:'void push(int v) { Node* n=new Node{v,___}; top=n; }',
+  quiz:[
+    {q:'Advantage of LL-based Stack over array?', a:'Dynamic size — no overflow (limited only by RAM).'},
+    {q:'Where is new node inserted in LL stack?', a:'At the top (head).'},
+    {q:'What happens on pop of empty stack?', a:'Should handle underflow — print error message.'}
+  ],
+  sampleIn:'push(1), push(2), push(3), pop',
+  sampleOut:'3 2 1\nPopped: 3\n2 1'
+},
+{
+  set:'A', num:14, id:'a14',
+  title:'Balanced Parentheses Check using Stack',
+  aim:'To check if parentheses, brackets, and braces in an expression are balanced using a Stack.',
+  algo:['Traverse each character of the string.','Push opening brackets ( { [ onto stack.','On closing bracket, if stack empty or top doesn\'t match → false.','If stack empty at end → balanced.'],
+  code:`#include <iostream>
+#include <stack>
+#include <string>
+using namespace std;
+
+bool isValid(string s) {
+    stack<char> st;
+    for(char c:s) {
+        if(c=='('||c=='{'||c=='[') st.push(c);
+        else {
+            if(st.empty()) return false;
+            char t=st.top(); st.pop();
+            if((c==')'&&t!='(')||(c=='}'&&t!='{')||(c==']'&&t!='[')) return false;
+        }
+    }
+    return st.empty();
+}
+
+int main() {
+    cout<<(isValid("{[]}")?"Balanced":"Not Balanced")<<"\\n";
+    cout<<(isValid("([)]")?"Balanced":"Not Balanced")<<"\\n";
+    cout<<(isValid("((())")?"Balanced":"Not Balanced")<<"\\n";
+    return 0;
+}`,
+  fill:'if(st.empty()) return ___; char t=st.top(); st.pop(); if((c==\')\' && t!=\'(\') ...) return ___;',
+  quiz:[
+    {q:'Why use a stack for brackets?', a:'LIFO order matches nested structure of brackets.'},
+    {q:'What if stack is not empty after full traversal?', a:'Not balanced — unmatched opening brackets remain.'},
+    {q:'Time complexity of this algorithm?', a:'O(N) — single traversal.'}
+  ],
+  sampleIn:'{[]}',
+  sampleOut:'Balanced\nNot Balanced\nNot Balanced'
+},
+{
+  set:'A', num:15, id:'a15',
+  title:'Min-Heap Data Structure',
+  aim:'To implement Min-Heap insertion with heapify-up operation.',
+  algo:['Add element at end of array.','Heapify Up: While parent > child, swap (bubble up).','Min element is always at index 0.'],
+  code:`#include <iostream>
+#include <vector>
+using namespace std;
+
+class MinHeap {
+    vector<int> h;
+public:
+    void push(int v) {
+        h.push_back(v);
+        int i=h.size()-1;
+        while(i!=0 && h[(i-1)/2]>h[i]) {
+            swap(h[i], h[(i-1)/2]);
+            i=(i-1)/2;
+        }
+    }
+    int top() { return h[0]; }
+    void disp() { for(int x:h) cout<<x<<" "; cout<<"\\n"; }
+};
+
+int main() {
+    MinHeap m;
+    m.push(10); m.push(5); m.push(20); m.push(3);
+    cout<<"Heap: "; m.disp();
+    cout<<"Min: "<<m.top()<<"\\n";
+    return 0;
+}`,
+  fill:'while(i!=0 && h[(i-1)/2] ___ h[i]) { swap(h[i], h[(i-1)/2]); i=(i-1)/2; }',
+  quiz:[
+    {q:'What is the Min-Heap property?', a:'Parent <= children at every level.'},
+    {q:'Where is the minimum in a min-heap?', a:'Always at index 0 (root).'},
+    {q:'Time complexity of insertion?', a:'O(log N) due to heapify-up.'}
+  ],
+  sampleIn:'push: 10, 5, 20, 3',
+  sampleOut:'Heap: 3 5 20 10\nMin: 3'
+},
+{
+  set:'A', num:16, id:'a16',
+  title:'B-Tree of Order m — Insertion',
+  aim:'To implement B-Tree insertion concept using sorted key management.',
+  algo:['Insert key into node\'s keys array.','Sort keys to maintain B-Tree property.','In full implementation, split when max keys exceeded.'],
+  code:`#include <iostream>
+#include <vector>
+#include <algorithm>
+using namespace std;
+
+struct BNode { vector<int> keys; };
+
+void insert(BNode* r, int k) {
+    r->keys.push_back(k);
+    sort(r->keys.begin(), r->keys.end());
+}
+
+int main() {
+    BNode* r = new BNode();
+    insert(r,10); insert(r,5); insert(r,20); insert(r,2);
+    cout<<"B-Tree keys: ";
+    for(int k:r->keys) cout<<k<<" ";
+    cout<<"\\n";
+    delete r;
+    return 0;
+}`,
+  fill:'r->keys.___(k); sort(r->keys.begin(), r->keys.end());',
+  quiz:[
+    {q:'Why is B-Tree used?', a:'Minimizes disk I/O — balanced, multi-key nodes suit databases.'},
+    {q:'Max keys in a node of order m?', a:'m-1 keys.'},
+    {q:'B-Tree is always what?', a:'Balanced — all leaves at same level.'}
+  ],
+  sampleIn:'insert: 10, 5, 20, 2',
+  sampleOut:'B-Tree keys: 2 5 10 20'
+},
+{
+  set:'A', num:17, id:'a17',
+  title:'Polynomial Addition using Singly Linked List',
+  aim:'To add two polynomials represented as linked lists.',
+  algo:['Traverse both lists simultaneously.','If pow1 > pow2, print node1 and advance.','If pow1 < pow2, print node2 and advance.','If equal, add coefficients and advance both.'],
+  code:`#include <iostream>
+using namespace std;
+
+struct Node { int c, p; Node* next; };
+
+void ins(Node*& h, int c, int p) {
+    Node* n=new Node{c,p,NULL};
+    if(!h) h=n;
+    else { Node* t=h; while(t->next) t=t->next; t->next=n; }
+}
+
+void add(Node* h1, Node* h2) {
+    while(h1 && h2) {
+        if(h1->p > h2->p) { cout<<h1->c<<"x^"<<h1->p<<" + "; h1=h1->next; }
+        else if(h1->p < h2->p) { cout<<h2->c<<"x^"<<h2->p<<" + "; h2=h2->next; }
+        else { cout<<h1->c+h2->c<<"x^"<<h1->p<<" + "; h1=h1->next; h2=h2->next; }
+    }
+    cout << "0\\n";
+}
+
+int main() {
+    Node *p1=NULL, *p2=NULL;
+    ins(p1,5,2); ins(p1,4,1);
+    ins(p2,3,2); ins(p2,2,0);
+    cout<<"P1+P2 = "; add(p1,p2);
+    return 0;
+}`,
+  fill:'else { cout<<h1->c ___ h2->c; h1=h1->next; h2=h2->next; } // +',
+  quiz:[
+    {q:'How are polynomial nodes sorted?', a:'By exponent (power) in descending order.'},
+    {q:'What to do when exponents are equal?', a:'Add the coefficients and advance both pointers.'},
+    {q:'What is the time complexity?', a:'O(M+N) where M,N are lengths of the two lists.'}
+  ],
+  sampleIn:'P1: 5x^2+4x^1, P2: 3x^2+2x^0',
+  sampleOut:'P1+P2 = 8x^2 + 4x^1 + 2x^0 + 0'
+},
+
+// ────────────────── SET B (18) ──────────────────
+{
+  set:'B', num:1, id:'b1',
+  title:'Single Linked List ADT Operations',
+  aim:'To implement a Singly Linked List ADT with insertion, search, and display operations.',
+  algo:['Define Node with data and next.','Insert at end: traverse to last, link new node.','Search: traverse comparing data.','Display: print each node\'s data.'],
+  code:`#include <iostream>
+using namespace std;
+
+struct Node { int data; Node* next; };
+
+class SLL {
+    Node* head=NULL;
+public:
+    void insert(int v) {
+        Node* n=new Node{v,NULL};
+        if(!head) head=n;
+        else { Node* t=head; while(t->next) t=t->next; t->next=n; }
+    }
+    bool search(int v) { for(Node* t=head; t; t=t->next) if(t->data==v) return true; return false; }
+    void disp() { for(Node* t=head; t; t=t->next) cout<<t->data<<"->"; cout<<"NULL\\n"; }
+};
+
+int main() {
+    SLL l;
+    l.insert(10); l.insert(20); l.insert(30);
+    l.disp();
+    cout<<"Search 20: "<<(l.search(20)?"Found":"Not Found")<<"\\n";
+    cout<<"Search 99: "<<(l.search(99)?"Found":"Not Found")<<"\\n";
+    return 0;
+}`,
+  fill:'void insert(int v) { Node* n=new Node{v,___}; if(!head) head=n; else { Node* t=head; while(t->___) t=t->next; t->___=n; } }',
+  quiz:[
+    {q:'Time complexity of traversing SLL?', a:'O(N).'},
+    {q:'Can we traverse SLL backwards?', a:'No — only forward (next) pointer exists.'},
+    {q:'Memory allocation keyword?', a:'new'}
+  ],
+  sampleIn:'insert(10),insert(20),insert(30)',
+  sampleOut:'10->20->30->NULL\nSearch 20: Found\nSearch 99: Not Found'
+},
+{
+  set:'B', num:2, id:'b2',
+  title:'Doubly Linked List ADT Operations',
+  aim:'To implement a Doubly Linked List with bidirectional traversal.',
+  algo:['Node has data, prev, next.','Insert: connect last->next to new, new->prev to last.','Display forward and backward.'],
+  code:`#include <iostream>
+using namespace std;
+
+struct Node { int data; Node *prev,*next; };
+
+class DLL {
+    Node* head=NULL;
+public:
+    void insert(int v) {
+        Node* n=new Node{v,NULL,NULL};
+        if(!head) head=n;
+        else { Node* t=head; while(t->next) t=t->next; t->next=n; n->prev=t; }
+    }
+    void dispFwd() { for(Node* t=head; t; t=t->next) cout<<t->data<<"<->"; cout<<"NULL\\n"; }
+    void dispBwd() {
+        Node* t=head; while(t&&t->next) t=t->next;
+        for(; t; t=t->prev) cout<<t->data<<"<->"; cout<<"NULL\\n";
+    }
+};
+
+int main() {
+    DLL d; d.insert(1); d.insert(2); d.insert(3);
+    cout<<"Fwd: "; d.dispFwd();
+    cout<<"Bwd: "; d.dispBwd();
+    return 0;
+}`,
+  fill:'struct Node { int data; Node* ___; Node* ___; };',
+  quiz:[
+    {q:'DLL advantage over SLL?', a:'Bidirectional traversal.'},
+    {q:'Extra memory in DLL?', a:'One extra pointer (prev) per node.'},
+    {q:'Head->prev is always?', a:'NULL'}
+  ],
+  sampleIn:'insert(1),insert(2),insert(3)',
+  sampleOut:'Fwd: 1<->2<->3<->NULL\nBwd: 3<->2<->1<->NULL'
+},
+{
+  set:'B', num:3, id:'b3',
+  title:'Circular Linked List Operations',
+  aim:'To implement a Circular Linked List with insertion and traversal.',
+  algo:['Last node->next = head (circular).','Insert: traverse to last, link new node back to head.','Use do-while for display.'],
+  code:`#include <iostream>
+using namespace std;
+
+struct Node { int data; Node* next; };
+
+class CLL {
+    Node* head=NULL;
+public:
+    void insert(int v) {
+        Node* n=new Node{v,NULL};
+        if(!head){ head=n; n->next=head; }
+        else{ Node* t=head; while(t->next!=head) t=t->next; t->next=n; n->next=head; }
+    }
+    void disp(){
+        if(!head) return;
+        Node* t=head;
+        do{ cout<<t->data<<" "; t=t->next; } while(t!=head);
+        cout<<"->head\\n";
+    }
+};
+
+int main() {
+    CLL c; c.insert(1); c.insert(2); c.insert(3); c.disp();
+    return 0;
+}`,
+  fill:'if(!head){ head=n; n->next=___; } else{ ... t->next=n; n->next=___; }',
+  quiz:[
+    {q:'End condition for CLL traversal?', a:'node->next == head'},
+    {q:'Application of CLL?', a:'Round-robin CPU scheduling, media playlist.'},
+    {q:'Can CLL have null pointer anywhere?', a:'No — every node points to another.'}
+  ],
+  sampleIn:'insert(1),insert(2),insert(3)',
+  sampleOut:'1 2 3 ->head'
+},
+{
+  set:'B', num:4, id:'b4',
+  title:'Polynomial Subtraction using Linked List',
+  aim:'To subtract two polynomials represented as linked lists.',
+  algo:['Traverse both lists. Compare exponents.','If pow1 > pow2, print P1 term.','If pow1 < pow2, print negated P2 term.','If equal, subtract coefficients (skip if 0).'],
+  code:`#include <iostream>
+using namespace std;
+
+struct Node { int c, p; Node* next; };
+
+void ins(Node*& h, int c, int p) {
+    Node* n=new Node{c,p,NULL};
+    if(!h) h=n; else{ Node* t=h; while(t->next) t=t->next; t->next=n; }
+}
+
+void sub(Node* h1, Node* h2) {
+    while(h1 && h2) {
+        if(h1->p > h2->p) { cout<<h1->c<<"x^"<<h1->p<<" "; h1=h1->next; }
+        else if(h1->p < h2->p) { cout<<-h2->c<<"x^"<<h2->p<<" "; h2=h2->next; }
+        else { int r=h1->c-h2->c; if(r!=0) cout<<r<<"x^"<<h1->p<<" "; h1=h1->next; h2=h2->next; }
+    }
+    cout<<"\\n";
+}
+
+int main() {
+    Node *p1=NULL, *p2=NULL;
+    ins(p1,5,2); ins(p1,4,1);
+    ins(p2,3,2); ins(p2,2,0);
+    cout<<"P1-P2 = "; sub(p1,p2);
+    return 0;
+}`,
+  fill:'else { int res = h1->c ___ h2->c; if(res!=0) cout<<res; ... } // -',
+  quiz:[
+    {q:'What if coeff becomes 0 after subtraction?', a:'Skip printing that term.'},
+    {q:'Algorithm time complexity?', a:'O(M+N)'},
+    {q:'What is subtraction of equal exponents with equal coefficients?', a:'0 — term is omitted.'}
+  ],
+  sampleIn:'P1: 5x^2+4x^1, P2: 3x^2+2x^0',
+  sampleOut:'P1-P2 = 2x^2 4x^1 -2x^0'
+},
+{
+  set:'B', num:5, id:'b5',
+  title:'Queue Operations using Linked List',
+  aim:'To implement Queue (FIFO) operations using a Linked List.',
+  algo:['Maintain front and rear pointers.','Enqueue: Add node to rear.','Dequeue: Remove node from front.','Display front to rear.'],
+  code:`#include <iostream>
+using namespace std;
+
+struct Node { int data; Node* next; };
+
+class Queue {
+    Node *f=NULL, *r=NULL;
+public:
+    void enq(int x) { Node* n=new Node{x,NULL}; if(!r) f=r=n; else{ r->next=n; r=n; } }
+    void deq() {
+        if(!f){ cout<<"Empty\\n"; return; }
+        cout<<"Dequeued: "<<f->data<<"\\n";
+        Node* t=f; f=f->next; if(!f) r=NULL; delete t;
+    }
+    void disp() { for(Node* t=f; t; t=t->next) cout<<t->data<<" "; cout<<"\\n"; }
+};
+
+int main() {
+    Queue q; q.enq(10); q.enq(20); q.enq(30);
+    q.disp(); q.deq(); q.disp();
+    return 0;
+}`,
+  fill:'void enq(int x) { Node* n=new Node{x,NULL}; if(!r) f=r=n; else{ r->___=n; ___=n; } }',
+  quiz:[
+    {q:'What is FIFO?', a:'First In First Out.'},
+    {q:'LL queue vs Array queue?', a:'LL has no fixed size — no overflow.'},
+    {q:'What are front and rear used for?', a:'front for dequeue, rear for enqueue.'}
+  ],
+  sampleIn:'enq(10),enq(20),enq(30),deq',
+  sampleOut:'10 20 30\nDequeued: 10\n20 30'
+},
+{
+  set:'B', num:6, id:'b6',
+  title:'Circular Queue using Linked List',
+  aim:'To implement a Circular Queue using a Linked List.',
+  algo:['Keep a rear pointer. Front is rear->next.','Enqueue: insert after rear, link to front, update rear.','Dequeue: remove from front (rear->next).'],
+  code:`#include <iostream>
+using namespace std;
+
+struct Node { int data; Node* next; };
+
+class CQ {
+    Node* r=NULL;
+public:
+    void enq(int v) {
+        Node* n=new Node{v,NULL};
+        if(!r){ r=n; r->next=r; }
+        else{ n->next=r->next; r->next=n; r=n; }
+    }
+    void deq() {
+        if(!r){ cout<<"Empty\\n"; return; }
+        Node* t=r->next;
+        cout<<"Dequeued: "<<t->data<<"\\n";
+        if(r==t) r=NULL; else r->next=t->next;
+        delete t;
+    }
+    void disp() {
+        if(!r) return;
+        Node* t=r->next;
+        do{ cout<<t->data<<" "; t=t->next; } while(t!=r->next);
+        cout<<"\\n";
+    }
+};
+
+int main() {
+    CQ c; c.enq(1); c.enq(2); c.enq(3);
+    c.disp(); c.deq(); c.disp();
+    return 0;
+}`,
+  fill:'if(!r){ r=n; r->next=___; } else{ n->next=r->___; r->next=n; r=n; }',
+  quiz:[
+    {q:'Why only rear pointer is sufficient?', a:'Front is always rear->next.'},
+    {q:'Circular Queue advantage?', a:'Efficiently reuses all allocated nodes.'},
+    {q:'When does CQ become empty?', a:'When r==t (only one node) after dequeue.'}
+  ],
+  sampleIn:'enq(1),enq(2),enq(3),deq',
+  sampleOut:'1 2 3\nDequeued: 1\n2 3'
+},
+{
+  set:'B', num:7, id:'b7',
+  title:'Deque using Doubly Linked List',
+  aim:'To implement a Double-Ended Queue (Deque) using a Doubly Linked List.',
+  algo:['Push front: add node before head.','Push back: add node after tail.','Pop front/back from respective ends.'],
+  code:`#include <iostream>
+using namespace std;
+
+struct Node { int data; Node *prev,*next; };
+
+class Deque {
+    Node *head=NULL, *tail=NULL;
+public:
+    void pushFront(int v) {
+        Node* n=new Node{v,NULL,head};
+        if(head) head->prev=n; else tail=n;
+        head=n;
+    }
+    void pushBack(int v) {
+        Node* n=new Node{v,tail,NULL};
+        if(tail) tail->next=n; else head=n;
+        tail=n;
+    }
+    void popFront() {
+        if(!head){ cout<<"Empty\\n"; return; }
+        cout<<"PopFront: "<<head->data<<"\\n";
+        Node* t=head; head=head->next;
+        if(head) head->prev=NULL; else tail=NULL;
+        delete t;
+    }
+    void popBack() {
+        if(!tail){ cout<<"Empty\\n"; return; }
+        cout<<"PopBack: "<<tail->data<<"\\n";
+        Node* t=tail; tail=tail->prev;
+        if(tail) tail->next=NULL; else head=NULL;
+        delete t;
+    }
+    void disp() { for(Node* t=head; t; t=t->next) cout<<t->data<<" "; cout<<"\\n"; }
+};
+
+int main() {
+    Deque d;
+    d.pushBack(2); d.pushFront(1); d.pushBack(3);
+    d.disp();
+    d.popFront(); d.popBack();
+    d.disp();
+    return 0;
+}`,
+  fill:'void pushFront(int v) { Node* n=new Node{v,NULL,___}; if(head) head->___=n; ... }',
+  quiz:[
+    {q:'What is a Deque?', a:'Double-Ended Queue — insert/delete at both ends.'},
+    {q:'DLL is chosen for Deque because?', a:'O(1) access at both ends via head and tail.'},
+    {q:'Deque application?', a:'Browser history, palindrome checking, sliding window.'}
+  ],
+  sampleIn:'pushFront(1),pushBack(2),pushBack(3)',
+  sampleOut:'1 2 3\nPopFront: 1\nPopBack: 3\n2'
+},
+{
+  set:'B', num:8, id:'b8',
+  title:'Balanced Parentheses Check using Stack',
+  aim:'To verify if an expression has balanced parentheses using a stack.',
+  algo:['Push opening brackets onto stack.','On closing bracket, compare with top; pop if match.','Return false if mismatch or empty stack on closing.','Return true if stack empty after traversal.'],
+  code:`#include <iostream>
+#include <stack>
+using namespace std;
+
+bool check(string s) {
+    stack<char> st;
+    for(char c:s) {
+        if(c=='('||c=='{'||c=='[') st.push(c);
+        else if(!st.empty()) {
+            char t=st.top(); st.pop();
+            if((c==')' && t!='(')||(c=='}' && t!='{')||(c==']' && t!='[')) return false;
+        } else return false;
+    }
+    return st.empty();
+}
+
+int main() {
+    string tests[]={"({[]})", "(())", "([)]", "((("};
+    for(auto& s:tests)
+        cout<<"\""<<s<<"\" -> "<<(check(s)?"Balanced":"Not Balanced")<<"\\n";
+    return 0;
+}`,
+  fill:'if(st.empty()) return ___; char t=st.top(); st.pop(); if(...) return ___;',
+  quiz:[
+    {q:'Why Stack for parentheses check?', a:'LIFO matches nested bracket structure.'},
+    {q:'Time complexity?', a:'O(N)'},
+    {q:'Space complexity?', a:'O(N) — worst case all opening brackets.'}
+  ],
+  sampleIn:'({[]})',
+  sampleOut:'"({[]})" -> Balanced\n"(())" -> Balanced\n"([)]" -> Not Balanced\n"(((" -> Not Balanced'
+},
+{
+  set:'B', num:9, id:'b9',
+  title:'Copy Constructor & Function Overloading',
+  aim:'To demonstrate copy constructor and function overloading in C++.',
+  algo:['Copy Constructor: Initialize new object from existing object (deep copy).','Function Overloading: Multiple functions with same name but different parameters.','Compiler selects function based on argument types/count.'],
+  code:`#include <iostream>
+using namespace std;
+
+class Box {
+    int l, w, h;
+public:
+    Box(int a, int b, int c): l(a),w(b),h(c) {}
+    Box(const Box& b): l(b.l),w(b.w),h(b.h) { cout<<"Copy Constructor called\\n"; }
+    int volume() { return l*w*h; }
+};
+
+int add(int a, int b) { return a+b; }
+double add(double a, double b) { return a+b; }
+int add(int a, int b, int c) { return a+b+c; }
+
+int main() {
+    Box b1(2,3,4);
+    Box b2=b1;
+    cout<<"b1 vol: "<<b1.volume()<<"  b2 vol: "<<b2.volume()<<"\\n";
+    cout<<add(2,3)<<"\\n";
+    cout<<add(1.5,2.5)<<"\\n";
+    cout<<add(1,2,3)<<"\\n";
+    return 0;
+}`,
+  fill:'Box(const ___ b): l(b.l),w(b.w),h(b.h) {}  int add(int ___, int ___) { ... }',
+  quiz:[
+    {q:'When is copy constructor called?', a:'When object is initialized from another object, or passed/returned by value.'},
+    {q:'Difference between copy constructor and assignment?', a:'Copy constructor creates new object; assignment copies to existing.'},
+    {q:'Function overloading resolved at?', a:'Compile time (static binding).'}
+  ],
+  sampleIn:'b1(2,3,4), b2=b1',
+  sampleOut:'Copy Constructor called\nb1 vol: 24  b2 vol: 24\n5\n4\n6'
+},
+{
+  set:'B', num:10, id:'b10',
+  title:'Inheritance & Runtime Polymorphism',
+  aim:'To demonstrate runtime polymorphism using virtual functions and inheritance.',
+  algo:['Base class has virtual function.','Derived classes override the function.','Using base pointer to derived objects, correct function is called at runtime.'],
+  code:`#include <iostream>
+using namespace std;
+
+class Animal {
+public:
+    virtual void speak() { cout<<"Animal speaks\\n"; }
+    virtual ~Animal() {}
+};
+
+class Dog : public Animal {
+public:
+    void speak() override { cout<<"Dog: Woof!\\n"; }
+};
+
+class Cat : public Animal {
+public:
+    void speak() override { cout<<"Cat: Meow!\\n"; }
+};
+
+int main() {
+    Animal* animals[] = { new Dog(), new Cat(), new Dog() };
+    for(auto* a : animals) { a->speak(); delete a; }
+    return 0;
+}`,
+  fill:'class Dog : ___ Animal { public: void speak() ___ { ... } };',
+  quiz:[
+    {q:'What is runtime polymorphism?', a:'Correct function selected at runtime using virtual functions and base pointer.'},
+    {q:'What is a vtable?', a:'Virtual dispatch table — C++ uses it internally to resolve virtual calls.'},
+    {q:'Without virtual keyword, what happens?', a:'Base class function is called (static binding/early binding).'}
+  ],
+  sampleIn:'Run program',
+  sampleOut:'Dog: Woof!\nCat: Meow!\nDog: Woof!'
+},
+{
+  set:'B', num:11, id:'b11',
+  title:'Infix to Postfix Conversion using Stack',
+  aim:'To convert an infix expression to postfix using a stack.',
+  algo:['Scan left to right.','Operand → output directly.','Operator → pop operators of >= precedence, then push current.','( → push, ) → pop until (.','End: pop all remaining operators.'],
+  code:`#include <iostream>
+#include <stack>
+#include <string>
+using namespace std;
+
+int prec(char c) { if(c=='+'||c=='-') return 1; if(c=='*'||c=='/') return 2; return 0; }
+
+string toPostfix(string s) {
+    stack<char> st; string out;
+    for(char c:s) {
+        if(isalnum(c)) out+=c;
+        else if(c=='(') st.push(c);
+        else if(c==')') { while(!st.empty()&&st.top()!='('){out+=st.top();st.pop();} st.pop(); }
+        else {
+            while(!st.empty()&&prec(st.top())>=prec(c)){out+=st.top();st.pop();}
+            st.push(c);
+        }
+    }
+    while(!st.empty()){ out+=st.top(); st.pop(); }
+    return out;
+}
+
+int main() {
+    cout<<toPostfix("A+B*C")<<"\\n";
+    cout<<toPostfix("(A+B)*C")<<"\\n";
+    cout<<toPostfix("A+B*C-D")<<"\\n";
+    return 0;
+}`,
+  fill:'if(isalnum(c)) out+=c; else if(c==\'(\') st.___; else if(c==\')\') { while(st.top()!=___) {...} st.pop(); }',
+  quiz:[
+    {q:'Infix A+B*C in postfix?', a:'ABC*+'},
+    {q:'Infix (A+B)*C in postfix?', a:'AB+C*'},
+    {q:'Why use stack for infix-to-postfix?', a:'To handle operator precedence and parentheses correctly.'}
+  ],
+  sampleIn:'A+B*C',
+  sampleOut:'ABC*+\nAB+C*\nABC*+D-'
+},
+{
+  set:'B', num:12, id:'b12',
+  title:'Binary Search Tree Operations',
+  aim:'To implement BST insert, delete, and inorder traversal.',
+  algo:['Insert: Recursively place in correct position.','Delete: Handle 3 cases — leaf, one child, two children.','Inorder: Left-Root-Right gives sorted sequence.'],
+  code:`#include <iostream>
+using namespace std;
+
+struct Node { int data; Node *l=NULL,*r=NULL; };
+
+Node* ins(Node* root, int v) {
+    if(!root) return new Node{v};
+    if(v<root->data) root->l=ins(root->l,v);
+    else root->r=ins(root->r,v);
+    return root;
+}
+
+Node* minNode(Node* n) { while(n->l) n=n->l; return n; }
+
+Node* del(Node* root, int v) {
+    if(!root) return NULL;
+    if(v<root->data) root->l=del(root->l,v);
+    else if(v>root->data) root->r=del(root->r,v);
+    else {
+        if(!root->l) return root->r;
+        if(!root->r) return root->l;
+        Node* m=minNode(root->r);
+        root->data=m->data;
+        root->r=del(root->r,m->data);
+    }
+    return root;
+}
+
+void inorder(Node* r) { if(!r) return; inorder(r->l); cout<<r->data<<" "; inorder(r->r); }
+
+int main() {
+    Node* root=NULL;
+    for(int v:{50,30,70,20,40}) root=ins(root,v);
+    cout<<"Inorder: "; inorder(root); cout<<"\\n";
+    root=del(root,30);
+    cout<<"After del 30: "; inorder(root); cout<<"\\n";
+    return 0;
+}`,
+  fill:'if(v<root->data) root->l=ins(root->___, v); else root->r=ins(root->___, v);',
+  quiz:[
+    {q:'BST deletion — 2 children case?', a:'Replace with inorder successor (smallest in right subtree), delete it.'},
+    {q:'Inorder of BST gives?', a:'Sorted ascending sequence.'},
+    {q:'BST worst case O(N) happens when?', a:'Tree is completely skewed (sorted insertion).'}
+  ],
+  sampleIn:'insert: 50,30,70,20,40 then delete 30',
+  sampleOut:'Inorder: 20 30 40 50 70\nAfter del 30: 20 40 50 70'
+},
+{
+  set:'B', num:13, id:'b13',
+  title:'B-Tree Search Operation',
+  aim:'To implement search in a B-Tree node (simplified array-based).',
+  algo:['Store keys in sorted array.','Linear or binary search for the key.','Return found/not found.'],
+  code:`#include <iostream>
+#include <vector>
+#include <algorithm>
+using namespace std;
+
+struct BNode { vector<int> keys; };
+
+void insert(BNode* r, int k) { r->keys.push_back(k); sort(r->keys.begin(),r->keys.end()); }
+
+bool search(BNode* r, int k) {
+    return binary_search(r->keys.begin(), r->keys.end(), k);
+}
+
+int main() {
+    BNode* r=new BNode();
+    for(int k:{15,5,25,10,20}) insert(r,k);
+    cout<<"Keys: ";
+    for(int k:r->keys) cout<<k<<" "; cout<<"\\n";
+    cout<<"Search 10: "<<(search(r,10)?"Found":"Not Found")<<"\\n";
+    cout<<"Search 99: "<<(search(r,99)?"Found":"Not Found")<<"\\n";
+    delete r;
+    return 0;
+}`,
+  fill:'return binary_search(r->keys.___, r->keys.___, k);',
+  quiz:[
+    {q:'B-Tree order m means?', a:'Max m-1 keys and m children per node.'},
+    {q:'B-Tree height?', a:'O(log N) — balanced.'},
+    {q:'B-Tree preferred for?', a:'Database indexing — minimizes disk reads.'}
+  ],
+  sampleIn:'insert: 15,5,25,10,20; search 10',
+  sampleOut:'Keys: 5 10 15 20 25\nSearch 10: Found\nSearch 99: Not Found'
+},
+{
+  set:'B', num:14, id:'b14',
+  title:'Max-Heap Operations',
+  aim:'To implement a Max-Heap with push and heapify-down (pop) operations.',
+  algo:['Push: add to end, heapify-up (swap with parent if larger).','Pop: remove root, move last element to root, heapify-down.','Max element always at root (index 0).'],
+  code:`#include <iostream>
+#include <vector>
+using namespace std;
+
+class MaxHeap {
+    vector<int> h;
+    void up(int i) { while(i&&h[(i-1)/2]<h[i]){ swap(h[i],h[(i-1)/2]); i=(i-1)/2; } }
+    void down(int i) {
+        int n=h.size();
+        while(true) {
+            int l=2*i+1,r=2*i+2,mx=i;
+            if(l<n&&h[l]>h[mx]) mx=l;
+            if(r<n&&h[r]>h[mx]) mx=r;
+            if(mx==i) break;
+            swap(h[i],h[mx]); i=mx;
+        }
+    }
+public:
+    void push(int v) { h.push_back(v); up(h.size()-1); }
+    void pop() { if(h.empty()) return; cout<<"Popped: "<<h[0]<<"\\n"; h[0]=h.back(); h.pop_back(); if(!h.empty()) down(0); }
+    void disp() { for(int x:h) cout<<x<<" "; cout<<"\\n"; }
+    int top() { return h[0]; }
+};
+
+int main() {
+    MaxHeap m; m.push(5); m.push(10); m.push(3); m.push(20);
+    cout<<"Heap: "; m.disp();
+    cout<<"Max: "<<m.top()<<"\\n";
+    m.pop();
+    cout<<"After pop: "; m.disp();
+    return 0;
+}`,
+  fill:'while(i&&h[(i-1)/2] ___ h[i]){ swap(h[i],h[(i-1)/2]); i=(i-1)/2; }',
+  quiz:[
+    {q:'Max-Heap property?', a:'Parent >= children at every level.'},
+    {q:'Push time complexity?', a:'O(log N) heapify-up.'},
+    {q:'Pop time complexity?', a:'O(log N) heapify-down.'}
+  ],
+  sampleIn:'push: 5,10,3,20',
+  sampleOut:'Heap: 20 10 3 5\nMax: 20\nPopped: 20\nAfter pop: 10 5 3'
+},
+{
+  set:'B', num:15, id:'b15',
+  title:'AVL Tree Insertion',
+  aim:'To implement AVL tree insertion with rotations to maintain balance.',
+  algo:['Insert like BST.','Calculate balance factor = height(left) - height(right).','If |BF| > 1, apply LL/RR/LR/RL rotation.','After rotation, tree remains balanced.'],
+  code:`#include <iostream>
+using namespace std;
+
+struct Node { int data, height; Node *l,*r; };
+
+int ht(Node* n) { return n?n->height:0; }
+int bf(Node* n) { return n?ht(n->l)-ht(n->r):0; }
+Node* newNode(int v) { return new Node{v,1,NULL,NULL}; }
+
+void upd(Node* n) { n->height=1+max(ht(n->l),ht(n->r)); }
+
+Node* rotR(Node* y) { Node* x=y->l; y->l=x->r; x->r=y; upd(y); upd(x); return x; }
+Node* rotL(Node* x) { Node* y=x->r; x->r=y->l; y->l=x; upd(x); upd(y); return y; }
+
+Node* ins(Node* r, int v) {
+    if(!r) return newNode(v);
+    if(v<r->data) r->l=ins(r->l,v);
+    else r->r=ins(r->r,v);
+    upd(r);
+    int b=bf(r);
+    if(b>1&&v<r->l->data) return rotR(r);
+    if(b<-1&&v>r->r->data) return rotL(r);
+    if(b>1&&v>r->l->data){ r->l=rotL(r->l); return rotR(r); }
+    if(b<-1&&v<r->r->data){ r->r=rotR(r->r); return rotL(r); }
+    return r;
+}
+
+void inorder(Node* r) { if(!r) return; inorder(r->l); cout<<r->data<<" "; inorder(r->r); }
+
+int main() {
+    Node* root=NULL;
+    for(int v:{30,20,40,10,25}) root=ins(root,v);
+    cout<<"AVL Inorder: "; inorder(root); cout<<"\\n";
+    cout<<"Root: "<<root->data<<" Height: "<<root->height<<"\\n";
+    return 0;
+}`,
+  fill:'int bf(Node* n) { return n?ht(n->___)-ht(n->___):0; }',
+  quiz:[
+    {q:'AVL balance factor allowed values?', a:'-1, 0, +1'},
+    {q:'When is LL rotation applied?', a:'Balance factor > 1 and new node in left-left position.'},
+    {q:'AVL advantage over BST?', a:'Guaranteed O(log N) for search/insert/delete.'}
+  ],
+  sampleIn:'insert: 30,20,40,10,25',
+  sampleOut:'AVL Inorder: 10 20 25 30 40\nRoot: 30 Height: 3'
+},
+{
+  set:'B', num:16, id:'b16',
+  title:'Hierarchical Inheritance & Runtime Polymorphism',
+  aim:'To demonstrate hierarchical inheritance with virtual functions for runtime polymorphism.',
+  algo:['One base class, multiple derived classes.','Each derived class overrides the base virtual function.','Runtime dispatch via vtable selects correct function.'],
+  code:`#include <iostream>
+using namespace std;
+
+class Shape {
+public:
+    virtual float area() = 0;
+    virtual void name() = 0;
+    virtual ~Shape() {}
+};
+
+class Circle : public Shape {
+    float r;
+public:
+    Circle(float r):r(r){}
+    float area() override { return 3.14159f*r*r; }
+    void name() override { cout<<"Circle"; }
+};
+
+class Rect : public Shape {
+    float w,h;
+public:
+    Rect(float w,float h):w(w),h(h){}
+    float area() override { return w*h; }
+    void name() override { cout<<"Rectangle"; }
+};
+
+int main() {
+    Shape* s[]={new Circle(5), new Rect(4,6)};
+    for(auto* p:s) { p->name(); cout<<" area: "<<p->area()<<"\\n"; delete p; }
+    return 0;
+}`,
+  fill:'virtual float area() ___ = 0;  class Circle : ___ Shape { ... };',
+  quiz:[
+    {q:'Pure virtual function syntax?', a:'virtual returnType func() = 0;'},
+    {q:'Class with pure virtual is called?', a:'Abstract class — cannot be instantiated.'},
+    {q:'Hierarchical inheritance?', a:'Multiple derived classes inherit from one base class.'}
+  ],
+  sampleIn:'Circle(r=5), Rect(4x6)',
+  sampleOut:'Circle area: 78.5397\nRectangle area: 24'
+},
+{
+  set:'B', num:17, id:'b17',
+  title:'Default Arguments & Ambiguity Resolution',
+  aim:'To demonstrate default arguments in functions and resolving function ambiguity.',
+  algo:['Default arguments provide values when caller omits them.','Ambiguity occurs when overloaded functions match equally.','Resolution: ensure unique signatures for overloaded functions.'],
+  code:`#include <iostream>
+using namespace std;
+
+void greet(string name="World", string greeting="Hello") {
+    cout<<greeting<<", "<<name<<"!\\n";
+}
+
+int multiply(int a, int b=2) { return a*b; }
+
+int main() {
+    greet();
+    greet("Alice");
+    greet("Bob", "Hi");
+    cout<<multiply(5)<<"\\n";
+    cout<<multiply(5,3)<<"\\n";
+    return 0;
+}`,
+  fill:'void greet(string name=___, string greeting=___) { ... }',
+  quiz:[
+    {q:'Default arguments must be specified from?', a:'Right to left (trailing parameters only).'},
+    {q:'Can default args be in both declaration and definition?', a:'No — only in one (usually header/declaration).'},
+    {q:'What causes ambiguity with overloading?', a:'When two functions match equally for a given call.'}
+  ],
+  sampleIn:'greet(), greet("Alice"), greet("Bob","Hi")',
+  sampleOut:'Hello, World!\nHello, Alice!\nHi, Bob!\n10\n15'
+},
+{
+  set:'B', num:18, id:'b18',
+  title:'Infix Expression Evaluation using Stack',
+  aim:'To evaluate an infix expression directly using two stacks (operands and operators).',
+  algo:['Use operand stack and operator stack.','On operator, pop operators of >= precedence and evaluate.','On (, push. On ), evaluate until (.','Final result is top of operand stack.'],
+  code:`#include <iostream>
+#include <stack>
+#include <string>
+using namespace std;
+
+int prec(char op) { return (op=='+'||op=='-')?1:(op=='*'||op=='/')?2:0; }
+
+int applyOp(int a, int b, char op) {
+    if(op=='+') return a+b;
+    if(op=='-') return a-b;
+    if(op=='*') return a*b;
+    return a/b;
+}
+
+int eval(string s) {
+    stack<int> vals; stack<char> ops;
+    for(int i=0;i<(int)s.size();i++) {
+        if(isspace(s[i])) continue;
+        if(isdigit(s[i])) {
+            int v=0; while(i<(int)s.size()&&isdigit(s[i])) v=v*10+(s[i++]-'0'); i--;
+            vals.push(v);
+        } else if(s[i]=='(') ops.push(s[i]);
+        else if(s[i]==')') {
+            while(ops.top()!='('){ int b=vals.top();vals.pop();int a=vals.top();vals.pop();vals.push(applyOp(a,b,ops.top()));ops.pop(); }
+            ops.pop();
+        } else {
+            while(!ops.empty()&&prec(ops.top())>=prec(s[i])){int b=vals.top();vals.pop();int a=vals.top();vals.pop();vals.push(applyOp(a,b,ops.top()));ops.pop();}
+            ops.push(s[i]);
+        }
+    }
+    while(!ops.empty()){int b=vals.top();vals.pop();int a=vals.top();vals.pop();vals.push(applyOp(a,b,ops.top()));ops.pop();}
+    return vals.top();
+}
+
+int main() {
+    cout<<"3+5*2 = "<<eval("3+5*2")<<"\\n";
+    cout<<"(3+5)*2 = "<<eval("(3+5)*2")<<"\\n";
+    return 0;
+}`,
+  fill:'int prec(char op) { return (op==\'+\'||op==\'-\')?___:(op==\'*\'||op==\'/\')?___:0; }',
+  quiz:[
+    {q:'3+5*2 evaluates to?', a:'13 (multiplication first).'},
+    {q:'(3+5)*2 evaluates to?', a:'16 (brackets first).'},
+    {q:'Two stacks needed for infix eval?', a:'Operand stack and operator stack.'}
+  ],
+  sampleIn:'3+5*2',
+  sampleOut:'3+5*2 = 13\n(3+5)*2 = 16'
+},
+
+// ────────────────── SET C (17) ──────────────────
+{
+  set:'C', num:1, id:'c1',
+  title:'Singly Linked List with User Input',
+  aim:'To implement a Singly Linked List with user-driven insertion and display.',
+  algo:['Read n from user.','Insert each value into linked list.','Display all elements.'],
+  code:`#include <iostream>
+using namespace std;
+
+struct Node { int data; Node* next; };
+
+class SLL {
+    Node* head=NULL;
+public:
+    void insert(int v) {
+        Node* n=new Node{v,NULL};
+        if(!head) head=n;
+        else { Node* t=head; while(t->next) t=t->next; t->next=n; }
+    }
+    void disp() { for(Node* t=head; t; t=t->next) cout<<t->data<<"->"; cout<<"NULL\\n"; }
+    int count() { int c=0; for(Node* t=head; t; t=t->next) c++; return c; }
+};
+
+int main() {
+    SLL l; int n; cin>>n;
+    for(int i=0;i<n;i++){ int v; cin>>v; l.insert(v); }
+    l.disp();
+    cout<<"Count: "<<l.count()<<"\\n";
+    return 0;
+}`,
+  fill:'Node* n=new Node{v,___}; if(!head) head=n; else { ... t->___=n; }',
+  quiz:[
+    {q:'SLL traversal from?', a:'head to NULL.'},
+    {q:'Insert at front time complexity?', a:'O(1)'},
+    {q:'Insert at end time complexity?', a:'O(N)'}
+  ],
+  sampleIn:'4\n10 20 30 40',
+  sampleOut:'10->20->30->40->NULL\nCount: 4'
+},
+{
+  set:'C', num:2, id:'c2',
+  title:'Doubly Linked List — Reverse Display',
+  aim:'To implement DLL and display it in reverse using the prev pointer.',
+  algo:['Insert nodes at end, maintaining prev links.','Traverse to last node.','Traverse backwards using prev pointers.'],
+  code:`#include <iostream>
+using namespace std;
+
+struct Node { int data; Node *prev,*next; };
+
+class DLL {
+    Node* head=NULL;
+public:
+    void insert(int v) {
+        Node* n=new Node{v,NULL,NULL};
+        if(!head) head=n;
+        else { Node* t=head; while(t->next) t=t->next; t->next=n; n->prev=t; }
+    }
+    void disp() { for(Node* t=head; t; t=t->next) cout<<t->data<<" "; cout<<"\\n"; }
+    void revDisp() {
+        Node* t=head; while(t&&t->next) t=t->next;
+        for(; t; t=t->prev) cout<<t->data<<" "; cout<<"\\n";
+    }
+};
+
+int main() {
+    DLL d; int n; cin>>n;
+    for(int i=0;i<n;i++){ int v; cin>>v; d.insert(v); }
+    cout<<"Forward: "; d.disp();
+    cout<<"Reverse: "; d.revDisp();
+    return 0;
+}`,
+  fill:'Node* t=head; while(t&&t->___) t=t->next; for(; t; t=t->___) cout<<t->data;',
+  quiz:[
+    {q:'DLL reverse traversal uses which pointer?', a:'prev pointer.'},
+    {q:'DLL memory per node vs SLL?', a:'One extra pointer (8 bytes on 64-bit).'},
+    {q:'Can you insert at beginning in O(1) in DLL?', a:'Yes — update head and new->next->prev.'}
+  ],
+  sampleIn:'4\n1 2 3 4',
+  sampleOut:'Forward: 1 2 3 4\nReverse: 4 3 2 1'
+},
+{
+  set:'C', num:3, id:'c3',
+  title:'Stack using Array — Expression Application',
+  aim:'To implement stack and use it to reverse a string.',
+  algo:['Push all characters of string onto stack.','Pop each character — gives reversed output.','Demonstrates LIFO nature.'],
+  code:`#include <iostream>
+#include <stack>
+#include <string>
+using namespace std;
+
+string reverse_str(string s) {
+    stack<char> st;
+    for(char c:s) st.push(c);
+    string r="";
+    while(!st.empty()){ r+=st.top(); st.pop(); }
+    return r;
+}
+
+bool isPalindrome(string s) { return s==reverse_str(s); }
+
+int main() {
+    string s; cin>>s;
+    cout<<"Reversed: "<<reverse_str(s)<<"\\n";
+    cout<<"Palindrome: "<<(isPalindrome(s)?"Yes":"No")<<"\\n";
+    return 0;
+}`,
+  fill:'for(char c:s) st.___; while(!st.empty()){ r+=st.___; st.pop(); }',
+  quiz:[
+    {q:'Stack reversal works because of?', a:'LIFO — Last In First Out.'},
+    {q:'Palindrome check using stack?', a:'Reversed string equals original string.'},
+    {q:'Stack top access without pop?', a:'st.top()'}
+  ],
+  sampleIn:'madam',
+  sampleOut:'Reversed: madam\nPalindrome: Yes'
+},
+{
+  set:'C', num:4, id:'c4',
+  title:'Queue using Array — Scheduling Simulation',
+  aim:'To simulate a simple task scheduling queue with enqueue and dequeue.',
+  algo:['Tasks are enqueued in order.','Dequeue processes tasks in FIFO order.','Circular queue avoids wasted space.'],
+  code:`#include <iostream>
+#include <string>
+using namespace std;
+
+class TaskQueue {
+    string arr[10]; int front=0, rear=0, size=0, cap=10;
+public:
+    bool enq(string task) {
+        if(size==cap){ cout<<"Queue full\\n"; return false; }
+        arr[rear%cap]=task; rear++; size++; return true;
+    }
+    string deq() {
+        if(size==0){ return "Empty"; }
+        string t=arr[front%cap]; front++; size--; return t;
+    }
+    void disp() { for(int i=0;i<size;i++) cout<<arr[(front+i)%cap]<<" "; cout<<"\\n"; }
+};
+
+int main() {
+    TaskQueue q;
+    q.enq("Task1"); q.enq("Task2"); q.enq("Task3");
+    cout<<"Queue: "; q.disp();
+    cout<<"Process: "<<q.deq()<<"\\n";
+    cout<<"Queue: "; q.disp();
+    return 0;
+}`,
+  fill:'arr[rear%___]=task; rear++; size++;  string t=arr[front%___];',
+  quiz:[
+    {q:'Circular queue modulo operation purpose?', a:'Wrap around index to reuse space.'},
+    {q:'FIFO in scheduling means?', a:'First task submitted is first processed.'},
+    {q:'Queue full condition?', a:'size == capacity'}
+  ],
+  sampleIn:'Task1 Task2 Task3',
+  sampleOut:'Queue: Task1 Task2 Task3\nProcess: Task1\nQueue: Task2 Task3'
+},
+{
+  set:'C', num:5, id:'c5',
+  title:'Binary Search Tree — Level Order Traversal',
+  aim:'To perform level-order (BFS) traversal of a BST using a queue.',
+  algo:['Enqueue root.','Dequeue node, print it, enqueue left and right children.','Repeat until queue empty.','Result is level-by-level output.'],
+  code:`#include <iostream>
+#include <queue>
+using namespace std;
+
+struct Node { int data; Node *l=NULL,*r=NULL; };
+
+Node* ins(Node* r, int v) {
+    if(!r) return new Node{v};
+    if(v<r->data) r->l=ins(r->l,v); else r->r=ins(r->r,v);
+    return r;
+}
+
+void levelOrder(Node* root) {
+    if(!root) return;
+    queue<Node*> q; q.push(root);
+    while(!q.empty()) {
+        Node* n=q.front(); q.pop();
+        cout<<n->data<<" ";
+        if(n->l) q.push(n->l);
+        if(n->r) q.push(n->r);
+    }
+    cout<<"\\n";
+}
+
+int main() {
+    Node* root=NULL;
+    for(int v:{50,30,70,20,40,60,80}) root=ins(root,v);
+    cout<<"Level Order: "; levelOrder(root);
+    return 0;
+}`,
+  fill:'queue<Node*> q; q.push(root); while(!q.empty()) { Node* n=q.___(); q.pop(); cout<<n->data; ... }',
+  quiz:[
+    {q:'Data structure for level-order traversal?', a:'Queue (FIFO).'},
+    {q:'Level-order traversal is same as?', a:'BFS on tree.'},
+    {q:'Level order output for perfect BST (50,30,70)?', a:'50 30 70'}
+  ],
+  sampleIn:'insert: 50,30,70,20,40,60,80',
+  sampleOut:'Level Order: 50 30 70 20 40 60 80'
+},
+{
+  set:'C', num:6, id:'c6',
+  title:'Abstract Class — Shape Hierarchy',
+  aim:'To implement abstract class with pure virtual functions for shape hierarchy.',
+  algo:['Define abstract Shape with pure virtual area() and perimeter().','Derived classes Circle, Rectangle implement these.','Cannot instantiate abstract class.'],
+  code:`#include <iostream>
+#include <cmath>
+using namespace std;
+
+class Shape {
+public:
+    virtual double area() = 0;
+    virtual double perimeter() = 0;
+    virtual string name() = 0;
+    void display() { cout<<name()<<" | Area:"<<area()<<" Perimeter:"<<perimeter()<<"\\n"; }
+    virtual ~Shape() {}
+};
+
+class Circle : public Shape {
+    double r;
+public:
+    Circle(double r):r(r){}
+    double area() override { return M_PI*r*r; }
+    double perimeter() override { return 2*M_PI*r; }
+    string name() override { return "Circle(r="+to_string((int)r)+")"; }
+};
+
+class Rectangle : public Shape {
+    double w,h;
+public:
+    Rectangle(double w,double h):w(w),h(h){}
+    double area() override { return w*h; }
+    double perimeter() override { return 2*(w+h); }
+    string name() override { return "Rectangle("+to_string((int)w)+"x"+to_string((int)h)+")"; }
+};
+
+int main() {
+    Shape* s[]={new Circle(5), new Rectangle(4,6)};
+    for(auto* p:s) { p->display(); delete p; }
+    return 0;
+}`,
+  fill:'virtual double area() ___ = 0;  class Circle : ___ Shape { double area() ___ { ... } };',
+  quiz:[
+    {q:'Pure virtual function declaration?', a:'virtual type func() = 0;'},
+    {q:'Can we create object of abstract class?', a:'No — compile error.'},
+    {q:'Abstract class is used for?', a:'Defining interfaces — derived classes must implement all pure virtuals.'}
+  ],
+  sampleIn:'Circle(r=5), Rectangle(4x6)',
+  sampleOut:'Circle(r=5) | Area:78.5397 Perimeter:31.4159\nRectangle(4x6) | Area:24 Perimeter:20'
+},
+{
+  set:'C', num:7, id:'c7',
+  title:'Template Functions & Generic Programming',
+  aim:'To implement generic functions using C++ templates for different data types.',
+  algo:['Define template function with type parameter T.','Same function works for int, float, char, etc.','Compiler generates specific code for each type used.'],
+  code:`#include <iostream>
+using namespace std;
+
+template<typename T>
+T maxVal(T a, T b) { return a>b?a:b; }
+
+template<typename T>
+void swapVals(T& a, T& b) { T temp=a; a=b; b=temp; }
+
+template<typename T>
+void printArr(T arr[], int n) {
+    for(int i=0;i<n;i++) cout<<arr[i]<<" ";
+    cout<<"\\n";
+}
+
+int main() {
+    cout<<"Max(3,7)="<<maxVal(3,7)<<"\\n";
+    cout<<"Max(3.5,2.1)="<<maxVal(3.5,2.1)<<"\\n";
+    cout<<"Max('a','z')="<<maxVal('a','z')<<"\\n";
+
+    int x=5,y=10; swapVals(x,y);
+    cout<<"After swap: "<<x<<" "<<y<<"\\n";
+
+    int arr[]={1,2,3,4,5};
+    printArr(arr,5);
+    return 0;
+}`,
+  fill:'template<___ T>  T maxVal(T a, T b) { return a>b?___:___; }',
+  quiz:[
+    {q:'Template enables?', a:'Generic programming — same code for multiple types.'},
+    {q:'Template instantiation happens at?', a:'Compile time.'},
+    {q:'typename vs class in template?', a:'Both equivalent — typename is more modern.'}
+  ],
+  sampleIn:'Hardcoded values',
+  sampleOut:'Max(3,7)=7\nMax(3.5,2.1)=3.5\nMax(\'a\',\'z\')=z\nAfter swap: 10 5\n1 2 3 4 5'
+},
+{
+  set:'C', num:8, id:'c8',
+  title:'Exception Handling in C++',
+  aim:'To demonstrate exception handling using try, catch, and throw.',
+  algo:['Wrap risky code in try block.','throw an exception when error occurs.','catch block handles specific or general exceptions.','Program continues after exception is handled.'],
+  code:`#include <iostream>
+#include <stdexcept>
+using namespace std;
+
+double divide(double a, double b) {
+    if(b==0) throw runtime_error("Division by zero!");
+    return a/b;
+}
+
+int factorial(int n) {
+    if(n<0) throw invalid_argument("Negative input!");
+    if(n==0) return 1;
+    return n*factorial(n-1);
+}
+
+int main() {
+    try { cout<<"10/2 = "<<divide(10,2)<<"\\n"; } catch(exception& e) { cout<<"Error: "<<e.what()<<"\\n"; }
+    try { cout<<"10/0 = "<<divide(10,0)<<"\\n"; } catch(exception& e) { cout<<"Error: "<<e.what()<<"\\n"; }
+    try { cout<<"5! = "<<factorial(5)<<"\\n"; } catch(exception& e) { cout<<"Error: "<<e.what()<<"\\n"; }
+    try { cout<<"(-1)! = "<<factorial(-1)<<"\\n"; } catch(exception& e) { cout<<"Error: "<<e.what()<<"\\n"; }
+    return 0;
+}`,
+  fill:'if(b==0) ___ runtime_error("Division by zero!"); ... ___ { cout<<divide(a,b); } ___(exception& e) { ... }',
+  quiz:[
+    {q:'Keyword to throw exception?', a:'throw'},
+    {q:'catch(...) catches?', a:'All exceptions regardless of type.'},
+    {q:'What is exception.what()?', a:'Returns the error message string.'}
+  ],
+  sampleIn:'Run program',
+  sampleOut:'10/2 = 5\nError: Division by zero!\n5! = 120\nError: Negative input!'
+},
+{
+  set:'C', num:9, id:'c9',
+  title:'File Handling in C++',
+  aim:'To demonstrate file I/O operations — write, read, and append using fstream.',
+  algo:['ofstream to write data to file.','ifstream to read data from file.','fstream with ios::app to append.','Close file after every operation.'],
+  code:`#include <iostream>
+#include <fstream>
+#include <string>
+using namespace std;
+
+int main() {
+    // Write
+    ofstream out("lab.txt");
+    out<<"ECE Lab\\nC++ Programs\\n";
+    out.close();
+
+    // Read
+    ifstream in("lab.txt");
+    string line;
+    cout<<"Contents:\\n";
+    while(getline(in,line)) cout<<line<<"\\n";
+    in.close();
+
+    // Append
+    ofstream app("lab.txt", ios::app);
+    app<<"Appended line\\n";
+    app.close();
+
+    // Read again
+    ifstream in2("lab.txt");
+    cout<<"After append:\\n";
+    while(getline(in2,line)) cout<<line<<"\\n";
+    in2.close();
+    return 0;
+}`,
+  fill:'ofstream ___(\"lab.txt\"); ... ___ << \"data\"; ___.close(); ifstream ___("lab.txt");',
+  quiz:[
+    {q:'ofstream purpose?', a:'Output file stream — write to file.'},
+    {q:'ifstream purpose?', a:'Input file stream — read from file.'},
+    {q:'ios::app flag?', a:'Append mode — writes at end without clearing.'}
+  ],
+  sampleIn:'Run program (creates lab.txt)',
+  sampleOut:'Contents:\nECE Lab\nC++ Programs\nAfter append:\nECE Lab\nC++ Programs\nAppended line'
+},
+{
+  set:'C', num:10, id:'c10',
+  title:'STL Vector & Algorithm',
+  aim:'To use STL vector with sort, search, and other STL algorithms.',
+  algo:['Use vector for dynamic array.','sort() for ascending order.','binary_search() for O(log N) search.','find(), count(), reverse() from <algorithm>.'],
+  code:`#include <iostream>
+#include <vector>
+#include <algorithm>
+using namespace std;
+
+int main() {
+    vector<int> v={5,3,8,1,9,2,7,4,6};
+    cout<<"Original: "; for(int x:v) cout<<x<<" "; cout<<"\\n";
+
+    sort(v.begin(), v.end());
+    cout<<"Sorted: "; for(int x:v) cout<<x<<" "; cout<<"\\n";
+
+    cout<<"Binary search 7: "<<(binary_search(v.begin(),v.end(),7)?"Found":"Not Found")<<"\\n";
+    cout<<"Max: "<<*max_element(v.begin(),v.end())<<"\\n";
+    cout<<"Min: "<<*min_element(v.begin(),v.end())<<"\\n";
+
+    reverse(v.begin(), v.end());
+    cout<<"Reversed: "; for(int x:v) cout<<x<<" "; cout<<"\\n";
+    return 0;
+}`,
+  fill:'sort(v.___, v.___); binary_search(v.___, v.___, 7);',
+  quiz:[
+    {q:'STL sort time complexity?', a:'O(N log N) — introsort.'},
+    {q:'binary_search requires sorted array?', a:'Yes — undefined behavior on unsorted.'},
+    {q:'vector vs array?', a:'vector is dynamic (resizable); array is fixed size.'}
+  ],
+  sampleIn:'v={5,3,8,1,9,2,7,4,6}',
+  sampleOut:'Original: 5 3 8 1 9 2 7 4 6\nSorted: 1 2 3 4 5 6 7 8 9\nBinary search 7: Found\nMax: 9\nMin: 1\nReversed: 9 8 7 6 5 4 3 2 1'
+},
+{
+  set:'C', num:11, id:'c11',
+  title:'STL Map — Frequency Counter',
+  aim:'To use STL map as a frequency counter / dictionary.',
+  algo:['Use map<string,int> for key-value storage.','Increment count for each occurrence.','Map is sorted by key automatically.','Iterate with range-based for loop.'],
+  code:`#include <iostream>
+#include <map>
+#include <string>
+#include <sstream>
+using namespace std;
+
+int main() {
+    string text="apple banana apple orange banana apple";
+    map<string,int> freq;
+    istringstream ss(text);
+    string word;
+    while(ss>>word) freq[word]++;
+
+    cout<<"Word Frequencies:\\n";
+    for(auto& p:freq) cout<<"  "<<p.first<<": "<<p.second<<"\\n";
+
+    cout<<"\\nMost common: ";
+    string best; int maxf=0;
+    for(auto& p:freq) if(p.second>maxf){ maxf=p.second; best=p.first; }
+    cout<<best<<" ("<<maxf<<" times)\\n";
+    return 0;
+}`,
+  fill:'map<string,int> freq;  freq[___]++;  for(auto& p:freq) cout<<p.___<<": "<<p.___<<" ";',
+  quiz:[
+    {q:'map vs unordered_map?', a:'map is sorted O(log N); unordered_map is O(1) average.'},
+    {q:'map stores keys in?', a:'Sorted (ascending) order by default.'},
+    {q:'Default value of map[key] if not present?', a:'0 for int, "" for string (zero-initialized).'}
+  ],
+  sampleIn:'apple banana apple orange banana apple',
+  sampleOut:'Word Frequencies:\n  apple: 3\n  banana: 2\n  orange: 1\nMost common: apple (3 times)'
+},
+{
+  set:'C', num:12, id:'c12',
+  title:'Merge Sort Algorithm',
+  aim:'To implement Merge Sort — a divide and conquer sorting algorithm.',
+  algo:['Divide array into two halves recursively.','Sort each half recursively.','Merge two sorted halves into one sorted array.','Time: O(N log N), Space: O(N).'],
+  code:`#include <iostream>
+#include <vector>
+using namespace std;
+
+void merge(vector<int>& a, int l, int m, int r) {
+    vector<int> L(a.begin()+l, a.begin()+m+1);
+    vector<int> R(a.begin()+m+1, a.begin()+r+1);
+    int i=0,j=0,k=l;
+    while(i<(int)L.size()&&j<(int)R.size()) a[k++]=(L[i]<=R[j])?L[i++]:R[j++];
+    while(i<(int)L.size()) a[k++]=L[i++];
+    while(j<(int)R.size()) a[k++]=R[j++];
+}
+
+void mergeSort(vector<int>& a, int l, int r) {
+    if(l>=r) return;
+    int m=(l+r)/2;
+    mergeSort(a,l,m); mergeSort(a,m+1,r);
+    merge(a,l,m,r);
+}
+
+int main() {
+    vector<int> a={38,27,43,3,9,82,10};
+    cout<<"Before: "; for(int x:a) cout<<x<<" "; cout<<"\\n";
+    mergeSort(a,0,a.size()-1);
+    cout<<"After:  "; for(int x:a) cout<<x<<" "; cout<<"\\n";
+    return 0;
+}`,
+  fill:'int m=(l+r)/___; mergeSort(a,l,___); mergeSort(a,m+1,___); merge(a,l,m,r);',
+  quiz:[
+    {q:'Merge Sort time complexity?', a:'O(N log N) — all cases.'},
+    {q:'Merge Sort space complexity?', a:'O(N) — auxiliary space for merging.'},
+    {q:'Is Merge Sort stable?', a:'Yes — equal elements maintain relative order.'}
+  ],
+  sampleIn:'38 27 43 3 9 82 10',
+  sampleOut:'Before: 38 27 43 3 9 82 10\nAfter:  3 9 10 27 38 43 82'
+},
+{
+  set:'C', num:13, id:'c13',
+  title:'Quick Sort Algorithm',
+  aim:'To implement Quick Sort — an efficient in-place sorting algorithm.',
+  algo:['Choose pivot (last element).','Partition: place elements < pivot left, > pivot right.','Recursively sort left and right partitions.','Average O(N log N), worst O(N^2).'],
+  code:`#include <iostream>
+#include <vector>
+using namespace std;
+
+int partition(vector<int>& a, int lo, int hi) {
+    int pivot=a[hi], i=lo-1;
+    for(int j=lo;j<hi;j++) if(a[j]<=pivot) swap(a[++i],a[j]);
+    swap(a[++i],a[hi]);
+    return i;
+}
+
+void quickSort(vector<int>& a, int lo, int hi) {
+    if(lo>=hi) return;
+    int p=partition(a,lo,hi);
+    quickSort(a,lo,p-1);
+    quickSort(a,p+1,hi);
+}
+
+int main() {
+    vector<int> a={10,80,30,90,40,50,70};
+    cout<<"Before: "; for(int x:a) cout<<x<<" "; cout<<"\\n";
+    quickSort(a,0,a.size()-1);
+    cout<<"After:  "; for(int x:a) cout<<x<<" "; cout<<"\\n";
+    return 0;
+}`,
+  fill:'int pivot=a[___], i=lo-1; for(int j=lo;j<hi;j++) if(a[j]<=pivot) swap(a[++___],a[j]);',
+  quiz:[
+    {q:'Quick Sort average time complexity?', a:'O(N log N)'},
+    {q:'Quick Sort worst case?', a:'O(N^2) — when pivot is always smallest or largest.'},
+    {q:'Is Quick Sort stable?', a:'No — relative order may change.'}
+  ],
+  sampleIn:'10 80 30 90 40 50 70',
+  sampleOut:'Before: 10 80 30 90 40 50 70\nAfter:  10 30 40 50 70 80 90'
+},
+{
+  set:'C', num:14, id:'c14',
+  title:'Graph — Dijkstra\'s Shortest Path',
+  aim:'To find shortest paths from source using Dijkstra\'s algorithm.',
+  algo:['Initialize dist[] with infinity, source=0.','Use priority queue (min-heap) of (dist, node).','Extract min, update neighbors if shorter path found.','Repeat until all nodes processed.'],
+  code:`#include <iostream>
+#include <vector>
+#include <queue>
+#include <climits>
+using namespace std;
+
+typedef pair<int,int> pii;
+
+void dijkstra(vector<vector<pii>>& g, int src, int V) {
+    vector<int> dist(V, INT_MAX);
+    priority_queue<pii, vector<pii>, greater<pii>> pq;
+    dist[src]=0; pq.push({0,src});
+    while(!pq.empty()) {
+        auto [d,u]=pq.top(); pq.pop();
+        if(d>dist[u]) continue;
+        for(auto [w,v]:g[u]) if(dist[u]+w<dist[v]) { dist[v]=dist[u]+w; pq.push({dist[v],v}); }
+    }
+    cout<<"Shortest paths from "<<src<<":\\n";
+    for(int i=0;i<V;i++) cout<<"  To "<<i<<": "<<(dist[i]==INT_MAX?-1:dist[i])<<"\\n";
+}
+
+int main() {
+    int V=5;
+    vector<vector<pii>> g(V);
+    auto addE=[&](int u,int v,int w){ g[u].push_back({w,v}); g[v].push_back({w,u}); };
+    addE(0,1,4); addE(0,2,2); addE(1,3,5); addE(2,1,1); addE(2,3,8); addE(3,4,2);
+    dijkstra(g,0,V);
+    return 0;
+}`,
+  fill:'dist[src]=0; pq.push({0,___}); if(dist[u]+w < dist[v]) { dist[v]=___; pq.push({dist[v],v}); }',
+  quiz:[
+    {q:'Dijkstra works on?', a:'Graphs with non-negative edge weights only.'},
+    {q:'Data structure for efficiency?', a:'Min-heap priority queue — O((V+E) log V).'},
+    {q:'What if negative weights exist?', a:'Use Bellman-Ford algorithm instead.'}
+  ],
+  sampleIn:'5 nodes, weighted edges',
+  sampleOut:'Shortest paths from 0:\n  To 0: 0\n  To 1: 3\n  To 2: 2\n  To 3: 8\n  To 4: 10'
+},
+{
+  set:'C', num:15, id:'c15',
+  title:'Hashing — Linear Probing',
+  aim:'To implement Hash Table with linear probing for collision resolution.',
+  algo:['Hash function: key % tableSize.','Insert: compute hash, if collision, probe next slot.','Search: compute hash, linear scan for key.','Delete: mark slot as DELETED.'],
+  code:`#include <iostream>
+using namespace std;
+
+const int SIZE=10;
+const int EMPTY=-1, DEL=-2;
+int table[SIZE];
+
+void init() { for(int& x:table) x=EMPTY; }
+
+int hash(int k) { return k%SIZE; }
+
+void insert(int k) {
+    int h=hash(k);
+    for(int i=0;i<SIZE;i++) {
+        int idx=(h+i)%SIZE;
+        if(table[idx]==EMPTY||table[idx]==DEL){ table[idx]=k; cout<<"Inserted "<<k<<" at "<<idx<<"\\n"; return; }
+    }
+    cout<<"Table full\\n";
+}
+
+bool search(int k) {
+    int h=hash(k);
+    for(int i=0;i<SIZE;i++) {
+        int idx=(h+i)%SIZE;
+        if(table[idx]==EMPTY) return false;
+        if(table[idx]==k) return true;
+    }
+    return false;
+}
+
+void display() { for(int i=0;i<SIZE;i++) cout<<"["<<i<<"]: "<<(table[i]==EMPTY?-1:table[i])<<" "; cout<<"\\n"; }
+
+int main() {
+    init();
+    insert(12); insert(22); insert(32); insert(5);
+    display();
+    cout<<"Search 22: "<<(search(22)?"Found":"Not Found")<<"\\n";
+    cout<<"Search 99: "<<(search(99)?"Found":"Not Found")<<"\\n";
+    return 0;
+}`,
+  fill:'int h=hash(k); for(int i=0;i<SIZE;i++) { int idx=(h+___i)%SIZE; if(table[idx]==___||table[idx]==DEL) ... }',
+  quiz:[
+    {q:'Linear probing collision resolution?', a:'Probe next slot sequentially: (h+i) % SIZE.'},
+    {q:'Primary clustering in linear probing?', a:'Long chains of filled slots — reduces performance.'},
+    {q:'Load factor?', a:'Number of elements / table size. Keep < 0.7 for efficiency.'}
+  ],
+  sampleIn:'insert: 12,22,32,5',
+  sampleOut:'Inserted 12 at 2\nInserted 22 at 3\nInserted 32 at 4\nInserted 5 at 5\nSearch 22: Found\nSearch 99: Not Found'
+},
+{
+  set:'C', num:16, id:'c16',
+  title:'Knapsack Problem — Dynamic Programming',
+  aim:'To solve 0/1 Knapsack problem using dynamic programming.',
+  algo:['Create DP table dp[n+1][W+1].','For each item, choose to include or exclude.','dp[i][w] = max(dp[i-1][w], val[i-1]+dp[i-1][w-wt[i-1]]).','Final answer at dp[n][W].'],
+  code:`#include <iostream>
+#include <vector>
+#include <algorithm>
+using namespace std;
+
+int knapsack(vector<int>& wt, vector<int>& val, int W, int n) {
+    vector<vector<int>> dp(n+1, vector<int>(W+1,0));
+    for(int i=1;i<=n;i++)
+        for(int w=0;w<=W;w++) {
+            dp[i][w]=dp[i-1][w];
+            if(wt[i-1]<=w) dp[i][w]=max(dp[i][w], val[i-1]+dp[i-1][w-wt[i-1]]);
+        }
+    return dp[n][W];
+}
+
+int main() {
+    vector<int> wt={2,3,4,5};
+    vector<int> val={3,4,5,6};
+    int W=8, n=4;
+    cout<<"Items: wt={2,3,4,5} val={3,4,5,6}\\n";
+    cout<<"Capacity: "<<W<<"\\n";
+    cout<<"Max Value: "<<knapsack(wt,val,W,n)<<"\\n";
+    return 0;
+}`,
+  fill:'dp[i][w]=dp[i-1][w]; if(wt[i-1]<=w) dp[i][w]=___(dp[i][w], val[i-1]+dp[i-1][w-wt[i-1]]);',
+  quiz:[
+    {q:'0/1 Knapsack time complexity?', a:'O(N*W) — pseudo-polynomial.'},
+    {q:'Why DP for Knapsack?', a:'Greedy fails — DP builds optimal solutions from subproblems.'},
+    {q:'Space optimized version?', a:'Use 1D dp array of size W+1, iterate items.'}
+  ],
+  sampleIn:'wt={2,3,4,5}, val={3,4,5,6}, W=8',
+  sampleOut:'Items: wt={2,3,4,5} val={3,4,5,6}\nCapacity: 8\nMax Value: 10'
+},
+{
+  set:'C', num:17, id:'c17',
+  title:'Operator Overloading — Complex Numbers',
+  aim:'To implement complex number class with overloaded +, -, * operators.',
+  algo:['Define Complex class with real and imag parts.','Overload +: add real and imag parts separately.','Overload -: subtract real and imag parts.','Overload *: (a+bi)(c+di) = (ac-bd) + (ad+bc)i.'],
+  code:`#include <iostream>
+using namespace std;
+
+class Complex {
+    double real, imag;
+public:
+    Complex(double r=0, double i=0): real(r), imag(i) {}
+    Complex operator+(const Complex& c) const { return Complex(real+c.real, imag+c.imag); }
+    Complex operator-(const Complex& c) const { return Complex(real-c.real, imag-c.imag); }
+    Complex operator*(const Complex& c) const {
+        return Complex(real*c.real - imag*c.imag, real*c.imag + imag*c.real);
+    }
+    void show(string label="") const {
+        if(!label.empty()) cout<<label<<"= ";
+        cout<<real<<(imag>=0?"+":"")<<imag<<"i\\n";
+    }
+};
+
+int main() {
+    Complex a(3,2), b(1,4);
+    a.show("a"); b.show("b");
+    (a+b).show("a+b");
+    (a-b).show("a-b");
+    (a*b).show("a*b");
+    return 0;
+}`,
+  fill:'Complex operator+(const Complex& c) ___ { return Complex(real+c.___, imag+c.___); }',
+  quiz:[
+    {q:'Complex multiplication (a+bi)(c+di)?', a:'(ac-bd) + (ad+bc)i'},
+    {q:'const after function signature means?', a:'Function does not modify the calling object.'},
+    {q:'Can we overload << for cout?', a:'Yes — as a friend function returning ostream&.'}
+  ],
+  sampleIn:'a(3+2i), b(1+4i)',
+  sampleOut:'a= 3+2i\nb= 1+4i\na+b= 4+6i\na-b= 2-2i\na*b= -5+14i'
+}
+
+]; // end experiments array
+
+// ══════════════════════════════════════════════════
+//  RENDER
+// ══════════════════════════════════════════════════
+let currentFilter='ALL';
+
+function escape(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+
+function buildSidebar(){
+  const inner=document.getElementById('sidebar-inner');
+  let html='';
+  const sets=['A','B','C'];
+  sets.forEach(set=>{
+    html+=`<div class="set-label" data-sl="${set}">Set ${set}</div>`;
+    experiments.filter(e=>e.set===set).forEach(e=>{
+      html+=`<a class="nav-item" data-set="${set}" data-id="${e.id}" href="#${e.id}" onclick="if(window.innerWidth<=768)document.getElementById('sidebar').classList.remove('open')">
+        <span style="opacity:.5;margin-right:6px">${e.num}.</span>${e.title}
+      </a>`;
+    });
+  });
+  inner.innerHTML=html;
+}
+
+function buildExperiments(){
+  const list=document.getElementById('exp-list');
+  let html='';
+  experiments.forEach((e,idx)=>{
+    const quizHtml=e.quiz.map(q=>`<div style="margin-bottom:12px"><div class="quiz-q">❓ ${escape(q.q)}</div><div class="quiz-a">✅ ${escape(q.a)}</div></div>`).join('');
+    const algoHtml=e.algo.map(a=>`<li>${escape(a)}</li>`).join('');
+    html+=`
+<div class="exp-card set-${e.set}" id="${e.id}" data-set="${e.set}" data-title="${e.title.toLowerCase()}">
+  <div class="exp-header">
+    <div class="exp-num">SET ${e.set} · Q${e.num}</div>
+    <div class="exp-title">${escape(e.title)}</div>
+  </div>
+
+  <div class="section-block">
+    <div class="section-label">🎯 Aim</div>
+    <div class="aim-text">${escape(e.aim)}</div>
+  </div>
+
+  <div class="section-block">
+    <div class="section-label">📋 Algorithm</div>
+    <ol class="algo-list">${algoHtml}</ol>
+  </div>
+
+  <div class="section-block">
+    <div class="section-label">💻 C++ Program</div>
+    <div class="code-block">
+      <div class="code-block-header">
+        <span class="code-lang">C++</span>
+        <button class="copy-btn" onclick="copyCode('prog-${e.id}')">Copy</button>
+      </div>
+      <pre id="prog-${e.id}">${escape(e.code)}</pre>
+    </div>
+  </div>
+
+  <div class="section-block">
+    <div class="section-label">✏️ Fill in the Blanks</div>
+    <div class="fill-block">${escape(e.fill)}</div>
+  </div>
+
+  <div class="section-block">
+    <div class="section-label">🧠 Quiz</div>
+    <div class="quiz-block">${quizHtml}</div>
+  </div>
+
+  <div class="section-block">
+    <div class="io-label" style="font-size:11px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;color:var(--text-muted);margin-bottom:8px">Sample I/O</div>
+    <div class="io-row">
+      <div>
+        <div class="io-label">Input</div>
+        <div class="io-box input-io">${escape(e.sampleIn)}</div>
+      </div>
+      <div>
+        <div class="io-label">Output</div>
+        <div class="io-box">${escape(e.sampleOut)}</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="compiler-wrap">
+    <div class="compiler-header">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+      <span>Try It Yourself — Live C++ Compiler</span>
+    </div>
+    <div class="compiler-body">
+      <textarea class="code-editor-ta" id="ce-${e.id}">${escape(e.code)}</textarea>
+      <div style="margin-top:8px;font-size:11px;color:var(--text-muted)">Standard Input (stdin):</div>
+      <div class="compiler-row">
+        <textarea class="stdin-ta" id="si-${e.id}" placeholder="Enter input here..."></textarea>
+        <button class="run-btn" id="rb-${e.id}" onclick="runCode('${e.id}')">▶ Run</button>
+      </div>
+      <div class="output-ta" id="out-${e.id}">// Output will appear here</div>
+    </div>
+  </div>
+</div>`;
+  });
+  list.innerHTML=html;
+}
+
+function copyCode(id){
+  const pre=document.getElementById(id);
+  navigator.clipboard.writeText(pre.innerText).then(()=>{
+    const btn=pre.previousElementSibling.querySelector('.copy-btn');
+    btn.textContent='Copied!'; setTimeout(()=>btn.textContent='Copy',2000);
+  });
+}
+
+async function runCode(id){
+  const code=document.getElementById('ce-'+id).value;
+  const stdin=document.getElementById('si-'+id).value;
+  const out=document.getElementById('out-'+id);
+  const btn=document.getElementById('rb-'+id);
+  btn.disabled=true; btn.textContent='Running…';
+  out.className='output-ta'; out.textContent='⏳ Compiling and executing…';
+  try{
+    const res=await fetch('https://emkc.org/api/v2/piston/execute',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({language:'c++',version:'10.2.0',files:[{name:'main.cpp',content:code}],stdin})
+    });
+    const data=await res.json();
+    if(data.compile&&data.compile.code!==0){
+      out.className='output-ta error';
+      out.textContent='❌ COMPILE ERROR:\n'+data.compile.stderr;
+    }else if(data.run){
+      if(data.run.stderr&&data.run.code!==0){
+        out.className='output-ta error';
+        out.textContent='❌ RUNTIME ERROR:\n'+data.run.stderr;
+      }else{
+        out.className='output-ta';
+        out.textContent=data.run.stdout||(data.run.stderr||'(no output)');
+      }
+    }
+  }catch(err){
+    out.className='output-ta error';
+    out.textContent='❌ Network error: '+err.message+'\n\nTip: Check internet connection.';
+  }finally{
+    btn.disabled=false; btn.textContent='▶ Run';
+  }
+}
+
+function setFilter(set){
+  currentFilter=set;
+  document.querySelectorAll('.flt').forEach(b=>b.classList.toggle('active',b.dataset.set===set));
+  filterAll();
+}
+
+function filterAll(){
+  const q=document.getElementById('search').value.toLowerCase().trim();
+  let visible=0;
+  experiments.forEach(e=>{
+    const card=document.getElementById(e.id);
+    const nav=document.querySelector(`.nav-item[data-id="${e.id}"]`);
+    const setMatch=currentFilter==='ALL'||e.set===currentFilter;
+    const textMatch=!q||e.title.toLowerCase().includes(q)||`set ${e.set.toLowerCase()}`.includes(q)||`q${e.num}`.includes(q);
+    const show=setMatch&&textMatch;
+    card.classList.toggle('hidden',!show);
+    nav&&nav.classList.toggle('hidden',!show);
+    if(show) visible++;
+  });
+  document.getElementById('no-results').style.display=visible?'none':'block';
+}
+
+function toggleSidebar(){
+  document.getElementById('sidebar').classList.toggle('open');
+}
+
+// highlight active nav on scroll
+function onScroll(){
+  const cards=[...document.querySelectorAll('.exp-card:not(.hidden)')];
+  let current=null;
+  for(const c of cards){
+    const rect=c.getBoundingClientRect();
+    if(rect.top<=120) current=c.id;
+  }
+  if(current){
+    document.querySelectorAll('.nav-item').forEach(a=>{
+      a.classList.toggle('active',a.dataset.id===current);
+    });
+  }
+}
+
+document.getElementById('main').addEventListener('scroll',onScroll);
+
+buildSidebar();
+buildExperiments();
+filterAll();
+</script>
+</body>
+</html>
