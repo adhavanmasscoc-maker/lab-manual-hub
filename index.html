@@ -3,297 +3,786 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Lab Manual Hub</title>
+    <title>Lab Manual Hub | AKNEX</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@700;800&family=Fira+Code:wght@600&display=swap" rel="stylesheet">
 
     <style>
-        body {
+        * {
+            box-sizing: border-box;
             margin: 0;
-            font-family: Arial, sans-serif;
-            background: #f5f5f5;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background-color: #dde3eb; /* Glare-free soft matte slate */
+            color: #0f172a;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 28px 16px 60px;
+        }
+
+        .main-wrapper {
+            width: 100%;
+            max-width: 980px;
+            animation: pageEntry 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        @keyframes pageEntry {
+            from { opacity: 0; transform: translateY(14px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes cardFadeIn {
+            from { opacity: 0; transform: translateY(14px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* HEADER */
+        header {
             text-align: center;
+            margin-bottom: 24px;
         }
 
         h1 {
-            margin-top: 40px;
-            color: #333;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: clamp(1.9rem, 4.5vw, 2.5rem);
+            font-weight: 800;
+            color: #0f172a;
+            letter-spacing: -0.02em;
+            margin-bottom: 6px;
         }
 
-        p {
-            color: #666;
+        p.subtitle {
+            font-size: 14.5px;
+            color: #475569;
+        }
+
+        /* SEARCH BAR */
+        .search-box {
+            position: relative;
             margin-bottom: 20px;
         }
 
-        input,
-        textarea {
-            padding: 10px;
-            width: 60%;
-            margin: 10px;
-            border-radius: 8px;
-            border: 1px solid #ccc;
+        .search-box input {
+            width: 100%;
+            padding: 13px 18px 13px 44px;
+            background: #edf2f7; /* Muted surface, zero white glare */
+            border: 1px solid #cbd5e1;
+            border-radius: 9px;
+            font-size: 14.5px;
+            color: #0f172a;
             outline: none;
+            box-shadow: 0 2px 6px rgba(15, 23, 42, 0.03);
+            transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
-        button {
-            padding: 10px 20px;
-            background: #333;
-            color: white;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
+        .search-box input:focus {
+            background: #f1f5f9;
+            border-color: #2563eb;
+            box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.15);
+            transform: translateY(-1px);
         }
 
-        button:hover {
-            background: #555;
+        .search-icon {
+            position: absolute;
+            left: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 16px;
+            color: #94a3b8;
+            pointer-events: none;
         }
 
-        .container {
+        /* FILTER BUTTONS */
+        .filter-row {
             display: flex;
-            justify-content: center;
-            gap: 30px;
+            gap: 8px;
+            margin-bottom: 26px;
             flex-wrap: wrap;
-            padding: 20px;
+        }
+
+        .filter-btn {
+            background: #edf2f7;
+            color: #475569;
+            border: 1px solid #cbd5e1;
+            padding: 7px 16px;
+            border-radius: 7px;
+            font-size: 13.5px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.18s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .filter-btn:hover {
+            background: #e2e8f0;
+            color: #0f172a;
+            transform: translateY(-1px);
+        }
+
+        .filter-btn:active {
+            transform: scale(0.97);
+        }
+
+        .filter-btn.active {
+            background: #2563eb;
+            color: #ffffff;
+            border-color: #2563eb;
+            box-shadow: 0 2px 8px rgba(37, 99, 235, 0.25);
+        }
+
+        /* SECTION TITLES */
+        .section-bar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 14px;
+            padding-bottom: 8px;
+            border-bottom: 2px solid #cbd5e1;
+        }
+
+        .section-bar h2 {
+            font-size: 17px;
+            font-weight: 800;
+            color: #0f172a;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .badge-new {
+            background: #2563eb;
+            color: #ffffff;
+            font-size: 10.5px;
+            font-weight: 800;
+            padding: 2px 7px;
+            border-radius: 4px;
+            text-transform: uppercase;
+        }
+
+        /* MINIMAL SEMESTER 3 CARDS */
+        .sem3-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 14px;
+            margin-bottom: 30px;
+        }
+
+        .os1-clean-card,
+        .sem3-clean-card {
+            background: #edf2f7; /* Muted surface, zero white glare */
+            border: 1px solid #93c5fd;
+            border-left: 5px solid #2563eb;
+            border-radius: 10px;
+            padding: 20px 22px;
+            box-shadow: 0 2px 8px rgba(15, 23, 42, 0.05);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            text-decoration: none;
+            color: inherit;
+            transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .os1-clean-card:hover,
+        .sem3-clean-card:hover {
+            border-color: #2563eb;
+            box-shadow: 0 10px 28px -4px rgba(37, 99, 235, 0.22), 0 0 0 1px #2563eb;
+            transform: translateY(-4px);
+        }
+
+        .card-header-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+
+        .tag-sem {
+            font-size: 11px;
+            font-weight: 800;
+            color: #2563eb;
+            letter-spacing: 0.05em;
+        }
+
+        .tag-code {
+            font-family: 'Fira Code', monospace;
+            font-size: 12px;
+            font-weight: 700;
+            color: #475569;
+            background: #e2e8f0;
+            padding: 2px 8px;
+            border-radius: 4px;
+            border: 1px solid #cbd5e1;
+        }
+
+        .os1-title {
+            font-size: 19px;
+            font-weight: 800;
+            color: #0f172a;
+            margin-bottom: 12px;
+            line-height: 1.3;
+        }
+
+        .card-action {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-size: 13px;
+            font-weight: 600;
+            color: #2563eb;
+        }
+
+        .card-arrow {
+            display: inline-block;
+            font-size: 15px;
+            transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .os1-clean-card:hover .card-arrow {
+            transform: translateX(5px);
+            color: #1d4ed8;
+        }
+
+        /* SEMESTER 2 CARDS GRID */
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 14px;
+            margin-bottom: 36px;
         }
 
         .card {
-            width: 250px;
-            padding: 25px;
-            border-radius: 15px;
-            color: white;
+            background: #edf2f7; /* Muted surface, zero white glare */
+            border: 1px solid #cbd5e1;
+            border-radius: 10px;
+            padding: 18px 20px;
             text-decoration: none;
-            font-size: 18px;
-            font-weight: bold;
-            transition: 0.3s;
+            color: #0f172a;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            min-height: 120px;
+            box-shadow: 0 2px 6px rgba(15, 23, 42, 0.04);
+            transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
         .card:hover {
-            transform: scale(1.05);
+            border-color: #2563eb;
+            box-shadow: 0 10px 24px -4px rgba(15, 23, 42, 0.12), 0 0 0 1px #2563eb;
+            transform: translateY(-4px);
         }
 
-        .footer {
-            margin-top: 50px;
-            color: #888;
-            font-size: 14px;
+        .card:hover .card-arrow {
+            transform: translateX(5px);
+            color: #1d4ed8;
         }
 
-        .footer a {
+        .card-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+
+        .card-dept {
+            font-size: 11px;
+            font-weight: 700;
+            color: #2563eb;
+            text-transform: uppercase;
+        }
+
+        .card-sem {
+            font-size: 11px;
+            font-weight: 600;
+            color: #94a3b8;
+        }
+
+        .card-name {
+            font-size: 15.5px;
+            font-weight: 700;
+            color: #0f172a;
+            margin-bottom: 12px;
+            line-height: 1.35;
+        }
+
+        .card-footer {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-size: 13px;
+            font-weight: 600;
+            color: #2563eb;
+        }
+
+        /* EMPTY STATE */
+        .empty-state {
+            grid-column: 1 / -1;
+            text-align: center;
+            padding: 28px;
+            background: #edf2f7;
+            border: 1px dashed #cbd5e1;
+            border-radius: 8px;
+            color: #64748b;
+            font-size: 13.5px;
+        }
+
+        /* FEEDBACK BOX */
+        .feedback-box {
+            background: #edf2f7; /* Muted surface, zero white glare */
+            border: 1px solid #cbd5e1;
+            border-radius: 10px;
+            padding: 20px 22px;
+            margin-bottom: 30px;
+            box-shadow: 0 2px 6px rgba(15, 23, 42, 0.04);
+        }
+
+        .feedback-box h3 {
+            font-size: 16px;
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+
+        .feedback-box p {
+            font-size: 13px;
+            color: #64748b;
+            margin-bottom: 14px;
+        }
+
+        .feedback-box input,
+        .feedback-box textarea {
+            width: 100%;
+            background: #e2e8f0;
+            border: 1px solid #cbd5e1;
+            border-radius: 6px;
+            padding: 9px 12px;
+            font-size: 13.5px;
+            font-family: inherit;
+            color: #0f172a;
+            margin-bottom: 8px;
+            outline: none;
+            transition: all 0.2s ease;
+        }
+
+        .feedback-box textarea {
+            height: 75px;
+            resize: none;
+        }
+
+        /* STAR RATING */
+        .star-rating-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 12px;
+            padding: 8px 12px;
+            background: #e2e8f0;
+            border: 1px solid #cbd5e1;
+            border-radius: 8px;
+            flex-wrap: wrap;
+        }
+
+        .rating-prompt {
+            font-size: 13px;
+            font-weight: 700;
+            color: #334155;
+        }
+
+        .star-group {
+            display: inline-flex;
+            gap: 4px;
+        }
+
+        .star-btn {
+            background: none;
+            border: none;
+            font-size: 22px;
+            line-height: 1;
+            cursor: pointer;
+            color: #94a3b8;
+            padding: 0 2px;
+            transition: transform 0.15s ease, color 0.15s ease;
+        }
+
+        .star-btn:hover {
+            transform: scale(1.25);
+        }
+
+        .star-btn.active {
+            color: #f59e0b; /* Amber Gold */
+            text-shadow: 0 1px 4px rgba(245, 158, 11, 0.4);
+        }
+
+        .rating-badge {
+            font-size: 12px;
+            font-weight: 700;
+            color: #b45309;
+            background: #fef3c7;
+            border: 1px solid #fde68a;
+            padding: 2px 8px;
+            border-radius: 999px;
+        }
+
+        .feedback-box input:focus,
+        .feedback-box textarea:focus {
+            border-color: #2563eb;
+            background: #f1f5f9;
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
+        }
+
+        .btn-submit {
+            background: #2563eb;
+            color: #ffffff;
+            border: none;
+            padding: 9px 20px;
+            border-radius: 6px;
+            font-size: 13px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.18s ease;
+        }
+
+        .btn-submit:hover {
+            background: #1d4ed8;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+        }
+
+        #msg {
+            margin-top: 8px;
+            font-size: 12.5px;
+            font-weight: 600;
+        }
+
+        /* FOOTER */
+        footer {
+            text-align: center;
+            font-size: 13.5px;
+            color: #64748b;
+            margin-top: 10px;
+        }
+
+        footer a {
+            color: #2563eb;
             text-decoration: none;
-            color: #2575fc;
-            font-weight: bold;
+            font-weight: 700;
         }
-textarea {
-    height: 100px;
-    resize: none;
-}
 
-button {
-    background: linear-gradient(135deg,#6a11cb,#2575fc);
-    font-weight: bold;
-}
-
-button:hover {
-    background: linear-gradient(135deg,#5a0fbf,#1f63d8);
-}
-textarea {
-    height: 110px;
-    resize: none;
-}
-
-button {
-    background: linear-gradient(135deg,#6a11cb,#2575fc);
-    font-weight: bold;
-    transition: 0.3s;
-}
-
-button:hover {
-    transform: scale(1.05);
-}
-
-
+        footer a:hover {
+            text-decoration: underline;
+        }
     </style>
 </head>
 
 <body>
 
-    <h1>📚 Lab Manual Hub</h1>
-    <p>Select your subject</p>
+    <div class="main-wrapper">
 
-    <!-- SEARCH -->
-    <input type="text" id="search" placeholder="Search..." onkeyup="searchFunc()">
+        <!-- HEADER -->
+        <header>
+            <h1>Lab Manual Hub</h1>
+            <p class="subtitle">Verified laboratory records, source programs, and answers</p>
+        </header>
 
-    <!-- CARDS CONTAINER -->
-    <div class="container" id="cardContainer"></div>
+        <!-- SEARCH -->
+        <div class="search-box">
+            <span class="search-icon">🔍</span>
+            <input type="text" id="search" placeholder="Search subjects (e.g., OS 1, CS5302, DBMS, AI, C++)..." onkeyup="searchFunc()">
+        </div>
 
-   <!-- FEEDBACK -->
-<div style="margin-top:60px; padding:25px; background:#fff; border-radius:15px; width:85%; margin-left:auto; margin-right:auto; box-shadow:0 4px 15px rgba(0,0,0,0.1);">
+        <!-- FILTERS -->
+        <div class="filter-row">
+            <button class="filter-btn active" id="tab-all" onclick="setFilter('all')">All Semesters</button>
+            <button class="filter-btn" id="tab-sem3" onclick="setFilter('sem3')">Semester 3</button>
+            <button class="filter-btn" id="tab-sem2" onclick="setFilter('sem2')">Semester 2</button>
+        </div>
 
-    <h2>💬 Suggestions & Requests</h2>
+        <!-- ================= SEMESTER 3 ================= -->
+        <section id="section-sem3">
+            <div class="section-bar">
+                <h2>
+                    Semester 3
+                    <span class="badge-new">NEW</span>
+                </h2>
+                <span style="font-size:12.5px; color:#64748b;" id="count-sem3">2 Subjects</span>
+            </div>
 
-    <p>
-        What do you need next? 📘 <br>
-        Notes, Question Papers, Important Topics, or New Subjects.
-    </p>
+            <div class="sem3-grid">
+                <!-- OS 1 CARD -->
+                <a href="SEM 3/OS 1/" class="sem3-clean-card" id="card-os1">
+                    <div>
+                        <div class="card-header-row">
+                            <span class="tag-sem">SEM 3</span>
+                            <span class="tag-code">CS5302</span>
+                        </div>
+                        <div class="os1-title">OS 1: Operating Systems Laboratory</div>
+                    </div>
+                    <div class="card-action">
+                        <span>View Experiments</span>
+                        <span class="card-arrow">→</span>
+                    </div>
+                </a>
 
-    <p style="font-size:14px; color:#555;">
-        ⚡ Updates and fixes are added regularly based on your requests.
-    </p>
+                <!-- DAA CARD -->
+                <a href="SEM 3/DAA/" class="sem3-clean-card" id="card-daa">
+                    <div>
+                        <div class="card-header-row">
+                            <span class="tag-sem">SEM 3</span>
+                            <span class="tag-code">CS5303</span>
+                        </div>
+                        <div class="os1-title">DAA: Design and Analysis of Algorithms</div>
+                    </div>
+                    <div class="card-action">
+                        <span>View Experiments</span>
+                        <span class="card-arrow">→</span>
+                    </div>
+                </a>
+            </div>
+        </section>
 
-    <input type="text" id="name" placeholder="Your Name (optional)"><br>
+        <!-- ================= SEMESTER 2 ================= -->
+        <section id="section-sem2">
+            <div class="section-bar">
+                <h2>Semester 2</h2>
+                <span style="font-size:12.5px; color:#64748b;" id="count-sem2">15 Subjects</span>
+            </div>
 
-    <textarea id="feedback" placeholder="Example: Add OS notes, PYQ, or more ECE subjects..."></textarea><br>
+            <div class="cards-grid" id="container-sem2"></div>
+        </section>
 
-    <button onclick="submitFeedback()">Submit Request</button>
+        <!-- FEEDBACK -->
+        <div class="feedback-box">
+            <h3>💬 Requests & Feedback</h3>
+            <p>Need additional experiments or notes? Submit your request below.</p>
+            
+            <!-- Easy Star Rating Selector -->
+            <div class="star-rating-wrapper">
+                <span class="rating-prompt">Rate Manual:</span>
+                <div class="star-group" id="starGroup">
+                    <button type="button" class="star-btn active" data-rating="1" onclick="setRating(1)" title="1 Star">★</button>
+                    <button type="button" class="star-btn active" data-rating="2" onclick="setRating(2)" title="2 Stars">★</button>
+                    <button type="button" class="star-btn active" data-rating="3" onclick="setRating(3)" title="3 Stars">★</button>
+                    <button type="button" class="star-btn active" data-rating="4" onclick="setRating(4)" title="4 Stars">★</button>
+                    <button type="button" class="star-btn active" data-rating="5" onclick="setRating(5)" title="5 Stars">★</button>
+                </div>
+                <span class="rating-badge" id="ratingBadge">5 ★ Excellent</span>
+            </div>
 
-    <p id="msg"></p>
+            <input type="text" id="name" placeholder="Your Name or Subject Needed">
+            <textarea id="feedback" placeholder="Example: Add Computer Networks Lab, Sem 3 PYQ..."></textarea>
+            <button class="btn-submit" onclick="submitFeedback()">Submit Request</button>
+            <p id="msg"></p>
+        </div>
 
-</div>
+        <!-- FOOTER -->
+        <footer>
+            <p><a href="https://aknex.vercel.app" target="_blank">Built by AKNEX</a></p>
+        </footer>
 
-
-
-    <!-- FOOTER -->
-    <div class="footer">
-        <a href="https://akdev-official.vercel.app" target="_blank">
-            Built by AKDEV ⚡
-        </a>
     </div>
 
     <script>
-        // =========================
-        // 🔥 ADD SUBJECTS HERE (UNLIMITED)
-        // =========================
-        const subjects = [
-            { name: "AI Lab", link: "AI/", color: "linear-gradient(135deg,#6a11cb,#2575fc)" },
-            { name: "DBMS Lab", link: "DBMS/", color: "linear-gradient(135deg,#ff416c,#ff4b2b)" },
-            { name: "WEB_FW Lab", link: "WEB_FW/", color: "linear-gradient(135deg,#11998e,#38ef7d)" },
-            { name: "C++ CSE Lab", link: "C++_CSE/", color: "linear-gradient(135deg,#fc4a1a,#f7b733)" },
-            { name: "C++ EEE Lab", link: "C++_EEE/", color: "linear-gradient(135deg,#00c6ff,#0072ff)" },
-            { name: "AI_CIVIL", link: "AI_CIVIL/", color: "linear-gradient(135deg,#000,#333)" },
-{ name: "DLC_EEE", link: "DLC_EEE/", color: "linear-gradient(135deg,#050,#333)" },
-{ name: "AIML_EEE", link: "AIML_EEE/", color: "linear-gradient(135deg,#500,#333)" },
-{ name: "C_BME", link: "C_BME/", color: "linear-gradient(135deg,#043,#333)" },
-{ name: "EC_ECE", link: "EC_ECE/", color: "linear-gradient(135deg,#1e3c72,#2a5298)" },
-
-{ name: "C++_ECE", link: "C++_ECE/", color: "linear-gradient(135deg,#11998e,#38ef7d)" },
-
-{ name: "DE_ECE", link: "DE_ECE/", color: "linear-gradient(135deg,#fc4a1a,#f7b733)" },
-
-{ name: "OS_ECE", link: "OS_ECE/", color: "linear-gradient(135deg,#42275a,#734b6d)" },
-
-            // 👉 ADD MORE HERE (NO LIMIT)
-            // { name: "AI_CIVIL", link: "AI_CIVIL/", color: "linear-gradient(135deg,#000,#333)" },
+        const subjectsSem2 = [
+            { name: "TAMIL & TECHNOLOGY", dept: "ALL DEPT", link: "SEM 2/TAMIL & TECHNOLOGY/" },
+            { name: "AI Lab", dept: "CSE / AIDS", link: "SEM 2/AI/" },
+            { name: "DBMS Lab", dept: "CSE / IT", link: "SEM 2/DBMS/" },
+            { name: "WEB_FW Lab", dept: "CSE", link: "SEM 2/WEB_FW/" },
+            { name: "C++ CSE Lab", dept: "CSE", link: "SEM 2/C++_CSE/" },
+            { name: "C++ EEE Lab", dept: "EEE", link: "SEM 2/C++_EEE/" },
+            { name: "AI_CIVIL", dept: "CIVIL", link: "SEM 2/AI_CIVIL/" },
+            { name: "DLC_EEE", dept: "EEE", link: "SEM 2/DLC_EEE/" },
+            { name: "AIML_EEE", dept: "EEE", link: "SEM 2/AIML_EEE/" },
+            { name: "C_BME", dept: "BME", link: "SEM 2/C_BME/" },
+            { name: "EC_ECE", dept: "ECE", link: "SEM 2/EC_ECE/" },
+            { name: "C++_ECE", dept: "ECE", link: "SEM 2/C++_ECE/" },
+            { name: "DE_ECE", dept: "ECE", link: "SEM 2/DE_ECE/" },
+            { name: "OS_ECE", dept: "ECE", link: "SEM 2/OS_ECE/" },
+            { name: "EES-2 (FORMULA SHEET)", dept: "APTITUDE", link: "SEM 2/APT/" }
         ];
 
-        // =========================
-        // AUTO GENERATE CARDS
-        // =========================
-        const container = document.getElementById("cardContainer");
+        let activeFilter = 'all';
 
-        function renderCards(list) {
+        function renderSem2(list) {
+            const container = document.getElementById("container-sem2");
             container.innerHTML = "";
 
-            list.forEach(sub => {
+            if (list.length === 0) {
+                container.innerHTML = `<div class="empty-state">No Semester 2 subjects match your search.</div>`;
+                return;
+            }
+
+            list.forEach((sub, index) => {
                 const a = document.createElement("a");
                 a.href = sub.link;
                 a.className = "card";
-                a.style.background = sub.color;
-                a.innerHTML = `📘 ${sub.name}<br><br>View All Experiments`;
+                a.style.animation = `cardFadeIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) ${Math.min(index * 0.025, 0.3)}s backwards`;
+                a.innerHTML = `
+                    <div>
+                        <div class="card-top">
+                            <span class="card-dept">${sub.dept}</span>
+                            <span class="card-sem">SEM 2</span>
+                        </div>
+                        <div class="card-name">${sub.name}</div>
+                    </div>
+                    <div class="card-footer">
+                        <span>View Experiments</span>
+                        <span class="card-arrow">→</span>
+                    </div>
+                `;
                 container.appendChild(a);
             });
         }
 
-        renderCards(subjects);
+        function updateDisplay() {
+            const query = document.getElementById("search").value.toLowerCase().trim();
+            const secSem3 = document.getElementById("section-sem3");
+            const secSem2 = document.getElementById("section-sem2");
+            const cardOs1 = document.getElementById("card-os1");
+            const cardDaa = document.getElementById("card-daa");
+            const countSem3 = document.getElementById("count-sem3");
 
-        // =========================
-        // FIXED SEARCH (NO BUG)
-        // =========================
-        function searchFunc() {
-            let input = document.getElementById("search").value.toLowerCase();
+            const osKeywords = "os 1 operating systems cs5302 kali unix shell scheduling paging banker deadlock";
+            const daaKeywords = "daa design and analysis of algorithms cs5303 interpolation search binary search kmp rabin karp string matching kruskal prim mst dijkstra shortest path min max divide and conquer matrix chain dynamic programming n-queens backtracking tsp branch and bound bin packing randomized quick sort";
 
-            let filtered = subjects.filter(sub =>
-                sub.name.toLowerCase().includes(input)
+            const osMatches = !query || osKeywords.includes(query);
+            const daaMatches = !query || daaKeywords.includes(query);
+
+            if (cardOs1) cardOs1.style.display = osMatches ? 'flex' : 'none';
+            if (cardDaa) cardDaa.style.display = daaMatches ? 'flex' : 'none';
+
+            const sem3VisibleCount = (osMatches ? 1 : 0) + (daaMatches ? 1 : 0);
+            if (countSem3) countSem3.innerText = `${sem3VisibleCount} Subject${sem3VisibleCount === 1 ? '' : 's'}`;
+
+            if (activeFilter === 'sem2') {
+                secSem3.style.display = 'none';
+                secSem2.style.display = 'block';
+            } else if (activeFilter === 'sem3') {
+                secSem3.style.display = sem3VisibleCount > 0 ? 'block' : 'none';
+                secSem2.style.display = 'none';
+            } else {
+                secSem3.style.display = sem3VisibleCount > 0 ? 'block' : 'none';
+                secSem2.style.display = 'block';
+            }
+
+            const filteredSem2 = subjectsSem2.filter(s =>
+                s.name.toLowerCase().includes(query) ||
+                s.dept.toLowerCase().includes(query)
             );
 
-            renderCards(filtered);
+            document.getElementById("count-sem2").innerText = `${filteredSem2.length} Subject${filteredSem2.length === 1 ? '' : 's'}`;
+            renderSem2(filteredSem2);
         }
 
-        // =========================
-        // FEEDBACK SYSTEM
-        // =========================
-        // =========================
-        // FEEDBACK SYSTEM (Centralized Schema)
-        // =========================
-function submitFeedback() {
-    let name = document.getElementById("name").value.trim();
-    let feedback = document.getElementById("feedback").value.trim();
-    let msg = document.getElementById("msg");
-    let btn = document.querySelector("button[onclick='submitFeedback()']");
+        function setFilter(filter) {
+            activeFilter = filter;
+            document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
 
-    if (!name || !feedback) {
-        msg.style.color = "red";
-        msg.innerText = "Please fill all fields";
-        return;
-    }
+            if (filter === 'all') document.getElementById('tab-all').classList.add('active');
+            if (filter === 'sem3') document.getElementById('tab-sem3').classList.add('active');
+            if (filter === 'sem2') document.getElementById('tab-sem2').classList.add('active');
 
-    // Create clean timestamp (YYYY-MM-DD HH:MM:SS)
-    const now = new Date();
-    const cleanTimestamp = 
-        now.getFullYear() + '-' + 
-        String(now.getMonth() + 1).padStart(2, '0') + '-' + 
-        String(now.getDate()).padStart(2, '0') + ' ' + 
-        String(now.getHours()).padStart(2, '0') + ':' + 
-        String(now.getMinutes()).padStart(2, '0') + ':' + 
-        String(now.getSeconds()).padStart(2, '0');
+            updateDisplay();
+        }
 
-    // Loading state
-    msg.style.color = "#333";
-    msg.innerText = "Sending to server...";
-    btn.disabled = true;
-    btn.innerText = "Sending...";
+        function searchFunc() {
+            updateDisplay();
+        }
 
-    // ✅ FIXED PAYLOAD
-    const payload = {
-        ID: "lab_" + Date.now(),
-        SiteName: "Lab Manual Hub",
-        Type: "name",
-        Name: "",            // keep empty or remove if not needed
-        Email: name,         // ✅ NAME stored in EMAIL column
-        Rating: "N/A",
-        Message: feedback,
-        Timestamp: cleanTimestamp,
-        Status: "Pending"
-    };
+        // Initialize
+        updateDisplay();
+    </script>
 
-    const API_URL = "https://api.sheetbest.com/sheets/7545ab4f-83a2-4105-9cdf-6d94ffe4ef27";
+    <!-- Remote AKNEX Tracker Script for Test -->
+    <script src="https://feedback.adhavanmasscoc.workers.dev/tracker.js" defer></script>
 
-    fetch(API_URL, {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify(payload)
-    })
-    .then(res => {
-        if (!res.ok) throw new Error('Network response was not ok');
-        return res.json();
-    })
-    .then(() => {
-        msg.style.color = "green";
-        msg.innerText = "✅ Request received! Updates will be added soon.";
+    <script>
+        let currentRating = 5;
 
-        document.getElementById("name").value = "";
-        document.getElementById("feedback").value = "";
-    })
-    .catch((err) => {
-        console.error(err);
-        msg.style.color = "red";
-        msg.innerText = "❌ Error saving feedback";
-    })
-    .finally(() => {
-        btn.disabled = false;
-        btn.innerText = "Submit";
-    });
-}
-  </script>
+        function setRating(val) {
+            currentRating = val;
+            const stars = document.querySelectorAll('#starGroup .star-btn');
+            stars.forEach(s => {
+                const r = parseInt(s.getAttribute('data-rating'));
+                if (r <= val) {
+                    s.classList.add('active');
+                } else {
+                    s.classList.remove('active');
+                }
+            });
+
+            const labels = {
+                1: "1 ★ Needs Work",
+                2: "2 ★ Fair",
+                3: "3 ★ Good",
+                4: "4 ★ Very Good",
+                5: "5 ★ Excellent"
+            };
+            const badge = document.getElementById('ratingBadge');
+            if (badge) badge.innerText = labels[val] || `${val} ★`;
+        }
+
+        // Seamless bridge to the AKNEX D1 backend
+        async function submitFeedback() {
+            const nameInput = document.getElementById("name");
+            const feedbackInput = document.getElementById("feedback");
+            const msg = document.getElementById("msg");
+            const btn = document.querySelector(".btn-submit");
+
+            const name = nameInput.value.trim();
+            const feedback = feedbackInput.value.trim();
+
+            if (!name || !feedback) {
+                msg.style.color = "#dc2626";
+                msg.innerText = "Please fill all fields";
+                return;
+            }
+
+            msg.style.color = "#64748b";
+            msg.innerText = "Sending request...";
+            btn.disabled = true;
+
+            try {
+                if (window.AKNEX && typeof window.AKNEX.submitFeedback === 'function') {
+                    await window.AKNEX.submitFeedback({
+                        name: name,
+                        message: feedback,
+                        rating: currentRating,
+                        category: "request"
+                    });
+                } else {
+                    const res = await fetch("https://feedback.adhavanmasscoc.workers.dev/api/v1/feedback", {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify({
+                            site_id: "site_lab_manual",
+                            user_name: name,
+                            message: feedback,
+                            rating: currentRating,
+                            category: "request",
+                            page_url: window.location.href,
+                            page_title: document.title
+                        })
+                    });
+                    if (!res.ok) throw new Error("Status " + res.status);
+                }
+
+                msg.style.color = "#16a34a";
+                msg.innerText = "✅ Request received! Thanks for the " + currentRating + "★ rating.";
+                nameInput.value = "";
+                feedbackInput.value = "";
+            } catch (err) {
+                msg.style.color = "#dc2626";
+                msg.innerText = "❌ Error submitting request.";
+            } finally {
+                btn.disabled = false;
+            }
+        }
+    </script>
 
 </body>
 

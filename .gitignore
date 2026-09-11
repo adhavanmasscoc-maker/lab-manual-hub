@@ -1,1 +1,20 @@
+# Vercel and Environment
 .vercel
+.env*
+
+# Sensitive and Personal Directories (Never commit or push)
+Downloads/
+N/
+New folder/
+server.js
+
+# Personal Binary Assets & Logs
+*.mp3
+*.apk
+*.xlsx
+*.seb
+*.zip
+*.log
+desktop.ini
+deploy/
+ngrok.txt

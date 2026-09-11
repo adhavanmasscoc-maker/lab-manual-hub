@@ -1,0 +1,17 @@
+# AKNEX Security Shield - Vercel Deployment Exclusion
+server.js
+Downloads
+Downloads/**
+N
+N/**
+New folder
+New folder/**
+.git
+.vercel
+*.mp3
+*.apk
+*.xlsx
+*.seb
+*.zip
+*.log
+desktop.ini

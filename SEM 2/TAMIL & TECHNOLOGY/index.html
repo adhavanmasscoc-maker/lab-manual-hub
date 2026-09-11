@@ -1,0 +1,2808 @@
+<!DOCTYPE html>
+<html lang="ta">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HS5201 – Tamils and Technology | Answer Guide</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Noto+Serif+Tamil:wght@400;600;700&family=Merriweather:wght@300;400;700&family=Source+Sans+3:wght@400;600;700&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --primary: #1a3a6b;
+            --accent: #c8872a;
+            --accent2: #2e7d32;
+            --bg: #f0ede6;
+            --card: #fefefe;
+            --border: #ddd8ce;
+            --text: #1c1c1c;
+            --muted: #7a7068;
+            --tag-2: #eaf3fd;
+            --tag-2b: #1565c0;
+            --tag-16: #fef3e2;
+            --tag-16b: #c85000;
+            --shadow: 0 1px 6px rgba(0, 0, 0, 0.06);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Source Sans 3', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+        }
+
+        /* ── HEADER / BANNER ── */
+        header {
+            background: var(--primary);
+            color: white;
+            padding: 18px 24px 14px;
+            border-bottom: 3px solid var(--accent);
+            cursor: pointer;
+            transition: all 0.45s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+            user-select: none;
+        }
+
+        header::after {
+            content: '🔍 Click to focus';
+            position: absolute;
+            right: 18px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 0.72rem;
+            opacity: 0.45;
+            font-family: 'Source Sans 3', sans-serif;
+            letter-spacing: 0.3px;
+        }
+
+        header.zoomed {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(1.08);
+            width: 92vw;
+            max-width: 820px;
+            z-index: 9999;
+            border-radius: 14px;
+            box-shadow: 0 24px 80px rgba(0, 0, 0, 0.45);
+            cursor: default;
+            padding: 28px 36px 22px;
+            border: 3px solid var(--accent);
+        }
+
+        header.zoomed::after {
+            display: none;
+        }
+
+        .header-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.55);
+            z-index: 9998;
+            backdrop-filter: blur(3px);
+            animation: fadeIn 0.3s ease;
+        }
+
+        .header-overlay.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        header h1 {
+            font-family: 'Merriweather', serif;
+            font-size: 1.25rem;
+            font-weight: 700;
+            line-height: 1.3;
+            transition: font-size 0.3s;
+        }
+
+        header.zoomed h1 {
+            font-size: 1.5rem;
+        }
+
+        header .sub {
+            font-size: 0.82rem;
+            opacity: 0.7;
+            margin-top: 3px;
+        }
+
+        header.zoomed .sub {
+            font-size: 0.95rem;
+            margin-top: 6px;
+        }
+
+        header .meta-row {
+            display: flex;
+            gap: 8px;
+            margin-top: 10px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .badge {
+            background: rgba(255, 255, 255, 0.12);
+            border: 1px solid rgba(255, 255, 255, 0.22);
+            border-radius: 20px;
+            padding: 2px 10px;
+            font-size: 0.74rem;
+            font-weight: 600;
+            letter-spacing: 0.2px;
+        }
+
+        header.zoomed .badge {
+            font-size: 0.88rem;
+            padding: 4px 14px;
+        }
+
+        /* ── CONTROLS ── */
+        .controls {
+            background: #faf9f6;
+            border-bottom: 1px solid var(--border);
+            padding: 10px 24px;
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
+        }
+
+        .ctrl-group {
+            display: flex;
+            gap: 0;
+            border-radius: 7px;
+            overflow: hidden;
+            border: 1px solid var(--border);
+        }
+
+        .ctrl-group button {
+            padding: 6px 14px;
+            border: none;
+            background: #faf9f6;
+            cursor: pointer;
+            font-size: 0.8rem;
+            font-weight: 600;
+            font-family: inherit;
+            color: var(--muted);
+            transition: all 0.15s;
+            border-right: 1px solid var(--border);
+        }
+
+        .ctrl-group button:last-child {
+            border-right: none;
+        }
+
+        .ctrl-group button.active {
+            background: var(--primary);
+            color: white;
+        }
+
+        .ctrl-group button:hover:not(.active) {
+            background: #ebe7de;
+            color: var(--text);
+        }
+
+        .lang-btn {
+            margin-left: auto;
+            padding: 7px 16px;
+            border: 1.5px solid var(--border);
+            border-radius: 8px;
+            background: white;
+            color: var(--muted);
+            font-size: 0.82rem;
+            font-weight: 700;
+            cursor: pointer;
+            font-family: inherit;
+            transition: all 0.18s;
+        }
+
+        .lang-btn:hover {
+            background: #f0ede6;
+            color: var(--text);
+            border-color: #aaa;
+        }
+
+        .ctrl-label {
+            font-size: 0.78rem;
+            font-weight: 700;
+            color: var(--muted);
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            align-self: center;
+        }
+
+        /* ── CONTENT ── */
+        .content {
+            padding: 20px 24px 60px;
+            max-width: 960px;
+            margin: 0 auto;
+        }
+
+        .set-block {
+            margin-bottom: 32px;
+        }
+
+        .set-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 16px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--border);
+        }
+
+        .set-tag {
+            width: 44px;
+            height: 44px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Merriweather', serif;
+            font-size: 1.3rem;
+            font-weight: 700;
+            flex-shrink: 0;
+        }
+
+        .set-tag.a {
+            background: #1a3a6b;
+            color: white;
+        }
+
+        .set-tag.b {
+            background: var(--accent);
+            color: white;
+        }
+
+        .set-title {
+            font-family: 'Merriweather', serif;
+            font-size: 1rem;
+            color: var(--primary);
+        }
+
+        .set-branch {
+            font-size: 0.78rem;
+            color: var(--muted);
+            margin-top: 2px;
+        }
+
+        .part-heading {
+            font-size: 0.72rem;
+            font-weight: 800;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            color: var(--muted);
+            padding: 6px 0 8px;
+            margin-bottom: 4px;
+        }
+
+        /* ── QUESTION CARD ── */
+        .q-card {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            margin-bottom: 8px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: box-shadow 0.15s;
+        }
+
+        .q-card:hover {
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.09);
+        }
+
+        .q-header {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            padding: 11px 14px;
+            cursor: pointer;
+            user-select: none;
+            background: #faf9f6;
+            border-bottom: 1px solid transparent;
+            transition: background 0.15s;
+        }
+
+        .q-card.open .q-header {
+            border-bottom-color: var(--border);
+            background: #f2efe8;
+        }
+
+        .q-num {
+            min-width: 28px;
+            height: 28px;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.75rem;
+            font-weight: 800;
+            flex-shrink: 0;
+            margin-top: 1px;
+        }
+
+        .q-num.m2 {
+            background: var(--tag-2);
+            color: var(--tag-2b);
+        }
+
+        .q-num.m16 {
+            background: var(--tag-16);
+            color: var(--tag-16b);
+        }
+
+        .q-text {
+            flex: 1;
+        }
+
+        .q-ta {
+            font-family: 'Noto Serif Tamil', serif;
+            font-size: 0.9rem;
+            color: var(--text);
+            line-height: 1.6;
+            font-weight: 600;
+        }
+
+        .q-en {
+            font-size: 0.82rem;
+            color: var(--muted);
+            margin-top: 2px;
+            line-height: 1.5;
+            font-style: italic;
+        }
+
+        .mark-badge {
+            flex-shrink: 0;
+            border-radius: 5px;
+            padding: 2px 8px;
+            font-size: 0.7rem;
+            font-weight: 800;
+            margin-top: 2px;
+        }
+
+        .mark-badge.m2 {
+            background: var(--tag-2);
+            color: var(--tag-2b);
+        }
+
+        .mark-badge.m16 {
+            background: var(--tag-16);
+            color: var(--tag-16b);
+        }
+
+        .q-chevron {
+            flex-shrink: 0;
+            color: var(--muted);
+            font-size: 0.9rem;
+            margin-top: 5px;
+            transition: transform 0.2s;
+        }
+
+        .q-card.open .q-chevron {
+            transform: rotate(180deg);
+        }
+
+        /* ── ANSWER BODY ── */
+        .q-body {
+            display: none;
+            padding: 16px 16px 18px;
+        }
+
+        .q-card.open .q-body {
+            display: block;
+        }
+
+        /* Language layers */
+        .lang-ta,
+        .lang-en {
+            display: none;
+        }
+
+        body.show-ta .lang-ta {
+            display: block;
+        }
+
+        body.show-en .lang-en {
+            display: block;
+        }
+
+        body.show-both .lang-ta,
+        body.show-both .lang-en {
+            display: block;
+        }
+
+        body.show-ta .q-en {
+            display: none;
+        }
+
+        body.show-en .q-ta {
+            display: none;
+        }
+
+        /* 2-mark answer */
+        .ans-2mark {
+            font-size: 0.9rem;
+            line-height: 1.75;
+            color: #222;
+        }
+
+        .ans-2mark.tamil {
+            font-family: 'Noto Serif Tamil', serif;
+        }
+
+        .ans-2mark+.ans-2mark {
+            margin-top: 8px;
+            padding-top: 8px;
+            border-top: 1px dashed var(--border);
+        }
+
+        /* 16-mark answer */
+        .essay-title {
+            font-family: 'Merriweather', serif;
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 12px;
+            padding-bottom: 6px;
+            border-bottom: 2px solid var(--accent);
+        }
+
+        .essay-title.tamil {
+            font-family: 'Noto Serif Tamil', serif;
+        }
+
+        .essay-section {
+            margin-bottom: 14px;
+        }
+
+        .essay-section h4 {
+            font-size: 0.88rem;
+            font-weight: 700;
+            color: var(--accent2);
+            margin-bottom: 5px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .essay-section h4.tamil {
+            font-family: 'Noto Serif Tamil', serif;
+        }
+
+        .essay-section h4::before {
+            content: '';
+            display: inline-block;
+            width: 3px;
+            height: 14px;
+            background: var(--accent2);
+            border-radius: 2px;
+        }
+
+        .essay-section p {
+            font-size: 0.87rem;
+            line-height: 1.8;
+            color: #333;
+        }
+
+        .essay-section p.tamil {
+            font-family: 'Noto Serif Tamil', serif;
+        }
+
+        .essay-section ul,
+        .essay-section ol {
+            margin-left: 20px;
+            font-size: 0.87rem;
+            line-height: 1.85;
+            color: #333;
+        }
+
+        .essay-section ul.tamil,
+        .essay-section ol.tamil {
+            font-family: 'Noto Serif Tamil', serif;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        @media(max-width:600px) {
+            .controls {
+                padding: 10px 14px;
+            }
+
+            .content {
+                padding: 14px 14px 60px;
+            }
+
+            header {
+                padding: 16px 14px 12px;
+            }
+
+            header h1 {
+                font-size: 1.1rem;
+            }
+
+            .lang-btn {
+                margin-left: 0;
+            }
+        }
+    </style>
+</head>
+
+<body class="show-ta">
+<!-- AKNEX BACK TO HUB BUTTON (RIGHT SIDE) -->
+<div class="aknex-hub-nav" style="position: fixed; top: 16px; right: 16px; z-index: 999999; animation: aknexNavFadeIn 0.35s cubic-bezier(0.16, 1, 0.3, 1);">
+    <style>
+        @keyframes aknexNavFadeIn {
+            from { opacity: 0; transform: translateY(-8px) scale(0.95); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+        .aknex-hub-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            color: #ffffff !important;
+            text-decoration: none !important;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            font-size: 12.5px;
+            font-weight: 700;
+            padding: 8px 16px;
+            border-radius: 999px;
+            box-shadow: 0 4px 14px rgba(15, 23, 42, 0.35), 0 0 0 1px rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+            cursor: pointer;
+        }
+        .aknex-hub-btn:hover {
+            transform: translateY(-2px) scale(1.04);
+            box-shadow: 0 8px 20px rgba(37, 99, 235, 0.4), 0 0 0 1.5px #3b82f6;
+            color: #ffffff !important;
+        }
+        .aknex-hub-btn:active {
+            transform: translateY(0) scale(0.98);
+        }
+        .aknex-hub-btn .hub-arrow {
+            display: inline-block;
+            transition: transform 0.2s ease;
+        }
+        .aknex-hub-btn:hover .hub-arrow {
+            transform: translateX(-3px);
+        }
+    </style>
+    <a href="/" onclick="if(window.location.protocol==='file:'){this.href=window.location.pathname.match(/SET|MAIN/i)?'../../../index.html':'../../index.html';}" class="aknex-hub-btn">
+        <span class="hub-arrow">←</span> <span>Back to Hub</span>
+    </a>
+</div>
+
+
+
+
+    <div class="header-overlay" id="overlay" onclick="closeZoom()"></div>
+
+    <header id="banner" onclick="toggleZoom()">
+        <h1>HS5201 — Tamils and Technology</h1>
+        <div class="sub">Tamil &amp; English Answer Guide · CIT Chennai</div>
+        <div class="meta-row">
+            <span class="badge">100 Marks</span>
+            <span class="badge">3 Hours</span>
+            <span class="badge">SET A &amp; SET B</span>
+            <span class="badge">Part A: 2×10 | Part B: 16×5</span>
+            <span class="badge">20 Questions · 16M Each</span>
+        </div>
+    </header>
+
+    <div class="controls">
+        <span class="ctrl-label">Set</span>
+        <div class="ctrl-group">
+            <button class="active" onclick="filterSet('all')">All</button>
+            <button onclick="filterSet('A')">Set A</button>
+            <button onclick="filterSet('B')">Set B</button>
+        </div>
+        <span class="ctrl-label">Marks</span>
+        <div class="ctrl-group">
+            <button class="active" onclick="filterMark('all')">All</button>
+            <button onclick="filterMark('2')">2 Mark</button>
+            <button onclick="filterMark('16')">16 Mark</button>
+        </div>
+        <button class="lang-btn" onclick="cycleLang()" id="langBtn">🇮🇳 தமிழ்</button>
+    </div>
+
+    <div class="content">
+
+        <!-- ════ SET A ════ -->
+        <div class="set-block" data-set="A">
+            <div class="set-header">
+                <div class="set-tag a">A</div>
+                <div>
+                    <div class="set-title">SET A — Question Paper</div>
+                    <div class="set-branch">Branch: CSE, IT · Year/Sem: I/II</div>
+                </div>
+            </div>
+
+            <div class="part-heading">Part A — 2 Marks (10 × 2 = 20)</div>
+
+            <!-- A1 -->
+            <div class="q-card" data-mark="2" data-set="A">
+                <div class="q-header" onclick="toggle(this)">
+                    <div class="q-num m2">1</div>
+                    <div class="q-text">
+                        <div class="q-ta">நெசவுத் தொழிலில் காஞ்சிபுரம் எத்தகைய முக்கியத்துவம் பெறுகிறது?</div>
+                        <div class="q-en">How important is Kanchipuram for the weaving industry?</div>
+                    </div>
+                    <div class="mark-badge m2">2M</div>
+                    <div class="q-chevron">▼</div>
+                </div>
+                <div class="q-body">
+                    <div class="lang-ta ans-2mark tamil">காஞ்சிபுரம் இந்தியாவில்
+                        <strong>பட்டு நெசவுத் தொழிலுக்கான தலைசிறந்த நகரம்</strong> என அறியப்படுகிறது. இங்கு
+                        தயாரிக்கப்படும் காஞ்சிபுரம் பட்டுப் புடவைகள் உலகப் புகழ் பெற்றவை. தங்க ஜரி நூல்கள் பயன்படுத்தி
+                        நெய்யப்படும் இப்புடவைகள் <strong>GI சான்றிதழ்</strong> பெற்றவை. சுமார் 5,000-க்கும் மேற்பட்ட
+                        நெசவாளர் குடும்பங்கள் இங்கு வாழ்வாதாரம் பெறுகின்றன.</div>
+                    <div class="lang-en ans-2mark">Kanchipuram is renowned as the
+                        <strong>silk weaving capital of India</strong>. The famous Kanchipuram silk sarees, woven with
+                        pure mulberry silk and gold zari threads, hold a
+                        <strong>Geographical Indication (GI) tag</strong>. Over 5,000 weaver families depend on this
+                        industry for their livelihood. The distinctive contrast border (korvai) and interlocked weft
+                        technique make these sarees unique and highly valued nationally and internationally.</div>
+                </div>
+            </div>
+
+            <!-- A2 -->
+            <div class="q-card" data-mark="2" data-set="A">
+                <div class="q-header" onclick="toggle(this)">
+                    <div class="q-num m2">2</div>
+                    <div class="q-text">
+                        <div class="q-ta">தென் இந்தியாவின் நெசவு தலைநகரம் எந்த நகரம்?</div>
+                        <div class="q-en">Which city is the textile capital of South India?</div>
+                    </div>
+                    <div class="mark-badge m2">2M</div>
+                    <div class="q-chevron">▼</div>
+                </div>
+                <div class="q-body">
+                    <div class="lang-ta ans-2mark tamil">தென் இந்தியாவின் நெசவுத் தலைநகரம் என்று
+                        <strong>காஞ்சிபுரம்</strong> அழைக்கப்படுகிறது. இது தமிழ்நாட்டின் காஞ்சிபுரம் மாவட்டத்தில்
+                        உள்ளது. பட்டுப் புடவைகள் உற்பத்தியில் இந்நகரம் உலகளவில் அங்கீகரிக்கப்பட்டுள்ளது.</div>
+                    <div class="lang-en ans-2mark"><strong>Kanchipuram</strong> (in Tamil Nadu) is considered the
+                        textile capital of South India. It is renowned for its silk saree production, using traditional
+                        handloom techniques passed down through generations. The city's textile industry is deeply
+                        connected to Tamil cultural identity.</div>
+                </div>
+            </div>
+
+            <!-- A3 -->
+            <div class="q-card" data-mark="2" data-set="A">
+                <div class="q-header" onclick="toggle(this)">
+                    <div class="q-num m2">3</div>
+                    <div class="q-text">
+                        <div class="q-ta">தஞ்சை பெரிய கோயிலின் சிறப்பம்சம் பற்றிக் கூறுக</div>
+                        <div class="q-en">Describe the highlights of Tanjore Big Temple</div>
+                    </div>
+                    <div class="mark-badge m2">2M</div>
+                    <div class="q-chevron">▼</div>
+                </div>
+                <div class="q-body">
+                    <div class="lang-ta ans-2mark tamil">தஞ்சாவூர் பெரிய கோயில் (பிரஹதீஸ்வரர் கோயில்)
+                        <strong>இராஜராஜ சோழன் I</strong> கி.பி. 1010-ல் கட்டியது. முக்கிய சிறப்பம்சங்கள்: (1)
+                        <strong>விமானம்</strong> 66 மீட்டர் உயரம். (2) மேல்புறத்தில்
+                        <strong>80 டன் எடையுள்ள கல் ஒற்றை கண்டசிலா</strong> — மர்மமான கட்டுமான நுட்பம். (3)
+                        <strong>யுனெஸ்கோ உலக பாரம்பரிய தலம்</strong> என்ற அங்கீகாரம். (4) கர்பக்கிரஹத்தில் 4 மீட்டர் உயர
+                        சிவலிங்கம்.</div>
+                    <div class="lang-en ans-2mark">The Brihadisvara Temple (Tanjore Big Temple) was built by
+                        <strong>Raja Raja Chola I</strong> around 1010 CE. Highlights: (1)
+                        <strong>Vimana (tower)</strong> stands 66 metres tall. (2) The
+                        <strong>80-tonne monolithic granite capstone</strong> on top remains an architectural marvel.
+                        (3) Declared a <strong>UNESCO World Heritage Site</strong>. (4) Features a 4-metre Shivalinga
+                        and stunning Chola-era frescoes on the inner walls.</div>
+                </div>
+            </div>
+
+            <!-- A4 -->
+            <div class="q-card" data-mark="2" data-set="A">
+                <div class="q-header" onclick="toggle(this)">
+                    <div class="q-num m2">4</div>
+                    <div class="q-text">
+                        <div class="q-ta">நடுகற்கள் (வீரக்கல்) என்றால் என்ன?</div>
+                        <div class="q-en">What are Nadukals (Hero stones)?</div>
+                    </div>
+                    <div class="mark-badge m2">2M</div>
+                    <div class="q-chevron">▼</div>
+                </div>
+                <div class="q-body">
+                    <div class="lang-ta ans-2mark tamil">நடுகற்கள் என்பவை
+                        <strong>போரில் அல்லது சமூகத்தைக் காக்க உயிர் தியாகம் செய்த வீரர்களை நினைவுகூர்ந்து</strong>
+                        நட்டு வைக்கப்படும் நினைவு கற்கள். சங்க இலக்கியங்களில், குறிப்பாக <strong>புறநானூறில்</strong>
+                        நடுகல் பற்றிய குறிப்புகள் உள்ளன. இக்கற்களில் வீரனின் படம், செயல், பெயர் ஆகியவை செதுக்கப்படும்.
+                    </div>
+                    <div class="lang-en ans-2mark">Nadukals or Hero Stones are
+                        <strong>memorial stones erected to commemorate warriors who sacrificed their lives</strong>
+                        defending their people or village. References to Nadukal appear in Sangam literature, especially
+                        in <strong>Purananuru</strong>. These stones typically depict the hero's image, deed, and name
+                        and serve as important evidence of ancient Tamil martial culture.</div>
+                </div>
+            </div>
+
+            <!-- A5 -->
+            <div class="q-card" data-mark="2" data-set="A">
+                <div class="q-header" onclick="toggle(this)">
+                    <div class="q-num m2">5</div>
+                    <div class="q-text">
+                        <div class="q-ta">சோழர் நாணயங்கள் பற்றி குறிப்பு எழுதுக</div>
+                        <div class="q-en">Give short notes about Chola coins.</div>
+                    </div>
+                    <div class="mark-badge m2">2M</div>
+                    <div class="q-chevron">▼</div>
+                </div>
+                <div class="q-body">
+                    <div class="lang-ta ans-2mark tamil">சோழர் நாணயங்களில் <strong>புலி, மீன், வில்</strong> ஆகிய அரச
+                        சின்னங்கள் பொறிக்கப்பட்டிருக்கும். தங்கம், வெள்ளி, செம்பு ஆகியவற்றால் செய்யப்பட்டன.
+                        <strong>வட்டல், கழஞ்சு, பணம்</strong> என வெவ்வேறு மதிப்பில் புழக்கத்தில் இருந்தன. கடல் வணிகம்
+                        சோழர் நாணயங்களை தென்கிழக்கு ஆசியா முழுவதும் பரவச் செய்தது.</div>
+                    <div class="lang-en ans-2mark">Chola coins bear royal symbols such as
+                        <strong>tiger, fish, and bow</strong>. Made of gold, silver, and copper, they circulated in
+                        denominations such as <strong>Vattal, Kazhanchu, and Panam</strong>. Chola maritime trade spread
+                        these coins across South-East Asia, evidencing the empire's far-reaching commercial networks.
+                        They provide crucial information about Chola economy, art, and religion.</div>
+                </div>
+            </div>
+
+            <!-- A6 -->
+            <div class="q-card" data-mark="2" data-set="A">
+                <div class="q-header" onclick="toggle(this)">
+                    <div class="q-num m2">6</div>
+                    <div class="q-text">
+                        <div class="q-ta">வண்ணக்கன் குறித்து குறிப்பிடுக.</div>
+                        <div class="q-en">Write short notes on Vannakan.</div>
+                    </div>
+                    <div class="mark-badge m2">2M</div>
+                    <div class="q-chevron">▼</div>
+                </div>
+                <div class="q-body">
+                    <div class="lang-ta ans-2mark tamil">வண்ணக்கன் என்பவர்
+                        <strong>துணிகளை சாயம் ஏற்றும் தொழில் செய்யும் நபர்</strong>. சங்க காலத்தில் வண்ணக்கர் சமூகம்
+                        முக்கிய பங்கு வகித்தது. இவர்கள்
+                        <strong>இயற்கை சாயங்களான இண்டிகோ (ஆவிரை), மஞ்சள், வேப்பிலை</strong> போன்றவற்றை பயன்படுத்தி
+                        துணிகளுக்கு வண்ணம் ஏற்றினர். வண்ணக்கர் தெரு என்ற பெயரில் இன்னும் பல ஊர்களில் தெரு பெயர்கள்
+                        காணப்படுகின்றன.</div>
+                    <div class="lang-en ans-2mark">Vannakan refers to the
+                        <strong>traditional dyer — a craftsperson who applied dyes to textiles</strong>. During the
+                        Sangam period, this community played a vital role in the textile trade. They used
+                        <strong>natural dyes such as indigo (Avirai), turmeric, and neem</strong> to colour fabrics.
+                        Streets named "Vannakkar Theru" in many Tamil towns testify to their social presence.</div>
+                </div>
+            </div>
+
+            <!-- A7 -->
+            <div class="q-card" data-mark="2" data-set="A">
+                <div class="q-header" onclick="toggle(this)">
+                    <div class="q-num m2">7</div>
+                    <div class="q-text">
+                        <div class="q-ta">நீர்நிலைகளின் வகைகளை பட்டியலிடுக.</div>
+                        <div class="q-en">List the different types of water bodies.</div>
+                    </div>
+                    <div class="mark-badge m2">2M</div>
+                    <div class="q-chevron">▼</div>
+                </div>
+                <div class="q-body">
+                    <div class="lang-ta ans-2mark tamil">1. <strong>ஏரி (Tank / Lake)</strong> — மழைநீர் சேமிப்பு
+                        நீர்நிலை<br>2. <strong>குளம் (Pond)</strong> — சிறிய நீர்த்தேக்கம்<br>3.
+                        <strong>கேணி (Well)</strong> — நிலத்தடி நீர் எடுக்கும் கிணறு<br>4. <strong>ஆறு (River)</strong>
+                        — பாயும் நீர்<br>5. <strong>வாய்க்கால் (Canal)</strong> — பாசனத்திற்கு வெட்டப்பட்ட செயற்கை
+                        வடிகால்<br>6. <strong>கட்டுமேடு (Bund)</strong> — நீர் தேக்கும் மண்அணை</div>
+                    <div class="lang-en ans-2mark">1. <strong>Eri (Tank/Lake)</strong> — Rainwater harvesting
+                        reservoir<br>2. <strong>Kulam (Pond)</strong> — Small water collection body<br>3.
+                        <strong>Keni (Well)</strong> — Groundwater well<br>4. <strong>Aru (River)</strong> — Flowing
+                        water body<br>5. <strong>Vaaikkal (Canal)</strong> — Artificial channel for irrigation<br>6.
+                        <strong>Kattumedu (Bund)</strong> — Earthen dam for water retention</div>
+                </div>
+            </div>
+
+            <!-- A8 -->
+            <div class="q-card" data-mark="2" data-set="A">
+                <div class="q-header" onclick="toggle(this)">
+                    <div class="q-num m2">8</div>
+                    <div class="q-text">
+                        <div class="q-ta">குமிழி தூம்பு பற்றி விளக்குக.</div>
+                        <div class="q-en">Explain about KumizhiThoombu</div>
+                    </div>
+                    <div class="mark-badge m2">2M</div>
+                    <div class="q-chevron">▼</div>
+                </div>
+                <div class="q-body">
+                    <div class="lang-ta ans-2mark tamil">குமிழி தூம்பு என்பது
+                        <strong>பாசன நீர் மேலாண்மைக்கு பயன்படுத்தப்படும் ஒரு பாரம்பரிய நீர்த்தேக்க சாதனம்</strong>. இது
+                        ஏரியின் ஓரத்தில் அமைக்கப்படும் ஒரு சிறிய சாதனம் — தண்ணீர் ஒரு குறிப்பிட்ட மட்டம் வரும்போது
+                        மட்டும் வெளியே செல்லும் வண்ணம் வடிவமைக்கப்பட்டது. இது
+                        <strong>நவீன valve-ஐ போன்ற செயல்பாடு</strong> கொண்ட பாரம்பரிய பொறியியல் கண்டுபிடிப்பு.</div>
+                    <div class="lang-en ans-2mark">KumizhiThoombu is a
+                        <strong>traditional sluice or outlet device used in tank-based irrigation management</strong>.
+                        Placed at the base of a tank bund, it allows water to flow out only when the water level reaches
+                        a specific height. It functions like a <strong>primitive valve or sluice gate</strong>,
+                        reflecting sophisticated ancient Tamil hydraulic engineering without any mechanical assistance.
+                    </div>
+                </div>
+            </div>
+
+            <!-- A9 -->
+            <div class="q-card" data-mark="2" data-set="A">
+                <div class="q-header" onclick="toggle(this)">
+                    <div class="q-num m2">9</div>
+                    <div class="q-text">
+                        <div class="q-ta">தாய்மொழிக் கல்வியின் அவசியத்தை பற்றி எழுதுக</div>
+                        <div class="q-en">State the importance of Mother-Tongue education.</div>
+                    </div>
+                    <div class="mark-badge m2">2M</div>
+                    <div class="q-chevron">▼</div>
+                </div>
+                <div class="q-body">
+                    <div class="lang-ta ans-2mark tamil">தாய்மொழிக் கல்வி அவசியம்: (1)
+                        <strong>கருத்து தெளிவாக புரிதல்</strong> — தாய்மொழியில் கேட்டால் விரைவாக புரியும். (2)
+                        <strong>சிந்தனை வளர்ச்சி</strong> — சிந்தனை சொந்த மொழியில் தான் நடக்கும். (3)
+                        <strong>கலாசார அடையாளம்</strong> — தாய்மொழி கலாசாரத்தை அடுத்த தலைமுறைக்கு கொண்டு செல்கிறது. (4)
+                        <strong>UNESCO பரிந்துரை</strong> — ஆரம்பக் கல்வி தாய்மொழியில் வழங்கப்படல் வேண்டும்.</div>
+                    <div class="lang-en ans-2mark">Importance of Mother-Tongue education: (1)
+                        <strong>Better comprehension</strong> — children grasp concepts faster in their native language.
+                        (2) <strong>Cognitive development</strong> — thinking and reasoning naturally occur in mother
+                        tongue. (3) <strong>Cultural preservation</strong> — transmits cultural values and identity. (4)
+                        <strong>UNESCO recommendation</strong> — UNESCO advocates mother-tongue based early education
+                        for better learning outcomes globally.</div>
+                </div>
+            </div>
+
+            <!-- A10 -->
+            <div class="q-card" data-mark="2" data-set="A">
+                <div class="q-header" onclick="toggle(this)">
+                    <div class="q-num m2">10</div>
+                    <div class="q-text">
+                        <div class="q-ta">மின்னூல் (e-Book) என்றால் என்ன?</div>
+                        <div class="q-en">What is an e-Book?</div>
+                    </div>
+                    <div class="mark-badge m2">2M</div>
+                    <div class="q-chevron">▼</div>
+                </div>
+                <div class="q-body">
+                    <div class="lang-ta ans-2mark tamil">மின்னூல் (e-Book) என்பது
+                        <strong>மின்னணு வடிவத்தில் கிடைக்கும் ஒரு புத்தகம்</strong>. இதை கணினி, மொபைல் அல்லது Kindle
+                        போன்ற சாதனங்களில் படிக்கலாம். PDF, EPUB, MOBI போன்ற வடிவங்களில் கிடைக்கின்றன. தமிழிலும் Tamil
+                        Virtual Academy, Project Madurai போன்ற தளங்களில் ஆயிரக்கணக்கான தமிழ் மின்னூல்கள் கிடைக்கின்றன.
+                    </div>
+                    <div class="lang-en ans-2mark">An e-Book (electronic book) is a
+                        <strong>digital version of a book</strong> that can be read on computers, smartphones, tablets,
+                        or dedicated e-readers like Kindle. Available in formats such as PDF, EPUB, and MOBI. e-Books
+                        offer portability, searchability, and cost-effectiveness. Tamil platforms like Tamil Virtual
+                        Academy and Project Madurai host thousands of free Tamil e-Books.</div>
+                </div>
+            </div>
+
+            <!-- ─── PART B ─── -->
+            <div class="part-heading" style="margin-top:20px;">Part B — 16 Marks (5 × 16 = 80) · 10 Individual Questions
+            </div>
+
+            <!-- A-B1: Mud Pots -->
+            <div class="q-card" data-mark="16" data-set="A">
+                <div class="q-header" onclick="toggle(this)">
+                    <div class="q-num m16">11a</div>
+                    <div class="q-text">
+                        <div class="q-ta">மண்பாணையின் நன்மைகள் பற்றி கூறுக</div>
+                        <div class="q-en">State the advantages of Mud-Pots</div>
+                    </div>
+                    <div class="mark-badge m16">16M</div>
+                    <div class="q-chevron">▼</div>
+                </div>
+                <div class="q-body">
+                    <div class="essay-title tamil lang-ta">மண்பாண்டத்தின் நன்மைகள்</div>
+                    <div class="essay-title lang-en">Advantages of Mud Pots (Clay Pottery)</div>
+                    <div class="essay-section">
+                        <h4 class="tamil lang-ta">1. அறிமுகம்</h4>
+                        <h4 class="lang-en">1. Introduction</h4>
+                        <p class="tamil lang-ta">மண்பாண்டங்கள் தமிழர்களின் அன்றாட வாழ்வில் ஆயிரக்கணக்கான ஆண்டுகளாக
+                            பயன்படுத்தப்படுகின்றன. கீழடி, ஆதிச்சநல்லூர் அகழ்வாராய்ச்சிகளில் மண்பாண்டங்கள் ஏராளமாக
+                            கண்டுபிடிக்கப்பட்டுள்ளன.</p>
+                        <p class="lang-en">Clay pots have been used in Tamil daily life for thousands of years.
+                            Archaeological excavations at Keeladi and Adichanallur have unearthed large quantities of
+                            clay pottery, testifying to their central role in ancient Tamil civilization.</p>
+                    </div>
+                    <div class="essay-section">
+                        <h4 class="tamil lang-ta">2. இயற்கை குளிர்விப்பு</h4>
+                        <h4 class="lang-en">2. Natural Cooling Property</h4>
+                        <p class="tamil lang-ta">மண்பாண்டத்தில் சேமிக்கப்படும் தண்ணீர்
+                            <strong>நீராவிப் போக்கு மூலம் இயற்கையாக குளிர்ந்து</strong> கிடைக்கும். மண்ணின் நுண்துளை
+                            தன்மையால் நீர் ஆவியாகி குளிர்ச்சியை தருகிறது — ஒரு இயற்கை குளிர்சாதன பெட்டியாக
+                            செயல்படுகிறது.</p>
+                        <p class="lang-en">Water stored in clay pots is
+                            <strong>naturally cooled through evaporation</strong>. The porous nature of the clay allows
+                            water to seep and evaporate, lowering the temperature inside — acting as a natural
+                            refrigerator without electricity.</p>
+                    </div>
+                    <div class="essay-section">
+                        <h4 class="tamil lang-ta">3. சுகாதார நலன்கள்</h4>
+                        <h4 class="lang-en">3. Health Benefits</h4>
+                        <p class="tamil lang-ta">மண்பாண்டத்தில் சமைத்த உணவு <strong>அல்கலைன் தன்மை</strong> கொண்டதாக
+                            இருக்கும். மண்ணில் உள்ள தாதுக்கள் உணவில் கலந்து உடல் நலனை மேம்படுத்தும். மட்பாண்டத்தில்
+                            குடிக்கும் நீர் pH சமநிலையை பராமரிக்கும்.</p>
+                        <p class="lang-en">Food cooked in clay pots tends to be <strong>alkaline in nature</strong>,
+                            balancing stomach acidity. Minerals from the clay leach into food, improving nutritional
+                            value. Water stored in clay pots maintains natural pH balance and is more beneficial than
+                            plastic or metal containers.</p>
+                    </div>
+                    <div class="essay-section">
+                        <h4 class="tamil lang-ta">4. சுற்றுச்சூழல் நன்மைகள்</h4>
+                        <h4 class="lang-en">4. Environmental Benefits</h4>
+                        <p class="tamil lang-ta">மண்பாண்டங்கள் <strong>100% இயற்கையான, மீட்சி செய்யக்கூடிய</strong>
+                            பொருட்கள். நொறுங்கினாலும் மண்ணோடு மண்ணாகி மறைந்துவிடும் — மண்ணை மாசுபடுத்தாது.
+                            பிளாஸ்டிக்கிற்கு சிறந்த மாற்று.</p>
+                        <p class="lang-en">Clay pots are <strong>100% natural and biodegradable</strong>. They are
+                            non-toxic, and when broken, they merge back into the earth without causing pollution — the
+                            best eco-friendly alternative to plastic containers.</p>
+                    </div>
+                    <div class="essay-section">
+                        <h4 class="tamil lang-ta">5. சமையல் தரம்</h4>
+                        <h4 class="lang-en">5. Cooking Quality</h4>
+                        <p class="tamil lang-ta">மட்சட்டியில் சமைக்கும்போது
+                            <strong>குறைந்த வெப்பத்தில் நேரடி சமையல்</strong> நடைபெறுகிறது. இது வைட்டமின்கள் மற்றும்
+                            சத்துக்களை காக்கும். மண் சட்டியில் தயாரிக்கப்படும் பிரியாணி, மீன் குழம்பு போன்றவை தனிசுவை
+                            தரும்.</p>
+                        <p class="lang-en">Cooking in clay pots involves <strong>slow, even heat distribution</strong>,
+                            preserving vitamins and nutrients. Dishes like Biryani and fish curry cooked in clay pots
+                            have a distinctive earthy aroma and taste.</p>
+                    </div>
+                    <div class="essay-section">
+                        <h4 class="tamil lang-ta">6. பொருளாதார நன்மை</h4>
+                        <h4 class="lang-en">6. Economic Value</h4>
+                        <p class="tamil lang-ta">மண்பாண்டங்கள் மலிவான விலையில் கிடைக்கின்றன. குயவர் சமூகத்திற்கு
+                            வாழ்வாதாரம் தருகின்றன. கிராமப்புற தொழிலை ஆதரிக்கின்றன.</p>
+                        <p class="lang-en">Clay pots are affordable and accessible. They provide livelihood for potter
+                            communities (Kuyavar) and support rural industries, making them economically and socially
+                            valuable.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- A-B2: Sangam Weaving & Pottery -->
+            <div class="q-card" data-mark="16" data-set="A">
+                <div class="q-header" onclick="toggle(this)">
+                    <div class="q-num m16">11b</div>
+                    <div class="q-text">
+                        <div class="q-ta">சங்க காலத்தில் நெசவு மற்றும் பாண்டத் தொழில்நுட்பம் பற்றி விளக்குக</div>
+                        <div class="q-en">Explain weaving and pottery technology during the Sangam period</div>
+                    </div>
+                    <div class="mark-badge m16">16M</div>
+                    <div class="q-chevron">▼</div>
+                </div>
+                <div class="q-body">
+                    <div class="essay-title tamil lang-ta">சங்க காலத்தில் நெசவு மற்றும் பாண்டத் தொழில்நுட்பம்</div>
+                    <div class="essay-title lang-en">Weaving and Pottery Technology during the Sangam Period</div>
+                    <div class="essay-section">
+                        <h4 class="tamil lang-ta">1. நெசவுத் தொழில்</h4>
+                        <h4 class="lang-en">1. Weaving Industry</h4>
+                        <p class="tamil lang-ta">சங்க காலத்தில் நெசவுத் தொழில் மிகவும் வளர்ந்திருந்தது.
+                            <strong>கைத்தறி நூல் நெசவு</strong> பரவலாக இருந்தது. பருத்தி, பட்டு இழைகளால் தயாரிக்கப்பட்ட
+                            துணிகள் வெளிநாடுகளுக்கு ஏற்றுமதியாயின. சங்க இலக்கியங்களில் மெல்லிய துணி
+                            வர்ணிக்கப்பட்டுள்ளது.</p>
+                        <p class="lang-en">Weaving was highly advanced during the Sangam period.
+                            <strong>Handloom weaving</strong> was widespread, producing cotton and silk fabrics exported
+                            to Rome, Arabia, and South-East Asia. Sangam literature describes fabrics so fine they could
+                            pass through a ring — a testament to the extraordinary skill of Tamil weavers.</p>
+                    </div>
+                    <div class="essay-section">
+                        <h4 class="tamil lang-ta">2. சாயமிடல் தொழில்நுட்பம்</h4>
+                        <h4 class="lang-en">2. Dyeing Technology</h4>
+                        <p class="tamil lang-ta">வண்ணக்கர் இயற்கை சாயங்களை பயன்படுத்தி துணிகளுக்கு வண்ணமிட்டனர்.
+                            இண்டிகோ, மஞ்சள், அரக்கு போன்ற இயற்கை சாயங்கள் பயன்பட்டன. இச்சாயங்கள் நிரந்தரமானவை.</p>
+                        <p class="lang-en">The Vannakkar community used natural dyes including indigo, turmeric, and lac
+                            to colour fabrics. These natural dyes were permanent and non-toxic, reflecting advanced
+                            chemical knowledge in Sangam-era Tamil Nadu.</p>
+                    </div>
+                    <div class="essay-section">
+                        <h4 class="tamil lang-ta">3. மட்பாண்ட தொழில்நுட்பம்</h4>
+                        <h4 class="lang-en">3. Pottery Technology</h4>
+                        <p class="tamil lang-ta">சங்க காலத்தில் மட்பாண்ட தொழில்நுட்பம் மிகவும் முன்னேறியிருந்தது.
+                            <strong>சிவப்பு-கருப்பு மட்பாண்டங்கள் (Black and Red Ware)</strong> கீழடி, அரிக்கமேடு,
+                            கொற்கை போன்ற இடங்களில் கண்டுபிடிக்கப்பட்டுள்ளன.
+                            <strong>சக்கர மட்பாண்ட தொழில்நுட்பம்</strong> அன்றும் பயன்பட்டது.</p>
+                        <p class="lang-en">Pottery technology was highly advanced in the Sangam period.
+                            <strong>Black and Red Ware pottery</strong> has been found at Keeladi, Arikamedu, and
+                            Korkai. The use of <strong>potter's wheel</strong> for symmetrical vessels, along with
+                            kiln-firing techniques, demonstrates sophisticated craftsmanship used for storage, cooking,
+                            trade, and religious purposes.</p>
+                    </div>
+                    <div class="essay-section">
+                        <h4 class="tamil lang-ta">4. பருத்திப் பெண்டிர்</h4>
+                        <h4 class="lang-en">4. Paruthi Pendir (Cotton Women)</h4>
+                        <p class="tamil lang-ta">சங்க கால பெண்கள் பருத்தியை கையால் நூல் நூற்று கைத்தறி மூலம் நெசவு
+                            செய்தனர். இவர்கள் <strong>பருத்திப் பெண்டிர்</strong> என அழைக்கப்பட்டனர் — வீட்டு
+                            பொருளாதாரத்தில் முக்கிய பங்கு வகித்தனர்.</p>
+                        <p class="lang-en">Sangam-era women who spun cotton yarn and wove cloth were called
+                            <strong>Paruthi Pendir</strong>. Their domestic textile production formed the backbone of
+                            household economy and contributed significantly to community trade.</p>
+                    </div>
+                    <div class="essay-section">
+                        <h4 class="tamil lang-ta">5. வணிகத் தொடர்பு</h4>
+                        <h4 class="lang-en">5. Trade Connection</h4>
+                        <p class="tamil lang-ta">அரிக்கமேடு அகழ்வாராய்ச்சியில்
+                            <strong>ரோமானிய மட்பாண்ட துண்டுகள் (Amphorae)</strong> கண்டுபிடிக்கப்பட்டன — இது தமிழரின்
+                            சர்வதேச வணிகத்தை நிரூபிக்கிறது.</p>
+                        <p class="lang-en">Excavations at Arikamedu revealed <strong>Roman amphora sherds</strong>,
+                            proving that Tamil pottery and trade goods reached the Mediterranean. This international
+                            trade connection highlights the global significance of Sangam-era Tamil craftsmanship.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- A12a: Indo-Saracenic -->
+            <div class="q-card" data-mark="16" data-set="A">
+                <div class="q-header" onclick="toggle(this)">
+                    <div class="q-num m16">12a</div>
+                    <div class="q-text">
+                        <div class="q-ta">இந்தோ-சரோசன் கட்டிடக்கலை பற்றிக் கூறுக</div>
+                        <div class="q-en">Explain about the Indo-Saracenic architecture</div>
+                    </div>
+                    <div class="mark-badge m16">16M</div>
+                    <div class="q-chevron">▼</div>
+                </div>
+                <div class="q-body">
+                    <div class="essay-title tamil lang-ta">இந்தோ-சரோசன் கட்டிடக்கலை</div>
+                    <div class="essay-title lang-en">Indo-Saracenic Architecture</div>
+                    <div class="essay-section">
+                        <h4 class="tamil lang-ta">1. தோற்றமும் வரையறையும்</h4>
+                        <h4 class="lang-en">1. Origin &amp; Definition</h4>
+                        <p class="tamil lang-ta">இந்தோ-சரோசன் கட்டிடக்கலை என்பது
+                            <strong>பிரிட்டிஷ் காலனி ஆட்சியில் (19-20 நூற்றாண்டு)</strong> உருவான ஒரு கலப்பு கட்டிட
+                            பாணி. இது இந்திய (இஸ்லாமிய, இந்து), முகலாய, கோதிக், நியோ-கிளாசிக்கல் கட்டிட பாணிகளை
+                            ஒருங்கிணைக்கிறது.</p>
+                        <p class="lang-en">Indo-Saracenic architecture is a <strong>hybrid architectural style</strong>
+                            developed during British colonial rule in India (19th–20th centuries). It blends Indian
+                            (Islamic and Hindu) elements with Mughal, Gothic, and Neo-classical European styles,
+                            creating a uniquely Indian colonial aesthetic.</p>
+                    </div>
+                    <div class="essay-section">
+                        <h4 class="tamil lang-ta">2. முக்கிய சிறப்பியல்புகள்</h4>
+                        <h4 class="lang-en">2. Key Features</h4>
+                        <ul class="lang-ta tamil">
+                            <li>குவிமாட வடிவ கோபுரங்கள் (Domes)</li>
+                            <li>கூர்வீத வளைவுகள் (Pointed Arches)</li>
+                            <li>கோட்டை போன்ற கொத்தளங்கள் (Battlements)</li>
+                            <li>நுண்மையான வலைப்பின்னல் (Jali work)</li>
+                        </ul>
+                        <ul class="lang-en">
+                            <li>Bulbous domes combining Mughal and Gothic forms</li>
+                            <li>Pointed arches inspired by Islamic architecture</li>
+                            <li>Battlements and turrets from Gothic tradition</li>
+                            <li>Decorative Jali (lattice) screens</li>
+                            <li>Chhatris (elevated dome pavilions) and minarets</li>
+                        </ul>
+                    </div>
+                    <div class="essay-section">
+                        <h4 class="tamil lang-ta">3. தமிழ்நாட்டில் உள்ள எடுத்துக்காட்டுகள்</h4>
+                        <h4 class="lang-en">3. Examples in Tamil Nadu</h4>
+                        <ul class="lang-ta tamil">
+                            <li><strong>சென்னை உயர்நீதிமன்றம்</strong> (1892)</li>
+                            <li><strong>சென்னை மத்திய ரயில் நிலையம்</strong></li>
+                            <li><strong>விக்டோரியா மெமோரியல் ஹால்</strong> — சென்னை</li>
+                            <li><strong>மதுரை மாவட்ட நீதிமன்றம்</strong></li>
+                        </ul>
+                        <ul class="lang-en">
+                            <li><strong>Madras High Court</strong> (1892)</li>
+                            <li><strong>Chennai Central Railway Station</strong></li>
+                            <li><strong>Victoria Memorial Hall</strong> (now Government Museum), Chennai</li>
+                            <li><strong>Madurai District Court</strong></li>
+                        </ul>
+                    </div>
+                    <div class="essay-section">
+                        <h4 class="tamil lang-ta">4. வரலாற்று முக்கியத்துவம்</h4>
+                        <h4 class="lang-en">4. Historical Significance</h4>
+                        <p class="tamil lang-ta">இந்தோ-சரோசன் பாணி
+                            <strong>கிழக்கு-மேற்கு கட்டிட மரபுகளின் சந்திப்பு</strong> என்று அழைக்கப்படுகிறது. இது தமிழ்
+                            கட்டிட வரலாற்றில் ஒரு தனித்துவமான அத்தியாயம்.</p>
+                        <p class="lang-en">Indo-Saracenic style represents a
+                            <strong>synthesis of Eastern and Western architectural traditions</strong>. It reflects the
+                            colonial era's attempt to acknowledge Indian culture while asserting British authority, and
+                            today these buildings are protected as heritage monuments.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- A12b: Chola Perungkoils -->
+            <div class="q-card" data-mark="16" data-set="A">
+                <div class="q-header" onclick="toggle(this)">
+                    <div class="q-num m16">12b</div>
+                    <div class="q-text">
+                        <div class="q-ta">சோழர் காலப் பெருங்கோயில்கள் பற்றி குறிப்பிடுக</div>
+                        <div class="q-en">Mention about the Perungkoils of Chola period</div>
+                    </div>
+                    <div class="mark-badge m16">16M</div>
+                    <div class="q-chevron">▼</div>
+                </div>
+                <div class="q-body">
+                    <div class="essay-title tamil lang-ta">சோழர் காலப் பெருங்கோயில்கள்</div>
+                    <div class="essay-title lang-en">Perungkoils (Grand Temples) of the Chola Period</div>
+                    <div class="essay-section">
+                        <h4 class="tamil lang-ta">1. அறிமுகம்</h4>
+                        <h4 class="lang-en">1. Introduction</h4>
+                        <p class="tamil lang-ta">சோழர் கட்டிய கோயில்கள் <strong>திராவிட கட்டிடக்கலையின் உச்சம்</strong>
+                            என்று போற்றப்படுகின்றன. இக்கோயில்கள் வழிபாட்டுத்தலமாக மட்டுமின்றி, கல்வி, பொருளாதார மற்றும்
+                            சமூக மையங்களாகவும் செயல்பட்டன.</p>
+                        <p class="lang-en">Chola temples are regarded as the
+                            <strong>pinnacle of Dravidian architecture</strong>. These grand temples functioned not only
+                            as places of worship but also as centres of education, economy, and social life.</p>
+                    </div>
+                    <div class="essay-section">
+                        <h4 class="tamil lang-ta">2. கட்டிட சிறப்பியல்புகள்</h4>
+                        <h4 class="lang-en">2. Architectural Features</h4>
+                        <ul class="lang-ta tamil">
+                            <li><strong>விமானம்</strong> — கோபுர வடிவ கட்டமைப்பு, உயர்ந்த கூரை</li>
+                            <li><strong>மண்டபம்</strong> — தூண்களுடன் கூடிய மண்டபம்</li>
+                            <li><strong>கருவறை</strong> — கடவுளின் உருவம் அமர்ந்திருக்கும் இடம்</li>
+                            <li><strong>நந்தி மண்டபம்</strong>, <strong>சுற்றுமாளிகை</strong></li>
+                        </ul>
+                        <ul class="lang-en">
+                            <li><strong>Vimana</strong> — Towering superstructure above the sanctum</li>
+                            <li><strong>Mandapam</strong> — Pillared halls for assembly</li>
+                            <li><strong>Garbhagriha</strong> — Inner sanctum housing the deity</li>
+                            <li><strong>Prakara</strong> — Enclosure wall with gopurams</li>
+                            <li><strong>Nandi Mandapam</strong>, temple tanks (Pushkarini)</li>
+                        </ul>
+                    </div>
+                    <div class="essay-section">
+                        <h4 class="tamil lang-ta">3. முக்கிய கோயில்கள்</h4>
+                        <h4 class="lang-en">3. Major Temples</h4>
+                        <ul class="lang-ta tamil">
+                            <li><strong>தஞ்சாவூர் பிரஹதீஸ்வரர் கோயில்</strong> — இராஜராஜ சோழன் I (1010 CE)</li>
+                            <li><strong>கங்கைகொண்ட சோழபுரம் கோயில்</strong> — இராஜேந்திர சோழன் (1025 CE)</li>
+                            <li><strong>தாராசுரம் ஐராவதேஸ்வரர் கோயில்</strong> — இராஜராஜ சோழன் II</li>
+                        </ul>
+                        <ul class="lang-en">
+                            <li><strong>Brihadisvara Temple, Thanjavur</strong> — Raja Raja Chola I (1010 CE) — UNESCO
+                                site</li>
+                            <li><strong>Gangaikondacholapuram Temple</strong> — Rajendra Chola I (1025 CE) — UNESCO site
+                            </li>
+                            <li><strong>Airavatesvara Temple, Darasuram</strong> — Raja Raja Chola II — UNESCO site</li>
+                        </ul>
+                    </div>
+                    <div class="essay-section">
+                        <h4 class="tamil lang-ta">4. கட்டுமான நுட்பம்</h4>
+                        <h4 class="lang-en">4. Construction Technology</h4>
+                        <p class="tamil lang-ta">சுண்ணாம்புச் சாந்து (சுதை) மற்றும் கல் மட்டுமே கொண்டு கட்டப்பட்டன. 80
+                            டன் எடையுள்ள கல் ஒற்றை கண்டசிலாவை தஞ்சை விமான உச்சியில் வைத்தது — மர சறுக்கு பாதை (earthen
+                            ramp) தொழில்நுட்பம் மூலம் என்று ஆராய்ச்சியாளர்கள் கூறுகின்றனர். பஞ்சலோக வார்ப்புச்
+                            சிலைகளும், கல் சிற்பங்களும் தமிழரின் பல்துறை தொழில்நுட்ப திறமையை காட்டுகின்றன.</p>
+                        <p class="lang-en">Built using granite blocks with lime mortar, without any iron. The placement
+                            of the 80-tonne monolithic capstone atop Thanjavur's vimana is believed to have used earthen
+                            ramps. The temples feature exquisite bronze casting (Panchaloha), stone carvings, and fresco
+                            paintings, demonstrating multi-disciplinary technological mastery.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- A13a: Role of coins -->
+            <div class="q-card" data-mark="16" data-set="A">
+                <div class="q-header" onclick="toggle(this)">
+                    <div class="q-num m16">13a</div>
+                    <div class="q-text">
+                        <div class="q-ta">சங்க கால தமிழக வரலாற்றில் நாணயத்தின் பங்கு விளக்குக</div>
+                        <div class="q-en">Describe the role of coins in the history of Tamil Nadu during the Sangam
+                            period</div>
+                    </div>
+                    <div class="mark-badge m16">16M</div>
+                    <div class="q-chevron">▼</div>
+                </div>
+                <div class="q-body">
+                    <div class="essay-title tamil lang-ta">சங்க கால தமிழக வரலாற்றில் நாணயத்தின் பங்கு</div>
+                    <div class="essay-title lang-en">Role of Coins in Tamil Nadu History during the Sangam Period</div>
+                    <div class="essay-section">
+                        <h4 class="tamil lang-ta">1. அறிமுகம்</h4>
+                        <h4 class="lang-en">1. Introduction</h4>
+                        <p class="tamil lang-ta">நாணயங்கள் வரலாற்றின் சாட்சிகள். சங்க காலத்தில் நாணயங்கள் வணிகம்,
+                            அரசியல் ஆட்சி மற்றும் கலாசாரத்தை பிரதிபலித்தன.</p>
+                        <p class="lang-en">Coins are silent witnesses to history. In the Sangam period, coins reflected
+                            trade, political authority, and cultural life of Tamil society, serving as a crucial medium
+                            of exchange.</p>
+                    </div>
+                    <div class="essay-section">
+                        <h4 class="tamil lang-ta">2. நாணயங்களின் வகைகள்</h4>
+                        <h4 class="lang-en">2. Types of Coins</h4>
+                        <ul class="lang-ta tamil">
+                            <li><strong>சேர நாணயங்கள்</strong> — வில்லும் அம்பும் சின்னமாக</li>
+                            <li><strong>சோழ நாணயங்கள்</strong> — புலி சின்னம்</li>
+                            <li><strong>பாண்டிய நாணயங்கள்</strong> — மீன் சின்னம்</li>
+                            <li><strong>ரோமானிய நாணயங்கள்</strong> — அரிக்கமேட்டில் கண்டுபிடிக்கப்பட்டவை</li>
+                        </ul>
+                        <ul class="lang-en">
+                            <li><strong>Chera coins</strong> — Bow and arrow symbol</li>
+                            <li><strong>Chola coins</strong> — Tiger emblem</li>
+                            <li><strong>Pandya coins</strong> — Fish emblem</li>
+                            <li><strong>Roman coins</strong> — Found at Arikamedu, proving international trade</li>
+                        </ul>
+                    </div>
+                    <div class="essay-section">
+                        <h4 class="tamil lang-ta">3. வணிக பங்கு</h4>
+                        <h4 class="lang-en">3. Role in Trade</h4>
+                        <p class="tamil lang-ta">நாணயங்கள் <strong>பண்டமாற்று முறையை</strong> மாற்றி நவீன
+                            பொருளாதாரத்திற்கு அடித்தளமிட்டன. கடல் வணிகத்தில் நாணயங்கள் மூலம் பரிமாற்றம் எளிதாயிற்று.
+                            ரோமானிய நாணயங்கள் கண்டுபிடிக்கப்பட்டது தமிழர்களின் சர்வதேச வணிக சம்பந்தத்தை நிரூபிக்கிறது.
+                        </p>
+                        <p class="lang-en">Coins replaced the barter system, enabling efficient trade. Their discovery
+                            at Arikamedu proves direct exchange between Tamil Nadu and Rome. Tamil merchants exported
+                            spices, muslin, gems, and ivory; they imported wine, olive oil, and gold coins.</p>
+                    </div>
+                    <div class="essay-section">
+                        <h4 class="tamil lang-ta">4. தொழில்நுட்ப சிறப்பு</h4>
+                        <h4 class="lang-en">4. Technological Excellence</h4>
+                        <p class="tamil lang-ta">நாணயங்களை தயாரிக்கும் <strong>உலோக வேலைப்பாடு (metallurgy)</strong>
+                            சங்க கால தமிழரின் தொழில்நுட்ப சிறப்பை காட்டுகிறது. தங்கம், வெள்ளி, செம்பு நாணயங்கள்
+                            அச்சிடும் திறன் மிக உயர்ந்த வேலைப்பாட்டை காட்டுகின்றன.</p>
+                        <p class="lang-en">The minting of coins required advanced <strong>metallurgical skills</strong>
+                            — smelting, die-casting, and engraving. The precision seen in Sangam-era coins demonstrates
+                            Tamil mastery of metals, further confirmed by literary references to blacksmiths and
+                            goldsmiths in Sangam texts.</p>
+                    </div>
+                    <div class="essay-section">
+                        <h4 class="tamil lang-ta">5. அரசியல் முக்கியத்துவம்</h4>
+                        <h4 class="lang-en">5. Political Significance</h4>
+                        <p class="tamil lang-ta">அரச சின்னங்களை நாணயங்களில் பொறிப்பது ஆட்சியின் அதிகாரத்தை அறிவிக்கும்
+                            முறையாக இருந்தது. நாணய வரலாறு ஆட்சி மாற்றங்களை பதிவு செய்கிறது.</p>
+                        <p class="lang-en">Royal emblems on coins proclaimed sovereignty and served as propaganda tools.
+                            Numismatic studies have helped historians trace dynastic changes, territorial extent, and
+                            cultural influences during the Sangam period.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- A13b: Ship-building -->
+            <div class="q-card" data-mark="16" data-set="A">
+                <div class="q-header" onclick="toggle(this)">
+                    <div class="q-num m16">13b</div>
+                    <div class="q-text">
+                        <div class="q-ta">தமிழர்கள் கப்பல் கட்டுதொழிலில் எவ்வாறு சிறந்திருந்தனர் என்பதை விரிவாக விளக்குக
+                        </div>
+                        <div class="q-en">Explain in detail how Tamil people excelled in ship-building</div>
+                    </div>
+                    <div class="mark-badge m16">16M</div>
+                    <div class="q-chevron">▼</div>
+                </div>
+                <div class="q-body">
+                    <div class="essay-title tamil lang-ta">தமிழர்களின் கப்பல் கட்டும் தொழில்நுட்பம்</div>
+                    <div class="essay-title lang-en">Tamil People's Excellence in Ship-Building Technology</div>
+                    <div class="essay-section">
+                        <h4 class="tamil lang-ta">1. அறிமுகம்</h4>
+                        <h4 class="lang-en">1. Introduction</h4>
+                        <p class="tamil lang-ta">சங்க காலத்தில் தமிழர்கள்
+                            <strong>கடல் வணிகத்தில் உலகின் முன்னணி வல்லரசுகளில்</strong> ஒன்றாக இருந்தனர். இதற்கு கப்பல்
+                            கட்டும் தொழில்நுட்பம் அடிப்படை.</p>
+                        <p class="lang-en">During the Sangam period, Tamils were among the world's leading maritime
+                            powers. Their advanced ship-building technology enabled them to dominate Indian Ocean trade
+                            routes.</p>
+                    </div>
+                    <div class="essay-section">
+                        <h4 class="tamil lang-ta">2. இலக்கிய சான்றுகள்</h4>
+                        <h4 class="lang-en">2. Literary Evidence</h4>
+                        <p class="tamil lang-ta">பட்டினப்பாலை, மதுரைக்காஞ்சி, அகநானூறு போன்ற சங்க நூல்கள்
+                            <strong>மரக்கலம், திமில், படகு, ஓடம்</strong> பற்றி விரிவாக பேசுகின்றன.</p>
+                        <p class="lang-en">Sangam texts such as Pattinappalai, Maduraikkanji, and Akananuru describe
+                            various vessel types — <strong>Marakalam (ocean ship), Thimil, Oodam, Padam</strong>. The
+                            term "Paravar" (sea-fishers) refers to expert maritime communities.</p>
+                    </div>
+                    <div class="essay-section">
+                        <h4 class="tamil lang-ta">3. கப்பல் வகைகள்</h4>
+                        <h4 class="lang-en">3. Types of Vessels</h4>
+                        <ul class="lang-ta tamil">
+                            <li><strong>மரக்கலம்</strong> — பெரிய கடல் கப்பல்</li>
+                            <li><strong>திமில்</strong> — மீன்பிடி படகு</li>
+                            <li><strong>தோணி</strong> — ஆற்று படகு</li>
+                            <li><strong>வங்கம்</strong> — வணிக கப்பல்</li>
+                        </ul>
+                        <ul class="lang-en">
+                            <li><strong>Marakalam</strong> — Large ocean-going merchant ship</li>
+                            <li><strong>Thimil</strong> — Fishing boat</li>
+                            <li><strong>Thoni</strong> — River/coastal boat</li>
+                            <li><strong>Vangam</strong> — Trading vessel</li>
+                        </ul>
+                    </div>
+                    <div class="essay-section">
+                        <h4 class="tamil lang-ta">4. கட்டுமான நுட்பம்</h4>
+                        <h4 class="lang-en">4. Construction Technique</h4>
+                        <p class="tamil lang-ta">தேக்கு, வேம்பு மரங்கள் கப்பல் கட்டுவதற்கு பயன்பட்டன. உவர்நீர் புகாமல்
+                            இருக்க <strong>மீன் எண்ணெய் பூசும் முறை</strong> பயன்படுத்தப்பட்டது. உலோக ஆணி இல்லாமல்
+                            மரத்திட்டு வேலைப்பாடு (Mortise-and-Tenon) மூலம் கட்டப்பட்டன.</p>
+                        <p class="lang-en">Teak and neem wood were used for ship construction. Outrigger flotation
+                            techniques prevented capsizing. Hulls were sealed with
+                            <strong>fish oil to resist saltwater</strong>. Mortise-and-tenon joinery was used without
+                            metal nails — pure woodcraft centuries ahead of its time.</p>
+                    </div>
+                    <div class="essay-section">
+                        <h4 class="tamil lang-ta">5. வணிக தொடர்புகள்</h4>
+                        <h4 class="lang-en">5. Trade Connections</h4>
+                        <p class="tamil lang-ta">கொற்கை, முசிறி, அரிக்கமேடு போன்ற துறைமுகங்கள் மூலம்
+                            <strong>ரோம், அரேபியா, சீனா, இந்தோனேஷியா</strong> போன்ற நாடுகளுடன் வணிக உறவுகள் இருந்தன.</p>
+                        <p class="lang-en">Ports like Korkai, Musiri, and Arikamedu connected Tamil Nadu with
+                            <strong>Rome, Arabia, China, and Indonesia</strong>. The export of spices, pearls, and
+                            textiles brought enormous wealth, fuelling the golden age of Sangam civilisation.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- A14a: Irrigation dams -->
+            <div class="q-card" data-mark="16" data-set="A">
+                <div class="q-header" onclick="toggle(this)">
+                    <div class="q-num m16">14a</div>
+                    <div class="q-text">
+                        <div class="q-ta">நீர்ப்பாசனத்திலுள்ள அணைகள் பற்றிய பொறியியல் நுட்பம் எழுதுக</div>
+                        <div class="q-en">Write about the engineering techniques behind irrigation dams</div>
+                    </div>
+                    <div class="mark-badge m16">16M</div>
+                    <div class="q-chevron">▼</div>
+                </div>
+                <div class="q-body">
+                    <div class="essay-title tamil lang-ta">நீர்ப்பாசன அணைகளின் பொறியியல் நுட்பம்</div>
+                    <div class="essay-title lang-en">Engineering Techniques behind Irrigation Dams</div>
+                    <div class="essay-section">
+                        <h4 class="tamil lang-ta">1. அறிமுகம்</h4>
+                        <h4 class="lang-en">1. Introduction</h4>
+                        <p class="tamil lang-ta">தமிழர்கள் நீர்ப்பாசன தொழில்நுட்பத்தில் ஆயிரக்கணக்கான ஆண்டுகளுக்கு
+                            முன்பே சிறந்து விளங்கினர். <strong>ஏரி மேலாண்மை</strong> முறை இன்றும் பொறியியலாளர்களுக்கு
+                            வியப்பூட்டுகிறது.</p>
+                        <p class="lang-en">Tamils excelled in hydraulic engineering thousands of years ago. Their
+                            <strong>tank (Eri) irrigation management</strong> system continues to astonish modern
+                            engineers for its precision and sustainability.</p>
+                    </div>
+                    <div class="essay-section">
+                        <h4 class="tamil lang-ta">2. ஏரி அமைப்பின் கூறுகள்</h4>
+                        <h4 class="lang-en">2. Components of Tank Systems</h4>
+                        <ul class="lang-ta tamil">
+                            <li><strong>மதகு</strong> — நீர் வெளியேறும் திறப்பு</li>
+                            <li><strong>கோட்டான்</strong> — மேல்மட்ட வடிகால்</li>
+                            <li><strong>குமிழி தூம்பு</strong> — இயற்கை வால்வு சாதனம்</li>
+                            <li><strong>ஊஞ்சல் ஏரி</strong> — சங்கிலி ஏரி அமைப்பு</li>
+                        </ul>
+                        <ul class="lang-en">
+                            <li><strong>Mathagu (Sluice)</strong> — Controlled outlet for water release</li>
+                            <li><strong>Kottaan (Surplus weir)</strong> — Overflow drain to prevent flooding</li>
+                            <li><strong>KumizhiThoombu</strong> — Natural valve device for auto-regulation</li>
+                            <li><strong>Chain tanks (Unjal Eri)</strong> — Series of linked tanks for cascaded storage
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="essay-section">
+                        <h4 class="tamil lang-ta">3. கட்டுமான நுட்பம்</h4>
+                        <h4 class="lang-en">3. Construction Techniques</h4>
+                        <p class="tamil lang-ta">அணைகள் <strong>மண், கல், சுண்ணாம்பு</strong> ஆகியவற்றை கொண்டு
+                            கட்டப்பட்டன. அழுத்தத்தை தாங்கும் வண்ணம்
+                            <strong>அடித்தளம் அகலமாகவும் மேற்பகுதி குறுகலாகவும்</strong> வடிவமைக்கப்பட்டன. கல்லணை போன்ற
+                            அணைகளில் ஆற்றின் போக்கை மாற்றாமல் நீர் பிரிக்கும் அற்புதமான நுட்பம் பயன்படுத்தப்பட்டது.</p>
+                        <p class="lang-en">Dams were built using <strong>earth, stone, and lime mortar</strong>. The
+                            tapering design — wide base, narrow top — efficiently distributes hydraulic pressure. The
+                            genius of ancient Tamil dams lies in their <strong>diversion rather than blockage</strong>
+                            approach, allowing controlled water flow without complete obstruction.</p>
+                    </div>
+                    <div class="essay-section">
+                        <h4 class="tamil lang-ta">4. ஏரி மேலாண்மை முறை</h4>
+                        <h4 class="lang-en">4. Tank Management System</h4>
+                        <p class="tamil lang-ta">ஏரிகளை நிர்வகிக்க <strong>நீர்நிலை குழுக்கள் (Neervazhi)</strong>
+                            இருந்தன. மழைநீர் ஒரு ஏரியில் இருந்து மற்றொரு ஏரிக்கு பாய்ச்சும்
+                            <strong>ஊஞ்சல் ஏரி அமைப்பு</strong> நீரை வீணாகாமல் பயன்படுத்தியது.</p>
+                        <p class="lang-en">Community bodies called <strong>Neervazhi</strong> managed tank systems
+                            collectively. The <strong>chain-tank system</strong> allowed excess water from one tank to
+                            flow into the next, ensuring zero wastage and equitable distribution across farming
+                            communities.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- A14b: Kallanai -->
+            <div class="q-card" data-mark="16" data-set="A">
+                <div class="q-header" onclick="toggle(this)">
+                    <div class="q-num m16">14b</div>
+                    <div class="q-text">
+                        <div class="q-ta">கல்லணை கட்டப் பயன்படுத்தப்பட்ட தொழில்நுட்பம் என்ன?</div>
+                        <div class="q-en">What was the technology used in building Kallanai?</div>
+                    </div>
+                    <div class="mark-badge m16">16M</div>
+                    <div class="q-chevron">▼</div>
+                </div>
+                <div class="q-body">
+                    <div class="essay-title tamil lang-ta">கல்லணை கட்டப் பயன்படுத்தப்பட்ட தொழில்நுட்பம்</div>
+                    <div class="essay-title lang-en">Technology used in Building Kallanai (Grand Anicut)</div>
+                    <div class="essay-section">
+                        <h4 class="tamil lang-ta">1. கல்லணை அறிமுகம்</h4>
+                        <h4 class="lang-en">1. Introduction to Kallanai</h4>
+                        <p class="tamil lang-ta">கல்லணை (Grand Anicut)
+                            <strong>காவிரி நதியின் குறுக்கே கட்டப்பட்ட உலகின் பழமையான நீர் திசைதிருப்பும் அணை</strong>.
+                            இதை <strong>கரிகாலன் சோழன்</strong> கட்டினார் (சுமார் கி.பி. 2ஆம் நூற்றாண்டு). தஞ்சாவூர்
+                            அருகில் கல்லணம் என்ற இடத்தில் உள்ளது.</p>
+                        <p class="lang-en">Kallanai (Grand Anicut) is
+                            <strong>one of the world's oldest water diversion structures</strong>, built across the
+                            Kaveri River by <strong>Karikala Chola</strong> (approximately 2nd century CE). Located near
+                            Thanjavur, it diverts Kaveri water into multiple irrigation channels, still functioning
+                            after 2,000 years.</p>
+                    </div>
+                    <div class="essay-section">
+                        <h4 class="tamil lang-ta">2. கட்டுமான சிறப்பு</h4>
+                        <h4 class="lang-en">2. Construction Highlights</h4>
+                        <ul class="lang-ta tamil">
+                            <li>நீளம்: <strong>329 மீட்டர்</strong>, அகலம்: <strong>20 மீட்டர்</strong>, உயரம்:
+                                <strong>5.4 மீட்டர்</strong></li>
+                            <li>கருங்கல் சிலாக்கள் மட்டுமே பயன்படுத்தப்பட்டன — சாந்து இல்லை</li>
+                            <li>கல்களின் எடையே அணையை நிலைப்படுத்தியது</li>
+                            <li>நீர் ஒழுக்கை திசை திருப்பும் தொழில்நுட்பம் — முழு தடுப்பல்ல</li>
+                        </ul>
+                        <ul class="lang-en">
+                            <li>Length: <strong>329 m</strong>, Width: <strong>20 m</strong>, Height:
+                                <strong>5.4 m</strong></li>
+                            <li>Built with unhewn granite blocks — no mortar or cement used</li>
+                            <li>Gravity-based design: stone weight alone holds the structure</li>
+                            <li><strong>Diversion weir</strong> — diverts water, not a full blockage dam</li>
+                        </ul>
+                    </div>
+                    <div class="essay-section">
+                        <h4 class="tamil lang-ta">3. தொழில்நுட்ப அற்புதம்</h4>
+                        <h4 class="lang-en">3. Engineering Marvel</h4>
+                        <p class="tamil lang-ta">சர் ஆர்தர் காட்டன் (பிரிட்டிஷ் பொறியாளர்) கல்லணையை ஆய்வு செய்தபோது
+                            இக்கட்டமைப்பின் தொழில்நுட்பம் நவீன பொறியியலுக்கு இணையானது என்று வியந்தார். 1836-ல் கல்லணையை
+                            ஆதாரமாக கொண்டு அவர் கோலேரூன் அணை கட்டினார்.</p>
+                        <p class="lang-en">When British engineer <strong>Sir Arthur Cotton</strong> surveyed Kallanai in
+                            1836, he was amazed by its sophistication and
+                            <strong>used it as a model to build the Coleroon Anicut</strong>. The fact that this
+                            2000-year-old structure still functions today is proof of extraordinary ancient Tamil
+                            engineering genius.</p>
+                    </div>
+                    <div class="essay-section">
+                        <h4 class="tamil lang-ta">4. தாக்கம்</h4>
+                        <h4 class="lang-en">4. Impact</h4>
+                        <p class="tamil lang-ta">கல்லணை காவிரி டெல்டாவிற்கு நீர் பாய்ச்சி
+                            <strong>தஞ்சாவூரை தமிழ்நாட்டின் நெல்லுலகமாக</strong> மாற்றியது. இன்றும் சுமார் 400,000
+                            ஏக்கர் நிலத்திற்கு நீர்ப்பாசனம் வழங்குகிறது.</p>
+                        <p class="lang-en">Kallanai made the Kaveri delta extraordinarily fertile, transforming
+                            Thanjavur into Tamil Nadu's <strong>"rice bowl."</strong> Even today, it irrigates around
+                            400,000 acres, proving the timeless brilliance of ancient Tamil hydraulic engineering.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- A15a: Tamil Software -->
+            <div class="q-card" data-mark="16" data-set="A">
+                <div class="q-header" onclick="toggle(this)">
+                    <div class="q-num m16">15a</div>
+                    <div class="q-text">
+                        <div class="q-ta">தமிழ் மென்பொருள் உருவாக்கம் பற்றி விளக்குக</div>
+                        <div class="q-en">Explore growth and significance of Tamil Software development</div>
+                    </div>
+                    <div class="mark-badge m16">16M</div>
+                    <div class="q-chevron">▼</div>
+                </div>
+                <div class="q-body">
+                    <div class="essay-title tamil lang-ta">தமிழ் மென்பொருள் வளர்ச்சி</div>
+                    <div class="essay-title lang-en">Growth and Significance of Tamil Software Development</div>
+                    <div class="essay-section">
+                        <h4 class="tamil lang-ta">1. அறிமுகம்</h4>
+                        <h4 class="lang-en">1. Introduction</h4>
+                        <p class="tamil lang-ta">டிஜிட்டல் யுகத்தில் தமிழ் மொழியை கணினியில் பயன்படுத்த தமிழ்
+                            மென்பொருள்கள் மிகவும் முக்கியம். 1990-களில் தொடங்கி தமிழ் மென்பொருள் உருவாக்கம் வேகமாக
+                            வளர்ந்தது.</p>
+                        <p class="lang-en">Tamil software is essential for preserving and using the Tamil language in
+                            the digital age. Since the 1990s, Tamil software development has grown rapidly, enabling
+                            millions of Tamil speakers to use technology in their native language.</p>
+                    </div>
+                    <div class="essay-section">
+                        <h4 class="tamil lang-ta">2. குறியீட்டு தரங்கள்</h4>
+                        <h4 class="lang-en">2. Encoding Standards</h4>
+                        <ul class="lang-ta tamil">
+                            <li><strong>TSCII (Tamil Script Code for Information Interchange)</strong> — 1999</li>
+                            <li><strong>Unicode</strong> — தமிழ் எழுத்துக்கள் U+0B80-U+0BFF வரம்பில்</li>
+                            <li><strong>ISCII</strong> — Indian Script Code</li>
+                        </ul>
+                        <ul class="lang-en">
+                            <li><strong>TSCII</strong> (Tamil Script Code for Information Interchange) — 1999 standard
+                            </li>
+                            <li><strong>Unicode</strong> — Tamil characters occupy U+0B80 to U+0BFF range</li>
+                            <li><strong>ISCII</strong> — Indian Script Code for multi-script support</li>
+                        </ul>
+                    </div>
+                    <div class="essay-section">
+                        <h4 class="tamil lang-ta">3. முக்கிய தமிழ் மென்பொருள்கள்</h4>
+                        <h4 class="lang-en">3. Key Tamil Software</h4>
+                        <ul class="lang-ta tamil">
+                            <li><strong>Tamil Virtual Academy (TVA)</strong> — ஆன்லைன் தமிழ் ஆராய்ச்சி மற்றும் கல்வி
+                                தளம்</li>
+                            <li><strong>Azhagi</strong> — தமிழ் டைப்பிங் மென்பொருள்</li>
+                            <li><strong>NHM Writer</strong> — தமிழ் உள்ளீட்டு கருவி</li>
+                            <li><strong>Google Tamil Input</strong>, <strong>Microsoft Tamil IME</strong></li>
+                        </ul>
+                        <ul class="lang-en">
+                            <li><strong>Tamil Virtual Academy (TVA)</strong> — Online Tamil research and education
+                                portal</li>
+                            <li><strong>Azhagi</strong> — Widely used Tamil transliteration and typing software</li>
+                            <li><strong>NHM Writer</strong> — Tamil input tool for Windows</li>
+                            <li><strong>Google Tamil Input, Microsoft Tamil IME, Mozhi</strong></li>
+                        </ul>
+                    </div>
+                    <div class="essay-section">
+                        <h4 class="tamil lang-ta">4. தமிழ் இணையம்</h4>
+                        <h4 class="lang-en">4. Tamil on the Internet</h4>
+                        <p class="tamil lang-ta">தமிழ் Wikipedia-ல்
+                            <strong>1.8 லட்சத்திற்கும் மேற்பட்ட கட்டுரைகள்</strong> உள்ளன. Google, Facebook, WhatsApp
+                            ஆகியவை தமிழ் இடைமுகம் கொண்டுள்ளன. மொபைல் தமிழ் கீபோர்டுகள் மக்களின் தொழில்நுட்ப பயன்பாட்டை
+                            எளிதாக்கியுள்ளன.</p>
+                        <p class="lang-en">Tamil Wikipedia has over <strong>1.8 lakh articles</strong>. Google,
+                            Facebook, and WhatsApp support Tamil interfaces. Mobile Tamil keyboards have democratized
+                            technology access for Tamil speakers worldwide.</p>
+                    </div>
+                    <div class="essay-section">
+                        <h4 class="tamil lang-ta">5. செயற்கை நுண்ணறிவு மற்றும் தமிழ்</h4>
+                        <h4 class="lang-en">5. AI and Tamil</h4>
+                        <p class="tamil lang-ta">Google Translate, Microsoft Translator போன்றவை தமிழ் மொழிபெயர்ப்பு
+                            ஆதரிக்கின்றன. <strong>AI4Bharat</strong> திட்டம் தமிழுக்கான NLP மாதிரிகளை உருவாக்குகிறது.
+                        </p>
+                        <p class="lang-en">Google Translate and Microsoft Translator support Tamil translation.
+                            <strong>AI4Bharat</strong> project is developing advanced NLP models for Tamil, enabling
+                            smarter Tamil AI assistants and voice interfaces.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- A15b: Machine Translation -->
+            <div class="q-card" data-mark="16" data-set="A">
+                <div class="q-header" onclick="toggle(this)">
+                    <div class="q-num m16">15b</div>
+                    <div class="q-text">
+                        <div class="q-ta">இயந்திரமொழி பெயர்ப்பு மற்றும் அது மொழி தடைகளை எப்படி நீக்குகிறது என விரிவாக
+                            விளக்குக</div>
+                        <div class="q-en">Provide an in-depth explanation of machine translation and its role in
+                            bridging language barriers</div>
+                    </div>
+                    <div class="mark-badge m16">16M</div>
+                    <div class="q-chevron">▼</div>
+                </div>
+                <div class="q-body">
+                    <div class="essay-title tamil lang-ta">இயந்திர மொழிபெயர்ப்பும் மொழி தடைகளும்</div>
+                    <div class="essay-title lang-en">Machine Translation and Bridging Language Barriers</div>
+                    <div class="essay-section">
+                        <h4 class="tamil lang-ta">1. இயந்திர மொழிபெயர்ப்பு என்றால் என்ன?</h4>
+                        <h4 class="lang-en">1. What is Machine Translation?</h4>
+                        <p class="tamil lang-ta">இயந்திர மொழிபெயர்ப்பு (Machine Translation) என்பது
+                            <strong>கணினி மென்பொருளை பயன்படுத்தி ஒரு மொழியிலிருந்து மற்றொரு மொழிக்கு தானியக்கமாக மொழிபெயர்க்கும் செயல்முறை</strong>.
+                        </p>
+                        <p class="lang-en">Machine Translation (MT) is
+                            <strong>the automatic translation of text from one natural language to another using software</strong>,
+                            without direct human involvement. It uses computational linguistics, AI, and natural
+                            language processing (NLP).</p>
+                    </div>
+                    <div class="essay-section">
+                        <h4 class="tamil lang-ta">2. வகைகள்</h4>
+                        <h4 class="lang-en">2. Types of MT</h4>
+                        <ul class="lang-ta tamil">
+                            <li><strong>Rule-Based MT</strong> — இலக்கண விதிகளை அடிப்படையாக கொண்டது</li>
+                            <li><strong>Statistical MT</strong> — புள்ளியியல் மாதிரிகள்</li>
+                            <li><strong>Neural MT (NMT)</strong> — செயற்கை நரம்பியல் வலைப்பின்னல் (Deep Learning)</li>
+                        </ul>
+                        <ul class="lang-en">
+                            <li><strong>Rule-Based MT (RBMT)</strong> — Grammar rules and dictionaries</li>
+                            <li><strong>Statistical MT (SMT)</strong> — Probability models from bilingual corpora</li>
+                            <li><strong>Neural MT (NMT)</strong> — Deep learning Transformer models — most accurate
+                                today</li>
+                        </ul>
+                    </div>
+                    <div class="essay-section">
+                        <h4 class="tamil lang-ta">3. தமிழ் மொழிபெயர்ப்பில் பயன்பாடுகள்</h4>
+                        <h4 class="lang-en">3. Applications for Tamil</h4>
+                        <ul class="lang-ta tamil">
+                            <li>Google Translate — ஆங்கிலம் &lt;&gt; தமிழ்</li>
+                            <li>Tamil-to-Hindi, Tamil-to-Telugu மொழிபெயர்ப்பு</li>
+                            <li>நீதிமன்ற ஆவணங்கள் மொழிபெயர்ப்பு</li>
+                            <li>மருத்துவ தகவல்கள் உள்ளூர் மொழியில்</li>
+                        </ul>
+                        <ul class="lang-en">
+                            <li>Google Translate supports English ↔ Tamil with high accuracy</li>
+                            <li>Court document translation into regional languages</li>
+                            <li>Medical information in Tamil for rural healthcare</li>
+                            <li>Business and government communication across linguistic boundaries</li>
+                        </ul>
+                    </div>
+                    <div class="essay-section">
+                        <h4 class="tamil lang-ta">4. சவால்கள்</h4>
+                        <h4 class="lang-en">4. Challenges</h4>
+                        <ul class="lang-ta tamil">
+                            <li>தமிழ் திரை வழக்கு (colloquial) மொழிபெயர்ப்பு சவால்</li>
+                            <li>சிலேடை, நகைச்சுவை மொழிபெயர்க்க முடியாது</li>
+                            <li>தமிழ் ஆவண தரவு குறைவு</li>
+                        </ul>
+                        <ul class="lang-en">
+                            <li>Translating colloquial Tamil dialects remains challenging</li>
+                            <li>Idioms, puns, and humour are hard to translate accurately</li>
+                            <li>Limited Tamil digital corpus for training AI models</li>
+                            <li>Morphologically complex agglutinative structure of Tamil poses NLP challenges</li>
+                        </ul>
+                    </div>
+                    <div class="essay-section">
+                        <h4 class="tamil lang-ta">5. முடிவு</h4>
+                        <h4 class="lang-en">5. Conclusion</h4>
+                        <p class="tamil lang-ta">இயந்திர மொழிபெயர்ப்பு
+                            <strong>தமிழர்களுக்கு உலக அறிவை தாய்மொழியில்</strong> பெற உதவுகிறது. இது மொழி தடைகளை கடந்து
+                            கல்வி, வணிகம், அரசாங்க சேவைகளை அனைவருக்கும் சென்றடையச் செய்கிறது.</p>
+                        <p class="lang-en">Machine translation is a powerful equalizer, enabling Tamil speakers to
+                            access global knowledge in their native tongue. It democratises education, commerce, and
+                            governance by breaking down language barriers — making it a cornerstone of digital inclusion
+                            for Tamil.</p>
+                    </div>
+                </div>
+            </div>
+
+        </div><!-- end Set A -->
+
+        <!-- ════ SET B ════ -->
+        <div class="set-block" data-set="B">
+            <div class="set-header">
+                <div class="set-tag b">B</div>
+                <div>
+                    <div class="set-title">SET B — Question Paper</div>
+                    <div class="set-branch">Branch: AIDS, AIML, CSE(CS), CSBS, ECE, ACT, VLSI, BME, EEE, MECH, MCT,
+                        CIVIL</div>
+                </div>
+            </div>
+
+            <div class="part-heading">Part A — 2 Marks (10 × 2 = 20)</div>
+
+            <!-- B1 -->
+            <div class="q-card" data-mark="2" data-set="B">
+                <div class="q-header" onclick="toggle(this)">
+                    <div class="q-num m2">1</div>
+                    <div class="q-text">
+                        <div class="q-ta">"பருத்திப் பெண்டிர்" பற்றி எழுதுக.</div>
+                        <div class="q-en">Write about "Paruthi Pendir".</div>
+                    </div>
+                    <div class="mark-badge m2">2M</div>
+                    <div class="q-chevron">▼</div>
+                </div>
+                <div class="q-body">
+                    <div class="lang-ta ans-2mark tamil">பருத்திப் பெண்டிர் என்பவர்கள்
+                        <strong>சங்க காலத்தில் பருத்தி நூல் நூற்பதிலும், துணி நெய்வதிலும் சிறந்த பெண்கள்</strong>. சங்க
+                        இலக்கியங்களில் இவர்கள் பற்றிய குறிப்புகள் உள்ளன. இவர்கள்
+                        <strong>பருத்தியை கையால் நூல் நூற்று கைத்தறி மூலம் நெசவு</strong> செய்தனர். இதனால் தமிழ் பெண்கள்
+                        வீட்டு பொருளாதாரத்தில் முக்கிய பங்கு வகித்தனர்.</div>
+                    <div class="lang-en ans-2mark">"Paruthi Pendir" refers to
+                        <strong>women in the Sangam period who were skilled in spinning cotton yarn and weaving cloth</strong>.
+                        Sangam literature documents their role in textile production. These women
+                        <strong>hand-spun raw cotton into yarn and wove fabric on handlooms</strong>, making a crucial
+                        economic contribution to household and community income. Their work represents the foundation of
+                        Tamil textile heritage.</div>
+                </div>
+            </div>
+
+            <!-- B2 -->
+            <div class="q-card" data-mark="2" data-set="B">
+                <div class="q-header" onclick="toggle(this)">
+                    <div class="q-num m2">2</div>
+                    <div class="q-text">
+                        <div class="q-ta">பாணை தொழில்நுட்பம் குறித்து சிறு குறிப்பு வரைக</div>
+                        <div class="q-en">Write short note on Pottery technology.</div>
+                    </div>
+                    <div class="mark-badge m2">2M</div>
+                    <div class="q-chevron">▼</div>
+                </div>
+                <div class="q-body">
+                    <div class="lang-ta ans-2mark tamil">பாண்ட தொழில்நுட்பம் (குயவர் தொழில்) தமிழர்களின் மிகப் பழமையான
+                        தொழில்நுட்பங்களில் ஒன்று. முக்கிய நுட்பங்கள்: (1)
+                        <strong>குயவர் சக்கரம் (Potter's wheel)</strong> — சமச்சீர் வடிவங்களுக்கு. (2)
+                        <strong>சூளை (Kiln)</strong> — உயர் வெப்பத்தில் வேகவைத்து கடினப்படுத்துதல். (3)
+                        <strong>சிவப்பு-கருப்பு பாண்டங்கள்</strong> — இரும்பு ஆக்சைட்டால் வண்ணமிடப்படும்.</div>
+                    <div class="lang-en ans-2mark">Tamil pottery technology is one of the oldest crafts. Key techniques:
+                        (1) <strong>Potter's wheel</strong> — for creating symmetrical vessels. (2)
+                        <strong>Kiln firing</strong> — hardening clay at high temperatures. (3)
+                        <strong>Black and Red Ware</strong> — slip painting with iron oxide producing the distinctive
+                        two-tone finish found at Keeladi excavations.</div>
+                </div>
+            </div>
+
+            <!-- B3 -->
+            <div class="q-card" data-mark="2" data-set="B">
+                <div class="q-header" onclick="toggle(this)">
+                    <div class="q-num m2">3</div>
+                    <div class="q-text">
+                        <div class="q-ta">தமிழ் கட்டிட தொழில்நுட்பம் குறித்து சுருக்கமாக எழுதுக.</div>
+                        <div class="q-en">Write a brief note on Tamil building technology.</div>
+                    </div>
+                    <div class="mark-badge m2">2M</div>
+                    <div class="q-chevron">▼</div>
+                </div>
+                <div class="q-body">
+                    <div class="lang-ta ans-2mark tamil">தமிழ் கட்டிட தொழில்நுட்பம் பல ஆயிரம் ஆண்டுகளாக வளர்ந்துள்ளது.
+                        முக்கிய கூறுகள்: (1) <strong>சுண்ணாம்பு கலவை</strong> — கட்டிடங்களை காக்கும் சுண்ணாம்பு கலவை.
+                        (2) <strong>மண், கல், செங்கல்</strong> பயன்பாடு. (3) கீழடி அகழ்வாராய்ச்சியில்
+                        <strong>செங்கல் கட்டிடங்கள்</strong> கண்டுபிடிக்கப்பட்டன. (4)
+                        <strong>கோயில் கட்டிட நுட்பம்</strong> — சில்பசாஸ்திரம் கையேடு.</div>
+                    <div class="lang-en ans-2mark">Tamil building technology evolved over millennia. Key aspects: (1)
+                        <strong>Lime plaster (Sudhaikkal)</strong> for fireproofing and decoration. (2) Use of
+                        <strong>mud, stone, and burnt brick</strong> construction. (3) <strong>Brick structures</strong>
+                        found at Keeladi, dating to 300 BCE. (4) <strong>Temple architecture</strong> followed
+                        Silpasastra guidelines. The Chola-era granite temples remain the most spectacular testament to
+                        Tamil building technology.</div>
+                </div>
+            </div>
+
+            <!-- B4 -->
+            <div class="q-card" data-mark="2" data-set="B">
+                <div class="q-header" onclick="toggle(this)">
+                    <div class="q-num m2">4</div>
+                    <div class="q-text">
+                        <div class="q-ta">தூங்கா நகரம் என்று எந்த நகரம் அழைக்கப்படுகிறது? காரணம் குறிப்பிடுக.</div>
+                        <div class="q-en">Which city is known as Thoonga Nagaram? Give reason.</div>
+                    </div>
+                    <div class="mark-badge m2">2M</div>
+                    <div class="q-chevron">▼</div>
+                </div>
+                <div class="q-body">
+                    <div class="lang-ta ans-2mark tamil"><strong>மதுரை</strong> நகரம் "தூங்கா நகரம்" (தூங்காத நகரம்)
+                        என்று அழைக்கப்படுகிறது. காரணங்கள்: (1) <strong>மீனாட்சி அம்மன் கோயிலில் 24 மணி நேரமும்</strong>
+                        விளக்கு எரிந்து கொண்டே இருக்கும். (2) இரவிலும் தினசரி சந்தை நடைபெறும். (3) பல்வேறு சமயக் கடமைகள்
+                        இரவு-பகல் தொடர்ந்து நடைபெறும். சிலப்பதிகாரத்திலும் மதுரையின் இரவு வாழ்க்கை வர்ணிக்கப்படுகிறது.
+                    </div>
+                    <div class="lang-en ans-2mark"><strong>Madurai</strong> is known as "Thoonga Nagaram" (The City that
+                        Never Sleeps). Reasons: (1) The
+                        <strong>Meenakshi Amman Temple lamps burn round the clock</strong>. (2) Night markets and
+                        commerce were active throughout the night. (3) Religious duties and rituals continued day and
+                        night. The Silapathigaram also describes Madurai's vibrant night-time activity, making it a city
+                        that truly never slept in ancient times.</div>
+                </div>
+            </div>
+
+            <!-- B5 -->
+            <div class="q-card" data-mark="2" data-set="B">
+                <div class="q-header" onclick="toggle(this)">
+                    <div class="q-num m2">5</div>
+                    <div class="q-text">
+                        <div class="q-ta">உலோகவியல் என்றால் என்ன?</div>
+                        <div class="q-en">What is metallurgy?</div>
+                    </div>
+                    <div class="mark-badge m2">2M</div>
+                    <div class="q-chevron">▼</div>
+                </div>
+                <div class="q-body">
+                    <div class="lang-ta ans-2mark tamil">உலோகவியல் (Metallurgy) என்பது
+                        <strong>உலோகங்களை சுரங்கத்தில் இருந்து எடுத்து, சுத்திகரித்து, வடிவமைத்து பயன்படுத்தும் அறிவியல் மற்றும் தொழில்நுட்பம்</strong>.
+                        சங்க காலத்தில் தமிழர்கள் <strong>இரும்பு, தங்கம், வெள்ளி, செம்பு</strong> போன்ற உலோகங்களை
+                        கையாளும் திறமை கொண்டிருந்தனர். ஆதிச்சநல்லூரில் கிடைத்த இரும்பு ஈட்டிகள் இதற்கு சான்றாக உள்ளன.
+                    </div>
+                    <div class="lang-en ans-2mark">Metallurgy is
+                        <strong>the science and technology of extracting metals from ores, refining them, and shaping them for use</strong>.
+                        During the Sangam period, Tamils were skilled in working with
+                        <strong>iron, gold, silver, and copper</strong>. Iron spears found at Adichanallur and smelting
+                        evidence from Kodumanal are testament to their advanced metallurgical knowledge.</div>
+                </div>
+            </div>
+
+            <!-- B6 -->
+            <div class="q-card" data-mark="2" data-set="B">
+                <div class="q-header" onclick="toggle(this)">
+                    <div class="q-num m2">6</div>
+                    <div class="q-text">
+                        <div class="q-ta">ரத்தினங்களின் வகைகள் என்னென்ன?</div>
+                        <div class="q-en">What are the types of gems?</div>
+                    </div>
+                    <div class="mark-badge m2">2M</div>
+                    <div class="q-chevron">▼</div>
+                </div>
+                <div class="q-body">
+                    <div class="lang-ta ans-2mark tamil">சங்க இலக்கியத்தில் குறிப்பிடப்படும் ரத்தினங்களின் வகைகள்:<br>1.
+                        <strong>மாணிக்கம் (Ruby)</strong> — சிவப்பு நிறம்<br>2. <strong>முத்து (Pearl)</strong> — கொற்கை
+                        கடலில் இருந்து<br>3. <strong>வைரம் (Diamond)</strong> — மிக கடினமான கல்<br>4.
+                        <strong>மரகதம் (Emerald)</strong> — பச்சை நிறம்<br>5. <strong>வைடூரியம் (Cat's Eye)</strong><br>6.
+                        <strong>கோமேதகம் (Hessonite Garnet)</strong></div>
+                    <div class="lang-en ans-2mark">Types of gems mentioned in Sangam literature:<br>1.
+                        <strong>Ruby (Maanikkam)</strong> — Red gemstone<br>2. <strong>Pearl (Muthu)</strong> — from
+                        Korkai sea, famous for diving<br>3. <strong>Diamond (Vairam)</strong> — hardest stone<br>4.
+                        <strong>Emerald (Maragatham)</strong> — green gemstone<br>5.
+                        <strong>Cat's Eye (Vaiduriyam)</strong><br>6. <strong>Hessonite Garnet (Gomethagam)</strong>
+                    </div>
+                </div>
+            </div>
+
+            <!-- B7 -->
+            <div class="q-card" data-mark="2" data-set="B">
+                <div class="q-header" onclick="toggle(this)">
+                    <div class="q-num m2">7</div>
+                    <div class="q-text">
+                        <div class="q-ta">காவிரி – கல்லணை சிறுகுறிப்பு தருக.</div>
+                        <div class="q-en">Write short notes on Kaveri-Kallanai</div>
+                    </div>
+                    <div class="mark-badge m2">2M</div>
+                    <div class="q-chevron">▼</div>
+                </div>
+                <div class="q-body">
+                    <div class="lang-ta ans-2mark tamil">கல்லணை என்பது
+                        <strong>காவிரி நதியின் குறுக்கே கரிகாலன் சோழனால் கட்டப்பட்ட உலகின் பழமையான நீர் திசைதிருப்பு அணை</strong>
+                        (கி.பி. 2ஆம் நூற்றாண்டு). நீளம் 329 மீட்டர். சாந்து இல்லாமல் கருங்கல் மட்டுமே பயன்படுத்தி
+                        கட்டப்பட்டது. காவிரி டெல்டாவிற்கு நீர் பகிர்ந்தளிக்கிறது. இன்றும் சுமார் 4 லட்சம் ஏக்கர்
+                        நிலத்திற்கு பாசனம் வழங்குகிறது.</div>
+                    <div class="lang-en ans-2mark">Kallanai is
+                        <strong>the world's oldest water diversion dam, built across the Kaveri River by Karikala Chola</strong>
+                        (2nd century CE). It is 329 metres long, built entirely of unhewn granite without any mortar. It
+                        distributes Kaveri water to the delta. Even today it irrigates approximately 4 lakh acres — a
+                        marvel of ancient Tamil engineering that has stood for 2,000 years.</div>
+                </div>
+            </div>
+
+            <!-- B8 -->
+            <div class="q-card" data-mark="2" data-set="B">
+                <div class="q-header" onclick="toggle(this)">
+                    <div class="q-num m2">8</div>
+                    <div class="q-text">
+                        <div class="q-ta">குமிழி தூம்பு பற்றி விளக்குக.</div>
+                        <div class="q-en">Explain about KumizhiThoombu</div>
+                    </div>
+                    <div class="mark-badge m2">2M</div>
+                    <div class="q-chevron">▼</div>
+                </div>
+                <div class="q-body">
+                    <div class="lang-ta ans-2mark tamil">குமிழி தூம்பு என்பது
+                        <strong>பாசன நீர் மேலாண்மைக்கு பயன்படுத்தப்படும் ஒரு பாரம்பரிய நீர்த்தேக்க சாதனம்</strong>. இது
+                        ஏரியின் ஓரத்தில் அமைக்கப்படும் ஒரு சிறிய சாதனம் — தண்ணீர் ஒரு குறிப்பிட்ட மட்டம் வரும்போது
+                        மட்டும் வெளியே செல்லும் வண்ணம் வடிவமைக்கப்பட்டது. இது <strong>நவீன valve-ஐ போன்ற</strong>
+                        பாரம்பரிய பொறியியல் கண்டுபிடிப்பு.</div>
+                    <div class="lang-en ans-2mark">KumizhiThoombu is a
+                        <strong>traditional sluice or outlet device used in tank-based irrigation management</strong>.
+                        Placed at the base of a tank bund, it allows water to flow out only when the water level reaches
+                        a specific height. It functions like a <strong>primitive valve or sluice gate</strong>,
+                        reflecting sophisticated ancient Tamil hydraulic engineering without any mechanical assistance.
+                    </div>
+                </div>
+            </div>
+
+            <!-- B9 -->
+            <div class="q-card" data-mark="2" data-set="B">
+                <div class="q-header" onclick="toggle(this)">
+                    <div class="q-num m2">9</div>
+                    <div class="q-text">
+                        <div class="q-ta">தாய் மொழிக்கல்வியின் முக்கியத்துவத்தை கூறுக.</div>
+                        <div class="q-en">State the importance of mother tongue education.</div>
+                    </div>
+                    <div class="mark-badge m2">2M</div>
+                    <div class="q-chevron">▼</div>
+                </div>
+                <div class="q-body">
+                    <div class="lang-ta ans-2mark tamil">தாய்மொழிக் கல்வியின் முக்கியத்துவம்: (1)
+                        <strong>விரைவாக புரிதல்</strong> — குழந்தைகள் தாய்மொழியில் சொல்லப்படும் கருத்துகளை எளிதாக
+                        புரிந்துகொள்கின்றனர். (2) <strong>கலாசார பாதுகாப்பு</strong> — தாய்மொழி கலாசாரத்தையும் மரபையும்
+                        கொண்டு செல்கிறது. (3) <strong>சிந்தனை திறன்</strong> — சொந்த மொழியில் சிந்தனை ஆழமாக இருக்கும்.
+                        (4) UNESCO சர்வதேச மொழி தினம் (பிப்ரவரி 21) தாய்மொழி கல்வியை வலியுறுத்துகிறது.</div>
+                    <div class="lang-en ans-2mark">Importance of mother tongue education: (1)
+                        <strong>Faster comprehension</strong> — children grasp abstract concepts more easily in their
+                        native language. (2) <strong>Cultural continuity</strong> — language carries cultural identity,
+                        values, and heritage. (3) <strong>Deeper thinking</strong> — reasoning and creativity flourish
+                        in one's mother tongue. (4) UNESCO's International Mother Language Day (Feb 21) advocates
+                        mother-tongue-based multilingual education as the best foundation for learning outcomes
+                        worldwide.</div>
+                </div>
+            </div>
+
+            <!-- B10 -->
+            <div class="q-card" data-mark="2" data-set="B">
+                <div class="q-header" onclick="toggle(this)">
+                    <div class="q-num m2">10</div>
+                    <div class="q-text">
+                        <div class="q-ta">மின்னூல் (e-book) என்றால் என்ன?</div>
+                        <div class="q-en">What is an e-book?</div>
+                    </div>
+                    <div class="mark-badge m2">2M</div>
+                    <div class="q-chevron">▼</div>
+                </div>
+                <div class="q-body">
+                    <div class="lang-ta ans-2mark tamil">மின்னூல் (e-Book) என்பது
+                        <strong>டிஜிட்டல் வடிவில் கிடைக்கும் புத்தகம்</strong>. PDF, EPUB போன்ற வடிவங்களில் கணினி,
+                        மொபைல், Kindle-ல் படிக்கலாம். இதன் சிறப்புகள்: எடை இல்லை, எங்கும் படிக்கலாம், சில நொடிகளில்
+                        பதிவிறக்கம் செய்யலாம், தேடும் வசதி உண்டு. Tamil Virtual Academy, Project Madurai போன்ற தளங்கள்
+                        இலவச தமிழ் மின்னூல்கள் வழங்குகின்றன.</div>
+                    <div class="lang-en ans-2mark">An e-Book is a <strong>book in digital format</strong>, readable on
+                        computers, smartphones, tablets, or dedicated e-readers. Available as PDF, EPUB, or MOBI files.
+                        Key advantages: weightless portability, instant download, searchable text, adjustable font size.
+                        Platforms like Tamil Virtual Academy and Project Madurai provide thousands of free Tamil
+                        e-books, enabling digital preservation of Tamil literature globally.</div>
+                </div>
+            </div>
+
+            <!-- ─── PART B ─── -->
+            <div class="part-heading" style="margin-top:20px;">Part B — 16 Marks (5 × 16 = 80) · 10 Individual Questions
+            </div>
+
+            <!-- B11a: Red-Black Pottery Keezhadi -->
+            <div class="q-card" data-mark="16" data-set="B">
+                <div class="q-header" onclick="toggle(this)">
+                    <div class="q-num m16">11a</div>
+                    <div class="q-text">
+                        <div class="q-ta">கீழடி அகழ்வாராய்ச்சியில் கண்டுபிடிக்கப்பட்ட சிவப்பு-கருப்பு பாண்டங்கள் பற்றி
+                            விளக்குக</div>
+                        <div class="q-en">Explain the red-black pottery found in excavations conducted in Keezhadi</div>
+                    </div>
+                    <div class="mark-badge m16">16M</div>
+                    <div class="q-chevron">▼</div>
+                </div>
+                <div class="q-body">
+                    <div class="essay-title tamil lang-ta">கீழடி அகழ்வாராய்ச்சியில் கண்டுபிடிக்கப்பட்ட சிவப்பு-கருப்பு
+                        பாண்டங்கள்</div>
+                    <div class="essay-title lang-en">Red-Black Pottery found in Keezhadi Excavations</div>
+                    <div class="essay-section">
+                        <h4 class="tamil lang-ta">1. கீழடி அகழ்வாராய்ச்சி அறிமுகம்</h4>
+                        <h4 class="lang-en">1. Introduction to Keezhadi Excavations</h4>
+                        <p class="tamil lang-ta">கீழடி (Keezhadi) தமிழ்நாட்டின் மதுரை மாவட்டத்தில் வைகை ஆற்றின் கரையில்
+                            உள்ளது. 2015 முதல் Archaeological Survey of India (ASI) மேற்கொண்ட அகழ்வாராய்ச்சிகளில் சங்க
+                            கால நாகரிகத்தின் ஆதாரங்கள் வெளிப்பட்டன.</p>
+                        <p class="lang-en">Keezhadi is located in Madurai district, Tamil Nadu, on the banks of the
+                            Vaigai River. Excavations by the Archaeological Survey of India (ASI) since 2015 have
+                            revealed remarkable evidence of Sangam-era urban civilisation, pushing back Tamil
+                            civilisation to around 6th century BCE.</p>
+                    </div>
+                    <div class="essay-section">
+                        <h4 class="tamil lang-ta">2. சிவப்பு-கருப்பு பாண்டங்கள் என்றால் என்ன?</h4>
+                        <h4 class="lang-en">2. What is Black and Red Ware?</h4>
+                        <p class="tamil lang-ta"><strong>சிவப்பு-கருப்பு பாண்டங்கள் (Black and Red Ware – BRW)</strong>
+                            என்பவை உள்புறம் கருப்பும், வெளிப்புறம் சிவப்பும் கொண்ட தனிசிறப்பான மட்பாண்டங்கள். இவை
+                            <strong>இரும்பு ஆக்சைட்டால் (Fe₂O₃) வண்ணமிடப்பட்டு உயர் வெப்பத்தில் சூளையில் வேக வைக்கப்படுகின்றன</strong>.
+                        </p>
+                        <p class="lang-en"><strong>Black and Red Ware (BRW)</strong> pottery features a distinctive
+                            two-toned finish — black on the interior and upper portion, red on the exterior. This was
+                            achieved through
+                            <strong>iron oxide (Fe₂O₃) slip application and controlled kiln-firing</strong>, where
+                            oxygen levels were deliberately varied to produce the dual colouring.</p>
+                    </div>
+                    <div class="essay-section">
+                        <h4 class="tamil lang-ta">3. தொழில்நுட்ப விளக்கம்</h4>
+                        <h4 class="lang-en">3. Technical Process</h4>
+                        <ul class="lang-ta tamil">
+                            <li>மட்பாண்டத்தை குயவர் சக்கரத்தில் வடிவமைத்தல்</li>
+                            <li>இரும்பு ஆக்சைட்டு கலந்த மண் திரவம் தடவுதல்</li>
+                            <li>சூளையில் முதலில் ஆக்சிஜன் குறைந்த சூழலில் வேகவைத்தல் (reducing atmosphere) — கருப்பு
+                                நிறம்</li>
+                            <li>பின்னர் ஆக்சிஜன் சூழலில் வேகவைத்தல் (oxidizing atmosphere) — சிவப்பு நிறம்</li>
+                        </ul>
+                        <ul class="lang-en">
+                            <li>Shaping the vessel on a potter's wheel</li>
+                            <li>Applying iron-rich clay slip coating</li>
+                            <li>First firing in <strong>reducing atmosphere</strong> (less oxygen) — produces black
+                                oxidation</li>
+                            <li>Then firing in <strong>oxidizing atmosphere</strong> — exposed areas turn red</li>
+                            <li>Precise temperature control (800-900°C) — advanced ancient kiln technology</li>
+                        </ul>
+                    </div>
+                    <div class="essay-section">
+                        <h4 class="tamil lang-ta">4. கீழடியில் கண்டுபிடிப்புகள்</h4>
+                        <h4 class="lang-en">4. Discoveries at Keezhadi</h4>
+                        <ul class="lang-ta tamil">
+                            <li>4,000-க்கும் மேற்பட்ட மட்பாண்டத் துண்டுகள் கண்டுபிடிக்கப்பட்டன</li>
+                            <li>தமிழ்-பிராமி எழுத்துக்கள் பொறிக்கப்பட்ட பாண்டங்கள்</li>
+                            <li>செங்கல் கட்டிட கட்டமைப்புகள், மட்பாண்ட கழிவு குழிகள்</li>
+                            <li>காலம்: கி.மு. 6ஆம் நூற்றாண்டு</li>
+                        </ul>
+                        <ul class="lang-en">
+                            <li>Over 4,000 pottery sherds unearthed</li>
+                            <li>Pottery with <strong>Tamil-Brahmi inscriptions</strong> — proof of literacy in Sangam
+                                era</li>
+                            <li>Brick structures, kiln waste pits indicating local manufacturing</li>
+                            <li>Carbon dating confirms occupation from <strong>6th century BCE</strong></li>
+                            <li>Iron objects, terracotta figurines, and gold ornaments also found</li>
+                        </ul>
+                    </div>
+                    <div class="essay-section">
+                        <h4 class="tamil lang-ta">5. வரலாற்று முக்கியத்துவம்</h4>
+                        <h4 class="lang-en">5. Historical Significance</h4>
+                        <p class="tamil lang-ta">கீழடி கண்டுபிடிப்புகள்
+                            <strong>தமிழ் நாகரிகம் சிந்து சமவெளி நாகரிகத்திற்கு இணையாக</strong> வளர்ந்திருந்தது என்று
+                            நிரூபிக்கின்றன. இங்கு வாழ்ந்தவர்கள் எழுதப்படித்தவர்கள், நகர்ப்புற வாழ்க்கை நடத்தினர் என்பதை
+                            காட்டுகிறது.</p>
+                        <p class="lang-en">Keezhadi findings establish that
+                            <strong>Tamil civilisation was urbanised and literate as early as the 6th century BCE</strong>,
+                            contemporaneous with the Gangetic civilisation. The pottery evidence confirms sophisticated
+                            industrial-scale production, trade networks, and advanced material culture in ancient Tamil
+                            society.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- B11b: Sangam Weaving & Pottery -->
+            <div class="q-card" data-mark="16" data-set="B">
+                <div class="q-header" onclick="toggle(this)">
+                    <div class="q-num m16">11b</div>
+                    <div class="q-text">
+                        <div class="q-ta">சங்க காலத்தில் நெசவு மற்றும் பாண்டத் தொழில்நுட்பம் பற்றி விளக்குக</div>
+                        <div class="q-en">Explain weaving and pottery technology during the Sangam period</div>
+                    </div>
+                    <div class="mark-badge m16">16M</div>
+                    <div class="q-chevron">▼</div>
+                </div>
+                <div class="q-body">
+                    <div class="essay-title tamil lang-ta">சங்க காலத்தில் நெசவு மற்றும் பாண்டத் தொழில்நுட்பம்</div>
+                    <div class="essay-title lang-en">Weaving and Pottery Technology during the Sangam Period</div>
+                    <div class="essay-section">
+                        <h4 class="tamil lang-ta">1. நெசவுத் தொழில்</h4>
+                        <h4 class="lang-en">1. Weaving Industry</h4>
+                        <p class="tamil lang-ta">சங்க காலத்தில் <strong>கைத்தறி நெசவு</strong> பரவலாக இருந்தது. பருத்தி,
+                            பட்டு இழைகளால் தயாரிக்கப்பட்ட துணிகள் வெளிநாடுகளுக்கு ஏற்றுமதியாயின. சங்க இலக்கியங்களில்
+                            மெல்லிய முசுலின் வர்ணிக்கப்பட்டுள்ளது — "நூலினும் மெல்லிது, கூர்மை வேலினும் கூர்மை" என
+                            புலவர்கள் பாடியுள்ளனர்.</p>
+                        <p class="lang-en">Handloom weaving was widespread during the Sangam period. Cotton and silk
+                            fabrics were exported to Rome, Arabia, and South-East Asia. Sangam literature describes
+                            fabrics so fine they could pass through a ring — a testament to the extraordinary skill of
+                            Tamil weavers.</p>
+                    </div>
+                    <div class="essay-section">
+                        <h4 class="tamil lang-ta">2. பருத்திப் பெண்டிர்</h4>
+                        <h4 class="lang-en">2. Paruthi Pendir</h4>
+                        <p class="tamil lang-ta">பருத்திப் பெண்டிர் என்ற பெண்கள் பருத்தியை கையால் நூல் நூற்று கைத்தறி
+                            மூலம் நெசவு செய்தனர். வீட்டு பொருளாதாரத்தில் பெண்களின் பங்கு சங்க காலத்திலேயே முக்கியமானதாக
+                            இருந்தது.</p>
+                        <p class="lang-en">Women called Paruthi Pendir hand-spun cotton yarn and wove cloth on
+                            handlooms. Women's role in household textile production was crucial in the Sangam economy.
+                        </p>
+                    </div>
+                    <div class="essay-section">
+                        <h4 class="tamil lang-ta">3. சாயமிடல் தொழில்நுட்பம்</h4>
+                        <h4 class="lang-en">3. Dyeing Technology</h4>
+                        <p class="tamil lang-ta">வண்ணக்கர் இயற்கை சாயங்களான இண்டிகோ, மஞ்சள், அரக்கு போன்றவற்றை
+                            பயன்படுத்தி துணிகளுக்கு வண்ணமிட்டனர். இச்சாயங்கள் நிரந்தரமான தன்மை கொண்டவை.</p>
+                        <p class="lang-en">The Vannakkar community used natural dyes including indigo, turmeric, and lac
+                            to colour fabrics. These permanent, non-toxic dyes reflect advanced chemical knowledge in
+                            Sangam-era Tamil Nadu.</p>
+                    </div>
+                    <div class="essay-section">
+                        <h4 class="tamil lang-ta">4. மட்பாண்ட தொழில்நுட்பம்</h4>
+                        <h4 class="lang-en">4. Pottery Technology</h4>
+                        <p class="tamil lang-ta"><strong>சிவப்பு-கருப்பு மட்பாண்டங்கள் (Black and Red Ware)</strong>
+                            கீழடி, அரிக்கமேடு, கொற்கை போன்ற இடங்களில் கண்டுபிடிக்கப்பட்டுள்ளன.
+                            <strong>சக்கர மட்பாண்ட தொழில்நுட்பம்</strong> அன்றும் பயன்பட்டது. 800-900°C வெப்பத்தில்
+                            சூளையில் வேக வைத்தனர்.</p>
+                        <p class="lang-en"><strong>Black and Red Ware pottery</strong> has been found at Keeladi,
+                            Arikamedu, and Korkai. The <strong>potter's wheel</strong> was used for symmetrical vessels;
+                            kiln-firing at 800-900°C produced durable pottery for storage, cooking, trade, and ritual
+                            use.</p>
+                    </div>
+                    <div class="essay-section">
+                        <h4 class="tamil lang-ta">5. வணிகத் தொடர்பு</h4>
+                        <h4 class="lang-en">5. Trade Connection</h4>
+                        <p class="tamil lang-ta">அரிக்கமேடு அகழ்வாராய்ச்சியில்
+                            <strong>ரோமானிய மட்பாண்ட துண்டுகள் (Amphorae)</strong> கண்டுபிடிக்கப்பட்டன — தமிழரின்
+                            சர்வதேச வணிக தொடர்புக்கு நேரடி சான்று.</p>
+                        <p class="lang-en">Roman amphora sherds found at Arikamedu prove direct Tamil trade with the
+                            Mediterranean. This international connection highlights the global significance of
+                            Sangam-era Tamil craftsmanship in textiles and pottery.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- B12a: Tamil Palace-Building Evidence -->
+            <div class="q-card" data-mark="16" data-set="B">
+                <div class="q-header" onclick="toggle(this)">
+                    <div class="q-num m16">12a</div>
+                    <div class="q-text">
+                        <div class="q-ta">தமிழர்கள் அரண்மனைகள் கட்டிய தொழில்நுட்பத்திற்கான ஆதாரங்களை சுருக்கமாக எழுதுக
+                        </div>
+                        <div class="q-en">Summarize and write the evidences that Tamil people had the technology to
+                            build palaces</div>
+                    </div>
+                    <div class="mark-badge m16">16M</div>
+                    <div class="q-chevron">▼</div>
+                </div>
+                <div class="q-body">
+                    <div class="essay-title tamil lang-ta">தமிழர்கள் அரண்மனை கட்டிய தொழில்நுட்பத்திற்கான ஆதாரங்கள்</div>
+                    <div class="essay-title lang-en">Evidence for Tamil Palace-Building Technology</div>
+                    <div class="essay-section">
+                        <h4 class="tamil lang-ta">1. இலக்கிய சான்றுகள்</h4>
+                        <h4 class="lang-en">1. Literary Evidence</h4>
+                        <p class="tamil lang-ta">சங்க இலக்கியங்கள் பல இடங்களில் அரண்மனைகளை வர்ணிக்கின்றன.
+                            <strong>அகநானூறு, புறநானூறு, பட்டினப்பாலை</strong> போன்றவை மணிமயமான மாளிகைகள், தூண்கள்,
+                            மண்டபங்கள் பற்றி கூறுகின்றன. சிலப்பதிகாரம் மதுரை, காவிரிப்பூம்பட்டினம் நகரின் கட்டிட
+                            விளக்கம் தருகிறது.</p>
+                        <p class="lang-en">Sangam texts contain vivid descriptions of palaces.
+                            <strong>Akananuru, Purananuru, Pattinappalai</strong> describe jewelled halls, tall pillared
+                            mandapams, and multi-storied structures. Silapathigaram provides detailed descriptions of
+                            Madurai and Kaveripattinam's urban architecture, including royal palaces.</p>
+                    </div>
+                    <div class="essay-section">
+                        <h4 class="tamil lang-ta">2. அகழ்வாராய்ச்சி சான்றுகள்</h4>
+                        <h4 class="lang-en">2. Archaeological Evidence</h4>
+                        <ul class="lang-ta tamil">
+                            <li><strong>கீழடி</strong> — செங்கல் கட்டிட கட்டமைப்புகள் கண்டுபிடிக்கப்பட்டன</li>
+                            <li><strong>ஆதிச்சநல்லூர்</strong> — உரோமானிய தொடர்பு கொண்ட பொருட்கள்</li>
+                            <li><strong>கொற்கை</strong> — சேர அரண்மனை கட்டிட இடிபாடுகள்</li>
+                            <li>கல் அடித்தளங்கள், சுண்ணாம்பு மெழுகு சுவர்கள்</li>
+                        </ul>
+                        <ul class="lang-en">
+                            <li><strong>Keezhadi</strong> — Brick building foundations and structural remains</li>
+                            <li><strong>Adichanallur</strong> — Multi-cultural burial goods indicating elite occupants
+                            </li>
+                            <li><strong>Korkai</strong> — Structural remains suggesting Pandya royal complexes</li>
+                            <li>Stone foundation plinths and lime-plastered walls found at multiple sites</li>
+                        </ul>
+                    </div>
+                    <div class="essay-section">
+                        <h4 class="tamil lang-ta">3. கட்டுமான நுட்பங்கள்</h4>
+                        <h4 class="lang-en">3. Construction Techniques</h4>
+                        <ul class="lang-ta tamil">
+                            <li><strong>செங்கல் — சுண்ணாம்பு சாந்து</strong> கட்டுமானம்</li>
+                            <li>கருங்கல் தூண்கள் மற்றும் அடித்தளம்</li>
+                            <li><strong>மர கூரை கட்டமைப்பு</strong> — தேக்கு, வேம்பு</li>
+                            <li>சுதைப் பூச்சு, சுண்ணாம்பு பூச்சு (Limewash)</li>
+                        </ul>
+                        <ul class="lang-en">
+                            <li><strong>Fired brick with lime mortar</strong> construction</li>
+                            <li>Granite pillars and stone plinth bases</li>
+                            <li><strong>Timber roof structures</strong> using teak and neem</li>
+                            <li>Lime plaster coating for waterproofing and decoration</li>
+                            <li>High ceilings and cross-ventilation design for passive cooling</li>
+                        </ul>
+                    </div>
+                    <div class="essay-section">
+                        <h4 class="tamil lang-ta">4. சில்பசாஸ்திரம்</h4>
+                        <h4 class="lang-en">4. Silpasastra (Architectural Manual)</h4>
+                        <p class="tamil lang-ta">தமிழ் கட்டிட தொழில்நுட்பம் <strong>மனைவிளக்கம், சில்பரத்னம்</strong>
+                            போன்ற நூல்களால் வழிகாட்டப்பட்டது. இந்நூல்கள் கட்டிட நிறை, விகிதம், திசை, வடிவம் ஆகியவற்றை
+                            விவரிக்கின்றன.</p>
+                        <p class="lang-en">Tamil building technology was guided by treatises such as
+                            <strong>Manai Vilakkam and Silparatnam</strong>, which specified proportions, orientation,
+                            materials, and ritual requirements for palace construction, ensuring structural excellence
+                            and aesthetic harmony.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- B12b: Household Goods Sangam -->
+            <div class="q-card" data-mark="16" data-set="B">
+                <div class="q-header" onclick="toggle(this)">
+                    <div class="q-num m16">12b</div>
+                    <div class="q-text">
+                        <div class="q-ta">சங்க காலத்தில் வீட்டுப் பொருட்கள் மற்றும் வடிவமைப்பு பற்றி கட்டுரை எழுதுக
+                        </div>
+                        <div class="q-en">Write an essay on household goods and design prevalent during the Sangam
+                            period</div>
+                    </div>
+                    <div class="mark-badge m16">16M</div>
+                    <div class="q-chevron">▼</div>
+                </div>
+                <div class="q-body">
+                    <div class="essay-title tamil lang-ta">சங்க காலத்தில் வீட்டுப் பொருட்கள் மற்றும் வடிவமைப்பு</div>
+                    <div class="essay-title lang-en">Household Goods and Design in the Sangam Period</div>
+                    <div class="essay-section">
+                        <h4 class="tamil lang-ta">1. அறிமுகம்</h4>
+                        <h4 class="lang-en">1. Introduction</h4>
+                        <p class="tamil lang-ta">சங்க கால தமிழர்கள் அழகியல் உணர்வுடனும் தொழில்நுட்பத் திறனுடனும் வீட்டு
+                            பொருட்களை உருவாக்கினர்.</p>
+                        <p class="lang-en">Sangam-era Tamils created household goods with aesthetic sophistication and
+                            technological mastery, blending functionality with artistic expression.</p>
+                    </div>
+                    <div class="essay-section">
+                        <h4 class="tamil lang-ta">2. மட்பாண்டங்கள் மற்றும் சமையல் பாத்திரங்கள்</h4>
+                        <h4 class="lang-en">2. Pottery and Cookware</h4>
+                        <p class="tamil lang-ta">சங்க காலத்தில் <strong>மண்சட்டி, குடம், கலசம், குழல்</strong> போன்ற பல
+                            வகை மட்பாண்டங்கள் பயன்படுத்தப்பட்டன. இவை சமையல், சேமிப்பு, நீர் கொண்டுசெல்லல் ஆகியவற்றிற்கு
+                            பயன்பட்டன.</p>
+                        <p class="lang-en">Sangam households used
+                            <strong>clay pots, water jugs (Kudam), and storage vessels (Kalasam)</strong> for cooking,
+                            water storage, and grain storage. Archaeological finds confirm standardised vessel forms for
+                            different household functions.</p>
+                    </div>
+                    <div class="essay-section">
+                        <h4 class="tamil lang-ta">3. உலோக பாத்திரங்கள்</h4>
+                        <h4 class="lang-en">3. Metal Utensils</h4>
+                        <p class="tamil lang-ta">செம்பு, வெண்கலம் ஆகியவற்றால் <strong>தட்டு, கிண்ணம், உரல், இடி</strong>
+                            போன்ற பாத்திரங்கள் தயாரிக்கப்பட்டன. இவை வசதியானவர்களின் வீடுகளில் காணப்பட்டன.</p>
+                        <p class="lang-en">Copper and bronze
+                            <strong>plates (Thattu), cups (Kinnam), mortars and pestles</strong> were used in affluent
+                            Sangam households. Sangam poetry describes banquet scenes with metal dishes, reflecting a
+                            well-developed food culture.</p>
+                    </div>
+                    <div class="essay-section">
+                        <h4 class="tamil lang-ta">4. நெசவு மற்றும் உடை</h4>
+                        <h4 class="lang-en">4. Textiles and Clothing</h4>
+                        <p class="tamil lang-ta">வீட்டில் கைத்தறி நெசவு நடைபெற்றது.
+                            <strong>மெல்லிய முசுலின் துணி, பட்டு ஆடை</strong> ஆகியவை வீட்டுப் பொருட்களாக பயன்பட்டன.
+                            மரப்பட்டை நாரால் தயாரிக்கப்பட்ட பாய்கள் விரிப்பாக பயன்பட்டன.</p>
+                        <p class="lang-en">Home-based weaving produced fine muslin and silk garments.
+                            <strong>Cotton floor coverings, curtains, and bed covers</strong> were woven domestically.
+                            Bark fibre mats were used as floor spreads, reflecting a high material standard of living.
+                        </p>
+                    </div>
+                    <div class="essay-section">
+                        <h4 class="tamil lang-ta">5. அழகு சாதனங்கள்</h4>
+                        <h4 class="lang-en">5. Decorative Objects</h4>
+                        <p class="tamil lang-ta">சங்க கால தமிழியர்கள்
+                            <strong>மணிகள் (beads), ஆபரணங்கள், மலர் அலங்காரம்</strong> ஆகியவற்றை வீட்டு அலங்காரத்திற்கு
+                            பயன்படுத்தினர். கீழடியில் <strong>கண்ணாடி மணிகள், தந்த ஊசிகள்</strong> கண்டுபிடிக்கப்பட்டன.
+                        </p>
+                        <p class="lang-en">Sangam Tamils decorated their homes with
+                            <strong>glass beads, ivory combs, terracotta figurines, and floral arrangements</strong>.
+                            Keezhadi yielded glass beads, ivory needles, and terracotta objects, revealing a highly
+                            aesthetic material culture.</p>
+                    </div>
+                    <div class="essay-section">
+                        <h4 class="tamil lang-ta">6. முடிவு</h4>
+                        <h4 class="lang-en">6. Conclusion</h4>
+                        <p class="tamil lang-ta">சங்க கால வீட்டு வடிவமைப்பு தமிழரின் அழகுணர்வு, தொழில்நுட்ப அறிவு
+                            மற்றும் சமூக வளர்ச்சியை பிரதிபலிக்கிறது.</p>
+                        <p class="lang-en">The household design of the Sangam era reflects Tamils' aesthetic sense,
+                            technical knowledge, and advanced social development — a civilization that valued both
+                            utility and beauty in everyday life.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- B13a: Vannakan -->
+            <div class="q-card" data-mark="16" data-set="B">
+                <div class="q-header" onclick="toggle(this)">
+                    <div class="q-num m16">13a</div>
+                    <div class="q-text">
+                        <div class="q-ta">வண்ணகன் யார்? அவர்களிடம் இருந்த தொழில் நுட்பம் என்ன?</div>
+                        <div class="q-en">Who are Vannakan? What technology did they have?</div>
+                    </div>
+                    <div class="mark-badge m16">16M</div>
+                    <div class="q-chevron">▼</div>
+                </div>
+                <div class="q-body">
+                    <div class="essay-title tamil lang-ta">வண்ணகன் — யார்? அவர்களது தொழில்நுட்பம்</div>
+                    <div class="essay-title lang-en">Vannakan — Who are they? What technology did they have?</div>
+                    <div class="essay-section">
+                        <h4 class="tamil lang-ta">1. அறிமுகம்</h4>
+                        <h4 class="lang-en">1. Introduction</h4>
+                        <p class="tamil lang-ta">வண்ணகர் (Vannakkar) என்பவர்கள்
+                            <strong>சங்க கால தமிழ் சமூகத்தில் துணிகளுக்கு சாயமிட்டு துவைக்கும் தொழிலாளர்கள்</strong>.
+                            இவர்கள் சமூகத்தின் இன்றியமையாத ஒரு தொழில் குழுவினர்.</p>
+                        <p class="lang-en">Vannakkar were <strong>professional cloth-dyeing and washing workers</strong>
+                            in Sangam-era Tamil society. They held a specialized role in the textile chain, handling
+                            dyeing, washing, and finishing of fabrics.</p>
+                    </div>
+                    <div class="essay-section">
+                        <h4 class="tamil lang-ta">2. சாயமிடல் தொழில்நுட்பம்</h4>
+                        <h4 class="lang-en">2. Dyeing Technology</h4>
+                        <ul class="lang-ta tamil">
+                            <li><strong>இண்டிகோ (Indigo)</strong> — ஆவிரை செடியில் இருந்து நீல சாயம்</li>
+                            <li><strong>மஞ்சள் (Turmeric)</strong> — மஞ்சள் சாயம்</li>
+                            <li><strong>அரக்கு (Lac)</strong> — சிவப்பு சாயம்</li>
+                            <li><strong>மணவால (Manjistha)</strong> — சிவப்பு-நாரத்தை நிறம்</li>
+                            <li><strong>கருங்காலி (Acacia)</strong> — கருப்பு-பழுப்பு சாயம்</li>
+                        </ul>
+                        <ul class="lang-en">
+                            <li><strong>Indigo</strong> — from Avirai plant for deep blue dye</li>
+                            <li><strong>Turmeric</strong> — yellow dye with antiseptic properties</li>
+                            <li><strong>Lac (Arrakku)</strong> — red dye from lac insects</li>
+                            <li><strong>Manjistha (Indian Madder)</strong> — red-orange dye</li>
+                            <li><strong>Acacia (Karunkaali)</strong> — black-brown tannin dye</li>
+                        </ul>
+                    </div>
+                    <div class="essay-section">
+                        <h4 class="tamil lang-ta">3. சாயமிடும் முறை</h4>
+                        <h4 class="lang-en">3. Dyeing Process</h4>
+                        <ol class="lang-ta tamil"
+                            style="margin-left:20px;font-family:'Noto Serif Tamil',serif;font-size:0.87rem;line-height:1.85;color:#333">
+                            <li>துணியை நீரில் ஊறவைத்தல்</li>
+                            <li>கடுக்காய், தான்றிக்காய் கொண்டு <strong>mordanting</strong> (சாயம் பிடிக்க)</li>
+                            <li>சாயக் கலவையில் கொதிக்க வைத்தல்</li>
+                            <li>நிழலில் உலர்த்தல்</li>
+                            <li>மிதிக்கல் (beating) மூலம் மெருகூட்டல்</li>
+                        </ol>
+                        <ol class="lang-en" style="margin-left:20px;font-size:0.87rem;line-height:1.85;color:#333">
+                            <li>Soaking cloth in water</li>
+                            <li><strong>Mordanting</strong> using Kadukkai (Terminalia) tannins to fix dye</li>
+                            <li>Boiling in dye bath for colour absorption</li>
+                            <li>Drying in shade to prevent fading</li>
+                            <li>Beating to enhance sheen and texture</li>
+                        </ol>
+                    </div>
+                    <div class="essay-section">
+                        <h4 class="tamil lang-ta">4. துவைக்கும் தொழில்நுட்பம்</h4>
+                        <h4 class="lang-en">4. Washing Technology</h4>
+                        <p class="tamil lang-ta">சீயக்காய் (Acacia concinna), அரிட்ட மரம் ஆகியவற்றை இயற்கை சோப்பாக
+                            பயன்படுத்தி துணி துவைத்தனர். <strong>ஆற்றோரத்தில் கல் மேல் துணியை அடித்து</strong>
+                            சுத்தப்படுத்தும் தொழில்நுட்பம்.</p>
+                        <p class="lang-en">Sikakai (Acacia concinna) and Areetha were used as natural detergents. The
+                            <strong>traditional technique of beating cloth on river stones</strong> removed dirt
+                            effectively without chemical damage — eco-friendly methods that preserved fabric integrity.
+                        </p>
+                    </div>
+                    <div class="essay-section">
+                        <h4 class="tamil lang-ta">5. சமூக முக்கியத்துவம்</h4>
+                        <h4 class="lang-en">5. Social Significance</h4>
+                        <p class="tamil lang-ta">வண்ணக்கர் தெரு என்ற பெயரில் இன்னும் தமிழ்நாட்டின் பல ஊர்களில் தெரு
+                            பெயர்கள் காணப்படுகின்றன. வணிக வகுப்பினர் வண்ணகர் சேவையை வழக்கமாக பயன்படுத்தினர். சங்க
+                            இலக்கியத்தில் வண்ணகன் கதாபாத்திரம் குறிப்பிடப்படுகிறது.</p>
+                        <p class="lang-en">Street names like "Vannakkar Theru" still exist across Tamil Nadu, attesting
+                            to their deep social integration. Merchant communities relied heavily on Vannakkar services.
+                            Their role in maintaining cleanliness and textile aesthetics made them indispensable to
+                            Sangam-era society.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- B13b: Beads in Silapathigaram -->
+            <div class="q-card" data-mark="16" data-set="B">
+                <div class="q-header" onclick="toggle(this)">
+                    <div class="q-num m16">13b</div>
+                    <div class="q-text">
+                        <div class="q-ta">சிலப்பதிகாரத்தில் மணிகளின் பயன்பாட்டை பற்றி எழுதுக</div>
+                        <div class="q-en">Explain about the use of beads in Silapathigaram</div>
+                    </div>
+                    <div class="mark-badge m16">16M</div>
+                    <div class="q-chevron">▼</div>
+                </div>
+                <div class="q-body">
+                    <div class="essay-title tamil lang-ta">சிலப்பதிகாரத்தில் மணிகளின் பயன்பாடு</div>
+                    <div class="essay-title lang-en">Use of Beads in Silapathigaram</div>
+                    <div class="essay-section">
+                        <h4 class="tamil lang-ta">1. சிலப்பதிகாரம் அறிமுகம்</h4>
+                        <h4 class="lang-en">1. Introduction to Silapathigaram</h4>
+                        <p class="tamil lang-ta">சிலப்பதிகாரம் இளங்கோவடிகள் இயற்றிய தமிழ் காப்பியம். இதில் கண்ணகி,
+                            கோவலன் கதையில் <strong>ஆபரணங்கள், மணிகள், நகைகள்</strong> பற்றிய விரிவான குறிப்புகள் உள்ளன.
+                        </p>
+                        <p class="lang-en">Silapathigaram, authored by Ilango Adigal, is one of Tamil's five great
+                            epics. The story of Kannagi and Kovalan contains extensive references to
+                            <strong>jewellery, beads, and ornaments</strong>, reflecting the sophisticated gem trade and
+                            craftsmanship of the era.</p>
+                    </div>
+                    <div class="essay-section">
+                        <h4 class="tamil lang-ta">2. மணிகளின் வகைகள்</h4>
+                        <h4 class="lang-en">2. Types of Beads mentioned</h4>
+                        <ul class="lang-ta tamil">
+                            <li><strong>முத்து மாலை</strong> — கொற்கை கடலில் முத்தெடுப்பு</li>
+                            <li><strong>கோமேதகம்</strong> — மஞ்சள் நிற கல் மணி</li>
+                            <li><strong>வைடூரியம்</strong> — பூனை கண் கல்</li>
+                            <li><strong>கண்ணாடி மணிகள்</strong> — நீல, பச்சை வண்ணங்கள்</li>
+                            <li><strong>மஞ்சள் மணிகள் (Gold beads)</strong></li>
+                        </ul>
+                        <ul class="lang-en">
+                            <li><strong>Pearl necklaces (Muthu Malai)</strong> — from Korkai pearl diving</li>
+                            <li><strong>Gomethagam (Hessonite garnet)</strong> — yellow gemstone</li>
+                            <li><strong>Vaiduriyam (Cat's eye / Chrysoberyl)</strong></li>
+                            <li><strong>Glass beads</strong> in blue and green — imported and locally made</li>
+                            <li><strong>Gold beads</strong> for aristocratic ornaments</li>
+                        </ul>
+                    </div>
+                    <div class="essay-section">
+                        <h4 class="tamil lang-ta">3. நூபுர மணி — சிலம்பு</h4>
+                        <h4 class="lang-en">3. Silambu — The Anklet Beads</h4>
+                        <p class="tamil lang-ta">சிலப்பதிகாரம் பெயரே <strong>சிலம்பு (silambu)</strong> என்ற
+                            கொலுசிலிருந்து வந்தது. கண்ணகியின் சிலம்பில் இருந்த <strong>மாணிக்க மணிகள்</strong> கோவலனின்
+                            நிரபராதத்தை நிரூபித்தன. இது மணி வடிவமைப்பு மற்றும் வேலைப்பாட்டின் முக்கியத்துவத்தை
+                            காட்டுகிறது.</p>
+                        <p class="lang-en">The very title "Silapathigaram" comes from <strong>Silambu (anklet)</strong>.
+                            Kannagi's anklet contained <strong>ruby beads</strong> — their presence proved Kovalan's
+                            innocence (the queen's anklet had pearls). This plot device elevates gem identification and
+                            bead-craft to narrative and legal significance.</p>
+                    </div>
+                    <div class="essay-section">
+                        <h4 class="tamil lang-ta">4. மணி வணிகம்</h4>
+                        <h4 class="lang-en">4. Bead Trade</h4>
+                        <p class="tamil lang-ta">சிலப்பதிகாரத்தில் வர்ணிக்கப்படும்
+                            <strong>புகார் (காவிரிப்பூம்பட்டினம்) நகரில் மணி வணிகர்கள் (இரத்தினக் கடைகள்)</strong>
+                            இருந்தனர். ரோமானிய, அரேபிய மணிகள் வணிக மூலம் வந்தன.</p>
+                        <p class="lang-en">Silapathigaram describes
+                            <strong>Puhar (Kaveripattinam) with its gem merchants' street</strong>, showcasing an active
+                            bead and jewellery trade. Archaeological evidence from Arikamedu confirms that glass beads
+                            were imported from Rome and locally manufactured, paralleling the epic's descriptions.</p>
+                    </div>
+                    <div class="essay-section">
+                        <h4 class="tamil lang-ta">5. தொழில்நுட்ப முக்கியத்துவம்</h4>
+                        <h4 class="lang-en">5. Technological Significance</h4>
+                        <p class="tamil lang-ta">கண்ணாடி மணிகள் தயாரிக்க
+                            <strong>உயர் வெப்பம் (1000°C+) மற்றும் கண்ணாடி ஊதும் தொழில்நுட்பம்</strong> பயன்பட்டது.
+                            கொற்கையில் முத்தெடுப்பு என்பது தொழில்முறை மூச்சுப்பிடித்து நீர்மூழ்கும் தொழில்நுட்பம்
+                            கொண்டது.</p>
+                        <p class="lang-en">Glass bead production required
+                            <strong>high-temperature furnaces (1000°C+) and glass-blowing techniques</strong>. Pearl
+                            diving at Korkai was a professional industry requiring expert breath-holding and underwater
+                            navigation techniques, reflecting Tamil mastery of diverse manufacturing and extractive
+                            technologies.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- B14a: Tamil Ship-Building -->
+            <div class="q-card" data-mark="16" data-set="B">
+                <div class="q-header" onclick="toggle(this)">
+                    <div class="q-num m16">14a</div>
+                    <div class="q-text">
+                        <div class="q-ta">தமிழர்களின் கப்பல் கட்டு அறிவு பறிய கட்டுரை எழுதுக</div>
+                        <div class="q-en">Write an essay on ship-building knowledge of Tamil people</div>
+                    </div>
+                    <div class="mark-badge m16">16M</div>
+                    <div class="q-chevron">▼</div>
+                </div>
+                <div class="q-body">
+                    <div class="essay-title tamil lang-ta">தமிழர்களின் கப்பல் கட்டும் அறிவு</div>
+                    <div class="essay-title lang-en">Ship-Building Knowledge of Tamil People</div>
+                    <div class="essay-section">
+                        <h4 class="tamil lang-ta">1. அறிமுகம்</h4>
+                        <h4 class="lang-en">1. Introduction</h4>
+                        <p class="tamil lang-ta">சங்க காலத்தில் தமிழர்கள்
+                            <strong>கடல் வணிகத்தில் உலகின் முன்னணி வல்லரசுகளில்</strong> ஒன்றாக இருந்தனர். இதற்கு கப்பல்
+                            கட்டும் தொழில்நுட்பம் அடிப்படை.</p>
+                        <p class="lang-en">During the Sangam period, Tamils were among the world's leading maritime
+                            powers. Their advanced ship-building technology enabled them to dominate Indian Ocean trade
+                            routes connecting three continents.</p>
+                    </div>
+                    <div class="essay-section">
+                        <h4 class="tamil lang-ta">2. இலக்கிய சான்றுகள்</h4>
+                        <h4 class="lang-en">2. Literary Evidence</h4>
+                        <p class="tamil lang-ta">பட்டினப்பாலை, மதுரைக்காஞ்சி, அகநானூறு போன்ற சங்க நூல்கள்
+                            <strong>மரக்கலம், திமில், படகு, ஓடம்</strong> பற்றி விரிவாக பேசுகின்றன. "வளை இறா முந்நீர்
+                            வழங்கும் பரதவர்" என்று சங்க புலவர்கள் பாடியுள்ளனர்.</p>
+                        <p class="lang-en">Sangam texts such as Pattinappalai, Maduraikkanji, and Akananuru describe
+                            various vessel types — <strong>Marakalam (ocean ship), Thimil, Oodam, Padam</strong>. The
+                            "Paravar" (sea-fishers) community is repeatedly praised for their maritime expertise in
+                            Sangam poetry.</p>
+                    </div>
+                    <div class="essay-section">
+                        <h4 class="tamil lang-ta">3. கப்பல் வகைகள்</h4>
+                        <h4 class="lang-en">3. Types of Vessels</h4>
+                        <ul class="lang-ta tamil">
+                            <li><strong>மரக்கலம்</strong> — பெரிய கடல் கப்பல்</li>
+                            <li><strong>திமில்</strong> — மீன்பிடி படகு</li>
+                            <li><strong>தோணி</strong> — ஆற்று படகு</li>
+                            <li><strong>வங்கம்</strong> — வணிக கப்பல்</li>
+                        </ul>
+                        <ul class="lang-en">
+                            <li><strong>Marakalam</strong> — Large ocean-going merchant ship for transoceanic trade</li>
+                            <li><strong>Thimil</strong> — Specialized fishing boat with outrigger</li>
+                            <li><strong>Thoni</strong> — River/coastal boat for inland trade</li>
+                            <li><strong>Vangam</strong> — Heavy-duty trading vessel</li>
+                        </ul>
+                    </div>
+                    <div class="essay-section">
+                        <h4 class="tamil lang-ta">4. கட்டுமான நுட்பம்</h4>
+                        <h4 class="lang-en">4. Construction Technique</h4>
+                        <p class="tamil lang-ta">தேக்கு, வேம்பு மரங்கள் கப்பல் கட்டுவதற்கு பயன்பட்டன. மூழ்கும் தன்மையை
+                            குறைக்க வாழைத் தண்டு போன்ற மிதவைகளை கட்டும் தொழில்நுட்பம் அறியப்பட்டது. உவர்நீர் புகாமல்
+                            இருக்க <strong>மீன் எண்ணெய் பூசும் முறை</strong> பயன்படுத்தப்பட்டது. உலோக ஆணி இல்லாமல்
+                            மரத்திட்டு வேலைப்பாடு (Mortise-and-Tenon) மூலம் கட்டப்பட்டன.</p>
+                        <p class="lang-en">Teak and neem wood were primary materials. Outrigger flotation techniques
+                            prevented capsizing. Hulls were sealed with <strong>fish oil to resist saltwater</strong>.
+                            Mortise-and-tenon joinery without metal nails created flexible, durable hulls. This
+                            woodcraft technology was centuries ahead of its time.</p>
+                    </div>
+                    <div class="essay-section">
+                        <h4 class="tamil lang-ta">5. வணிக தொடர்புகள்</h4>
+                        <h4 class="lang-en">5. Trade Connections</h4>
+                        <p class="tamil lang-ta">கொற்கை, முசிறி, அரிக்கமேடு போன்ற துறைமுகங்கள் மூலம்
+                            <strong>ரோம், அரேபியா, சீனா, இந்தோனேஷியா</strong> போன்ற நாடுகளுடன் வணிக உறவுகள் இருந்தன.
+                            மிளகு, முத்து, துணி ஆகியவை ஏற்றுமதியாயின.</p>
+                        <p class="lang-en">Ports like Korkai, Musiri, and Arikamedu connected Tamil Nadu with
+                            <strong>Rome, Arabia, China, and Indonesia</strong>. The export of spices, pearls, and
+                            textiles brought enormous wealth. Roman coins and amphora found in Tamil Nadu confirm these
+                            sea routes beyond doubt.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- B14b: Agriculture Implements -->
+            <div class="q-card" data-mark="16" data-set="B">
+                <div class="q-header" onclick="toggle(this)">
+                    <div class="q-num m16">14b</div>
+                    <div class="q-text">
+                        <div class="q-ta">வேளாண்மை கருவிகளும் தொழில்நுட்பமும் பற்றி கட்டுரை எழுதுக</div>
+                        <div class="q-en">Explain about the agriculture implements and the technology used for it</div>
+                    </div>
+                    <div class="mark-badge m16">16M</div>
+                    <div class="q-chevron">▼</div>
+                </div>
+                <div class="q-body">
+                    <div class="essay-title tamil lang-ta">வேளாண்மை கருவிகள் மற்றும் தொழில்நுட்பம்</div>
+                    <div class="essay-title lang-en">Agriculture Implements and Technology of Ancient Tamils</div>
+                    <div class="essay-section">
+                        <h4 class="tamil lang-ta">1. அறிமுகம்</h4>
+                        <h4 class="lang-en">1. Introduction</h4>
+                        <p class="tamil lang-ta">தமிழர்களின் வேளாண்மை தொழில்நுட்பம் சங்க காலம் முதலே மிகவும்
+                            முன்னேறியது. <strong>நில அமைப்பை புரிந்து, நீர் மேலாண்மை கொண்டு</strong> பயிர் செய்யும்
+                            திறன் அவர்களுக்கு இருந்தது.</p>
+                        <p class="lang-en">Tamil agricultural technology has been advanced since the Sangam period.
+                            Tamils demonstrated deep understanding of
+                            <strong>soil science, water management, and crop cultivation techniques</strong> that
+                            sustained large populations.</p>
+                    </div>
+                    <div class="essay-section">
+                        <h4 class="tamil lang-ta">2. உழவு கருவிகள்</h4>
+                        <h4 class="lang-en">2. Ploughing Implements</h4>
+                        <ul class="lang-ta tamil">
+                            <li><strong>கலப்பை (Plough)</strong> — காளை மூலம் இழுத்து நிலம் உழுவது</li>
+                            <li><strong>மண்வெட்டி (Spade)</strong> — நிலம் தோண்டுவதற்கு</li>
+                            <li><strong>அரிவாள் (Sickle)</strong> — பயிர் அறுக்க</li>
+                            <li><strong>உரல்-இடி</strong> — நெல் குத்துவதற்கு</li>
+                        </ul>
+                        <ul class="lang-en">
+                            <li><strong>Kalappai (Plough)</strong> — ox-drawn plough for soil tilling</li>
+                            <li><strong>Manvetti (Spade/Hoe)</strong> — for digging and earthwork</li>
+                            <li><strong>Arivaal (Sickle)</strong> — for harvesting crops</li>
+                            <li><strong>Ural-Idi (Mortar and Pestle)</strong> — for dehusking rice</li>
+                        </ul>
+                    </div>
+                    <div class="essay-section">
+                        <h4 class="tamil lang-ta">3. நீர்ப்பாசன தொழில்நுட்பம்</h4>
+                        <h4 class="lang-en">3. Irrigation Technology</h4>
+                        <ul class="lang-ta tamil">
+                            <li><strong>ஏரி அமைப்பு</strong> — மழைநீர் சேமித்து பாசனம்</li>
+                            <li><strong>கிணற்று நீர் மோட்டார் (யாழ்)</strong> — கிணறு தண்ணீரை இழுக்கும் சக்கரம்</li>
+                            <li><strong>கல்லணை</strong> — ஆற்று நீர் திசைதிருப்பு</li>
+                            <li><strong>வரம்பு (Field bund)</strong> — வயல் வரப்பு</li>
+                        </ul>
+                        <ul class="lang-en">
+                            <li><strong>Tank (Eri) system</strong> — rainwater harvesting for irrigation</li>
+                            <li><strong>Draw well pulley (Yaal)</strong> — for lifting well water</li>
+                            <li><strong>Kallanai</strong> — river diversion for delta irrigation</li>
+                            <li><strong>Field bunds (Varambu)</strong> — for water retention in fields</li>
+                        </ul>
+                    </div>
+                    <div class="essay-section">
+                        <h4 class="tamil lang-ta">4. பயிர் விஞ்ஞானம்</h4>
+                        <h4 class="lang-en">4. Crop Science</h4>
+                        <p class="tamil lang-ta">சங்க இலக்கியம்
+                            <strong>நெல் (Rice), கரும்பு (Sugarcane), கம்பு (Pearl millet), ராகி</strong> பயிர்களை
+                            குறிப்பிடுகிறது. சரியான பருவ காலம் அறிந்து பயிர் செய்யும் திறன் இருந்தது.
+                            <strong>வேளாண்மை நூல்களான வெண்பா ஞாயிறு</strong> போன்றவை விதைத்தல் காலம், நட்சத்திர கணக்கு
+                            பற்றி கூறுகின்றன.</p>
+                        <p class="lang-en">Sangam literature mentions
+                            <strong>rice, sugarcane, pearl millet, and finger millet</strong> cultivation. Tamils
+                            tracked seasonal cycles and stellar positions to determine optimal planting times.
+                            Agricultural manuals like <strong>Venpaa Gnayiru</strong> codified this knowledge into
+                            verse-form guides for farmers.</p>
+                    </div>
+                    <div class="essay-section">
+                        <h4 class="tamil lang-ta">5. இயற்கை உரங்கள்</h4>
+                        <h4 class="lang-en">5. Natural Fertilisers</h4>
+                        <p class="tamil lang-ta">கோமியம் (மாட்டு சிறுநீர்), எரு (Compost), தழைசாரம் ஆகியவை நில
+                            வளத்திற்கு பயன்பட்டன. இது நவீன ஆர்கானிக் விவசாயத்திற்கு முன்னோடி.</p>
+                        <p class="lang-en">Cow dung compost, leaf manure, and natural bio-stimulants were used to enrich
+                            soil fertility — a precursor to modern organic farming. This sustainable agricultural
+                            technology ensured soil health across generations without chemical degradation.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- B15a: Sorkuvai -->
+            <div class="q-card" data-mark="16" data-set="B">
+                <div class="q-header" onclick="toggle(this)">
+                    <div class="q-num m16">15a</div>
+                    <div class="q-text">
+                        <div class="q-ta">சொர்க்கவை திட்டம், அதன் நோக்கங்கள் பற்றி விளக்குக</div>
+                        <div class="q-en">Explain about Sorkuvai Scheme and its objectives</div>
+                    </div>
+                    <div class="mark-badge m16">16M</div>
+                    <div class="q-chevron">▼</div>
+                </div>
+                <div class="q-body">
+                    <div class="essay-title tamil lang-ta">சொற்கோவை திட்டம் மற்றும் அதன் நோக்கங்கள்</div>
+                    <div class="essay-title lang-en">Sorkuvai Scheme and its Objectives</div>
+                    <div class="essay-section">
+                        <h4 class="tamil lang-ta">1. அறிமுகம்</h4>
+                        <h4 class="lang-en">1. Introduction</h4>
+                        <p class="tamil lang-ta">சொற்கோவை திட்டம் என்பது
+                            <strong>தமிழ்நாடு அரசின் தமிழ் மொழி வளர்ச்சித் திட்டம்</strong>. தமிழில் புதிய தொழில்நுட்ப
+                            மற்றும் அறிவியல் சொற்களை உருவாக்கி, தகவல் தொழில்நுட்பம் மற்றும் அன்றாட வாழ்வில் தமிழை
+                            பயன்படுத்துவதை ஊக்குவிக்கும் திட்டம்.</p>
+                        <p class="lang-en">Sorkuvai (சொற்கோவை) is a <strong>Tamil Nadu government initiative</strong>
+                            aimed at enriching the Tamil language for the digital and scientific age. It focuses on
+                            creating standardised Tamil terminology for technology, science, and administration,
+                            ensuring Tamil remains vibrant and relevant.</p>
+                    </div>
+                    <div class="essay-section">
+                        <h4 class="tamil lang-ta">2. முக்கிய நோக்கங்கள்</h4>
+                        <h4 class="lang-en">2. Key Objectives</h4>
+                        <ul class="lang-ta tamil">
+                            <li>நவீன தொழில்நுட்ப துறைகளுக்கு <strong>புதிய தமிழ் சொற்கள் உருவாக்குதல்</strong></li>
+                            <li>கணினி, மருத்துவம், சட்டம் ஆகிய துறைகளில்
+                                <strong>தமிழ் வழியில் கற்பித்தலை ஊக்குவித்தல்</strong></li>
+                            <li>தமிழ் மொழியை <strong>இணையத்தில் பெரும்பாலும் பயன்படுத்துதல்</strong></li>
+                            <li>மாணவர்களுக்கு தாய்மொழியில் <strong>தொழில்நுட்ப கல்வி</strong></li>
+                        </ul>
+                        <ul class="lang-en">
+                            <li><strong>Coining new Tamil terms</strong> for modern technology fields (AI, computing,
+                                medicine)</li>
+                            <li><strong>Encouraging Tamil-medium instruction</strong> in technical and professional
+                                education</li>
+                            <li>Increasing Tamil's <strong>digital presence on the internet</strong></li>
+                            <li>Providing students with <strong>technical education in their mother tongue</strong></li>
+                            <li>Standardising Tamil scientific vocabulary for uniform usage</li>
+                        </ul>
+                    </div>
+                    <div class="essay-section">
+                        <h4 class="tamil lang-ta">3. செயல்பாடுகள்</h4>
+                        <h4 class="lang-en">3. Activities</h4>
+                        <ul class="lang-ta tamil">
+                            <li>தமிழ் மொழி அகராதிகளில் புதிய சொற்கள் சேர்த்தல்</li>
+                            <li>தமிழ் Wikipedia வளர்ச்சிக்கு ஊக்கம்</li>
+                            <li>தமிழ் மொழியில் அரசு ஆவணங்கள் தயாரிப்பு</li>
+                            <li>பள்ளி, கல்லூரி பாடத்திட்டத்தில் தமிழ் தொழில்நுட்ப சொற்கள்</li>
+                        </ul>
+                        <ul class="lang-en">
+                            <li>Adding newly coined Tamil technical terms to official dictionaries</li>
+                            <li>Promoting Tamil Wikipedia and digital content creation</li>
+                            <li>Producing government documents in Tamil</li>
+                            <li>Incorporating Tamil technological vocabulary into school and college curricula</li>
+                        </ul>
+                    </div>
+                    <div class="essay-section">
+                        <h4 class="tamil lang-ta">4. முடிவு</h4>
+                        <h4 class="lang-en">4. Conclusion</h4>
+                        <p class="tamil lang-ta">சொற்கோவை திட்டம் தமிழ் மொழியை டிஜிட்டல் யுகத்திற்கு தயார் படுத்துகிறது.
+                            தாய்மொழியில் விஞ்ஞானம் கற்கும் உரிமையை மக்களுக்கு உறுதி செய்கிறது.</p>
+                        <p class="lang-en">The Sorkuvai scheme prepares Tamil for the digital age, ensuring that Tamil
+                            speakers can engage with science, technology, and governance in their own language — making
+                            knowledge inclusive and culturally rooted.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- B15b: Scientific Tamil -->
+            <div class="q-card" data-mark="16" data-set="B">
+                <div class="q-header" onclick="toggle(this)">
+                    <div class="q-num m16">15b</div>
+                    <div class="q-text">
+                        <div class="q-ta">அறிவியல் தமிழ் என்னும் தலைப்பில் கட்டுரை எழுதுக</div>
+                        <div class="q-en">Write essay on Scientific Tamil</div>
+                    </div>
+                    <div class="mark-badge m16">16M</div>
+                    <div class="q-chevron">▼</div>
+                </div>
+                <div class="q-body">
+                    <div class="essay-title tamil lang-ta">அறிவியல் தமிழ்</div>
+                    <div class="essay-title lang-en">Scientific Tamil (Arivial Tamil)</div>
+                    <div class="essay-section">
+                        <h4 class="tamil lang-ta">1. அறிமுகம்</h4>
+                        <h4 class="lang-en">1. Introduction</h4>
+                        <p class="tamil lang-ta">அறிவியல் தமிழ் என்பது
+                            <strong>அறிவியல் கருத்துக்களை, கண்டுபிடிப்புகளை, தொழில்நுட்பத்தை தமிழ் மொழியில் கூறும் பிரிவு</strong>.
+                            ஒரு மொழி நவீன அறிவியலுக்கு தகுதியானதா என்பது அதில் அறிவியல் சொல்லாட்சி இருக்கிறதா என்பதை
+                            பொறுத்தது.</p>
+                        <p class="lang-en">Scientific Tamil refers to the
+                            <strong>use of the Tamil language to express scientific concepts, discoveries, and technology</strong>.
+                            A language's vitality in the modern era depends on its ability to accommodate and articulate
+                            scientific thought, which Tamil has done remarkably well.</p>
+                    </div>
+                    <div class="essay-section">
+                        <h4 class="tamil lang-ta">2. தமிழில் அறிவியல் வரலாறு</h4>
+                        <h4 class="lang-en">2. History of Science in Tamil</h4>
+                        <ul class="lang-ta tamil">
+                            <li><strong>தொல்காப்பியம்</strong> — மொழியியல் விஞ்ஞானம்</li>
+                            <li><strong>திருக்குறள்</strong> — நீதி அறிவியல், ஆட்சி விஞ்ஞானம்</li>
+                            <li><strong>சித்தர் மருத்துவம்</strong> — ஆயுர்வேத மற்றும் ரசாயன அறிவியல்</li>
+                            <li><strong>சோழர் கால கட்டிட விஞ்ஞானம்</strong></li>
+                        </ul>
+                        <ul class="lang-en">
+                            <li><strong>Tolkappiyam</strong> — Systematic linguistics and phonology</li>
+                            <li><strong>Thirukkural</strong> — Ethics as applied science of governance</li>
+                            <li><strong>Siddha Medicine</strong> — Chemistry, anatomy, and pharmacology</li>
+                            <li><strong>Chola architectural science</strong> — structural engineering codified in Tamil
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="essay-section">
+                        <h4 class="tamil lang-ta">3. நவீன அறிவியல் தமிழ்</h4>
+                        <h4 class="lang-en">3. Modern Scientific Tamil</h4>
+                        <ul class="lang-ta tamil">
+                            <li><strong>தமிழ் Virtual Academy</strong> — ஆன்லைன் அறிவியல் தமிழ் வளங்கள்</li>
+                            <li><strong>IIT Madras</strong> — தமிழில் NPTEL கோர்சுகள்</li>
+                            <li><strong>தமிழ் விக்கிப்பீடியா</strong> — அறிவியல் கட்டுரைகள்</li>
+                            <li><strong>கணினி விஞ்ஞான தமிழ் கலைச்சொல்</strong></li>
+                        </ul>
+                        <ul class="lang-en">
+                            <li><strong>Tamil Virtual Academy</strong> — Online scientific Tamil resources</li>
+                            <li><strong>IIT Madras NPTEL</strong> — Technical courses in Tamil</li>
+                            <li><strong>Tamil Wikipedia</strong> — Science articles in Tamil</li>
+                            <li><strong>Tamil computing terminology</strong> standardised by Government of Tamil Nadu
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="essay-section">
+                        <h4 class="tamil lang-ta">4. சவால்கள்</h4>
+                        <h4 class="lang-en">4. Challenges</h4>
+                        <ul class="lang-ta tamil">
+                            <li>சர்வதேச அறிவியல் நூல்கள் தமிழாக்கம் மெதுவாக உள்ளது</li>
+                            <li>தமிழ் வழி தொழில்நுட்ப கல்வி குறைவாக உள்ளது</li>
+                            <li>புதிய தொழில்நுட்ப சொற்கள் ஆங்கிலத்திலேயே பயன்படுத்தப்படுகின்றன</li>
+                        </ul>
+                        <ul class="lang-en">
+                            <li>Translation of international science journals into Tamil is slow</li>
+                            <li>Lack of Tamil-medium technical higher education institutions</li>
+                            <li>New technology terms (AI, blockchain) often used in English without Tamil equivalents
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="essay-section">
+                        <h4 class="tamil lang-ta">5. முடிவு</h4>
+                        <h4 class="lang-en">5. Conclusion</h4>
+                        <p class="tamil lang-ta">தமிழ் ஒரு விஞ்ஞான மொழியாக வளர்வதற்கு அரசு, கல்வியாளர்கள், தொழில்நுட்ப
+                            நிறுவனங்கள் ஒன்றிணைந்து செயலாற்ற வேண்டும்.
+                            <strong>தாய்மொழியில் அறிவியல் கற்பது மட்டுமே உண்மையான அறிவை தரும்</strong>.</p>
+                        <p class="lang-en">For Tamil to flourish as a scientific language, government, academics, and
+                            the tech industry must collaborate.
+                            <strong>Learning science in one's mother tongue leads to deeper comprehension and more innovative thinking</strong>
+                            — Tamil's rich logical structure makes it uniquely suited for scientific expression.</p>
+                    </div>
+                </div>
+            </div>
+
+        </div><!-- end Set B -->
+    </div><!-- end content -->
+
+    <script>
+        function toggle(header) {
+    const card = header.parentElement;
+    card.classList.toggle('open');
+  }
+
+  // Banner zoom
+  let zoomed = false;
+  function toggleZoom() {
+    if (zoomed) return;
+    zoomed = true;
+    document.getElementById('banner').classList.add('zoomed');
+    document.getElementById('overlay').classList.add('active');
+  }
+  function closeZoom() {
+    zoomed = false;
+    document.getElementById('banner').classList.remove('zoomed');
+    document.getElementById('overlay').classList.remove('active');
+  }
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') closeZoom();
+  });
+
+  let currentSet = 'all';
+  let currentMark = 'all';
+  const langStates = ['ta', 'en'];
+  let langIdx = 0;
+
+  function filterSet(set) {
+    currentSet = set;
+    applyFilters();
+    document.querySelectorAll('.ctrl-group')[0].querySelectorAll('button').forEach((b,i) => {
+      b.classList.toggle('active', ['all','A','B'][i] === set);
+    });
+  }
+
+  function filterMark(mark) {
+    currentMark = mark;
+    applyFilters();
+    document.querySelectorAll('.ctrl-group')[1].querySelectorAll('button').forEach((b,i) => {
+      b.classList.toggle('active', ['all','2','16'][i] === mark);
+    });
+  }
+
+  function applyFilters() {
+    document.querySelectorAll('.q-card').forEach(card => {
+      const s = card.dataset.set;
+      const m = card.dataset.mark;
+      const setOk = currentSet === 'all' || s === currentSet;
+      const markOk = currentMark === 'all' || m === currentMark;
+      card.style.display = (setOk && markOk) ? '' : 'none';
+    });
+    document.querySelectorAll('.set-block').forEach(block => {
+      const s = block.dataset.set;
+      const setOk = currentSet === 'all' || s === currentSet;
+      block.style.display = setOk ? '' : 'none';
+    });
+  }
+
+  function cycleLang() {
+    langIdx = (langIdx + 1) % 2;
+    const state = langStates[langIdx];
+    document.body.className = 'show-' + state;
+    const labels = { ta: '🇮🇳 தமிழ்', en: '🇬🇧 English' };
+    document.getElementById('langBtn').textContent = labels[state];
+  }
+    </script>
+</body>
+
+</html>

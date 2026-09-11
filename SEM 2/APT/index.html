@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>EES-2 Master Formula Sheet</title>
+<style>
+  body { font-family: Arial, sans-serif; color: #000; background: #fff; margin: 24px; }
+  h1 { text-align: center; font-size: 20px; border-bottom: 3px solid #000; padding-bottom: 8px; }
+  h2 { font-size: 15px; background: #000; color: #fff; padding: 8px 12px; margin-top: 30px; }
+  table { width: 100%; border-collapse: collapse; margin-bottom: 10px; }
+  th { background: #333; color: #fff; padding: 9px 12px; text-align: left; font-size: 13px; border: 1px solid #000; }
+  td { border: 1px solid #000; padding: 8px 12px; vertical-align: top; font-size: 13px; line-height: 1.7; }
+  .label { font-weight: bold; width: 28%; background: #f2f2f2; }
+  .formula { width: 30%; }
+  .explain { width: 42%; color: #222; }
+  .shape-table th { text-align: center; }
+  .shape-table td { text-align: center; }
+  .section-note { font-style: italic; font-size: 12px; color: #444; margin: 4px 0 8px 0; }
+</style>
+</head>
+<body>
+<!-- AKNEX BACK TO HUB BUTTON (RIGHT SIDE) -->
+<div class="aknex-hub-nav" style="position: fixed; top: 16px; right: 16px; z-index: 999999; animation: aknexNavFadeIn 0.35s cubic-bezier(0.16, 1, 0.3, 1);">
+    <style>
+        @keyframes aknexNavFadeIn {
+            from { opacity: 0; transform: translateY(-8px) scale(0.95); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+        .aknex-hub-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            color: #ffffff !important;
+            text-decoration: none !important;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            font-size: 12.5px;
+            font-weight: 700;
+            padding: 8px 16px;
+            border-radius: 999px;
+            box-shadow: 0 4px 14px rgba(15, 23, 42, 0.35), 0 0 0 1px rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+            cursor: pointer;
+        }
+        .aknex-hub-btn:hover {
+            transform: translateY(-2px) scale(1.04);
+            box-shadow: 0 8px 20px rgba(37, 99, 235, 0.4), 0 0 0 1.5px #3b82f6;
+            color: #ffffff !important;
+        }
+        .aknex-hub-btn:active {
+            transform: translateY(0) scale(0.98);
+        }
+        .aknex-hub-btn .hub-arrow {
+            display: inline-block;
+            transition: transform 0.2s ease;
+        }
+        .aknex-hub-btn:hover .hub-arrow {
+            transform: translateX(-3px);
+        }
+    </style>
+    <a href="/" onclick="if(window.location.protocol==='file:'){this.href=window.location.pathname.match(/SET|MAIN/i)?'../../../index.html':'../../index.html';}" class="aknex-hub-btn">
+        <span class="hub-arrow">←</span> <span>Back to Hub</span>
+    </a>
+</div>
+
+
+
+
+<h1>EES-2 APTITUDE — COMPLETE FORMULA SHEET (ALL 5 UNITS)</h1>
+
+<!-- ==================== UNIT I ==================== -->
+<h2>UNIT I: PROBABILITY &amp; STATISTICS</h2>
+
+<p class="section-note">A. Basic Probability</p>
+<table>
+  <tr><th class="label">Formula Name</th><th class="formula">Formula</th><th class="explain">Explanation</th></tr>
+  <tr><td class="label">Basic Probability</td><td class="formula">P(A) = n(E) / n(S)</td><td class="explain">Favorable outcomes divided by total outcomes.</td></tr>
+  <tr><td class="label">Complementary Rule</td><td class="formula">P(A) + P(A') = 1</td><td class="explain">Probability of event NOT happening = 1 − P(A).</td></tr>
+  <tr><td class="label">Addition Rule (General)</td><td class="formula">P(A∪B) = P(A) + P(B) − P(A∩B)</td><td class="explain">For any two events. Subtract overlap to avoid double counting.</td></tr>
+  <tr><td class="label">Addition Rule (Mutually Exclusive)</td><td class="formula">P(A∪B) = P(A) + P(B)</td><td class="explain">When A and B cannot happen together, P(A∩B) = 0.</td></tr>
+  <tr><td class="label">Conditional Probability</td><td class="formula">P(B|A) = P(A∩B) / P(A)</td><td class="explain">Probability of B given A has already occurred.</td></tr>
+  <tr><td class="label">Multiplication Rule</td><td class="formula">P(A∩B) = P(A) · P(B|A)</td><td class="explain">Probability of both A and B occurring together.</td></tr>
+  <tr><td class="label">Independent Events</td><td class="formula">P(A∩B) = P(A) × P(B)</td><td class="explain">When one event does not affect the other.</td></tr>
+  <tr><td class="label">At Least One Trick</td><td class="formula">P(at least 1) = 1 − P(none)</td><td class="explain">Fastest shortcut for "at least one" questions.</td></tr>
+</table>
+
+<p class="section-note">B. Permutations &amp; Combinations</p>
+<table>
+  <tr><th class="label">Formula Name</th><th class="formula">Formula</th><th class="explain">Explanation</th></tr>
+  <tr><td class="label">Permutation (Arrangement)</td><td class="formula"><sup>n</sup>P<sub>r</sub> = n! / (n−r)!</td><td class="explain">Order matters. Arranging r items from n items.</td></tr>
+  <tr><td class="label">Combination (Selection)</td><td class="formula"><sup>n</sup>C<sub>r</sub> = n! / [r!(n−r)!]</td><td class="explain">Order doesn't matter. Selecting r items from n items.</td></tr>
+  <tr><td class="label">Circular Permutation</td><td class="formula">(n − 1)! ways</td><td class="explain">Arranging n people around a circular table.</td></tr>
+</table>
+
+<p class="section-note">C. Statistics &amp; Data</p>
+<table>
+  <tr><th class="label">Formula Name</th><th class="formula">Formula</th><th class="explain">Explanation</th></tr>
+  <tr><td class="label">Mean (x̄)</td><td class="formula">x̄ = Σx / N</td><td class="explain">Sum of all values divided by total count.</td></tr>
+  <tr><td class="label">Range</td><td class="formula">Range = Max − Min</td><td class="explain">Difference between largest and smallest values.</td></tr>
+  <tr><td class="label">Coefficient of Range</td><td class="formula">(Max − Min) / (Max + Min)</td><td class="explain">Relative measure of spread, dimensionless.</td></tr>
+  <tr><td class="label">Variance (σ²)</td><td class="formula">σ² = Σ(xᵢ − μ)² / N</td><td class="explain">Average of squared deviations from the mean.</td></tr>
+  <tr><td class="label">Standard Deviation (σ)</td><td class="formula">σ = √[Σ(xᵢ − x̄)² / (n−1)]</td><td class="explain">Square root of variance; measures data spread.</td></tr>
+  <tr><td class="label">Coefficient of Variation</td><td class="formula">CV = (σ / x̄) × 100</td><td class="explain">% measure of relative variability.</td></tr>
+</table>
+
+<p class="section-note">D. ANOVA (Design of Experiments)</p>
+<table>
+  <tr><th class="label">Formula Name</th><th class="formula">Formula</th><th class="explain">Explanation</th></tr>
+  <tr><td class="label">Correction Factor (CF)</td><td class="formula">CF = T² / N</td><td class="explain">T = Grand total of all observations; N = total count. Calculate this first.</td></tr>
+  <tr><td class="label">Total Sum of Squares (SST)</td><td class="formula">SST = Σx² − CF</td><td class="explain">Square every value, add them all, subtract CF.</td></tr>
+  <tr><td class="label">Column Sum of Squares (SSC)</td><td class="formula">SSC = (ΣC²/n<sub>c</sub>) − CF</td><td class="explain">Sum each column, square it, divide by column size, subtract CF.</td></tr>
+  <tr><td class="label">Row Sum of Squares (SSR)</td><td class="formula">SSR = (ΣR²/n<sub>r</sub>) − CF</td><td class="explain">Same as SSC but applied to rows.</td></tr>
+  <tr><td class="label">Error SS — One-Way ANOVA</td><td class="formula">SSE = SST − SSC</td><td class="explain">Unexplained variation after removing column effect.</td></tr>
+  <tr><td class="label">Error SS — Two-Way ANOVA</td><td class="formula">SSE = SST − SSC − SSR</td><td class="explain">Unexplained variation after removing both row and column effects. Must be positive.</td></tr>
+</table>
+
+<!-- ==================== UNIT II ==================== -->
+<h2>UNIT II: ARITHMETIC &amp; LOGICAL REASONING</h2>
+
+<p class="section-note">A. Painted Cubes (n × n × n)</p>
+<table>
+  <tr><th class="label">Painted Faces</th><th class="formula">Formula</th><th class="explain">Explanation</th></tr>
+  <tr><td class="label">3 sides painted</td><td class="formula">= 8</td><td class="explain">Always 8 — these are the corner pieces of any cube.</td></tr>
+  <tr><td class="label">2 sides painted</td><td class="formula">= 12(n − 2)</td><td class="explain">Edge pieces. 12 edges, each has (n−2) pieces.</td></tr>
+  <tr><td class="label">1 side painted</td><td class="formula">= 6(n − 2)²</td><td class="explain">Face-center pieces. 6 faces, each has (n−2)² pieces.</td></tr>
+  <tr><td class="label">0 sides painted</td><td class="formula">= (n − 2)³</td><td class="explain">Completely inside, not visible from outside.</td></tr>
+</table>
+
+<p class="section-note">B. Painted Cuboids (a × b × c)</p>
+<table>
+  <tr><th class="label">Painted Faces</th><th class="formula">Formula</th><th class="explain">Explanation</th></tr>
+  <tr><td class="label">3 sides painted</td><td class="formula">= 8</td><td class="explain">Always 8 corner pieces.</td></tr>
+  <tr><td class="label">2 sides painted</td><td class="formula">= 4(a + b + c − 6)</td><td class="explain">Pieces on edges (not corners). Summing all edges.</td></tr>
+  <tr><td class="label">1 side painted</td><td class="formula">= 2[(a−2)(b−2) + (b−2)(c−2) + (a−2)(c−2)]</td><td class="explain">Face-center pieces on each of the 3 pairs of faces.</td></tr>
+  <tr><td class="label">0 sides painted</td><td class="formula">= (a−2)(b−2)(c−2)</td><td class="explain">Hidden inner core, not touching any face.</td></tr>
+</table>
+
+<p class="section-note">C. Dice Logic</p>
+<table>
+  <tr><th class="label">Rule</th><th class="formula">Formula / Fact</th><th class="explain">Explanation</th></tr>
+  <tr><td class="label">Opposite Faces Rule</td><td class="formula">Opposite faces sum = 7</td><td class="explain">1↔6, 2↔5, 3↔4 on a standard die.</td></tr>
+  <tr><td class="label">Adjacent Rule</td><td class="formula">Adjacent faces ≠ opposite</td><td class="explain">Numbers visible together on a die can never be opposite.</td></tr>
+  <tr><td class="label">Open Dice (Folding)</td><td class="formula">Alternate squares in a line = opposite faces</td><td class="explain">In a flat net, squares in the same straight line that alternate are opposite faces when folded.</td></tr>
+</table>
+
+<p class="section-note">D. Counting Figures</p>
+<table>
+  <tr><th class="label">Shape Count</th><th class="formula">Formula</th><th class="explain">Explanation</th></tr>
+  <tr><td class="label">Triangles (from one vertex)</td><td class="formula">1 + 2 + 3 + ... + n</td><td class="explain">Number the base segments and add them all. e.g., 4 base segments → 1+2+3+4 = 10 triangles.</td></tr>
+  <tr><td class="label">Squares in n×n grid</td><td class="formula">1² + 2² + 3² + ... + n²</td><td class="explain">Count all square sizes: 1×1, 2×2, up to n×n and add.</td></tr>
+  <tr><td class="label">Sum of squares formula</td><td class="formula">n(n+1)(2n+1) / 6</td><td class="explain">Shortcut for 1²+2²+...+n².</td></tr>
+  <tr><td class="label">Rectangles in n×n grid</td><td class="formula">[n(n+1)/2]²</td><td class="explain">Count all rectangles of any size in the grid.</td></tr>
+</table>
+
+<!-- ==================== UNIT III ==================== -->
+<h2>UNIT III: SPATIAL MASTERY — GEOMETRY &amp; MENSURATION</h2>
+
+<p class="section-note">A. 2D Shapes — Perimeter</p>
+<table class="shape-table">
+  <tr><th>Shape</th><th>Perimeter Formula</th><th>Explanation</th></tr>
+  <tr><td>Square</td><td>4a</td><td>a = side length</td></tr>
+  <tr><td>Rectangle</td><td>2(l + b)</td><td>l = length, b = breadth</td></tr>
+  <tr><td>Circle (Circumference)</td><td>2πr</td><td>r = radius</td></tr>
+  <tr><td>Scalene Triangle</td><td>a + b + c</td><td>All 3 sides are different</td></tr>
+  <tr><td>Isosceles Triangle</td><td>2a + b</td><td>Two equal sides (a) + base (b)</td></tr>
+  <tr><td>Equilateral Triangle</td><td>3a</td><td>All 3 sides equal (a)</td></tr>
+  <tr><td>Right Angle Triangle</td><td>b + h + hypotenuse</td><td>Sum of all 3 sides</td></tr>
+  <tr><td>Rhombus</td><td>4 × side</td><td>All 4 sides equal</td></tr>
+  <tr><td>Parallelogram</td><td>2(l + b)</td><td>Opposite sides are equal</td></tr>
+  <tr><td>Trapezium</td><td>a + b + c + d</td><td>Sum of all 4 unequal sides</td></tr>
+</table>
+
+<p class="section-note">B. 2D Shapes — Area</p>
+<table class="shape-table">
+  <tr><th>Shape</th><th>Area Formula</th><th>Explanation</th></tr>
+  <tr><td>Square</td><td>a²</td><td>Side squared</td></tr>
+  <tr><td>Rectangle</td><td>l × b</td><td>Length × Breadth</td></tr>
+  <tr><td>Circle</td><td>πr²</td><td>π × radius²</td></tr>
+  <tr><td>Scalene Triangle (Heron's)</td><td>√[s(s−a)(s−b)(s−c)]   where s = (a+b+c)/2</td><td>s is the semi-perimeter</td></tr>
+  <tr><td>Isosceles Triangle</td><td>½ × b × h</td><td>Base × height / 2</td></tr>
+  <tr><td>Equilateral Triangle</td><td>(√3 / 4) × a²</td><td>a = side of equilateral triangle</td></tr>
+  <tr><td>Right Angle Triangle</td><td>½ × b × h</td><td>½ × base × perpendicular height</td></tr>
+  <tr><td>Rhombus</td><td>½ × d₁ × d₂</td><td>Half the product of both diagonals</td></tr>
+  <tr><td>Parallelogram</td><td>b × h</td><td>Base × perpendicular height</td></tr>
+  <tr><td>Trapezium</td><td>½ × h × (a + b)</td><td>h = height, a &amp; b = parallel sides</td></tr>
+</table>
+
+<p class="section-note">C. 3D Shapes — Surface Area</p>
+<table class="shape-table">
+  <tr><th>Shape</th><th>CSA / LSA</th><th>TSA</th><th>Explanation</th></tr>
+  <tr><td>Cube</td><td>4a²</td><td>6a²</td><td>a = side. TSA = all 6 faces. CSA = 4 lateral faces.</td></tr>
+  <tr><td>Cuboid</td><td>2h(l + b)</td><td>2(lb + bh + hl)</td><td>l=length, b=breadth, h=height</td></tr>
+  <tr><td>Sphere</td><td>4πr²</td><td>4πr²</td><td>No base; CSA = TSA for a sphere.</td></tr>
+  <tr><td>Hemisphere</td><td>2πr²</td><td>3πr²</td><td>TSA = curved face + circular base (πr²)</td></tr>
+  <tr><td>Cylinder</td><td>2πrh</td><td>2πrh + 2πr²</td><td>TSA adds the two circular ends</td></tr>
+  <tr><td>Cone</td><td>πrl</td><td>πr(r + l)</td><td>l = slant height = √(r² + h²)</td></tr>
+</table>
+
+<p class="section-note">D. 3D Shapes — Volume</p>
+<table class="shape-table">
+  <tr><th>Shape</th><th>Volume Formula</th><th>Explanation</th></tr>
+  <tr><td>Cube</td><td>a³</td><td>Side cubed</td></tr>
+  <tr><td>Cuboid</td><td>l × b × h</td><td>Length × Breadth × Height</td></tr>
+  <tr><td>Sphere</td><td>(4/3)πr³</td><td>Full solid sphere</td></tr>
+  <tr><td>Hemisphere</td><td>(2/3)πr³</td><td>Exactly half of a sphere</td></tr>
+  <tr><td>Cylinder</td><td>πr²h</td><td>Area of base × height</td></tr>
+  <tr><td>Cone</td><td>(1/3)πr²h</td><td>One-third of an equivalent cylinder</td></tr>
+</table>
+
+<p class="section-note">E. Geometry Rules &amp; Trigonometry</p>
+<table>
+  <tr><th class="label">Rule</th><th class="formula">Formula</th><th class="explain">Explanation</th></tr>
+  <tr><td class="label">Polygon Interior Angles (Sum)</td><td class="formula">(n − 2) × 180°</td><td class="explain">n = number of sides. Triangle: 180°, Quadrilateral: 360°, etc.</td></tr>
+  <tr><td class="label">Number of Diagonals</td><td class="formula">n(n − 3) / 2</td><td class="explain">n = number of sides. Pentagon has 5 diagonals.</td></tr>
+  <tr><td class="label">Cyclic Quadrilateral</td><td class="formula">Opposite angles = 180°</td><td class="explain">Both pairs of opposite angles are supplementary.</td></tr>
+  <tr><td class="label">Circle Chord Rule</td><td class="formula">Perpendicular from centre bisects chord</td><td class="explain">Use Pythagoras: hyp² = opp² + adj² to find chord length.</td></tr>
+  <tr><td class="label">Pythagorean Theorem</td><td class="formula">hyp² = base² + height²</td><td class="explain">Only for right-angled triangles.</td></tr>
+  <tr><td class="label">sin θ</td><td class="formula">Opposite / Hypotenuse</td><td class="explain">SOH — for angle θ in a right triangle.</td></tr>
+  <tr><td class="label">cos θ</td><td class="formula">Adjacent / Hypotenuse</td><td class="explain">CAH — the side next to angle θ over hypotenuse.</td></tr>
+  <tr><td class="label">tan θ</td><td class="formula">Opposite / Adjacent</td><td class="explain">TOA — used heavily in height &amp; distance problems.</td></tr>
+  <tr><td class="label">Pythagorean Identity</td><td class="formula">sin²θ + cos²θ = 1</td><td class="explain">Fundamental trigonometric identity.</td></tr>
+</table>
+
+<!-- ==================== UNIT IV ==================== -->
+<h2>UNIT IV: VERBAL &amp; LOGICAL REASONING</h2>
+
+<p class="section-note">A. Ranking &amp; Ordering</p>
+<table>
+  <tr><th class="label">Formula Name</th><th class="formula">Formula</th><th class="explain">Explanation</th></tr>
+  <tr><td class="label">Total Persons in a Row</td><td class="formula">Total = Rank(Left) + Rank(Right) − 1</td><td class="explain">The person is counted once in each rank, so subtract 1.</td></tr>
+  <tr><td class="label">Persons Between (Non-overlapping)</td><td class="formula">Between = Total − (Sum of ranks from opposite sides)</td><td class="explain">When the two people are on opposite ends of the row.</td></tr>
+  <tr><td class="label">Persons Between (Overlapping)</td><td class="formula">Between = (Sum of ranks from opposite ends) − Total − 2</td><td class="explain">When the two people are on the same side of the row.</td></tr>
+</table>
+
+<p class="section-note">B. Venn Diagrams</p>
+<table>
+  <tr><th class="label">Formula Name</th><th class="formula">Formula</th><th class="explain">Explanation</th></tr>
+  <tr><td class="label">2-Set Union</td><td class="formula">n(A∪B) = n(A) + n(B) − n(A∩B)</td><td class="explain">Total in A or B, minus those counted twice (in both).</td></tr>
+  <tr><td class="label">3-Set Union</td><td class="formula">n(A∪B∪C) = n(A)+n(B)+n(C) − n(A∩B) − n(B∩C) − n(C∩A) + n(A∩B∩C)</td><td class="explain">Add all three, subtract pairwise overlaps, add back triple overlap.</td></tr>
+  <tr><td class="label">Only A (exclusive)</td><td class="formula">Only A = n(A) − (all intersections involving A)</td><td class="explain">Elements in A but NOT in B or C.</td></tr>
+  <tr><td class="label">3-Circle Strategy</td><td class="formula">Fill innermost → subtract outwards</td><td class="explain">Always start from the center (A∩B∩C) and work outward to find "only A", "only B" regions.</td></tr>
+</table>
+
+<!-- ==================== UNIT V ==================== -->
+<h2>UNIT V: ALGEBRA</h2>
+
+<p class="section-note">A. Algebraic Identities</p>
+<table>
+  <tr><th class="label">Identity Name</th><th class="formula">Formula</th><th class="explain">Use / Tip</th></tr>
+  <tr><td class="label">Square of Sum</td><td class="formula">(x + y)² = x² + 2xy + y²</td><td class="explain">Expand or factorise expressions of the form (a+b)².</td></tr>
+  <tr><td class="label">Square of Difference</td><td class="formula">(x − y)² = x² − 2xy + y²</td><td class="explain">Same as above but subtract the middle term.</td></tr>
+  <tr><td class="label">Difference of Squares</td><td class="formula">x² − y² = (x + y)(x − y)</td><td class="explain">Used to factorise quickly. E.g., 99×101 = 100²−1.</td></tr>
+  <tr><td class="label">Product Form</td><td class="formula">(x + a)(x + b) = x² + (a+b)x + ab</td><td class="explain">Expand product of two binomials.</td></tr>
+  <tr><td class="label">Square of Trinomial</td><td class="formula">(x+y+z)² = x²+y²+z²+2xy+2yz+2zx</td><td class="explain">Expand three-term square. Used in variance &amp; statistics too.</td></tr>
+  <tr><td class="label">Cube of Sum</td><td class="formula">(x + y)³ = x³ + y³ + 3xy(x + y)</td><td class="explain">Expand cube of sum. Rearranged: x³+y³ = (x+y)³ − 3xy(x+y).</td></tr>
+  <tr><td class="label">Cube of Difference</td><td class="formula">(x − y)³ = x³ − y³ − 3xy(x − y)</td><td class="explain">Expand cube of difference.</td></tr>
+  <tr><td class="label">Sum of Cubes</td><td class="formula">x³ + y³ = (x + y)(x² − xy + y²)</td><td class="explain">Standard factorisation of sum of cubes.</td></tr>
+  <tr><td class="label">Difference of Cubes</td><td class="formula">x³ − y³ = (x − y)(x² + xy + y²)</td><td class="explain">Standard factorisation of difference of cubes.</td></tr>
+  <tr><td class="label">Sum of Cubes (3 terms)</td><td class="formula">x³+y³+z³ − 3xyz = (x+y+z)(x²+y²+z² − xy − yz − zx)</td><td class="explain">If x+y+z = 0 then x³+y³+z³ = 3xyz.</td></tr>
+</table>
+
+<p class="section-note">B. Quadratic Equations (ax² + bx + c = 0)</p>
+<table>
+  <tr><th class="label">Formula Name</th><th class="formula">Formula</th><th class="explain">Explanation</th></tr>
+  <tr><td class="label">Roots Formula</td><td class="formula">x = [−b ± √(b² − 4ac)] / 2a</td><td class="explain">Gives both roots of any quadratic equation.</td></tr>
+  <tr><td class="label">Sum of Roots (α + β)</td><td class="formula">α + β = −b / a</td><td class="explain">Add both roots = negative of (b/a).</td></tr>
+  <tr><td class="label">Product of Roots (αβ)</td><td class="formula">α × β = c / a</td><td class="explain">Multiply both roots = (c/a).</td></tr>
+  <tr><td class="label">Discriminant (Δ)</td><td class="formula">Δ = b² − 4ac</td><td class="explain">Δ &gt; 0 → real &amp; unequal roots; Δ = 0 → real &amp; equal; Δ &lt; 0 → imaginary.</td></tr>
+</table>
+
+<p class="section-note">C. Logarithm Rules</p>
+<table>
+  <tr><th class="label">Rule Name</th><th class="formula">Formula</th><th class="explain">Explanation</th></tr>
+  <tr><td class="label">Product Rule</td><td class="formula">log<sub>a</sub>(xy) = log<sub>a</sub>x + log<sub>a</sub>y</td><td class="explain">Log of a product = sum of logs. Used to split multiplication.</td></tr>
+  <tr><td class="label">Quotient Rule</td><td class="formula">log<sub>a</sub>(x/y) = log<sub>a</sub>x − log<sub>a</sub>y</td><td class="explain">Log of a division = difference of logs.</td></tr>
+  <tr><td class="label">Power Rule</td><td class="formula">log<sub>a</sub>(x<sup>r</sup>) = r · log<sub>a</sub>x</td><td class="explain">Exponent comes down as a multiplier.</td></tr>
+  <tr><td class="label">Change of Base</td><td class="formula">log<sub>b</sub>x = log<sub>a</sub>x / log<sub>a</sub>b</td><td class="explain">Convert log to any base. Useful when calculator uses only base 10.</td></tr>
+  <tr><td class="label">Identity: log of 1</td><td class="formula">log<sub>a</sub>(1) = 0</td><td class="explain">Any base log of 1 is always 0.</td></tr>
+  <tr><td class="label">Identity: log of base</td><td class="formula">log<sub>a</sub>(a) = 1</td><td class="explain">Log of a number with itself as base = 1.</td></tr>
+  <tr><td class="label">Inverse Identity</td><td class="formula">a<sup>log<sub>a</sub>x</sup> = x</td><td class="explain">Exponent and log cancel each other out.</td></tr>
+  <tr><td class="label">Inverse Identity 2</td><td class="formula">log<sub>a</sub>(a<sup>y</sup>) = y</td><td class="explain">Log and exponent cancel when same base.</td></tr>
+  <tr><td class="label">Number of Digits Trick</td><td class="formula">Digits in x<sup>n</sup> = [n × log₁₀(x)] + 1</td><td class="explain">[ ] = floor function. E.g., digits in 2¹⁰ = [10×0.301]+1 = 3+1 = 4.</td></tr>
+</table>
+
+<p class="section-note">D. Exponents / Indices</p>
+<table>
+  <tr><th class="label">Rule Name</th><th class="formula">Formula</th><th class="explain">Explanation</th></tr>
+  <tr><td class="label">Multiplication Rule</td><td class="formula">aᵐ × aⁿ = aᵐ⁺ⁿ</td><td class="explain">Same base: add exponents.</td></tr>
+  <tr><td class="label">Division Rule</td><td class="formula">aᵐ / aⁿ = aᵐ⁻ⁿ</td><td class="explain">Same base: subtract exponents.</td></tr>
+  <tr><td class="label">Power of a Power</td><td class="formula">(aᵐ)ⁿ = aᵐⁿ</td><td class="explain">Nested power: multiply exponents.</td></tr>
+  <tr><td class="label">Zero Exponent</td><td class="formula">a⁰ = 1</td><td class="explain">Any non-zero base raised to 0 = 1.</td></tr>
+  <tr><td class="label">Negative Exponent</td><td class="formula">a⁻ⁿ = 1 / aⁿ</td><td class="explain">Flip to denominator to make exponent positive.</td></tr>
+  <tr><td class="label">Unit Digit Cycle (Base 2)</td><td class="formula">Cycle: 2,4,8,6 (period 4)</td><td class="explain">For 2⁴⁵: remainder of 45÷4 = 1 → unit digit = 2¹ = 2.</td></tr>
+</table>
+
+</body>
+</html>

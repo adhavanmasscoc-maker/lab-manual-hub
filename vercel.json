@@ -1,0 +1,24 @@
+{
+  "version": 2,
+  "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [
+        { "key": "X-Content-Type-Options", "value": "nosniff" },
+        { "key": "X-Frame-Options", "value": "SAMEORIGIN" },
+        { "key": "X-XSS-Protection", "value": "1; mode=block" },
+        { "key": "Referrer-Policy", "value": "strict-origin-when-cross-origin" }
+      ]
+    }
+  ],
+  "routes": [
+    {
+      "src": "/(server\\.js|Downloads.*|N.*|New%20folder.*|New folder.*|\\.git.*|\\.vercel.*|\\.env.*)",
+      "status": 403,
+      "headers": { "Content-Type": "text/plain" }
+    },
+    {
+      "handle": "filesystem"
+    }
+  ]
+}
