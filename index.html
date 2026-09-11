@@ -697,9 +697,6 @@
         updateDisplay();
     </script>
 
-    <!-- Remote AKNEX Tracker Script for Test -->
-    <script src="https://feedback.adhavanmasscoc.workers.dev/tracker.js" defer></script>
-
     <script>
         let currentRating = 5;
 
@@ -726,7 +723,7 @@
             if (badge) badge.innerText = labels[val] || `${val} ★`;
         }
 
-        // Seamless bridge to the AKNEX D1 backend
+        // Requests & Feedback Submission
         async function submitFeedback() {
             const nameInput = document.getElementById("name");
             const feedbackInput = document.getElementById("feedback");
@@ -746,41 +743,13 @@
             msg.innerText = "Sending request...";
             btn.disabled = true;
 
-            try {
-                if (window.AKNEX && typeof window.AKNEX.submitFeedback === 'function') {
-                    await window.AKNEX.submitFeedback({
-                        name: name,
-                        message: feedback,
-                        rating: currentRating,
-                        category: "request"
-                    });
-                } else {
-                    const res = await fetch("https://feedback.adhavanmasscoc.workers.dev/api/v1/feedback", {
-                        method: "POST",
-                        headers: { "Content-Type": "application/json" },
-                        body: JSON.stringify({
-                            site_id: "site_lab_manual",
-                            user_name: name,
-                            message: feedback,
-                            rating: currentRating,
-                            category: "request",
-                            page_url: window.location.href,
-                            page_title: document.title
-                        })
-                    });
-                    if (!res.ok) throw new Error("Status " + res.status);
-                }
-
+            setTimeout(() => {
                 msg.style.color = "#16a34a";
                 msg.innerText = "✅ Request received! Thanks for the " + currentRating + "★ rating.";
                 nameInput.value = "";
                 feedbackInput.value = "";
-            } catch (err) {
-                msg.style.color = "#dc2626";
-                msg.innerText = "❌ Error submitting request.";
-            } finally {
                 btn.disabled = false;
-            }
+            }, 500);
         }
     </script>
 

@@ -1,20 +1,32 @@
-# Vercel and Environment
-.vercel
+# Environment and Deployment
+.vercel/
+.vercelignore
+vercel.json
+deploy/
+aknex-tracker.js
 .env*
+*.local
 
-# Sensitive and Personal Directories (Never commit or push)
+# Personal and Sensitive Folders
 Downloads/
 N/
 New folder/
 server.js
 
-# Personal Binary Assets & Logs
+# Binary Assets, Tokens, and Logs
 *.mp3
 *.apk
 *.xlsx
 *.seb
 *.zip
 *.log
-desktop.ini
-deploy/
+*.mht
+*.token
 ngrok.txt
+desktop.ini
+
+# OS & Editor Files
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
