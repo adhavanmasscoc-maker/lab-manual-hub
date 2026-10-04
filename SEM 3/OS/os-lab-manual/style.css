@@ -322,4 +322,37 @@ code {
     .menu-toggle {
         display: flex;
     }
+
+    .topbar {
+        padding: 0 1rem;
+        height: 60px;
+    }
+
+    .scrollable-content {
+        padding: 1rem 0.75rem;
+    }
+
+    .question-block {
+        padding: 1.25rem 1rem;
+        margin-bottom: 1.25rem;
+        border-radius: 8px;
+    }
+
+    .welcome-screen h2 {
+        font-size: 1.75rem;
+    }
+
+    .welcome-screen p {
+        font-size: 0.95rem;
+        padding: 0 10px;
+    }
+
+    pre {
+        padding: 0.75rem;
+        font-size: 12px;
+    }
+
+    code {
+        font-size: 12px;
+    }
 }

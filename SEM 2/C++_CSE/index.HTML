@@ -163,6 +163,44 @@
         .aknex-hub-btn:hover .hub-arrow {
             transform: translateX(-3px);
         }
+        html, body {
+            overflow-x: hidden;
+            width: 100%;
+            max-width: 100vw;
+        }
+        @media (max-width: 640px) {
+            body {
+                padding: 12px !important;
+                padding-top: 45px !important;
+            }
+            .record-header {
+                padding: 14px 10px;
+                margin-bottom: 24px;
+            }
+            .record-header h2 {
+                font-size: 15px;
+            }
+            .record-header h3 {
+                font-size: 13px;
+            }
+            .record-header h4 {
+                font-size: 12px;
+            }
+            .program-box, .output-box {
+                padding: 10px;
+                font-size: 12px;
+                max-width: 100%;
+                word-break: break-word;
+            }
+            .aknex-hub-nav {
+                top: 8px !important;
+                right: 8px !important;
+            }
+            .aknex-hub-btn {
+                padding: 5px 10px !important;
+                font-size: 11px !important;
+            }
+        }
     </style>
     <a href="/" onclick="if(window.location.protocol==='file:'){this.href=window.location.pathname.match(/SET|MAIN/i)?'../../../index.html':'../../index.html';}" class="aknex-hub-btn">
         <span class="hub-arrow">←</span> <span>Back to Hub</span>

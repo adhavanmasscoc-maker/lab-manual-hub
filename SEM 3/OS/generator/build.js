@@ -828,16 +828,179 @@ const extraStyles = `
         .speed-dial-btn.top-btn:hover {
             background: #10b981;
         }
+
+        /* COMPREHENSIVE MOBILE VIEWPORT ALIGNMENT */
+        html, body {
+            overflow-x: hidden;
+            width: 100%;
+            max-width: 100vw;
+        }
+
         @media (max-width: 768px) {
-            .floating-speed-dial {
-                bottom: 12px;
-                right: 12px;
-                padding: 4px 8px;
+            .container {
+                max-width: 100%;
+                box-sizing: border-box;
+            }
+            .code-wrapper, pre, .output-box {
+                max-width: 100%;
+                box-sizing: border-box;
+            }
+        }
+
+        @media (max-width: 640px) {
+            .top-header {
+                padding: 8px 12px;
+                gap: 8px;
+                flex-direction: column;
+                align-items: stretch;
+            }
+            .header-left {
+                width: 100%;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+            }
+            .title-tag {
+                font-size: 13px;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                max-width: 100%;
+            }
+            .header-right {
+                width: 100%;
+                display: flex;
+                gap: 8px;
+                align-items: center;
+                justify-content: space-between;
+            }
+            .jump-select {
+                flex: 1 1 0%;
+                min-width: 0;
+                width: 0;
+                max-width: none;
+                font-size: 12px;
+                padding: 6px 8px;
+            }
+            .btn-back {
+                flex-shrink: 0;
+                padding: 6px 11px;
+                font-size: 11.5px;
                 gap: 4px;
             }
-            .speed-dial-btn {
+            .container {
+                margin: 14px auto;
+                padding: 0 10px;
+            }
+            .manual-banner {
+                padding: 16px 14px;
+                margin-bottom: 16px;
+                border-left-width: 4px;
+            }
+            .manual-banner h1 {
+                font-size: 18px;
+                line-height: 1.3;
+                word-break: break-word;
+            }
+            .manual-banner p {
+                font-size: 12.5px;
+                line-height: 1.5;
+            }
+            .index-box {
+                padding: 14px 12px;
+                margin-bottom: 20px;
+            }
+            .index-box h2 {
+                font-size: 15px;
+                margin-bottom: 10px;
+            }
+            .exp-card {
+                padding: 16px 12px;
+                margin-bottom: 20px;
+                border-radius: 8px;
+            }
+            .exp-title {
+                font-size: 17px;
+                line-height: 1.3;
+                word-break: break-word;
+            }
+            .sub-sec-title {
+                font-size: 12px;
+                margin: 14px 0 6px 0;
+                word-break: break-word;
+            }
+            .exp-content {
+                font-size: 13px;
+                line-height: 1.55;
+                word-break: break-word;
+            }
+            .exp-content ol, .exp-content ul {
+                margin-left: 18px;
+            }
+            .code-wrapper {
+                margin: 10px 0 14px 0;
+                border-radius: 6px;
+            }
+            .code-top {
+                padding: 6px 10px;
                 font-size: 11px;
+            }
+            .btn-copy {
+                padding: 3px 8px;
+                font-size: 10.5px;
+            }
+            pre {
+                padding: 10px 12px;
+                font-size: 12px;
+                -webkit-overflow-scrolling: touch;
+            }
+            .output-box {
+                padding: 10px 12px;
+                font-size: 12px;
+                word-break: break-all;
+                -webkit-overflow-scrolling: touch;
+            }
+            .box-inference, .box-result {
+                padding: 10px 12px;
+                font-size: 12.5px;
+                word-break: break-word;
+            }
+            table.index-table {
+                font-size: 12px;
+            }
+            table.index-table th, table.index-table td {
+                padding: 7px 8px;
+            }
+            .model-q-box {
+                padding: 16px 12px !important;
+                margin-bottom: 24px !important;
+                border-radius: 10px !important;
+            }
+            .q-grid-pill {
+                height: 30px;
+                font-size: 11px;
+            }
+            .topic-tag-btn {
+                padding: 4px 9px;
+                font-size: 11px;
+            }
+            .floating-speed-dial {
+                bottom: 8px;
+                left: 50%;
+                right: auto;
+                transform: translateX(-50%);
+                max-width: calc(100vw - 16px);
                 padding: 4px 6px;
+                gap: 2px;
+                justify-content: center;
+                box-shadow: 0 4px 16px rgba(0, 0, 0, 0.45);
+            }
+            .floating-speed-dial:hover {
+                transform: translateX(-50%) translateY(-2px);
+            }
+            .speed-dial-btn {
+                font-size: 10px;
+                padding: 4px 5px;
             }
         }
 `;
