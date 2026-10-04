@@ -17,4 +17,5 @@ server.js
 *.log
 desktop.ini
 deploy/
+git/
 ngrok.txt

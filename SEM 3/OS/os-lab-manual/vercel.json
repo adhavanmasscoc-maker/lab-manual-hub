@@ -1,0 +1,13 @@
+{
+  "version": 2,
+  "name": "os-lab-manual",
+  "builds": [
+    {
+      "src": "*.html",
+      "use": "@vercel/static"
+    }
+  ],
+  "routes": [
+    { "handle": "filesystem" }
+  ]
+}

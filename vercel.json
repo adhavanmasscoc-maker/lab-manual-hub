@@ -11,6 +11,12 @@
       ]
     }
   ],
+  "builds": [
+    {
+      "src": "**",
+      "use": "@vercel/static"
+    }
+  ],
   "routes": [
     {
       "src": "/(server\\.js|Downloads.*|N.*|New%20folder.*|New folder.*|\\.git.*|\\.vercel.*|\\.env.*)",
