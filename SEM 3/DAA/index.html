@@ -424,18 +424,154 @@
             text-decoration: underline;
         }
 
+        /* COMPREHENSIVE MOBILE VIEWPORT ALIGNMENT */
+        html, body {
+            overflow-x: hidden;
+            width: 100%;
+            max-width: 100vw;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 960px;
+            box-sizing: border-box;
+        }
+
+        .code-wrapper, pre, .output-box {
+            max-width: 100%;
+            box-sizing: border-box;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                max-width: 100%;
+                box-sizing: border-box;
+            }
+        }
+
         @media (max-width: 640px) {
             .top-header {
-                flex-wrap: wrap;
+                padding: 8px 12px;
                 gap: 8px;
+                flex-direction: column;
+                align-items: stretch;
+            }
+            .header-left {
+                width: 100%;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+            }
+            .title-tag {
+                font-size: 13px;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                max-width: 100%;
             }
             .header-right {
                 width: 100%;
+                display: flex;
+                gap: 8px;
+                align-items: center;
                 justify-content: space-between;
             }
             .jump-select {
-                flex: 1;
-                max-width: 220px;
+                flex: 1 1 0%;
+                min-width: 0;
+                width: 0;
+                max-width: none;
+                font-size: 12px;
+                padding: 6px 8px;
+            }
+            .btn-back {
+                flex-shrink: 0;
+                padding: 6px 11px;
+                font-size: 11.5px;
+                gap: 4px;
+            }
+            .container {
+                margin: 14px auto;
+                padding: 0 10px;
+            }
+            .manual-banner {
+                padding: 16px 14px;
+                margin-bottom: 16px;
+                border-left-width: 4px;
+            }
+            .manual-banner h1 {
+                font-size: 18px;
+                line-height: 1.3;
+                word-break: break-word;
+            }
+            .manual-banner p {
+                font-size: 12.5px;
+                line-height: 1.5;
+            }
+            .index-box {
+                padding: 14px 12px;
+                margin-bottom: 20px;
+            }
+            .index-box h2 {
+                font-size: 15px;
+                margin-bottom: 10px;
+            }
+            .exp-card {
+                padding: 16px 12px;
+                margin-bottom: 20px;
+                border-radius: 8px;
+            }
+            .exp-title {
+                font-size: 17px;
+                line-height: 1.3;
+                word-break: break-word;
+            }
+            .sub-sec-title {
+                font-size: 12px;
+                margin: 14px 0 6px 0;
+                word-break: break-word;
+            }
+            .exp-content {
+                font-size: 13px;
+                line-height: 1.55;
+                word-break: break-word;
+            }
+            .exp-content ol, .exp-content ul {
+                margin-left: 18px;
+            }
+            .code-wrapper {
+                margin: 10px 0 14px 0;
+                border-radius: 6px;
+            }
+            .code-top {
+                padding: 6px 10px;
+                font-size: 11px;
+            }
+            .btn-copy {
+                padding: 3px 8px;
+                font-size: 10.5px;
+            }
+            pre {
+                padding: 10px 12px;
+                font-size: 12px;
+                -webkit-overflow-scrolling: touch;
+            }
+            .output-box {
+                padding: 10px 12px;
+                font-size: 12px;
+                word-break: break-all;
+                -webkit-overflow-scrolling: touch;
+            }
+            .box-inference, .box-result, .box-practice {
+                padding: 10px 12px;
+                font-size: 12.5px;
+                word-break: break-word;
+            }
+            table.index-table {
+                font-size: 12px;
+            }
+            table.index-table th, table.index-table td {
+                padding: 7px 8px;
             }
         }
     </style>

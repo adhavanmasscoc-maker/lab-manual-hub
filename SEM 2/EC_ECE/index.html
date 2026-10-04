@@ -318,6 +318,31 @@
         .aknex-hub-btn:hover .hub-arrow {
             transform: translateX(-3px);
         }
+        html, body {
+            overflow-x: hidden;
+            width: 100%;
+            max-width: 100vw;
+        }
+        @media (max-width: 768px) {
+            .aknex-hub-nav {
+                top: 8px !important;
+                right: 8px !important;
+            }
+            .aknex-hub-btn {
+                padding: 5px 10px !important;
+                font-size: 11px !important;
+            }
+            .mobile-top-bar {
+                padding: 12px 14px;
+                padding-right: 120px;
+            }
+            .mobile-top-bar h2 {
+                font-size: 14px;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+            }
+        }
     </style>
     <a href="/" onclick="if(window.location.protocol==='file:'){this.href=window.location.pathname.match(/SET|MAIN/i)?'../../../index.html':'../../index.html';}" class="aknex-hub-btn">
         <span class="hub-arrow">←</span> <span>Back to Hub</span>
