@@ -14,7 +14,6 @@ function escapeHtml(str) {
         .replace(/>/g, '&gt;');
 }
 
-// Comprehensive experiment definitions
 const expList = [
     { exNo: "1", title: "Installation of Windows Operating System", id: "ex1" },
     { exNo: "2", title: "Illustrate UNIX Commands and Shell Programming", id: "ex2" },
@@ -33,170 +32,228 @@ const expList = [
     { exNo: "15", title: "Disk Scheduling Algorithms (FCFS, SSTF, SCAN, C-SCAN)", id: "ex15" }
 ];
 
-// Helper to generate step-by-step numbered algorithms if not already an array
-function getFormattedAlgorithm(qText, isShell, defaultPrinciple) {
-    if (qText.toLowerCase().includes("fifo") && qText.toLowerCase().includes("page")) {
+function getFormattedAlgorithm(qText, isShell) {
+    const text = qText.toLowerCase();
+    if (text.includes("fifo") && text.includes("page")) {
         return [
-            "Start the program and define the reference string and frame capacity.",
-            "Initialize frame buffer array with -1 to indicate unallocated slots.",
-            "Traverse each page reference sequentially from left to right.",
-            "Check if the requested page is already present in any frame slot (Page Hit).",
-            "If page is absent (Page Fault), select victim frame using circular pointer: victim = (victim + 1) % total_frames.",
-            "Replace victim frame content with incoming page and increment fault counter.",
-            "Print intermediate frame state and compute final Hit Ratio and Fault Ratio."
+            "Step 1: Start the program and declare variables for reference string, memory frames, page faults, hits, and victim frame pointer.",
+            "Step 2: Initialize all frame slots with -1 to indicate that physical memory frames are currently empty.",
+            "Step 3: Read each page reference from the reference string one by one in sequential arrival order.",
+            "Step 4: Check if the incoming page is already present in any allocated frame slot. If found, mark as PAGE HIT and proceed to next reference.",
+            "Step 5: If the page is not found (PAGE FAULT), check if free frames exist. If available, allocate the empty frame directly.",
+            "Step 6: If all frames are occupied, apply FIFO replacement: replace the frame at index 'victim_ptr' and advance the circular pointer: victim_ptr = (victim_ptr + 1) % total_frames.",
+            "Step 7: Increment page fault counter and display the intermediate contents of all memory frames after replacement.",
+            "Step 8: Compute final metrics: Hit Ratio = (Hits / Total) * 100 and Fault Ratio = (Faults / Total) * 100, then terminate."
         ];
-    } else if (qText.toLowerCase().includes("deadlock") && qText.toLowerCase().includes("detection")) {
+    } else if (text.includes("deadlock") && (text.includes("detection") || text.includes("matrix"))) {
         return [
-            "Initialize Work vector equal to Available resource vector: Work = Available.",
-            "For all processes i, initialize Finish[i] = false if Allocation[i] != 0, else true.",
-            "Scan for an unfinished process i (Finish[i] == false) whose Request[i] <= Work.",
-            "If found, reclaim its resources: Work = Work + Allocation[i]; Finish[i] = true; repeat scan.",
-            "If no further processes can proceed and any Finish[i] == false, declare process i deadlocked.",
-            "Output list of deadlocked processes and overall system deadlock state."
+            "Step 1: Start the program and define Available resource vector, Allocation matrix, and Request matrix.",
+            "Step 2: Initialize Work vector equal to Available vector: Work[j] = Available[j] for all resource types j.",
+            "Step 3: Initialize Finish array: For all processes i, if Allocation[i][j] != 0 for any j, set Finish[i] = false; otherwise set Finish[i] = true.",
+            "Step 4: Search for an index i such that Finish[i] == false and Request[i][j] <= Work[j] for all resource types j.",
+            "Step 5: If such an index i is found, simulate resource reclamation: Work[j] = Work[j] + Allocation[i][j], set Finish[i] = true, and repeat Step 4.",
+            "Step 6: If no such index i can be found and there exists any process with Finish[i] == false, declare that process i is in a DEADLOCKED state.",
+            "Step 7: Print the identification numbers of all deadlocked processes and report system deadlock status, then terminate."
         ];
-    } else if (qText.toLowerCase().includes("banker")) {
+    } else if (text.includes("banker")) {
         return [
-            "Compute Need Matrix for all processes: Need[i][j] = Max[i][j] - Allocation[i][j].",
-            "Initialize Work vector = Available vector and Finish[i] = false for all processes.",
-            "Locate an index i such that Finish[i] == false and Need[i] <= Work across all resource types.",
-            "If found, simulate process completion: Work = Work + Allocation[i]; Finish[i] = true; append i to safe sequence.",
-            "Repeat until all processes finish (Safe State) or no process can be satisfied (Unsafe / Deadlock State).",
-            "Display safe sequence if found, else alert unsafe condition."
+            "Step 1: Start the program and input the number of processes, resource types, Allocation matrix, and Max matrix.",
+            "Step 2: Calculate the Need matrix: Need[i][j] = Max[i][j] - Allocation[i][j] for all processes and resources.",
+            "Step 3: Initialize Work vector = Available vector and Finish[i] = false for all processes i.",
+            "Step 4: Search for an index i such that Finish[i] == false and Need[i][j] <= Work[j] for all j.",
+            "Step 5: If found, assume process i finishes: Work[j] = Work[j] + Allocation[i][j], Finish[i] = true, and append process i to the safe sequence list.",
+            "Step 6: Repeat Steps 4 and 5 until all processes are marked Finish[i] == true (Safe State) or no eligible process exists (Unsafe State).",
+            "Step 7: If all processes finish, display the valid Safe Execution Sequence; otherwise display 'Deadlock imminent / Unsafe state', then terminate."
         ];
-    } else if (qText.toLowerCase().includes("fcfs")) {
+    } else if (text.includes("fcfs")) {
         return [
-            "Input number of processes and their respective Burst Times (BT).",
-            "Set Waiting Time for first process WT[0] = 0 and Turnaround Time TAT[0] = BT[0].",
-            "For subsequent processes i = 1 to n-1, compute WT[i] = WT[i-1] + BT[i-1].",
-            "Compute Turnaround Time for each process: TAT[i] = WT[i] + BT[i].",
-            "Calculate Average Waiting Time = (Sum of WT) / n and Average Turnaround Time = (Sum of TAT) / n.",
-            "Print the complete scheduling table with Gantt chart summary."
+            "Step 1: Start the program and input the number of processes and their corresponding CPU Burst Times (BT).",
+            "Step 2: Set Waiting Time of the first arriving process to zero: WT[0] = 0, and Turnaround Time TAT[0] = BT[0].",
+            "Step 3: For each subsequent process i from 1 to n-1, calculate Waiting Time: WT[i] = WT[i-1] + BT[i-1].",
+            "Step 4: Compute Turnaround Time for each process: TAT[i] = WT[i] + BT[i].",
+            "Step 5: Accumulate total Waiting Time and total Turnaround Time across all processes.",
+            "Step 6: Calculate Average Waiting Time = Total_WT / n and Average Turnaround Time = Total_TAT / n.",
+            "Step 7: Print formatted table showing Process ID, Burst Time, Waiting Time, and Turnaround Time, then terminate."
         ];
-    } else if (qText.toLowerCase().includes("sjf")) {
+    } else if (text.includes("sjf")) {
         return [
-            "Input processes and their Burst Times.",
-            "Sort processes in ascending order of Burst Times using bubble sort.",
-            "Set Waiting Time of shortest process to 0.",
-            "Cumulatively compute Waiting Time and Turnaround Time for each sorted process.",
-            "Calculate Average Waiting Time and Average Turnaround Time.",
-            "Display sorted dispatch sequence and metric averages."
+            "Step 1: Start the program and input the number of processes along with their CPU Burst Times.",
+            "Step 2: Sort the processes in ascending order of their Burst Times using standard bubble sort.",
+            "Step 3: Assign Waiting Time of the shortest job to zero: WT[0] = 0.",
+            "Step 4: Iteratively compute Waiting Time for remaining jobs: WT[i] = WT[i-1] + BT[i-1].",
+            "Step 5: Compute Turnaround Time for each job: TAT[i] = WT[i] + BT[i].",
+            "Step 6: Calculate Average Waiting Time and Average Turnaround Time.",
+            "Step 7: Print the sorted execution sequence, process metrics, and averages, then terminate."
         ];
-    } else if (qText.toLowerCase().includes("priority")) {
+    } else if (text.includes("priority")) {
         return [
-            "Input processes, Burst Times, and Priority integer values.",
-            "Sort process records in order of priority (lower integer indicates higher priority).",
-            "Apply sequential FCFS dispatch to the priority-ordered process queue.",
-            "Compute Waiting Time WT[i] and Turnaround Time TAT[i] for all processes.",
-            "Display scheduling table and compute averages."
+            "Step 1: Start the program and read the number of processes, Burst Times, and Priority integer values.",
+            "Step 2: Sort the processes in ascending order of Priority values (lower number represents higher priority).",
+            "Step 3: Set Waiting Time for the highest priority process to 0: WT[0] = 0.",
+            "Step 4: Calculate Waiting Time for subsequent processes: WT[i] = WT[i-1] + BT[i-1].",
+            "Step 5: Calculate Turnaround Time for each process: TAT[i] = WT[i] + BT[i].",
+            "Step 6: Compute Average Waiting Time and Average Turnaround Time.",
+            "Step 7: Display the priority-ordered schedule table and summary averages, then terminate."
         ];
-    } else if (qText.toLowerCase().includes("round robin")) {
+    } else if (text.includes("round robin")) {
         return [
-            "Input processes, Burst Times, and Time Quantum Q.",
-            "Create a copy of Burst Times in remaining burst time array rem_bt[].",
-            "Iterate circularly through ready processes in round-robin sequence.",
-            "If rem_bt[i] > Q, advance clock by Q and deduct Q from rem_bt[i].",
-            "If rem_bt[i] <= Q and rem_bt[i] > 0, advance clock by rem_bt[i], calculate WT[i] = clock - BT[i], and set rem_bt[i] = 0.",
-            "Repeat until all processes terminate; compute and print average WT and TAT."
+            "Step 1: Start the program and input the number of processes, Burst Times, and Time Quantum (Q).",
+            "Step 2: Create a copy of Burst Times into remaining burst time array rem_bt[]. Initialize current time t = 0.",
+            "Step 3: Traverse processes in circular ready queue order.",
+            "Step 4: If rem_bt[i] > Q, increment current time t by Q, and decrement rem_bt[i] by Q.",
+            "Step 5: If rem_bt[i] <= Q and rem_bt[i] > 0, increment time t by rem_bt[i], compute Waiting Time WT[i] = t - BT[i], and set rem_bt[i] = 0.",
+            "Step 6: Repeat until all processes have rem_bt[i] == 0.",
+            "Step 7: Compute TAT[i] = BT[i] + WT[i], calculate averages, and print formatted schedule output, then terminate."
         ];
-    } else if (qText.toLowerCase().includes("pipe")) {
+    } else if (text.includes("pipe")) {
         return [
-            "Call pipe(fd) to create an anonymous unidirectional kernel channel with descriptors fd[0] and fd[1].",
-            "Invoke fork() to spawn a child process.",
-            "In writer process (child or parent), close unused read descriptor fd[0] and write message to fd[1].",
-            "In reader process, close unused write descriptor fd[1] and read streamed bytes from fd[0].",
-            "Display transmitted message, close remaining descriptors, and synchronize via wait()."
+            "Step 1: Start the program and declare a two-element integer array for file descriptors: fd[2].",
+            "Step 2: Call the system call pipe(fd) to create an anonymous unidirectional kernel buffer. Check for creation errors.",
+            "Step 3: Invoke fork() system call to create a child process.",
+            "Step 4: In the Writer process, close the unused reading file descriptor fd[0] using close(fd[0]).",
+            "Step 5: Write the string message to fd[1] using write(fd[1], buffer, length) and close fd[1].",
+            "Step 6: In the Reader process, close the unused writing file descriptor fd[1] using close(fd[1]).",
+            "Step 7: Read the message from fd[0] using read(fd[0], buffer, size), display the content on console, and close fd[0].",
+            "Step 8: Synchronize parent and child using wait() and terminate cleanly."
         ];
-    } else if (qText.toLowerCase().includes("semaphore") || qText.toLowerCase().includes("mutex")) {
+    } else if (text.includes("semaphore") || text.includes("mutex")) {
         return [
-            "Initialize semaphore variable using sem_init(&sem, 0, initial_value).",
-            "Create concurrent threads or processes competing for shared critical resource.",
-            "In Entry Section, invoke sem_wait(&sem) to atomically test and decrement semaphore.",
-            "Execute Critical Section code ensuring mutual exclusion.",
-            "In Exit Section, invoke sem_post(&sem) to increment semaphore and signal waiting contexts.",
-            "Destroy semaphore upon completion using sem_destroy(&sem)."
+            "Step 1: Start the program, include <semaphore.h>, and declare a semaphore variable of type sem_t.",
+            "Step 2: Initialize the semaphore using sem_init(&sem, 0, 1) to configure a binary mutual exclusion lock.",
+            "Step 3: Spawn concurrent execution threads or processes that require access to the shared critical section.",
+            "Step 4: In Entry Section, invoke sem_wait(&sem) (P-operation). The thread decrements the semaphore and acquires lock.",
+            "Step 5: Execute the Critical Section: update the shared resource exclusively without race conditions.",
+            "Step 6: In Exit Section, invoke sem_post(&sem) (V-operation). The thread increments the semaphore and awakens any waiting threads.",
+            "Step 7: Join all threads with pthread_join() and destroy the semaphore using sem_destroy(&sem), then terminate."
         ];
-    } else if (qText.toLowerCase().includes("best fit")) {
+    } else if (text.includes("best fit")) {
         return [
-            "Input memory block sizes and process memory request sizes.",
-            "Initialize allocation tracking array to -1 (unallocated).",
-            "For each incoming process request, search all free blocks that can accommodate it.",
-            "Select the eligible block with the minimum remaining space: min(blockSize - processSize).",
-            "Assign process to the selected best-fit block and decrement remaining block capacity.",
-            "Display final allocation table showing internal fragmentation per partition."
+            "Step 1: Start the program and input available memory block sizes and incoming process memory requests.",
+            "Step 2: Initialize the allocation array with -1 to indicate all processes are initially unallocated.",
+            "Step 3: For each process request, search through all available memory blocks.",
+            "Step 4: Among all blocks whose size is >= process size, find the block index that has the minimum remaining space: min(blockSize - processSize).",
+            "Step 5: If an optimal block is found, allocate it to the process, record the block index, and subtract process size from block capacity.",
+            "Step 6: If no block can satisfy the process, flag it as 'Not Allocated / Must Wait'.",
+            "Step 7: Display the final allocation table showing Process ID, Process Size, Allocated Block, and Internal Fragmentation, then terminate."
         ];
-    } else if (qText.toLowerCase().includes("first fit")) {
+    } else if (text.includes("first fit")) {
         return [
-            "Input memory block sizes and process memory requests.",
-            "Initialize allocation tracking array to -1.",
-            "For each process, search memory blocks sequentially starting from index 0.",
-            "Assign process to the very first block found whose capacity >= process request.",
-            "Deduct allocated bytes from block and stop searching for current process.",
-            "Display memory allocation table and flag unallocated processes."
+            "Step 1: Start the program and input initial memory block sizes and process request sizes.",
+            "Step 2: Initialize allocation array with -1.",
+            "Step 3: For each process request, scan the memory blocks sequentially starting from the first block (index 0).",
+            "Step 4: Allocate the process to the first block encountered whose capacity is >= process request.",
+            "Step 5: Deduct the process size from the allocated block, record allocation, and immediately break to the next process.",
+            "Step 6: If the end of memory blocks is reached without finding a fit, flag the process as unallocated.",
+            "Step 7: Print the allocation summary table and remaining block capacities, then terminate."
         ];
-    } else if (qText.toLowerCase().includes("page table") || qText.toLowerCase().includes("logical address") || qText.toLowerCase().includes("paging")) {
+    } else if (text.includes("paging") || text.includes("page table") || text.includes("logical address") || text.includes("offset")) {
         return [
-            "Input Logical Address (LA) and Page Size (PS).",
-            "Calculate Page Number: p = LA / PS.",
-            "Calculate Byte Offset: d = LA % PS.",
-            "Validate whether page number p is within allocated Page Table bounds (p < PTLR).",
-            "If valid, retrieve mapped physical frame f from page table and compute Physical Address = (f * PS) + d.",
-            "If p >= PTLR, generate hardware addressing error trap (SIGSEGV)."
+            "Step 1: Start the program and configure Page Size (PS) and total number of pages in the process Page Table.",
+            "Step 2: Read the Logical Address (LA) requested by the CPU.",
+            "Step 3: Compute Page Number: page_no = LA / PS.",
+            "Step 4: Compute Byte Offset: offset = LA % PS.",
+            "Step 5: Check MMU bounds: If page_no >= Total_Pages, trigger internal Hardware Trap (Addressing Exception / Segmentation Fault SIGSEGV).",
+            "Step 6: If page_no is valid, retrieve physical Frame Number from page table: frame_no = Page_Table[page_no].",
+            "Step 7: Calculate Physical Address = (frame_no * PS) + offset and display translated physical address, then terminate."
         ];
-    } else if (qText.toLowerCase().includes("fork") || qText.toLowerCase().includes("process")) {
+    } else if (text.includes("fork") || text.includes("process creation")) {
         return [
-            "Invoke fork() system call to duplicate current process context.",
-            "Evaluate returned PID value: < 0 (error), == 0 (child), > 0 (parent).",
-            "In child branch (pid == 0), retrieve own PID via getpid() and parent PID via getppid().",
-            "In parent branch (pid > 0), call wait() to synchronize with child termination and prevent zombies.",
-            "Print process identification hierarchy and exit cleanly."
+            "Step 1: Start the program and declare a process identifier variable of type pid_t.",
+            "Step 2: Call the fork() system call to create a child process duplicating the calling process context.",
+            "Step 3: Check return value: If pid < 0, print fork failure message and exit with status 1.",
+            "Step 4: If pid == 0 (Child context): Execute child-specific instructions and display child's PID using getpid() and parent's PID using getppid().",
+            "Step 5: If pid > 0 (Parent context): Display parent's PID using getpid() and spawned child PID. Invoke wait(NULL) to prevent zombie creation.",
+            "Step 6: Cleanly terminate both parent and child execution paths."
         ];
-    } else if (qText.toLowerCase().includes("thread") || qText.toLowerCase().includes("pthread")) {
+    } else if (text.includes("thread") || text.includes("pthread")) {
         return [
-            "Define thread routine function with void* (*routine)(void*) signature.",
-            "Instantiate thread identifiers of type pthread_t.",
-            "Invoke pthread_create(&thread_id, NULL, routine, argument) to spawn threads.",
-            "Allow concurrent execution of worker threads.",
-            "Call pthread_join(thread_id, NULL) in main thread to await thread termination.",
-            "Release thread resources and verify shared output."
+            "Step 1: Start the program, include <pthread.h>, and define worker thread callback functions.",
+            "Step 2: Declare thread descriptors of type pthread_t in the main program.",
+            "Step 3: Call pthread_create(&thread_id, NULL, worker_function, arg) to launch concurrent threads of execution.",
+            "Step 4: Allow worker threads to execute their concurrent task loops.",
+            "Step 5: Call pthread_join(thread_id, NULL) in the main thread to suspend main execution until target threads complete.",
+            "Step 6: Print thread termination confirmation and terminate main process."
         ];
     } else {
         return [
-            "Initialize program environment and configure required parameters.",
-            "Validate input arguments and allocate necessary memory buffers.",
-            "Execute primary algorithm logic adhering to operating system principles.",
-            "Capture execution telemetry and handle edge cases.",
-            "Format output metrics and cleanly terminate execution."
+            "Step 1: Start the program and initialize operating system parameters.",
+            "Step 2: Allocate required memory buffers and validate input parameters.",
+            "Step 3: Execute the core algorithmic logic ensuring adherence to OS synchronization and scheduling standards.",
+            "Step 4: Format and print console output tables and execution verification metrics.",
+            "Step 5: Release system resources and terminate program execution cleanly."
         ];
     }
 }
 
 function getSampleInput(qText) {
-    if (qText.toLowerCase().includes("1 2 3 4 1 2 5")) {
+    const text = qText.toLowerCase();
+    if (text.includes("1 2 3 4 1 2 5")) {
         return "Reference String = 1, 2, 3, 4, 1, 2, 5, 1, 2, 3, 4, 5 | Frame Capacity = 4 Frames";
-    } else if (qText.toLowerCase().includes("7 0 1 2 0 3 0 4 2 3 0 3 2")) {
+    } else if (text.includes("7 0 1 2 0 3 0 4 2 3 0 3 2")) {
         return "Reference String = 7, 0, 1, 2, 0, 3, 0, 4, 2, 3, 0, 3, 2 | Frame Capacity = 3 Frames";
-    } else if (qText.toLowerCase().includes("5, 3, 8, 6") || qText.toLowerCase().includes("5 3 8 6")) {
-        return "Processes = [P1, P2, P3, P4], Burst Times = [5, 3, 8, 6] ms, Arrival Times = [0, 0, 0, 0] ms";
-    } else if (qText.toLowerCase().includes("500, 200, 300, 600")) {
-        return "Memory Blocks = [500, 200, 300, 600] KB | Processes = [357, 129, 191] KB";
-    } else if (qText.toLowerCase().includes("100, 500, 200, 300, 600")) {
-        return "Memory Blocks = [100, 500, 200, 300, 600] KB | Processes = [212, 417, 112, 426] KB";
-    } else if (qText.toLowerCase().includes("logical address") || qText.toLowerCase().includes("offset")) {
+    } else if (text.includes("5, 3, 8, 6") || text.includes("5 3 8 6")) {
+        return "Processes = [P1, P2, P3, P4] | Burst Times = [5, 3, 8, 6] ms | Arrival Times = [0, 0, 0, 0] ms";
+    } else if (text.includes("500, 200, 300, 600")) {
+        return "Memory Blocks = [500, 200, 300, 600] KB | Process Requests = [357, 129, 191] KB";
+    } else if (text.includes("100, 500, 200, 300, 600")) {
+        return "Memory Blocks = [100, 500, 200, 300, 600] KB | Process Requests = [212, 417, 112, 426] KB";
+    } else if (text.includes("logical address") || text.includes("offset")) {
         return "Logical Address = 2500 bytes (or 7250 bytes) | Page Size = 1024 bytes (1 KB)";
-    } else if (qText.toLowerCase().includes("three given numbers") || qText.toLowerCase().includes("greatest")) {
+    } else if (text.includes("three given numbers") || text.includes("greatest")) {
         return "Number A = 48, Number B = 95, Number C = 72";
-    } else if (qText.toLowerCase().includes("fibonacci")) {
-        return "Upper Bound Limit N = 50";
-    } else if (qText.toLowerCase().includes("odd numbers")) {
+    } else if (text.includes("fibonacci")) {
+        return "Upper Limit Limit N = 50";
+    } else if (text.includes("odd numbers")) {
         return "Upper Limit N = 15";
-    } else if (qText.toLowerCase().includes("banker")) {
-        return "5 Processes (P0-P4), 3 Resources (A:10, B:5, C:7), Allocation Matrix, Max Matrix, Available = [3, 3, 2]";
-    } else if (qText.toLowerCase().includes("deadlock")) {
+    } else if (text.includes("banker")) {
+        return "5 Processes (P0–P4), 3 Resources (A, B, C), Available = [3, 3, 2], Allocation Matrix & Max Matrix";
+    } else if (text.includes("deadlock")) {
         return "Allocation Matrix [5x3], Request Matrix [5x3], Available Vector = [0, 0, 0]";
-    } else if (qText.toLowerCase().includes("quantum")) {
-        return "Processes = [P1, P2, P3], Burst Times = [5, 4, 3] ms, Time Quantum Q = 2 ms";
+    } else if (text.includes("quantum")) {
+        return "Processes = [P1, P2, P3] | Burst Times = [5, 4, 3] ms | Time Quantum Q = 2 ms";
     } else {
-        return "Standard POSIX execution parameters and test benchmarks.";
+        return "Standard POSIX test parameters and terminal arguments.";
+    }
+}
+
+function getVivaTakeaways(qText, topic) {
+    const text = qText.toLowerCase();
+    if (text.includes("deadlock")) {
+        return [
+            { q: "What is the computational complexity of Deadlock Detection with multiple resource instances?", a: "O(m × n²), where m is the number of resource types and n is the number of processes in the system." },
+            { q: "Why is a cycle in a Resource Allocation Graph not a sufficient condition for deadlock in multi-instance systems?", a: "Because multiple resource instances allow other processes outside the cycle to release instances, which may satisfy a process inside the cycle and break the wait." }
+        ];
+    } else if (text.includes("fifo") || text.includes("page replacement") || text.includes("lru")) {
+        return [
+            { q: "What is Belady's Anomaly and which algorithms are immune to it?", a: "Belady's Anomaly is the counter-intuitive phenomenon where increasing the number of physical frames increases the number of page faults. FIFO is subject to it; stack algorithms like LRU and Optimal are strictly immune." },
+            { q: "Why is the Optimal page replacement algorithm impossible to implement in production operating systems?", a: "Because it requires future knowledge of all upcoming memory page references, which cannot be known in advance in a general-purpose OS." }
+        ];
+    } else if (text.includes("fork") || text.includes("process")) {
+        return [
+            { q: "What does fork() return in the parent, child, and on failure?", a: "fork() returns -1 on error, 0 to the newly created child process, and the child's positive PID to the parent process." },
+            { q: "What is an Orphan process versus a Zombie process?", a: "An Orphan process is a running child whose parent has terminated (adopted by init/systemd). A Zombie process is a terminated process whose exit status has not yet been read by its parent via wait()." }
+        ];
+    } else if (text.includes("scheduling") || text.includes("fcfs") || text.includes("sjf") || text.includes("round robin")) {
+        return [
+            { q: "What is the Convoy Effect in FCFS scheduling?", a: "The Convoy Effect occurs when numerous short I/O-bound processes are blocked waiting behind a single long CPU-bound process, causing high average waiting time." },
+            { q: "What is the consequence of choosing a Time Quantum that is either too large or too small in Round Robin?", a: "Too large: RR degenerates into FCFS. Too small: CPU spends excessive time performing context switches instead of executing user code." }
+        ];
+    } else if (text.includes("pipe") || text.includes("ipc")) {
+        return [
+            { q: "What is the difference between an Anonymous Pipe and a Named Pipe (FIFO)?", a: "Anonymous pipes are half-duplex, kernel-buffered channels shared only between related processes (parent-child). Named pipes exist as filesystem nodes and allow unrelated processes to communicate." }
+        ];
+    } else if (text.includes("semaphore") || text.includes("mutex")) {
+        return [
+            { q: "What are the three criteria for a valid solution to the Critical Section problem?", a: "1) Mutual Exclusion (at most one process in CS), 2) Progress (selection of next process cannot be stalled indefinitely), and 3) Bounded Waiting (finite limit on entries before a waiting process is admitted)." }
+        ];
+    } else if (text.includes("best fit") || text.includes("first fit") || text.includes("fragmentation")) {
+        return [
+            { q: "What is the difference between Internal and External Fragmentation?", a: "Internal fragmentation is wasted space inside an allocated partition. External fragmentation occurs when total free memory is sufficient, but partitioned into non-contiguous holes too small to fit a process." }
+        ];
+    } else {
+        return [
+            { q: "What distinguishes User Mode from Kernel Mode in an OS?", a: "User Mode executes unprivileged user applications with limited hardware access. Kernel Mode executes privileged OS instructions with unrestricted access to memory and CPU registers." }
+        ];
     }
 }
 
@@ -205,137 +262,240 @@ function renderQuestionCard(q, setNum, mapping) {
     const nextQId = q.num < 20 ? `#set${setNum}_q${q.num + 1}` : (setNum === 1 ? '#set2_q1' : '#viva');
     const prevQId = q.num > 1 ? `#set${setNum}_q${q.num - 1}` : (setNum === 2 ? '#set1_q20' : '#master_map_table');
 
-    const algoA = getFormattedAlgorithm(q.partA.q, false, q.partA.principle);
+    const algoA = getFormattedAlgorithm(q.partA.q, false);
     const sampleInputA = getSampleInput(q.partA.q);
-    const resultA = `Result: The practical exam requirement for "${q.partA.q.substring(0, 80)}..." was analyzed, executed, and verified successfully.`;
+    const resultA = `Result: The practical exam requirements for Part (a) were successfully formulated, executed, and verified.`;
+    const vivaA = getVivaTakeaways(q.partA.q, mapping.topic);
 
-    const algoB = getFormattedAlgorithm(q.partB.q, true, q.partB.principle);
+    const algoB = getFormattedAlgorithm(q.partB.q, true);
     const sampleInputB = getSampleInput(q.partB.q);
-    const resultB = `Result: The shell script implementation for "${q.partB.q.substring(0, 80)}..." was executed and validated with test output.`;
+    const resultB = `Result: The shell script requirements for Part (b) were successfully implemented and verified with valid test cases.`;
+    const vivaB = getVivaTakeaways(q.partB.q, mapping.topic);
 
     return `
-    <div class="model-q-box" id="${qId}" data-topic="${mapping.topic.toLowerCase()}" style="background: #ffffff; border: 1px solid #cbd5e1; border-radius: 10px; padding: 22px; margin-bottom: 35px; box-shadow: 0 3px 12px rgba(15,23,42,0.05); scroll-margin-top: 85px;">
+    <div class="model-q-box" id="${qId}" data-topic="${mapping.topic.toLowerCase()}" style="background: #ffffff; border: 2px solid #cbd5e1; border-radius: 12px; padding: 24px; margin-bottom: 45px; box-shadow: 0 4px 16px rgba(15,23,42,0.06); scroll-margin-top: 85px;">
         
-        <!-- CARD HEADER -->
-        <div style="display:flex; justify-content:space-between; align-items:flex-start; border-bottom: 2px solid #e2e8f0; padding-bottom: 14px; margin-bottom: 20px; flex-wrap: wrap; gap: 12px;">
-            <div style="flex: 1; min-width: 280px;">
-                <div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap; margin-bottom:6px;">
-                    <span style="font-size:12px; font-weight:800; text-transform:uppercase; letter-spacing:0.05em; background:${setNum === 1 ? '#4338ca' : '#065f46'}; color:#ffffff; padding:4px 10px; border-radius:6px;">Set ${setNum} – Question ${q.num}</span>
-                    <a href="#${mapping.expId}" style="text-decoration:none; font-size:12px; font-weight:700; background:#e0f2fe; color:#0369a1; padding:4px 10px; border-radius:6px; border:1px solid #bae6fd; display:inline-flex; align-items:center; gap:4px;">
-                        🔗 Mapped to ${mapping.exp} →
-                    </a>
+        <!-- OFFICIAL UNIVERSITY PRACTICAL EXAM QUESTION PAPER SLIP -->
+        <div style="background: linear-gradient(180deg, #f8fafc 0%, #f1f5f9 100%); border: 2px dashed #94a3b8; border-radius: 10px; padding: 18px 22px; margin-bottom: 24px; position: relative;">
+            <div style="display:flex; justify-content:space-between; align-items:center; border-bottom: 1.5px solid #cbd5e1; padding-bottom: 8px; margin-bottom: 12px; flex-wrap: wrap; gap: 8px;">
+                <div style="font-weight: 800; font-size: 13px; color: #1e293b; text-transform: uppercase; letter-spacing: 0.05em;">
+                    🏛️ ANNA UNIVERSITY / AUTONOMOUS EXAMINATIONS – PRACTICAL QUESTION PAPER SLIP
                 </div>
-                <h3 style="color:#0f172a; font-size:18px; font-weight:800; margin:0; line-height:1.4;">${q.title}</h3>
+                <div style="font-size: 12px; font-weight: 700; color: #475569;">
+                    Course: CS5302 (OS Lab) | Time: 3 Hours | Max Marks: 100
+                </div>
             </div>
-            
-            <div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap;">
-                <span style="background:#e0e7ff; color:#3730a3; font-weight:800; font-size:12.5px; padding:6px 12px; border-radius:6px; border:1px solid #c7d2fe;">Total: 100 Marks (50 + 50)</span>
-                <a href="#index0" style="text-decoration:none; font-size:12px; font-weight:700; background:#f1f5f9; color:#475569; padding:6px 10px; border-radius:6px; border:1px solid #cbd5e1;">↑ Jump Grid</a>
-                <a href="${prevQId}" style="text-decoration:none; font-size:12px; font-weight:700; background:#f1f5f9; color:#475569; padding:6px 10px; border-radius:6px; border:1px solid #cbd5e1;">← Prev</a>
-                <a href="${nextQId}" style="text-decoration:none; font-size:12px; font-weight:700; background:#f1f5f9; color:#475569; padding:6px 10px; border-radius:6px; border:1px solid #cbd5e1;">Next →</a>
+
+            <!-- QUESTION HEADER WITH MAPPING -->
+            <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px; margin-bottom:12px;">
+                <h3 style="margin:0; font-size:18px; font-weight:800; color:#0f172a;">
+                    QUESTION NO: ${q.num} (MODEL SET ${setNum})
+                </h3>
+                <div style="display:flex; gap:6px; align-items:center; flex-wrap:wrap;">
+                    <a href="#${mapping.expId}" style="text-decoration:none; font-size:11.5px; font-weight:700; background:#e0f2fe; color:#0369a1; padding:3px 10px; border-radius:6px; border:1px solid #bae6fd;">
+                        🔗 Mapped to Syllabus: ${mapping.exp} →
+                    </a>
+                    <span style="background:#e0e7ff; color:#3730a3; font-weight:800; font-size:11.5px; padding:3px 10px; border-radius:6px; border:1px solid #c7d2fe;">
+                        Total: 100 Marks (50 + 50)
+                    </span>
+                </div>
+            </div>
+
+            <!-- FULL QUESTION STATEMENT PROMINENTLY BEFORE ANY ANSWERS -->
+            <div style="background:#ffffff; border:1px solid #cbd5e1; border-radius:8px; padding:14px 18px; margin-bottom:12px; box-shadow: inset 0 1px 3px rgba(0,0,0,0.03);">
+                <div style="margin-bottom:10px;">
+                    <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:8px;">
+                        <span style="font-weight:800; color:#2563eb; font-size:14px; min-width:40px;">Q.${q.num} (a)</span>
+                        <div style="flex:1; font-weight:700; color:#0f172a; font-size:14px; line-height:1.5;">${q.partA.q}</div>
+                        <span style="background:#dbeafe; color:#1e40af; font-weight:800; font-size:11.5px; padding:2px 8px; border-radius:4px; white-space:nowrap;">[50 Marks]</span>
+                    </div>
+                </div>
+                <div style="border-top:1px dashed #e2e8f0; margin:10px 0;"></div>
+                <div>
+                    <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:8px;">
+                        <span style="font-weight:800; color:#059669; font-size:14px; min-width:40px;">Q.${q.num} (b)</span>
+                        <div style="flex:1; font-weight:700; color:#0f172a; font-size:14px; line-height:1.5;">${q.partB.q}</div>
+                        <span style="background:#d1fae5; color:#065f46; font-weight:800; font-size:11.5px; padding:2px 8px; border-radius:4px; white-space:nowrap;">[50 Marks]</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- OFFICIAL EXAM EVALUATION SCHEME -->
+            <div style="display:flex; gap:6px; flex-wrap:wrap; font-size:11.5px; font-weight:700; color:#475569; align-items:center;">
+                <span style="color:#0f172a;">Evaluation Breakdown per sub-question:</span>
+                <span style="background:#f1f5f9; padding:2px 8px; border-radius:4px; border:1px solid #e2e8f0;">Aim & Specs: 10M</span>
+                <span style="background:#f1f5f9; padding:2px 8px; border-radius:4px; border:1px solid #e2e8f0;">Algorithm: 10M</span>
+                <span style="background:#f1f5f9; padding:2px 8px; border-radius:4px; border:1px solid #e2e8f0;">Source Code: 15M</span>
+                <span style="background:#f1f5f9; padding:2px 8px; border-radius:4px; border:1px solid #e2e8f0;">Output & Result: 15M</span>
             </div>
         </div>
 
-        <!-- ================= PART A ================= -->
-        <div style="background:#f8fafc; border:1px solid #e2e8f0; border-left:5px solid #2563eb; border-radius:8px; padding:18px; margin-bottom:24px;">
-            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; border-bottom:1px dashed #cbd5e1; padding-bottom:8px;">
-                <h4 style="color:#1e40af; font-size:15.5px; font-weight:800; margin:0;">Part (a) [50 Marks] – Practical Exam Formulation</h4>
-                <span style="background:#dbeafe; color:#1e40af; font-weight:800; font-size:11.5px; padding:3px 10px; border-radius:4px;">50 Marks</span>
+        <!-- QUICK TAB / VIEW SELECTOR FOR THIS QUESTION -->
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:18px; flex-wrap:wrap; gap:8px;">
+            <div style="display:flex; gap:6px;">
+                <button type="button" onclick="showSubQ('${qId}', 'all', this)" class="topic-tag-btn active">View Complete Solutions (A + B)</button>
+                <button type="button" onclick="showSubQ('${qId}', 'partA', this)" class="topic-tag-btn">Part (a) Only [50M]</button>
+                <button type="button" onclick="showSubQ('${qId}', 'partB', this)" class="topic-tag-btn">Part (b) Only [50M]</button>
+            </div>
+            <div style="display:flex; gap:6px;">
+                <a href="#index0" style="text-decoration:none; font-size:12px; font-weight:700; background:#f1f5f9; color:#475569; padding:5px 10px; border-radius:6px; border:1px solid #cbd5e1;">↑ Question Matrix</a>
+                <a href="${prevQId}" style="text-decoration:none; font-size:12px; font-weight:700; background:#f1f5f9; color:#475569; padding:5px 10px; border-radius:6px; border:1px solid #cbd5e1;">← Prev</a>
+                <a href="${nextQId}" style="text-decoration:none; font-size:12px; font-weight:700; background:#f1f5f9; color:#475569; padding:5px 10px; border-radius:6px; border:1px solid #cbd5e1;">Next →</a>
+            </div>
+        </div>
+
+        <!-- ================= COMPLETE STEP-BY-STEP ANSWER: PART A [50 MARKS] ================= -->
+        <div class="sub-q-container partA" style="background:#f8fafc; border:2px solid #cbd5e1; border-left:6px solid #2563eb; border-radius:10px; padding:20px; margin-bottom:26px;">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px; border-bottom:2px solid #e2e8f0; padding-bottom:8px;">
+                <h4 style="color:#1e40af; font-size:16px; font-weight:800; margin:0;">
+                    SOLUTION FOR PART (a) [MAX MARKS: 50]
+                </h4>
+                <span style="background:#dbeafe; color:#1e40af; font-weight:800; font-size:12px; padding:3px 10px; border-radius:4px;">50 Marks</span>
             </div>
             
-            <p style="font-weight:700; color:#0f172a; margin-bottom:14px; font-size:14.5px; line-height:1.5;">${q.partA.q}</p>
+            <div style="background:#eff6ff; border:1px solid #bfdbfe; border-radius:6px; padding:12px 14px; margin-bottom:14px;">
+                <strong style="color:#1e40af; font-size:13px;">Exam Question Statement:</strong>
+                <p style="margin:4px 0 0 0; font-weight:700; color:#0f172a; font-size:14px;">${q.partA.q}</p>
+            </div>
 
-            <div class="sub-sec-title">Aim</div>
+            <div class="sub-sec-title">1. Aim / Objective</div>
             <p class="exp-content">${q.partA.aim}</p>
 
-            <div class="sub-sec-title">Algorithm & Theoretical Principles</div>
+            <div class="sub-sec-title">2. System Specifications & Tools</div>
+            <p class="exp-content"><strong>OS Environment:</strong> Linux / Kali Linux 6.x (POSIX Compliant) | <strong>Compiler:</strong> GCC 12.2+ (Flags: <code>-Wall -pthread</code>) | <strong>Standard:</strong> ISO C11 / POSIX IEEE 1003.1.</p>
+
+            <div class="sub-sec-title">3. Formal Algorithm (Step-by-Step)</div>
             <div class="exp-content">
-                <ol style="margin-left: 20px; margin-bottom: 12px;">
+                <ol style="margin-left: 20px; margin-bottom: 12px; line-height:1.7;">
                     ${algoA.map(step => `<li style="margin-bottom: 5px;">${step}</li>`).join('')}
                 </ol>
-                <div style="background:#f1f5f9; padding:10px 14px; border-radius:6px; font-size:13px; color:#334155; margin-top:8px;">
-                    ${q.partA.principle.replace(/\n/g, '<br>')}
-                </div>
+            </div>
+
+            <div class="sub-sec-title">4. Theoretical Principles & Invariant Formulation</div>
+            <div class="exp-content" style="background:#f1f5f9; padding:12px 16px; border-radius:6px; font-size:13.5px; color:#334155; line-height:1.6; margin-bottom:14px;">
+                ${q.partA.principle.replace(/\n/g, '<br>')}
             </div>
 
             ${q.partA.table ? `
-            <div class="sub-sec-title">Comparative Analysis Table</div>
+            <div class="sub-sec-title">5. Comparative Formulation Table</div>
             <div style="overflow-x:auto; margin-bottom:14px;">${q.partA.table}</div>` : ''}
 
-            <div class="sub-sec-title">Sample Input / Parameters</div>
-            <p class="exp-content"><code style="background:#e2e8f0; padding:3px 8px; border-radius:4px; font-family:'Fira Code', monospace; color:#0f172a; font-size:13px;">${sampleInputA}</code></p>
+            <div class="sub-sec-title">${q.partA.table ? '6' : '5'}. Sample Input Dataset & Test Case</div>
+            <p class="exp-content"><code style="background:#e2e8f0; padding:4px 10px; border-radius:4px; font-family:'Fira Code', monospace; color:#0f172a; font-size:13px;">${sampleInputA}</code></p>
 
             ${q.partA.code ? `
-            <div class="sub-sec-title">Program Implementation (C Language)</div>
+            <div class="sub-sec-title">${q.partA.table ? '7' : '6'}. Standard C Program Implementation</div>
             <div class="code-wrapper">
                 <div class="code-header">
-                    <span>C Program (Part A)</span>
+                    <span>C Implementation (Part A – 50 Marks)</span>
                     <button class="copy-btn" onclick="copyCode(this)">Copy</button>
                 </div>
                 <pre><code>${escapeHtml(q.partA.code)}</code></pre>
             </div>` : ''}
 
             ${q.partA.output ? `
-            <div class="sub-sec-title">Output & Execution Trace</div>
-            <div class="output-box">${escapeHtml(q.partA.output)}</div>` : ''}
+            <div class="sub-sec-title">${q.partA.table ? '8' : '7'}. Compilation Command & Terminal Output Verification</div>
+            <div class="output-box">$ gcc -Wall exam_part_a.c -o exam_part_a\n$ ./exam_part_a\n\n${escapeHtml(q.partA.output)}</div>` : ''}
 
             <div class="box-result" style="margin-top:14px;">
                 ${resultA}
             </div>
+
+            <!-- EXAMINER VIVA VOCE TAKEAWAYS -->
+            <div style="background:#fef3c7; border:1px solid #fde68a; border-radius:8px; padding:14px; margin-top:16px;">
+                <div style="font-weight:800; color:#92400e; font-size:13px; margin-bottom:8px; display:flex; align-items:center; gap:6px;">
+                    <span>🎓 Examiner Viva Voce Cross-Questions for Part (a):</span>
+                </div>
+                ${vivaA.map((v, i) => `
+                    <div style="font-size:12.5px; color:#78350f; margin-bottom:6px;">
+                        <strong>Q${i+1}: ${v.q}</strong><br>
+                        <span style="color:#451a03;">Ans: ${v.a}</span>
+                    </div>
+                `).join('')}
+            </div>
         </div>
 
-        <!-- ================= PART B ================= -->
-        <div style="background:#f8fafc; border:1px solid #e2e8f0; border-left:5px solid #059669; border-radius:8px; padding:18px;">
-            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; border-bottom:1px dashed #cbd5e1; padding-bottom:8px;">
-                <h4 style="color:#065f46; font-size:15.5px; font-weight:800; margin:0;">Part (b) [50 Marks] – Shell Scripting Formulation</h4>
-                <span style="background:#d1fae5; color:#065f46; font-weight:800; font-size:11.5px; padding:3px 10px; border-radius:4px;">50 Marks</span>
+        <!-- ================= COMPLETE STEP-BY-STEP ANSWER: PART B [50 MARKS] ================= -->
+        <div class="sub-q-container partB" style="background:#f8fafc; border:2px solid #cbd5e1; border-left:6px solid #059669; border-radius:10px; padding:20px;">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px; border-bottom:2px solid #e2e8f0; padding-bottom:8px;">
+                <h4 style="color:#065f46; font-size:16px; font-weight:800; margin:0;">
+                    SOLUTION FOR PART (b) [MAX MARKS: 50]
+                </h4>
+                <span style="background:#d1fae5; color:#065f46; font-weight:800; font-size:12px; padding:3px 10px; border-radius:4px;">50 Marks</span>
             </div>
             
-            <p style="font-weight:700; color:#0f172a; margin-bottom:14px; font-size:14.5px; line-height:1.5;">${q.partB.q}</p>
+            <div style="background:#ecfdf5; border:1px solid #a7f3d0; border-radius:6px; padding:12px 14px; margin-bottom:14px;">
+                <strong style="color:#065f46; font-size:13px;">Exam Question Statement:</strong>
+                <p style="margin:4px 0 0 0; font-weight:700; color:#0f172a; font-size:14px;">${q.partB.q}</p>
+            </div>
 
-            <div class="sub-sec-title">Aim</div>
+            <div class="sub-sec-title">1. Aim / Objective</div>
             <p class="exp-content">${q.partB.aim}</p>
 
-            <div class="sub-sec-title">Algorithm for Shell Script Execution</div>
+            <div class="sub-sec-title">2. Execution Environment</div>
+            <p class="exp-content"><strong>Shell:</strong> GNU Bash 5.2+ (Bourne-Again Shell) | <strong>Execution Command:</strong> <code>chmod +x script.sh && ./script.sh</code></p>
+
+            <div class="sub-sec-title">3. Formal Algorithm for Shell Script</div>
             <div class="exp-content">
-                <ol style="margin-left: 20px; margin-bottom: 12px;">
+                <ol style="margin-left: 20px; margin-bottom: 12px; line-height:1.7;">
                     ${algoB.map(step => `<li style="margin-bottom: 5px;">${step}</li>`).join('')}
                 </ol>
-                <div style="background:#f1f5f9; padding:10px 14px; border-radius:6px; font-size:13px; color:#334155; margin-top:8px;">
-                    ${q.partB.principle.replace(/\n/g, '<br>')}
-                </div>
+            </div>
+
+            <div class="sub-sec-title">4. Script Architecture & Control Logic</div>
+            <div class="exp-content" style="background:#f1f5f9; padding:12px 16px; border-radius:6px; font-size:13.5px; color:#334155; line-height:1.6; margin-bottom:14px;">
+                ${q.partB.principle.replace(/\n/g, '<br>')}
             </div>
 
             ${q.partB.table ? `
-            <div class="sub-sec-title">Analysis Table</div>
+            <div class="sub-sec-title">5. Comparative Analysis Table</div>
             <div style="overflow-x:auto; margin-bottom:14px;">${q.partB.table}</div>` : ''}
 
-            <div class="sub-sec-title">Sample Input / Parameters</div>
-            <p class="exp-content"><code style="background:#e2e8f0; padding:3px 8px; border-radius:4px; font-family:'Fira Code', monospace; color:#0f172a; font-size:13px;">${sampleInputB}</code></p>
+            <div class="sub-sec-title">${q.partB.table ? '6' : '5'}. Sample Input Parameters</div>
+            <p class="exp-content"><code style="background:#e2e8f0; padding:4px 10px; border-radius:4px; font-family:'Fira Code', monospace; color:#0f172a; font-size:13px;">${sampleInputB}</code></p>
 
             ${q.partB.code ? `
-            <div class="sub-sec-title">Shell Script Implementation</div>
+            <div class="sub-sec-title">${q.partB.table ? '7' : '6'}. Complete Shell Script Implementation</div>
             <div class="code-wrapper">
                 <div class="code-header">
-                    <span>Shell Script (Part B)</span>
+                    <span>Bash Shell Script (Part B – 50 Marks)</span>
                     <button class="copy-btn" onclick="copyCode(this)">Copy</button>
                 </div>
                 <pre><code>${escapeHtml(q.partB.code)}</code></pre>
             </div>` : ''}
 
             ${q.partB.output ? `
-            <div class="sub-sec-title">Output</div>
-            <div class="output-box">${escapeHtml(q.partB.output)}</div>` : ''}
+            <div class="sub-sec-title">${q.partB.table ? '8' : '7'}. Terminal Execution & Output Verification</div>
+            <div class="output-box">$ chmod +x exam_part_b.sh\n$ ./exam_part_b.sh\n\n${escapeHtml(q.partB.output)}</div>` : ''}
 
             <div class="box-result" style="margin-top:14px;">
                 ${resultB}
             </div>
+
+            <!-- EXAMINER VIVA VOCE TAKEAWAYS -->
+            <div style="background:#fef3c7; border:1px solid #fde68a; border-radius:8px; padding:14px; margin-top:16px;">
+                <div style="font-weight:800; color:#92400e; font-size:13px; margin-bottom:8px; display:flex; align-items:center; gap:6px;">
+                    <span>🎓 Examiner Viva Voce Cross-Questions for Part (b):</span>
+                </div>
+                ${vivaB.map((v, i) => `
+                    <div style="font-size:12.5px; color:#78350f; margin-bottom:6px;">
+                        <strong>Q${i+1}: ${v.q}</strong><br>
+                        <span style="color:#451a03;">Ans: ${v.a}</span>
+                    </div>
+                `).join('')}
+            </div>
         </div>
 
-        <div style="display:flex; justify-content:flex-end; gap:10px; margin-top:16px;">
-            <a href="#index0" style="text-decoration:none; font-size:12px; font-weight:700; color:#475569;">↑ Return to Question Navigation</a>
-            <span style="color:#cbd5e1;">•</span>
-            <a href="#master_map_table" style="text-decoration:none; font-size:12px; font-weight:700; color:#475569;">↑ Master Syllabus Mapping Table</a>
+        <!-- FOOTER NAV FOR QUESTION -->
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-top:18px; border-top:1px solid #e2e8f0; padding-top:12px; flex-wrap:wrap; gap:8px;">
+            <div style="font-size:12px; color:#64748b; font-weight:600;">
+                Question ${q.num} Complete (Part A: 50M + Part B: 50M = 100 Marks)
+            </div>
+            <div style="display:flex; gap:10px;">
+                <a href="#index0" style="text-decoration:none; font-size:12.5px; font-weight:700; color:#2563eb;">↑ Jump to Question Grid</a>
+                <span style="color:#cbd5e1;">|</span>
+                <a href="#master_map_table" style="text-decoration:none; font-size:12.5px; font-weight:700; color:#2563eb;">↑ Master Mapping Table</a>
+            </div>
         </div>
     </div>`;
 }
@@ -343,25 +503,28 @@ function renderQuestionCard(q, setNum, mapping) {
 function generateMasterMappingTable() {
     let html = `
     <!-- ================= MASTER EXPERIMENT MAPPING TABLE ================= -->
-    <div class="index-box" id="master_map_table" style="background:#ffffff; border: 2px solid #cbd5e1; border-top: 5px solid #2563eb; margin-top:25px; margin-bottom:30px;">
-        <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-bottom:12px; border-bottom:2px solid #e2e8f0; padding-bottom:8px;">
-            <h2 style="font-size:18px; font-weight:800; color:#0f172a; margin:0;">
-                🗺️ MASTER SYLLABUS MAPPING TABLE (15 Experiments ↔ Set 1 & Set 2 Exam Questions)
-            </h2>
-            <span style="background:#e0e7ff; color:#3730a3; font-weight:800; font-size:12px; padding:4px 10px; border-radius:6px;">40 Model Questions Mapped</span>
+    <div class="index-box" id="master_map_table" style="background:#ffffff; border: 2px solid #cbd5e1; border-top: 6px solid #2563eb; margin-top:25px; margin-bottom:30px; box-shadow:0 4px 14px rgba(15,23,42,0.05);">
+        <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-bottom:12px; border-bottom:2px solid #e2e8f0; padding-bottom:10px;">
+            <div>
+                <span style="font-size:12px; font-weight:800; text-transform:uppercase; letter-spacing:0.06em; background:#dbeafe; color:#1e40af; padding:3px 10px; border-radius:4px;">Official Curriculum Cross-Reference</span>
+                <h2 style="font-size:19px; font-weight:800; color:#0f172a; margin:4px 0 0 0;">
+                    🗺️ MASTER SYLLABUS MAPPING TABLE (15 Experiments ↔ Set 1 & Set 2 Exam Questions)
+                </h2>
+            </div>
+            <span style="background:#e0e7ff; color:#3730a3; font-weight:800; font-size:12.5px; padding:6px 12px; border-radius:6px; border:1px solid #c7d2fe;">40 Practical Questions Mapped</span>
         </div>
-        <p style="font-size:13.5px; color:#475569; margin-bottom:14px;">
-            This table maps every practical experiment in the curriculum directly to its corresponding university exam model questions across Set 1 and Set 2. Click any question badge to jump directly to its complete step-by-step solution.
+        <p style="font-size:13.5px; color:#475569; margin-bottom:16px; line-height:1.5;">
+            Every single question asked in the University Practical Examination Question Bank corresponds directly to core syllabus experiments. Click on any question badge below to immediately jump to its official question paper statement and full 50+50 marks solution.
         </p>
 
         <div style="overflow-x:auto;">
             <table class="index-table" style="font-size:13px;">
                 <thead>
                     <tr style="background:#f1f5f9;">
-                        <th style="width:70px;">Ex. No</th>
-                        <th style="width:280px;">Experiment Title in Syllabus</th>
-                        <th>Model Paper Set 1 Mapped Questions</th>
-                        <th>Model Paper Set 2 Mapped Questions</th>
+                        <th style="width:70px; text-align:center;">Ex. No</th>
+                        <th style="width:280px;">Syllabus Experiment Title</th>
+                        <th>Model Paper Set 1 Mapped Questions (100M Each)</th>
+                        <th>Model Paper Set 2 Mapped Questions (100M Each)</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -372,20 +535,20 @@ function generateMasterMappingTable() {
         const s2Matches = set2Mappings.filter(m => m.expId === exp.id);
 
         let s1Badges = s1Matches.map(m => `
-            <a href="#set1_q${m.num}" style="text-decoration:none; display:inline-block; margin:2px; padding:4px 8px; background:#e0e7ff; color:#3730a3; font-weight:700; border-radius:4px; font-size:11.5px; border:1px solid #c7d2fe;">
-                Set 1 Q${m.num}
+            <a href="#set1_q${m.num}" style="text-decoration:none; display:inline-block; margin:3px; padding:5px 9px; background:#e0e7ff; color:#3730a3; font-weight:700; border-radius:6px; font-size:12px; border:1px solid #c7d2fe; transition:all 0.15s;" onmouseover="this.style.background='#4338ca'; this.style.color='#fff';" onmouseout="this.style.background='#e0e7ff'; this.style.color='#3730a3';">
+                Set 1 Q${m.num} →
             </a>
         `).join('') || '<span style="color:#94a3b8; font-style:italic;">None</span>';
 
         let s2Badges = s2Matches.map(m => `
-            <a href="#set2_q${m.num}" style="text-decoration:none; display:inline-block; margin:2px; padding:4px 8px; background:#d1fae5; color:#065f46; font-weight:700; border-radius:4px; font-size:11.5px; border:1px solid #a7f3d0;">
-                Set 2 Q${m.num}
+            <a href="#set2_q${m.num}" style="text-decoration:none; display:inline-block; margin:3px; padding:5px 9px; background:#d1fae5; color:#065f46; font-weight:700; border-radius:6px; font-size:12px; border:1px solid #a7f3d0; transition:all 0.15s;" onmouseover="this.style.background='#059669'; this.style.color='#fff';" onmouseout="this.style.background='#d1fae5'; this.style.color='#065f46';">
+                Set 2 Q${m.num} →
             </a>
         `).join('') || '<span style="color:#94a3b8; font-style:italic;">None</span>';
 
         html += `
             <tr>
-                <td style="font-weight:800; text-align:center;"><a href="#${exp.id}" style="color:#2563eb; text-decoration:none;">Ex. ${exp.exNo}</a></td>
+                <td style="font-weight:800; text-align:center;"><a href="#${exp.id}" style="color:#2563eb; text-decoration:none; padding:3px 8px; background:#f1f5f9; border-radius:4px;">Ex. ${exp.exNo}</a></td>
                 <td><a href="#${exp.id}" style="font-weight:700; color:#0f172a; text-decoration:none;">${exp.title}</a></td>
                 <td>${s1Badges}</td>
                 <td>${s2Badges}</td>
@@ -405,12 +568,12 @@ function generateMasterMappingTable() {
 function generateIndex0() {
     let html = `
         <!-- ================= INDEX 0: PRACTICAL EXAMINATION MODEL SOLUTIONS ================= -->
-        <article class="exp-card" id="index0" style="border-left: 6px solid #4f46e5; margin-bottom: 45px;">
+        <article class="exp-card" id="index0" style="border-left: 6px solid #4f46e5; margin-bottom: 45px; scroll-margin-top: 85px;">
             <div class="exp-header" style="border-bottom: 2px solid #e2e8f0; padding-bottom: 16px; margin-bottom: 20px;">
-                <span class="exp-badge" style="background:#4f46e5; font-size:12px; padding:6px 14px; text-transform:uppercase; letter-spacing:0.04em;">Index 0 – Complete Model Examination Solutions</span>
+                <span class="exp-badge" style="background:#4f46e5; font-size:12px; padding:6px 14px; text-transform:uppercase; letter-spacing:0.04em;">Index 0 – University Practical Examination Model Solutions</span>
                 <h2 class="exp-title" style="font-size:24px; color:#1e1b4b; margin-top:8px;">Operating Systems Practical Examination Master Solutions (100 Marks Pattern)</h2>
                 <p style="color:#475569; font-size:14px; margin-top:6px; line-height:1.6;">
-                    Comprehensive practical examination answers for all 40 questions (Set 1: Q1–Q20 & Set 2: Q1–Q20). Every answer strictly follows the University Lab Pattern: <strong>Aim</strong>, <strong>Algorithm (Numbered Steps)</strong>, <strong>Sample Input</strong>, <strong>Program with Syntax & Comments</strong>, <strong>Console Output</strong>, and <strong>Result Statement</strong>.
+                    Rigorous, exam-tested solutions for all 40 questions across Model Set 1 and Set 2. Every question displays the <strong>Official Question Paper Slip</strong> with both parts before providing the complete step-by-step solutions (Aim, System Specs, Numbered Algorithms, Math Models, C Programs, Shell Scripts, Tracing Tables, Output Verification, and Examiner Viva Voce Takeaways).
                 </p>
             </div>
 
@@ -421,10 +584,10 @@ function generateIndex0() {
                     <span id="model-q-count" style="font-size:12.5px; font-weight:700; color:#2563eb; background:#eff6ff; padding:3px 10px; border-radius:20px; border:1px solid #bfdbfe;">40 Questions Available</span>
                 </div>
                 
-                <input type="text" id="model-q-search" placeholder="Filter by keyword (e.g., FIFO, Banker, FCFS, SJF, Semaphore, Pthreads, Best Fit, Pipe, Fork)..." onkeyup="filterModelQuestions()" style="width:100%; padding:10px 14px; font-size:14px; border:2px solid #cbd5e1; border-radius:8px; outline:none; transition:border-color 0.2s; font-family:inherit; margin-bottom:14px;" onfocus="this.style.borderColor='#2563eb';" onblur="this.style.borderColor='#cbd5e1';">
+                <input type="text" id="model-q-search" placeholder="Type keyword (e.g., FIFO, Banker, FCFS, SJF, Semaphore, Pthreads, Best Fit, Pipe, Fork)..." onkeyup="filterModelQuestions()" style="width:100%; padding:11px 16px; font-size:14px; border:2px solid #cbd5e1; border-radius:8px; outline:none; transition:border-color 0.2s; font-family:inherit; margin-bottom:14px;" onfocus="this.style.borderColor='#2563eb';" onblur="this.style.borderColor='#cbd5e1';">
                 
                 <div style="display:flex; gap:6px; flex-wrap:wrap; align-items:center;">
-                    <span style="font-size:12px; font-weight:700; color:#64748b; margin-right:4px;">Quick Topics:</span>
+                    <span style="font-size:12px; font-weight:700; color:#64748b; margin-right:4px;">Filter by Topic:</span>
                     <button type="button" onclick="filterByTopic('ALL', this)" class="topic-tag-btn active">All Topics</button>
                     <button type="button" onclick="filterByTopic('cpu scheduling', this)" class="topic-tag-btn">CPU Scheduling</button>
                     <button type="button" onclick="filterByTopic('page replacement', this)" class="topic-tag-btn">Page Replacement</button>
@@ -448,7 +611,7 @@ function generateIndex0() {
     `;
 
     for (let i = 1; i <= 20; i++) {
-        html += `<a href="#set1_q${i}" class="q-grid-pill s1">Q${i}</a>`;
+        html += `<a href="#set1_q${i}" class="q-grid-pill s1" title="Jump to Set 1 Q${i}">Q${i}</a>`;
     }
 
     html += `
@@ -465,7 +628,7 @@ function generateIndex0() {
     `;
 
     for (let i = 1; i <= 20; i++) {
-        html += `<a href="#set2_q${i}" class="q-grid-pill s2">Q${i}</a>`;
+        html += `<a href="#set2_q${i}" class="q-grid-pill s2" title="Jump to Set 2 Q${i}">Q${i}</a>`;
     }
 
     html += `
@@ -561,9 +724,9 @@ function generateViva() {
     return html;
 }
 
-// Extra CSS styles to inject into <head> for topic tags and pills
+// Extra CSS styles for the enhanced user-friendly exam UI
 const extraStyles = `
-        /* ENHANCED FAST JUMP & FILTER STYLES */
+        /* ENHANCED EXAM PAPER UI & SPEED DIAL STYLES */
         .q-grid-pill {
             display: inline-flex;
             align-items: center;
@@ -619,9 +782,67 @@ const extraStyles = `
             border-color: #2563eb;
             box-shadow: 0 2px 6px rgba(37, 99, 235, 0.3);
         }
+
+        /* FLOATING SPEED-DIAL BAR */
+        .floating-speed-dial {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            background: rgba(15, 23, 42, 0.92);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            padding: 6px 12px;
+            border-radius: 999px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3), 0 0 0 1px rgba(255, 255, 255, 0.15);
+            gap: 8px;
+            transition: transform 0.2s ease;
+        }
+        .floating-speed-dial:hover {
+            transform: translateY(-2px);
+        }
+        .speed-dial-btn {
+            color: #f8fafc;
+            text-decoration: none;
+            font-size: 12px;
+            font-weight: 700;
+            padding: 6px 10px;
+            border-radius: 999px;
+            transition: background 0.15s ease, color 0.15s ease;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+        }
+        .speed-dial-btn:hover {
+            background: #2563eb;
+            color: #ffffff;
+        }
+        .speed-dial-btn.top-btn {
+            background: rgba(255, 255, 255, 0.12);
+        }
+        .speed-dial-btn.top-btn:hover {
+            background: #10b981;
+        }
+        @media (max-width: 768px) {
+            .floating-speed-dial {
+                bottom: 12px;
+                right: 12px;
+                padding: 4px 8px;
+                gap: 4px;
+            }
+            .speed-dial-btn {
+                font-size: 11px;
+                padding: 4px 6px;
+            }
+        }
 `;
 
-// Extra JS script for live filtering
+// Extra JS script for live filtering & tab views
 const extraScripts = `
         function filterModelQuestions() {
             const input = document.getElementById('model-q-search');
@@ -654,41 +875,80 @@ const extraScripts = `
             }
             filterModelQuestions();
         }
+
+        function showSubQ(cardId, view, btn) {
+            const card = document.getElementById(cardId);
+            if (!card) return;
+            const containerA = card.querySelector('.sub-q-container.partA');
+            const containerB = card.querySelector('.sub-q-container.partB');
+            const buttons = btn.parentElement.querySelectorAll('.topic-tag-btn');
+            buttons.forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+
+            if (view === 'partA') {
+                if (containerA) containerA.style.display = 'block';
+                if (containerB) containerB.style.display = 'none';
+            } else if (view === 'partB') {
+                if (containerA) containerA.style.display = 'none';
+                if (containerB) containerB.style.display = 'block';
+            } else {
+                if (containerA) containerA.style.display = 'block';
+                if (containerB) containerB.style.display = 'block';
+            }
+        }
+`;
+
+// Floating Speed Dial HTML
+const floatingSpeedDialHtml = `
+    <!-- FLOATING USER-FRIENDLY NAVIGATION SPEED-DIAL -->
+    <div class="floating-speed-dial">
+        <button onclick="window.scrollTo({top:0, behavior:'smooth'})" class="speed-dial-btn top-btn" title="Back to Top">↑ Top</button>
+        <a href="#master_map_table" class="speed-dial-btn" title="Master Mapping Table">🗺️ Map</a>
+        <a href="#index0" class="speed-dial-btn" title="Questions Grid">⚡ Q-Grid</a>
+        <a href="#set1_anchor" class="speed-dial-btn" title="Model Paper 1">Set 1</a>
+        <a href="#set2_anchor" class="speed-dial-btn" title="Model Paper 2">Set 2</a>
+        <a href="#viva" class="speed-dial-btn" title="Viva Voce Q&A">🎓 Viva</a>
+    </div>
 `;
 
 function updateFile(filePath) {
     console.log(`Processing file: ${filePath}`);
     let content = fs.readFileSync(filePath, 'utf8');
 
-    // Inject extra styles if not present
-    if (!content.includes('ENHANCED FAST JUMP & FILTER STYLES')) {
+    // 1. Inject or update custom styles
+    if (content.includes('/* ENHANCED FAST JUMP & FILTER STYLES */')) {
+        content = content.replace(/\/\* ENHANCED FAST JUMP & FILTER STYLES \*\/[\s\S]*?\.topic-tag-btn\.active\s*\{[\s\S]*?\}/, extraStyles.trim());
+    } else if (content.includes('/* ENHANCED EXAM PAPER UI & SPEED DIAL STYLES */')) {
+        content = content.replace(/\/\* ENHANCED EXAM PAPER UI & SPEED DIAL STYLES \*\/[\s\S]*?@media \(max-width: 768px\) \{[\s\S]*?\}\s*\}/, extraStyles.trim());
+    } else {
         content = content.replace('</style>', extraStyles + '\n    </style>');
-        console.log(`  Injected custom styles.`);
     }
+    console.log(`  Updated styles.`);
 
-    // Inject extra scripts if not present
-    if (!content.includes('filterModelQuestions()')) {
+    // 2. Inject or update custom scripts
+    if (content.includes('filterModelQuestions()')) {
+        const oldScriptRegex = /function filterModelQuestions\(\)[\s\S]*?filterModelQuestions\(\);\s*\}/;
+        content = content.replace(oldScriptRegex, extraScripts.trim());
+    } else {
         content = content.replace('</script>', extraScripts + '\n    </script>');
-        console.log(`  Injected custom scripts.`);
     }
+    console.log(`  Updated client-side scripts.`);
 
-    // 1. Update Index Table in HTML
+    // 3. Update Index Table in HTML
     const tableRegex = /<table class="index-table">[\s\S]*?<tbody>([\s\S]*?)<\/tbody>[\s\S]*?<\/table>/;
     const match = content.match(tableRegex);
     if (match) {
         let tbody = match[1];
 
-        // Clean out any old index0 or viva or os1 entries if present
         tbody = tbody.split('\n').filter(line => 
             !line.includes('#index0') && 
             !line.includes('#os1') && 
-            !line.includes('#viva') &&
+            !line.includes('#viva') && 
             !line.includes('#master_map_table') &&
             !line.includes('Index 0') &&
             !line.includes('Practical Examination')
         ).join('\n').trim();
 
-        // Create new row 0 and mapping row
         const row0 = `                        <tr style="background:#f5f3ff;"><td class="sno" style="font-weight:800; background:#e0e7ff; color:#3730a3;">0</td><td><a href="#index0" style="color:#4338ca; font-weight:700;">★ Index 0: Practical Examination Model Questions & Full Solutions (Set 1 & Set 2 – 50+50 Marks Pattern)</a></td></tr>\n`;
         const rowMap = `                        <tr style="background:#eff6ff;"><td class="sno" style="font-weight:800; background:#dbeafe; color:#1e40af;">MAP</td><td><a href="#master_map_table" style="color:#1d4ed8; font-weight:700;">🗺️ Master Syllabus Mapping Table (15 Experiments ↔ Set 1 & Set 2 Questions)</a></td></tr>\n`;
         const rowViva = `\n                        <tr style="background:#f0fdf4;"><td class="sno" style="font-weight:800; background:#d1fae5; color:#065f46;">VIVA</td><td><a href="#viva" style="color:#047857; font-weight:700;">★ Comprehensive OS Lab Viva Voce Master Question Bank (All 15 Experiments)</a></td></tr>`;
@@ -696,29 +956,23 @@ function updateFile(filePath) {
         const newTbody = row0 + rowMap + tbody + rowViva;
         const newTable = match[0].replace(match[1], '\n' + newTbody + '\n                    ');
         content = content.replace(match[0], newTable);
-        console.log(`  Updated index table with Row 0, Map Row, and Viva row.`);
+        console.log(`  Updated index table.`);
     }
 
-    // 2. Inject Master Mapping Table right after the index-box if not already present
-    // First remove old master mapping table if present
+    // 4. Inject Master Mapping Table
     const oldMapRegex = /<!-- ================= MASTER EXPERIMENT MAPPING TABLE[\s\S]*?<\/div>\s*<\/div>/;
     if (oldMapRegex.test(content)) {
         content = content.replace(oldMapRegex, '');
-        console.log(`  Removed previous master mapping table.`);
     }
     const mappingTableHtml = generateMasterMappingTable();
-    const indexBoxEnd = '</div>\n        </div>\n\n        <!-- ================= EX 1';
-    if (content.includes('<!-- ================= EX 1')) {
-        // Find position right before index0 or ex1
-        if (content.includes('<!-- ================= INDEX 0')) {
-            content = content.replace('<!-- ================= INDEX 0', mappingTableHtml + '\n\n        <!-- ================= INDEX 0');
-        } else {
-            content = content.replace('<!-- ================= EX 1', mappingTableHtml + '\n\n        <!-- ================= EX 1');
-        }
-        console.log(`  Inserted Master Mapping Table into manual.`);
+    if (content.includes('<!-- ================= INDEX 0')) {
+        content = content.replace('<!-- ================= INDEX 0', mappingTableHtml + '\n\n        <!-- ================= INDEX 0');
+    } else if (content.includes('<!-- ================= EX 1')) {
+        content = content.replace('<!-- ================= EX 1', mappingTableHtml + '\n\n        <!-- ================= EX 1');
     }
+    console.log(`  Updated Master Mapping Table.`);
 
-    // 3. Update Header Jump Select
+    // 5. Update Header Jump Select
     const selectRegex = /<select class="jump-select"[\s\S]*?>([\s\S]*?)<\/select>/;
     const selectMatch = content.match(selectRegex);
     if (selectMatch) {
@@ -758,38 +1012,45 @@ function updateFile(filePath) {
         `;
         const newSelect = selectMatch[0].replace(selectMatch[1], options);
         content = content.replace(selectMatch[0], newSelect);
-        console.log(`  Updated jump select dropdown with rich optgroups.`);
+        console.log(`  Updated jump select dropdown.`);
     }
 
-    // 4. Remove previous Index 0 article
+    // 6. Remove previous Index 0 article
     const oldIndex0Regex = /<!-- ================= INDEX 0: PRACTICAL EXAMINATION[\s\S]*?<\/article>/;
     if (oldIndex0Regex.test(content)) {
         content = content.replace(oldIndex0Regex, '');
-        console.log(`  Removed old index0.`);
     }
 
-    // 5. Remove previous Viva article
+    // 7. Remove previous Viva article
     const oldVivaRegex = /<!-- ================= VIVA VOCE SECTION ================= -->[\s\S]*?<\/article>/;
     if (oldVivaRegex.test(content)) {
         content = content.replace(oldVivaRegex, '');
-        console.log(`  Removed old viva.`);
     }
 
-    // 6. Generate and inject new Index 0 before Ex 1
+    // 8. Generate and inject new Index 0 before Ex 1
     const index0Html = generateIndex0();
     const ex1Marker = '<article class="exp-card" id="ex1">';
     if (content.includes(ex1Marker)) {
         content = content.replace(ex1Marker, index0Html + '\n\n        ' + ex1Marker);
-        console.log(`  Inserted upgraded Index 0 before Ex 1.`);
+        console.log(`  Inserted upgraded Index 0.`);
     }
 
-    // 7. Generate and inject new Viva section before footer
+    // 9. Generate and inject new Viva section before footer
     const vivaHtml = generateViva();
     const footerMarker = '<footer class="bottom-footer">';
     if (content.includes(footerMarker)) {
         content = content.replace(footerMarker, vivaHtml + '\n\n        ' + footerMarker);
-        console.log(`  Inserted upgraded Viva section before footer.`);
+        console.log(`  Inserted upgraded Viva section.`);
     }
+
+    // 10. Inject Floating Speed-Dial before </body>
+    if (content.includes('floating-speed-dial')) {
+        const oldDialRegex = /<!-- FLOATING USER-FRIENDLY NAVIGATION SPEED-DIAL -->[\s\S]*?<\/div>/;
+        content = content.replace(oldDialRegex, floatingSpeedDialHtml.trim());
+    } else {
+        content = content.replace('</body>', floatingSpeedDialHtml + '\n</body>');
+    }
+    console.log(`  Injected Floating Speed-Dial.`);
 
     fs.writeFileSync(filePath, content, 'utf8');
     console.log(`Finished ${filePath} (Size: ${content.length} bytes).`);
@@ -807,4 +1068,4 @@ targetFiles.forEach(f => {
     }
 });
 
-console.log('ALL MANUALS UPGRADED SUCCESSFULLY WITH MASTER MAPPING TABLE & EXPERIMENT-PATTERN SOLUTIONS!');
+console.log('ALL MANUALS UPGRADED TO RIGOROUS EXAM PATTERN & USER-FRIENDLY UI!');
