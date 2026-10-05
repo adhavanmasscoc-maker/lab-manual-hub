@@ -941,6 +941,87 @@
             border: 1px solid #334155;
         }
 
+    
+        /* COMPREHENSIVE DARK THEME OVERRIDES FOR LIC */
+        html[data-theme="dark"] .diagram-container {
+            background: #090e1a !important;
+            border-color: #1e3a8a !important;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.45) !important;
+        }
+
+        html[data-theme="dark"] .diagram-container svg {
+            color: #38bdf8 !important;
+        }
+
+        html[data-theme="dark"] .diagram-container svg * {
+            stroke: #38bdf8 !important;
+        }
+
+        html[data-theme="dark"] .diagram-container svg text {
+            stroke: none !important;
+            fill: #f8fafc !important;
+            font-weight: 600;
+        }
+
+        html[data-theme="dark"] .diagram-caption,
+        html[data-theme="dark"] .lic-diagram-desc {
+            color: #94a3b8 !important;
+        }
+
+        html[data-theme="dark"] .lic-diagram-card {
+            background: #131d33 !important;
+            border-color: #1e293b !important;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.35) !important;
+        }
+
+        html[data-theme="dark"] .lic-diagram-img-wrap {
+            background: #ffffff !important;
+            border: 2px solid #334155 !important;
+            padding: 8px !important;
+            border-radius: 8px !important;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4) !important;
+        }
+
+        html[data-theme="dark"] table {
+            background: #111a2e !important;
+            border-color: #334155 !important;
+        }
+
+        html[data-theme="dark"] th {
+            background: #1e293b !important;
+            color: #f8fafc !important;
+            border-color: #334155 !important;
+        }
+
+        html[data-theme="dark"] td {
+            border-color: #1e293b !important;
+            color: #e2e8f0 !important;
+        }
+
+        html[data-theme="dark"] td b,
+        html[data-theme="dark"] td strong {
+            color: #f8fafc !important;
+        }
+
+        html[data-theme="dark"] tr:nth-child(even) td {
+            background: rgba(30, 41, 59, 0.4) !important;
+        }
+
+        html[data-theme="dark"] tr:hover td {
+            background: rgba(37, 99, 235, 0.15) !important;
+        }
+
+        html[data-theme="dark"] td[contenteditable="true"] {
+            background: #0f172a !important;
+            color: #38bdf8 !important;
+            border-color: #334155 !important;
+        }
+
+        html[data-theme="dark"] td[contenteditable="true"]:focus {
+            background: #172554 !important;
+            box-shadow: inset 0 0 0 2px #3b82f6 !important;
+        }
+
     </style>
     <script src="/theme.js"></script>
 </head>
