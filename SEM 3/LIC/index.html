@@ -1104,6 +1104,57 @@
             color: #cbd5e1 !important;
         }
 
+        
+        /* EXAM KEY TAKEAWAY BOX (HIGH CONTRAST LIGHT & DARK THEME) */
+        .takeaway-box {
+            background: #eff6ff;
+            border: 1px solid #bfdbfe;
+            border-left: 4px solid #2563eb;
+            padding: 10px 14px;
+            border-radius: 8px;
+            font-size: 13.5px;
+            margin: 10px 0;
+            line-height: 1.55;
+            color: #1e3a8a;
+        }
+
+        .takeaway-label {
+            font-weight: 800;
+            color: #1d4ed8;
+            margin-right: 6px;
+        }
+
+        .takeaway-text {
+            color: #1e3a8a;
+        }
+
+        html[data-theme="dark"] .takeaway-box {
+            background: #172554 !important;
+            border-color: #1d4ed8 !important;
+            border-left: 4px solid #3b82f6 !important;
+            box-shadow: 0 4px 14px rgba(0, 0, 0, 0.35) !important;
+        }
+
+        html[data-theme="dark"] .takeaway-label {
+            color: #93c5fd !important;
+        }
+
+        html[data-theme="dark"] .takeaway-text {
+            color: #f8fafc !important;
+        }
+
+        /* GENERAL DARK THEME OVERRIDE FOR ANY INLINE EFF6FF ELEMENTS */
+        html[data-theme="dark"] div[style*="background:#eff6ff"] {
+            background: #172554 !important;
+            border-color: #1e40af !important;
+            color: #eff6ff !important;
+        }
+
+        html[data-theme="dark"] div[style*="background:#eff6ff"] b,
+        html[data-theme="dark"] div[style*="background:#eff6ff"] strong {
+            color: #93c5fd !important;
+        }
+
         /* SUBJECT FEEDBACK SYSTEM & FOOTER */
         .feedback-box {
             background: #ffffff;
@@ -2936,8 +2987,9 @@
                         <b>Core Aim:</b> ${e.aim}
                     </div>
                     <div class="formula-box">${e.f[0]}</div>
-                    <div style="background:#eff6ff; border:1px solid #bfdbfe; padding:8px 12px; border-radius:6px; font-size:13px; margin:8px 0;">
-                        <b>Exam Key Takeaway:</b> ${e.res}
+                    <div class="takeaway-box">
+                        <span class="takeaway-label">💡 Exam Key Takeaway:</span>
+                        <span class="takeaway-text">${e.res}</span>
                     </div>
                     <div class="viva-item" style="margin-top:6px;">
                         <div class="viva-q">Q: ${e.viva[0][0]}</div>

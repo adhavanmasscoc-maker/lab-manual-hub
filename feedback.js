@@ -113,3 +113,40 @@ async function submitSubjectFeedback(subjectName) {
         }
     }
 }
+
+
+// Automatic Date Controller for Footer Link:
+// Until October 16, 2026 -> javascript:void(0) (does not redirect)
+// On & after October 16, 2026 -> https://aknex.vercel.app (original main site link)
+(function initAknexFooterDateControl() {
+    function applyFooterState() {
+        const unlockDate = new Date("2026-10-16T00:00:00");
+        const isUnlocked = new Date() >= unlockDate;
+        const links = document.querySelectorAll(".bottom-footer a, footer a");
+        links.forEach(link => {
+            if (isUnlocked) {
+                link.href = "https://aknex.vercel.app";
+                link.target = "_blank";
+                link.onclick = null;
+            } else {
+                link.href = "javascript:void(0)";
+                link.removeAttribute("target");
+                link.onclick = function(e) {
+                    if (new Date() < unlockDate) {
+                        if (e) e.preventDefault();
+                        return false;
+                    }
+                };
+            }
+        });
+    }
+
+    if (document.readyState === "loading") {
+        document.addEventListener("DOMContentLoaded", applyFooterState);
+    } else {
+        applyFooterState();
+    }
+    // Re-check periodically
+    setInterval(applyFooterState, 60000);
+})();
+
