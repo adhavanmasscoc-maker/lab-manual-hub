@@ -346,6 +346,79 @@
             transform: scale(1.05);
         }
 
+        .code-filename {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            color: #94a3b8;
+            font-family: 'Fira Code', monospace;
+            font-size: 12px;
+        }
+
+        .code-actions {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .btn-code-action {
+            background: #1e293b;
+            color: #f1f5f9;
+            border: 1px solid #334155;
+            padding: 4px 11px;
+            border-radius: 5px;
+            font-size: 11px;
+            font-weight: 600;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            transition: all 0.2s ease;
+            user-select: none;
+        }
+
+        .btn-code-action:hover {
+            background: #334155;
+            border-color: #475569;
+            color: #ffffff;
+            transform: translateY(-1px);
+        }
+
+        .btn-toggle-comments.active {
+            background: rgba(37, 99, 235, 0.25);
+            border-color: #3b82f6;
+            color: #93c5fd;
+        }
+
+        .global-comment-toggle {
+            background: #0f172a;
+            color: #f8fafc;
+            border: 1px solid #334155;
+            padding: 7px 14px;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 700;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.2s ease;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+        }
+
+        .global-comment-toggle:hover {
+            background: #1e293b;
+            border-color: #2563eb;
+            color: #60a5fa;
+            transform: translateY(-1px);
+        }
+
+        .global-comment-toggle.active {
+            background: #2563eb;
+            border-color: #1d4ed8;
+            color: #ffffff;
+        }
+
         pre {
             padding: 15px;
             overflow-x: auto;
@@ -903,9 +976,18 @@
 
         <!-- MANUAL BANNER -->
         <div class="manual-banner">
-            <h1>CS5303 – Design and Analysis of Algorithms</h1>
-            <p><strong>Department of Computer Science and Engineering</strong> • Semester III • Academic Year 2026 – 2027</p>
-            <p style="margin-top: 4px; font-style: italic; color: #64748b;">"Analyze Problems. Design Algorithms. Optimize Solutions."</p>
+            <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 12px;">
+                <div>
+                    <h1>CS5303 – Design and Analysis of Algorithms</h1>
+                    <p><strong>Department of Computer Science and Engineering</strong> • Semester III • Academic Year 2026 – 2027</p>
+                    <p style="margin-top: 4px; font-style: italic; color: #64748b;">"Analyze Problems. Design Algorithms. Optimize Solutions."</p>
+                </div>
+                <div>
+                    <button class="global-comment-toggle" id="globalCommentToggle" onclick="toggleAllComments(this)" title="Toggle comments across all 10 experiment codes">
+                        <span class="btn-icon">👁️</span> <span class="btn-text">Hide All Comments</span>
+                    </button>
+                </div>
+            </div>
         </div>
 
         <!-- INDEX TABLE -->
@@ -1039,8 +1121,13 @@
             <div class="sub-sec-title">Program (Python)</div>
             <div class="code-wrapper">
                 <div class="code-top">
-                    <span>interpolation_search.py</span>
-                    <button class="btn-copy" onclick="copyCode(this)">Copy</button>
+                    <span class="code-filename">interpolation_search.py</span>
+                    <div class="code-actions">
+                        <button class="btn-code-action btn-toggle-comments" onclick="toggleComments(this)" title="Toggle comments in code">
+                            <span class="btn-icon">👁️</span> <span class="btn-text">Hide Comments</span>
+                        </button>
+                        <button class="btn-code-action btn-copy" onclick="copyCode(this)" title="Copy visible code to clipboard">Copy</button>
+                    </div>
                 </div>
                 <pre><code>import time
 import random
@@ -1272,8 +1359,13 @@ Algorithm 3: RABIN_KARP_SEARCH(text, pattern, prime q=101):
             <div class="sub-sec-title">Program (Python)</div>
             <div class="code-wrapper">
                 <div class="code-top">
-                    <span>string_matching.py</span>
-                    <button class="btn-copy" onclick="copyCode(this)">Copy</button>
+                    <span class="code-filename">string_matching.py</span>
+                    <div class="code-actions">
+                        <button class="btn-code-action btn-toggle-comments" onclick="toggleComments(this)" title="Toggle comments in code">
+                            <span class="btn-icon">👁️</span> <span class="btn-text">Hide Comments</span>
+                        </button>
+                        <button class="btn-code-action btn-copy" onclick="copyCode(this)" title="Copy visible code to clipboard">Copy</button>
+                    </div>
                 </div>
                 <pre><code>import time
 import random
@@ -1545,8 +1637,13 @@ Algorithm 2: PRIM_MST(Graph G(V, E), start_vertex):
             <div class="sub-sec-title">Program (Python)</div>
             <div class="code-wrapper">
                 <div class="code-top">
-                    <span>mst_algorithms.py</span>
-                    <button class="btn-copy" onclick="copyCode(this)">Copy</button>
+                    <span class="code-filename">mst_algorithms.py</span>
+                    <div class="code-actions">
+                        <button class="btn-code-action btn-toggle-comments" onclick="toggleComments(this)" title="Toggle comments in code">
+                            <span class="btn-icon">👁️</span> <span class="btn-text">Hide Comments</span>
+                        </button>
+                        <button class="btn-code-action btn-copy" onclick="copyCode(this)" title="Copy visible code to clipboard">Copy</button>
+                    </div>
                 </div>
                 <pre><code>import heapq
 
@@ -1798,8 +1895,13 @@ print(f' Total MST Cost: {p_cost}')</code></pre>
             <div class="sub-sec-title">Program (Python)</div>
             <div class="code-wrapper">
                 <div class="code-top">
-                    <span>dijkstra_shortest_path.py</span>
-                    <button class="btn-copy" onclick="copyCode(this)">Copy</button>
+                    <span class="code-filename">dijkstra_shortest_path.py</span>
+                    <div class="code-actions">
+                        <button class="btn-code-action btn-toggle-comments" onclick="toggleComments(this)" title="Toggle comments in code">
+                            <span class="btn-icon">👁️</span> <span class="btn-text">Hide Comments</span>
+                        </button>
+                        <button class="btn-code-action btn-copy" onclick="copyCode(this)" title="Copy visible code to clipboard">Copy</button>
+                    </div>
                 </div>
                 <pre><code>import heapq
 
@@ -2000,8 +2102,13 @@ STEP 5: [Return Solution]
             <div class="sub-sec-title">Program (Python)</div>
             <div class="code-wrapper">
                 <div class="code-top">
-                    <span>min_max_divide_conquer.py</span>
-                    <button class="btn-copy" onclick="copyCode(this)">Copy</button>
+                    <span class="code-filename">min_max_divide_conquer.py</span>
+                    <div class="code-actions">
+                        <button class="btn-code-action btn-toggle-comments" onclick="toggleComments(this)" title="Toggle comments in code">
+                            <span class="btn-icon">👁️</span> <span class="btn-text">Hide Comments</span>
+                        </button>
+                        <button class="btn-code-action btn-copy" onclick="copyCode(this)" title="Copy visible code to clipboard">Copy</button>
+                    </div>
                 </div>
                 <pre><code>import random
 
@@ -2197,8 +2304,13 @@ ALGORITHM PRINT_OPTIMAL_PARENS(s, i, j)
             <div class="sub-sec-title">Program (Python)</div>
             <div class="code-wrapper">
                 <div class="code-top">
-                    <span>matrix_chain_multiplication.py</span>
-                    <button class="btn-copy" onclick="copyCode(this)">Copy</button>
+                    <span class="code-filename">matrix_chain_multiplication.py</span>
+                    <div class="code-actions">
+                        <button class="btn-code-action btn-toggle-comments" onclick="toggleComments(this)" title="Toggle comments in code">
+                            <span class="btn-icon">👁️</span> <span class="btn-text">Hide Comments</span>
+                        </button>
+                        <button class="btn-code-action btn-copy" onclick="copyCode(this)" title="Copy visible code to clipboard">Copy</button>
+                    </div>
                 </div>
                 <pre><code>def matrix_chain_order(dims):
     """
@@ -2380,8 +2492,13 @@ ALGORITHM IS_SAFE(board, row, col)
             <div class="sub-sec-title">Program (Python)</div>
             <div class="code-wrapper">
                 <div class="code-top">
-                    <span>n_queens_backtracking.py</span>
-                    <button class="btn-copy" onclick="copyCode(this)">Copy</button>
+                    <span class="code-filename">n_queens_backtracking.py</span>
+                    <div class="code-actions">
+                        <button class="btn-code-action btn-toggle-comments" onclick="toggleComments(this)" title="Toggle comments in code">
+                            <span class="btn-icon">👁️</span> <span class="btn-text">Hide Comments</span>
+                        </button>
+                        <button class="btn-code-action btn-copy" onclick="copyCode(this)" title="Copy visible code to clipboard">Copy</button>
+                    </div>
                 </div>
                 <pre><code>def is_safe(board, row, col):
     """
@@ -2589,8 +2706,13 @@ STEP 5: RETURN (best_tour, best_cost)</div>
             <div class="sub-sec-title">Program (Python)</div>
             <div class="code-wrapper">
                 <div class="code-top">
-                    <span>tsp_branch_bound.py</span>
-                    <button class="btn-copy" onclick="copyCode(this)">Copy</button>
+                    <span class="code-filename">tsp_branch_bound.py</span>
+                    <div class="code-actions">
+                        <button class="btn-code-action btn-toggle-comments" onclick="toggleComments(this)" title="Toggle comments in code">
+                            <span class="btn-icon">👁️</span> <span class="btn-text">Hide Comments</span>
+                        </button>
+                        <button class="btn-code-action btn-copy" onclick="copyCode(this)" title="Copy visible code to clipboard">Copy</button>
+                    </div>
                 </div>
                 <pre><code>import heapq
 from itertools import permutations
@@ -2791,8 +2913,13 @@ STEP 3: RETURN packed bins</div>
             <div class="sub-sec-title">Program (Python)</div>
             <div class="code-wrapper">
                 <div class="code-top">
-                    <span>bin_packing_approximation.py</span>
-                    <button class="btn-copy" onclick="copyCode(this)">Copy</button>
+                    <span class="code-filename">bin_packing_approximation.py</span>
+                    <div class="code-actions">
+                        <button class="btn-code-action btn-toggle-comments" onclick="toggleComments(this)" title="Toggle comments in code">
+                            <span class="btn-icon">👁️</span> <span class="btn-text">Hide Comments</span>
+                        </button>
+                        <button class="btn-code-action btn-copy" onclick="copyCode(this)" title="Copy visible code to clipboard">Copy</button>
+                    </div>
                 </div>
                 <pre><code>def first_fit(items, capacity=1.0):
     """
@@ -3009,8 +3136,13 @@ STEP 4: RETURN (i + 1)</div>
             <div class="sub-sec-title">Program (Python)</div>
             <div class="code-wrapper">
                 <div class="code-top">
-                    <span>randomized_quicksort.py</span>
-                    <button class="btn-copy" onclick="copyCode(this)">Copy</button>
+                    <span class="code-filename">randomized_quicksort.py</span>
+                    <div class="code-actions">
+                        <button class="btn-code-action btn-toggle-comments" onclick="toggleComments(this)" title="Toggle comments in code">
+                            <span class="btn-icon">👁️</span> <span class="btn-text">Hide Comments</span>
+                        </button>
+                        <button class="btn-code-action btn-copy" onclick="copyCode(this)" title="Copy visible code to clipboard">Copy</button>
+                    </div>
                 </div>
                 <pre><code>import random
 import time
@@ -3179,19 +3311,135 @@ Nearly Sorted           6248000          156.23        57892            1.85</di
     </button>
 
     <script>
+        // ==========================================
+        // CODE ACTIONS: COPY & TOGGLE COMMENTS
+        // ==========================================
         function copyCode(btn) {
-            const pre = btn.parentElement.nextElementSibling;
+            const wrapper = btn.closest('.code-wrapper');
+            const pre = wrapper ? wrapper.querySelector('pre') : null;
+            if (!pre) return;
             navigator.clipboard.writeText(pre.innerText).then(() => {
                 const orig = btn.innerText;
                 btn.innerText = "Copied! ✓";
                 btn.style.background = "#10b981";
+                btn.style.borderColor = "#059669";
                 btn.style.color = "#fff";
                 setTimeout(() => {
                     btn.innerText = orig;
                     btn.style.background = "";
+                    btn.style.borderColor = "";
                     btn.style.color = "";
                 }, 1500);
             });
+        }
+
+        function stripPythonComments(code) {
+            // Remove multiline docstrings """...""" and '''...'''
+            let cleaned = code.replace(/"""[\s\S]*?"""/g, '');
+            cleaned = cleaned.replace(/'''[\s\S]*?'''/g, '');
+
+            const lines = cleaned.split('\n');
+            const resultLines = [];
+
+            for (let line of lines) {
+                // Remove whole-line comments
+                if (/^\s*#/.test(line)) {
+                    continue;
+                }
+
+                // Strip inline comment if outside quotes
+                let inSingle = false;
+                let inDouble = false;
+                let commentIndex = -1;
+
+                for (let i = 0; i < line.length; i++) {
+                    const char = line[i];
+                    if (char === "'" && !inDouble && (i === 0 || line[i - 1] !== '\\')) {
+                        inSingle = !inSingle;
+                    } else if (char === '"' && !inSingle && (i === 0 || line[i - 1] !== '\\')) {
+                        inDouble = !inDouble;
+                    } else if (char === '#' && !inSingle && !inDouble) {
+                        commentIndex = i;
+                        break;
+                    }
+                }
+
+                if (commentIndex !== -1) {
+                    line = line.substring(0, commentIndex).trimEnd();
+                }
+
+                // Prevent excessive consecutive blank lines
+                if (line.trim() === '') {
+                    if (resultLines.length > 0 && resultLines[resultLines.length - 1].trim() === '') {
+                        continue;
+                    }
+                }
+
+                resultLines.push(line);
+            }
+
+            while (resultLines.length > 0 && resultLines[0].trim() === '') resultLines.shift();
+            while (resultLines.length > 0 && resultLines[resultLines.length - 1].trim() === '') resultLines.pop();
+
+            return resultLines.join('\n');
+        }
+
+        function toggleComments(btn) {
+            const wrapper = btn.closest('.code-wrapper');
+            if (!wrapper) return;
+            const code = wrapper.querySelector('pre code');
+            if (!code) return;
+
+            // Cache original and cleaned versions on dataset
+            if (!code.dataset.originalCode) {
+                code.dataset.originalCode = code.textContent;
+                code.dataset.cleanCode = stripPythonComments(code.textContent);
+            }
+
+            const isCurrentlyHidden = btn.classList.contains('active');
+            const textSpan = btn.querySelector('.btn-text');
+            const iconSpan = btn.querySelector('.btn-icon');
+
+            if (isCurrentlyHidden) {
+                // Restore original commented code
+                code.textContent = code.dataset.originalCode;
+                btn.classList.remove('active');
+                if (textSpan) textSpan.textContent = 'Hide Comments';
+                if (iconSpan) iconSpan.textContent = '👁️';
+            } else {
+                // Show clean code without comments
+                code.textContent = code.dataset.cleanCode;
+                btn.classList.add('active');
+                if (textSpan) textSpan.textContent = 'Show Comments';
+                if (iconSpan) iconSpan.textContent = '💬';
+            }
+        }
+
+        function toggleAllComments(masterBtn) {
+            const allToggleBtns = document.querySelectorAll('.btn-toggle-comments');
+            const shouldHide = !masterBtn.classList.contains('active');
+
+            allToggleBtns.forEach(btn => {
+                const isHidden = btn.classList.contains('active');
+                if (shouldHide && !isHidden) {
+                    toggleComments(btn);
+                } else if (!shouldHide && isHidden) {
+                    toggleComments(btn);
+                }
+            });
+
+            const textSpan = masterBtn.querySelector('.btn-text');
+            const iconSpan = masterBtn.querySelector('.btn-icon');
+
+            if (shouldHide) {
+                masterBtn.classList.add('active');
+                if (textSpan) textSpan.textContent = 'Show All Comments';
+                if (iconSpan) iconSpan.textContent = '💬';
+            } else {
+                masterBtn.classList.remove('active');
+                if (textSpan) textSpan.textContent = 'Hide All Comments';
+                if (iconSpan) iconSpan.textContent = '👁️';
+            }
         }
 
         // ==========================================
