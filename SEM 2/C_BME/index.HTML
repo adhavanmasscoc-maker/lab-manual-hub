@@ -366,8 +366,191 @@
             border-color: #3b82f6;
         }
 
+    
+        /* SUBJECT FEEDBACK SYSTEM & FOOTER */
+        .feedback-box {
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 16px;
+            padding: 24px;
+            margin: 40px auto 20px auto;
+            max-width: 900px;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04);
+            box-sizing: border-box;
+            text-align: left;
+        }
+        .feedback-box h3 {
+            margin: 0 0 6px 0;
+            font-size: 18px;
+            color: #0f172a;
+            font-weight: 700;
+        }
+        .feedback-box p {
+            margin: 0 0 16px 0;
+            font-size: 13.5px;
+            color: #64748b;
+            line-height: 1.5;
+        }
+        .star-rating-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 14px;
+            background: #f8fafc;
+            padding: 8px 14px;
+            border-radius: 10px;
+            border: 1px solid #e2e8f0;
+            flex-wrap: wrap;
+        }
+        .rating-prompt {
+            font-size: 13px;
+            font-weight: 600;
+            color: #475569;
+        }
+        .star-group {
+            display: inline-flex;
+            gap: 4px;
+        }
+        .star-btn {
+            background: none;
+            border: none;
+            font-size: 22px;
+            cursor: pointer;
+            color: #cbd5e1;
+            padding: 0 2px;
+            line-height: 1;
+            transition: color 0.15s ease, transform 0.15s ease;
+        }
+        .star-btn:hover {
+            transform: scale(1.2);
+        }
+        .star-btn.active {
+            color: #f59e0b;
+        }
+        .rating-badge {
+            font-size: 12px;
+            font-weight: 700;
+            color: #d97706;
+            background: #fef3c7;
+            padding: 3px 8px;
+            border-radius: 6px;
+        }
+        .feedback-box input,
+        .feedback-box textarea {
+            width: 100%;
+            border: 1px solid #cbd5e1;
+            border-radius: 8px;
+            padding: 10px 14px;
+            font-size: 13.5px;
+            font-family: inherit;
+            box-sizing: border-box;
+            margin-bottom: 12px;
+            background: #ffffff;
+            color: #0f172a;
+            outline: none;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+        .feedback-box textarea {
+            min-height: 80px;
+            resize: vertical;
+        }
+        .feedback-box input:focus,
+        .feedback-box textarea:focus {
+            border-color: #2563eb;
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+        }
+        .btn-submit {
+            background: #2563eb;
+            color: #ffffff;
+            border: none;
+            border-radius: 8px;
+            padding: 10px 20px;
+            font-size: 13.5px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s, transform 0.1s;
+        }
+        .btn-submit:hover {
+            background: #1d4ed8;
+            transform: translateY(-1px);
+        }
+        .btn-submit:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+        #sub_msg {
+            margin-top: 10px;
+            font-size: 13px;
+            font-weight: 600;
+        }
+        /* Dark theme support */
+        html[data-theme="dark"] .feedback-box {
+            background: #131d33 !important;
+            border-color: #1e3a8a !important;
+            box-shadow: 0 4px 18px rgba(0, 0, 0, 0.35) !important;
+        }
+        html[data-theme="dark"] .feedback-box h3 {
+            color: #f8fafc !important;
+        }
+        html[data-theme="dark"] .feedback-box p {
+            color: #94a3b8 !important;
+        }
+        html[data-theme="dark"] .star-rating-wrapper {
+            background: #0f172a !important;
+            border-color: #1e293b !important;
+        }
+        html[data-theme="dark"] .rating-prompt {
+            color: #cbd5e1 !important;
+        }
+        html[data-theme="dark"] .feedback-box input,
+        html[data-theme="dark"] .feedback-box textarea {
+            background: #0f172a !important;
+            border-color: #1e293b !important;
+            color: #f8fafc !important;
+        }
+        html[data-theme="dark"] .feedback-box input:focus,
+        html[data-theme="dark"] .feedback-box textarea:focus {
+            border-color: #3b82f6 !important;
+            background: #090e1a !important;
+        }
+        .bottom-footer, footer.bottom-footer, footer {
+            text-align: center;
+            padding: 24px 16px 36px 16px;
+            margin-top: 20px;
+            border-top: 1px solid #e2e8f0;
+        }
+        .bottom-footer p, footer p {
+            margin: 0;
+            font-size: 13.5px;
+            color: #64748b;
+        }
+        .bottom-footer a, footer a {
+            color: #2563eb;
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.15s ease;
+        }
+        .bottom-footer a:hover, footer a:hover {
+            color: #1d4ed8;
+            text-decoration: underline;
+        }
+        html[data-theme="dark"] .bottom-footer,
+        html[data-theme="dark"] footer.bottom-footer,
+        html[data-theme="dark"] footer {
+            border-color: #1e293b !important;
+        }
+        html[data-theme="dark"] .bottom-footer p,
+        html[data-theme="dark"] footer p {
+            color: #64748b !important;
+        }
+        html[data-theme="dark"] .bottom-footer a,
+        html[data-theme="dark"] footer a {
+            color: #60a5fa !important;
+        }
+
     </style>
     <script src="/theme.js"></script>
+    <script src="/feedback.js"></script>
 </head>
 
 <body>
@@ -1929,6 +2112,35 @@ Hash Table:
     </script>
 
     <!-- FLOATING THEME & HUB CONTROLS -->
+    
+        <!-- SUBJECT-SPECIFIC FEEDBACK SYSTEM -->
+        <div class="feedback-box" id="subjectFeedbackBox">
+            <h3>💬 Feedback & Requests for C Programming BME Lab Manual</h3>
+            <p>Found an error, missing program code, or need a specific viva question for C BME? Submit it here.</p>
+            
+            <div class="star-rating-wrapper">
+                <span class="rating-prompt">Rate this Manual:</span>
+                <div class="star-group" id="subStarGroup">
+                    <button type="button" class="star-btn active" onclick="setSubjectRating(1)" title="1 Star">★</button>
+                    <button type="button" class="star-btn active" onclick="setSubjectRating(2)" title="2 Stars">★</button>
+                    <button type="button" class="star-btn active" onclick="setSubjectRating(3)" title="3 Stars">★</button>
+                    <button type="button" class="star-btn active" onclick="setSubjectRating(4)" title="4 Stars">★</button>
+                    <button type="button" class="star-btn active" onclick="setSubjectRating(5)" title="5 Stars">★</button>
+                </div>
+                <span class="rating-badge" id="subRatingBadge">5 ★ Excellent &amp; Exam Ready</span>
+            </div>
+
+            <input type="text" id="sub_name" placeholder="Your Name or Reg No (optional)">
+            <textarea id="sub_feedback" placeholder="What needs to be added or corrected in C BME? (e.g. Exp 4 graph, code explanation, viva Qs...)"></textarea>
+            <button class="btn-submit" type="button" onclick="submitSubjectFeedback('C Programming BME')">Submit Feedback</button>
+            <p id="sub_msg"></p>
+        </div>
+
+        <!-- FOOTER -->
+        <footer class="bottom-footer">
+            <p><a href="https://aknex.vercel.app" target="_blank">Built by AKNEX</a></p>
+        </footer>
+
     <div class="sem2-theme-dock">
         <button class="theme-toggle-btn" id="themeToggleBtn" onclick="toggleSiteTheme()" title="Toggle Dark / Light Theme" aria-label="Toggle theme">
             <span class="theme-icon">🌙</span> <span class="theme-text">Dark</span>
