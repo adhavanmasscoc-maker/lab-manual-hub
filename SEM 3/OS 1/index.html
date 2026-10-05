@@ -995,6 +995,33 @@
 
     
         /* COMPREHENSIVE DARK THEME OVERRIDES FOR OS */
+
+        /* OS VIVA & RESULTS DARK THEME HIGH CONTRAST */
+        html[data-theme="dark"] div[style*="background:#f0fdf4"] {
+            background: #064e3b !important;
+            border-color: #059669 !important;
+            color: #d1fae5 !important;
+        }
+
+        html[data-theme="dark"] div[style*="background:#f0fdf4"] h3 {
+            color: #6ee7b7 !important;
+            border-bottom-color: #059669 !important;
+        }
+
+        html[data-theme="dark"] div[style*="background:#ffffff"] {
+            background: #131d33 !important;
+            border-color: #1e293b !important;
+            color: #cbd5e1 !important;
+        }
+
+        html[data-theme="dark"] div[style*="background:#ffffff"] div[style*="color:#0f172a"] {
+            color: #f8fafc !important;
+        }
+
+        html[data-theme="dark"] div[style*="background:#ffffff"] div[style*="color:#334155"] {
+            color: #cbd5e1 !important;
+        }
+
         html[data-theme="dark"] .topic-tag-btn {
             background: #1e293b !important;
             border-color: #334155 !important;
@@ -1220,6 +1247,80 @@
             color: #60a5fa !important;
         }
 
+    
+        /* ROUND ICON THEME BUTTONS FOR HEADER, DOCK & MOBILE */
+        .theme-toggle-btn.round-icon {
+            width: 38px !important;
+            height: 38px !important;
+            border-radius: 50% !important;
+            display: inline-flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            font-size: 18px !important;
+            padding: 0 !important;
+            line-height: 1;
+            cursor: pointer;
+            transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .theme-toggle-btn.round-icon:hover {
+            transform: scale(1.12) rotate(15deg);
+        }
+        .dock-theme-btn {
+            width: 28px !important;
+            height: 28px !important;
+            border-radius: 50% !important;
+            display: inline-flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            font-size: 14px !important;
+            padding: 0 !important;
+            margin-bottom: 4px;
+            background: rgba(255, 255, 255, 0.08) !important;
+            border: 1px solid rgba(255, 255, 255, 0.2) !important;
+            color: #cbd5e1 !important;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        .dock-theme-btn:hover {
+            transform: scale(1.18) rotate(15deg);
+            background: #2563eb !important;
+            color: #ffffff !important;
+            border-color: #60a5fa !important;
+        }
+        .mobile-theme-btn {
+            position: fixed;
+            bottom: 16px;
+            right: 140px;
+            z-index: 1000;
+            width: 38px;
+            height: 38px;
+            border-radius: 50% !important;
+            background: #0f172a;
+            color: #ffffff;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            font-size: 17px;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.35);
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        .mobile-theme-btn:hover {
+            transform: scale(1.12) rotate(15deg);
+            background: #1e293b;
+        }
+        html[data-theme="dark"] .mobile-theme-btn {
+            background: #2563eb;
+            border-color: #3b82f6;
+            box-shadow: 0 0 12px rgba(59, 130, 246, 0.4);
+        }
+        @media (max-width: 768px) {
+            .mobile-theme-btn {
+                display: inline-flex;
+            }
+        }
+
     </style>
     <script src="/theme.js"></script>
     <script src="/feedback.js"></script>
@@ -1233,8 +1334,8 @@
             <span class="title-tag">CS5302 – Operating Systems Lab</span>
         </div>
         <div class="header-right">
-            <button class="theme-toggle-btn" id="themeToggleBtn" onclick="toggleSiteTheme()" title="Toggle Dark / Light Theme" aria-label="Toggle theme">
-                <span class="theme-icon">🌙</span> <span class="theme-text">Dark</span>
+            <button class="theme-toggle-btn round-icon" id="themeToggleBtn" onclick="toggleSiteTheme()" title="Toggle Dark / Light Theme" aria-label="Toggle theme">
+                <span class="theme-icon">🌙</span>
             </button>
             
             <select class="jump-select" onchange="if(this.value) location.hash = this.value;">
@@ -16641,8 +16742,8 @@ Total Head Movement: 140 Cylinders</div>
 
         <!-- SUBJECT-SPECIFIC FEEDBACK SYSTEM -->
         <div class="feedback-box" id="subjectFeedbackBox">
-            <h3>💬 Feedback & Requests for OS 1 (CS5302) Lab Manual</h3>
-            <p>Found an error, missing program code, or need a specific viva question for Operating Systems 1? Submit it here.</p>
+            <h3>💬 Feedback & Requests for OS (CS5302) Lab Manual</h3>
+            <p>Found an error, missing program code, or need a specific viva question for Operating Systems? Submit it here.</p>
             
             <div class="star-rating-wrapper">
                 <span class="rating-prompt">Rate this Manual:</span>
@@ -16657,14 +16758,14 @@ Total Head Movement: 140 Cylinders</div>
             </div>
 
             <input type="text" id="sub_name" placeholder="Your Name or Reg No (optional)">
-            <textarea id="sub_feedback" placeholder="What needs to be added or corrected in Operating Systems 1? (e.g. Exp 4 graph, code explanation, viva Qs...)"></textarea>
-            <button class="btn-submit" type="button" onclick="submitSubjectFeedback('OS 1 (CS5302)')">Submit Feedback</button>
+            <textarea id="sub_feedback" placeholder="What needs to be added or corrected in Operating Systems? (e.g. Exp 4 graph, code explanation, viva Qs...)"></textarea>
+            <button class="btn-submit" type="button" onclick="submitSubjectFeedback('OS (CS5302)')">Submit Feedback</button>
             <p id="sub_msg"></p>
         </div>
 
         <!-- FOOTER -->
         <footer class="bottom-footer">
-            <p><a href="https://aknex.vercel.app" target="_blank">Built by AKNEX</a></p>
+            <p><a href="javascript:void(0)" title="AKNEX-OFFICIAL" style="cursor: pointer;">Built by AKNEX-OFFICIAL</a></p>
         </footer>
 
     </div>
@@ -16798,12 +16899,18 @@ Total Head Movement: 140 Cylinders</div>
             <a href="#ex15" class="dock-box-btn" data-exp="15" title="Ex 15: Disk Scheduling">15</a>
         </div>
         <div class="dock-footer">
+            <button class="dock-theme-btn theme-toggle-btn round-icon" onclick="toggleSiteTheme()" title="Toggle Theme" aria-label="Toggle theme">
+                <span class="theme-icon">🌙</span>
+            </button>
             <button class="dock-top-btn" onclick="window.scrollTo({top:0, behavior:'smooth'})" title="Top">↑ Top</button>
         </div>
     </aside>
 
     <button class="mobile-exp-pill" id="mobileExpPill" onclick="toggleMobileExpDock()" aria-label="Toggle Experiment Navigator">
         ⚡ Exp <span id="mobileCurrExp">1</span>/15
+    </button>
+    <button class="mobile-theme-btn theme-toggle-btn round-icon" onclick="toggleSiteTheme()" title="Toggle Theme" aria-label="Toggle theme">
+        <span class="theme-icon">🌙</span>
     </button>
 
     <!-- AKNEX Universal Telemetry -->

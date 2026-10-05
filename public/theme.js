@@ -28,7 +28,7 @@
   };
 
   function updateToggleButtons(theme) {
-    const btns = document.querySelectorAll(".theme-toggle-btn");
+    const btns = document.querySelectorAll(".theme-toggle-btn, .dock-theme-btn, .mobile-theme-btn, .floating-round-theme-btn");
     btns.forEach(btn => {
       const icon = btn.querySelector(".theme-icon");
       const text = btn.querySelector(".theme-text");

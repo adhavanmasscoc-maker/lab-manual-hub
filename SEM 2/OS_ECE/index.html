@@ -343,6 +343,54 @@
             color: #60a5fa !important;
         }
 
+    
+        /* ROUND ICON THEME & HUB CONTROLS FOR SEM 2 */
+        .sem2-theme-dock {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 9999;
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+        .theme-toggle-btn.round-icon, .round-hub-btn {
+            width: 44px;
+            height: 44px;
+            border-radius: 50% !important;
+            display: inline-flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            font-size: 20px !important;
+            padding: 0 !important;
+            cursor: pointer;
+            text-decoration: none;
+            box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25);
+            transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+            user-select: none;
+        }
+        .round-hub-btn {
+            background: #0f172a;
+            color: #ffffff;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        .round-hub-btn:hover {
+            transform: scale(1.12);
+            background: #1e293b;
+            border-color: #3b82f6;
+        }
+        .theme-toggle-btn.round-icon:hover {
+            transform: scale(1.12) rotate(15deg);
+        }
+        html[data-theme="dark"] .round-hub-btn {
+            background: #1e293b;
+            border-color: #334155;
+        }
+        html[data-theme="dark"] .round-hub-btn:hover {
+            border-color: #3b82f6;
+            box-shadow: 0 0 12px rgba(59, 130, 246, 0.4);
+        }
+
     </style>
     <script src="/theme.js"></script>
     <script src="/feedback.js"></script>
@@ -1298,15 +1346,15 @@ done</code></pre>
 
         <!-- FOOTER -->
         <footer class="bottom-footer">
-            <p><a href="https://aknex.vercel.app" target="_blank">Built by AKNEX</a></p>
+            <p><a href="javascript:void(0)" title="AKNEX-OFFICIAL" style="cursor: pointer;">Built by AKNEX-OFFICIAL</a></p>
         </footer>
 
     <div class="sem2-theme-dock">
-        <button class="theme-toggle-btn" id="themeToggleBtn" onclick="toggleSiteTheme()" title="Toggle Dark / Light Theme" aria-label="Toggle theme">
-            <span class="theme-icon">🌙</span> <span class="theme-text">Dark</span>
+        <button class="theme-toggle-btn round-icon" id="themeToggleBtn" onclick="toggleSiteTheme()" title="Toggle Dark / Light Theme" aria-label="Toggle theme">
+            <span class="theme-icon">🌙</span>
         </button>
-        <a href="/" class="theme-toggle-btn" style="background:#0f172a; border-color:rgba(255,255,255,0.2);">
-            ← Hub
+        <a href="/" class="round-hub-btn" title="Back to Hub" aria-label="Back to Hub">
+            🏠
         </a>
     </div>
 
