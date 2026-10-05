@@ -839,34 +839,46 @@
         .theme-toggle-btn.round-icon:hover {
             transform: scale(1.1) rotate(15deg);
         }
-        .floating-round-theme-btn {
-            position: fixed;
-            bottom: 24px;
-            right: 24px;
-            width: 48px;
-            height: 48px;
+        
+        
+
+    
+        /* STYLED SINGLE MAIN THEME BUTTON ON DASH */
+        .theme-toggle-btn.round-icon {
+            width: 44px;
+            height: 44px;
             border-radius: 50% !important;
             display: inline-flex !important;
             align-items: center !important;
             justify-content: center !important;
-            background: #0f172a;
-            color: #ffffff;
-            border: 1.5px solid rgba(255, 255, 255, 0.2);
-            font-size: 20px;
+            font-size: 20px !important;
+            padding: 0 !important;
             cursor: pointer;
-            z-index: 9999;
-            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
             transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+            user-select: none;
+            background: #ffffff;
+            border: 1.5px solid #cbd5e1;
+            color: #0f172a;
+            box-shadow: 0 4px 12px rgba(15, 23, 42, 0.08);
         }
-        .floating-round-theme-btn:hover {
-            transform: scale(1.12) rotate(15deg);
+
+        .theme-toggle-btn.round-icon:hover {
+            transform: scale(1.1) rotate(15deg);
+            border-color: #2563eb;
+            box-shadow: 0 6px 18px rgba(37, 99, 235, 0.25);
+        }
+
+        html[data-theme="dark"] .theme-toggle-btn.round-icon {
             background: #1e293b;
+            color: #ffffff;
             border-color: #3b82f6;
+            box-shadow: 0 0 16px rgba(59, 130, 246, 0.45);
         }
-        html[data-theme="dark"] .floating-round-theme-btn {
+
+        html[data-theme="dark"] .theme-toggle-btn.round-icon:hover {
             background: #2563eb;
             border-color: #60a5fa;
-            box-shadow: 0 0 16px rgba(59, 130, 246, 0.5);
+            box-shadow: 0 0 22px rgba(59, 130, 246, 0.7);
         }
 
     </style>
@@ -1263,9 +1275,6 @@
         }
     </script>
 
-    <button class="floating-round-theme-btn theme-toggle-btn round-icon" onclick="toggleSiteTheme()" title="Toggle Dark / Light Theme" aria-label="Toggle theme">
-        <span class="theme-icon">🌙</span>
-    </button>
-</body>
+    </body>
 
 </html>

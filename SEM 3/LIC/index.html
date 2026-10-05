@@ -1303,59 +1303,125 @@
         .theme-toggle-btn.round-icon:hover {
             transform: scale(1.12) rotate(15deg);
         }
-        .dock-theme-btn {
-            width: 28px !important;
-            height: 28px !important;
+        
+        
+        
+        
+        html[data-theme="dark"] 
+        @media (max-width: 768px) {
+            
+        }
+
+    
+        /* DOCK WRAPPER WITH THEME BUTTON DIRECTLY BELOW BOX (NOT INSIDE) */
+        .exp-dock-wrap {
+            position: fixed;
+            right: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 999;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .exp-quick-dock {
+            position: static !important;
+            transform: none !important;
+            top: auto !important;
+            right: auto !important;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background: rgba(15, 23, 42, 0.94);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.16);
+            border-radius: 12px;
+            padding: 8px 6px;
+            box-shadow: 0 8px 28px rgba(0, 0, 0, 0.3);
+            max-height: calc(85vh - 55px);
+            transition: all 0.25s ease;
+        }
+
+        /* ROUND THEME BUTTON DIRECTLY BELOW THE EXPERIMENT BOX */
+        .dock-below-theme-btn {
+            width: 38px !important;
+            height: 38px !important;
             border-radius: 50% !important;
             display: inline-flex !important;
             align-items: center !important;
             justify-content: center !important;
-            font-size: 14px !important;
+            font-size: 18px !important;
             padding: 0 !important;
-            margin-bottom: 4px;
-            background: rgba(255, 255, 255, 0.08) !important;
-            border: 1px solid rgba(255, 255, 255, 0.2) !important;
-            color: #cbd5e1 !important;
-            cursor: pointer;
-            transition: all 0.2s ease;
-        }
-        .dock-theme-btn:hover {
-            transform: scale(1.18) rotate(15deg);
-            background: #2563eb !important;
+            background: #0f172a !important;
+            border: 1.5px solid rgba(255, 255, 255, 0.22) !important;
             color: #ffffff !important;
-            border-color: #60a5fa !important;
-        }
-        .mobile-theme-btn {
-            position: fixed;
-            bottom: 16px;
-            right: 140px;
-            z-index: 1000;
-            width: 38px;
-            height: 38px;
-            border-radius: 50% !important;
-            background: #0f172a;
-            color: #ffffff;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            display: none;
-            align-items: center;
-            justify-content: center;
-            font-size: 17px;
-            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.35);
             cursor: pointer;
-            transition: all 0.2s ease;
+            box-shadow: 0 4px 14px rgba(0, 0, 0, 0.35);
+            transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+            user-select: none;
         }
-        .mobile-theme-btn:hover {
-            transform: scale(1.12) rotate(15deg);
-            background: #1e293b;
+
+        .dock-below-theme-btn:hover {
+            transform: scale(1.15) rotate(15deg);
+            background: #2563eb !important;
+            border-color: #60a5fa !important;
+            box-shadow: 0 0 16px rgba(59, 130, 246, 0.55) !important;
         }
-        html[data-theme="dark"] .mobile-theme-btn {
+
+        html[data-theme="dark"] .dock-below-theme-btn {
+            background: #1e293b !important;
+            border-color: #3b82f6 !important;
+            box-shadow: 0 0 14px rgba(59, 130, 246, 0.45) !important;
+        }
+
+        html[data-theme="dark"] .dock-below-theme-btn:hover {
+            background: #2563eb !important;
+            border-color: #60a5fa !important;
+            box-shadow: 0 0 20px rgba(59, 130, 246, 0.7) !important;
+        }
+
+        /* STYLED TOP HEADER THEME BUTTON */
+        .top-header .theme-toggle-btn.round-icon {
+            width: 38px !important;
+            height: 38px !important;
+            border-radius: 50% !important;
+            display: inline-flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            font-size: 18px !important;
+            padding: 0 !important;
+            cursor: pointer;
+            transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+            background: rgba(255, 255, 255, 0.1);
+            border: 1.5px solid rgba(255, 255, 255, 0.2);
+            color: #ffffff;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+        }
+
+        .top-header .theme-toggle-btn.round-icon:hover {
+            transform: scale(1.1) rotate(15deg);
             background: #2563eb;
-            border-color: #3b82f6;
-            box-shadow: 0 0 12px rgba(59, 130, 246, 0.4);
+            border-color: #60a5fa;
+            box-shadow: 0 0 14px rgba(59, 130, 246, 0.5);
         }
+
         @media (max-width: 768px) {
-            .mobile-theme-btn {
-                display: inline-flex;
+            .exp-dock-wrap {
+                display: none;
+            }
+            .exp-dock-wrap.mobile-open {
+                display: flex;
+                right: 16px;
+                bottom: 60px;
+                top: auto;
+                transform: none;
+                z-index: 1001;
+            }
+            .exp-quick-dock {
+                display: flex !important;
             }
         }
 
@@ -1416,6 +1482,7 @@
     </main>
 
     <!-- UNIVERSAL ASIDE QUICK-JUMP EXPERIMENT DOCK (11 EXPERIMENTS) -->
+    <div class="exp-dock-wrap" id="expDockWrap">
     <aside class="exp-quick-dock" id="expQuickDock" aria-label="Quick Jump to Experiment">
         <div class="dock-header">
             <span class="dock-title">EXPS</span>
@@ -1435,20 +1502,18 @@
             <button class="dock-box-btn" onclick="jumpTo('e11')" data-exp="11" title="Exp 11: Voltage Regulator IC723">11</button>
         </div>
         <div class="dock-footer">
-            <button class="dock-theme-btn theme-toggle-btn round-icon" onclick="toggleSiteTheme()" title="Toggle Theme" aria-label="Toggle theme">
-                <span class="theme-icon">🌙</span>
-            </button>
             <button class="dock-top-btn" onclick="window.scrollTo({top:0, behavior:'smooth'})" title="Top">↑ Top</button>
         </div>
     </aside>
+    <!-- THEME BUTTON DIRECTLY BELOW EXPERIMENT BOX (NOT INSIDE) -->
+    <button class="dock-below-theme-btn theme-toggle-btn round-icon" onclick="toggleSiteTheme()" title="Toggle Dark / Light Theme" aria-label="Toggle theme">
+        <span class="theme-icon">🌙</span>
+    </button>
+</div>
 
     <button class="mobile-exp-pill" id="mobileExpPill" onclick="toggleMobileExpDock()" aria-label="Toggle Experiment Navigator">
         ⚡ Exp <span id="mobileCurrExp">1</span>/11
     </button>
-    <button class="mobile-theme-btn theme-toggle-btn round-icon" onclick="toggleSiteTheme()" title="Toggle Theme" aria-label="Toggle theme">
-        <span class="theme-icon">🌙</span>
-    </button>
-
     <!-- LIGHTBOX MODAL FOR ZOOMING DIAGRAMS -->
     <div id="lightbox" onclick="closeLightbox()">
         <div id="lightbox-content" onclick="event.stopPropagation()"></div>
