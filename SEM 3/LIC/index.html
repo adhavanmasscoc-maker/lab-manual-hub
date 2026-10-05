@@ -985,7 +985,7 @@
         <button class="tab-btn active" data-v="exp">All Experiments (11)</button>
         <button class="tab-btn" data-v="exam">Exam Day Checklist</button>
         <button class="tab-btn" data-v="viva">Viva Voce Bank</button>
-        <button class="tab-btn" data-v="formula">Formula Bank</button>
+        <button class="tab-btn" data-v="circuits">Circuit Diagrams</button>
         <button class="tab-btn" data-v="ic">IC Pinouts & Specs</button>
         <button class="tab-btn" data-v="rev">Quick Revision</button>
         <input type="search" id="search" class="search-input" placeholder="Search (741, gain, filter, R-2R, PLL, slew rate)..." aria-label="Search">
@@ -2256,21 +2256,69 @@
             `).join('')}
         `,
 
-        formula: () => `
+        circuits: () => `
             <div class="manual-banner">
-                <h1>Formula Bank & Governing Equations</h1>
-                <p>Master collection of all design formulas, cutoff frequencies, gains, and time periods.</p>
+                <h1>⚡ Circuit Diagrams & Waveforms Gallery</h1>
+                <p>Master collection of official circuit schematics, pin connections, vector layouts, and expected waveforms for all 11 experiments from the EC5301 / EC3361 LIC laboratory manual.</p>
             </div>
             ${E.map(e => `
-                <article class="exp-card">
+                <article class="exp-card" id="circuits-e${e.n}">
                     <div class="exp-header">
                         <span class="exp-badge">EXP ${e.n}</span>
-                        <h3 style="font-size:15px; font-weight:700;">${e.t}</h3>
+                        <h2 class="exp-title">${e.t}</h2>
                     </div>
-                    ${e.f.map(f => `<div class="formula-box">${f}</div>`).join('')}
+
+                    ${(e.circuits && e.circuits.length) ? `
+                        <div style="font-weight:700; font-size:13.5px; color:var(--primary); margin:14px 0 8px 0; text-transform:uppercase; letter-spacing:0.04em;">🔌 Circuit Schematics & Pin Connections</div>
+                        <div class="lic-diagram-grid">
+                            ${e.circuits.map(c => `
+                                <div class="lic-diagram-card">
+                                    <div class="lic-diagram-title">🔌 ${c.title}</div>
+                                    <div class="lic-diagram-img-wrap" onclick="openLightboxImage('${c.src}', '${c.title.replace(/'/g, "\\'")}')">
+                                        <img src="${c.src}" alt="${c.title}" loading="lazy">
+                                    </div>
+                                    <div class="lic-diagram-desc">${c.cap} <span class="zoom-hint">🔍 Tap to zoom</span></div>
+                                </div>
+                            `).join('')}
+                        </div>
+                    ` : ''}
+
+                    ${e.svg ? `
+                        <div style="font-weight:700; font-size:13.5px; color:var(--primary); margin:18px 0 8px 0; text-transform:uppercase; letter-spacing:0.04em;">📐 Vector Schematic & Pinout View</div>
+                        <div class="lic-diagram-card">
+                            <div class="lic-diagram-title">📐 Vector Pinout / Schematic View</div>
+                            <div class="diagram-container">${e.svg}</div>
+                            <div class="lic-diagram-desc">${e.cap || 'Schematic representation. Tap to zoom.'}</div>
+                        </div>
+                    ` : ''}
+
+                    ${(e.graphs && e.graphs.length) ? `
+                        <div style="font-weight:700; font-size:13.5px; color:var(--primary); margin:18px 0 8px 0; text-transform:uppercase; letter-spacing:0.04em;">📈 Model Graph & Waveforms</div>
+                        <div class="lic-diagram-grid">
+                            ${e.graphs.map(g => `
+                                <div class="lic-diagram-card">
+                                    <div class="lic-diagram-title">📊 ${g.title}</div>
+                                    <div class="lic-diagram-img-wrap" onclick="${g.src ? `openLightboxImage('${g.src}', '${g.title.replace(/'/g, "\\'")}')` : ''}">
+                                        ${g.src ? `<img src="${g.src}" alt="${g.title}" loading="lazy">` : (g.svg || '')}
+                                    </div>
+                                    <div class="lic-diagram-desc">${g.cap} ${g.src ? '<span class="zoom-hint">🔍 Tap to zoom</span>' : ''}</div>
+                                </div>
+                            `).join('')}
+                        </div>
+                    ` : ''}
+
+                    <div style="margin-top:16px; display:flex; justify-content:flex-end;">
+                        <button onclick="jumpTo('e${e.n}')" style="background:#2563eb; color:#ffffff; border:none; border-radius:6px; padding:7px 15px; font-size:12.5px; font-weight:700; cursor:pointer; display:inline-flex; align-items:center; gap:6px; box-shadow:0 2px 6px rgba(37,99,235,0.25);">
+                            Go to Experiment ${e.n} Full Record & Readings →
+                        </button>
+                    </div>
                 </article>
             `).join('')}
         `,
+
+        formula: function() {
+            return this.circuits();
+        },
 
         ic: () => `
             <div class="manual-banner">
