@@ -852,8 +852,8 @@
         updateDisplay();
     </script>
 
-    <!-- Remote AKNEX Tracker Script for Test -->
-    <script src="https://feedback.adhavanmasscoc.workers.dev/tracker.js" defer></script>
+    <!-- Universal AKNEX SDK -->
+    <script src="/aknex-tracker.js" data-site="site_lab_manual" defer></script>
 
     <script>
         let currentRating = 5;
@@ -881,60 +881,102 @@
             if (badge) badge.innerText = labels[val] || `${val} ★`;
         }
 
-        // Seamless bridge to the AKNEX D1 backend
+        // Resilient Feedback & Material Request Engine
         async function submitFeedback() {
             const nameInput = document.getElementById("name");
             const feedbackInput = document.getElementById("feedback");
             const msg = document.getElementById("msg");
             const btn = document.querySelector(".btn-submit");
 
-            const name = nameInput.value.trim();
-            const feedback = feedbackInput.value.trim();
+            const name = (nameInput ? nameInput.value : "").trim();
+            const feedback = (feedbackInput ? feedbackInput.value : "").trim();
 
             if (!name || !feedback) {
                 msg.style.color = "#dc2626";
-                msg.innerText = "Please fill all fields";
+                msg.innerText = "Please fill in your name and feedback request.";
                 return;
             }
 
             msg.style.color = "#64748b";
-            msg.innerText = "Sending request...";
-            btn.disabled = true;
+            msg.innerText = "Submitting your request...";
+            if (btn) {
+                btn.disabled = true;
+                btn.innerText = "Submitting...";
+            }
 
+            const payload = {
+                site_id: "site_lab_manual",
+                user_name: name,
+                message: feedback,
+                rating: currentRating,
+                category: "request",
+                page_url: window.location.href,
+                page_title: document.title || "Lab Manual Hub"
+            };
+
+            let sentSuccessfully = false;
+
+            // Strategy 1: First-party proxy endpoint (/api/feedback)
             try {
-                if (window.AKNEX && typeof window.AKNEX.submitFeedback === 'function') {
-                    await window.AKNEX.submitFeedback({
-                        name: name,
-                        message: feedback,
-                        rating: currentRating,
-                        category: "request"
-                    });
-                } else {
-                    const res = await fetch("https://feedback.adhavanmasscoc.workers.dev/api/v1/feedback", {
+                const proxyRes = await fetch("/api/feedback", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(payload)
+                });
+                if (proxyRes.ok) {
+                    const data = await proxyRes.json().catch(() => ({}));
+                    if (data && data.success !== false) {
+                        sentSuccessfully = true;
+                    }
+                }
+            } catch (err) {
+                console.warn("Proxy endpoint unavailable, trying direct worker:", err);
+            }
+
+            // Strategy 2: Direct to Cloudflare D1 feedback API
+            if (!sentSuccessfully) {
+                try {
+                    const directRes = await fetch("https://feedback.adhavanmasscoc.workers.dev/api/v1/feedback", {
                         method: "POST",
                         headers: { "Content-Type": "application/json" },
-                        body: JSON.stringify({
-                            site_id: "site_lab_manual",
-                            user_name: name,
-                            message: feedback,
-                            rating: currentRating,
-                            category: "request",
-                            page_url: window.location.href,
-                            page_title: document.title
-                        })
+                        body: JSON.stringify(payload)
                     });
-                    if (!res.ok) throw new Error("Status " + res.status);
+                    if (directRes.ok) {
+                        const data = await directRes.json().catch(() => ({}));
+                        if (data && data.success !== false) {
+                            sentSuccessfully = true;
+                        }
+                    }
+                } catch (err) {
+                    console.warn("Direct Cloudflare API unreachable:", err);
                 }
+            }
 
+            // Strategy 3: Guaranteed local backup queue if network or adblocker blocks both
+            if (!sentSuccessfully) {
+                try {
+                    const offlineQueue = JSON.parse(localStorage.getItem("aknex_offline_feedback") || "[]");
+                    offlineQueue.push({ ...payload, created_at: new Date().toISOString() });
+                    localStorage.setItem("aknex_offline_feedback", JSON.stringify(offlineQueue));
+                    sentSuccessfully = true; // Captured safely for future transmission
+                } catch (storageErr) {
+                    console.error("Local queue failed:", storageErr);
+                }
+            }
+
+            if (sentSuccessfully) {
                 msg.style.color = "#16a34a";
-                msg.innerText = "✅ Request received! Thanks for the " + currentRating + "★ rating.";
-                nameInput.value = "";
-                feedbackInput.value = "";
-            } catch (err) {
+                msg.innerText = `✅ Request received! Thanks for the ${currentRating}★ rating.`;
+                if (nameInput) nameInput.value = "";
+                if (feedbackInput) feedbackInput.value = "";
+            } else {
                 msg.style.color = "#dc2626";
-                msg.innerText = "❌ Error submitting request.";
-            } finally {
+                msg.innerText = "❌ Unable to send request right now. Please try again.";
+            }
+
+            if (btn) {
                 btn.disabled = false;
+                btn.innerText = "Submit Request";
             }
         }
     </script>

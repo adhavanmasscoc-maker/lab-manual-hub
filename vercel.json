@@ -19,6 +19,10 @@
   ],
   "routes": [
     {
+      "src": "/api/feedback",
+      "dest": "https://feedback.adhavanmasscoc.workers.dev/api/v1/feedback"
+    },
+    {
       "src": "/(server\\.js|.*\\.pdf|Downloads.*|N.*|New%20folder.*|New folder.*|git.*|\\.git.*|\\.vercel.*|\\.env.*)",
       "status": 403,
       "headers": { "Content-Type": "text/plain" }
