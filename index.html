@@ -593,7 +593,182 @@
                 padding: 10px 14px;
             }
         }
+
+        /* THEME TOGGLE BUTTON */
+        .theme-toggle-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: #edf2f7;
+            color: #0f172a;
+            border: 1px solid #cbd5e1;
+            padding: 6px 14px;
+            border-radius: 999px;
+            font-size: 12.5px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+            user-select: none;
+            box-shadow: 0 2px 5px rgba(15, 23, 42, 0.05);
+        }
+
+        .theme-toggle-btn:hover {
+            background: #e2e8f0;
+            border-color: #94a3b8;
+            transform: translateY(-1px);
+        }
+
+        /* DARK THEME SYSTEM */
+        html[data-theme="dark"] body {
+            background-color: #0b1120;
+            color: #f1f5f9;
+        }
+
+        html[data-theme="dark"] .theme-toggle-btn {
+            background: #1e293b;
+            color: #f8fafc;
+            border-color: #334155;
+            box-shadow: 0 0 12px rgba(59, 130, 246, 0.35);
+        }
+
+        html[data-theme="dark"] .theme-toggle-btn:hover {
+            background: #2563eb;
+            border-color: #3b82f6;
+            color: #ffffff;
+        }
+
+        html[data-theme="dark"] h1,
+        html[data-theme="dark"] .section-bar h2,
+        html[data-theme="dark"] .subject-name,
+        html[data-theme="dark"] .os1-clean-card h3,
+        html[data-theme="dark"] .sem3-clean-card h3 {
+            color: #f8fafc;
+        }
+
+        html[data-theme="dark"] p.subtitle,
+        html[data-theme="dark"] .section-bar,
+        html[data-theme="dark"] .sem-divider {
+            color: #94a3b8;
+            border-color: #1e293b;
+        }
+
+        html[data-theme="dark"] .search-box input {
+            background: #131d33;
+            border-color: #1e293b;
+            color: #f8fafc;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        html[data-theme="dark"] .search-box input:focus {
+            background: #0f172a;
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.25);
+        }
+
+        html[data-theme="dark"] .filter-btn {
+            background: #131d33;
+            border-color: #1e293b;
+            color: #cbd5e1;
+        }
+
+        html[data-theme="dark"] .filter-btn:hover {
+            background: #1e293b;
+            color: #ffffff;
+        }
+
+        html[data-theme="dark"] .filter-btn.active {
+            background: #2563eb;
+            border-color: #3b82f6;
+            color: #ffffff;
+            box-shadow: 0 2px 10px rgba(37, 99, 235, 0.4);
+        }
+
+        html[data-theme="dark"] .os1-clean-card,
+        html[data-theme="dark"] .sem3-clean-card {
+            background: #131d33;
+            border-color: #1e3a8a;
+            box-shadow: 0 4px 14px rgba(0, 0, 0, 0.35);
+        }
+
+        html[data-theme="dark"] .os1-clean-card:hover,
+        html[data-theme="dark"] .sem3-clean-card:hover {
+            border-color: #3b82f6;
+            box-shadow: 0 10px 28px rgba(59, 130, 246, 0.25), 0 0 0 1px #3b82f6;
+        }
+
+        html[data-theme="dark"] .card-meta span {
+            color: #93c5fd;
+        }
+
+        html[data-theme="dark"] .card-desc {
+            color: #cbd5e1;
+        }
+
+        html[data-theme="dark"] .subject-card {
+            background: #131d33;
+            border-color: #1e293b;
+            box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25);
+        }
+
+        html[data-theme="dark"] .subject-card:hover {
+            background: #17233f;
+            border-color: #3b82f6;
+        }
+
+        html[data-theme="dark"] .dept-tag {
+            color: #60a5fa;
+        }
+
+        html[data-theme="dark"] .sem-tag {
+            color: #94a3b8;
+        }
+
+        html[data-theme="dark"] .card-link {
+            color: #60a5fa;
+        }
+
+        html[data-theme="dark"] .feedback-box {
+            background: #131d33;
+            border-color: #1e3a8a;
+            box-shadow: 0 4px 18px rgba(0, 0, 0, 0.35);
+        }
+
+        html[data-theme="dark"] .feedback-box h3 {
+            color: #f8fafc;
+        }
+
+        html[data-theme="dark"] .feedback-box p {
+            color: #94a3b8;
+        }
+
+        html[data-theme="dark"] .rating-container {
+            background: #0f172a;
+            border-color: #1e293b;
+        }
+
+        html[data-theme="dark"] .rating-label {
+            color: #e2e8f0;
+        }
+
+        html[data-theme="dark"] .feedback-box input,
+        html[data-theme="dark"] .feedback-box textarea {
+            background: #0f172a;
+            border-color: #1e293b;
+            color: #f8fafc;
+        }
+
+        html[data-theme="dark"] .feedback-box input:focus,
+        html[data-theme="dark"] .feedback-box textarea:focus {
+            border-color: #3b82f6;
+            background: #090e1a;
+        }
+
+        html[data-theme="dark"] .footer {
+            color: #64748b;
+        }
+
     </style>
+    <script src="/theme.js"></script>
 </head>
 
 <body>
@@ -602,6 +777,11 @@
 
         <!-- HEADER -->
         <header>
+            <div style="display: flex; justify-content: flex-end; margin-bottom: 8px;">
+                <button class="theme-toggle-btn" id="themeToggleBtn" onclick="toggleSiteTheme()" title="Toggle Dark / Light Theme" aria-label="Toggle theme">
+                    <span class="theme-icon">🌙</span> <span class="theme-text">Dark</span>
+                </button>
+            </div>
             <h1>Lab Manual Hub</h1>
             <p class="subtitle">Verified laboratory records, source programs, and answers</p>
         </header>

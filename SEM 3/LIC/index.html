@@ -796,7 +796,153 @@
                 font-size: 16px;
             }
         }
+
+        /* THEME TOGGLE BUTTON */
+        .theme-toggle-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: #1e293b;
+            color: #f1f5f9;
+            border: 1px solid #334155;
+            padding: 6px 13px;
+            border-radius: 999px;
+            font-size: 12px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+            user-select: none;
+            box-shadow: 0 2px 6px rgba(15, 23, 42, 0.15);
+        }
+
+        .theme-toggle-btn:hover {
+            background: #334155;
+            border-color: #475569;
+            transform: translateY(-1px);
+        }
+
+        /* COMPREHENSIVE DARK THEME SYSTEM */
+        html[data-theme="dark"],
+        :root[data-theme="dark"] {
+            --bg: #0b1120;
+            --surface: #111a2e;
+            --surface-card: #18233c;
+            --border: #1e293b;
+            --border-strong: #334155;
+            --text-main: #f8fafc;
+            --text-muted: #cbd5e1;
+            --text-sub: #94a3b8;
+            --primary: #3b82f6;
+            --primary-hover: #60a5fa;
+            --primary-light: rgba(59, 130, 246, 0.15);
+            --accent-green: #10b981;
+            --accent-amber: #fbbf24;
+            --shadow-sm: 0 2px 6px rgba(0, 0, 0, 0.35);
+            --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.45);
+            --shadow-lg: 0 10px 28px -4px rgba(0, 0, 0, 0.6);
+        }
+
+        html[data-theme="dark"] .top-header {
+            background: rgba(15, 23, 42, 0.96);
+            border-bottom-color: #1e293b;
+        }
+
+        html[data-theme="dark"] .jump-select {
+            background: #18233c;
+            border-color: #334155;
+            color: #f8fafc;
+        }
+
+        html[data-theme="dark"] .theme-toggle-btn {
+            background: #2563eb;
+            color: #ffffff;
+            border-color: #3b82f6;
+            box-shadow: 0 0 12px rgba(59, 130, 246, 0.4);
+        }
+
+        html[data-theme="dark"] .lic-diagram-card {
+            background: #131d33;
+            border-color: #1e293b;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.35);
+        }
+
+        html[data-theme="dark"] .lic-diagram-img-wrap {
+            background: #ffffff;
+            border-color: #334155;
+        }
+
+        html[data-theme="dark"] .nav-bar {
+            background: #111a2e;
+            border-bottom-color: #1e293b;
+        }
+
+        html[data-theme="dark"] .tab-btn {
+            background: #18233c;
+            border-color: #1e293b;
+            color: #cbd5e1;
+        }
+
+        html[data-theme="dark"] .tab-btn:hover {
+            background: #1e293b;
+            color: #ffffff;
+        }
+
+        html[data-theme="dark"] .tab-btn.active {
+            background: #2563eb;
+            color: #ffffff;
+            border-color: #3b82f6;
+        }
+
+        html[data-theme="dark"] .search-input {
+            background: #18233c;
+            border-color: #1e293b;
+            color: #f8fafc;
+        }
+
+        html[data-theme="dark"] .table-wrap table th {
+            background: #18233c;
+            color: #f8fafc;
+            border-color: #1e293b;
+        }
+
+        html[data-theme="dark"] .table-wrap table td {
+            border-color: #1e293b;
+            color: #cbd5e1;
+        }
+
+        html[data-theme="dark"] .formula-box {
+            background: #18233c;
+            border-color: #1e3a8a;
+            color: #93c5fd;
+        }
+
+        html[data-theme="dark"] .viva-item {
+            background: #18233c;
+            border-color: #1e293b;
+        }
+
+        html[data-theme="dark"] .viva-q {
+            color: #f8fafc;
+        }
+
+        html[data-theme="dark"] .viva-a {
+            color: #2dd4bf;
+        }
+
+        html[data-theme="dark"] .viva-key {
+            background: #451a03;
+            border-color: #78350f;
+            color: #fde68a;
+        }
+
+        html[data-theme="dark"] #lightbox-content {
+            background: #111a2e;
+            color: #f8fafc;
+            border: 1px solid #334155;
+        }
+
     </style>
+    <script src="/theme.js"></script>
 </head>
 <body>
 
@@ -810,6 +956,10 @@
             </div>
         </div>
         <div class="header-right">
+            <button class="theme-toggle-btn" id="themeToggleBtn" onclick="toggleSiteTheme()" title="Toggle Dark / Light Theme" aria-label="Toggle theme">
+                <span class="theme-icon">🌙</span> <span class="theme-text">Dark</span>
+            </button>
+            
             <select id="jump-select" class="jump-select" onchange="jumpTo(this.value)">
                 <option value="">Jump to Experiment...</option>
                 <option value="e1">Exp 1: Inverting & Non-Inverting Amp</option>

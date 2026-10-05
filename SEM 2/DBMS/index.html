@@ -139,7 +139,103 @@
                 font-size: 11px !important;
             }
         }
+    
+        /* UNIVERSAL DARK THEME FOR SEM 2 */
+        html[data-theme="dark"] body {
+            background-color: #0b1120 !important;
+            color: #e2e8f0 !important;
+        }
+
+        html[data-theme="dark"] h1,
+        html[data-theme="dark"] h2,
+        html[data-theme="dark"] h3,
+        html[data-theme="dark"] h4,
+        html[data-theme="dark"] .header,
+        html[data-theme="dark"] .student-info,
+        html[data-theme="dark"] .title {
+            color: #f8fafc !important;
+        }
+
+        html[data-theme="dark"] table,
+        html[data-theme="dark"] .main-table,
+        html[data-theme="dark"] .output-table {
+            background-color: #131d33 !important;
+            border-color: #334155 !important;
+            color: #e2e8f0 !important;
+        }
+
+        html[data-theme="dark"] th,
+        html[data-theme="dark"] .main-table th {
+            background-color: #1e293b !important;
+            color: #f8fafc !important;
+            border-color: #334155 !important;
+        }
+
+        html[data-theme="dark"] td,
+        html[data-theme="dark"] .main-table td {
+            border-color: #334155 !important;
+            color: #cbd5e1 !important;
+        }
+
+        html[data-theme="dark"] .section-col {
+            background-color: #18233c !important;
+            color: #93c5fd !important;
+        }
+
+        html[data-theme="dark"] pre,
+        html[data-theme="dark"] code {
+            background-color: #090e1a !important;
+            color: #38bdf8 !important;
+            border-color: #1e293b !important;
+        }
+
+        html[data-theme="dark"] a {
+            color: #60a5fa !important;
+        }
+
+        /* FLOATING THEME DOCK FOR SEM 2 */
+        .sem2-theme-dock {
+            position: fixed;
+            top: 14px;
+            right: 14px;
+            z-index: 9999;
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+
+        .theme-toggle-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: #1e293b;
+            color: #f1f5f9;
+            border: 1px solid #334155;
+            padding: 6px 13px;
+            border-radius: 999px;
+            font-size: 12px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+            user-select: none;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+            text-decoration: none;
+        }
+
+        .theme-toggle-btn:hover {
+            background: #334155;
+            border-color: #475569;
+            transform: translateY(-1px);
+        }
+
+        html[data-theme="dark"] .theme-toggle-btn {
+            background: #2563eb;
+            color: #ffffff;
+            border-color: #3b82f6;
+        }
+
     </style>
+    <script src="/theme.js"></script>
 </head>
 
 <body>
@@ -1473,6 +1569,17 @@ SELECT * FROM emplog;</pre>
     <center>
     <button onclick="AKDEV-OFFICIAL.VERCEL.APP"><a href="https://AKDEV-OFFICIAL.VERCEL.APP"> DEVELOPED BY AKDEV LABS</button>
     </center>
+
+    <!-- FLOATING THEME & HUB CONTROLS -->
+    <div class="sem2-theme-dock">
+        <button class="theme-toggle-btn" id="themeToggleBtn" onclick="toggleSiteTheme()" title="Toggle Dark / Light Theme" aria-label="Toggle theme">
+            <span class="theme-icon">🌙</span> <span class="theme-text">Dark</span>
+        </button>
+        <a href="/" class="theme-toggle-btn" style="background:#0f172a; border-color:rgba(255,255,255,0.2);">
+            ← Hub
+        </a>
+    </div>
+
 </body>
 
 </html>
