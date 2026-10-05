@@ -3471,28 +3471,43 @@ Nearly Sorted           6248000          156.23        57892            1.85</di
                 });
             });
 
-            const cards = document.querySelectorAll('article.exp-card');
-            if (cards.length && 'IntersectionObserver' in window) {
-                const observer = new IntersectionObserver(entries => {
-                    entries.forEach(entry => {
-                        if (entry.isIntersecting) {
-                            const id = '#' + entry.target.id;
-                            const num = entry.target.id.replace('exp', '');
-                            buttons.forEach(btn => {
-                                if (btn.getAttribute('href') === id) {
-                                    btn.classList.add('active');
-                                    const pill = document.getElementById('mobileCurrExp');
-                                    if (pill) pill.textContent = num;
-                                } else {
-                                    btn.classList.remove('active');
-                                }
-                            });
-                        }
-                    });
-                }, { threshold: 0.15, rootMargin: '-60px 0px -40% 0px' });
+            function updateActiveExp() {
+                const cards = document.querySelectorAll('article.exp-card');
+                if (!cards.length || !buttons.length) return;
 
-                cards.forEach(card => observer.observe(card));
+                const scrollPos = window.scrollY + 180;
+                let currentId = cards[0].id;
+
+                for (let i = 0; i < cards.length; i++) {
+                    const card = cards[i];
+                    if (card.offsetTop <= scrollPos) {
+                        currentId = card.id;
+                    } else {
+                        break;
+                    }
+                }
+
+                const activeHref = '#' + currentId;
+                const activeNum = currentId.replace('exp', '').replace('e', '');
+
+                buttons.forEach(btn => {
+                    if (btn.getAttribute('href') === activeHref) {
+                        btn.classList.add('active');
+                    } else {
+                        btn.classList.remove('active');
+                    }
+                });
+
+                const pillNum = document.getElementById('mobileCurrExp');
+                if (pillNum) pillNum.textContent = activeNum;
+
+                const select = document.querySelector('.jump-select');
+                if (select) select.value = activeHref;
             }
+
+            window.addEventListener('scroll', updateActiveExp, { passive: true });
+            window.addEventListener('resize', updateActiveExp, { passive: true });
+            setTimeout(updateActiveExp, 100);
         })();
     </script>
 

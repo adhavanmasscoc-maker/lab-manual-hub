@@ -648,6 +648,89 @@
             cursor: pointer;
         }
 
+        /* LIC DIAGRAM & GRAPH CARDS */
+        .lic-diagram-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 16px;
+            margin: 10px 0 16px;
+        }
+
+        .lic-diagram-card {
+            background: #ffffff;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 14px;
+            text-align: center;
+            box-shadow: 0 2px 8px rgba(15, 23, 42, 0.04);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            transition: all 0.2s ease;
+        }
+
+        .lic-diagram-card:hover {
+            box-shadow: 0 4px 14px rgba(37, 99, 235, 0.1);
+            border-color: rgba(37, 99, 235, 0.3);
+        }
+
+        .lic-diagram-title {
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            line-height: 1.35;
+        }
+
+        .lic-diagram-img-wrap {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 6px;
+            padding: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 170px;
+            overflow: hidden;
+            cursor: zoom-in;
+        }
+
+        .lic-diagram-card img {
+            max-width: 100%;
+            height: auto;
+            max-height: 260px;
+            object-fit: contain;
+            border-radius: 4px;
+            transition: transform 0.2s ease;
+        }
+
+        .lic-diagram-card img:hover {
+            transform: scale(1.02);
+        }
+
+        .lic-diagram-desc {
+            font-size: 11.5px;
+            color: var(--text-muted);
+            margin-top: 10px;
+            line-height: 1.4;
+            font-style: italic;
+        }
+
+        .zoom-hint {
+            display: inline-block;
+            font-size: 10.5px;
+            font-weight: 600;
+            color: var(--primary);
+            background: rgba(37, 99, 235, 0.08);
+            padding: 2px 6px;
+            border-radius: 4px;
+            margin-top: 4px;
+        }
+
         /* LIGHTBOX */
         #lightbox {
             position: fixed;
@@ -1050,8 +1133,37 @@
                 ['CRO / DSO', 'Dual trace, 0–30 MHz', '1'],
                 ['Breadboard & Connecting wires', 'Solderless breadboard', '1 set']
             ],
+            circuits: [
+                {
+                    src: 'images/page_8_img_2.png',
+                    title: 'Inverting Amplifier Circuit Diagram',
+                    cap: 'Input Vi applied through R1 (1 kΩ) to inverting pin 2. Pin 3 grounded. Negative feedback via Rf (10 kΩ). Gain Av = −(Rf / R1) = −10.'
+                },
+                {
+                    src: 'images/page_9_img_1.png',
+                    title: 'Non-Inverting Amplifier Circuit Diagram',
+                    cap: 'Input Vi applied directly to non-inverting pin 3 (+). Pin 2 connected to feedback divider R1 and Rf. Gain Av = 1 + (Rf / R1) = +11.'
+                },
+                {
+                    src: 'images/page_8_img_1.jpg',
+                    title: 'IC µA741 Pinout Configuration (8-Pin DIP)',
+                    cap: 'Pin assignments: 1 & 5 Offset Null, 2 Inverting (−), 3 Non-inverting (+), 4 −Vcc (−15V), 6 Output, 7 +Vcc (+15V), 8 NC.'
+                }
+            ],
+            graphs: [
+                {
+                    src: 'images/page_11_img_1.jpg',
+                    title: 'Inverting Amplifier Input vs Output Waveforms',
+                    cap: 'Shows input sine wave Vi (2V peak) and amplified output sine wave Vo (5V peak) with exact 180° phase inversion.'
+                },
+                {
+                    src: 'images/page_11_img_2.jpg',
+                    title: 'Non-Inverting Amplifier Input vs Output Waveforms',
+                    cap: 'Shows input sine wave Vi (2V peak) and amplified output sine wave Vo (5.5V peak) in-phase (0° phase shift).'
+                }
+            ],
             svg: INV_SVG + '<br>' + NON_SVG,
-            cap: 'Pinout & schematics for IC741 Inverting and Non-Inverting configurations. Tap diagram to enlarge in lightbox.',
+            cap: 'Interactive vector schematics for IC741 Inverting and Non-Inverting configurations.',
             theory: 'The operational amplifier is a high-gain direct-coupled differential amplifier. In the inverting configuration, input is applied to pin 2 while pin 3 is grounded. Since the open-loop gain Aol is very large (≈2×10⁵), negative feedback forces the inverting terminal to the same potential as the non-inverting terminal (virtual ground, V− ≈ 0 V). Applying Kirchhoff’s Current Law at node A yields (Vi/R1) + (Vo/Rf) = 0, giving Vo = −(Rf/R1)·Vi. In the non-inverting configuration, input is fed directly to pin 3 (+), yielding Vo = (1 + Rf/R1)·Vi.',
             f: [
                 'Inverting Gain: Av = Vo / Vi = −(Rf / R1)  [Rf = 10 kΩ, R1 = 1 kΩ → Av = −10]',
@@ -1100,8 +1212,37 @@
                 ['Function Generator', '0–3 MHz sine wave', '1'],
                 ['CRO / DSO', 'Dual trace', '1']
             ],
+            circuits: [
+                {
+                    src: 'images/page_13_img_1.png',
+                    title: 'Fig (1): Inverting Half-Wave Precision Rectifier Circuit',
+                    cap: 'Negative half-wave precision rectifier with feedback diode D2 and series diode D1. Eliminates the 0.7 V diode forward knee drop.'
+                },
+                {
+                    src: 'images/page_14_img_1.png',
+                    title: 'Fig (2): Positive Half-Wave Precision Rectifier Circuit',
+                    cap: 'Positive half-wave rectifier delivering rectified positive half cycles for millivolt AC inputs without cut-in distortion.'
+                },
+                {
+                    src: 'images/page_15_img_1.png',
+                    title: 'Fig (3): Full-Wave Precision Rectifier Circuit Diagram',
+                    cap: 'Two-stage precision full-wave rectifier: Half-wave stage cascaded into summing inverting amplifier to yield full-wave DC output.'
+                }
+            ],
+            graphs: [
+                {
+                    src: 'images/page_13_img_2.png',
+                    title: 'Half-Wave Precision Rectifier Waveform Model Graph',
+                    cap: 'Input Vi (top) and rectified output Vo (bottom) showing alternate conduction of D1 and D2 with sharp zero-crossing.'
+                },
+                {
+                    src: 'images/page_15_img_2.png',
+                    title: 'Full-Wave Precision Rectifier Waveform Model Graph',
+                    cap: 'Both positive and negative half-cycles of input signal are rectified into smooth positive DC pulses.'
+                }
+            ],
             svg: chain(['Sine Input|Vi < 0.7 V', 'Precision Rectifier|Op-Amp + Diodes', 'Summing Amp|Gain = 1', 'Full-Wave DC|Vo = 0.637 Vm']),
-            cap: 'Block diagram for precision half-wave and full-wave rectification. Diodes placed inside op-amp feedback loop cancel the 0.7 V barrier.',
+            cap: 'Block diagram for precision half-wave and full-wave rectification.',
             theory: 'Ordinary semiconductor diodes cannot rectify AC signals below their forward knee voltage (≈0.7 V for Silicon). By placing the diode inside the negative feedback loop of an operational amplifier, the effective diode threshold voltage is divided by the open-loop gain: Vth(effective) = 0.7 V / Aol ≈ 3.5 µV. This allows rectification of very low-level millivolt signals without non-linear threshold distortion. A full-wave rectifier combines the half-wave stage with an inverting summer.',
             f: [
                 'Full-Wave Average Output: Vo(avg) = (2 · Vm) / π ≈ 0.637 · Vm',
@@ -1145,8 +1286,22 @@
                 ['Dual Power Supply', '±15 V', '1'],
                 ['CRO / DSO', 'Dual trace', '1']
             ],
+            circuits: [
+                {
+                    src: 'images/page_19_img_1.png',
+                    title: 'Function Generator Circuit Diagram (Astable + Integrator)',
+                    cap: 'Dual op-amp circuit: IC1 operates as an astable multivibrator producing square waves (±Vsat). Its output is fed to IC2 wired as an inverting Miller integrator to yield symmetrical triangular ramps.'
+                }
+            ],
+            graphs: [
+                {
+                    src: 'images/page_30_img_2.png',
+                    title: 'Function Generator Synchronized Waveform Model Graph',
+                    cap: 'Channel 1: Symmetrical Square Wave (±Vsat). Channel 2: Triangular Wave ramp with peak-to-peak amplitude Vpp = 2·β·Vsat at fo ≈ 4.5 kHz.'
+                }
+            ],
             svg: chain(['Astable Multivibrator|IC1 µA741|R1 10k, C1 0.01µF', 'Square Wave|Vo1 = ±Vsat', 'Op-Amp Integrator|IC2 µA741|R 100k, C 0.01µF', 'Triangle Wave|Vo2 Ramp']),
-            cap: 'Two-stage op-amp function generator: Astable square-wave generator cascaded into an inverting Miller integrator to produce a linear triangular wave.',
+            cap: 'Two-stage op-amp function generator: Astable square-wave generator cascaded into an inverting Miller integrator.',
             theory: 'A function generator produces multiple standard waveforms. An op-amp astable multivibrator operates without external trigger: capacitor C1 alternately charges and discharges through feedback resistor R toward ±Vsat. When capacitor voltage crosses the positive feedback threshold voltage ±βVsat, the op-amp switches states, generating a symmetric square wave. Feeding this square wave to an op-amp integrator integrates the constant voltage levels into linear ramps, producing a symmetrical triangular wave.',
             f: [
                 'Square-Wave Period: T = 2 · R · C · ln[(1 + β) / (1 − β)]',
@@ -1190,6 +1345,30 @@
                 ['Potentiometer', '10 kΩ (for Vref)', '1'],
                 ['Dual Power Supply', '±15 V', '1'],
                 ['Signal Generator & CRO', 'Sine wave & dual trace', '1 each']
+            ],
+            circuits: [
+                {
+                    src: 'images/page_21_img_1.jpg',
+                    title: 'Positive Active Clipper Circuit Diagram',
+                    cap: 'Op-amp positive clipper circuit with feedback diode D1 and adjustable reference voltage Vref applied via potentiometer Rp to set clipping boundary.'
+                },
+                {
+                    src: 'images/page_22_img_1.jpg',
+                    title: 'Negative Active Clipper Circuit Diagram',
+                    cap: 'Reversed diode orientation for clipping negative half cycles below reference voltage −Vref.'
+                }
+            ],
+            graphs: [
+                {
+                    src: 'images/page_21_img_2.jpg',
+                    title: 'Positive Clipper Waveform Model Graph',
+                    cap: 'Input sine wave Vi (top) and positive clipped output Vo (bottom) clamped at reference voltage Vref without rounded knee errors.'
+                },
+                {
+                    src: 'images/page_22_img_2.jpg',
+                    title: 'Negative Clipper Waveform Model Graph',
+                    cap: 'Input sine wave Vi (top) and negative clipped output Vo (bottom) clamped at negative reference voltage −Vref.'
+                }
             ],
             svg: chain(['Sine Input|Vi = 5 V p-p', 'Active Clipper|IC741 + Diode', 'Vref Potentiometer|Set to +1.0 V', 'Clipped Output|Vo clipped at Vref']),
             cap: 'Active clipper circuit blocks signals exceeding reference voltage Vref with razor-sharp threshold precision.',
@@ -1235,8 +1414,27 @@
                 ['Dual Power Supply', '±15 V', '1'],
                 ['CRO / DSO', 'Frequency measurement', '1']
             ],
+            circuits: [
+                {
+                    src: 'images/page_26_img_1.png',
+                    title: 'RC Phase Shift Oscillator Circuit Diagram',
+                    cap: 'Inverting amplifier with 3-stage cascaded RC feedback ladder providing 180° phase shift. Frequency fo = 1 / (2π√6RC), gain Av ≥ 29 (Rf ≥ 29·R1).'
+                },
+                {
+                    src: 'images/page_27_img_1.png',
+                    title: 'Wien Bridge Oscillator Circuit Diagram',
+                    cap: 'Non-inverting amplifier with series-parallel lead-lag RC bridge and JFET automatic amplitude gain stabilization. fo = 1 / (2πRC), Av = 3.'
+                }
+            ],
+            graphs: [
+                {
+                    src: 'images/page_28_img_1.png',
+                    title: 'Oscillator Sinusoidal Output Waveforms Model Graph',
+                    cap: 'Pure 1 kHz continuous sinusoidal output waveform observed on CRO with stable amplitude and zero harmonic distortion.'
+                }
+            ],
             svg: chain(['Inverting Amp|Av ≥ 29', '3-Stage RC Ladder|Phase Shift = 180°', 'Total Loop Phase|180° + 180° = 360°', 'Sine Wave|fo ≈ 1.0 kHz']),
-            cap: 'Barkhausen Criterion: Loop gain |Aβ| = 1 and net loop phase shift = 0° or 360° to sustain sinusoidal oscillations.',
+            cap: 'Barkhausen Criterion: Loop gain |Aβ| = 1 and net loop phase shift = 0° or 360°.',
             theory: 'Oscillators convert DC energy into periodic AC signals without external AC input. Under the Barkhausen criterion, sustained oscillation requires: 1) Loop gain |Aβ| ≥ 1, and 2) Loop phase shift = 0° or 360°. In the RC Phase Shift oscillator, an inverting amplifier provides 180° phase shift and a 3-stage cascaded RC ladder network provides the remaining 180° (60° per stage). Feedback factor β = 1/29, so amplifier gain must be |Av| ≥ 29 (Rf ≥ 29·R1). In the Wein Bridge oscillator, a non-inverting amplifier (Av = 3) is combined with a series-parallel lead-lag RC bridge (β = 1/3, phase shift = 0°).',
             f: [
                 'RC Phase Shift Frequency: fo = 1 / (2π · √6 · R · C)',
@@ -1248,253 +1446,342 @@
             proc: [
                 'Construct the RC Phase Shift oscillator with R = 6.5 kΩ, C = 0.01 µF, and pot Rf = 200 kΩ for gain adjustment.',
                 'Power with ±15 V dual supply; connect output to CRO.',
-                'Carefully adjust Rf potentiometer until clean sinusoidal oscillations start without flat-top saturation clipping.',
-                'Measure time period T and calculate oscillation frequency fo = 1/T.',
-                'Reconfigure circuit for Wein Bridge oscillator with R1 = 10 kΩ, Rf = 20 kΩ pot, and series-parallel RC network; repeat frequency measurement.'
+                'Adjust Rf potentiometer until sustained, distortion-free sine waves appear on screen.',
+                'Measure time period T on CRO and compute oscillation frequency fo = 1/T.',
+                'Repeat the setup for the Wein Bridge oscillator with R = 15.9 kΩ, C = 0.01 µF, R1 = 10 kΩ, and Rf = 20 kΩ.',
+                'Compare theoretical and practical frequencies in the observation table.'
             ],
-            tab: ['Oscillator Type', 'R Value (kΩ)', 'C Value (µF)', 'Theoretical fo (kHz)', 'Measured fo (kHz)', 'Output Vpp (V)'],
+            tab: ['Oscillator Type', 'R Component', 'C Component', 'Theoretical fo (Hz)', 'Measured fo (Hz)', 'Peak Amplitude Vo (V)'],
             rows: [
-                ['RC Phase Shift', '6.5 kΩ', '0.01 µF', '1.00 kHz', '0.98 kHz', '18.4 V'],
-                ['Wein Bridge', '15.9 kΩ', '0.01 µF', '1.00 kHz', '1.01 kHz', '20.2 V']
+                ['RC Phase Shift', '6.5 kΩ', '0.01 µF', '1000 Hz', '985 Hz', '10.5 V p-p'],
+                ['Wein Bridge', '15.9 kΩ', '0.01 µF', '1001 Hz', '998 Hz', '11.2 V p-p']
             ],
-            calc: 'For RC Phase Shift:\n• fo = 1 / (2 × 3.14159 × √6 × 6,500 × 0.01 × 10⁻⁶)\n• √6 ≈ 2.4495\n• fo = 1 / (6.2832 × 2.4495 × 6500 × 10⁻⁸) = 1 / 0.001000 = 1000 Hz = 1.0 kHz\n• Minimum Rf = 29 × R1 = 29 × 10 kΩ = 290 kΩ',
-            res: 'RC Phase Shift and Wein Bridge oscillators were constructed and tested. Both generated clean sinusoidal waveforms at 1 kHz in full compliance with Barkhausen criteria.',
+            calc: 'RC Phase Shift: R = 6.5 kΩ, C = 0.01 µF\n• fo = 1 / [ 2π × √6 × 6500 × 10⁻⁸ ] = 1 / [ 6.283 × 2.449 × 6.5 × 10⁻⁵ ] ≈ 999.5 Hz ≈ 1.0 kHz\n• Required Rf ≥ 29 × R1 = 29 × 6.5 kΩ = 188.5 kΩ',
+            res: 'RC Phase Shift and Wein Bridge oscillators were constructed and tested for 1.0 kHz design frequency. Measured frequencies (985 Hz and 998 Hz) matched design specifications within 2% component tolerance.',
             pre: [
-                'Carefully adjust Rf: too low gain prevents oscillation start-up; too high gain causes output clipping into a square wave.',
-                'Use matched precision capacitors (1% tolerance) for equal phase shift per stage.'
+                'Use precision metal film resistors and matched film capacitors in all 3 RC ladder stages.',
+                'Gradually trim potentiometer Rf to prevent op-amp saturation clipping at output peaks.'
             ],
             viva: [
-                ['State Barkhausen criteria for sustained oscillations.', '1) Magnitude of open loop gain product |Aβ| must equal unity. 2) Net phase shift around the closed loop must be 0° or an integer multiple of 360°.', '|Aβ| = 1 and ∠Aβ = 0° or 360°'],
-                ['Why is minimum gain 29 for RC phase shift oscillator?', 'Because at the frequency where the 3-section RC network produces 180° phase shift, its attenuation factor is β = 1/29. To achieve |Aβ| = 1, gain |A| must equal 29.', 'Network attenuation β = 1/29'],
-                ['Why is Wein Bridge preferred over RC Phase Shift for variable frequency?', 'In a Wein Bridge, frequency is varied easily over a wide range using a two-gang potentiometer (varying two R’s simultaneously), whereas RC phase shift requires a 3-gang pot.', 'Uses 2-gang pot instead of 3-gang']
+                ['State Barkhausen criteria for sustained oscillations.', '1. Magnitude of total loop gain must equal unity: |A·β| = 1.\n2. Total loop phase shift around the feedback loop must be 0° or 360° (integral multiple of 2π).', '|Aβ| = 1 and ∠Aβ = 0° or 360°'],
+                ['Why is Rf chosen slightly greater than 29·R1 in practical RC phase shift oscillators?', 'To ensure that loop gain |Aβ| is slightly greater than unity initially, allowing oscillations to build up quickly from thermal circuit noise.', 'Ensures initial oscillation build-up'],
+                ['What is the function of the JFET in the Wein bridge circuit?', 'The JFET operates in its ohmic region as a voltage-controlled resistor (VCR) in the negative feedback path to automatically stabilize output amplitude against temperature drift.', 'VCR for amplitude stabilization']
             ]
         },
         {
             n: 6,
-            t: 'Second-order Active Low-pass & High-pass Filters (Simulation)',
-            aim: 'To simulate and analyze second-order Butterworth active low-pass and high-pass filters using OrCAD PSpice / SPICE and plot frequency response.',
-            ic: 'µA741 (Sallen-Key Topology)',
+            t: '2nd Order Active Low Pass and High Pass Filters (Simulation)',
+            aim: 'To simulate second-order Sallen-Key Low Pass and High Pass active Butterworth filters using OrCAD / SPICE, plot frequency response curves, and measure cut-off frequencies.',
+            ic: 'IC µA741 (Sallen-Key Topology)',
             parts: [
-                ['PC with SPICE / OrCAD / Multisim', 'Circuit simulation suite', '1'],
-                ['Virtual Op-Amp µA741', 'SPICE model library', '1'],
-                ['Virtual Resistors & Capacitors', 'Standard library components', 'Assorted']
+                ['Simulation Software', 'OrCAD Capture / SPICE / Proteus', '1 Workstation'],
+                ['Virtual Op-Amp 741', 'PSpice library model', '1'],
+                ['Resistors', '3.3 kΩ, 10 kΩ, 5.86 kΩ', 'Assorted'],
+                ['Capacitors', '0.01 µF (matched)', '2']
+            ],
+            circuits: [
+                {
+                    src: 'images/page_29_img_1.png',
+                    title: 'Second Order Sallen-Key Low Pass Filter Schematic',
+                    cap: 'Two-pole Sallen-Key active low-pass filter with R2=R3=3.3 kΩ, C2=C3=0.01 µF, providing maximally flat Butterworth response.'
+                },
+                {
+                    src: 'images/page_30_img_1.png',
+                    title: 'Second Order Sallen-Key High Pass Filter Schematic',
+                    cap: 'Two-pole active high-pass filter exchanging positions of resistors and capacitors for high-frequency passband.'
+                }
+            ],
+            graphs: [
+                {
+                    src: 'images/page_30_img_2.png',
+                    title: 'Filter Frequency Response Characteristic Curve (Bode Plot)',
+                    cap: 'Gain (dB) vs Frequency (Hz) showing passband flat gain, −3 dB cut-off frequency fc ≈ 4.8 kHz, and steep −40 dB/decade roll-off.'
+                }
             ],
             svg: LPF_SVG,
-            cap: 'Sallen-Key second-order active low-pass filter providing 40 dB/decade roll-off with Butterworth maximally flat passband response.',
-            theory: 'Active filters utilize operational amplifiers in conjunction with resistors and capacitors, eliminating bulky inductors at low frequencies. A second-order filter provides a sharp roll-off rate of −40 dB/decade (−12 dB/octave) in the stopband. The Sallen-Key topology implements a second-order response with a single op-amp. For a Butterworth response (maximally flat passband with damping factor ζ = 0.707), the passband gain must be set to Af = 1 + (Rf / R1) = 1.586.',
+            cap: 'Sallen-Key 2nd-order active low-pass filter schematic.',
+            theory: 'Active filters combine op-amps with resistors and capacitors, eliminating bulky inductors at audio frequencies while providing buffering and gain. A second-order Sallen-Key filter provides a steep −40 dB/decade (−12 dB/octave) roll-off rate in the stopband. For a maximally flat Butterworth response (damping ratio ζ = 0.707), passband voltage gain is designed as Av = 1 + (Rf / R1) = 1.586 (giving Rf = 0.586·R1). The cut-off frequency where gain drops by 3 dB from maximum is fc = 1 / (2π · √(R1·R2·C1·C2)).',
             f: [
-                'Cutoff Frequency: fc = 1 / (2π · √(R2 · R3 · C2 · C3))',
-                'Equal Component Design: With R2 = R3 = R, C2 = C3 = C → fc = 1 / (2π · R · C)',
-                'Butterworth Passband Gain: Af = 1 + (Rf / R1) = 1.586  (Rf = 0.586 · R1)',
-                'Roll-off Rate: −40 dB/decade for LPF, +40 dB/decade for HPF'
+                'Cut-off Frequency: fc = 1 / (2π · R · C)  [When R1 = R2 = R and C1 = C2 = C]',
+                'Butterworth Passband Gain: Av = 1 + (Rf / R1) = 1.586  (Rf = 0.586 · R1)',
+                'Stopband Roll-off Rate: −40 dB/decade (−12 dB/octave)',
+                'Gain in Decibels: Gain(dB) = 20 · log₁₀(Vo / Vi)'
             ],
             proc: [
-                'Open simulation software and create a new analog project.',
-                'Place µA741 op-amp and wire Sallen-Key LPF with R2 = R3 = 3.3 kΩ and C2 = C3 = 0.01 µF.',
-                'Set gain resistors R1 = 10 kΩ and Rf = 5.86 kΩ for Butterworth response.',
-                'Configure AC Sweep simulation profile from 10 Hz to 100 kHz (decade scale, 100 points/decade).',
-                'Run simulation and plot output voltage in dB: VDB(Vo).',
-                'Locate the −3 dB cutoff point and compare with theoretical fc = 4.82 kHz.',
-                'Interchange resistors and capacitors to simulate High-Pass Filter.'
+                'Open simulation software and place IC741, resistors, and capacitors according to schematic.',
+                'Configure AC sweep analysis from 10 Hz to 100 kHz with decade logarithmic scale.',
+                'Set AC source amplitude to 1 V peak.',
+                'Place voltage probe at filter output pin 6.',
+                'Run AC simulation and generate Bode frequency response plot (Gain in dB vs log frequency).',
+                'Use cursor tool to locate the −3 dB cut-off point (where gain drops from passband gain by 3.0 dB).',
+                'Repeat for high-pass configuration and record lower cut-off frequency.'
             ],
-            tab: ['Frequency (Hz)', 'LPF Gain (dB)', 'LPF Phase (°)', 'HPF Gain (dB)', 'HPF Phase (°)'],
+            tab: ['Filter Type', 'Theoretical fc (Hz)', 'Simulated fc (Hz)', 'Passband Gain (dB)', 'Roll-off Rate (dB/decade)'],
             rows: [
-                ['100 Hz', '+4.0 dB (Passband)', '−2°', '−68 dB (Stopband)', '+176°'],
-                ['1 kHz', '+4.0 dB', '−22°', '−28 dB', '+135°'],
-                ['4.82 kHz (fc)', '+1.0 dB (−3 dB)', '−90°', '+1.0 dB (−3 dB)', '+90°'],
-                ['20 kHz', '−24 dB', '−160°', '+4.0 dB', '+18°'],
-                ['50 kHz', '−40 dB (−40 dB/dec)', '−175°', '+4.0 dB', '+5°']
+                ['2nd Order Low-Pass (LPF)', '4822 Hz (4.82 kHz)', '4810 Hz (4.81 kHz)', '+4.0 dB', '−39.8 dB/dec'],
+                ['2nd Order High-Pass (HPF)', '4822 Hz (4.82 kHz)', '4835 Hz (4.83 kHz)', '+4.0 dB', '+39.7 dB/dec']
             ],
-            calc: 'R = 3.3 kΩ, C = 0.01 µF\n• fc = 1 / (2 × π × 3300 × 10⁻⁸) = 1 / (2.0734 × 10⁻⁴) ≈ 4822 Hz = 4.82 kHz\n• Passband Gain = 20 log10(1.586) = +4.0 dB\n• Gain at Cutoff = +4.0 dB − 3.0 dB = +1.0 dB',
-            res: 'Second-order active low-pass and high-pass filters were simulated. Frequency responses demonstrated a maximally flat Butterworth passband and sharp −40 dB/decade roll-off with cutoff at 4.82 kHz.',
+            calc: 'Given: R = 3.3 kΩ, C = 0.01 µF\n• fc = 1 / (2π × 3300 × 10⁻⁸) = 1 / (2.0734 × 10⁻⁴) = 4822.8 Hz ≈ 4.82 kHz\n• Butterworth feedback: Choose R1 = 10 kΩ → Rf = 0.586 × 10 kΩ = 5.86 kΩ\n• Passband Gain = 1 + 5.86/10 = 1.586 → 20·log₁₀(1.586) ≈ 4.0 dB',
+            res: 'Second-order active low-pass and high-pass filters were simulated successfully. Simulated cut-off frequencies (4.81 kHz LPF, 4.83 kHz HPF) and −40 dB/decade roll-off slopes perfectly matched theoretical Butterworth design values.',
             pre: [
-                'Ensure op-amp power rails (±15 V) are connected in the simulation schematic.',
-                'Set AC Sweep points per decade ≥ 100 for smooth graph resolution.'
+                'Keep equal resistor values (R1 = R2) and equal capacitor values (C1 = C2) for simplified tuning.',
+                'Select AC Sweep analysis mode; transient analysis will not produce a Bode frequency plot.'
             ],
             viva: [
-                ['Why are active filters preferred over passive filters at audio frequencies?', 'Passive filters require inductors at low audio frequencies, which are bulky, heavy, expensive, and have high internal resistance. Active filters use op-amps and capacitors without inductors.', 'No bulky inductors needed'],
-                ['What is the significance of the 1.586 gain in a second-order Butterworth filter?', 'A passband gain of exactly 1.586 gives a damping ratio of ζ = 0.707 (Q = 0.707), which mathematically guarantees a maximally flat response without passband ripples.', 'Ensures Q = 0.707 (maximally flat)'],
-                ['What is the roll-off rate of an n-th order filter?', 'The stopband roll-off rate is −20×n dB/decade (or −6×n dB/octave). For n = 2, roll-off is −40 dB/decade.', '−20n dB/decade']
+                ['Why are active filters preferred over passive filters at low frequencies?', 'At low frequencies (<100 kHz), passive inductors are extremely bulky, heavy, lossy, and pick up electromagnetic interference. Active filters use op-amps, resistors, and capacitors only.', 'Eliminates bulky & lossy inductors'],
+                ['What is the significance of a Butterworth filter response?', 'It features a maximally flat passband magnitude response with zero passband ripple and monotonic attenuation in the stopband.', 'Maximally flat passband response'],
+                ['What is the roll-off rate of an n-th order filter?', 'The stopband roll-off rate is −20·n dB/decade (−6·n dB/octave). For n = 2, roll-off is −40 dB/decade.', '−20·n dB/decade']
             ]
         },
         {
             n: 7,
-            t: 'Phase-Locked Loop using IC565 (Simulation)',
-            aim: 'To simulate the operation of a Phase-Locked Loop (PLL) using IC565, observe lock and capture ranges, and demonstrate FM demodulation.',
-            ic: 'NE / SE 565 PLL IC (14-Pin DIP)',
+            t: 'Phase-Locked Loop using IC 565 (Simulation)',
+            aim: 'To simulate a Phase-Locked Loop (PLL) using IC565 in OrCAD / SPICE, determine free-running frequency, lock range (fL), and capture range (fC).',
+            ic: 'IC LM565 (Monolithic PLL)',
             parts: [
-                ['PC with Simulation Software', 'SPICE / Proteus / Multisim', '1'],
-                ['Virtual IC 565 Model', 'PLL macromodel', '1']
+                ['Simulation Software', 'OrCAD Capture / Proteus / SPICE', '1'],
+                ['Virtual IC NE/LM565', 'PLL 14-Pin DIP model', '1'],
+                ['Timing Components', 'R1 = 10 kΩ, C1 = 0.01 µF', '1, 1'],
+                ['Loop Filter Capacitor', 'C2 = 10 µF, 0.1 µF', '1']
             ],
-            svg: chain(['Input Signal|Pin 2 (FM in)', 'Phase Detector|Compares Fin & Fvco', 'Low-Pass Filter|Pin 7 (Demod Out)', 'VCO|Pin 4 & 5 (Fvco)']),
-            cap: 'Phase-Locked Loop architecture: Phase Detector, Low-Pass Filter, and Voltage-Controlled Oscillator forming a negative feedback frequency-tracking loop.',
-            theory: 'A Phase-Locked Loop is a closed-loop feedback system that tracks the phase and frequency of an incoming signal. It comprises three primary functional blocks: 1) Phase Detector / Comparator, 2) Low-Pass Filter, and 3) Voltage Controlled Oscillator (VCO). Free running frequency fo is set by external timing resistor R1 and capacitor C1. Lock range (fL) is the frequency range over which the PLL can maintain lock once locked. Capture range (fc) is the range over which the loop can initially acquire lock.',
+            circuits: [
+                {
+                    src: 'images/page_32_img_1.png',
+                    title: 'Phase-Locked Loop (IC 565) Circuit Schematic',
+                    cap: 'IC565 monolithic PLL with internal Phase Detector, Voltage Controlled Oscillator (VCO), and Low-Pass Loop Filter. Timing components R1 and C1 set free-running frequency fo.'
+                }
+            ],
+            graphs: [
+                {
+                    src: 'images/page_30_img_2.png',
+                    title: 'PLL Lock Range & Capture Range Characteristics Curve',
+                    cap: 'Free-running frequency fo, Lock Range (fL = ±8fo/Vcc), and Capture Range (fC = ±(1/2π)·√(2π·fL/(3.6k·C2))) characteristics curve.'
+                }
+            ],
+            svg: chain(['Input Signal fi|Phase Detector', 'Error Voltage Vd|Low Pass Filter', 'Amplifier & Limiter|Loop Filter C2', 'VCO Output fo|Feedback Loop']),
+            cap: 'Closed-loop architecture of Phase-Locked Loop.',
+            theory: 'A Phase-Locked Loop (PLL) is a feedback control system that automatically synchronizes the frequency and phase of an internal Voltage-Controlled Oscillator (VCO) with an incoming input reference signal. It consists of three primary building blocks: 1) Phase Detector (multiplier that generates error voltage proportional to phase difference), 2) Low-Pass Filter (removes high-frequency sum components and noise), and 3) VCO (adjusts its frequency in response to error voltage). Lock Range is the band of frequencies over which the PLL maintains lock once acquired. Capture Range is the narrower band over which an unlocked PLL can acquire lock.',
             f: [
-                'VCO Free-Running Frequency: fo = 0.3 / (R1 · C1)  [Standard IC565 formula]',
-                'Lock Range: fL = ± (8 · fo) / Vcc  [where Vcc = total supply voltage (V+ − V−)]',
-                'Capture Range: fc = ± (1 / 2π) · √[(2π · fL) / (3.6 kΩ · C2)]'
+                'VCO Free-Running Frequency: fo ≈ 0.3 / (R1 · C1)',
+                'Lock Range: fL = ± (8 · fo) / Vcc  [where Vcc = (+Vcc) − (−Vcc)]',
+                'Capture Range: fC = ± [ 1 / (2π) ] · √[ (2π · fL) / (3.6 × 10³ · C2) ]',
+                'Relationship: Capture Range is always narrower than Lock Range (fC < fL)'
             ],
             proc: [
-                'Assemble IC565 PLL circuit in simulation with R1 = 10 kΩ, C1 = 0.01 µF, and loop filter C2 = 10 µF.',
-                'Apply dual supply +10 V (pin 10) and −10 V (pin 1); total Vcc = 20 V.',
-                'Measure free-running frequency at pin 4 with no input signal applied.',
-                'Apply FM input signal at pin 2; slowly sweep input frequency upward and downward.',
-                'Record the frequencies where lock is acquired (capture) and where lock is lost (lock).',
-                'Observe demodulated analog output voltage at pin 7.'
+                'Set up the IC565 circuit schematic with timing resistor R1 = 10 kΩ on pin 8 and capacitor C1 = 0.01 µF on pin 9.',
+                'Connect pin 4 (VCO output) to pin 5 (phase detector input) to close the PLL feedback loop.',
+                'Connect loop filter capacitor C2 = 10 µF between pin 7 and +Vcc (pin 10).',
+                'Apply ±6 V or ±10 V dual power supply (total Vcc = 12 V or 20 V).',
+                'Measure free-running frequency fo at pin 4 with no input signal applied.',
+                'Apply variable frequency input signal to pin 2; sweep frequency upward and downward to determine capture points and lock loss points.',
+                'Record lock range and capture range.'
             ],
-            tab: ['Parameter', 'Theoretical Value', 'Simulated Value', 'Units'],
+            tab: ['Parameter', 'Theoretical Value', 'Simulated Value', 'Error %'],
             rows: [
-                ['Free Running Freq fo', '3.00 kHz', '2.98 kHz', 'kHz'],
-                ['Lock Range fL', '± 1.20 kHz (1.8 to 4.2 kHz)', '± 1.18 kHz', 'kHz'],
-                ['Capture Range fc', '± 0.45 kHz (2.55 to 3.45 kHz)', '± 0.44 kHz', 'kHz']
+                ['Free Running Frequency fo', '3.00 kHz', '2.98 kHz', '0.67%'],
+                ['Lock Range ΔfL', '±2.00 kHz (2.0–4.0 kHz)', '±1.95 kHz', '2.5%'],
+                ['Capture Range ΔfC', '±0.53 kHz (2.47–3.53 kHz)', '±0.51 kHz', '3.7%']
             ],
-            calc: 'R1 = 10 kΩ, C1 = 0.01 µF, Vcc = 20 V, C2 = 10 µF\n• fo = 0.3 / (10,000 × 0.01 × 10⁻⁶) = 0.3 / 10⁻⁴ = 3,000 Hz = 3.0 kHz\n• fL = ± (8 × 3000) / 20 = ± 1200 Hz = ± 1.2 kHz\n• Lock span = 1.8 kHz to 4.2 kHz',
-            res: 'Phase-Locked Loop IC565 was successfully simulated. Free running frequency of 3 kHz, lock range of ±1.2 kHz, and capture range of ±0.45 kHz were verified.',
+            calc: 'R1 = 10 kΩ, C1 = 0.01 µF, Vcc = 12 V (±6V supply), C2 = 10 µF\n• fo = 0.3 / (10,000 × 10⁻⁸) = 0.3 / 10⁻⁴ = 3000 Hz = 3.0 kHz\n• fL = ±(8 × 3000) / 12 = ±2000 Hz = ±2.0 kHz (Total lock band = 1.0 kHz to 5.0 kHz)\n• fC = ±(1 / 2π) × √[ (2π × 2000) / (3600 × 10⁻⁵) ] = ±530 Hz ≈ ±0.53 kHz',
+            res: 'Phase-Locked Loop IC565 was simulated successfully. The free-running frequency (2.98 kHz), lock range (±1.95 kHz), and capture range (±0.51 kHz) closely matched theoretical calculations with fC < fL verified.',
             pre: [
-                'Always bridge pin 4 and pin 5 to feed the VCO output back into the phase detector input.',
-                'Connect bypass capacitor across supply pins to avoid spurious noise triggering.'
+                'Keep timing resistor R1 between 2 kΩ and 20 kΩ for optimal linearity.',
+                'Ensure loop filter capacitor C2 has low leakage current.'
             ],
             viva: [
-                ['What is the difference between Lock Range and Capture Range?', 'Lock range is the frequency band over which the PLL tracks an incoming signal once lock is established. Capture range is the narrower band over which an unlocked PLL can initially acquire lock. Capture range is always smaller than lock range.', 'Capture Range < Lock Range'],
-                ['Why is the demodulated FM signal obtained at pin 7?', 'Pin 7 is the output of the loop low-pass filter that carries the DC control voltage driving the VCO. In an FM signal, this error voltage is directly proportional to frequency deviation, reconstructing the message.', 'Filtered error voltage = demodulated audio'],
-                ['List major commercial applications of PLL.', 'FM and AM demodulators, frequency synthesizers in mobile phones, motor speed controls, and clock data recovery in digital communications.', 'Frequency synthesis & FM demodulation']
+                ['Distinguish between Lock Range and Capture Range.', 'Lock Range is the frequency range over which the PLL maintains frequency lock once synchronized. Capture Range is the frequency range over which the PLL can initially acquire lock from an unlocked state. Capture range is always smaller than lock range.', 'Lock: maintain sync; Capture: acquire sync (fC < fL)'],
+                ['What are the major applications of PLLs in communication systems?', 'Frequency synthesis, FM demodulation, FSK decoding, motor speed control, clock jitter cleanup, and carrier recovery.', 'FM demodulation & frequency synthesis'],
+                ['What is the role of the low-pass filter in a PLL?', 'It filters out the high-frequency sum component (fi + fo) from the phase detector output and controls the dynamic response and bandwidth of the loop.', 'Removes (fi+fo) & sets loop bandwidth']
             ]
         },
         {
             n: 8,
-            t: '4-bit R-2R Ladder D/A Converter (Simulation)',
-            aim: 'To simulate and analyze a 4-bit R-2R ladder Digital-to-Analog Converter (DAC) using op-amp and calculate resolution and full-scale output.',
-            ic: 'LM741 with R-2R Resistor Network',
+            t: '4-bit R-2R Ladder type D/A Converter (Simulation)',
+            aim: 'To simulate a 4-bit R-2R ladder Digital-to-Analog Converter (DAC) using IC741, plot transfer characteristics, and calculate resolution and linearity.',
+            ic: 'IC µA741 + Precision R-2R Network',
             parts: [
-                ['PC with Simulation Software', 'SPICE / Multisim', '1'],
-                ['Virtual Op-Amp LM741', 'DIP-8 op-amp model', '1'],
-                ['Precision Resistors', 'R = 2.2 kΩ, 2R = 4.4 kΩ, Rf = 3R', 'Assorted']
+                ['Simulation Tool', 'SPICE / Proteus / Multisim', '1'],
+                ['Virtual Op-Amp 741', 'Inverting summer DIP-8', '1'],
+                ['Resistors (R)', '10 kΩ (1% tolerance)', '4'],
+                ['Resistors (2R)', '20 kΩ (1% tolerance)', '6'],
+                ['Feedback Resistor Rf', '20 kΩ (or 3R = 30 kΩ)', '1']
+            ],
+            circuits: [
+                {
+                    src: 'images/page_34_img_1.png',
+                    title: '4-Bit R-2R Ladder DAC Circuit Schematic',
+                    cap: '4-bit R-2R ladder network connected to IC741 inverting summing amplifier. Inputs B0 to B3 switch between 0 V and Vref (5 V).'
+                }
+            ],
+            graphs: [
+                {
+                    src: 'images/page_30_img_2.png',
+                    title: '4-Bit DAC 16-Step Staircase Transfer Characteristics',
+                    cap: 'Digital Binary Input Code (0000 to 1111) vs Analog Output Voltage Vo showing linear 16-level monotonic voltage staircase.'
+                }
             ],
             svg: LAD_SVG,
-            cap: '4-bit R-2R Ladder DAC: Only two resistance values (R and 2R) required, overcoming the wide resistor spread disadvantage of binary weighted DACs.',
-            theory: 'A Digital-to-Analog Converter converts multi-bit binary digital words into a continuous analog voltage. The R-2R ladder DAC utilizes repeated voltage-halving voltage divider nodes: each successive bit from MSB to LSB contributes exactly half the current of the preceding bit into the summing virtual ground node of the op-amp. Because only two precise resistance values (R and 2R) are used, fabrication is straightforward and temperature tracking is superior compared to weighted-resistor DACs.',
+            cap: '4-bit R-2R ladder network with op-amp inverting summer schematic.',
+            theory: 'A Digital-to-Analog Converter converts a discrete multi-bit digital code into an equivalent continuous analog voltage. The R-2R ladder network requires only two resistor values (R and 2R regardless of the number of bits), eliminating the wide component range drawbacks of binary-weighted DACs. Using Thevenin’s equivalent circuit at each bit node, each digital input bit contributes a current weighted by a power of two to the virtual ground node of the summing amplifier.',
             f: [
-                'Resolution (Step Size): VLSB = VFS / (2ⁿ − 1)  [For n = 4, 15 steps]',
-                'Percentage Resolution: % = [1 / (2ⁿ − 1)] × 100% = (1 / 15) × 100% ≈ 6.67%',
-                'Analog Output: Vo = − (Rf / R) · Vref · [ (b3 / 2) + (b2 / 4) + (b1 / 8) + (b0 / 16) ]'
+                'Output Voltage: Vo = −Vref · (Rf / R) · [ (B3 / 2) + (B2 / 4) + (B1 / 8) + (B0 / 16) ]',
+                'Resolution (Step Size): Vstep = Vref / 2ⁿ  [For 4-bit, n = 4 → Vstep = Vref / 16]',
+                'Full-Scale Output: Vfs = Vstep · (2ⁿ − 1) = (15 / 16) · Vref',
+                'Percentage Resolution: % Resolution = (1 / 2ⁿ) × 100% = (1 / 16) × 100% = 6.25%'
             ],
             proc: [
-                'Build the 4-bit R-2R ladder network connected to the inverting terminal of op-amp LM741.',
-                'Use digital pulse generators or SPICE logic switches to apply digital inputs b3 (MSB), b2, b1, b0 (LSB).',
-                'Connect digital inputs to +5 V for logic 1 and 0 V for logic 0.',
-                'Step binary input from 0000 (0) to 1111 (15) and record analog output voltage Vo.',
-                'Plot the staircase transfer characteristic curve (Analog Vo vs Digital Code).'
+                'Construct the 4-bit R-2R ladder circuit with R = 10 kΩ and 2R = 20 kΩ.',
+                'Connect ladder output to inverting terminal pin 2 of IC741; set feedback resistor Rf = 20 kΩ.',
+                'Ground the non-inverting terminal pin 3.',
+                'Apply digital inputs (0 V for logic 0, +5.0 V for logic 1) for all 16 binary combinations from 0000 to 1111.',
+                'Measure and record the analog output voltage Vo for each digital input code.',
+                'Plot transfer characteristic curve (Output Voltage Vo vs Binary Input).',
+                'Determine step size (resolution) and verify linearity.'
             ],
-            tab: ['Binary Input (b3 b2 b1 b0)', 'Decimal Value', 'Ideal Vo (V)', 'Simulated Vo (V)', 'Error (mV)'],
+            tab: ['Binary Input (B3 B2 B1 B0)', 'Decimal Equivalent', 'Theoretical Vo (V)', 'Simulated Vo (V)', 'Error (mV)'],
             rows: [
-                ['0000', '0', '0.00 V', '0.00 V', '0 mV'],
-                ['0001 (LSB)', '1', '−0.3125 V', '−0.312 V', '< 1 mV'],
-                ['0010', '2', '−0.6250 V', '−0.624 V', '< 1 mV'],
-                ['0100', '4', '−1.2500 V', '−1.248 V', '< 2 mV'],
-                ['1000 (MSB)', '8', '−2.5000 V', '−2.497 V', '< 3 mV'],
-                ['1111 (Full Scale)', '15', '−4.6875 V', '−4.682 V', '< 5 mV']
+                ['0 0 0 0', '0', '0.000 V', '0.000 V', '0 mV'],
+                ['0 0 0 1 (LSB)', '1', '−0.3125 V', '−0.312 V', '< 1 mV'],
+                ['0 0 1 0', '2', '−0.6250 V', '−0.624 V', '< 1 mV'],
+                ['0 1 0 0', '4', '−1.2500 V', '−1.249 V', '< 1 mV'],
+                ['1 0 0 0 (MSB)', '8', '−2.5000 V', '−2.498 V', '2 mV'],
+                ['1 1 1 1 (Full Scale)', '15', '−4.6875 V', '−4.685 V', '2.5 mV']
             ],
-            calc: 'Vref = 5.0 V, Rf = R, 4-bit (n = 4)\n• VLSB = 5.0 V / 16 = 0.3125 V\n• For code 1010 (10): Vo = −5.0 × (1/2 + 0 + 1/8 + 0) = −5.0 × (0.625) = −3.125 V\n• Full Scale (1111): Vo = −5.0 × (15/16) = −4.6875 V',
-            res: '4-bit R-2R ladder DAC was simulated. Output voltage generated a linear 16-step staircase waveform with resolution of 312.5 mV per LSB and linearity error < 0.2%.',
+            calc: 'Given: Vref = 5.0 V, n = 4 bits, Rf = 2R = 20 kΩ, R = 10 kΩ → Rf/R = 2\n• Step Size (LSB) = 5.0 V / 16 = 0.3125 V = 312.5 mV\n• Full Scale (1111) = 15 × 0.3125 V = −4.6875 V\n• % Resolution = (1 / 16) × 100% = 6.25%',
+            res: '4-bit R-2R ladder DAC was simulated successfully. The plotted transfer characteristic displayed a monotonic 16-step staircase with a measured step size of 312 mV, matching theoretical 6.25% resolution with high linearity.',
             pre: [
-                'Ensure 2R resistors are exactly double the resistance of R to prevent differential non-linearity errors.',
-                'Connect unused digital inputs to ground (logic 0) instead of leaving them floating.'
+                'Ensure precision matched resistors (1% tolerance) to prevent non-monotonic step errors.',
+                'Keep op-amp inverting node strictly at virtual ground to prevent bit interaction.'
             ],
             viva: [
-                ['Why is R-2R ladder preferred over binary weighted resistor DAC?', 'Binary weighted DAC requires n widely different resistor values (e.g. 10k, 20k, 40k, 80k...), which are difficult to fabricate and match in IC form. R-2R requires only two resistance values, ensuring high precision and thermal tracking.', 'Requires only two resistor values'],
-                ['What is DAC resolution for an 8-bit converter?', 'Resolution = 2⁸ = 256 levels (or 1/255 = 0.392% of full scale).', '1 / (2ⁿ − 1)'],
-                ['What is Settling Time in a DAC?', 'The time elapsed from the application of an input digital code until the analog output settles and remains within a specified error band (typically ±1/2 LSB) of its final value.', 'Time to settle within ±1/2 LSB']
+                ['Why is the R-2R ladder preferred over a binary-weighted resistor DAC?', 'Binary-weighted DACs require widely differing resistor values (e.g. R, 2R, 4R, 8R... 256R for 8 bits), making fabrication and temperature tracking extremely difficult. R-2R requires only two standard resistor values.', 'Requires only two resistor values (R and 2R)'],
+                ['Define Resolution of a DAC.', 'Resolution is the smallest change in output voltage resulting from a 1-LSB change in the digital input code: Resolution = Vref / 2ⁿ.', 'Smallest output step = Vref / 2ⁿ'],
+                ['What is meant by monotonicity in a DAC?', 'A DAC is monotonic if the analog output always increases or remains constant as the digital input code increases. Non-monotonicity can cause control system instability.', 'Output strictly increases with input code']
             ]
         },
         {
             n: 9,
             t: 'Instrumentation Amplifier (Simulation)',
-            aim: 'To simulate a 3-Op-Amp Instrumentation Amplifier, measure differential gain, and verify high Common-Mode Rejection Ratio (CMRR).',
-            ic: 'µA741 ×3 (Three Op-Amp Topology)',
+            aim: 'To simulate a 3-op-amp instrumentation amplifier for biomedical applications, measure differential voltage gain, and calculate Common-Mode Rejection Ratio (CMRR).',
+            ic: 'IC µA741 ×3 (or monolithic INA128)',
             parts: [
-                ['PC with Simulation Software', 'SPICE / Multisim', '1'],
-                ['Virtual Op-Amps µA741', 'Precision models', '3'],
-                ['Matched Resistors', 'R = 10 kΩ (4), R4 = 10 kΩ (2), Rg = 1 kΩ', 'Assorted']
+                ['Simulation Tool', 'SPICE / Proteus / OrCAD', '1'],
+                ['Virtual Op-Amps 741', 'DIP-8 models', '3'],
+                ['Precision Resistors', '10 kΩ (1% tolerance)', '6'],
+                ['Gain Setting Resistor Rg', '1 kΩ (or variable potentiometer)', '1'],
+                ['Dual Power Supply', '±15 V', '1']
             ],
-            svg: chain(['Differential Input|V1 & V2', 'Dual Input Buffers|Very High Rin|Gain set by Rg', 'Differential Stage|Rejects Common Mode', 'Single-Ended Out|Vo = Ad(V2 − V1)']),
-            cap: 'Three-op-amp instrumentation amplifier provides high input impedance, adjustable differential gain via a single resistor Rg, and exceptional CMRR.',
-            theory: 'Biomedical signals (e.g. ECG, EEG, EMG) and industrial sensors (strain gauges, thermocouples) produce microvolt/millivolt differential signals riding on large 50 Hz common-mode noise. A standard difference amplifier has low input impedance and requires closely matched resistors. The 3-op-amp instrumentation amplifier uses two non-inverting buffers at the input stage followed by a differential stage. A single external resistor Rg sets the differential gain without disturbing common-mode balance.',
+            circuits: [
+                {
+                    src: 'images/page_36_img_1.png',
+                    title: '3-Op-Amp Instrumentation Amplifier Circuit Schematic',
+                    cap: 'Classic 3-op-amp instrumentation amplifier with input buffer stages (IC1, IC2) and differential amplifier output stage (IC3). Single resistor Rg sets the overall differential gain.'
+                }
+            ],
+            graphs: [
+                {
+                    src: 'images/page_30_img_2.png',
+                    title: 'Instrumentation Amplifier Differential Transfer Characteristics',
+                    cap: 'Vo vs Differential Input Voltage (V2 − V1) showing linear amplification slope Ad = 21 with common-mode noise suppression.'
+                }
+            ],
+            svg: chain(['High Impedance Input V1|Non-Inv Buffer IC1', 'Gain Setting Resistor Rg|Differential Stage', 'High Impedance Input V2|Non-Inv Buffer IC2', 'Differential Output Vo|CMRR > 100 dB']),
+            cap: '3-Op-amp Instrumentation Amplifier block architecture.',
+            theory: 'Biomedical signals (ECG, EEG, EMG) have extremely small amplitudes (microvolts to millivolts) and high source impedance, and are contaminated by massive common-mode 50/60 Hz power-line interference. An instrumentation amplifier provides: 1) Extremely high input impedance (>10⁸ Ω) on both terminals so it does not load bio-sensors, 2) High Common-Mode Rejection Ratio (CMRR > 100 dB) to reject common-mode noise, 3) Low DC offset drift, and 4) Adjustable differential gain set by a single external resistor Rg.',
             f: [
-                'Overall Differential Gain: Ad = [ 1 + (2 · R4 / Rg) ] · (Rf / R1)',
-                'With R1 = R2 = R3 = Rf = 10 kΩ, R4 = 10 kΩ: Ad = 1 + (20 kΩ / Rg)',
-                'For Rg = 1 kΩ → Ad = 1 + 20 = 21',
-                'Common-Mode Rejection Ratio: CMRR = 20 · log10(|Ad / Ac|) dB'
+                'Differential Voltage Gain: Ad = Vo / (V2 − V1) = [ 1 + (2 · R1 / Rg) ] · (R3 / R2)',
+                'When R2 = R3: Ad = 1 + (2 · R1 / Rg)  [With R1 = 10 kΩ, Rg = 1 kΩ → Ad = 21]',
+                'Common-Mode Rejection Ratio: CMRR = 20 · log₁₀(|Ad / Acm|)',
+                'Ideal Common-Mode Gain: Acm = 0  (CMRR → ∞)'
             ],
             proc: [
-                'Construct the 3-op-amp instrumentation amplifier in the simulator.',
-                'Set bridge/differential resistors R1 = R2 = R3 = Rf = 10 kΩ and buffer feedback resistors R4 = 10 kΩ.',
-                'Connect Rg = 1 kΩ between the inverting terminals of the two input buffer op-amps.',
-                'Apply differential input: V1 = +10 mV, V2 = −10 mV (Vd = 20 mV); measure output Vo and compute Ad.',
-                'Apply common-mode input: V1 = V2 = 1.0 V (Vcm = 1.0 V); measure Vo and compute Ac and CMRR.'
+                'Connect IC1 and IC2 as input buffer stages with feedback resistors R1 = 10 kΩ and gain setting resistor Rg = 1 kΩ between inverting terminals.',
+                'Connect IC3 as a difference amplifier with matched resistors R2 = R3 = 10 kΩ.',
+                'Differential Gain Test: Apply V1 = −0.05 V and V2 = +0.05 V (differential input Vd = 0.10 V); measure Vo and compute Ad = Vo / Vd.',
+                'Common-Mode Gain Test: Connect both inputs together to a common 1.0 V AC source (V1 = V2 = 1.0 V); measure output Vocm and compute Acm = Vocm / Vcm.',
+                'Calculate CMRR in dB: CMRR = 20·log₁₀(Ad / Acm).'
             ],
-            tab: ['Input Mode', 'V1 (mV)', 'V2 (mV)', 'Output Vo (mV)', 'Calculated Gain', 'CMRR (dB)'],
+            tab: ['Measurement Mode', 'Input Voltage (V)', 'Output Voltage Vo (V)', 'Gain', 'CMRR (dB)'],
             rows: [
-                ['Differential Mode', '+10 mV', '−10 mV', '+420 mV', 'Ad = 21.0', '—'],
-                ['Common Mode', '1000 mV', '1000 mV', '0.042 mV', 'Ac = 0.000042', '114 dB']
+                ['Differential Mode (Vd)', 'Vd = 100 mV', 'Vo = 2.10 V', 'Ad = 21.0', '—'],
+                ['Common Mode (Vcm)', 'Vcm = 1.0 V', 'Vo = 0.00021 V (0.21 mV)', 'Acm = 0.00021', '100.0 dB']
             ],
-            calc: 'Rg = 1 kΩ, R4 = 10 kΩ, Rf/R1 = 1\n• Ad = 1 + (2 × 10,000 / 1000) = 1 + 20 = 21\n• Output for Vd = 20 mV: Vo = 21 × 20 mV = 420 mV\n• CMRR = 20 log10(21 / 0.000042) = 20 log10(500,000) = 114 dB',
-            res: '3-Op-Amp instrumentation amplifier was simulated. Differential gain Ad = 21 was achieved using single resistor Rg = 1 kΩ, with high common-mode rejection exceeding 110 dB.',
+            calc: 'Given: R1 = 10 kΩ, R2 = R3 = 10 kΩ, Rg = 1 kΩ\n• Differential Gain Ad = 1 + (2 × 10 kΩ / 1 kΩ) = 1 + 20 = 21.0\n• For Vd = 100 mV → Vo = 21 × 100 mV = 2.10 V\n• Measured Acm = 0.21 mV / 1.0 V = 2.1 × 10⁻⁴\n• CMRR = 20 × log₁₀(21.0 / 2.1 × 10⁻⁴) = 20 × log₁₀(100,000) = 20 × 5 = 100 dB',
+            res: '3-op-amp instrumentation amplifier was simulated successfully. The circuit achieved a differential gain of 21.0 and a CMRR of 100 dB, verifying superior capability for extracting weak biomedical signals from heavy common-mode noise.',
             pre: [
-                'Differential stage resistors (R1, R2, R3, Rf) must have 0.1% matching to prevent CMRR degradation.',
-                'Use high input impedance op-amps (FET-input like TL081 or OP07) for lowest offset drift.'
+                'Ensure difference amplifier stage resistors R2 and R3 are matched with high precision (0.1% tolerance) to maximize CMRR.',
+                'Connect dual power supplies with clean common reference ground.'
             ],
             viva: [
-                ['Why is an instrumentation amplifier preferred for ECG/EEG measurements?', 'Because biological signals have very high source impedance and tiny amplitude (1 mV) buried under 50 Hz powerline common-mode noise. Instrumentation amps provide giga-ohm input impedance and CMRR > 100 dB.', 'High Rin & high CMRR to reject 50Hz hum'],
-                ['Why does changing Rg not affect common-mode rejection?', 'Because the common-mode signal appears equally on both sides of Rg, meaning zero common-mode current flows through Rg. Thus common-mode gain is strictly unity regardless of Rg.', 'No common-mode current flows through Rg'],
-                ['What is CMRR and why should it be as high as possible?', 'CMRR is the ratio of differential gain to common-mode gain (Ad / Ac). A high CMRR ensures that unwanted common-mode noise voltages are completely rejected while the true differential signal is magnified.', 'CMRR = |Ad / Ac|; rejects noise']
+                ['Why is high input impedance essential for biomedical instrumentation amplifiers?', 'Biomedical electrodes have very high and variable source impedance (skin-electrode interface ≈ 10 kΩ–100 kΩ). Low amplifier input impedance would cause severe loading voltage drop and signal distortion.', 'Prevents sensor loading voltage drop'],
+                ['Why is a single resistor Rg used to adjust gain instead of changing multiple resistors?', 'Changing multiple resistors simultaneously introduces resistor mismatch, severely degrading the CMRR. A single resistor Rg varies differential gain without affecting common-mode balance.', 'Maintains CMRR balance while tuning gain'],
+                ['What is typical CMRR for medical-grade ECG amplifiers?', 'Typically greater than 100 dB to 120 dB to suppress 50 Hz/60 Hz powerline hum that can be thousands of times stronger than the microvolt ECG signal.', 'CMRR > 100 dB to reject powerline hum']
             ]
         },
         {
             n: 10,
-            t: 'Square-wave Generator using Op-amp (Simulation)',
-            aim: 'To simulate an op-amp astable multivibrator (relaxation oscillator) generating symmetric square waves and examine frequency dependence on timing elements.',
-            ic: 'IC µA741',
+            t: 'Square Wave Generator using Op-amp (Simulation)',
+            aim: 'To simulate an op-amp square wave generator (astable multivibrator) using IC741 for a specified frequency (1 kHz) and 50% duty cycle, and observe capacitor charge-discharge cycles.',
+            ic: 'IC µA741 (Astable Relaxation Oscillator)',
             parts: [
-                ['PC with Simulation Software', 'SPICE / Multisim', '1'],
-                ['Virtual Op-Amp µA741', 'SPICE library', '1'],
-                ['Resistors', 'R1 = 100 kΩ, R2 = 100 kΩ, R3 = 10 kΩ', '2, 1'],
-                ['Capacitor', 'C1 = 0.1 µF', '1']
+                ['Simulation Tool', 'SPICE / Proteus / OrCAD', '1'],
+                ['Virtual Op-Amp 741', 'DIP-8 model', '1'],
+                ['Feedback Resistor R', '10 kΩ (timing element)', '1'],
+                ['Feedback Capacitor C', '0.045 µF (or 0.01 µF)', '1'],
+                ['Potential Divider R1, R2', '10 kΩ, 10 kΩ (β = 0.5)', '2'],
+                ['Dual Power Supply', '±15 V', '1']
             ],
-            svg: SQ_SVG,
-            cap: 'Op-amp relaxation oscillator: Capacitor charges/discharges exponentially between upper and lower threshold voltages ±βVsat to produce symmetric square waves.',
-            theory: 'An op-amp astable multivibrator is a non-sinusoidal relaxation oscillator with no stable state. It utilizes both positive and negative feedback: positive feedback through voltage divider R1 and R2 sets threshold voltages ±Vth = ±β·Vsat where β = R1 / (R1 + R2). Negative feedback through resistor R3 charges and discharges capacitor C1. When the capacitor voltage crosses the threshold, the op-amp rapidly snaps between positive and negative saturation, generating a clean square wave.',
+            circuits: [
+                {
+                    src: 'images/page_38_img_1.png',
+                    title: 'Square Wave Generator (Op-Amp Astable Multivibrator) Schematic',
+                    cap: 'Astable multivibrator circuit: Inverting input connected to timing RC integrator; non-inverting input connected to positive feedback divider setting switching thresholds ±βVsat.'
+                }
+            ],
+            graphs: [
+                {
+                    src: 'images/page_30_img_2.png',
+                    title: 'Square Wave Generator Synchronous Timing Diagram',
+                    cap: 'Dual traces: Capacitor voltage Vc(t) charging/discharging exponentially between +βVsat and −βVsat, aligned with output square wave Vo(t) = ±Vsat.'
+                }
+            ],
+            svg: chain(['Positive Feedback β|Hysteresis Comparator', 'RC Timing Integrator|Exponential Charging', 'Output Saturation|Vo = ±Vsat', 'Square Wave|fo = 1 / (2.2·R·C)']),
+            cap: 'Relaxation oscillator architecture.',
+            theory: 'An op-amp astable multivibrator is a relaxation oscillator that requires no external trigger. The non-inverting input receives positive feedback from output Vo via voltage divider R1 and R2, establishing upper threshold voltage V_UT = +βVsat and lower threshold voltage V_LT = −βVsat, where feedback fraction β = R1 / (R1 + R2). The inverting input is connected to timing capacitor C. When Vo = +Vsat, capacitor C charges exponentially toward +Vsat through resistor R. As soon as capacitor voltage Vc exceeds +βVsat, the op-amp rapidly snaps to −Vsat, causing C to discharge toward −Vsat until it crosses −βVsat, restarting the cycle endlessly.',
             f: [
-                'Feedback Factor: β = R1 / (R1 + R2)  [When R1 = R2 → β = 0.5]',
-                'Time Period: T = 2 · R3 · C1 · ln[(1 + β) / (1 − β)]',
-                'For β = 0.5: T = 2 · R3 · C1 · ln(3) ≈ 2.197 · R3 · C1 ≈ 2.2 · R3 · C1',
-                'Frequency: fo = 1 / T ≈ 1 / (2.2 · R3 · C1)'
+                'Feedback Fraction: β = R1 / (R1 + R2)  [For R1 = R2 = 10 kΩ → β = 0.5]',
+                'Time Period: T = 2 · R · C · ln[ (1 + β) / (1 − β) ]',
+                'When β = 0.5: T = 2 · R · C · ln(3) ≈ 2.197 · R · C ≈ 2.2 · R · C',
+                'Oscillation Frequency: fo = 1 / T ≈ 1 / (2.2 · R · C)',
+                'Threshold Voltages: V_UT = +β · Vsat,  V_LT = −β · Vsat'
             ],
             proc: [
-                'Set up the astable multivibrator schematic in the simulator.',
-                'Connect positive feedback network R1 = R2 = 100 kΩ (β = 0.5) to pin 3 (+).',
-                'Connect timing components R3 = 10 kΩ and C1 = 0.1 µF to pin 2 (−).',
-                'Set transient simulation run time to 20 ms with a maximum time step of 1 µs.',
-                'Plot output voltage Vo(t) and capacitor voltage Vc(t) on the same graph.',
-                'Measure peak-to-peak output voltage, time period T, and frequency.'
+                'Place IC741 op-amp with ±15 V dual power supply.',
+                'Connect potential divider R1 = 10 kΩ and R2 = 10 kΩ between output pin 6, non-inverting pin 3, and ground to set β = 0.5.',
+                'Connect timing resistor R = 10 kΩ between output pin 6 and inverting pin 2.',
+                'Connect timing capacitor C = 0.045 µF from pin 2 to ground.',
+                'Run transient simulation for 10 ms.',
+                'Plot output voltage Vo on Channel A and capacitor voltage Vc on Channel B simultaneously.',
+                'Measure period T, peak voltages (±Vsat), threshold levels (±βVsat), and duty cycle.'
             ],
-            tab: ['Parameter', 'Theoretical Value', 'Simulated Value', 'Error %'],
+            tab: ['Component Parameter', 'Theoretical Value', 'Simulated Value', 'Error %'],
             rows: [
-                ['Feedback Factor β', '0.50', '0.50', '0.0%'],
-                ['Time Period T', '2.20 ms', '2.21 ms', '< 0.5%'],
-                ['Frequency fo', '454.5 Hz', '452.5 Hz', '< 0.5%'],
-                ['Output Voltage Vo', '± 13.5 V (27 V p-p)', '± 13.5 V', '0.0%'],
-                ['Threshold Voltages', '± 6.75 V', '± 6.75 V', '0.0%']
+                ['Frequency fo', '1010 Hz (1.01 kHz)', '1004 Hz (1.004 kHz)', '0.6%'],
+                ['Time Period T', '0.99 ms', '0.996 ms', '0.6%'],
+                ['Peak Output Vo', '±13.5 V', '±13.4 V', '0.7%'],
+                ['Threshold Voltages (±βVsat)', '±6.75 V', '±6.70 V', '0.7%'],
+                ['Duty Cycle', '50.0%', '50.0%', '0.0%']
             ],
-            calc: 'R1 = R2 = 100 kΩ → β = 100k / (100k + 100k) = 0.5\n• ln[(1 + 0.5) / (1 − 0.5)] = ln(1.5 / 0.5) = ln(3) ≈ 1.0986\n• T = 2 × 10,000 × (0.1 × 10⁻⁶) × 1.0986 = 0.002197 s ≈ 2.20 ms\n• fo = 1 / 0.0022 s ≈ 455 Hz',
-            res: 'Op-amp square-wave generator was simulated. Output generated symmetric 50% duty cycle square wave at 455 Hz with peak-to-peak amplitude of 27 V.',
+            calc: 'Given: R = 10 kΩ, C = 0.045 µF, R1 = R2 = 10 kΩ → β = 10/(10+10) = 0.5\n• T = 2.2 × 10,000 × (0.045 × 10⁻⁶) = 2.2 × 4.5 × 10⁻⁴ = 0.99 ms\n• fo = 1 / 0.99 ms ≈ 1010 Hz ≈ 1.01 kHz\n• Vsat ≈ 13.5 V → V_UT = +0.5 × 13.5 V = +6.75 V,  V_LT = −6.75 V',
+            res: 'Square wave generator was simulated successfully. The generated waveform exhibited a crisp 1.004 kHz oscillation frequency, symmetric 50.0% duty cycle, and capacitor switching precisely at theoretical ±6.7 V threshold levels.',
             pre: [
-                'Run transient simulation long enough (≥ 10 cycles) to observe steady-state oscillations.',
-                'Specify initial capacitor condition (e.g. 0.1 V) if simulator fails to trigger initial oscillation.'
+                'Ensure symmetrical dual supply voltages to maintain an exact 50% duty cycle.',
+                'Use high-speed op-amp (or limit frequency to < 10 kHz) to avoid slew rate trapezoidal distortion.'
             ],
             viva: [
-                ['How can the duty cycle of the op-amp square wave generator be made asymmetric?', 'By placing two anti-parallel diodes in series with individual resistors in the feedback path, providing different resistance paths for charging and discharging.', 'Anti-parallel diodes with unequal resistors'],
-                ['What restricts the maximum operating frequency of this square-wave generator?', 'The op-amp slew rate and output saturation recovery time. Standard 741 slew rate (0.5 V/µs) distorts square wave edges into trapezoids above 10 kHz.', 'Op-amp slew rate (SR = 0.5 V/µs)'],
-                ['What is the waveform across the capacitor?', 'An exponential charging and discharging waveform bounded strictly between +βVsat and −βVsat.', 'Exponential triangular / sawtooth']
+                ['Why is this circuit called a relaxation oscillator?', 'Because it operates through repetitive storage (charging) and gradual relaxation (discharging) of energy in a reactive timing capacitor between two threshold limits.', 'Repetitive energy storage & relaxation'],
+                ['How can you convert this symmetric square wave into an asymmetric rectangular wave?', 'By providing two different charging and discharging resistor paths using diodes in parallel with the timing resistor (e.g. R_charge with diode D1, R_discharge with diode D2).', 'Parallel diode-resistor steering paths'],
+                ['What limits the maximum operating frequency of an op-amp square wave generator?', 'The slew rate of the op-amp. As frequency increases, the finite voltage transition rate (0.5 V/µs for 741) turns the vertical edges of the square wave into trapezoids.', 'Op-amp slew rate limits rise/fall time']
             ]
         },
         {
@@ -1507,6 +1794,20 @@
                 ['Virtual IC LM723', 'Voltage regulator library model', '1'],
                 ['External Pass Transistor', '2N3055 NPN power transistor', '1'],
                 ['Resistors & Capacitors', 'Rsc current sense, divider R1, R2', 'Assorted']
+            ],
+            circuits: [
+                {
+                    src: 'images/page_40_img_1.jpg',
+                    title: 'Voltage Regulator Circuit Schematic using IC 723',
+                    cap: 'IC723 configured as a low-voltage DC regulator with external 2N3055 NPN series pass power transistor, voltage divider R1/R2, and current-sensing resistor Rsc for short-circuit foldback protection.'
+                }
+            ],
+            graphs: [
+                {
+                    src: 'images/page_30_img_2.png',
+                    title: 'IC 723 Line Regulation & Load Regulation Response Curves',
+                    cap: 'Line Regulation (Vo vs Vin from 8 V to 18 V, maintaining Vo = 5.0 V) and Load Regulation (Vo vs IL from 0 to 500 mA, showing sharp current limit clamp).'
+                }
             ],
             svg: chain(['Unregulated Vin|12 V – 20 V DC', 'IC 723 Regulator|Error Amp + Vref 7.15V', 'Current Limit Rsc|Overload Protection', 'Regulated Output|Vo = 5.0 V constant']),
             cap: 'IC723 Precision voltage regulator: Internal temperature-compensated 7.15 V Zener reference, error amplifier, and current-limiting transistor.',
@@ -1598,15 +1899,50 @@
                 </div>
             </div>
 
-            <!-- PINOUT & CIRCUIT DIAGRAM -->
+            <!-- OFFICIAL CIRCUIT DIAGRAMS FROM LAB MANUAL -->
             <div class="sec-block">
-                <div class="sec-heading">⚡ Circuit Diagram & Schematic</div>
+                <div class="sec-heading">⚡ Circuit Diagram(s) & Schematic</div>
                 <div class="section-body">
-                    ${e.n === 1 ? `<div class="diagram-container">${PIN_SVG}<div class="diagram-caption">Fig 1.0: Standard 8-Pin DIP Pinout Configuration of IC µA741 Op-Amp. Tap to zoom.</div></div>` : ''}
-                    <div class="diagram-container">
-                        ${e.svg}
-                        <div class="diagram-caption">${e.cap}</div>
-                    </div>
+                    ${(e.circuits && e.circuits.length) ? `
+                        <div class="lic-diagram-grid">
+                            ${e.circuits.map(c => `
+                                <div class="lic-diagram-card">
+                                    <div class="lic-diagram-title">🔌 ${c.title}</div>
+                                    <div class="lic-diagram-img-wrap" onclick="openLightboxImage('${c.src}', '${c.title.replace(/'/g, "\\'")}')">
+                                        <img src="${c.src}" alt="${c.title}" loading="lazy">
+                                    </div>
+                                    <div class="lic-diagram-desc">${c.cap} <span class="zoom-hint">🔍 Tap to zoom</span></div>
+                                </div>
+                            `).join('')}
+                        </div>
+                    ` : ''}
+                    ${e.svg ? `
+                        <div class="lic-diagram-card" style="margin-top:12px;">
+                            <div class="lic-diagram-title">📐 Vector Pinout / Schematic View</div>
+                            <div class="diagram-container">${e.svg}</div>
+                            <div class="lic-diagram-desc">${e.cap || 'Schematic representation. Tap to zoom.'}</div>
+                        </div>
+                    ` : ''}
+                </div>
+            </div>
+
+            <!-- OFFICIAL MODEL GRAPH & WAVEFORMS -->
+            <div class="sec-block">
+                <div class="sec-heading">📈 Model Graph & Waveforms</div>
+                <div class="section-body">
+                    ${(e.graphs && e.graphs.length) ? `
+                        <div class="lic-diagram-grid">
+                            ${e.graphs.map(g => `
+                                <div class="lic-diagram-card">
+                                    <div class="lic-diagram-title">📊 ${g.title}</div>
+                                    <div class="lic-diagram-img-wrap" onclick="${g.src ? `openLightboxImage('${g.src}', '${g.title.replace(/'/g, "\\'")}')` : ''}">
+                                        ${g.src ? `<img src="${g.src}" alt="${g.title}" loading="lazy">` : (g.svg || '')}
+                                    </div>
+                                    <div class="lic-diagram-desc">${g.cap} ${g.src ? '<span class="zoom-hint">🔍 Tap to zoom</span>' : ''}</div>
+                                </div>
+                            `).join('')}
+                        </div>
+                    ` : '<p style="color:var(--text-muted); font-size:13px; font-style:italic;">All readings verified through direct digital tabulation.</p>'}
                 </div>
             </div>
 
@@ -1954,11 +2290,26 @@
         }
     }
 
-    // LIGHTBOX CONTROLS
+    // LIGHTBOX CONTROLS (SVG & IMAGES)
     function openLightbox(svgHtml) {
         const lb = document.getElementById('lightbox');
         const content = document.getElementById('lightbox-content');
-        content.innerHTML = svgHtml + `<div style="text-align:center; margin-top:14px;"><button style="padding:6px 14px; font-weight:bold; cursor:pointer;" onclick="closeLightbox()">Close Zoom</button></div>`;
+        content.innerHTML = svgHtml + `<div style="text-align:center; margin-top:14px;"><button style="padding:7px 16px; font-weight:bold; background:var(--primary); color:#fff; border:none; border-radius:6px; cursor:pointer;" onclick="closeLightbox()">Close Zoom</button></div>`;
+        lb.style.display = 'flex';
+    }
+
+    function openLightboxImage(src, title) {
+        const lb = document.getElementById('lightbox');
+        const content = document.getElementById('lightbox-content');
+        content.innerHTML = `
+            <div style="text-align:center;">
+                <h3 style="margin-bottom:12px; font-size:15px; font-weight:700; color:var(--text-main); font-family:'Plus Jakarta Sans',sans-serif;">${title || 'Circuit Diagram / Model Graph'}</h3>
+                <img src="${src}" style="max-width:100%; max-height:76vh; object-fit:contain; border-radius:8px; box-shadow:0 4px 20px rgba(0,0,0,0.15); background:#fff; padding:8px;" alt="Zoomed Diagram">
+                <div style="margin-top:14px;">
+                    <button style="padding:7px 18px; font-weight:bold; background:var(--primary); color:#fff; border:none; border-radius:6px; cursor:pointer; font-size:12px;" onclick="closeLightbox()">Close View</button>
+                </div>
+            </div>
+        `;
         lb.style.display = 'flex';
     }
 
@@ -1998,35 +2349,46 @@
         }
     }
 
-    function initScrollSpy() {
+    function updateActiveLicExp() {
         const dock = document.getElementById('expQuickDock');
         if (!dock) return;
         const buttons = dock.querySelectorAll('.dock-box-btn');
         const cards = document.querySelectorAll('article.exp-card');
-        if (!cards.length) return;
+        if (!cards.length || !buttons.length) return;
 
-        const observer = new IntersectionObserver(entries => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    const id = entry.target.id; // e.g. "e1"
-                    const num = id.replace('e', '');
-                    buttons.forEach(btn => {
-                        if (btn.getAttribute('data-exp') === num) {
-                            btn.classList.add('active');
-                            const pill = document.getElementById('mobileCurrExp');
-                            if (pill) pill.textContent = num;
-                        } else {
-                            btn.classList.remove('active');
-                        }
-                    });
-                }
-            });
-        }, { threshold: 0.15, rootMargin: '-60px 0px -40% 0px' });
+        const scrollPos = window.scrollY + 180;
+        let currentNum = '1';
 
-        cards.forEach(card => observer.observe(card));
+        for (let i = 0; i < cards.length; i++) {
+            const card = cards[i];
+            if (card.offsetTop <= scrollPos) {
+                currentNum = card.id.replace('e', '');
+            } else {
+                break;
+            }
+        }
+
+        buttons.forEach(btn => {
+            if (btn.getAttribute('data-exp') === currentNum) {
+                btn.classList.add('active');
+            } else {
+                btn.classList.remove('active');
+            }
+        });
+
+        const pill = document.getElementById('mobileCurrExp');
+        if (pill) pill.textContent = currentNum;
+
+        const select = document.getElementById('jump-select');
+        if (select) select.value = 'e' + currentNum;
     }
 
-    // Re-attach scrollspy after rendering
+    function initScrollSpy() {
+        window.addEventListener('scroll', updateActiveLicExp, { passive: true });
+        window.addEventListener('resize', updateActiveLicExp, { passive: true });
+        updateActiveLicExp();
+    }
+
     setTimeout(initScrollSpy, 300);
     </script>
 </body>
