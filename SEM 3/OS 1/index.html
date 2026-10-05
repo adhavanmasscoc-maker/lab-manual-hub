@@ -678,6 +678,150 @@
             background: #10b981;
         }
 
+        /* UNIVERSAL ASIDE QUICK-JUMP EXPERIMENT DOCK (15 EXPERIMENTS) */
+        .exp-quick-dock {
+            position: fixed;
+            top: 50%;
+            right: 14px;
+            transform: translateY(-50%);
+            z-index: 999;
+            background: rgba(15, 23, 42, 0.94);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 12px;
+            padding: 8px 6px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.25s ease;
+        }
+
+        .exp-quick-dock .dock-header {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 2px 4px 6px 4px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+            width: 100%;
+        }
+
+        .exp-quick-dock .dock-title {
+            font-size: 8.5px;
+            font-weight: 800;
+            color: #94a3b8;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+        }
+
+        .exp-quick-dock .dock-badge {
+            font-size: 11px;
+            font-weight: 800;
+            color: #38bdf8;
+        }
+
+        .exp-quick-dock .dock-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 28px);
+            gap: 4px;
+        }
+
+        .exp-quick-dock .dock-box-btn {
+            width: 28px;
+            height: 28px;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 11px;
+            font-weight: 700;
+            color: #e2e8f0;
+            background: rgba(255, 255, 255, 0.08);
+            text-decoration: none;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.18s ease;
+        }
+
+        .exp-quick-dock .dock-box-btn:hover {
+            background: #2563eb;
+            color: #ffffff;
+            transform: scale(1.12);
+            border-color: #60a5fa;
+            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.5);
+            z-index: 2;
+        }
+
+        .exp-quick-dock .dock-box-btn.active {
+            background: #2563eb;
+            color: #ffffff;
+            font-weight: 800;
+            border-color: #93c5fd;
+            box-shadow: 0 0 0 2px rgba(147, 197, 253, 0.4), 0 4px 10px rgba(37, 99, 235, 0.4);
+        }
+
+        .exp-quick-dock .dock-footer {
+            border-top: 1px solid rgba(255, 255, 255, 0.15);
+            padding-top: 6px;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+        }
+
+        .exp-quick-dock .dock-top-btn {
+            background: transparent;
+            border: none;
+            color: #94a3b8;
+            font-size: 10px;
+            font-weight: 700;
+            cursor: pointer;
+            padding: 2px 6px;
+            border-radius: 4px;
+            transition: all 0.15s ease;
+        }
+
+        .exp-quick-dock .dock-top-btn:hover {
+            color: #38bdf8;
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        /* Mobile floating pill */
+        .mobile-exp-pill {
+            display: none;
+            position: fixed;
+            bottom: 16px;
+            right: 16px;
+            z-index: 1001;
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            color: #ffffff;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 999px;
+            padding: 8px 14px;
+            font-size: 12px;
+            font-weight: 700;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+            cursor: pointer;
+            align-items: center;
+            gap: 6px;
+        }
+
+        @media (max-width: 900px) {
+            .exp-quick-dock {
+                display: none;
+                right: 10px;
+                top: auto;
+                bottom: 60px;
+                transform: none;
+            }
+            .exp-quick-dock.mobile-open {
+                display: flex;
+            }
+            .mobile-exp-pill {
+                display: inline-flex;
+            }
+        }
+
     </style>
 </head>
 
@@ -16166,7 +16310,73 @@ Total Head Movement: 140 Cylinders</div>
             }
         }
 
+        /* QUICK DOCK SCROLLSPY & MOBILE TOGGLE */
+        function toggleMobileExpDock() {
+            const dock = document.getElementById('expQuickDock');
+            if (dock) dock.classList.toggle('mobile-open');
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const expObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const id = entry.target.id;
+                        const match = id.match(/^ex(\d+)$/);
+                        if (match) {
+                            const expNum = match[1];
+                            document.querySelectorAll('.dock-box-btn').forEach(btn => {
+                                if (btn.getAttribute('data-exp') === expNum) {
+                                    btn.classList.add('active');
+                                } else {
+                                    btn.classList.remove('active');
+                                }
+                            });
+                            const pillSpan = document.getElementById('mobileCurrExp');
+                            if (pillSpan) pillSpan.textContent = expNum;
+                        }
+                    }
+                });
+            }, { rootMargin: '-20% 0px -60% 0px' });
+
+            for (let i = 1; i <= 15; i++) {
+                const el = document.getElementById('ex' + i);
+                if (el) expObserver.observe(el);
+            }
+        });
+
     </script>
+
+    <!-- UNIVERSAL ASIDE QUICK-JUMP EXPERIMENT DOCK (15 EXPERIMENTS) -->
+    <aside class="exp-quick-dock" id="expQuickDock" aria-label="Quick Jump to Experiment">
+        <div class="dock-header">
+            <span class="dock-title">EXPS</span>
+            <span class="dock-badge">15</span>
+        </div>
+        <div class="dock-grid">
+            <a href="#ex1" class="dock-box-btn" data-exp="1" title="Ex 1: Windows OS Installation">1</a>
+            <a href="#ex2" class="dock-box-btn" data-exp="2" title="Ex 2: UNIX Commands & Shell">2</a>
+            <a href="#ex3" class="dock-box-btn" data-exp="3" title="Ex 3: System Calls">3</a>
+            <a href="#ex4" class="dock-box-btn" data-exp="4" title="Ex 4: CPU Scheduling">4</a>
+            <a href="#ex5" class="dock-box-btn" data-exp="5" title="Ex 5: IPC Pipe">5</a>
+            <a href="#ex6" class="dock-box-btn" data-exp="6" title="Ex 6: Semaphore">6</a>
+            <a href="#ex7" class="dock-box-btn" data-exp="7" title="Ex 7: Banker's Algorithm">7</a>
+            <a href="#ex8" class="dock-box-btn" data-exp="8" title="Ex 8: Deadlock Detection">8</a>
+            <a href="#ex9" class="dock-box-btn" data-exp="9" title="Ex 9: Threading (Pthreads)">9</a>
+            <a href="#ex10" class="dock-box-btn" data-exp="10" title="Ex 10: Paging Technique">10</a>
+            <a href="#ex11" class="dock-box-btn" data-exp="11" title="Ex 11: Memory Allocation (Fit)">11</a>
+            <a href="#ex12" class="dock-box-btn" data-exp="12" title="Ex 12: Page Replacement">12</a>
+            <a href="#ex13" class="dock-box-btn" data-exp="13" title="Ex 13: File Organization">13</a>
+            <a href="#ex14" class="dock-box-btn" data-exp="14" title="Ex 14: File Allocation">14</a>
+            <a href="#ex15" class="dock-box-btn" data-exp="15" title="Ex 15: Disk Scheduling">15</a>
+        </div>
+        <div class="dock-footer">
+            <button class="dock-top-btn" onclick="window.scrollTo({top:0, behavior:'smooth'})" title="Top">↑ Top</button>
+        </div>
+    </aside>
+
+    <button class="mobile-exp-pill" id="mobileExpPill" onclick="toggleMobileExpDock()" aria-label="Toggle Experiment Navigator">
+        ⚡ Exp <span id="mobileCurrExp">1</span>/15
+    </button>
 
     <!-- AKNEX Universal Telemetry -->
     <script src="/aknex-tracker.js"></script>

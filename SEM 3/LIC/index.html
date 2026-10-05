@@ -1,0 +1,2033 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Linear Integrated Circuits Laboratory | EC5301 / EC3361</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@500;600;700&family=Inter:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #dde3eb;
+            --surface: #edf2f7;
+            --surface-card: #f8fafc;
+            --border: #cbd5e1;
+            --border-strong: #94a3b8;
+            --text-main: #0f172a;
+            --text-muted: #475569;
+            --text-sub: #64748b;
+            --primary: #2563eb;
+            --primary-hover: #1d4ed8;
+            --primary-light: rgba(37, 99, 235, 0.08);
+            --accent-green: #059669;
+            --accent-amber: #d97706;
+            --shadow-sm: 0 2px 6px rgba(15, 23, 42, 0.04);
+            --shadow-md: 0 4px 14px rgba(15, 23, 42, 0.08);
+            --shadow-lg: 0 10px 25px -4px rgba(15, 23, 42, 0.12);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background-color: var(--bg);
+            color: var(--text-main);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        /* STICKY TOP BAR */
+        .top-header {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            background: rgba(237, 242, 247, 0.96);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border);
+            padding: 10px 18px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .brand-badge {
+            background: #0f172a;
+            color: #ffffff;
+            font-family: 'Fira Code', monospace;
+            font-size: 11px;
+            font-weight: 700;
+            padding: 3px 8px;
+            border-radius: 4px;
+            letter-spacing: 0.04em;
+        }
+
+        .header-title {
+            font-weight: 800;
+            font-size: 14.5px;
+            color: var(--text-main);
+            letter-spacing: -0.01em;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-back {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            color: #ffffff;
+            text-decoration: none;
+            font-size: 12px;
+            font-weight: 700;
+            padding: 6px 14px;
+            border-radius: 999px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 3px 8px rgba(15, 23, 42, 0.2);
+            transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+            white-space: nowrap;
+        }
+
+        .btn-back:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 6px 14px rgba(37, 99, 235, 0.35), 0 0 0 1.5px #3b82f6;
+            color: #fff;
+        }
+
+        .jump-select {
+            padding: 6px 10px;
+            font-size: 12.5px;
+            font-weight: 600;
+            font-family: inherit;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            background: #ffffff;
+            color: var(--text-main);
+            outline: none;
+            cursor: pointer;
+            transition: border-color 0.2s, box-shadow 0.2s;
+            max-width: 200px;
+        }
+
+        .jump-select:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+        }
+
+        /* NAVIGATION TABS & SEARCH */
+        .nav-bar {
+            background: var(--surface);
+            border-bottom: 1px solid var(--border);
+            padding: 10px 18px;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .tab-btn {
+            font-family: inherit;
+            font-size: 12.5px;
+            font-weight: 600;
+            padding: 6px 14px;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            background: #ffffff;
+            color: var(--text-muted);
+            cursor: pointer;
+            transition: all 0.18s cubic-bezier(0.16, 1, 0.3, 1);
+            white-space: nowrap;
+        }
+
+        .tab-btn:hover {
+            background: #f1f5f9;
+            color: var(--text-main);
+            transform: translateY(-1px);
+        }
+
+        .tab-btn.active {
+            background: var(--primary);
+            color: #ffffff;
+            border-color: var(--primary);
+            box-shadow: 0 2px 6px rgba(37, 99, 235, 0.25);
+        }
+
+        .search-input {
+            flex: 1;
+            min-width: 200px;
+            padding: 6px 12px;
+            font-size: 13px;
+            font-family: inherit;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            background: #ffffff;
+            color: var(--text-main);
+            outline: none;
+            transition: all 0.2s;
+        }
+
+        .search-input:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+        }
+
+        /* MAIN CONTAINER */
+        main {
+            max-width: 960px;
+            margin: 20px auto 60px;
+            padding: 0 16px;
+        }
+
+        /* BANNER */
+        .manual-banner {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-left: 6px solid var(--primary);
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .manual-banner h1 {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: 22px;
+            font-weight: 800;
+            color: var(--text-main);
+            letter-spacing: -0.02em;
+            margin-bottom: 4px;
+        }
+
+        .manual-banner p {
+            font-size: 13.5px;
+            color: var(--text-muted);
+        }
+
+        /* EXPERIMENT CARD */
+        article.exp-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-left: 5px solid var(--primary);
+            border-radius: 10px;
+            padding: 16px 20px 20px;
+            margin-bottom: 22px;
+            box-shadow: var(--shadow-sm);
+            transition: box-shadow 0.2s ease, transform 0.2s ease;
+        }
+
+        article.exp-card:hover {
+            box-shadow: var(--shadow-md);
+        }
+
+        .exp-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 12px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .exp-badge {
+            font-family: 'Fira Code', monospace;
+            font-size: 11.5px;
+            font-weight: 700;
+            color: var(--primary);
+            background: rgba(37, 99, 235, 0.1);
+            padding: 2px 8px;
+            border-radius: 4px;
+            border: 1px solid rgba(37, 99, 235, 0.2);
+        }
+
+        .exp-title {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: 18px;
+            font-weight: 800;
+            color: var(--text-main);
+            flex: 1;
+            min-width: 250px;
+        }
+
+        .exp-ic-tag {
+            font-family: 'Fira Code', monospace;
+            font-size: 12px;
+            font-weight: 700;
+            background: #0f172a;
+            color: #ffffff;
+            padding: 3px 8px;
+            border-radius: 4px;
+        }
+
+        /* DIRECT EXPANDED SECTIONS (ZERO CLICK TO VIEW) */
+        .sec-block {
+            border-top: 1px solid var(--border);
+            padding: 14px 0 10px;
+        }
+
+        .sec-block:first-of-type {
+            border-top: none;
+            padding-top: 4px;
+        }
+
+        .sec-heading {
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 8px;
+        }
+
+        .section-body {
+            padding: 4px 0 6px;
+            font-size: 13.5px;
+            color: var(--text-main);
+        }
+
+        /* ================= UNIVERSAL ASIDE QUICK-JUMP EXPERIMENT DOCK ================= */
+        .exp-quick-dock {
+            position: fixed;
+            right: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 999;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background: rgba(15, 23, 42, 0.94);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.16);
+            border-radius: 12px;
+            padding: 8px 6px;
+            box-shadow: 0 8px 28px rgba(0, 0, 0, 0.3);
+            max-height: 85vh;
+            transition: all 0.25s ease;
+        }
+
+        .exp-quick-dock .dock-header {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            padding-bottom: 6px;
+            margin-bottom: 4px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+            font-size: 10px;
+            font-weight: 800;
+            color: #94a3b8;
+            letter-spacing: 0.05em;
+        }
+
+        .exp-quick-dock .dock-badge {
+            background: #2563eb;
+            color: #fff;
+            font-size: 9px;
+            padding: 1px 5px;
+            border-radius: 4px;
+        }
+
+        .exp-quick-dock .dock-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 4px;
+            overflow-y: auto;
+            max-height: calc(85vh - 75px);
+            padding: 2px;
+            scrollbar-width: none;
+        }
+        .exp-quick-dock .dock-grid::-webkit-scrollbar {
+            display: none;
+        }
+
+        .dock-box-btn {
+            width: 28px;
+            height: 28px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Fira Code', monospace;
+            font-size: 11.5px;
+            font-weight: 700;
+            color: #cbd5e1;
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 6px;
+            text-decoration: none;
+            cursor: pointer;
+            transition: all 0.15s ease;
+        }
+
+        .dock-box-btn:hover {
+            background: #2563eb;
+            color: #ffffff;
+            border-color: #60a5fa;
+            transform: scale(1.08);
+        }
+
+        .dock-box-btn.active {
+            background: #2563eb;
+            color: #ffffff;
+            border-color: #93c5fd;
+            box-shadow: 0 0 10px rgba(37, 99, 235, 0.7);
+            font-weight: 800;
+        }
+
+        .exp-quick-dock .dock-footer {
+            margin-top: 4px;
+            padding-top: 4px;
+            border-top: 1px solid rgba(255, 255, 255, 0.12);
+            width: 100%;
+            display: flex;
+            justify-content: center;
+        }
+
+        .dock-top-btn {
+            background: transparent;
+            border: none;
+            color: #94a3b8;
+            font-size: 11px;
+            font-weight: 700;
+            cursor: pointer;
+            padding: 2px 4px;
+            border-radius: 4px;
+            transition: color 0.15s;
+        }
+
+        .dock-top-btn:hover {
+            color: #ffffff;
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        /* Mobile Quick Bar / Drawer */
+        .mobile-exp-pill {
+            display: none;
+            position: fixed;
+            bottom: 16px;
+            right: 16px;
+            z-index: 1000;
+            background: #0f172a;
+            color: #ffffff;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 999px;
+            padding: 8px 14px;
+            font-size: 12px;
+            font-weight: 700;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.35);
+            cursor: pointer;
+            align-items: center;
+            gap: 6px;
+        }
+
+        @media (max-width: 900px) {
+            .exp-quick-dock {
+                right: 8px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .exp-quick-dock {
+                display: none;
+            }
+            .exp-quick-dock.mobile-open {
+                display: flex;
+                right: 16px;
+                bottom: 60px;
+                top: auto;
+                transform: none;
+                z-index: 1001;
+                box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            }
+            .mobile-exp-pill {
+                display: flex;
+            }
+        }
+
+        /* TABLES */
+        .table-wrap {
+            overflow-x: auto;
+            margin: 8px 0;
+            border-radius: 6px;
+            border: 1px solid var(--border);
+            background: #ffffff;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            font-size: 12.5px;
+            text-align: left;
+        }
+
+        th, td {
+            border: 1px solid var(--border);
+            padding: 8px 12px;
+            min-width: 70px;
+        }
+
+        th {
+            background: #f1f5f9;
+            color: var(--text-main);
+            font-weight: 700;
+        }
+
+        td[contenteditable="true"] {
+            background: #fff;
+            outline: none;
+            transition: background 0.15s;
+        }
+
+        td[contenteditable="true"]:focus {
+            background: #eff6ff;
+            box-shadow: inset 0 0 0 2px var(--primary);
+        }
+
+        /* FORMULAS & CODE */
+        .formula-box, .code-box {
+            font-family: 'Fira Code', monospace;
+            font-size: 12.5px;
+            background: #0f172a;
+            color: #38bdf8;
+            padding: 10px 14px;
+            border-radius: 6px;
+            margin: 6px 0;
+            overflow-x: auto;
+            border: 1px solid #1e293b;
+        }
+
+        .formula-box span.var {
+            color: #f43f5e;
+        }
+
+        .formula-box span.val {
+            color: #34d399;
+        }
+
+        /* SVG DIAGRAMS */
+        .diagram-container {
+            background: #ffffff;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 16px;
+            margin: 10px 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            box-shadow: inset 0 1px 3px rgba(15, 23, 42, 0.02);
+        }
+
+        svg {
+            width: 100%;
+            max-width: 580px;
+            height: auto;
+            display: block;
+            color: var(--text-main);
+            cursor: zoom-in;
+            transition: transform 0.15s;
+        }
+
+        svg:hover {
+            transform: scale(1.01);
+        }
+
+        svg * {
+            stroke: currentColor;
+            fill: none;
+            stroke-width: 1.6;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        svg text {
+            fill: currentColor;
+            stroke: none;
+            font-family: 'Inter', -apple-system, sans-serif;
+            font-size: 11px;
+            font-weight: 500;
+        }
+
+        .diagram-caption {
+            font-size: 11.5px;
+            color: var(--text-sub);
+            margin-top: 8px;
+            text-align: center;
+        }
+
+        /* PROCEDURE LIST */
+        ol.proc-list, ul.proc-list {
+            padding-left: 20px;
+            margin: 6px 0;
+        }
+
+        ol.proc-list li, ul.proc-list li {
+            margin-bottom: 6px;
+            line-height: 1.5;
+        }
+
+        /* VIVA QA (DIRECT VIEW - NO CLICK TO SEE) */
+        .viva-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin: 8px 0;
+        }
+
+        .viva-item {
+            background: #ffffff;
+            border: 1px solid var(--border);
+            border-left: 4px solid var(--primary);
+            border-radius: 6px;
+            padding: 10px 14px;
+        }
+
+        .viva-q {
+            font-weight: 700;
+            color: var(--text-main);
+            font-size: 13px;
+            margin-bottom: 4px;
+        }
+
+        .viva-a {
+            color: #0f766e;
+            font-size: 13px;
+            line-height: 1.45;
+        }
+
+        .viva-key {
+            display: inline-block;
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--accent-amber);
+            background: #fffbeb;
+            border: 1px solid #fde68a;
+            padding: 2px 7px;
+            border-radius: 4px;
+            margin-top: 4px;
+        }
+
+        /* CHECKLIST IN EXAM MODE */
+        .checklist-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 6px 0;
+            font-size: 13px;
+            border-bottom: 1px dashed var(--border);
+        }
+
+        .checklist-item input[type="checkbox"] {
+            width: 16px;
+            height: 16px;
+            accent-color: var(--primary);
+            cursor: pointer;
+        }
+
+        /* LIGHTBOX */
+        #lightbox {
+            position: fixed;
+            inset: 0;
+            background: rgba(15, 23, 42, 0.85);
+            backdrop-filter: blur(6px);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            z-index: 2000;
+            cursor: zoom-out;
+        }
+
+        #lightbox-content {
+            background: #ffffff;
+            border-radius: 12px;
+            padding: 24px;
+            max-width: 90vw;
+            max-height: 90vh;
+            overflow: auto;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+        }
+
+        #lightbox-content svg {
+            max-width: 820px;
+            width: 100%;
+        }
+
+        /* FOOTER */
+        footer {
+            text-align: center;
+            font-size: 13px;
+            color: var(--text-sub);
+            padding: 20px 0;
+            border-top: 1px solid var(--border);
+            margin-top: 40px;
+        }
+
+        footer a {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 700;
+        }
+
+        @media (max-width: 640px) {
+            .top-header {
+                padding: 8px 12px;
+            }
+            .header-title span.full-title {
+                display: none;
+            }
+            .nav-bar {
+                padding: 8px 12px;
+            }
+            main {
+                padding: 0 10px;
+            }
+            article.exp-card {
+                padding: 14px;
+            }
+            .exp-title {
+                font-size: 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- STICKY TOP BAR -->
+    <header class="top-header">
+        <div class="header-left">
+            <span class="brand-badge">LIC LAB</span>
+            <div class="header-title">
+                <span>EC5301 / EC3361</span>
+                <span class="full-title" style="color:var(--text-muted); font-weight:600;">· Linear Integrated Circuits</span>
+            </div>
+        </div>
+        <div class="header-right">
+            <select id="jump-select" class="jump-select" onchange="jumpTo(this.value)">
+                <option value="">Jump to Experiment...</option>
+                <option value="e1">Exp 1: Inverting & Non-Inverting Amp</option>
+                <option value="e2">Exp 2: Precision Rectifiers</option>
+                <option value="e3">Exp 3: Function Generator</option>
+                <option value="e4">Exp 4: Active Clipper</option>
+                <option value="e5">Exp 5: RC Phase Shift & Wein Bridge</option>
+                <option value="e6">Exp 6: 2nd Order Active Filters</option>
+                <option value="e7">Exp 7: PLL using IC565</option>
+                <option value="e8">Exp 8: 4-bit R-2R Ladder DAC</option>
+                <option value="e9">Exp 9: Instrumentation Amplifier</option>
+                <option value="e10">Exp 10: Square Wave Generator</option>
+                <option value="e11">Exp 11: Voltage Regulator IC723</option>
+            </select>
+            <a href="../../index.html" class="btn-back">
+                <span class="hub-arrow">←</span> Back to Hub
+            </a>
+        </div>
+    </header>
+
+    <!-- NAVIGATION TABS & SEARCH -->
+    <nav class="nav-bar">
+        <button class="tab-btn active" data-v="exp">All Experiments (11)</button>
+        <button class="tab-btn" data-v="exam">Exam Day Checklist</button>
+        <button class="tab-btn" data-v="viva">Viva Voce Bank</button>
+        <button class="tab-btn" data-v="formula">Formula Bank</button>
+        <button class="tab-btn" data-v="ic">IC Pinouts & Specs</button>
+        <button class="tab-btn" data-v="rev">Quick Revision</button>
+        <input type="search" id="search" class="search-input" placeholder="Search (741, gain, filter, R-2R, PLL, slew rate)..." aria-label="Search">
+    </nav>
+
+    <!-- MAIN VIEW CONTAINER -->
+    <main id="app-container">
+        <!-- Content injected dynamically -->
+    </main>
+
+    <!-- UNIVERSAL ASIDE QUICK-JUMP EXPERIMENT DOCK (11 EXPERIMENTS) -->
+    <aside class="exp-quick-dock" id="expQuickDock" aria-label="Quick Jump to Experiment">
+        <div class="dock-header">
+            <span class="dock-title">EXPS</span>
+            <span class="dock-badge">11</span>
+        </div>
+        <div class="dock-grid">
+            <button class="dock-box-btn" onclick="jumpTo('e1')" data-exp="1" title="Exp 1: Inverting & Non-Inverting Amp">1</button>
+            <button class="dock-box-btn" onclick="jumpTo('e2')" data-exp="2" title="Exp 2: Precision Rectifiers">2</button>
+            <button class="dock-box-btn" onclick="jumpTo('e3')" data-exp="3" title="Exp 3: Function Generator">3</button>
+            <button class="dock-box-btn" onclick="jumpTo('e4')" data-exp="4" title="Exp 4: Active Clipper">4</button>
+            <button class="dock-box-btn" onclick="jumpTo('e5')" data-exp="5" title="Exp 5: RC Phase Shift & Wein Bridge">5</button>
+            <button class="dock-box-btn" onclick="jumpTo('e6')" data-exp="6" title="Exp 6: 2nd Order Active Filters">6</button>
+            <button class="dock-box-btn" onclick="jumpTo('e7')" data-exp="7" title="Exp 7: PLL using IC565">7</button>
+            <button class="dock-box-btn" onclick="jumpTo('e8')" data-exp="8" title="Exp 8: 4-bit R-2R Ladder DAC">8</button>
+            <button class="dock-box-btn" onclick="jumpTo('e9')" data-exp="9" title="Exp 9: Instrumentation Amplifier">9</button>
+            <button class="dock-box-btn" onclick="jumpTo('e10')" data-exp="10" title="Exp 10: Square Wave Generator">10</button>
+            <button class="dock-box-btn" onclick="jumpTo('e11')" data-exp="11" title="Exp 11: Voltage Regulator IC723">11</button>
+        </div>
+        <div class="dock-footer">
+            <button class="dock-top-btn" onclick="window.scrollTo({top:0, behavior:'smooth'})" title="Top">↑ Top</button>
+        </div>
+    </aside>
+
+    <button class="mobile-exp-pill" id="mobileExpPill" onclick="toggleMobileExpDock()" aria-label="Toggle Experiment Navigator">
+        ⚡ Exp <span id="mobileCurrExp">1</span>/11
+    </button>
+
+    <!-- LIGHTBOX MODAL FOR ZOOMING DIAGRAMS -->
+    <div id="lightbox" onclick="closeLightbox()">
+        <div id="lightbox-content" onclick="event.stopPropagation()"></div>
+    </div>
+
+    <footer>
+        <p>Chennai Institute of Technology · Department of ECE · Built for Fast Lab Exam Success</p>
+    </footer>
+
+    <script>
+    // ==========================================
+    // MATHEMATICALLY PRECISE SVG SCHEMATICS
+    // ==========================================
+    const sv = (b, w=480, h=180) => `<svg viewBox="0 0 ${w} ${h}" role="img" aria-label="circuit diagram">${b}</svg>`;
+    const T = (x, y, t, anchor="start", cls="") => `<text x="${x}" y="${y}" text-anchor="${anchor}" class="${cls}">${t}</text>`;
+    const DOT = (x, y) => `<circle cx="${x}" cy="${y}" r="3.5" fill="currentColor"/>`;
+    const GND = (x, y) => `<path d="M${x} ${y}v10M${x-10} ${y+10}h20M${x-6} ${y+14}h12M${x-2} ${y+18}h4"/>`;
+    const Rz = (x, y, w=40, h=16, label="") => `<rect x="${x}" y="${y-h/2}" width="${w}" height="${h}" rx="2" fill="var(--surface-card)"/><text x="${x+w/2}" y="${y-h/2-4}" text-anchor="middle" font-size="11" font-weight="600">${label}</text>`;
+    
+    // Op-Amp triangle with clearly defined pins
+    // Triangle: (x, y) to (x, y+60) to (x+50, y+30)
+    // Pin 2 (-) at (x, y+18)
+    // Pin 3 (+) at (x, y+42)
+    // Output Pin 6 at (x+50, y+30)
+    const OA = (x, y, name="741") => `
+        <path d="M${x} ${y} v60 l55 -30 z" fill="var(--surface-card)" stroke-width="1.8"/>
+        <text x="${x+6}" y="${y+22}" font-size="14" font-weight="bold">−</text>
+        <text x="${x+6}" y="${y+46}" font-size="14" font-weight="bold">+</text>
+        <text x="${x+20}" y="${y+34}" font-size="11" font-weight="700">${name}</text>
+    `;
+
+    // Block diagram chain builder with proper spacing and markers
+    const chain = a => {
+        const n = a.length, w = Math.floor(440 / n);
+        let s = `
+            <defs>
+                <marker id="arrow" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                    <path d="M 0 1 L 10 5 L 0 9 z" fill="currentColor"/>
+                </marker>
+            </defs>
+        `;
+        a.forEach((t, i) => {
+            const x = 20 + i * w;
+            s += `<rect x="${x}" y="50" width="${w-18}" height="55" rx="6" fill="var(--surface-card)" stroke-width="1.5"/>`;
+            const lines = t.split('|');
+            lines.forEach((l, j) => {
+                s += `<text x="${x + (w-18)/2}" y="${72 + j*14}" text-anchor="middle" font-size="11" font-weight="600">${l}</text>`;
+            });
+            if (i < n - 1) {
+                s += `<line x1="${x + w - 18}" y1="77" x2="${x + w}" y2="77" stroke-width="1.6" marker-end="url(#arrow)"/>`;
+            }
+        });
+        return sv(s, 480, 150);
+    };
+
+    // 1. INVERTING AMPLIFIER SCHEMATIC
+    const INV_SVG = sv(`
+        ${OA(230, 60)}
+        <!-- Input wire & R1 -->
+        <circle cx="40" cy="78" r="3" fill="currentColor"/>
+        <text x="32" y="82" font-size="12" font-weight="bold">Vi</text>
+        <path d="M40 78 h60"/>
+        ${Rz(100, 78, 50, 18, "R1 = 1 kΩ")}
+        <path d="M150 78 h80"/>
+        ${DOT(190, 78)}
+        <!-- Pin 3 (+) to Ground -->
+        <path d="M230 102 h-30 v25"/>
+        ${GND(200, 127)}
+        <!-- Feedback Loop Rf -->
+        <path d="M190 78 v-42 h25"/>
+        ${Rz(215, 36, 60, 18, "Rf = 10 kΩ")}
+        <path d="M275 36 h60 v54"/>
+        ${DOT(335, 90)}
+        <!-- Output wire -->
+        <path d="M285 90 h130"/>
+        <circle cx="415" cy="90" r="3" fill="currentColor"/>
+        <text x="425" y="94" font-size="12" font-weight="bold">Vo</text>
+        <!-- Formula text -->
+        <text x="240" y="160" text-anchor="middle" font-size="12" font-weight="600" fill="var(--primary)">Inverting: Vo = −(Rf / R1) · Vi = −10 · Vi  (180° Phase Shift)</text>
+    `, 480, 175);
+
+    // 2. NON-INVERTING AMPLIFIER SCHEMATIC
+    const NON_SVG = sv(`
+        ${OA(230, 60)}
+        <!-- Input wire directly to Pin 3 (+) -->
+        <circle cx="40" cy="102" r="3" fill="currentColor"/>
+        <text x="32" y="106" font-size="12" font-weight="bold">Vi</text>
+        <path d="M40 102 h190"/>
+        <!-- Feedback divider to Pin 2 (-) -->
+        <path d="M230 78 h-45"/>
+        ${DOT(185, 78)}
+        <!-- R1 to Ground -->
+        <path d="M185 78 v25"/>
+        ${Rz(160, 115, 50, 18, "R1 = 1 kΩ")}
+        <path d="M185 124 v20"/>
+        ${GND(185, 144)}
+        <!-- Feedback resistor Rf -->
+        <path d="M185 78 v-42 h30"/>
+        ${Rz(215, 36, 60, 18, "Rf = 10 kΩ")}
+        <path d="M275 36 h60 v54"/>
+        ${DOT(335, 90)}
+        <!-- Output wire -->
+        <path d="M285 90 h130"/>
+        <circle cx="415" cy="90" r="3" fill="currentColor"/>
+        <text x="425" y="94" font-size="12" font-weight="bold">Vo</text>
+        <!-- Formula text -->
+        <text x="240" y="168" text-anchor="middle" font-size="12" font-weight="600" fill="var(--primary)">Non-Inverting: Vo = (1 + Rf / R1) · Vi = 11 · Vi  (0° Phase Shift)</text>
+    `, 480, 180);
+
+    // 3. IC741 8-PIN DIP PINOUT
+    const PIN_SVG = sv(`
+        <!-- Chip body -->
+        <rect x="180" y="20" width="130" height="150" rx="8" fill="var(--surface-card)" stroke-width="2"/>
+        <!-- Notch -->
+        <path d="M230 20 a15 15 0 0 0 30 0" fill="var(--bg)"/>
+        <!-- Pin 1 Dot index -->
+        <circle cx="200" cy="38" r="3.5" fill="currentColor"/>
+        
+        <!-- Left pins: 1 to 4 -->
+        <path d="M140 48 h40 M140 80 h40 M140 112 h40 M140 144 h40" stroke-width="2"/>
+        <text x="130" y="52" text-anchor="end" font-size="11" font-weight="bold">1. Offset Null</text>
+        <text x="130" y="84" text-anchor="end" font-size="11" font-weight="bold">2. Inverting (−)</text>
+        <text x="130" y="116" text-anchor="end" font-size="11" font-weight="bold">3. Non-Inv (+)</text>
+        <text x="130" y="148" text-anchor="end" font-size="11" font-weight="bold">4. −Vcc (−15V)</text>
+
+        <!-- Right pins: 8 to 5 -->
+        <path d="M310 48 h40 M310 80 h40 M310 112 h40 M310 144 h40" stroke-width="2"/>
+        <text x="360" y="52" text-anchor="start" font-size="11" font-weight="bold">8. NC (No Connect)</text>
+        <text x="360" y="84" text-anchor="start" font-size="11" font-weight="bold">7. +Vcc (+15V)</text>
+        <text x="360" y="116" text-anchor="start" font-size="11" font-weight="bold">6. Output (Vo)</text>
+        <text x="360" y="148" text-anchor="start" font-size="11" font-weight="bold">5. Offset Null</text>
+
+        <text x="245" y="105" text-anchor="middle" font-size="13" font-weight="800">µA741</text>
+    `, 480, 185);
+
+    // 4. SALLEN-KEY 2ND ORDER ACTIVE LOW-PASS FILTER
+    const LPF_SVG = sv(`
+        ${OA(270, 65)}
+        <circle cx="20" cy="107" r="3" fill="currentColor"/>
+        <text x="12" y="111" font-size="11" font-weight="bold">Vin</text>
+        <path d="M20 107 h30"/>
+        ${Rz(50, 107, 44, 16, "R2 3.3k")}
+        <path d="M94 107 h30"/>
+        ${DOT(124, 107)}
+        ${Rz(124, 107, 44, 16, "R3 3.3k")}
+        <path d="M168 107 h102"/>
+        ${DOT(210, 107)}
+        <!-- C3 to Ground -->
+        <path d="M210 107 v20"/>
+        <path d="M198 127 h24 M198 131 h24"/>
+        <text x="230" y="132" font-size="10">C3 0.01µF</text>
+        <path d="M210 131 v15"/>
+        ${GND(210, 146)}
+        <!-- C2 Feedback to Output -->
+        <path d="M124 107 v-65 h190 v48"/>
+        <path d="M210 42 h24 M210 46 h24"/>
+        <text x="240" y="44" font-size="10">C2 0.01µF</text>
+        ${DOT(314, 95)}
+        <!-- Output -->
+        <path d="M325 95 h110"/>
+        <circle cx="435" cy="95" r="3" fill="currentColor"/>
+        <text x="445" y="99" font-size="11" font-weight="bold">Vo</text>
+        <!-- Gain feedback to Pin 2 (-) -->
+        <path d="M270 83 h-30 v30"/>
+        ${Rz(220, 125, 40, 16, "R1 10k")}
+        <path d="M240 133 v15"/>
+        ${GND(240, 148)}
+        <path d="M240 98 h40 v-30 h34"/>
+        <text x="240" y="172" text-anchor="middle" font-size="11" font-weight="600" fill="var(--primary)">fc = 1 / (2πRC) ≈ 4.82 kHz · Roll-off: −40 dB/decade · Af = 1.586 (Butterworth)</text>
+    `, 480, 185);
+
+    // 5. ASTABLE SQUARE-WAVE GENERATOR
+    const SQ_SVG = sv(`
+        ${OA(230, 60)}
+        <!-- Inverting Pin 2: Timing RC -->
+        <path d="M230 78 h-50"/>
+        ${DOT(180, 78)}
+        <path d="M180 78 v30"/>
+        <path d="M168 108 h24 M168 112 h24"/>
+        <text x="125" y="112" font-size="10">C1 0.1µF</text>
+        <path d="M180 112 v18"/>
+        ${GND(180, 130)}
+        <!-- Timing resistor R3 from Output back to Pin 2 -->
+        <path d="M180 78 v-45 h30"/>
+        ${Rz(210, 33, 55, 18, "R3 = 10 kΩ")}
+        <path d="M265 33 h65 v57"/>
+        ${DOT(330, 90)}
+        <!-- Output -->
+        <path d="M285 90 h120"/>
+        <circle cx="405" cy="90" r="3" fill="currentColor"/>
+        <text x="415" y="94" font-size="11" font-weight="bold">Vo (±Vsat)</text>
+        <!-- Non-inverting Pin 3: Voltage divider R1 and R2 -->
+        <path d="M230 102 h-35"/>
+        ${DOT(195, 102)}
+        <!-- R1 to Ground -->
+        <path d="M195 102 v18"/>
+        ${Rz(170, 130, 50, 16, "R1 100k")}
+        <path d="M195 138 v15"/>
+        ${GND(195, 153)}
+        <!-- R2 to Output -->
+        <path d="M195 102 v-15 h80 v-20"/>
+        <text x="240" y="172" text-anchor="middle" font-size="11" font-weight="600" fill="var(--primary)">β = R1/(R1+R2) = 0.5 · T = 2·R3·C1·ln(3) ≈ 2.2·R3·C1 ≈ 2.2 ms · f ≈ 455 Hz</text>
+    `, 480, 185);
+
+    // 6. 4-BIT R-2R LADDER DAC
+    const LAD_SVG = sv(`
+        <!-- Horizontal R line -->
+        <path d="M50 50 h320"/>
+        <!-- Inputs b0 to b3 -->
+        ${[0, 1, 2, 3].map(i => {
+            const x = 70 + i * 70;
+            const bit = i === 3 ? 'b3 (MSB)' : (i === 0 ? 'b0 (LSB)' : `b${i}`);
+            return `
+                <path d="${x} 50 v25"/>
+                ${Rz(x-20, 85, 40, 16, "2R")}
+                <path d="${x} 93 v25"/>
+                <circle cx="${x}" cy="118" r="3" fill="currentColor"/>
+                <text x="${x}" y="132" text-anchor="middle" font-size="10" font-weight="bold">${bit}</text>
+                ${i < 3 ? Rz(x+15, 50, 40, 14, "R") : ''}
+            `;
+        }).join('')}
+        <!-- Terminating 2R to ground on left -->
+        <path d="M50 50 v25"/>
+        ${Rz(30, 85, 40, 16, "2R")}
+        <path d="M50 93 v25"/>
+        ${GND(50, 118)}
+        <!-- Summing to Op-Amp Inverting terminal -->
+        <path d="M280 50 h60 v30 h20"/>
+        ${OA(360, 68)}
+        <path d="M360 110 h-20 v15"/>
+        ${GND(340, 125)}
+        <!-- Feedback Rf = 3R -->
+        <path d="M340 80 v-40 h30"/>
+        ${Rz(370, 40, 44, 16, "Rf = 3R")}
+        <path d="M414 40 h20 v58"/>
+        <!-- Output -->
+        <path d="M415 98 h40"/>
+        <circle cx="455" cy="98" r="3" fill="currentColor"/>
+        <text x="462" y="102" font-size="11" font-weight="bold">Vo</text>
+        <text x="240" y="155" text-anchor="middle" font-size="11" font-weight="600" fill="var(--primary)">Vout = −(Rf / Req) · Vref · (b3/2 + b2/4 + b1/8 + b0/16)</text>
+    `, 480, 170);
+
+    // ==========================================
+    // COMPLETE 11 EXPERIMENTS DATASET
+    // ==========================================
+    const E = [
+        {
+            n: 1,
+            t: 'Inverting and Non-inverting Amplifier',
+            aim: 'To design, construct and test inverting and non-inverting operational amplifiers using IC µA741, and verify theoretical voltage gain against experimental observations.',
+            ic: 'IC µA741 (8-Pin DIP)',
+            parts: [
+                ['Op-Amp IC 741', '8-Pin DIP, High Gain BJT', '1'],
+                ['Dual Power Supply', '±15 V regulated DC', '1'],
+                ['Resistors', '1 kΩ, 10 kΩ (1/4 W, 5%)', '1, 1'],
+                ['Function Generator', '0–3 MHz Sine / Square', '1'],
+                ['CRO / DSO', 'Dual trace, 0–30 MHz', '1'],
+                ['Breadboard & Connecting wires', 'Solderless breadboard', '1 set']
+            ],
+            svg: INV_SVG + '<br>' + NON_SVG,
+            cap: 'Pinout & schematics for IC741 Inverting and Non-Inverting configurations. Tap diagram to enlarge in lightbox.',
+            theory: 'The operational amplifier is a high-gain direct-coupled differential amplifier. In the inverting configuration, input is applied to pin 2 while pin 3 is grounded. Since the open-loop gain Aol is very large (≈2×10⁵), negative feedback forces the inverting terminal to the same potential as the non-inverting terminal (virtual ground, V− ≈ 0 V). Applying Kirchhoff’s Current Law at node A yields (Vi/R1) + (Vo/Rf) = 0, giving Vo = −(Rf/R1)·Vi. In the non-inverting configuration, input is fed directly to pin 3 (+), yielding Vo = (1 + Rf/R1)·Vi.',
+            f: [
+                'Inverting Gain: Av = Vo / Vi = −(Rf / R1)  [Rf = 10 kΩ, R1 = 1 kΩ → Av = −10]',
+                'Non-Inverting Gain: Av = Vo / Vi = 1 + (Rf / R1)  [Av = 1 + 10 = +11]',
+                'Practical Gain = Vo(peak-to-peak) / Vi(peak-to-peak)'
+            ],
+            proc: [
+                'Verify IC741 pin configuration and insert onto breadboard.',
+                'Connect ±15 V dual power supply to pin 7 (+Vcc) and pin 4 (−Vcc). Ground the common supply terminal.',
+                'For inverting amplifier: Connect R1 = 1 kΩ to pin 2, Rf = 10 kΩ between pin 2 and pin 6, and ground pin 3.',
+                'Apply a 1 kHz sine wave (1 V p-p) from function generator to input terminal Vi.',
+                'Observe Vi and Vo simultaneously on CRO Channels 1 and 2 in dual mode; verify 180° phase inversion.',
+                'Measure output amplitude Vo for various input voltages and record in the observation table.',
+                'Repeat the procedure for the non-inverting configuration by applying Vi to pin 3 and connecting R1 from pin 2 to ground.'
+            ],
+            tab: ['Configuration', 'Input Vi (V p-p)', 'Output Vo (V p-p)', 'Theoretical Gain', 'Practical Gain', 'Phase Shift'],
+            rows: [
+                ['Inverting', '0.5 V', '5.0 V', '−10', '10.0', '180°'],
+                ['Inverting', '1.0 V', '10.0 V', '−10', '10.0', '180°'],
+                ['Non-Inverting', '0.5 V', '5.5 V', '+11', '11.0', '0°'],
+                ['Non-Inverting', '1.0 V', '11.0 V', '+11', '11.0', '0°']
+            ],
+            calc: 'Given: R1 = 1 kΩ, Rf = 10 kΩ, Vi = 1.0 V p-p\n• Inverting: Vo = −(10 kΩ / 1 kΩ) × 1.0 V = −10.0 V p-p\n• Non-Inverting: Vo = (1 + 10 kΩ / 1 kΩ) × 1.0 V = +11.0 V p-p\n• Practical Gain: Av = 10.0 V / 1.0 V = 10 (Inverting), 11.0 V / 1.0 V = 11 (Non-Inverting)',
+            res: 'Inverting and non-inverting amplifiers were successfully constructed using IC741. Practical voltage gains matched theoretical values within 1% tolerance, and expected phase shifts (180° inversion vs 0° in-phase) were verified on CRO.',
+            pre: [
+                'Ensure correct supply polarity on pin 7 (+15V) and pin 4 (−15V); reversing polarity destroys IC741 instantly.',
+                'Keep peak output voltage below ±13 V to avoid op-amp saturation clipping.',
+                'Connect all signal generator, CRO, and power supply grounds to a common ground rail.'
+            ],
+            viva: [
+                ['What is meant by virtual ground in an op-amp?', 'Because the open-loop differential gain Aol is extraordinarily high (≈ 10⁵) and the output voltage is finite, the differential input voltage Vd = (V+ − V−) ≈ 0. When V+ is at ground potential (0 V), V− is virtually held at 0 V without being physically connected to ground.', 'Vd ≈ 0 V due to infinite open-loop gain'],
+                ['Why is the non-inverting amplifier gain always greater than or equal to 1?', 'The closed-loop non-inverting gain equation is Av = 1 + (Rf / R1). Even when Rf = 0 (voltage follower), Av equals 1. It can never drop below unity.', 'Av = 1 + Rf/R1 ≥ 1'],
+                ['What are the typical specifications of the general-purpose IC741?', 'Open loop gain ≈ 200,000; Input resistance Ri ≈ 2 MΩ; Output resistance Ro ≈ 75 Ω; Slew rate ≈ 0.5 V/µs; Unity gain bandwidth ≈ 1 MHz; Supply voltage ±15 V.', 'Ri=2MΩ, Ro=75Ω, Slew Rate=0.5V/µs']
+            ]
+        },
+        {
+            n: 2,
+            t: 'Precision Rectifiers (Half-wave & Full-wave)',
+            aim: 'To design, construct and test half-wave and full-wave precision rectifiers using IC741 and diodes, and observe rectification of millivolt signals.',
+            ic: 'IC µA741 ×2, Diodes 1N4001 ×2',
+            parts: [
+                ['Op-Amp IC 741', 'Dual supply DIP', '2'],
+                ['Diodes 1N4001', 'General purpose silicon rectifier', '2'],
+                ['Resistors', '10 kΩ (1/4 W)', '5'],
+                ['Dual Power Supply', '±15 V regulated', '1'],
+                ['Function Generator', '0–3 MHz sine wave', '1'],
+                ['CRO / DSO', 'Dual trace', '1']
+            ],
+            svg: chain(['Sine Input|Vi < 0.7 V', 'Precision Rectifier|Op-Amp + Diodes', 'Summing Amp|Gain = 1', 'Full-Wave DC|Vo = 0.637 Vm']),
+            cap: 'Block diagram for precision half-wave and full-wave rectification. Diodes placed inside op-amp feedback loop cancel the 0.7 V barrier.',
+            theory: 'Ordinary semiconductor diodes cannot rectify AC signals below their forward knee voltage (≈0.7 V for Silicon). By placing the diode inside the negative feedback loop of an operational amplifier, the effective diode threshold voltage is divided by the open-loop gain: Vth(effective) = 0.7 V / Aol ≈ 3.5 µV. This allows rectification of very low-level millivolt signals without non-linear threshold distortion. A full-wave rectifier combines the half-wave stage with an inverting summer.',
+            f: [
+                'Full-Wave Average Output: Vo(avg) = (2 · Vm) / π ≈ 0.637 · Vm',
+                'Half-Wave Average Output: Vo(avg) = Vm / π ≈ 0.318 · Vm',
+                'Effective Diode Threshold: Vth(eff) = Vf / Aol ≈ 0.7 V / 200,000 ≈ 3.5 µV'
+            ],
+            proc: [
+                'Assemble the precision half-wave rectifier with diode D1 in the feedback path.',
+                'Apply a small AC sine wave input of 200 mV to 500 mV peak at 1 kHz.',
+                'Observe input and output waveforms simultaneously on CRO; verify crisp rectification without zero-crossing deadzone.',
+                'Switch CRO to X-Y mode to observe transfer characteristic Vo vs Vi.',
+                'Connect the second IC741 as a summing inverting amplifier to combine the original signal and half-wave output for full-wave rectification.',
+                'Record peak input and output voltages.'
+            ],
+            tab: ['Rectifier Type', 'Input Peak Vin (mV)', 'Output Peak Vo (mV)', 'DC Average Vo(avg) (mV)', 'Error %'],
+            rows: [
+                ['Half-Wave', '300 mV', '300 mV', '95 mV', '< 1%'],
+                ['Full-Wave', '300 mV', '300 mV', '191 mV', '< 1%']
+            ],
+            calc: 'For Full-Wave: Vm = 300 mV\n• Vo(avg) = (2 × 300 mV) / π = 600 / 3.14159 = 191.0 mV\n• Efficiency is 100% since zero diode barrier loss occurs.',
+            res: 'Precision half-wave and full-wave rectifiers were constructed and tested. Millivolt AC signals down to 100 mV were successfully rectified with zero forward diode drop loss.',
+            pre: [
+                'Use high-speed switching diodes (e.g. 1N4148 or 1N4001) for best frequency response.',
+                'Ensure feedback diodes are connected with correct cathode/anode orientation.'
+            ],
+            viva: [
+                ['Why is a precision rectifier called a super diode?', 'Because placing the diode inside the op-amp feedback loop reduces its effective cut-in voltage by open-loop gain Aol to microvolts, making it act like an ideal diode with zero forward drop.', 'Effective drop = Vf / Aol ≈ 0 V'],
+                ['What happens in an ordinary diode circuit if input is 0.2 V peak?', 'The ordinary diode remains completely OFF because the applied voltage is less than the 0.7 V barrier potential, producing zero output.', 'Below 0.7 V threshold → no conduction'],
+                ['What does the X-Y plot show on the CRO for a precision rectifier?', 'It displays the transfer characteristic curve (Vo versus Vi). For a positive half-wave, slope is −1 (or +1) for positive input and flat line at 0 V for negative input.', 'Transfer characteristic Vo vs Vi']
+            ]
+        },
+        {
+            n: 3,
+            t: 'Function Generator using Op-amp',
+            aim: 'To design, construct and test an analog function generator generating square and triangular waveforms using IC741 op-amps.',
+            ic: 'IC µA741 ×2 (Astable + Integrator)',
+            parts: [
+                ['Op-Amp IC 741', 'DIP-8', '2'],
+                ['Resistors', '10 kΩ, 100 kΩ, 1 MΩ, 22 kΩ', '2, 4, 1, 1'],
+                ['Capacitors', '0.01 µF, 0.1 µF', '1, 1'],
+                ['Dual Power Supply', '±15 V', '1'],
+                ['CRO / DSO', 'Dual trace', '1']
+            ],
+            svg: chain(['Astable Multivibrator|IC1 µA741|R1 10k, C1 0.01µF', 'Square Wave|Vo1 = ±Vsat', 'Op-Amp Integrator|IC2 µA741|R 100k, C 0.01µF', 'Triangle Wave|Vo2 Ramp']),
+            cap: 'Two-stage op-amp function generator: Astable square-wave generator cascaded into an inverting Miller integrator to produce a linear triangular wave.',
+            theory: 'A function generator produces multiple standard waveforms. An op-amp astable multivibrator operates without external trigger: capacitor C1 alternately charges and discharges through feedback resistor R toward ±Vsat. When capacitor voltage crosses the positive feedback threshold voltage ±βVsat, the op-amp switches states, generating a symmetric square wave. Feeding this square wave to an op-amp integrator integrates the constant voltage levels into linear ramps, producing a symmetrical triangular wave.',
+            f: [
+                'Square-Wave Period: T = 2 · R · C · ln[(1 + β) / (1 − β)]',
+                'Feedback Fraction: β = R2 / (R1 + R2)  [When R1 = R2 → β = 0.5 → T ≈ 2.2 · R · C]',
+                'Triangular Peak-to-Peak Amplitude: Vpp = 2 · β · Vsat',
+                'Oscillation Frequency: fo = 1 / T ≈ 1 / (2.2 · R · C)'
+            ],
+            proc: [
+                'Wire IC1 as an astable multivibrator with R1 = R2 = 10 kΩ (giving β = 0.5) and timing elements R = 10 kΩ, C = 0.01 µF.',
+                'Observe square wave on CRO Channel 1 and record frequency and amplitude (≈ ±13 V).',
+                'Connect the square wave output to the input of IC2 wired as an inverting integrator with R4 = 100 kΩ and C2 = 0.01 µF.',
+                'Add a 1 MΩ stabilizing resistor across C2 to prevent DC saturation.',
+                'Observe the triangular wave on CRO Channel 2; measure frequency and peak-to-peak voltage.'
+            ],
+            tab: ['Waveform Type', 'Theoretical Freq (Hz)', 'Measured Freq (Hz)', 'Peak Amplitude (V)', 'Duty Cycle (%)'],
+            rows: [
+                ['Square Wave (IC1)', '4.54 kHz', '4.50 kHz', '±13 V', '50.0%'],
+                ['Triangle Wave (IC2)', '4.54 kHz', '4.50 kHz', '6.5 V p-p', '50.0%']
+            ],
+            calc: 'R = 10 kΩ, C = 0.01 µF, β = 0.5\n• T = 2.2 × 10,000 × (0.01 × 10⁻⁶) = 2.2 × 10⁻⁴ s = 0.22 ms\n• fo = 1 / 0.22 ms ≈ 4.54 kHz\n• Triangle Vpp = 2 × 0.5 × 13 V ≈ 13 V / 2 ≈ 6.5 V p-p',
+            res: 'Function generator successfully generated square and triangular waveforms at 4.5 kHz. Measured frequencies and amplitudes matched theoretical calculations.',
+            pre: [
+                'Place large resistor (1 MΩ) in parallel with integrator capacitor C2 to limit DC drift.',
+                'Use polystyrene or metal film capacitors for stable oscillation frequency.'
+            ],
+            viva: [
+                ['Why does an integrator convert a square wave into a triangular wave?', 'Because mathematical integration of a constant positive DC voltage is a negative linear ramp, and integration of a negative constant DC voltage is a positive linear ramp.', '∫ (constant) dt = linear ramp'],
+                ['What determines the duty cycle of the square wave?', 'Equal charging and discharging time constants through the same resistor R ensure a 50% symmetric duty cycle.', 'Equal charge/discharge paths'],
+                ['Why is a parallel resistor Rf placed across the integrator capacitor?', 'Without Rf, the op-amp DC gain is infinite (open loop at DC), so input offset voltage and bias currents will integrate and quickly drive the op-amp into saturation.', 'Limits DC gain & prevents drift saturation']
+            ]
+        },
+        {
+            n: 4,
+            t: 'Active Clipper using Op-amp',
+            aim: 'To design, construct and test positive and negative active clipper circuits using IC741 and examine sharp clipping at reference voltages.',
+            ic: 'IC µA741, Diode 1N4001',
+            parts: [
+                ['Op-Amp IC 741', 'DIP-8', '1'],
+                ['Diode 1N4001', 'Silicon diode', '1'],
+                ['Resistors', '10 kΩ', '2'],
+                ['Potentiometer', '10 kΩ (for Vref)', '1'],
+                ['Dual Power Supply', '±15 V', '1'],
+                ['Signal Generator & CRO', 'Sine wave & dual trace', '1 each']
+            ],
+            svg: chain(['Sine Input|Vi = 5 V p-p', 'Active Clipper|IC741 + Diode', 'Vref Potentiometer|Set to +1.0 V', 'Clipped Output|Vo clipped at Vref']),
+            cap: 'Active clipper circuit blocks signals exceeding reference voltage Vref with razor-sharp threshold precision.',
+            theory: 'Clippers are wave-shaping circuits that clip off portions of a signal above or below a designated reference level. Passive clippers exhibit rounded knees due to the 0.7 V diode barrier. An active clipper utilizes an operational amplifier in closed-loop configuration: when Vin < Vref, the feedback diode conducts, holding the output exactly equal to input. When Vin > Vref, the diode turns off and the output is strictly clamped to Vref.',
+            f: [
+                'Positive Clipper: Vo = Vin for Vin < Vref; Vo = Vref for Vin ≥ Vref',
+                'Negative Clipper: Vo = Vin for Vin > −Vref; Vo = −Vref for Vin ≤ −Vref',
+                'Clipping Error: ΔV ≈ 0 V (sharp corner due to op-amp open-loop gain)'
+            ],
+            proc: [
+                'Connect IC741 with input signal applied to non-inverting terminal.',
+                'Connect diode 1N4001 and feedback resistor in the loop.',
+                'Use potentiometer connected between +15 V and ground to apply variable reference voltage Vref = +1.0 V to inverting input.',
+                'Apply a 1 kHz sine wave (5 V peak-to-peak) and observe Vo on CRO.',
+                'Note clipping at exactly +1.0 V. Reverse diode orientation for negative clipping.'
+            ],
+            tab: ['Clipper Mode', 'Vref Set (V)', 'Input Peak (V)', 'Output Max (V)', 'Output Min (V)'],
+            rows: [
+                ['Positive Clipper', '+1.0 V', '+2.5 V', '+1.0 V (Clipped)', '−2.5 V (Unclipped)'],
+                ['Negative Clipper', '−1.0 V', '+2.5 V', '+2.5 V (Unclipped)', '−1.0 V (Clipped)']
+            ],
+            calc: 'Vref = 1.0 V, Vin = 2.5 V peak\n• At Vin > 1.0 V: Diode switches OFF, Vo is held clamped at Vref = 1.0 V\n• Sharpness factor: Knee transition < 1 mV compared to 700 mV in passive clippers.',
+            res: 'Active positive and negative clippers were designed and verified. Precise clipping at designated reference voltages without rounding distortion was observed.',
+            pre: [
+                'Reference voltage Vref must stay well within the op-amp common-mode input range.',
+                'Verify diode cathode/anode orientation before powering up.'
+            ],
+            viva: [
+                ['What is the key advantage of an active clipper over a passive diode clipper?', 'Elimination of the 0.7 V diode knee voltage error, enabling precise clipping of very small signals with sharp transitions.', 'Zero knee distortion & sharp corner'],
+                ['What happens if Vref is set higher than the input peak voltage?', 'No clipping occurs; the entire input waveform passes through unmodified.', 'Signal remains entirely below threshold'],
+                ['Where are active clippers used in real life?', 'In amplitude limiters, FM receivers, radar signal processors, and ADC over-voltage protection circuits.', 'ADC protection & FM limiters']
+            ]
+        },
+        {
+            n: 5,
+            t: 'RC Phase Shift & Wein Bridge Oscillators',
+            aim: 'To design, construct and test an RC Phase Shift oscillator and a Wein Bridge oscillator using IC741 for an oscillation frequency of 1 kHz.',
+            ic: 'IC µA741',
+            parts: [
+                ['Op-Amp IC 741', 'DIP-8', '1'],
+                ['Resistors', '6.5 kΩ, 10 kΩ, 20 kΩ, 100 kΩ POT', '3, 2, 1, 1'],
+                ['Capacitors', '0.01 µF (matched)', '3'],
+                ['Dual Power Supply', '±15 V', '1'],
+                ['CRO / DSO', 'Frequency measurement', '1']
+            ],
+            svg: chain(['Inverting Amp|Av ≥ 29', '3-Stage RC Ladder|Phase Shift = 180°', 'Total Loop Phase|180° + 180° = 360°', 'Sine Wave|fo ≈ 1.0 kHz']),
+            cap: 'Barkhausen Criterion: Loop gain |Aβ| = 1 and net loop phase shift = 0° or 360° to sustain sinusoidal oscillations.',
+            theory: 'Oscillators convert DC energy into periodic AC signals without external AC input. Under the Barkhausen criterion, sustained oscillation requires: 1) Loop gain |Aβ| ≥ 1, and 2) Loop phase shift = 0° or 360°. In the RC Phase Shift oscillator, an inverting amplifier provides 180° phase shift and a 3-stage cascaded RC ladder network provides the remaining 180° (60° per stage). Feedback factor β = 1/29, so amplifier gain must be |Av| ≥ 29 (Rf ≥ 29·R1). In the Wein Bridge oscillator, a non-inverting amplifier (Av = 3) is combined with a series-parallel lead-lag RC bridge (β = 1/3, phase shift = 0°).',
+            f: [
+                'RC Phase Shift Frequency: fo = 1 / (2π · √6 · R · C)',
+                'RC Phase Shift Minimum Gain: |Av| = Rf / R1 ≥ 29  (Rf ≥ 29 · R1)',
+                'Wein Bridge Frequency: fo = 1 / (2π · R · C)',
+                'Wein Bridge Minimum Gain: Av = 1 + (Rf / R1) = 3  (Rf = 2 · R1)',
+                'Design for 1 kHz: With C = 0.01 µF → R = 6.497 kΩ (use 6.5 kΩ standard)'
+            ],
+            proc: [
+                'Construct the RC Phase Shift oscillator with R = 6.5 kΩ, C = 0.01 µF, and pot Rf = 200 kΩ for gain adjustment.',
+                'Power with ±15 V dual supply; connect output to CRO.',
+                'Carefully adjust Rf potentiometer until clean sinusoidal oscillations start without flat-top saturation clipping.',
+                'Measure time period T and calculate oscillation frequency fo = 1/T.',
+                'Reconfigure circuit for Wein Bridge oscillator with R1 = 10 kΩ, Rf = 20 kΩ pot, and series-parallel RC network; repeat frequency measurement.'
+            ],
+            tab: ['Oscillator Type', 'R Value (kΩ)', 'C Value (µF)', 'Theoretical fo (kHz)', 'Measured fo (kHz)', 'Output Vpp (V)'],
+            rows: [
+                ['RC Phase Shift', '6.5 kΩ', '0.01 µF', '1.00 kHz', '0.98 kHz', '18.4 V'],
+                ['Wein Bridge', '15.9 kΩ', '0.01 µF', '1.00 kHz', '1.01 kHz', '20.2 V']
+            ],
+            calc: 'For RC Phase Shift:\n• fo = 1 / (2 × 3.14159 × √6 × 6,500 × 0.01 × 10⁻⁶)\n• √6 ≈ 2.4495\n• fo = 1 / (6.2832 × 2.4495 × 6500 × 10⁻⁸) = 1 / 0.001000 = 1000 Hz = 1.0 kHz\n• Minimum Rf = 29 × R1 = 29 × 10 kΩ = 290 kΩ',
+            res: 'RC Phase Shift and Wein Bridge oscillators were constructed and tested. Both generated clean sinusoidal waveforms at 1 kHz in full compliance with Barkhausen criteria.',
+            pre: [
+                'Carefully adjust Rf: too low gain prevents oscillation start-up; too high gain causes output clipping into a square wave.',
+                'Use matched precision capacitors (1% tolerance) for equal phase shift per stage.'
+            ],
+            viva: [
+                ['State Barkhausen criteria for sustained oscillations.', '1) Magnitude of open loop gain product |Aβ| must equal unity. 2) Net phase shift around the closed loop must be 0° or an integer multiple of 360°.', '|Aβ| = 1 and ∠Aβ = 0° or 360°'],
+                ['Why is minimum gain 29 for RC phase shift oscillator?', 'Because at the frequency where the 3-section RC network produces 180° phase shift, its attenuation factor is β = 1/29. To achieve |Aβ| = 1, gain |A| must equal 29.', 'Network attenuation β = 1/29'],
+                ['Why is Wein Bridge preferred over RC Phase Shift for variable frequency?', 'In a Wein Bridge, frequency is varied easily over a wide range using a two-gang potentiometer (varying two R’s simultaneously), whereas RC phase shift requires a 3-gang pot.', 'Uses 2-gang pot instead of 3-gang']
+            ]
+        },
+        {
+            n: 6,
+            t: 'Second-order Active Low-pass & High-pass Filters (Simulation)',
+            aim: 'To simulate and analyze second-order Butterworth active low-pass and high-pass filters using OrCAD PSpice / SPICE and plot frequency response.',
+            ic: 'µA741 (Sallen-Key Topology)',
+            parts: [
+                ['PC with SPICE / OrCAD / Multisim', 'Circuit simulation suite', '1'],
+                ['Virtual Op-Amp µA741', 'SPICE model library', '1'],
+                ['Virtual Resistors & Capacitors', 'Standard library components', 'Assorted']
+            ],
+            svg: LPF_SVG,
+            cap: 'Sallen-Key second-order active low-pass filter providing 40 dB/decade roll-off with Butterworth maximally flat passband response.',
+            theory: 'Active filters utilize operational amplifiers in conjunction with resistors and capacitors, eliminating bulky inductors at low frequencies. A second-order filter provides a sharp roll-off rate of −40 dB/decade (−12 dB/octave) in the stopband. The Sallen-Key topology implements a second-order response with a single op-amp. For a Butterworth response (maximally flat passband with damping factor ζ = 0.707), the passband gain must be set to Af = 1 + (Rf / R1) = 1.586.',
+            f: [
+                'Cutoff Frequency: fc = 1 / (2π · √(R2 · R3 · C2 · C3))',
+                'Equal Component Design: With R2 = R3 = R, C2 = C3 = C → fc = 1 / (2π · R · C)',
+                'Butterworth Passband Gain: Af = 1 + (Rf / R1) = 1.586  (Rf = 0.586 · R1)',
+                'Roll-off Rate: −40 dB/decade for LPF, +40 dB/decade for HPF'
+            ],
+            proc: [
+                'Open simulation software and create a new analog project.',
+                'Place µA741 op-amp and wire Sallen-Key LPF with R2 = R3 = 3.3 kΩ and C2 = C3 = 0.01 µF.',
+                'Set gain resistors R1 = 10 kΩ and Rf = 5.86 kΩ for Butterworth response.',
+                'Configure AC Sweep simulation profile from 10 Hz to 100 kHz (decade scale, 100 points/decade).',
+                'Run simulation and plot output voltage in dB: VDB(Vo).',
+                'Locate the −3 dB cutoff point and compare with theoretical fc = 4.82 kHz.',
+                'Interchange resistors and capacitors to simulate High-Pass Filter.'
+            ],
+            tab: ['Frequency (Hz)', 'LPF Gain (dB)', 'LPF Phase (°)', 'HPF Gain (dB)', 'HPF Phase (°)'],
+            rows: [
+                ['100 Hz', '+4.0 dB (Passband)', '−2°', '−68 dB (Stopband)', '+176°'],
+                ['1 kHz', '+4.0 dB', '−22°', '−28 dB', '+135°'],
+                ['4.82 kHz (fc)', '+1.0 dB (−3 dB)', '−90°', '+1.0 dB (−3 dB)', '+90°'],
+                ['20 kHz', '−24 dB', '−160°', '+4.0 dB', '+18°'],
+                ['50 kHz', '−40 dB (−40 dB/dec)', '−175°', '+4.0 dB', '+5°']
+            ],
+            calc: 'R = 3.3 kΩ, C = 0.01 µF\n• fc = 1 / (2 × π × 3300 × 10⁻⁸) = 1 / (2.0734 × 10⁻⁴) ≈ 4822 Hz = 4.82 kHz\n• Passband Gain = 20 log10(1.586) = +4.0 dB\n• Gain at Cutoff = +4.0 dB − 3.0 dB = +1.0 dB',
+            res: 'Second-order active low-pass and high-pass filters were simulated. Frequency responses demonstrated a maximally flat Butterworth passband and sharp −40 dB/decade roll-off with cutoff at 4.82 kHz.',
+            pre: [
+                'Ensure op-amp power rails (±15 V) are connected in the simulation schematic.',
+                'Set AC Sweep points per decade ≥ 100 for smooth graph resolution.'
+            ],
+            viva: [
+                ['Why are active filters preferred over passive filters at audio frequencies?', 'Passive filters require inductors at low audio frequencies, which are bulky, heavy, expensive, and have high internal resistance. Active filters use op-amps and capacitors without inductors.', 'No bulky inductors needed'],
+                ['What is the significance of the 1.586 gain in a second-order Butterworth filter?', 'A passband gain of exactly 1.586 gives a damping ratio of ζ = 0.707 (Q = 0.707), which mathematically guarantees a maximally flat response without passband ripples.', 'Ensures Q = 0.707 (maximally flat)'],
+                ['What is the roll-off rate of an n-th order filter?', 'The stopband roll-off rate is −20×n dB/decade (or −6×n dB/octave). For n = 2, roll-off is −40 dB/decade.', '−20n dB/decade']
+            ]
+        },
+        {
+            n: 7,
+            t: 'Phase-Locked Loop using IC565 (Simulation)',
+            aim: 'To simulate the operation of a Phase-Locked Loop (PLL) using IC565, observe lock and capture ranges, and demonstrate FM demodulation.',
+            ic: 'NE / SE 565 PLL IC (14-Pin DIP)',
+            parts: [
+                ['PC with Simulation Software', 'SPICE / Proteus / Multisim', '1'],
+                ['Virtual IC 565 Model', 'PLL macromodel', '1']
+            ],
+            svg: chain(['Input Signal|Pin 2 (FM in)', 'Phase Detector|Compares Fin & Fvco', 'Low-Pass Filter|Pin 7 (Demod Out)', 'VCO|Pin 4 & 5 (Fvco)']),
+            cap: 'Phase-Locked Loop architecture: Phase Detector, Low-Pass Filter, and Voltage-Controlled Oscillator forming a negative feedback frequency-tracking loop.',
+            theory: 'A Phase-Locked Loop is a closed-loop feedback system that tracks the phase and frequency of an incoming signal. It comprises three primary functional blocks: 1) Phase Detector / Comparator, 2) Low-Pass Filter, and 3) Voltage Controlled Oscillator (VCO). Free running frequency fo is set by external timing resistor R1 and capacitor C1. Lock range (fL) is the frequency range over which the PLL can maintain lock once locked. Capture range (fc) is the range over which the loop can initially acquire lock.',
+            f: [
+                'VCO Free-Running Frequency: fo = 0.3 / (R1 · C1)  [Standard IC565 formula]',
+                'Lock Range: fL = ± (8 · fo) / Vcc  [where Vcc = total supply voltage (V+ − V−)]',
+                'Capture Range: fc = ± (1 / 2π) · √[(2π · fL) / (3.6 kΩ · C2)]'
+            ],
+            proc: [
+                'Assemble IC565 PLL circuit in simulation with R1 = 10 kΩ, C1 = 0.01 µF, and loop filter C2 = 10 µF.',
+                'Apply dual supply +10 V (pin 10) and −10 V (pin 1); total Vcc = 20 V.',
+                'Measure free-running frequency at pin 4 with no input signal applied.',
+                'Apply FM input signal at pin 2; slowly sweep input frequency upward and downward.',
+                'Record the frequencies where lock is acquired (capture) and where lock is lost (lock).',
+                'Observe demodulated analog output voltage at pin 7.'
+            ],
+            tab: ['Parameter', 'Theoretical Value', 'Simulated Value', 'Units'],
+            rows: [
+                ['Free Running Freq fo', '3.00 kHz', '2.98 kHz', 'kHz'],
+                ['Lock Range fL', '± 1.20 kHz (1.8 to 4.2 kHz)', '± 1.18 kHz', 'kHz'],
+                ['Capture Range fc', '± 0.45 kHz (2.55 to 3.45 kHz)', '± 0.44 kHz', 'kHz']
+            ],
+            calc: 'R1 = 10 kΩ, C1 = 0.01 µF, Vcc = 20 V, C2 = 10 µF\n• fo = 0.3 / (10,000 × 0.01 × 10⁻⁶) = 0.3 / 10⁻⁴ = 3,000 Hz = 3.0 kHz\n• fL = ± (8 × 3000) / 20 = ± 1200 Hz = ± 1.2 kHz\n• Lock span = 1.8 kHz to 4.2 kHz',
+            res: 'Phase-Locked Loop IC565 was successfully simulated. Free running frequency of 3 kHz, lock range of ±1.2 kHz, and capture range of ±0.45 kHz were verified.',
+            pre: [
+                'Always bridge pin 4 and pin 5 to feed the VCO output back into the phase detector input.',
+                'Connect bypass capacitor across supply pins to avoid spurious noise triggering.'
+            ],
+            viva: [
+                ['What is the difference between Lock Range and Capture Range?', 'Lock range is the frequency band over which the PLL tracks an incoming signal once lock is established. Capture range is the narrower band over which an unlocked PLL can initially acquire lock. Capture range is always smaller than lock range.', 'Capture Range < Lock Range'],
+                ['Why is the demodulated FM signal obtained at pin 7?', 'Pin 7 is the output of the loop low-pass filter that carries the DC control voltage driving the VCO. In an FM signal, this error voltage is directly proportional to frequency deviation, reconstructing the message.', 'Filtered error voltage = demodulated audio'],
+                ['List major commercial applications of PLL.', 'FM and AM demodulators, frequency synthesizers in mobile phones, motor speed controls, and clock data recovery in digital communications.', 'Frequency synthesis & FM demodulation']
+            ]
+        },
+        {
+            n: 8,
+            t: '4-bit R-2R Ladder D/A Converter (Simulation)',
+            aim: 'To simulate and analyze a 4-bit R-2R ladder Digital-to-Analog Converter (DAC) using op-amp and calculate resolution and full-scale output.',
+            ic: 'LM741 with R-2R Resistor Network',
+            parts: [
+                ['PC with Simulation Software', 'SPICE / Multisim', '1'],
+                ['Virtual Op-Amp LM741', 'DIP-8 op-amp model', '1'],
+                ['Precision Resistors', 'R = 2.2 kΩ, 2R = 4.4 kΩ, Rf = 3R', 'Assorted']
+            ],
+            svg: LAD_SVG,
+            cap: '4-bit R-2R Ladder DAC: Only two resistance values (R and 2R) required, overcoming the wide resistor spread disadvantage of binary weighted DACs.',
+            theory: 'A Digital-to-Analog Converter converts multi-bit binary digital words into a continuous analog voltage. The R-2R ladder DAC utilizes repeated voltage-halving voltage divider nodes: each successive bit from MSB to LSB contributes exactly half the current of the preceding bit into the summing virtual ground node of the op-amp. Because only two precise resistance values (R and 2R) are used, fabrication is straightforward and temperature tracking is superior compared to weighted-resistor DACs.',
+            f: [
+                'Resolution (Step Size): VLSB = VFS / (2ⁿ − 1)  [For n = 4, 15 steps]',
+                'Percentage Resolution: % = [1 / (2ⁿ − 1)] × 100% = (1 / 15) × 100% ≈ 6.67%',
+                'Analog Output: Vo = − (Rf / R) · Vref · [ (b3 / 2) + (b2 / 4) + (b1 / 8) + (b0 / 16) ]'
+            ],
+            proc: [
+                'Build the 4-bit R-2R ladder network connected to the inverting terminal of op-amp LM741.',
+                'Use digital pulse generators or SPICE logic switches to apply digital inputs b3 (MSB), b2, b1, b0 (LSB).',
+                'Connect digital inputs to +5 V for logic 1 and 0 V for logic 0.',
+                'Step binary input from 0000 (0) to 1111 (15) and record analog output voltage Vo.',
+                'Plot the staircase transfer characteristic curve (Analog Vo vs Digital Code).'
+            ],
+            tab: ['Binary Input (b3 b2 b1 b0)', 'Decimal Value', 'Ideal Vo (V)', 'Simulated Vo (V)', 'Error (mV)'],
+            rows: [
+                ['0000', '0', '0.00 V', '0.00 V', '0 mV'],
+                ['0001 (LSB)', '1', '−0.3125 V', '−0.312 V', '< 1 mV'],
+                ['0010', '2', '−0.6250 V', '−0.624 V', '< 1 mV'],
+                ['0100', '4', '−1.2500 V', '−1.248 V', '< 2 mV'],
+                ['1000 (MSB)', '8', '−2.5000 V', '−2.497 V', '< 3 mV'],
+                ['1111 (Full Scale)', '15', '−4.6875 V', '−4.682 V', '< 5 mV']
+            ],
+            calc: 'Vref = 5.0 V, Rf = R, 4-bit (n = 4)\n• VLSB = 5.0 V / 16 = 0.3125 V\n• For code 1010 (10): Vo = −5.0 × (1/2 + 0 + 1/8 + 0) = −5.0 × (0.625) = −3.125 V\n• Full Scale (1111): Vo = −5.0 × (15/16) = −4.6875 V',
+            res: '4-bit R-2R ladder DAC was simulated. Output voltage generated a linear 16-step staircase waveform with resolution of 312.5 mV per LSB and linearity error < 0.2%.',
+            pre: [
+                'Ensure 2R resistors are exactly double the resistance of R to prevent differential non-linearity errors.',
+                'Connect unused digital inputs to ground (logic 0) instead of leaving them floating.'
+            ],
+            viva: [
+                ['Why is R-2R ladder preferred over binary weighted resistor DAC?', 'Binary weighted DAC requires n widely different resistor values (e.g. 10k, 20k, 40k, 80k...), which are difficult to fabricate and match in IC form. R-2R requires only two resistance values, ensuring high precision and thermal tracking.', 'Requires only two resistor values'],
+                ['What is DAC resolution for an 8-bit converter?', 'Resolution = 2⁸ = 256 levels (or 1/255 = 0.392% of full scale).', '1 / (2ⁿ − 1)'],
+                ['What is Settling Time in a DAC?', 'The time elapsed from the application of an input digital code until the analog output settles and remains within a specified error band (typically ±1/2 LSB) of its final value.', 'Time to settle within ±1/2 LSB']
+            ]
+        },
+        {
+            n: 9,
+            t: 'Instrumentation Amplifier (Simulation)',
+            aim: 'To simulate a 3-Op-Amp Instrumentation Amplifier, measure differential gain, and verify high Common-Mode Rejection Ratio (CMRR).',
+            ic: 'µA741 ×3 (Three Op-Amp Topology)',
+            parts: [
+                ['PC with Simulation Software', 'SPICE / Multisim', '1'],
+                ['Virtual Op-Amps µA741', 'Precision models', '3'],
+                ['Matched Resistors', 'R = 10 kΩ (4), R4 = 10 kΩ (2), Rg = 1 kΩ', 'Assorted']
+            ],
+            svg: chain(['Differential Input|V1 & V2', 'Dual Input Buffers|Very High Rin|Gain set by Rg', 'Differential Stage|Rejects Common Mode', 'Single-Ended Out|Vo = Ad(V2 − V1)']),
+            cap: 'Three-op-amp instrumentation amplifier provides high input impedance, adjustable differential gain via a single resistor Rg, and exceptional CMRR.',
+            theory: 'Biomedical signals (e.g. ECG, EEG, EMG) and industrial sensors (strain gauges, thermocouples) produce microvolt/millivolt differential signals riding on large 50 Hz common-mode noise. A standard difference amplifier has low input impedance and requires closely matched resistors. The 3-op-amp instrumentation amplifier uses two non-inverting buffers at the input stage followed by a differential stage. A single external resistor Rg sets the differential gain without disturbing common-mode balance.',
+            f: [
+                'Overall Differential Gain: Ad = [ 1 + (2 · R4 / Rg) ] · (Rf / R1)',
+                'With R1 = R2 = R3 = Rf = 10 kΩ, R4 = 10 kΩ: Ad = 1 + (20 kΩ / Rg)',
+                'For Rg = 1 kΩ → Ad = 1 + 20 = 21',
+                'Common-Mode Rejection Ratio: CMRR = 20 · log10(|Ad / Ac|) dB'
+            ],
+            proc: [
+                'Construct the 3-op-amp instrumentation amplifier in the simulator.',
+                'Set bridge/differential resistors R1 = R2 = R3 = Rf = 10 kΩ and buffer feedback resistors R4 = 10 kΩ.',
+                'Connect Rg = 1 kΩ between the inverting terminals of the two input buffer op-amps.',
+                'Apply differential input: V1 = +10 mV, V2 = −10 mV (Vd = 20 mV); measure output Vo and compute Ad.',
+                'Apply common-mode input: V1 = V2 = 1.0 V (Vcm = 1.0 V); measure Vo and compute Ac and CMRR.'
+            ],
+            tab: ['Input Mode', 'V1 (mV)', 'V2 (mV)', 'Output Vo (mV)', 'Calculated Gain', 'CMRR (dB)'],
+            rows: [
+                ['Differential Mode', '+10 mV', '−10 mV', '+420 mV', 'Ad = 21.0', '—'],
+                ['Common Mode', '1000 mV', '1000 mV', '0.042 mV', 'Ac = 0.000042', '114 dB']
+            ],
+            calc: 'Rg = 1 kΩ, R4 = 10 kΩ, Rf/R1 = 1\n• Ad = 1 + (2 × 10,000 / 1000) = 1 + 20 = 21\n• Output for Vd = 20 mV: Vo = 21 × 20 mV = 420 mV\n• CMRR = 20 log10(21 / 0.000042) = 20 log10(500,000) = 114 dB',
+            res: '3-Op-Amp instrumentation amplifier was simulated. Differential gain Ad = 21 was achieved using single resistor Rg = 1 kΩ, with high common-mode rejection exceeding 110 dB.',
+            pre: [
+                'Differential stage resistors (R1, R2, R3, Rf) must have 0.1% matching to prevent CMRR degradation.',
+                'Use high input impedance op-amps (FET-input like TL081 or OP07) for lowest offset drift.'
+            ],
+            viva: [
+                ['Why is an instrumentation amplifier preferred for ECG/EEG measurements?', 'Because biological signals have very high source impedance and tiny amplitude (1 mV) buried under 50 Hz powerline common-mode noise. Instrumentation amps provide giga-ohm input impedance and CMRR > 100 dB.', 'High Rin & high CMRR to reject 50Hz hum'],
+                ['Why does changing Rg not affect common-mode rejection?', 'Because the common-mode signal appears equally on both sides of Rg, meaning zero common-mode current flows through Rg. Thus common-mode gain is strictly unity regardless of Rg.', 'No common-mode current flows through Rg'],
+                ['What is CMRR and why should it be as high as possible?', 'CMRR is the ratio of differential gain to common-mode gain (Ad / Ac). A high CMRR ensures that unwanted common-mode noise voltages are completely rejected while the true differential signal is magnified.', 'CMRR = |Ad / Ac|; rejects noise']
+            ]
+        },
+        {
+            n: 10,
+            t: 'Square-wave Generator using Op-amp (Simulation)',
+            aim: 'To simulate an op-amp astable multivibrator (relaxation oscillator) generating symmetric square waves and examine frequency dependence on timing elements.',
+            ic: 'IC µA741',
+            parts: [
+                ['PC with Simulation Software', 'SPICE / Multisim', '1'],
+                ['Virtual Op-Amp µA741', 'SPICE library', '1'],
+                ['Resistors', 'R1 = 100 kΩ, R2 = 100 kΩ, R3 = 10 kΩ', '2, 1'],
+                ['Capacitor', 'C1 = 0.1 µF', '1']
+            ],
+            svg: SQ_SVG,
+            cap: 'Op-amp relaxation oscillator: Capacitor charges/discharges exponentially between upper and lower threshold voltages ±βVsat to produce symmetric square waves.',
+            theory: 'An op-amp astable multivibrator is a non-sinusoidal relaxation oscillator with no stable state. It utilizes both positive and negative feedback: positive feedback through voltage divider R1 and R2 sets threshold voltages ±Vth = ±β·Vsat where β = R1 / (R1 + R2). Negative feedback through resistor R3 charges and discharges capacitor C1. When the capacitor voltage crosses the threshold, the op-amp rapidly snaps between positive and negative saturation, generating a clean square wave.',
+            f: [
+                'Feedback Factor: β = R1 / (R1 + R2)  [When R1 = R2 → β = 0.5]',
+                'Time Period: T = 2 · R3 · C1 · ln[(1 + β) / (1 − β)]',
+                'For β = 0.5: T = 2 · R3 · C1 · ln(3) ≈ 2.197 · R3 · C1 ≈ 2.2 · R3 · C1',
+                'Frequency: fo = 1 / T ≈ 1 / (2.2 · R3 · C1)'
+            ],
+            proc: [
+                'Set up the astable multivibrator schematic in the simulator.',
+                'Connect positive feedback network R1 = R2 = 100 kΩ (β = 0.5) to pin 3 (+).',
+                'Connect timing components R3 = 10 kΩ and C1 = 0.1 µF to pin 2 (−).',
+                'Set transient simulation run time to 20 ms with a maximum time step of 1 µs.',
+                'Plot output voltage Vo(t) and capacitor voltage Vc(t) on the same graph.',
+                'Measure peak-to-peak output voltage, time period T, and frequency.'
+            ],
+            tab: ['Parameter', 'Theoretical Value', 'Simulated Value', 'Error %'],
+            rows: [
+                ['Feedback Factor β', '0.50', '0.50', '0.0%'],
+                ['Time Period T', '2.20 ms', '2.21 ms', '< 0.5%'],
+                ['Frequency fo', '454.5 Hz', '452.5 Hz', '< 0.5%'],
+                ['Output Voltage Vo', '± 13.5 V (27 V p-p)', '± 13.5 V', '0.0%'],
+                ['Threshold Voltages', '± 6.75 V', '± 6.75 V', '0.0%']
+            ],
+            calc: 'R1 = R2 = 100 kΩ → β = 100k / (100k + 100k) = 0.5\n• ln[(1 + 0.5) / (1 − 0.5)] = ln(1.5 / 0.5) = ln(3) ≈ 1.0986\n• T = 2 × 10,000 × (0.1 × 10⁻⁶) × 1.0986 = 0.002197 s ≈ 2.20 ms\n• fo = 1 / 0.0022 s ≈ 455 Hz',
+            res: 'Op-amp square-wave generator was simulated. Output generated symmetric 50% duty cycle square wave at 455 Hz with peak-to-peak amplitude of 27 V.',
+            pre: [
+                'Run transient simulation long enough (≥ 10 cycles) to observe steady-state oscillations.',
+                'Specify initial capacitor condition (e.g. 0.1 V) if simulator fails to trigger initial oscillation.'
+            ],
+            viva: [
+                ['How can the duty cycle of the op-amp square wave generator be made asymmetric?', 'By placing two anti-parallel diodes in series with individual resistors in the feedback path, providing different resistance paths for charging and discharging.', 'Anti-parallel diodes with unequal resistors'],
+                ['What restricts the maximum operating frequency of this square-wave generator?', 'The op-amp slew rate and output saturation recovery time. Standard 741 slew rate (0.5 V/µs) distorts square wave edges into trapezoids above 10 kHz.', 'Op-amp slew rate (SR = 0.5 V/µs)'],
+                ['What is the waveform across the capacitor?', 'An exponential charging and discharging waveform bounded strictly between +βVsat and −βVsat.', 'Exponential triangular / sawtooth']
+            ]
+        },
+        {
+            n: 11,
+            t: 'Voltage Regulator using IC 723 (Simulation)',
+            aim: 'To simulate a low-voltage and high-voltage DC regulator using IC723 and plot line-regulation and load-regulation characteristic curves.',
+            ic: 'IC LM723 Precision Voltage Regulator',
+            parts: [
+                ['PC with Simulation Software', 'SPICE / Proteus / Multisim', '1'],
+                ['Virtual IC LM723', 'Voltage regulator library model', '1'],
+                ['External Pass Transistor', '2N3055 NPN power transistor', '1'],
+                ['Resistors & Capacitors', 'Rsc current sense, divider R1, R2', 'Assorted']
+            ],
+            svg: chain(['Unregulated Vin|12 V – 20 V DC', 'IC 723 Regulator|Error Amp + Vref 7.15V', 'Current Limit Rsc|Overload Protection', 'Regulated Output|Vo = 5.0 V constant']),
+            cap: 'IC723 Precision voltage regulator: Internal temperature-compensated 7.15 V Zener reference, error amplifier, and current-limiting transistor.',
+            theory: 'The IC723 is a monolithic precision voltage regulator capable of operating in low-voltage (2 V to 7 V) or high-voltage (7 V to 37 V) modes. It features an internal 7.15 V temperature-compensated reference voltage, an error amplifier, a series pass transistor, and a current-limiting transistor. In low-voltage mode, the internal reference voltage is divided down using a resistor divider to establish the desired output voltage. Current-sensing resistor Rsc limits maximum short-circuit current to Ilimit = Vbe / Rsc ≈ 0.65 V / Rsc.',
+            f: [
+                'Low-Voltage Mode (Vo < Vref): Vo = Vref · [ R2 / (R1 + R2) ]',
+                'High-Voltage Mode (Vo > Vref): Vo = Vref · [ (R1 + R2) / R2 ]',
+                'Short-Circuit Current Limit: Ilimit = Vsense / Rsc ≈ 0.65 V / Rsc',
+                'Line Regulation = (ΔVo / ΔVin) × 100%',
+                'Load Regulation = [ (V_NL − V_FL) / V_NL ] × 100%'
+            ],
+            proc: [
+                'Build the low-voltage regulator circuit for Vo = 5.0 V with Vref = 7.15 V.',
+                'Calculate divider resistors R1 and R2 using Vo = Vref · [R2 / (R1 + R2)].',
+                'Set current sense resistor Rsc = 1.3 Ω for a 500 mA current limit.',
+                'Line Regulation: Sweep input voltage Vin from 8 V to 18 V and record Vo.',
+                'Load Regulation: Keep Vin = 12 V fixed, vary load current IL from 0 to 500 mA, and record Vo.',
+                'Plot line-regulation (Vo vs Vin) and load-regulation (Vo vs IL) curves.'
+            ],
+            tab: ['Parameter', 'Line Regulation Test', 'Load Regulation Test'],
+            rows: [
+                ['Input Voltage Vin', 'Varies 8 V → 18 V', 'Constant 12.0 V'],
+                ['Load Current IL', 'Constant 100 mA', 'Varies 0 mA → 500 mA'],
+                ['Regulated Output Vo', '5.002 V → 5.008 V', '5.010 V (No Load) → 4.992 V (Full Load)'],
+                ['Regulation %', 'ΔVo = 6 mV (0.06%)', 'Load Reg = 0.36%']
+            ],
+            calc: 'For Vo = 5.0 V with Vref = 7.15 V:\n• Vo / Vref = 5.0 / 7.15 = 0.699\n• R2 / (R1 + R2) = 0.70 → Choose R2 = 3.3 kΩ → R1 = 1.42 kΩ (use 1.4 kΩ)\n• Ilimit = 0.65 V / 1.3 Ω = 0.5 A = 500 mA',
+            res: 'Low-voltage DC regulator was simulated using IC723. A stable 5.0 V output was maintained with line regulation < 0.1% and load regulation < 0.4% under full 500 mA load.',
+            pre: [
+                'Input voltage Vin must remain at least 3 V above output voltage Vo (Vin − Vo ≥ 3 V dropout).',
+                'Connect 100 pF compensation capacitor between pin 13 and pin 30 to prevent high-frequency oscillations.'
+            ],
+            viva: [
+                ['What is the internal reference voltage of IC 723?', '7.15 Volts (typically 7.0 V to 7.35 V) provided by an internal temperature-compensated zener diode.', 'Vref ≈ 7.15 V'],
+                ['How does current limiting protect the regulator circuit?', 'When load current flows through Rsc, the voltage drop across Rsc increases. When it reaches ≈ 0.65 V, the internal current-limit transistor turns ON, stealing base drive from the pass transistor and clamping the output current.', 'Vbe = I · Rsc ≥ 0.65 V turns on limiter'],
+                ['Define Line Regulation and Load Regulation.', 'Line regulation is the percentage change in output voltage for a given change in input line voltage. Load regulation is the percentage change in output voltage when load current varies from zero (no load) to maximum rated value (full load).', 'Line: ΔVo/ΔVin; Load: (V_NL−V_FL)/V_NL']
+            ]
+        }
+    ];
+
+    // ==========================================
+    // RENDER FUNCTIONS FOR VIEWS
+    // ==========================================
+    const renderTable = (headers, rows) => `
+        <div class="table-wrap">
+            <table>
+                <thead>
+                    <tr>${headers.map(h => `<th>${h}</th>`).join('')}</tr>
+                </thead>
+                <tbody>
+                    ${rows.map(r => `<tr>${r.map((c, i) => `<td ${i > 0 ? 'contenteditable="true"' : ''}>${c}</td>`).join('')}</tr>`).join('')}
+                </tbody>
+            </table>
+        </div>
+    `;
+
+    const renderExp = e => `
+        <article class="exp-card" id="e${e.n}">
+            <div class="exp-header">
+                <div>
+                    <span class="exp-badge">EXPERIMENT ${e.n}</span>
+                    <h2 class="exp-title">${e.t}</h2>
+                </div>
+                <span class="exp-ic-tag">${e.ic}</span>
+            </div>
+
+            <!-- AIM -->
+            <div class="sec-block">
+                <div class="sec-heading">🎯 Aim</div>
+                <div class="section-body">
+                    <p>${e.aim}</p>
+                </div>
+            </div>
+
+            <!-- COMPONENTS / APPARATUS -->
+            <div class="sec-block">
+                <div class="sec-heading">🧰 Apparatus & Components Required</div>
+                <div class="section-body">
+                    <div class="table-wrap">
+                        <table>
+                            <thead>
+                                <tr><th>S.No</th><th>Component / Equipment</th><th>Specification / Range</th><th>Quantity</th></tr>
+                            </thead>
+                            <tbody>
+                                ${e.parts.map((p, i) => `<tr><td>${i+1}</td><td><b>${p[0]}</b></td><td>${p[1]}</td><td>${p[2]}</td></tr>`).join('')}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- PINOUT & CIRCUIT DIAGRAM -->
+            <div class="sec-block">
+                <div class="sec-heading">⚡ Circuit Diagram & Schematic</div>
+                <div class="section-body">
+                    ${e.n === 1 ? `<div class="diagram-container">${PIN_SVG}<div class="diagram-caption">Fig 1.0: Standard 8-Pin DIP Pinout Configuration of IC µA741 Op-Amp. Tap to zoom.</div></div>` : ''}
+                    <div class="diagram-container">
+                        ${e.svg}
+                        <div class="diagram-caption">${e.cap}</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- THEORY -->
+            <div class="sec-block">
+                <div class="sec-heading">📖 Theory & Operating Principle</div>
+                <div class="section-body">
+                    <p>${e.theory}</p>
+                </div>
+            </div>
+
+            <!-- FORMULAE -->
+            <div class="sec-block">
+                <div class="sec-heading">📐 Formulae & Governing Equations</div>
+                <div class="section-body">
+                    ${e.f.map(x => `<div class="formula-box">${x}</div>`).join('')}
+                </div>
+            </div>
+
+            <!-- PROCEDURE -->
+            <div class="sec-block">
+                <div class="sec-heading">📋 Step-by-Step Procedure</div>
+                <div class="section-body">
+                    <ol class="proc-list">
+                        ${e.proc.map(p => `<li>${p}</li>`).join('')}
+                    </ol>
+                </div>
+            </div>
+
+            <!-- OBSERVATION TABLE -->
+            <div class="sec-block">
+                <div class="sec-heading">📊 Tabular Column & Observations</div>
+                <div class="section-body">
+                    <p style="font-size:12px; color:var(--text-sub); margin-bottom:6px;">💡 Cells are editable. You can type your own lab readings directly into the table.</p>
+                    ${renderTable(e.tab, e.rows)}
+                </div>
+            </div>
+
+            <!-- MODEL CALCULATION -->
+            <div class="sec-block">
+                <div class="sec-heading">🧮 Model Calculations</div>
+                <div class="section-body">
+                    <div class="code-box" style="white-space:pre-wrap;">${e.calc}</div>
+                </div>
+            </div>
+
+            <!-- RESULT & PRECAUTIONS -->
+            <div class="sec-block">
+                <div class="sec-heading">✅ Result & Precautions</div>
+                <div class="section-body">
+                    <div style="background:#f0fdf4; border:1px solid #bbf7d0; border-left:4px solid #16a34a; padding:10px 14px; border-radius:6px; margin-bottom:10px;">
+                        <b>Result:</b> ${e.res}
+                    </div>
+                    <b>Precautions:</b>
+                    <ul class="proc-list" style="margin-top:4px;">
+                        ${e.pre.map(pr => `<li>${pr}</li>`).join('')}
+                    </ul>
+                </div>
+            </div>
+
+            <!-- VIVA VOCE -->
+            <div class="sec-block">
+                <div class="sec-heading">💬 Viva Voce Questions & Answers</div>
+                <div class="section-body">
+                    <div class="viva-list">
+                        ${e.viva.map(v => `
+                            <div class="viva-item">
+                                <div class="viva-q">Q: ${v[0]}</div>
+                                <div class="viva-a"><b>Ans:</b> ${v[1]}</div>
+                                <div class="viva-key">🔑 Key: ${v[2]}</div>
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+            </div>
+        </article>
+    `;
+
+    // EXAM CHECKLIST VIEW
+    const EXAM_CHECKLIST = [
+        "1. Understand the Aim and write it clearly on the answer sheet.",
+        "2. List all required components, IC pin numbers, and power supply specs.",
+        "3. Draw the complete circuit diagram with pin numbers, resistor values, and terminal labels.",
+        "4. Set up the breadboard: Check ±15 V dual power supply polarity with a multimeter before connecting to Pin 7 and Pin 4.",
+        "5. Wire all ground connections to a single common rail (avoid ground loops).",
+        "6. Connect signal generator: set sine wave frequency (1 kHz) and amplitude (1 V p-p).",
+        "7. Observe input and output on CRO/DSO Channels 1 and 2 simultaneously.",
+        "8. Verify phase relationship (180° for inverting, 0° for non-inverting).",
+        "9. Tabulate readings: measure peak-to-peak voltages and calculate practical gain.",
+        "10. Verify that practical gain matches theoretical gain within 5% tolerance.",
+        "11. Draw neat input and output waveforms with voltage and time scales clearly labeled.",
+        "12. Write final Result with measured values and review Viva Voce key points."
+    ];
+
+    const V = {
+        exp: () => `
+            <div class="manual-banner">
+                <h1>Linear Integrated Circuits Laboratory</h1>
+                <p>Course Code: EC5301 / EC3361 · Semester 3 ECE · Complete 11 Experiments with Circuit Schematics, Tables, Calculations & Viva</p>
+            </div>
+            ${E.map(renderExp).join('')}
+        `,
+
+        exam: () => `
+            <div class="manual-banner">
+                <h1>Practical Exam Day Checklist</h1>
+                <p>Step-by-step master workflow to score 100/100 in the ECE LIC Lab Practical Examination.</p>
+            </div>
+            <article class="exp-card">
+                <h2 style="font-size:16px; margin-bottom:12px;">Universal 12-Step Lab Exam Execution Guide</h2>
+                <div style="display:flex; flex-direction:column; gap:6px;">
+                    ${EXAM_CHECKLIST.map((step, idx) => `
+                        <label class="checklist-item">
+                            <input type="checkbox" id="chk_${idx}">
+                            <span><b>Step ${idx+1}:</b> ${step.substring(3)}</span>
+                        </label>
+                    `).join('')}
+                </div>
+            </article>
+            ${E.map(e => `
+                <article class="exp-card">
+                    <div class="exp-header">
+                        <span class="exp-badge">EXP ${e.n}</span>
+                        <h3 style="font-size:15px; font-weight:700;">${e.t}</h3>
+                    </div>
+                    <div style="font-size:13px; color:var(--text-muted); margin-bottom:8px;">
+                        <b>Key IC:</b> ${e.ic} · <b>Formula:</b> <code>${e.f[0]}</code>
+                    </div>
+                    <div style="display:flex; gap:10px; flex-wrap:wrap;">
+                        <label class="checklist-item"><input type="checkbox"> Circuit Drawn with Pinouts</label>
+                        <label class="checklist-item"><input type="checkbox"> Dual Supply Polarity Verified</label>
+                        <label class="checklist-item"><input type="checkbox"> CRO Waveform Plotted</label>
+                        <label class="checklist-item"><input type="checkbox"> Tabular Column Filled</label>
+                        <label class="checklist-item"><input type="checkbox"> Result Written</label>
+                    </div>
+                </article>
+            `).join('')}
+        `,
+
+        viva: () => `
+            <div class="manual-banner">
+                <h1>Comprehensive Viva Voce Bank</h1>
+                <p>Direct question & answer bank covering all 11 experiments for university lab viva examinations.</p>
+            </div>
+            ${E.map(e => `
+                <article class="exp-card">
+                    <div class="exp-header">
+                        <span class="exp-badge">EXP ${e.n}</span>
+                        <h3 style="font-size:16px; font-weight:800;">${e.t}</h3>
+                    </div>
+                    <div class="viva-list">
+                        ${e.viva.map(v => `
+                            <div class="viva-item">
+                                <div class="viva-q">Q: ${v[0]}</div>
+                                <div class="viva-a"><b>Ans:</b> ${v[1]}</div>
+                                <div class="viva-key">🔑 Key: ${v[2]}</div>
+                            </div>
+                        `).join('')}
+                    </div>
+                </article>
+            `).join('')}
+        `,
+
+        formula: () => `
+            <div class="manual-banner">
+                <h1>Formula Bank & Governing Equations</h1>
+                <p>Master collection of all design formulas, cutoff frequencies, gains, and time periods.</p>
+            </div>
+            ${E.map(e => `
+                <article class="exp-card">
+                    <div class="exp-header">
+                        <span class="exp-badge">EXP ${e.n}</span>
+                        <h3 style="font-size:15px; font-weight:700;">${e.t}</h3>
+                    </div>
+                    ${e.f.map(f => `<div class="formula-box">${f}</div>`).join('')}
+                </article>
+            `).join('')}
+        `,
+
+        ic: () => `
+            <div class="manual-banner">
+                <h1>IC Pinouts & Data Specifications</h1>
+                <p>Pin configurations, supply tolerances, and internal architecture for all active ICs used.</p>
+            </div>
+            <article class="exp-card">
+                <div class="exp-header">
+                    <span class="exp-badge">IC 741</span>
+                    <h2 class="exp-title">General Purpose BJT Operational Amplifier</h2>
+                </div>
+                <div class="diagram-container">
+                    ${PIN_SVG}
+                    <div class="diagram-caption">Fig: µA741 standard 8-pin DIP pinout. Tap to zoom.</div>
+                </div>
+                <div class="table-wrap">
+                    <table>
+                        <thead>
+                            <tr><th>Parameter</th><th>Typical Value</th><th>Description</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>Supply Voltage (Vcc)</td><td>±15 V (Max ±18 V)</td><td>Dual symmetric DC supply</td></tr>
+                            <tr><td>Open Loop Voltage Gain (Aol)</td><td>200,000 (106 dB)</td><td>Very high differential DC gain</td></tr>
+                            <tr><td>Input Resistance (Ri)</td><td>2.0 MΩ</td><td>High input impedance, minimal loading</td></tr>
+                            <tr><td>Output Resistance (Ro)</td><td>75 Ω</td><td>Low output impedance</td></tr>
+                            <tr><td>Input Offset Voltage (Vio)</td><td>1.0 mV to 6.0 mV</td><td>Nullified via 10k pot across pins 1 & 5</td></tr>
+                            <tr><td>Slew Rate (SR)</td><td>0.5 V/µs</td><td>Limits maximum high-frequency response</td></tr>
+                            <tr><td>Unity Gain Bandwidth</td><td>1.0 MHz</td><td>Gain-bandwidth product</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </article>
+
+            <article class="exp-card">
+                <div class="exp-header">
+                    <span class="exp-badge">IC 565</span>
+                    <h2 class="exp-title">Monolithic Phase-Locked Loop (PLL)</h2>
+                </div>
+                <p style="font-size:13.5px; margin-bottom:10px;">Used in Experiment 7 for FM demodulation, frequency synthesis, and tone decoding.</p>
+                <div class="table-wrap">
+                    <table>
+                        <thead>
+                            <tr><th>Pin No</th><th>Pin Name</th><th>Function</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>Pin 1</td><td>−Vcc</td><td>Negative power supply (−10 V)</td></tr>
+                            <tr><td>Pin 2 & 3</td><td>Input 1 & 2</td><td>Differential inputs to phase detector</td></tr>
+                            <tr><td>Pin 4 & 5</td><td>VCO Output & Phase Comp</td><td>VCO square wave out; bridged to pin 5</td></tr>
+                            <tr><td>Pin 6</td><td>Reference Output</td><td>Internal reference voltage</td></tr>
+                            <tr><td>Pin 7</td><td>Demodulated Output</td><td>Filtered error voltage (audio output)</td></tr>
+                            <tr><td>Pin 8</td><td>Timing Resistor (R1)</td><td>Sets VCO free running frequency</td></tr>
+                            <tr><td>Pin 9</td><td>Timing Capacitor (C1)</td><td>Sets VCO frequency: fo = 0.3 / (R1·C1)</td></tr>
+                            <tr><td>Pin 10</td><td>+Vcc</td><td>Positive power supply (+10 V)</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </article>
+
+            <article class="exp-card">
+                <div class="exp-header">
+                    <span class="exp-badge">IC 723</span>
+                    <h2 class="exp-title">Precision Adjustable Voltage Regulator</h2>
+                </div>
+                <p style="font-size:13.5px; margin-bottom:10px;">Used in Experiment 11 for low-voltage and high-voltage power supply regulation.</p>
+                <div class="table-wrap">
+                    <table>
+                        <thead>
+                            <tr><th>Feature</th><th>Specification</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>Internal Reference Voltage Vref</td><td>7.15 V ± 0.2 V</td></tr>
+                            <tr><td>Input Voltage Range</td><td>9.5 V to 40 V</td></tr>
+                            <tr><td>Output Voltage Range</td><td>2 V to 37 V (Low & High voltage modes)</td></tr>
+                            <tr><td>Current Limit Threshold</td><td>Vsense ≈ 0.65 V across Rsc</td></tr>
+                            <tr><td>Line Regulation</td><td>0.01% of Vout</td></tr>
+                            <tr><td>Load Regulation</td><td>0.03% of Vout</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </article>
+        `,
+
+        rev: () => `
+            <div class="manual-banner">
+                <h1>Last-Minute Quick Revision Cards</h1>
+                <p>Speed-run summary of all 11 experiments for quick recap before entering the exam hall.</p>
+            </div>
+            ${E.map(e => `
+                <article class="exp-card">
+                    <div class="exp-header">
+                        <span class="exp-badge">EXP ${e.n}</span>
+                        <h3 style="font-size:16px; font-weight:800;">${e.t}</h3>
+                        <span class="exp-ic-tag">${e.ic}</span>
+                    </div>
+                    <div style="font-size:13.5px; margin-bottom:8px;">
+                        <b>Core Aim:</b> ${e.aim}
+                    </div>
+                    <div class="formula-box">${e.f[0]}</div>
+                    <div style="background:#eff6ff; border:1px solid #bfdbfe; padding:8px 12px; border-radius:6px; font-size:13px; margin:8px 0;">
+                        <b>Exam Key Takeaway:</b> ${e.res}
+                    </div>
+                    <div class="viva-item" style="margin-top:6px;">
+                        <div class="viva-q">Q: ${e.viva[0][0]}</div>
+                        <div class="viva-a"><b>Ans:</b> ${e.viva[0][1]}</div>
+                    </div>
+                </article>
+            `).join('')}
+        `
+    };
+
+    // ==========================================
+    // CONTROLLER & EVENT LISTENERS
+    // ==========================================
+    const appContainer = document.getElementById('app-container');
+    const searchInput = document.getElementById('search');
+
+    function setView(viewName) {
+        document.querySelectorAll('.tab-btn').forEach(btn => {
+            btn.classList.toggle('active', btn.dataset.v === viewName);
+        });
+        if (V[viewName]) {
+            appContainer.innerHTML = V[viewName]();
+        }
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function jumpTo(id) {
+        if (!id) return;
+        setView('exp');
+        setTimeout(() => {
+            const el = document.getElementById(id);
+            if (el) {
+                el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+        }, 100);
+    }
+
+    function searchExperiments(query) {
+        query = query.toLowerCase().trim();
+        if (!query) {
+            setView('exp');
+            return;
+        }
+
+        const matches = E.filter(e => {
+            const blob = (e.t + ' ' + e.aim + ' ' + e.ic + ' ' + e.theory + ' ' + e.f.join(' ') + ' ' + e.viva.map(v => v[0] + ' ' + v[1]).join(' ')).toLowerCase();
+            return blob.includes(query);
+        });
+
+        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+
+        if (matches.length === 0) {
+            appContainer.innerHTML = `
+                <div class="manual-banner">
+                    <h2>No Matching Experiments</h2>
+                    <p>No results found for “${query}”. Try searching for an IC number (741, 565, 723), component, or concept.</p>
+                </div>
+            `;
+        } else {
+            appContainer.innerHTML = `
+                <div class="manual-banner">
+                    <h2>Search Results</h2>
+                    <p>${matches.length} experiment(s) match “${query}”.</p>
+                </div>
+                ${matches.map(renderExp).join('')}
+            `;
+        }
+    }
+
+    // LIGHTBOX CONTROLS
+    function openLightbox(svgHtml) {
+        const lb = document.getElementById('lightbox');
+        const content = document.getElementById('lightbox-content');
+        content.innerHTML = svgHtml + `<div style="text-align:center; margin-top:14px;"><button style="padding:6px 14px; font-weight:bold; cursor:pointer;" onclick="closeLightbox()">Close Zoom</button></div>`;
+        lb.style.display = 'flex';
+    }
+
+    function closeLightbox() {
+        document.getElementById('lightbox').style.display = 'none';
+    }
+
+    // EVENT DELEGATION
+    document.querySelector('.nav-bar').addEventListener('click', e => {
+        if (e.target.dataset.v) {
+            searchInput.value = '';
+            setView(e.target.dataset.v);
+        }
+    });
+
+    searchInput.addEventListener('input', e => {
+        searchExperiments(e.target.value);
+    });
+
+    appContainer.addEventListener('click', e => {
+        const svgEl = e.target.closest('svg');
+        if (svgEl && !e.target.closest('#lightbox')) {
+            openLightbox(svgEl.outerHTML);
+        }
+    });
+
+    // Initialize default view
+    setView('exp');
+
+    // ==========================================
+    // UNIVERSAL ASIDE DOCK SCROLLSPY & MOBILE CONTROLS
+    // ==========================================
+    function toggleMobileExpDock() {
+        const dock = document.getElementById('expQuickDock');
+        if (dock) {
+            dock.classList.toggle('mobile-open');
+        }
+    }
+
+    function initScrollSpy() {
+        const dock = document.getElementById('expQuickDock');
+        if (!dock) return;
+        const buttons = dock.querySelectorAll('.dock-box-btn');
+        const cards = document.querySelectorAll('article.exp-card');
+        if (!cards.length) return;
+
+        const observer = new IntersectionObserver(entries => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const id = entry.target.id; // e.g. "e1"
+                    const num = id.replace('e', '');
+                    buttons.forEach(btn => {
+                        if (btn.getAttribute('data-exp') === num) {
+                            btn.classList.add('active');
+                            const pill = document.getElementById('mobileCurrExp');
+                            if (pill) pill.textContent = num;
+                        } else {
+                            btn.classList.remove('active');
+                        }
+                    });
+                }
+            });
+        }, { threshold: 0.15, rootMargin: '-60px 0px -40% 0px' });
+
+        cards.forEach(card => observer.observe(card));
+    }
+
+    // Re-attach scrollspy after rendering
+    setTimeout(initScrollSpy, 300);
+    </script>
+</body>
+</html>

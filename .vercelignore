@@ -13,5 +13,20 @@ New folder/**
 *.xlsx
 *.seb
 *.zip
+git
+git/**
+.git/**
 *.log
 desktop.ini
+*.pdf
+**/*.pdf
+EC5301 –ANALOG COMMUNICATION.pdf
+LINEAR INTEGRATED CIRCUITS LAB MANUAL.pdf
+*.py
+rendered_pages
+rendered_pages/**
+temp_pages
+temp_pages/**
+test_page1.png
+extracted_pages_ocr.json
+test_ocr.ps1

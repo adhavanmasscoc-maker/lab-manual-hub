@@ -1,0 +1,2369 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>EC5301 Analog Communication Laboratory | Exam Prep Companion</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@500;600;700&family=Inter:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #dde3eb;
+            --surface: #edf2f7;
+            --surface-card: #f8fafc;
+            --border: #cbd5e1;
+            --border-strong: #94a3b8;
+            --text-main: #0f172a;
+            --text-muted: #475569;
+            --text-sub: #64748b;
+            --primary: #2563eb;
+            --primary-hover: #1d4ed8;
+            --primary-light: rgba(37, 99, 235, 0.08);
+            --accent-green: #059669;
+            --accent-amber: #d97706;
+            --shadow-sm: 0 2px 6px rgba(15, 23, 42, 0.04);
+            --shadow-md: 0 4px 14px rgba(15, 23, 42, 0.08);
+            --shadow-lg: 0 10px 25px -4px rgba(15, 23, 42, 0.12);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background-color: var(--bg);
+            color: var(--text-main);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        /* STICKY TOP BAR */
+        .top-header {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            background: rgba(237, 242, 247, 0.96);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border);
+            padding: 10px 18px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .brand-badge {
+            background: #0f172a;
+            color: #ffffff;
+            font-family: 'Fira Code', monospace;
+            font-size: 11px;
+            font-weight: 700;
+            padding: 3px 8px;
+            border-radius: 4px;
+            letter-spacing: 0.04em;
+        }
+
+        .header-title {
+            font-weight: 800;
+            font-size: 14.5px;
+            color: var(--text-main);
+            letter-spacing: -0.01em;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-back {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            color: #ffffff;
+            text-decoration: none;
+            font-size: 12px;
+            font-weight: 700;
+            padding: 6px 14px;
+            border-radius: 999px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 3px 8px rgba(15, 23, 42, 0.2);
+            transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+            white-space: nowrap;
+        }
+
+        .btn-back:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 6px 14px rgba(37, 99, 235, 0.35), 0 0 0 1.5px #3b82f6;
+            color: #fff;
+        }
+
+        .jump-select {
+            padding: 6px 10px;
+            font-size: 12.5px;
+            font-weight: 600;
+            font-family: inherit;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            background: #ffffff;
+            color: var(--text-main);
+            outline: none;
+            cursor: pointer;
+            transition: border-color 0.2s, box-shadow 0.2s;
+            max-width: 220px;
+        }
+
+        .jump-select:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+        }
+
+        /* NAVIGATION TABS & SEARCH */
+        .nav-bar {
+            background: var(--surface);
+            border-bottom: 1px solid var(--border);
+            padding: 10px 18px;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .tab-btn {
+            font-family: inherit;
+            font-size: 12.5px;
+            font-weight: 600;
+            padding: 6px 14px;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            background: #ffffff;
+            color: var(--text-muted);
+            cursor: pointer;
+            transition: all 0.18s cubic-bezier(0.16, 1, 0.3, 1);
+            white-space: nowrap;
+        }
+
+        .tab-btn:hover {
+            background: #f1f5f9;
+            color: var(--text-main);
+            transform: translateY(-1px);
+        }
+
+        .tab-btn.active {
+            background: var(--primary);
+            color: #ffffff;
+            border-color: var(--primary);
+            box-shadow: 0 2px 6px rgba(37, 99, 235, 0.25);
+        }
+
+        .search-input {
+            flex: 1;
+            min-width: 200px;
+            padding: 6px 12px;
+            font-size: 13px;
+            font-family: inherit;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            background: #ffffff;
+            color: var(--text-main);
+            outline: none;
+            transition: all 0.2s;
+        }
+
+        .search-input:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+        }
+
+        /* MAIN CONTAINER */
+        main {
+            max-width: 960px;
+            margin: 20px auto 60px;
+            padding: 0 16px;
+        }
+
+        /* BANNER */
+        .manual-banner {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-left: 6px solid var(--primary);
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .manual-banner h1 {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: 22px;
+            font-weight: 800;
+            color: var(--text-main);
+            letter-spacing: -0.02em;
+            margin-bottom: 4px;
+        }
+
+        .manual-banner p {
+            font-size: 13.5px;
+            color: var(--text-muted);
+        }
+
+        /* EXPERIMENT CARD */
+        article.exp-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-left: 5px solid var(--primary);
+            border-radius: 10px;
+            padding: 16px 20px 20px;
+            margin-bottom: 22px;
+            box-shadow: var(--shadow-sm);
+            transition: box-shadow 0.2s ease, transform 0.2s ease;
+        }
+
+        article.exp-card:hover {
+            box-shadow: var(--shadow-md);
+        }
+
+        .exp-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 12px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .exp-badge {
+            font-family: 'Fira Code', monospace;
+            font-size: 11.5px;
+            font-weight: 700;
+            color: var(--primary);
+            background: rgba(37, 99, 235, 0.1);
+            padding: 2px 8px;
+            border-radius: 4px;
+            border: 1px solid rgba(37, 99, 235, 0.2);
+        }
+
+        .exp-title {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: 18px;
+            font-weight: 800;
+            color: var(--text-main);
+            flex: 1;
+            min-width: 250px;
+        }
+
+        .exp-type-tag {
+            font-family: 'Fira Code', monospace;
+            font-size: 12px;
+            font-weight: 700;
+            background: #0f172a;
+            color: #ffffff;
+            padding: 3px 8px;
+            border-radius: 4px;
+        }
+
+        /* DIRECT EXPANDED SECTIONS (ZERO CLICK TO VIEW) */
+        .sec-block {
+            border-top: 1px solid var(--border);
+            padding: 14px 0 10px;
+        }
+
+        .sec-block:first-of-type {
+            border-top: none;
+            padding-top: 4px;
+        }
+
+        .sec-heading {
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 8px;
+        }
+
+        .section-body {
+            padding: 4px 0 6px;
+            font-size: 13.5px;
+            color: var(--text-main);
+        }
+
+        /* ================= UNIVERSAL ASIDE QUICK-JUMP EXPERIMENT DOCK ================= */
+        .exp-quick-dock {
+            position: fixed;
+            right: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 999;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background: rgba(15, 23, 42, 0.94);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.16);
+            border-radius: 12px;
+            padding: 8px 6px;
+            box-shadow: 0 8px 28px rgba(0, 0, 0, 0.3);
+            max-height: 85vh;
+            transition: all 0.25s ease;
+        }
+
+        .exp-quick-dock .dock-header {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            padding-bottom: 6px;
+            margin-bottom: 4px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+            font-size: 10px;
+            font-weight: 800;
+            color: #94a3b8;
+            letter-spacing: 0.05em;
+        }
+
+        .exp-quick-dock .dock-badge {
+            background: #2563eb;
+            color: #fff;
+            font-size: 9px;
+            padding: 1px 5px;
+            border-radius: 4px;
+        }
+
+        .exp-quick-dock .dock-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 28px);
+            gap: 4px;
+            overflow-y: auto;
+            max-height: calc(85vh - 75px);
+            padding: 2px;
+            scrollbar-width: none;
+        }
+        .exp-quick-dock .dock-grid::-webkit-scrollbar {
+            display: none;
+        }
+
+        .dock-box-btn {
+            width: 28px;
+            height: 28px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Fira Code', monospace;
+            font-size: 11.5px;
+            font-weight: 700;
+            color: #cbd5e1;
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 6px;
+            text-decoration: none;
+            cursor: pointer;
+            transition: all 0.15s ease;
+        }
+
+        .dock-box-btn:hover {
+            background: #2563eb;
+            color: #ffffff;
+            border-color: #60a5fa;
+            transform: scale(1.08);
+        }
+
+        .dock-box-btn.active {
+            background: #2563eb;
+            color: #ffffff;
+            border-color: #93c5fd;
+            box-shadow: 0 0 10px rgba(37, 99, 235, 0.7);
+            font-weight: 800;
+        }
+
+        .exp-quick-dock .dock-footer {
+            margin-top: 4px;
+            padding-top: 4px;
+            border-top: 1px solid rgba(255, 255, 255, 0.12);
+            width: 100%;
+            display: flex;
+            justify-content: center;
+        }
+
+        .dock-top-btn {
+            background: transparent;
+            border: none;
+            color: #94a3b8;
+            font-size: 11px;
+            font-weight: 700;
+            cursor: pointer;
+            padding: 2px 4px;
+            border-radius: 4px;
+            transition: color 0.15s;
+        }
+
+        .dock-top-btn:hover {
+            color: #ffffff;
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        /* Mobile Quick Bar / Drawer */
+        .mobile-exp-pill {
+            display: none;
+            position: fixed;
+            bottom: 16px;
+            right: 16px;
+            z-index: 1000;
+            background: #0f172a;
+            color: #ffffff;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 999px;
+            padding: 8px 14px;
+            font-size: 12px;
+            font-weight: 700;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.35);
+            cursor: pointer;
+            align-items: center;
+            gap: 6px;
+        }
+
+        @media (max-width: 900px) {
+            .exp-quick-dock {
+                right: 8px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .exp-quick-dock {
+                display: none;
+            }
+            .exp-quick-dock.mobile-open {
+                display: flex;
+                right: 16px;
+                bottom: 60px;
+                top: auto;
+                transform: none;
+                z-index: 1001;
+                box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            }
+            .mobile-exp-pill {
+                display: flex;
+            }
+        }
+
+        /* TABLES */
+        .table-wrap {
+            overflow-x: auto;
+            margin: 8px 0;
+            border-radius: 6px;
+            border: 1px solid var(--border);
+            background: #ffffff;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            font-size: 12.5px;
+            text-align: left;
+        }
+
+        th, td {
+            border: 1px solid var(--border);
+            padding: 8px 12px;
+            min-width: 70px;
+        }
+
+        th {
+            background: #f1f5f9;
+            color: var(--text-main);
+            font-weight: 700;
+        }
+
+        td[contenteditable="true"] {
+            background: #fff;
+            outline: none;
+            transition: background 0.15s;
+        }
+
+        td[contenteditable="true"]:focus {
+            background: #eff6ff;
+            box-shadow: inset 0 0 0 2px var(--primary);
+        }
+
+        /* FORMULAS & CODE */
+        .formula-box {
+            font-family: 'Fira Code', monospace;
+            font-size: 12.5px;
+            background: #0f172a;
+            color: #38bdf8;
+            padding: 10px 14px;
+            border-radius: 6px;
+            margin: 6px 0;
+            overflow-x: auto;
+            border: 1px solid #1e293b;
+        }
+
+        .code-container {
+            position: relative;
+            margin: 8px 0;
+        }
+
+        .code-box {
+            font-family: 'Fira Code', monospace;
+            font-size: 12px;
+            background: #0f172a;
+            color: #e2e8f0;
+            padding: 14px 16px;
+            border-radius: 8px;
+            overflow-x: auto;
+            border: 1px solid #1e293b;
+            line-height: 1.5;
+            white-space: pre;
+        }
+
+        .btn-copy-code {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: #1e293b;
+            color: #cbd5e1;
+            border: 1px solid #334155;
+            padding: 4px 10px;
+            font-size: 11px;
+            font-weight: 600;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-copy-code:hover {
+            background: var(--primary);
+            color: #ffffff;
+            border-color: var(--primary);
+        }
+
+        /* DIAGRAMS & MEDIA */
+        .diagram-container {
+            background: #ffffff;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 16px;
+            margin: 10px 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            box-shadow: inset 0 1px 3px rgba(15, 23, 42, 0.02);
+        }
+
+        .diagram-img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 6px;
+            border: 1px solid var(--border);
+            cursor: zoom-in;
+            transition: transform 0.2s;
+        }
+
+        .diagram-img:hover {
+            transform: scale(1.01);
+        }
+
+        svg {
+            width: 100%;
+            max-width: 620px;
+            height: auto;
+            display: block;
+            color: var(--text-main);
+            cursor: zoom-in;
+            transition: transform 0.15s;
+        }
+
+        svg:hover {
+            transform: scale(1.01);
+        }
+
+        svg * {
+            stroke: currentColor;
+            fill: none;
+            stroke-width: 1.6;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        svg text {
+            fill: currentColor;
+            stroke: none;
+            font-family: 'Inter', -apple-system, sans-serif;
+            font-size: 11px;
+            font-weight: 500;
+        }
+
+        .diagram-caption {
+            font-size: 11.5px;
+            color: var(--text-sub);
+            margin-top: 8px;
+            text-align: center;
+        }
+
+        /* PROCEDURE LIST */
+        ol.proc-list, ul.proc-list {
+            padding-left: 20px;
+            margin: 6px 0;
+        }
+
+        ol.proc-list li, ul.proc-list li {
+            margin-bottom: 6px;
+            line-height: 1.5;
+        }
+
+        /* VIVA QA (DIRECT VIEW - NO CLICK NEEDED) */
+        .viva-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin: 8px 0;
+        }
+
+        .viva-item {
+            background: #ffffff;
+            border: 1px solid var(--border);
+            border-left: 4px solid var(--primary);
+            border-radius: 6px;
+            padding: 10px 14px;
+        }
+
+        .viva-q {
+            font-weight: 700;
+            color: var(--text-main);
+            font-size: 13px;
+            margin-bottom: 4px;
+        }
+
+        .viva-a {
+            color: #0f766e;
+            font-size: 13px;
+            line-height: 1.45;
+        }
+
+        .viva-key {
+            display: inline-block;
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--accent-amber);
+            background: #fffbeb;
+            border: 1px solid #fde68a;
+            padding: 2px 7px;
+            border-radius: 4px;
+            margin-top: 4px;
+        }
+
+        /* CHECKLIST IN EXAM MODE */
+        .checklist-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 6px 0;
+            font-size: 13px;
+            border-bottom: 1px dashed var(--border);
+        }
+
+        .checklist-item input[type="checkbox"] {
+            width: 16px;
+            height: 16px;
+            accent-color: var(--primary);
+            cursor: pointer;
+        }
+
+        /* LIGHTBOX */
+        #lightbox {
+            position: fixed;
+            inset: 0;
+            background: rgba(15, 23, 42, 0.85);
+            backdrop-filter: blur(6px);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            z-index: 2000;
+            cursor: zoom-out;
+        }
+
+        #lightbox-content {
+            background: #ffffff;
+            border-radius: 12px;
+            padding: 24px;
+            max-width: 90vw;
+            max-height: 90vh;
+            overflow: auto;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        #lightbox-content img, #lightbox-content svg {
+            max-width: 820px;
+            width: 100%;
+            height: auto;
+        }
+
+        /* FOOTER */
+        footer {
+            text-align: center;
+            font-size: 13px;
+            color: var(--text-sub);
+            padding: 20px 0;
+            border-top: 1px solid var(--border);
+            margin-top: 40px;
+        }
+
+        footer a {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 700;
+        }
+
+        @media (max-width: 640px) {
+            .top-header {
+                padding: 8px 12px;
+            }
+            .header-title span.full-title {
+                display: none;
+            }
+            .nav-bar {
+                padding: 8px 12px;
+            }
+            main {
+                padding: 0 10px;
+            }
+            article.exp-card {
+                padding: 14px;
+            }
+            .exp-title {
+                font-size: 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- STICKY TOP BAR -->
+    <header class="top-header">
+        <div class="header-left">
+            <span class="brand-badge">EC5301</span>
+            <div class="header-title">
+                <span>Analog Communication Lab</span>
+                <span class="full-title" style="color:var(--text-muted); font-weight:600;">· Theory cum Practical</span>
+            </div>
+        </div>
+        <div class="header-right">
+            <select id="jump-select" class="jump-select" onchange="jumpTo(this.value)">
+                <option value="">Jump to Experiment...</option>
+                <optgroup label="Hardware Experiments (1–8)">
+                    <option value="e1">Exp 1: AM Modulation & Demodulation</option>
+                    <option value="e2">Exp 2: FM Modulation & Demodulation</option>
+                    <option value="e3">Exp 3: Sampling & Reconstruction</option>
+                    <option value="e4">Exp 4: PWM Motor Speed Control (Robotics)</option>
+                    <option value="e5">Exp 5: Intelligent PPM Motor Control</option>
+                    <option value="e6">Exp 6: PAM Biomedical Transmission</option>
+                    <option value="e7">Exp 7: Pre-Emphasis & De-Emphasis</option>
+                    <option value="e8">Exp 8: Time Division Multiplexing (TDM)</option>
+                </optgroup>
+                <optgroup label="MATLAB Simulation Experiments (9–14)">
+                    <option value="e9">Exp 9: MATLAB AM Audio System</option>
+                    <option value="e10">Exp 10: MATLAB FM Voice Rescue Link</option>
+                    <option value="e11">Exp 11: MATLAB TDM Smart Healthcare</option>
+                    <option value="e12">Exp 12: MATLAB Speech Pre/De-Emphasis</option>
+                    <option value="e13">Exp 13: MATLAB Signal Denoising</option>
+                    <option value="e14">Exp 14: MATLAB DSB-SC & SSB-SC Systems</option>
+                </optgroup>
+            </select>
+            <a href="../../index.html" class="btn-back">
+                <span class="hub-arrow">←</span> Back to Hub
+            </a>
+        </div>
+    </header>
+
+    <!-- NAVIGATION TABS & SEARCH -->
+    <nav class="nav-bar">
+        <button class="tab-btn active" data-v="exp">All Experiments (14)</button>
+        <button class="tab-btn" data-v="hw">Hardware (8)</button>
+        <button class="tab-btn" data-v="sim">MATLAB Simulation (6)</button>
+        <button class="tab-btn" data-v="exam">Exam Day Checklist</button>
+        <button class="tab-btn" data-v="viva">Viva Voce Bank</button>
+        <button class="tab-btn" data-v="formula">Formula Bank</button>
+        <button class="tab-btn" data-v="rev">Quick Revision</button>
+        <input type="search" id="search" class="search-input" placeholder="Search (AM, FM, PWM, PPM, PAM, TDM, Nyquist, awgn, Hilbert)..." aria-label="Search">
+    </nav>
+
+    <!-- MAIN VIEW CONTAINER -->
+    <main id="app-container">
+        <!-- Content injected dynamically -->
+    </main>
+
+    <!-- UNIVERSAL ASIDE QUICK-JUMP EXPERIMENT DOCK (14 EXPERIMENTS) -->
+    <aside class="exp-quick-dock dense" id="expQuickDock" aria-label="Quick Jump to Experiment">
+        <div class="dock-header">
+            <span class="dock-title">EXPS</span>
+            <span class="dock-badge">14</span>
+        </div>
+        <div class="dock-grid">
+            <button class="dock-box-btn" onclick="jumpTo('e1')" data-exp="1" title="Exp 1: AM Modulation & Demodulation">1</button>
+            <button class="dock-box-btn" onclick="jumpTo('e2')" data-exp="2" title="Exp 2: FM Modulation & Demodulation">2</button>
+            <button class="dock-box-btn" onclick="jumpTo('e3')" data-exp="3" title="Exp 3: Sampling & Reconstruction">3</button>
+            <button class="dock-box-btn" onclick="jumpTo('e4')" data-exp="4" title="Exp 4: PWM Motor Speed Control">4</button>
+            <button class="dock-box-btn" onclick="jumpTo('e5')" data-exp="5" title="Exp 5: Intelligent PPM Motor Control">5</button>
+            <button class="dock-box-btn" onclick="jumpTo('e6')" data-exp="6" title="Exp 6: PAM Biomedical Transmission">6</button>
+            <button class="dock-box-btn" onclick="jumpTo('e7')" data-exp="7" title="Exp 7: Pre-Emphasis & De-Emphasis">7</button>
+            <button class="dock-box-btn" onclick="jumpTo('e8')" data-exp="8" title="Exp 8: Time Division Multiplexing">8</button>
+            <button class="dock-box-btn" onclick="jumpTo('e9')" data-exp="9" title="Exp 9: MATLAB AM Audio System">9</button>
+            <button class="dock-box-btn" onclick="jumpTo('e10')" data-exp="10" title="Exp 10: MATLAB FM Voice Rescue Link">10</button>
+            <button class="dock-box-btn" onclick="jumpTo('e11')" data-exp="11" title="Exp 11: MATLAB TDM Smart Healthcare">11</button>
+            <button class="dock-box-btn" onclick="jumpTo('e12')" data-exp="12" title="Exp 12: MATLAB Speech Pre/De-Emphasis">12</button>
+            <button class="dock-box-btn" onclick="jumpTo('e13')" data-exp="13" title="Exp 13: MATLAB Signal Denoising">13</button>
+            <button class="dock-box-btn" onclick="jumpTo('e14')" data-exp="14" title="Exp 14: MATLAB DSB-SC & SSB-SC Systems">14</button>
+        </div>
+        <div class="dock-footer">
+            <button class="dock-top-btn" onclick="window.scrollTo({top:0, behavior:'smooth'})" title="Top">↑ Top</button>
+        </div>
+    </aside>
+
+    <button class="mobile-exp-pill" id="mobileExpPill" onclick="toggleMobileExpDock()" aria-label="Toggle Experiment Navigator">
+        ⚡ Exp <span id="mobileCurrExp">1</span>/14
+    </button>
+
+    <!-- LIGHTBOX MODAL FOR ZOOMING DIAGRAMS -->
+    <div id="lightbox" onclick="closeLightbox()">
+        <div id="lightbox-content" onclick="event.stopPropagation()"></div>
+    </div>
+
+    <footer>
+        <p>Chennai Institute of Technology · Department of ECE (Advanced Communication Technology)</p>
+    </footer>
+
+    <script>
+    // ==========================================
+    // MATHEMATICALLY PRECISE SVG BLOCK DIAGRAMS
+    // ==========================================
+    const sv = (b, w=500, h=160) => `<svg viewBox="0 0 ${w} ${h}" role="img" aria-label="block diagram">${b}</svg>`;
+    
+    const chain = a => {
+        const n = a.length, w = Math.floor(460 / n);
+        let s = `
+            <defs>
+                <marker id="arrow2" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                    <path d="M 0 1 L 10 5 L 0 9 z" fill="currentColor"/>
+                </marker>
+            </defs>
+        `;
+        a.forEach((t, i) => {
+            const x = 15 + i * w;
+            s += `<rect x="${x}" y="50" width="${w-16}" height="55" rx="6" fill="var(--surface-card)" stroke-width="1.5"/>`;
+            const lines = t.split('|');
+            lines.forEach((l, j) => {
+                s += `<text x="${x + (w-16)/2}" y="${70 + j*14}" text-anchor="middle" font-size="11" font-weight="600">${l}</text>`;
+            });
+            if (i < n - 1) {
+                s += `<line x1="${x + w - 16}" y1="77" x2="${x + w}" y2="77" stroke-width="1.6" marker-end="url(#arrow2)"/>`;
+            }
+        });
+        return sv(s, 500, 150);
+    };
+
+    // PRE-EMPHASIS & DE-EMPHASIS FREQUENCY RESPONSE CURVE
+    const PE_SVG = sv(`
+        <!-- Axes -->
+        <path d="M50 130 h400 M50 130 v-110" stroke-width="2"/>
+        <text x="450" y="145" text-anchor="end" font-size="11" font-weight="bold">Frequency (Hz / kHz)</text>
+        <text x="35" y="20" text-anchor="end" font-size="11" font-weight="bold">Gain (dB)</text>
+        
+        <!-- Frequency tick markers -->
+        <text x="50" y="145" text-anchor="middle" font-size="10">100Hz</text>
+        <text x="160" y="145" text-anchor="middle" font-size="10">1kHz</text>
+        <text x="250" y="145" text-anchor="middle" font-size="10">2.1kHz (f1)</text>
+        <text x="360" y="145" text-anchor="middle" font-size="10">10kHz</text>
+        <text x="430" y="145" text-anchor="middle" font-size="10">15kHz</text>
+
+        <!-- Pre-Emphasis curve (Rising +20 dB/decade) -->
+        <path d="M50 95 Q 230 95 300 65 T 440 25" stroke="#2563eb" stroke-width="2.4" fill="none"/>
+        <text x="420" y="18" text-anchor="end" font-size="11" font-weight="bold" fill="#2563eb">Pre-Emphasis (+20 dB/dec)</text>
+
+        <!-- De-Emphasis curve (Falling -20 dB/decade) -->
+        <path d="M50 35 Q 230 35 300 65 T 440 105" stroke="#059669" stroke-width="2.4" stroke-dasharray="4" fill="none"/>
+        <text x="420" y="120" text-anchor="end" font-size="11" font-weight="bold" fill="#059669">De-Emphasis (−20 dB/dec)</text>
+
+        <!-- Net flat response line -->
+        <path d="M50 65 h390" stroke="#94a3b8" stroke-width="1.2" stroke-dasharray="2"/>
+        <text x="250" y="60" text-anchor="middle" font-size="10" fill="#64748b">Net Overall Response = Flat (0 dB SNR improvement)</text>
+    `, 500, 160);
+
+    // ==========================================
+    // COMPLETE 14 EXPERIMENTS DATASET
+    // ==========================================
+    const E = [
+        {
+            n: 1,
+            cat: 'Hardware',
+            t: 'AM Modulation and Demodulation',
+            aim: 'To generate an Amplitude Modulated (AM) wave and determine the percentage modulation index (m); to demodulate the AM signal using an envelope detector.',
+            dev: 'AM Transmitter and Receiver Trainer Kit (TP1 Carrier, TP2 Modulating Signal, TP3 AM Output, TP4 Demodulated Output)',
+            parts: [
+                ['AM Trainer Kit', 'Built-in 100 kHz carrier generator & audio sine source', '1'],
+                ['Dual Trace CRO / DSO', '20 MHz, with 10:1 probes', '1'],
+                ['BNC to Crocodile Patch Cords', 'Standard RF shielded', '3']
+            ],
+            svg: chain(['Audio Sine Gen|TP2 (fm ≈ 1 kHz)', 'AM Modulator|TP1 Carrier (fc = 100 kHz)', 'AM Output|TP3 (Vmax, Vmin)', 'Envelope Detector|TP4 (Recovered Audio)']),
+            img: 'assets/diagrams/exp1_am_trainer_kit_diagram.png',
+            modelGraph: 'assets/diagrams/exp1_am_waveforms_model_graph.png',
+            cap: 'Fig 1.1: Functional block sequence and CRO envelope waveform measurement (Vmax, Vmin) for modulation index determination.',
+            theory: 'Amplitude Modulation is the process in which the amplitude of a high-frequency carrier wave is varied linearly with the instantaneous value of the modulating message signal, keeping carrier frequency and phase constant. The resulting AM wave envelope traces the original audio message. On a CRO display, the modulation index m is determined from the envelope peak Vmax and trough Vmin. An envelope detector consisting of a diode and parallel RC filter extracts the message.',
+            f: [
+                'Modulation Index: m = (Vmax − Vmin) / (Vmax + Vmin)',
+                'Percentage Modulation: % m = m × 100%',
+                'Total AM Power: Pt = Pc · [ 1 + (m² / 2) ]',
+                'AM Bandwidth: BW = 2 · fm'
+            ],
+            proc: [
+                'Connect AC mains supply to the AM trainer kit and switch power ON.',
+                'Connect the 1 kHz audio signal output to the Modulating Input (TP2) and observe message amplitude Vm on CRO.',
+                'Connect the RF carrier output to the Carrier Input (TP1) and observe carrier amplitude Vc on CRO.',
+                'Connect AM Output (TP3) to CRO Channel 1 in AC coupling mode; observe the AM envelope.',
+                'Measure the maximum peak envelope voltage Vmax and minimum trough voltage Vmin.',
+                'Calculate the modulation index m and verify under-modulation (m < 1), critical modulation (m = 1), and over-modulation (m > 1).',
+                'Feed TP3 into the Envelope Demodulator input and observe recovered audio at TP4.'
+            ],
+            tab: ['Modulating Signal Vm (V)', 'Carrier Vc (V)', 'Envelope Vmax (V)', 'Envelope Vmin (V)', 'Modulation Index m', '% Modulation'],
+            rows: [
+                ['0.5 V', '2.0 V', '2.5 V', '1.5 V', '0.25', '25.0%'],
+                ['1.0 V', '2.0 V', '3.0 V', '1.0 V', '0.50', '50.0%'],
+                ['1.5 V', '2.0 V', '3.5 V', '0.5 V', '0.75', '75.0%'],
+                ['2.0 V', '2.0 V', '4.0 V', '0.0 V', '1.00', '100.0% (Critical)']
+            ],
+            calc: 'Given: Vmax = 3.0 V, Vmin = 1.0 V\n• m = (3.0 − 1.0) / (3.0 + 1.0) = 2.0 / 4.0 = 0.5\n• % Modulation = 0.5 × 100% = 50%\n• Power efficiency: η = m² / (2 + m²) = 0.25 / 2.25 = 11.1%',
+            res: 'AM wave was successfully generated and observed. Modulation index m was determined for various modulating amplitudes, and original audio was recovered using envelope detection.',
+            pre: [
+                'Ensure all trainer kit ground terminals are connected to a common ground with the CRO.',
+                'Keep m ≤ 1.0 to avoid over-modulation phase reversal and envelope distortion.'
+            ],
+            viva: [
+                ['Define Modulation Index in AM.', 'The ratio of modulating message peak amplitude to carrier peak amplitude: m = Vm / Vc = (Vmax − Vmin) / (Vmax + Vmin).', 'm = Vm / Vc'],
+                ['What is the disadvantage of over-modulation (m > 1)?', 'Envelope distortion occurs because carrier phase reverses by 180° when the message is negative, resulting in severe audio distortion that cannot be rectified by an envelope detector.', 'Envelope distortion & splatter'],
+                ['Why is carrier transmitted in standard AM if it carries no information?', 'The carrier enables simple, inexpensive envelope detector circuits (diode + RC) in millions of commercial broadcast radio receivers without needing complex synchronized carrier recovery.', 'Allows cheap envelope detection']
+            ]
+        },
+        {
+            n: 2,
+            cat: 'Hardware',
+            t: 'FM Modulation and Demodulation',
+            aim: 'To plot the modulation characteristics of an FM modulator and demodulator, measure frequency deviation (Δf), and determine the FM modulation index (mf).',
+            dev: 'FM Modulator and Demodulator Trainer Kit (VCO / Varactor Diode based Modulator, Foster-Seeley / Ratio Detector Demodulator)',
+            parts: [
+                ['FM Trainer Kit', 'Built-in 455 kHz / 10.7 MHz center carrier oscillator', '1'],
+                ['CRO / DSO', 'With cursor frequency / period readout', '1'],
+                ['BNC Patch Cords', 'Shielded', '2']
+            ],
+            svg: chain(['Modulating Sine|Vm at 1 kHz', 'VCO FM Modulator|fc ± Δf', 'FM Signal Out|Constant Amplitude', 'Slope / Ratio Demod|Recovered Audio']),
+            img: 'assets/diagrams/exp2_fm_trainer_kit_diagram.png',
+            modelGraph: 'assets/diagrams/exp2_fm_waveforms_model_graph.png',
+            cap: 'Fig 2.1: FM trainer kit block configuration and CRO waveform displaying frequency variations between fmax (Tmin) and fmin (Tmax).',
+            theory: 'Frequency Modulation is an angle modulation process where the instantaneous frequency of the carrier is varied linearly with the modulating signal voltage, while carrier amplitude remains strictly constant. The maximum frequency shift from the unmodulated carrier is frequency deviation Δf = kf·Vm. Carson’s Rule states that 98% of FM power is contained within bandwidth BW = 2·(Δf + fm). Demodulation is performed by converting frequency changes into amplitude changes using a discriminator.',
+            f: [
+                'Frequency Deviation: Δf = (fmax − fmin) / 2 = (1/Tmin − 1/Tmax) / 2',
+                'Modulation Index: mf = Δf / fm',
+                'Carson’s Rule Bandwidth: BW = 2 · (Δf + fm) = 2 · fm · (1 + mf)',
+                'Instantaneous Frequency: fi(t) = fc + kf · m(t)'
+            ],
+            proc: [
+                'Switch ON the FM trainer kit and measure unmodulated carrier frequency fc on CRO.',
+                'Apply modulating sine signal (1 kHz) to FM modulator input.',
+                'Observe FM wave on CRO: notice compressed cycles (fmax) during positive peaks and expanded cycles (fmin) during negative peaks.',
+                'Measure shortest period Tmin and longest period Tmax using CRO horizontal time cursors.',
+                'Calculate fmax = 1/Tmin, fmin = 1/Tmax, and compute frequency deviation Δf.',
+                'Connect FM output to demodulator input; observe recovered audio on Channel 2.'
+            ],
+            tab: ['Modulating Vm (V)', 'Tmin (µs)', 'fmax (kHz)', 'Tmax (µs)', 'fmin (kHz)', 'Deviation Δf (kHz)', 'Modulation Index mf'],
+            rows: [
+                ['0.5 V', '9.52 µs', '105.0 kHz', '10.53 µs', '95.0 kHz', '5.0 kHz', '5.0'],
+                ['1.0 V', '9.09 µs', '110.0 kHz', '11.11 µs', '90.0 kHz', '10.0 kHz', '10.0'],
+                ['1.5 V', '8.70 µs', '115.0 kHz', '11.76 µs', '85.0 kHz', '15.0 kHz', '15.0']
+            ],
+            calc: 'Given: fc = 100 kHz, fm = 1 kHz, Tmin = 9.09 µs, Tmax = 11.11 µs\n• fmax = 1 / 9.09 µs = 110.0 kHz, fmin = 1 / 11.11 µs = 90.0 kHz\n• Δf = (110.0 − 90.0) / 2 = 10.0 kHz\n• mf = Δf / fm = 10.0 kHz / 1.0 kHz = 10.0\n• Carson Bandwidth: BW = 2 × (10 + 1) = 22 kHz',
+            res: 'FM wave was generated and its modulation characteristics plotted. Frequency deviation was directly proportional to modulating voltage, and demodulator recovered original audio with high fidelity.',
+            pre: [
+                'Ensure tight timebase calibration on CRO when measuring microsecond period differences.',
+                'Maintain constant amplitude in FM signal; verify zero amplitude modulation.'
+            ],
+            viva: [
+                ['Why does FM have superior noise immunity compared to AM?', 'Because electrical noise (lightning, spark plugs, static) primarily affects the amplitude of radio waves. In FM, information is encoded entirely in frequency; the receiver uses limiters to strip off amplitude noise.', 'Noise is amplitude; FM uses frequency'],
+                ['State Carson’s Rule for FM bandwidth.', 'Bandwidth BW = 2·(Δf + fm) = 2·fm·(1 + mf). It encompasses approximately 98% of total transmitted power.', 'BW = 2(Δf + fm)'],
+                ['What is Narrowband FM versus Wideband FM?', 'Narrowband FM has mf << 1 (typically mf < 0.3) with bandwidth ≈ 2·fm (similar to AM). Wideband FM has mf > 1 with large bandwidth, used in high-fidelity broadcast radio.', 'NBFM: mf << 1; WBFM: mf >> 1']
+            ]
+        },
+        {
+            n: 3,
+            cat: 'Hardware',
+            t: 'Sampling and Reconstruction',
+            aim: 'To sample an analog continuous signal at various sampling frequencies (Nyquist, over-sampling, under-sampling) and reconstruct the signal using a low-pass filter.',
+            dev: 'Sampling and Reconstruction Trainer Kit (Built-in Variable Clock Generator, Sample & Hold IC LF398, 2nd & 4th Order Sallen-Key LPF Reconstruction Filters)',
+            parts: [
+                ['Sampling Trainer Kit', 'Clock selector 8 kHz to 80 kHz, Sample & Hold circuit', '1'],
+                ['Dual Trace CRO / DSO', 'Dual channel storage', '1'],
+                ['Function Generator', 'Analog message generator (1 kHz to 5 kHz)', '1']
+            ],
+            svg: chain(['Analog Message|fm = 2 kHz', '4th-Order Pre-Filter|Band-limits signal', 'Sampler (S&H)|Clock fs = 80 kHz', '2nd-Order LPF|Reconstructed Output']),
+            img: 'assets/diagrams/exp3_sampling_reconstruction_block_diagram.png',
+            modelGraph: 'assets/diagrams/exp3_sampling_waveforms_model_graph.png',
+            cap: 'Fig 3.1: Sampling and reconstruction kit block flow, natural/flat-top sampling pulses, and Nyquist rate verification.',
+            theory: 'The Nyquist-Shannon Sampling Theorem states that a continuous-time band-limited signal containing maximum frequency component fm can be uniquely and completely reconstructed from its samples if the sampling rate satisfies fs ≥ 2·fm. The minimum rate fs = 2·fm is called the Nyquist rate. If fs < 2·fm (under-sampling), high-frequency spectral replicas overlap into the baseband, creating aliasing distortion that cannot be removed by filtering.',
+            f: [
+                'Nyquist Sampling Rate: fs(min) = 2 · fm',
+                'Nyquist Interval: Ts = 1 / (2 · fm)',
+                'Aliasing Condition: fs < 2 · fm (Spectral overlap)',
+                'Filter Cutoff: fc(filter) ≈ fm'
+            ],
+            proc: [
+                'Set the function generator to generate a 2 kHz analog sine wave (Vm = 2 V p-p).',
+                'Feed signal into the sampler input on the trainer kit.',
+                'Select clock frequency fs = 80 kHz (Over-sampling, fs >> 2fm). Observe flat-top sampled pulses on CRO.',
+                'Connect sampled output to the reconstruction Low-Pass Filter; observe smooth recovered sine wave.',
+                'Gradually reduce sampling clock to fs = 4 kHz (Nyquist rate, fs = 2fm); observe successful recovery.',
+                'Reduce sampling clock below 4 kHz (e.g. fs = 2.5 kHz, Under-sampling); observe severe aliasing distortion.',
+                'Record amplitude, time period, and waveform quality for all three conditions.'
+            ],
+            tab: ['Sampling Regime', 'Message Freq fm', 'Sampling Rate fs', 'Condition', 'Reconstructed Output Quality'],
+            rows: [
+                ['Over-Sampling', '2.0 kHz', '80.0 kHz', 'fs >> 2fm', 'Perfect recovery, zero ripple'],
+                ['Nyquist Rate', '2.0 kHz', '4.0 kHz', 'fs = 2fm', 'Clean reconstruction via LPF'],
+                ['Under-Sampling', '2.0 kHz', '2.5 kHz', 'fs < 2fm', 'Severe Aliasing distortion (beating)']
+            ],
+            calc: 'Given: fm = 2 kHz\n• Nyquist Rate: fs(Nyquist) = 2 × 2 kHz = 4.0 kHz\n• For fs = 2.5 kHz: Apparent aliased frequency fa = |fs − fm| = |2.5 − 2.0| = 0.5 kHz (500 Hz false tone)',
+            res: 'Sampling theorem was experimentally verified. Signals sampled at or above the Nyquist rate (fs ≥ 2fm) were reconstructed distortion-free; under-sampling (fs < 2fm) generated aliasing.',
+            pre: [
+                'Use an anti-aliasing pre-filter before the sampler to ensure signal is strictly band-limited.',
+                'Ensure reconstruction LPF cutoff frequency matches the message bandwidth.'
+            ],
+            viva: [
+                ['What is Aliasing and how is it prevented?', 'Aliasing is the distortion where high-frequency signal components take on the identity of lower frequencies due to under-sampling. It is prevented by 1) sampling at fs ≥ 2·fm, and 2) using an anti-aliasing low-pass filter before sampling.', 'fs ≥ 2fm and anti-aliasing filter'],
+                ['What is the difference between Natural and Flat-Top Sampling?', 'In natural sampling, the top of each pulse follows the continuous shape of the analog signal during the pulse duration. In flat-top sampling (sample-and-hold), the pulse amplitude remains strictly constant at the sample instantaneous value throughout pulse width τ.', 'Natural follows shape; Flat-top holds constant'],
+                ['What is aperture effect in flat-top sampling?', 'The constant amplitude during pulse width τ acts like a low-pass filter with sinc frequency response, causing high-frequency attenuation. It is equalized using an inverse sinc filter.', 'High-frequency attenuation due to pulse width']
+            ]
+        },
+        {
+            n: 4,
+            cat: 'Hardware',
+            t: 'PWM-Based Intelligent Motor Speed Control (Robotics)',
+            aim: 'To design and implement a Pulse Width Modulation (PWM) based intelligent DC motor speed control system using Arduino UNO and L293D / L298N driver for robotics applications.',
+            dev: 'Arduino UNO microcontroller, L293D / L298N H-Bridge Driver, 12V DC Geared Motor, 10k Potentiometer, Optical Tachometer',
+            parts: [
+                ['Arduino UNO R3', 'ATmega328P, 16 MHz clock, 6 PWM channels', '1'],
+                ['L293D / L298N Driver', 'Dual H-Bridge motor driver module', '1'],
+                ['12V DC Geared Motor', '100–300 RPM robotics motor', '1'],
+                ['10 kΩ Potentiometer', 'Linear rotary angle sensor', '1'],
+                ['DC Power Supply', '9V–12V regulated (for motor)', '1'],
+                ['Breadboard & Jumper Wires', 'Male-to-male & male-to-female', '1 set']
+            ],
+            svg: chain(['Potentiometer|Analog Pin A0', 'Arduino UNO|ADC 0–1023 → PWM 0–255', 'L293D Driver|H-Bridge Amplification', 'DC Motor|Speed ∝ Duty Cycle']),
+            img: 'assets/diagrams/exp4_pwm_motor_control_block_diagram.png',
+            cap: 'Fig 4.1: PWM Motor speed controller architecture: ADC potentiometer input digitized by ATmega328P to generate variable duty cycle PWM on Pin 9.',
+            theory: 'Pulse Width Modulation (PWM) controls the average power delivered to an electrical load by rapidly chopping the supply voltage into pulses at a fixed frequency while varying the pulse ON-time (width). The duty cycle D = Ton / T determines the effective average voltage Vavg = D·Vs. In robotics, driving DC motors directly with analog linear voltages dissipates enormous power as heat in transistors. PWM switches MOSFETs/BJTs fully ON or fully OFF, achieving near 90%+ power efficiency.',
+            f: [
+                'Duty Cycle: D = (Ton / T) × 100%',
+                'Average Output Voltage: Vavg = D · Vs = (Ton / T) · Vs',
+                'Arduino 8-bit PWM Mapping: PWM_val = map(ADC_val, 0, 1023, 0, 255)',
+                'PWM Frequency (Pin 9): fpwm = 490 Hz (Phase-correct PWM mode)'
+            ],
+            code: `// ========================================================
+// EC5301 - EXPERIMENT 4: PWM MOTOR SPEED CONTROLLER
+// Target: Arduino UNO (ATmega328P) | Driver: L293D / L298N
+// ========================================================
+const int potPin = A0;      // Analog input from speed potentiometer
+const int pwmPin = 9;       // Timer1 PWM output connected to Driver Enable
+const int in1Pin = 2;       // Direction Control Pin 1
+const int in2Pin = 3;       // Direction Control Pin 2
+
+void setup() {
+  pinMode(pwmPin, OUTPUT);
+  pinMode(in1Pin, OUTPUT);
+  pinMode(in2Pin, OUTPUT);
+  
+  // Set Forward Direction
+  digitalWrite(in1Pin, HIGH);
+  digitalWrite(in2Pin, LOW);
+  
+  Serial.begin(9600);
+  Serial.println("EC5301: PWM Intelligent Motor Speed Control Initialized");
+}
+
+void loop() {
+  int sensorValue = analogRead(potPin);                  // 10-bit ADC (0 to 1023)
+  int pwmValue = map(sensorValue, 0, 1023, 0, 255);      // 8-bit PWM (0 to 255)
+  float dutyCycle = (pwmValue / 255.0) * 100.0;
+  
+  analogWrite(pwmPin, pwmValue);                         // Generate PWM on Pin 9
+  
+  Serial.print("ADC: "); Serial.print(sensorValue);
+  Serial.print(" | PWM: "); Serial.print(pwmValue);
+  Serial.print(" | Duty: "); Serial.print(dutyCycle, 1); Serial.println("%");
+  
+  delay(20);
+}`,
+            proc: [
+                'Connect potentiometer outer pins to Arduino 5V and GND; connect wiper (center pin) to Analog Pin A0.',
+                'Connect Arduino Pin 9 (PWM) to L293D Enable 1 (Pin 1).',
+                'Connect Arduino Digital Pins 2 and 3 to L293D Input 1 and Input 2 (Pins 2 and 7).',
+                'Connect DC motor terminals to L293D Output 1 and Output 2 (Pins 3 and 6).',
+                'Connect separate 12V motor battery to L293D Vcc2 (Pin 8); connect all grounds together.',
+                'Upload Arduino code via USB; open Serial Monitor at 9600 baud.',
+                'Rotate potentiometer and observe smooth motor acceleration; record duty cycle on CRO and RPM on tachometer.'
+            ],
+            tab: ['Pot Position', 'ADC Reading (0–1023)', 'PWM Value (0–255)', 'Duty Cycle (%)', 'Average Voltage (V)', 'Motor RPM'],
+            rows: [
+                ['Minimum', '0', '0', '0.0%', '0.0 V', '0 RPM (Stopped)'],
+                ['Quarter', '256', '64', '25.0%', '3.0 V', '68 RPM'],
+                ['Half', '512', '127', '49.8%', '6.0 V', '142 RPM'],
+                ['Three-Quarter', '768', '191', '74.9%', '9.0 V', '218 RPM'],
+                ['Maximum', '1023', '255', '100.0%', '12.0 V', '285 RPM (Full Speed)']
+            ],
+            calc: 'Supply Vs = 12.0 V\n• At ADC = 512 → PWM = map(512, 0, 1023, 0, 255) = 127\n• Duty Cycle D = 127 / 255 = 49.8%\n• Vavg = 0.498 × 12.0 V = 5.98 V ≈ 6.0 V',
+            res: 'PWM-based motor speed control was successfully implemented using Arduino UNO and L293D driver. Linear speed variation from 0 to 285 RPM was achieved with near 90% power efficiency.',
+            pre: [
+                'Never power 12V DC motors directly from Arduino 5V rail; always use a separate motor power supply.',
+                'Always bridge Arduino ground with external motor supply ground to maintain a common voltage reference.'
+            ],
+            viva: [
+                ['Why is PWM preferred over variable DC voltage for motor control?', 'Linear voltage drop across a transistor generates huge thermal loss (P = I·Vce). In PWM, switching transistors are either fully ON (Vce ≈ 0) or fully OFF (I = 0), minimizing internal power dissipation.', 'High power efficiency (>90%)'],
+                ['What is the PWM frequency of Arduino UNO Pin 9?', '490 Hz (controlled by Timer1 in Phase-Correct PWM mode).', '490 Hz'],
+                ['What is the role of the H-Bridge motor driver (L293D)?', 'Arduino GPIO pins can supply only 20–40 mA at 5V, while motors require 500 mA to several amperes at 12V. The H-bridge provides current amplification and enables bidirectional forward/reverse control.', 'Current amplification & direction control']
+            ]
+        },
+        {
+            n: 5,
+            cat: 'Hardware',
+            t: 'Intelligent PPM for Automated Motor Control',
+            aim: 'To implement Pulse Position Modulation (PPM) for automated DC motor / servo control and analyze pulse displacement with analog sensor inputs.',
+            dev: 'Arduino UNO, Ultrasonic / Potentiometer Sensor, L293D Driver, DC Motor / Servo Motor, Oscilloscope',
+            parts: [
+                ['Arduino UNO R3', 'Microcontroller development board', '1'],
+                ['L293D / Servo Driver', 'Actuator driver', '1'],
+                ['Potentiometer / Sensor', 'Input displacement transducer', '1'],
+                ['CRO / DSO', 'For timing interval measurement', '1']
+            ],
+            svg: chain(['Displacement Sensor|Pot / Ultrasonic', 'PPM Encoder|Fixed Width, Shifted Pos', 'PPM Channel|RF / Servo Line', 'PPM Decoder|Actuator Position']),
+            img: 'assets/diagrams/exp5_ppm_motor_control_block_diagram.png',
+            cap: 'Fig 5.1: Pulse Position Modulation architecture: Constant pulse width and amplitude; position inside 20 ms frame dictates motor/servo position.',
+            theory: 'Pulse Position Modulation (PPM) is an analog pulse modulation technique where the amplitude and width of the pulses are kept constant, while the position of each pulse in time relative to a reference sync pulse varies in direct proportion to the message signal. In radio control (RC) aircraft and robotic servo control, a 20 ms repeating frame carries pulses where pulse positions between 1.0 ms (minimum) and 2.0 ms (maximum) control actuator angular displacement.',
+            f: [
+                'Frame Period: Tframe = 20 ms (50 Hz standard servo frame)',
+                'Pulse Position: tdelay = map(ADC_val, 0, 1023, 1000, 2000) µs',
+                'Off Time: Toff = Tframe − tdelay'
+            ],
+            code: `// ========================================================
+// EC5301 - EXPERIMENT 5: INTELLIGENT PPM MOTOR CONTROLLER
+// Target: Arduino UNO (ATmega328P) | Actuator: Servo / Motor
+// ========================================================
+const int sensorPin = A0;   // Sensor / Pot input
+const int ppmPin = 9;       // PPM pulse output
+
+void setup() {
+  pinMode(ppmPin, OUTPUT);
+  Serial.begin(9600);
+}
+
+void loop() {
+  int sensorVal = analogRead(sensorPin);
+  // Map ADC (0-1023) to pulse position (1000 µs to 2000 µs)
+  int pulseWidth = map(sensorVal, 0, 1023, 1000, 2000); 
+  
+  // Generate PPM Pulse
+  digitalWrite(ppmPin, HIGH);
+  delayMicroseconds(pulseWidth);
+  digitalWrite(ppmPin, LOW);
+  
+  // Remainder of standard 20ms frame
+  delayMicroseconds(20000 - pulseWidth);
+  
+  Serial.print("Sensor: "); Serial.print(sensorVal);
+  Serial.print(" | PPM Pulse: "); Serial.print(pulseWidth); Serial.println(" us");
+}`,
+            proc: [
+                'Connect position potentiometer wiper to Arduino Pin A0.',
+                'Connect Arduino Pin 9 to CRO Channel 1 to observe PPM pulses.',
+                'Connect Pin 9 to driver input to control actuator position/speed.',
+                'Upload PPM code and open oscilloscope display.',
+                'Vary sensor angle from minimum to maximum; observe pulse position shifting horizontally across the 20 ms time frame.',
+                'Record pulse position in microseconds and corresponding motor speed/angle.'
+            ],
+            tab: ['Sensor Input (V)', 'ADC Value', 'PPM Pulse Width (µs)', 'Frame Off-Time (ms)', 'Motor / Servo State'],
+            rows: [
+                ['0.0 V', '0', '1000 µs (1.0 ms)', '19.0 ms', '0° / Reverse / Min Speed'],
+                ['2.5 V', '512', '1500 µs (1.5 ms)', '18.5 ms', '90° / Neutral / Stop'],
+                ['5.0 V', '1023', '2000 µs (2.0 ms)', '18.0 ms', '180° / Forward / Max Speed']
+            ],
+            calc: 'At ADC = 512:\n• Pulse Position: t = 1000 + (512 / 1023) × 1000 = 1000 + 500 = 1500 µs (1.5 ms)\n• Neutral Center position for robotic control.',
+            res: 'Intelligent PPM automated motor control system was implemented. Pulse position shifted linearly between 1.0 ms and 2.0 ms in a 20 ms frame, providing precise position control.',
+            pre: [
+                'Ensure interrupt-free timing using delayMicroseconds() or hardware timer registers for jitter-free pulses.'
+            ],
+            viva: [
+                ['What is the primary difference between PWM and PPM?', 'In PWM, pulse width varies while position is fixed. In PPM, pulse width and amplitude are constant, while pulse position relative to a reference clock shifts with the message.', 'PWM varies width; PPM varies position'],
+                ['Why is PPM widely used in RC aircraft and drones?', 'PPM provides superior noise immunity because noise spikes alter pulse amplitude or width rather than pulse position. Multiple channels can be multiplexed into one RF frame.', 'High noise immunity & multi-channel multiplexing'],
+                ['What is the standard PPM frame rate for servo motors?', '50 Hz (20 ms period), with pulse position ranging from 1 ms to 2 ms.', '50 Hz (20 ms period)']
+            ]
+        },
+        {
+            n: 6,
+            cat: 'Hardware',
+            t: 'Biomedical Signal Transmission using PAM',
+            aim: 'To implement Pulse Amplitude Modulation (PAM) for transmitting low-frequency biomedical signals (ECG/PPG) and analyze signal reconstruction through a channel.',
+            dev: 'Pulse Generator, PAM Modulator (FET/Analog Switch CD4016), ECG/Biomedical Sensor Interface, CRO',
+            parts: [
+                ['Biomedical / ECG Sensor Simulator', 'Low-frequency test source (1–10 Hz, 1 mV to 1 V)', '1'],
+                ['Analog Switch IC CD4016 / CD4066', 'Bilateral quad analog switch', '1'],
+                ['Sampling Pulse Generator', 'fs = 1 kHz square pulses', '1'],
+                ['Reconstruction LPF', 'Active Sallen-Key low-pass filter (fc = 50 Hz)', '1'],
+                ['CRO / DSO', 'Dual trace oscilloscope', '1']
+            ],
+            svg: chain(['Biomedical Sensor|ECG / Pulse (10 Hz)', 'Signal Conditioner|Instrumentation Amp', 'PAM Modulator|Pulse Train fs = 1 kHz', 'Low-Pass Filter|Recovered ECG']),
+            img: 'assets/diagrams/exp6_pam_biomedical_transmission_block_diagram.png',
+            cap: 'Fig 6.1: Biomedical PAM transmission telemetry link: Physiological signal is sampled into variable-amplitude pulses and recovered by a low-pass filter.',
+            theory: 'Pulse Amplitude Modulation (PAM) is an analog pulse modulation technique in which the amplitude of a periodic train of pulses is varied in direct proportion to the instantaneous amplitude of a continuous biomedical message signal. Biomedical signals (such as ECG, EEG, and EMG) are low-frequency analog voltages susceptible to baseline drift. PAM enables time-division multiplexed multi-parameter patient monitoring across a single telemetry channel.',
+            f: [
+                'PAM Signal: s(t) = m(t) · p(t) = m(t) · Σ rect[(t − n·Ts) / τ]',
+                'Nyquist Condition for ECG: fs ≥ 2 · fm(ECG)  [For fm = 100 Hz → fs ≥ 200 Hz]',
+                'Reconstruction Filter: fc ≈ 100 Hz'
+            ],
+            proc: [
+                'Apply a 10 Hz simulated ECG signal (1 V p-p) to the analog input of the PAM modulator.',
+                'Apply a 1 kHz square wave pulse train to the gating control terminal.',
+                'Observe the PAM modulated output on CRO Channel 1; verify that pulse heights trace the ECG waveform.',
+                'Feed PAM pulses through an active low-pass reconstruction filter.',
+                'Observe reconstructed biomedical waveform on CRO Channel 2; compute correlation and distortion.'
+            ],
+            tab: ['Parameter', 'Biomedical Input', 'PAM Modulated Pulses', 'Recovered Signal'],
+            rows: [
+                ['Frequency', '10.0 Hz', '1000 Hz pulse repetition', '10.0 Hz'],
+                ['Peak-to-Peak Amplitude', '1.00 V', '1.00 V envelope', '0.98 V'],
+                ['Waveform Fidelity', 'Pure analog ECG', 'Discrete-time pulse train', 'Smooth analog ECG (98% correlation)']
+            ],
+            calc: 'ECG Bandwidth W = 100 Hz\n• Minimum Nyquist rate: fs = 200 Hz\n• In this experiment, fs = 1000 Hz (5× over-sampling), ensuring distortion-free reconstruction with simple 2nd-order LPF.',
+            res: 'PAM biomedical transmission system was successfully constructed. ECG waveform was modulated into amplitude-varying pulses and recovered through a low-pass filter with 98% fidelity.',
+            pre: [
+                'Use proper electrical shielding to eliminate 50 Hz powerline hum pickup on low-level biomedical signals.'
+            ],
+            viva: [
+                ['What is PAM and why is it categorized as pulse modulation?', 'In PAM, the carrier is not a continuous sine wave but a periodic train of rectangular pulses whose amplitudes vary with the message.', 'Pulse carrier whose amplitude varies'],
+                ['What is the main drawback of PAM in wireless transmission?', 'PAM is highly susceptible to additive channel noise because noise directly corrupts the pulse amplitudes (just like AM). Hence, PAM is rarely used over noisy wireless channels without conversion to PCM.', 'Vulnerable to amplitude noise'],
+                ['How is a PAM signal demodulated?', 'Simply by passing the pulse train through a low-pass reconstruction filter with cutoff frequency equal to message bandwidth.', 'Low-pass filter']
+            ]
+        },
+        {
+            n: 7,
+            cat: 'Hardware',
+            t: 'Pre-Emphasis and De-Emphasis',
+            aim: 'To construct Pre-Emphasis and De-Emphasis circuits using BC107 transistors, plot their frequency responses, and determine the 3 dB cutoff frequency (f1).',
+            dev: 'Transistor BC107 Pre-Emphasis and De-Emphasis Circuits, Regulated Power Supply (12 V DC), Function Generator, CRO',
+            parts: [
+                ['Transistor BC107', 'NPN silicon BJT (ft = 300 MHz)', '1'],
+                ['Resistors', '10 kΩ, 7.5 kΩ, 6.8 kΩ, 1 kΩ', '1 each'],
+                ['Capacitors', '10 nF, 0.1 µF', '1, 2'],
+                ['Dual Power Supply', '0–30 V, 1 A regulated', '1'],
+                ['Function Generator & CRO', '1 MHz sine & 20 MHz CRO', '1 each']
+            ],
+            svg: PE_SVG,
+            img: 'assets/diagrams/exp7_pre_emphasis_circuit.png',
+            modelGraph: 'assets/diagrams/exp7_frequency_response_graph.png',
+            cap: 'Fig 7.1: Pre-emphasis (+20 dB/decade boost) and De-emphasis (−20 dB/decade roll-off) characteristic curves meeting at 3 dB cutoff frequency f1 = 2.12 kHz.',
+            theory: 'In FM transmission, the noise power spectral density increases quadratically with frequency (parabolic noise spectrum). Consequently, higher audio modulating frequencies suffer much lower signal-to-noise ratio (SNR) than lower frequencies. To equalize the SNR, Pre-Emphasis is applied at the transmitter: a high-pass RC filter boosts high audio frequencies (above f1 = 2.12 kHz, 75 µs standard) at +20 dB/decade. At the receiver, an inverse low-pass RC De-Emphasis network attenuates high frequencies at −20 dB/decade, suppressing channel noise while restoring flat audio response.',
+            f: [
+                'Time Constant: τ = R · C = 75 µs (US standard) or 50 µs (European standard)',
+                'Cutoff Frequency: f1 = 1 / (2π · R · C) = 1 / (2π · 75 µs) ≈ 2.12 kHz',
+                'Pre-Emphasis Gain: |H(f)| = √[ 1 + (f / f1)² ]',
+                'Gain in dB: Gain = 20 · log10(Vout / Vin) dB'
+            ],
+            proc: [
+                'Construct the Pre-Emphasis circuit with transistor BC107 and RC network.',
+                'Apply a small constant AC input Vi = 20 mV from signal generator.',
+                'Vary input frequency from 500 Hz to 20 kHz in discrete steps; measure output Vo on CRO.',
+                'Calculate gain in dB: Gain = 20 log10(Vo / Vi) and record in table.',
+                'Construct the De-Emphasis circuit, apply Vi = 5 V, sweep frequency, and measure Vo.',
+                'Plot Gain (dB) vs log10(Frequency) for both circuits on semi-log graph paper; locate the 3 dB cutoff frequency f1.'
+            ],
+            tab: ['Frequency (Hz)', 'Pre-Emphasis Vo (mV)', 'Pre-Emphasis Gain (dB)', 'De-Emphasis Vo (V)', 'De-Emphasis Gain (dB)'],
+            rows: [
+                ['500 Hz', '20 mV', '0.0 dB', '5.0 V', '0.0 dB'],
+                ['1.0 kHz', '22 mV', '+0.8 dB', '4.5 V', '−0.9 dB'],
+                ['2.12 kHz (f1)', '28.3 mV', '+3.0 dB (+3 dB point)', '3.53 V', '−3.0 dB (−3 dB point)'],
+                ['5.0 kHz', '51 mV', '+8.1 dB', '1.95 V', '−8.2 dB'],
+                ['10.0 kHz', '98 mV', '+13.8 dB', '1.02 V', '−13.8 dB'],
+                ['15.0 kHz', '144 mV', '+17.1 dB', '0.70 V', '−17.1 dB']
+            ],
+            calc: 'Given: R = 7.5 kΩ, C = 10 nF\n• τ = 7.5 × 10³ × 10 × 10⁻⁹ = 75 × 10⁻⁶ s = 75 µs\n• f1 = 1 / (2 × 3.14159 × 75 × 10⁻⁶) = 1 / (4.712 × 10⁻⁴) ≈ 2122 Hz = 2.12 kHz\n• At 15 kHz: Boost = 20 log10(15 kHz / 2.12 kHz) ≈ +17.0 dB',
+            res: 'Pre-Emphasis and De-Emphasis circuits were constructed and tested. Frequency responses confirmed +20 dB/decade high-frequency boost and matching −20 dB/decade roll-off with 3 dB cutoff at 2.12 kHz.',
+            pre: [
+                'Keep input voltage small (20 mV) for pre-emphasis to prevent transistor collector saturation at high frequencies.',
+                'Ensure time constants τ = RC of pre-emphasis and de-emphasis are identical.'
+            ],
+            viva: [
+                ['Why does FM have higher noise at higher audio frequencies?', 'The noise voltage spectral density after an FM discriminator increases linearly with frequency (parabolic noise power spectrum), causing severe SNR degradation at high audio frequencies.', 'Parabolic noise spectrum in FM'],
+                ['What is the standard time constant for commercial FM broadcasting?', '75 µs in the Americas and Japan (f1 ≈ 2.12 kHz); 50 µs in Europe and India (f1 ≈ 3.18 kHz).', '75 µs (f1 = 2.12 kHz)'],
+                ['Does pre-emphasis improve SNR by itself?', 'No; pre-emphasis boosts the signal. The actual noise reduction happens in the de-emphasis filter at the receiver, which attenuates the boosted frequencies along with channel noise by up to 12 dB.', 'De-emphasis cuts noise by up to 12 dB']
+            ]
+        },
+        {
+            n: 8,
+            cat: 'Hardware',
+            t: 'Time Division Multiplexing and Demultiplexing',
+            aim: 'To study the operation of Time Division Multiplexing (TDM) and demultiplexing of multiple analog channels over a single transmission link.',
+            dev: 'TDM Trainer Kit (4-Channel Analog Multiplexer CD4051 / CD4016, Counter / Commutator, Comparator, Decommutator, Low-Pass Filters)',
+            parts: [
+                ['TDM Trainer Kit', '4 independent analog channel inputs (X0–X3), clock generator', '1'],
+                ['Dual Trace CRO / DSO', 'With channel addition/chop modes', '1'],
+                ['Signal Generators', 'Sine and triangle sources for test channels', '2']
+            ],
+            svg: chain(['4 Inputs|X0, X1, X2, X3', 'Multiplexer|Rotary Switch / Mux', 'TDM Frame|Time Slots 1–4', 'Demux + LPF|4 Recovered Signals']),
+            img: 'assets/diagrams/exp8_tdm_hardware_block_diagram.png',
+            modelGraph: 'assets/diagrams/exp8_tdm_waveforms_model_graph.png',
+            cap: 'Fig 8.1: TDM hardware block diagram, frame structure with sync pulse, and 4-channel interleaved time slots.',
+            theory: 'Time Division Multiplexing (TDM) is a technique for sharing a single transmission medium among multiple signal sources by allocating distinct, non-overlapping time slots to each channel in cyclical sequence. A complete cycle containing one sample from every channel plus synchronization framing bits constitutes a TDM frame. At the receiver, an electronic decommutator synchronized with the transmitter separates each time slot, and low-pass filters reconstruct the continuous analog signals.',
+            f: [
+                'Frame Duration: Tframe = 1 / fs = Ts  [where fs ≥ 2·fm(max)]',
+                'Time Slot per Channel: Tslot = Tframe / N  [for N channels]',
+                'TDM Transmission Bandwidth: BW ≥ N · fm',
+                'Frame Synchronization: Sync bit added per frame to lock decommutator clock'
+            ],
+            proc: [
+                'Switch ON the TDM trainer kit and verify the 4 internal test signal generators.',
+                'Connect Channel 1 (1 kHz sine), Channel 2 (2 kHz sine), Channel 3 (500 Hz triangle), and Channel 4 (1 kHz square) to multiplexer inputs X0 to X3.',
+                'Observe the composite TDM PAM output on CRO Channel 1; identify the sequential interleaving of 4 channels in each frame.',
+                'Connect TDM output to the demultiplexer input.',
+                'Observe the 4 demultiplexed outputs after their respective low-pass reconstruction filters.',
+                'Compare recovered waveforms with original channel inputs and record cross-talk and phase fidelity.'
+            ],
+            tab: ['Channel', 'Input Waveform', 'Assigned Slot', 'Sampled Amplitude', 'Recovered Waveform Quality'],
+            rows: [
+                ['Channel 0', '1.0 kHz Sine wave', 'Slot 1 (0–25%)', '2.0 V p-p', 'Clean 1.0 kHz Sine'],
+                ['Channel 1', '2.0 kHz Sine wave', 'Slot 2 (25–50%)', '1.5 V p-p', 'Clean 2.0 kHz Sine'],
+                ['Channel 2', '500 Hz Triangle', 'Slot 3 (50–75%)', '2.0 V p-p', 'Clean 500 Hz Triangle'],
+                ['Channel 3', '1.0 kHz Square wave', 'Slot 4 (75–100%)', '2.0 V p-p', 'Clean 1.0 kHz Square']
+            ],
+            calc: 'Given: N = 4 channels, fs = 8 kHz per channel\n• Frame period: Tframe = 1 / 8000 = 125 µs\n• Time slot per channel: Tslot = 125 µs / 4 = 31.25 µs\n• Minimum transmission rate = 4 × 8 kHz = 32 kHz',
+            res: 'Time Division Multiplexing and demultiplexing was successfully demonstrated for 4 channels. Synchronized decommutator separated individual time slots, and low-pass filters reconstructed all 4 signals with negligible crosstalk.',
+            pre: [
+                'Maintain strict clock synchronization between multiplexer and demultiplexer to prevent channel mixing.',
+                'Ensure input signal frequencies do not exceed half the channel sampling rate (Nyquist limit).'
+            ],
+            viva: [
+                ['What is the main difference between FDM and TDM?', 'Frequency Division Multiplexing (FDM) assigns each user a different frequency band simultaneously (shared spectrum, all time). Time Division Multiplexing (TDM) assigns each user the entire frequency spectrum for a small time slice (shared time, all spectrum).', 'FDM shares frequency; TDM shares time'],
+                ['What is Crosstalk in TDM and how is it minimized?', 'Crosstalk is interference between adjacent channel time slots caused by pulse dispersion and finite channel bandwidth. It is minimized by inserting guard times between adjacent time slots.', 'Inter-channel interference; insert guard times'],
+                ['What is the purpose of framing and synchronization in TDM?', 'Framing bits allow the receiver decommutator to identify the start of each frame, ensuring that Channel 1 samples are routed to Channel 1 output rather than misrouted to Channel 2 or 3.', 'Frame sync locks decommutator to slots']
+            ]
+        },
+        {
+            n: 9,
+            cat: 'MATLAB Simulation',
+            t: 'MATLAB: Intelligent AM System for Audio Transmission',
+            aim: 'To design and simulate an intelligent AM audio communication system in MATLAB, transmit audio through an AWGN channel, and evaluate link quality using SNR and correlation metrics.',
+            dev: 'MATLAB (R2021a or higher) with Signal Processing Toolbox; Built-in audio dataset handel.wav',
+            parts: [
+                ['PC with MATLAB Software', 'MathWorks MATLAB environment', '1'],
+                ['Audio Output Device', 'Speakers / Headphones for listening tests', '1']
+            ],
+            svg: chain(['Audio Read|handel.wav (Fs=8192Hz)', 'AM Modulator|fc = 10 kHz, μ = 0.8', 'AWGN Channel|SNR = 20 dB', 'Envelope Detector|abs() + LPF filtfilt()', 'Decision Engine|SNR > 20 dB → Link OK']),
+            img: 'assets/diagrams/exp9_am_audio_system_block_diagram.png',
+            cap: 'Fig 9.1: MATLAB Intelligent AM audio simulation flow: Audio preprocessing, RF modulation, AWGN noise addition, envelope detection, and link health metric evaluation.',
+            theory: 'This simulation models an end-to-end analog communication transceiver in software. An audio signal x(t) is normalized and modulated onto a carrier fc using AM with modulation index μ = 0.8: s(t) = [1 + μ·x(t)]·cos(2π·fc·t). The signal traverses an Additive White Gaussian Noise (AWGN) channel at 20 dB SNR. Demodulation is implemented using an ideal envelope detector (full-wave rectification |s(t)| followed by zero-phase 6th-order Butterworth low-pass filtering via filtfilt). Link quality is evaluated quantitatively using Output SNR and Pearson correlation coefficient.',
+            f: [
+                'AM Equation: s(t) = [ 1 + μ · x(t) ] · cos(2π · fc · t)',
+                'Output SNR: SNR_out = 10 · log10[ Σ x²(n) / Σ (x(n) − x_rec(n))² ] dB',
+                'Pearson Correlation: R = Cov(x, x_rec) / [ σx · σx_rec ]',
+                'Decision Criteria: SNR > 20 dB → "Excellent", 10–20 dB → "Good", < 10 dB → "Poor"'
+            ],
+            code: `% ========================================================
+% EC5301 - EXPERIMENT 9: INTELLIGENT AM AUDIO TRANSMISSION
+% Environment: MATLAB | Features: AWGN, Envelope Det, SNR
+% ========================================================
+clear; clc; close all;
+
+% 1. Load and Preprocess Audio
+load handel;               % Built-in audio: y (audio data), Fs = 8192 Hz
+x = y(1:min(5*Fs, length(y))); % Extract first 5 seconds
+x = x(:) / max(abs(x));    % Normalize to unity peak
+t = (0:length(x)-1)' / Fs;
+
+% 2. AM Modulation Parameters
+fc = 10000;                % Carrier frequency = 10 kHz
+mu = 0.8;                  % Modulation index = 0.8
+carrier = cos(2*pi*fc*t);
+am_signal = (1 + mu * x) .* carrier;
+
+% 3. Noisy Channel (AWGN)
+channel_snr = 20;          % Channel SNR = 20 dB
+noisy_signal = awgn(am_signal, channel_snr, 'measured');
+
+% 4. Envelope Demodulation
+rectified = abs(noisy_signal);
+[b, a] = butter(6, 4000 / (Fs/2));     % 6th-order Butterworth LPF
+recovered = filtfilt(b, a, rectified); % Zero-phase filtering
+recovered = recovered - mean(recovered);
+recovered = recovered / max(abs(recovered)); % Normalize
+
+% 5. Link Performance Evaluation
+err = x - recovered;
+snr_out = 10 * log10(sum(x.^2) / sum(err.^2));
+R_matrix = corrcoef(x, recovered);
+corr_coeff = R_matrix(1, 2);
+
+% 6. Intelligent Decision Classifier
+if snr_out >= 20.0
+    status = "EXCELLENT (Broadcasting Grade)";
+elseif snr_out >= 10.0
+    status = "GOOD (Commercial Intelligible)";
+else
+    status = "POOR (Unacceptable Noise)";
+end
+
+fprintf('--- EC5301 EXPERIMENT 9 RESULTS ---\\n');
+fprintf('Modulation Index (mu) : %.2f\\n', mu);
+fprintf('Channel SNR            : %.2f dB\\n', channel_snr);
+fprintf('Output Signal SNR      : %.2f dB\\n', snr_out);
+fprintf('Correlation Coefficient: %.4f\\n', corr_coeff);
+fprintf('Link Quality Assessment: %s\\n', status);`,
+            proc: [
+                'Open MATLAB and create a new script exp9_am_audio.m.',
+                'Load handel audio dataset and extract first 5 seconds of audio.',
+                'Generate carrier wave fc = 10 kHz and modulate using μ = 0.8.',
+                'Pass AM signal through awgn channel with 20 dB SNR.',
+                'Demodulate using rectification abs() followed by zero-phase filtfilt().',
+                'Compute output SNR in dB and Pearson correlation coefficient.',
+                'Execute the script and verify output health decision in command window.'
+            ],
+            tab: ['Simulation Metric', 'Expected Value', 'Simulated Value', 'Verdict'],
+            rows: [
+                ['Modulation Index (μ)', '0.80', '0.80', 'Under-modulated (No distortion)'],
+                ['Channel Noise (AWGN)', '20.0 dB', '20.0 dB', 'Controlled noise link'],
+                ['Output Recovered SNR', '> 18.0 dB', '18.75 dB', 'High audio fidelity'],
+                ['Correlation Coefficient', '> 0.95', '0.9654', '96.5% shape preservation'],
+                ['Link Health Status', 'Good / Excellent', 'GOOD (Intelligible)', 'Verified']
+            ],
+            calc: 'Σ x² = 842.1, Σ (x − x_rec)² = 11.23\n• SNR = 10 log10(842.1 / 11.23) = 10 log10(74.98) = 18.75 dB\n• Correlation R = 0.9654 indicates over 96.5% similarity between original and received audio.',
+            res: 'Intelligent AM audio transmission system was simulated in MATLAB. Audio was successfully recovered through 20 dB AWGN channel with 18.75 dB output SNR and 0.9654 correlation.',
+            pre: [
+                'Use filtfilt instead of filter to avoid phase distortion and time delay in audio waveforms.',
+                'Ensure sampling frequency Fs is sufficiently high to satisfy Nyquist criteria for carrier fc.'
+            ],
+            viva: [
+                ['What is the role of filtfilt in MATLAB demodulation?', 'filtfilt performs zero-phase digital filtering by processing data in both forward and reverse directions, completely canceling phase distortion and delay.', 'Zero-phase distortion-free filtering'],
+                ['How does Pearson correlation coefficient quantify link quality?', 'Correlation coefficient R ranges from −1 to +1. A value R > 0.95 indicates that the reconstructed audio waveform faithfully mirrors the original sound dynamics.', 'R > 0.95 indicates high waveform fidelity'],
+                ['What does awgn(s, snr, \'measured\') do in MATLAB?', 'It calculates the actual power of signal s and automatically injects white Gaussian noise with variance calculated to achieve the exact specified SNR in dB.', 'Adds calibrated Gaussian noise']
+            ]
+        },
+        {
+            n: 10,
+            cat: 'MATLAB Simulation',
+            t: 'MATLAB: FM Voice Communication for Disaster Rescue',
+            aim: 'To simulate an emergency FM voice communication system in MATLAB for search and rescue operations and evaluate voice recovery over a severe AWGN channel.',
+            dev: 'MATLAB with Communications and Signal Processing Toolboxes (fmmod, fmdemod)',
+            parts: [
+                ['PC with MATLAB Software', 'MathWorks MATLAB environment', '1']
+            ],
+            svg: chain(['Emergency Voice|m(t) (Disaster msg)', 'FM Modulator|fmmod(fc=10k, dev=5k)', 'Severe Channel|AWGN 15 dB', 'FM Demodulator|fmdemod() discriminator', 'Rescue Classifier|Status: Reliable']),
+            img: 'assets/diagrams/exp10_fm_voice_disaster_block_diagram.png',
+            cap: 'Fig 10.1: Emergency FM voice communication telemetry link: Simulates mission-critical voice transmission during disasters when cellular networks fail.',
+            theory: 'In disaster management scenarios (earthquakes, cyclones, floods), commercial cellular networks frequently collapse. FM tactical transceivers (walkie-talkies and VHF radios) form the backbone of emergency response. FM frequency deviation Δf = 5 kHz provides high noise immunity because noise primarily distorts signal amplitude, which is eliminated by limiter circuits in FM receivers. MATLAB functions fmmod and fmdemod simulate baseband frequency modulation and quadrature discriminator demodulation.',
+            f: [
+                'FM Modulated Signal: s_fm = fmmod(x, fc, Fs, freqdev)',
+                'Frequency Deviation: freqdev = 5 kHz',
+                'FM Demodulated Signal: rec = fmdemod(rx, fc, Fs, freqdev)',
+                'Threshold: Output SNR > 20 dB indicates mission-critical reliable link'
+            ],
+            code: `% ========================================================
+% EC5301 - EXPERIMENT 10: EMERGENCY FM VOICE RESCUE LINK
+% Environment: MATLAB | Functions: fmmod, fmdemod, awgn
+% ========================================================
+clear; clc; close all;
+
+% 1. Load Emergency Voice Signal
+load handel;
+x = y(1:min(4*Fs, length(y)));
+x = x(:) / max(abs(x));
+t = (0:length(x)-1)' / Fs;
+
+% 2. FM Parameters
+fc = 10000;            % Center carrier frequency = 10 kHz
+freqdev = 5000;        % Frequency deviation = 5 kHz
+
+% 3. FM Modulation
+fm_tx = fmmod(x, fc, Fs, freqdev);
+
+% 4. Hostile AWGN Channel
+channel_snr = 20;      % 20 dB noise level
+fm_rx = awgn(fm_tx, channel_snr, 'measured');
+
+% 5. FM Demodulation
+recovered_voice = fmdemod(fm_rx, fc, Fs, freqdev);
+recovered_voice = recovered_voice / max(abs(recovered_voice));
+
+% 6. Performance Evaluation
+err = x - recovered_voice;
+snr_out = 10 * log10(sum(x.^2) / sum(err.^2));
+R = corrcoef(x, recovered_voice);
+corr_val = R(1, 2);
+
+fprintf('--- EC5301 EXPERIMENT 10: FM RESCUE LINK ---\\n');
+fprintf('Carrier Frequency   : %d Hz\\n', fc);
+fprintf('Frequency Deviation : %d Hz\\n', freqdev);
+fprintf('Channel SNR         : %.1f dB\\n', channel_snr);
+fprintf('Output Recovered SNR: %.2f dB\\n', snr_out);
+fprintf('Voice Correlation   : %.4f\\n', corr_val);
+if snr_out > 20.0
+    fprintf('Mission Status      : RESCUE LINK STABLE & RELIABLE\\n');
+else
+    fprintf('Mission Status      : HIGH RISK LINK (REPEAT TRANSMISSION)\\n');
+end`,
+            proc: [
+                'Load emergency audio message in MATLAB.',
+                'Set FM carrier fc = 10 kHz and deviation freqdev = 5 kHz.',
+                'Modulate voice using fmmod function.',
+                'Inject AWGN channel noise (20 dB SNR).',
+                'Demodulate using fmdemod and normalize recovered speech.',
+                'Compute output SNR, correlation coefficient, and assess communication intelligibility.'
+            ],
+            tab: ['Parameter', 'Theoretical Setting', 'Simulation Value'],
+            rows: [
+                ['Carrier Frequency fc', '10.0 kHz', '10.0 kHz'],
+                ['Frequency Deviation Δf', '5.0 kHz', '5.0 kHz'],
+                ['Channel SNR', '20.0 dB', '20.0 dB'],
+                ['Output SNR', '> 22.0 dB', '23.80 dB'],
+                ['Voice Correlation', '> 0.97', '0.9821 (Excellent)']
+            ],
+            calc: 'FM Improvement factor: Output SNR (23.8 dB) exceeds input channel SNR (20.0 dB) by +3.8 dB due to FM wideband noise suppression (fm threshold effect).',
+            res: 'Emergency FM voice communication system was successfully simulated. Voice message was reconstructed with high fidelity (23.8 dB SNR and 0.9821 correlation), ensuring reliable disaster telemetry.',
+            pre: [
+                'Ensure sampling frequency Fs is set high enough to satisfy Fs > 2·(fc + freqdev) to prevent aliasing.'
+            ],
+            viva: [
+                ['Why is FM preferred over AM for emergency disaster rescue links?', 'FM provides superior noise immunity against lightning and environmental static, and the capture effect ensures that only the strongest rescue transmission is locked onto without chaotic crosstalk.', 'Immunity to static & capture effect'],
+                ['What are the four arguments required by MATLAB fmmod function?', 'x (modulating message), fc (carrier frequency), Fs (sampling frequency), and freqdev (frequency deviation in Hz).', 'x, fc, Fs, freqdev'],
+                ['What is the FM Capture Effect?', 'When two FM signals are received simultaneously on the same frequency, the receiver suppresses the weaker signal completely and locks only onto the stronger signal.', 'Receiver locks onto strongest signal']
+            ]
+        },
+        {
+            n: 11,
+            cat: 'MATLAB Simulation',
+            t: 'MATLAB: TDM for Smart Healthcare Monitoring',
+            aim: 'To implement a Time Division Multiplexed (TDM) telemetry system in MATLAB for transmitting 4 vital patient biometric signals (ECG, Heart Rate, Temperature, Blood Pressure) across a single noisy link.',
+            dev: 'MATLAB with Signal Processing Toolbox',
+            parts: [
+                ['PC with MATLAB Software', 'MathWorks MATLAB environment', '1']
+            ],
+            svg: chain(['4 Biometric Signals|ECG, HR, Temp, BP', 'TDM Multiplexer|Interleave Samples', 'AWGN Channel|SNR = 25 dB', 'Stride-4 Demux|De-interleave Streams', 'Clinical Validator|ECG Corr > 0.99']),
+            img: 'assets/diagrams/exp11_tdm_healthcare_block_diagram.png',
+            cap: 'Fig 11.1: TDM Smart Healthcare architecture: Interleaves 4 vital sensors into a single data stream and recovers clinical-grade patient telemetry.',
+            theory: 'Modern intensive care units (ICUs) and remote telemedicine monitoring require continuous transmission of multiple physiological parameters per patient. Running individual cables for ECG, pulse rate, temperature, and blood pressure increases cost and complexity. TDM samples each sensor in round-robin fashion, interleaving sample points into a composite serial frame. At the central nurse monitoring console, stride-based de-interleaving separates each telemetry stream.',
+            f: [
+                'TDM Frame Structure: [ ECG(i), HR(i), Temp(i), BP(i) ]',
+                'Demultiplexing Stride: ECG = rx(1:4:end), HR = rx(2:4:end), Temp = rx(3:4:end), BP = rx(4:4:end)',
+                'Pass Criterion: ECG Correlation > 0.95 and Output SNR > 20 dB'
+            ],
+            code: `% ========================================================
+% EC5301 - EXPERIMENT 11: TDM SMART HEALTHCARE TELEMETRY
+% Environment: MATLAB | Multi-Channel Biomedical Interleaving
+% ========================================================
+clear; clc; close all;
+
+% 1. Synthesize 4 Vital Patient Signals (Fs = 1000 Hz, 1 Second)
+Fs = 1000;
+t = 0:1/Fs:1-1/Fs;
+N = length(t);
+
+ecg  = 1.0 * sin(2*pi*5*t);    % 5 Hz ECG cardiac rhythm
+hr   = 0.8 * sin(2*pi*10*t);   % 10 Hz Heart Rate pulse
+temp = 0.5 * sin(2*pi*15*t);   % 15 Hz Body Temperature
+bp   = 1.2 * sin(2*pi*20*t);   % 20 Hz Blood Pressure pulsation
+
+% 2. TDM Multiplexing (Interleave 4 channels into 1 stream)
+tdm_stream = zeros(1, 4 * N);
+for i = 1:N
+    tdm_stream(4*(i-1) + 1) = ecg(i);
+    tdm_stream(4*(i-1) + 2) = hr(i);
+    tdm_stream(4*(i-1) + 3) = temp(i);
+    tdm_stream(4*(i-1) + 4) = bp(i);
+end
+
+% 3. Noisy Telemetry Channel (AWGN 25 dB)
+rx_stream = awgn(tdm_stream, 25, 'measured');
+
+% 4. TDM Demultiplexing (Stride 4)
+ecg_rec  = rx_stream(1:4:end);
+hr_rec   = rx_stream(2:4:end);
+temp_rec = rx_stream(3:4:end);
+bp_rec   = rx_stream(4:4:end);
+
+% 5. Clinical Integrity Evaluation (ECG Channel)
+R = corrcoef(ecg, ecg_rec);
+ecg_corr = R(1, 2);
+ecg_snr = 10 * log10(sum(ecg.^2) / sum((ecg - ecg_rec).^2));
+
+fprintf('--- EC5301 EXPERIMENT 11: HEALTHCARE TDM ---\\n');
+fprintf('Multiplexed Channels : 4 (ECG, HR, Temp, BP)\\n');
+fprintf('Composite Data Length: %d samples\\n', length(tdm_stream));
+fprintf('Channel AWGN SNR     : 25.0 dB\\n');
+fprintf('Recovered ECG SNR    : %.2f dB\\n', ecg_snr);
+fprintf('ECG Correlation      : %.4f\\n', ecg_corr);
+if ecg_corr >= 0.95
+    fprintf('Clinical Status      : DIAGNOSTIC GRADE (PASSED)\\n');
+end`,
+            proc: [
+                'Synthesize 4 physiological test signals at 5 Hz, 10 Hz, 15 Hz, and 20 Hz.',
+                'Interleave the 4 channels sequentially into a single 1D TDM array.',
+                'Add 25 dB AWGN noise to simulate wireless telemetry.',
+                'Demultiplex the serial stream using stride indexing rx(k:4:end).',
+                'Compute SNR and correlation for the critical ECG channel.',
+                'Verify diagnostic telemetry pass criteria.'
+            ],
+            tab: ['Biomedical Channel', 'Signal Frequency', 'Simulated Channel SNR', 'Recovered Correlation', 'Status'],
+            rows: [
+                ['Channel 1: ECG', '5 Hz', '25.0 dB', '0.9958', 'Diagnostic Grade'],
+                ['Channel 2: Heart Rate', '10 Hz', '25.0 dB', '0.9962', 'Normal'],
+                ['Channel 3: Temperature', '15 Hz', '25.0 dB', '0.9955', 'Normal'],
+                ['Channel 4: Blood Pressure', '20 Hz', '25.0 dB', '0.9960', 'Normal']
+            ],
+            calc: 'Composite stream length = 4 channels × 1000 samples = 4000 samples\n• Recovered ECG SNR = 24.65 dB, Correlation = 0.9958 (> 0.95 clinical benchmark).',
+            res: 'TDM smart healthcare telemetry was successfully implemented in MATLAB. All 4 patient vital signals were multiplexed, transmitted through a noisy channel, and recovered with > 99.5% correlation.',
+            pre: [
+                'Ensure perfect synchronization and stride alignment (1:4:end, 2:4:end...) to avoid fatal channel misrouting.'
+            ],
+            viva: [
+                ['Why is TDM suited for multi-sensor biomedical monitoring?', 'Biomedical signals have low bandwidth (DC to a few hundred Hz). Interleaving samples from multiple sensors over a single channel minimizes hardware wiring and wireless bandwidth.', 'Consolidates multiple low-bandwidth sensors'],
+                ['How does stride indexing demultiplex the TDM stream in MATLAB?', 'rx(1:4:end) starts at index 1 and steps by 4, extracting Channel 1; rx(2:4:end) extracts Channel 2, and so forth.', 'Stride 4 extracts round-robin samples'],
+                ['What is the effect of channel noise on TDM demultiplexing?', 'Channel noise adds random amplitude fluctuations to each sample point, but does not alter sample timing if synchronization remains locked.', 'Noise adds amplitude error without shifting slots']
+            ]
+        },
+        {
+            n: 12,
+            cat: 'MATLAB Simulation',
+            t: 'MATLAB: Pre-Emphasis and De-Emphasis for Speech',
+            aim: 'To implement digital Pre-Emphasis and De-Emphasis filters in MATLAB, transmit speech through an AWGN channel, and analyze high-frequency noise suppression.',
+            dev: 'MATLAB with Signal Processing Toolbox; Built-in handel speech dataset',
+            parts: [
+                ['PC with MATLAB Software', 'MathWorks MATLAB environment', '1']
+            ],
+            svg: chain(['Speech Audio|load handel', 'Pre-Emphasis Filter|y[n] = x[n] − α x[n−1]', 'AWGN Channel|SNR = 20 dB', 'De-Emphasis Filter|Inverse Filter', 'Recovered Speech|Restored Fidelity']),
+            img: 'assets/diagrams/exp12_speech_pre_de_emphasis_block_diagram.png',
+            cap: 'Fig 12.1: Digital Pre-Emphasis and De-Emphasis signal processing pipeline in MATLAB showing digital filter frequency response.',
+            theory: 'Human speech exhibits an inherent spectral roll-off: energy in speech signals drops off at approximately −6 dB/octave above 1 kHz. When speech is transmitted over FM or communication channels, high-frequency fricatives and consonants (\'s\', \'f\', \'t\') become masked by channel noise. Digital Pre-Emphasis uses a first-order FIR high-pass filter: H(z) = 1 − α·z⁻¹ (typically α = 0.95). At the receiver, an inverse IIR De-Emphasis filter H_inv(z) = 1 / (1 − α·z⁻¹) restores speech balance while heavily attenuating high-frequency noise.',
+            f: [
+                'Pre-Emphasis Difference Equation: y[n] = x[n] − α · x[n−1]  [FIR Filter]',
+                'De-Emphasis Difference Equation: y[n] = x[n] + α · y[n−1]  [IIR Filter]',
+                'Filter Parameter: α = 0.95 (Typical speech coefficient)',
+                'Transfer Functions: H_pre(z) = 1 − α·z⁻¹ ; H_de(z) = 1 / (1 − α·z⁻¹)'
+            ],
+            code: `% ========================================================
+% EC5301 - EXPERIMENT 12: SPEECH PRE-EMPHASIS & DE-EMPHASIS
+% Environment: MATLAB | Digital Filtering with FIR & IIR
+% ========================================================
+clear; clc; close all;
+
+% 1. Load Speech Signal
+load handel;
+speech = y(1:min(5*Fs, length(y)));
+speech = speech(:) / max(abs(speech));
+
+% 2. Pre-Emphasis Filter (FIR: 1 - alpha*z^-1)
+alpha = 0.95;
+b_pre = [1, -alpha];
+a_pre = 1;
+speech_pre = filter(b_pre, a_pre, speech);
+
+% 3. Noisy Channel (AWGN 20 dB)
+channel_snr = 20;
+noisy_speech = awgn(speech_pre, channel_snr, 'measured');
+
+% 4. De-Emphasis Filter (IIR: 1 / (1 - alpha*z^-1))
+b_de = 1;
+a_de = [1, -alpha];
+speech_recovered = filter(b_de, a_de, noisy_speech);
+speech_recovered = speech_recovered / max(abs(speech_recovered));
+
+% 5. Compare with Un-emphasized Transmission
+noisy_unemphasized = awgn(speech, channel_snr, 'measured');
+
+% 6. Performance Evaluation
+snr_with_emphasis = 10 * log10(sum(speech.^2) / sum((speech - speech_recovered).^2));
+snr_without_emphasis = 10 * log10(sum(speech.^2) / sum((speech - noisy_unemphasized).^2));
+snr_gain = snr_with_emphasis - snr_without_emphasis;
+
+fprintf('--- EC5301 EXPERIMENT 12: SPEECH PRE/DE-EMPHASIS ---\\n');
+fprintf('Pre-Emphasis Factor alpha: %.2f\\n', alpha);
+fprintf('SNR Without Pre-Emphasis : %.2f dB\\n', snr_without_emphasis);
+fprintf('SNR With Pre/De-Emphasis : %.2f dB\\n', snr_with_emphasis);
+fprintf('Net SNR Improvement      : +%.2f dB\\n', snr_gain);`,
+            proc: [
+                'Load handel speech audio into MATLAB.',
+                'Apply digital pre-emphasis filter with α = 0.95 using filter([1 -alpha], 1, speech).',
+                'Transmit pre-emphasized speech through 20 dB AWGN channel.',
+                'Apply inverse de-emphasis filter using filter(1, [1 -alpha], rx).',
+                'Simulate un-emphasized direct transmission for comparison.',
+                'Compute SNR gain achieved by pre/de-emphasis network.'
+            ],
+            tab: ['Transmission Scheme', 'Channel SNR', 'Output Audio SNR', 'Noise Level'],
+            rows: [
+                ['Direct Transmission (No Emphasis)', '20.0 dB', '20.0 dB', 'Audible high-frequency hiss'],
+                ['Pre-Emphasis + De-Emphasis', '20.0 dB', '24.8 dB', 'Clean, suppressed high-frequency noise'],
+                ['Net Improvement', '—', '+4.8 dB', 'Significant clarity enhancement']
+            ],
+            calc: 'Net SNR improvement: ΔSNR = 24.8 dB − 20.0 dB = +4.8 dB noise reduction achieved purely through digital pre/de-emphasis filtering.',
+            res: 'Digital pre-emphasis and de-emphasis were implemented in MATLAB. Speech fidelity was restored after noisy transmission, yielding a +4.8 dB SNR improvement.',
+            pre: [
+                'Ensure coefficient α is identical in both pre-emphasis and de-emphasis stages to prevent frequency coloration.'
+            ],
+            viva: [
+                ['Why is α chosen as 0.95 for speech pre-emphasis?', 'Natural voiced speech has a spectral slope of approximately −6 dB/octave. An FIR filter with α = 0.95 provides a +6 dB/octave boost, flattening the speech spectrum for optimal transmission.', 'Flattens −6 dB/octave speech roll-off'],
+                ['What type of filter is pre-emphasis versus de-emphasis?', 'Pre-emphasis is an FIR (Finite Impulse Response) high-pass filter. De-emphasis is an IIR (Infinite Impulse Response) low-pass filter.', 'Pre: FIR high-pass; De: IIR low-pass'],
+                ['Where is digital pre-emphasis used in modern technologies?', 'In GSM mobile speech codecs, Automatic Speech Recognition (ASR), Linear Predictive Coding (LPC), and VoIP compression algorithms.', 'Speech recognition & GSM codecs']
+            ]
+        },
+        {
+            n: 13,
+            cat: 'MATLAB Simulation',
+            t: 'MATLAB: Smart Signal Denoising',
+            aim: 'To simulate smart communication signal denoising in MATLAB using a 4th-order Butterworth digital filter and evaluate noise rejection efficiency.',
+            dev: 'MATLAB with Signal Processing Toolbox (butter, filter)',
+            parts: [
+                ['PC with MATLAB Software', 'MathWorks MATLAB environment', '1']
+            ],
+            svg: chain(['Pure Sine Wave|10 Hz (Fs = 1000 Hz)', 'Hostile AWGN|10 dB (Heavy noise)', '4th-Order Butterworth|fc = 20 Hz low-pass', 'Denoised Signal|SNR improves +8.5 dB']),
+            img: 'assets/diagrams/exp13_signal_denoising_block_diagram.png',
+            cap: 'Fig 13.1: Smart communication signal denoising: Time domain waveforms comparing original, corrupted, and Butterworth filtered signals.',
+            theory: 'Information-bearing signals in wireless communication links are inevitably contaminated by thermal noise, atmospheric interference, and electromagnetic clutter. When the signal of interest is band-limited (e.g. 10 Hz telemetry) while additive noise is broadband (flat across the Nyquist spectrum), a maximally flat Butterworth digital filter effectively eliminates all out-of-band noise energy while preserving signal amplitude and phase linearity.',
+            f: [
+                'Input Signal: s(t) = sin(2π · 10 · t)',
+                'Butterworth Filter: [b, a] = butter(4, fc / (Fs/2))  [fc = 20 Hz, Order = 4]',
+                'Denoised Output: s_clean = filter(b, a, s_noisy)',
+                'Noise Suppression SNR: SNR = 10 · log10[ Σ s² / Σ (s − s_clean)² ]'
+            ],
+            code: `% ========================================================
+% EC5301 - EXPERIMENT 13: SMART COMMUNICATION SIGNAL DENOISING
+% Environment: MATLAB | 4th-Order Butterworth Digital LPF
+% ========================================================
+clear; clc; close all;
+
+% 1. Generate Clean 10 Hz Test Signal
+Fs = 1000;                     % Sampling rate = 1000 Hz
+t = 0:1/Fs:1;                  % 1 second duration
+f_sig = 10;                    % 10 Hz signal frequency
+clean_signal = sin(2*pi*f_sig*t);
+
+% 2. Inject Heavy Channel Noise (10 dB SNR)
+channel_snr = 10;
+noisy_signal = awgn(clean_signal, channel_snr, 'measured');
+
+% 3. Design 4th-Order Butterworth Low-Pass Filter (Cutoff = 20 Hz)
+fc = 20;                       % Cutoff frequency
+Wn = fc / (Fs / 2);            % Normalized Nyquist cutoff
+[b, a] = butter(4, Wn, 'low'); % 4th-order lowpass filter
+
+% 4. Apply Digital Denoising
+denoised_signal = filtfilt(b, a, noisy_signal);
+
+% 5. Performance Evaluation
+input_snr = 10 * log10(sum(clean_signal.^2) / sum((clean_signal - noisy_signal).^2));
+output_snr = 10 * log10(sum(clean_signal.^2) / sum((clean_signal - denoised_signal).^2));
+snr_improvement = output_snr - input_snr;
+
+fprintf('--- EC5301 EXPERIMENT 13: SIGNAL DENOISING ---\\n');
+fprintf('Signal Frequency     : %d Hz\\n', f_sig);
+fprintf('Filter Order & Cutoff: 4th-Order, fc = %d Hz\\n', fc);
+fprintf('Input Noisy SNR      : %.2f dB\\n', input_snr);
+fprintf('Output Denoised SNR  : %.2f dB\\n', output_snr);
+fprintf('SNR Quality Gain     : +%.2f dB\\n', snr_improvement);`,
+            proc: [
+                'Generate a 10 Hz pure sinusoidal signal sampled at 1000 Hz.',
+                'Add heavy Gaussian white noise (10 dB SNR) using awgn.',
+                'Design a 4th-order Butterworth digital filter with cutoff fc = 20 Hz using butter(4, 20/(Fs/2)).',
+                'Filter the corrupted signal using zero-phase filtfilt.',
+                'Plot all three signals (clean, noisy, filtered) in time and frequency domains.',
+                'Compute and verify output SNR improvement.'
+            ],
+            tab: ['Parameter', 'Before Denoising', 'After Butterworth Filtering', 'Improvement'],
+            rows: [
+                ['Signal Frequency', '10.0 Hz', '10.0 Hz', 'Preserved'],
+                ['Signal SNR (dB)', '10.00 dB', '18.52 dB', '+8.52 dB gain'],
+                ['Waveform Noise', 'Severe jagged spikes', 'Smooth clean sine wave', 'Noise rejected']
+            ],
+            calc: 'Input SNR = 10.0 dB\n• Output SNR = 18.52 dB\n• SNR Gain = 18.52 − 10.00 = +8.52 dB improvement achieved by removing out-of-band noise energy between 20 Hz and 500 Hz.',
+            res: 'Smart signal denoising was simulated in MATLAB. The 4th-order Butterworth low-pass filter suppressed wideband AWGN noise, yielding an 8.52 dB SNR improvement.',
+            pre: [
+                'Cutoff frequency fc must be chosen higher than signal frequency (20 Hz > 10 Hz) but low enough to reject maximum noise.'
+            ],
+            viva: [
+                ['Why is a Butterworth filter chosen for signal denoising?', 'Butterworth filters have a maximally flat passband response with zero ripple, ensuring that the desired signal within the passband is not distorted in amplitude.', 'Maximally flat passband with zero ripple'],
+                ['What is normalized cutoff frequency Wn in MATLAB butter function?', 'Wn = fc / (Fs / 2), where Fs / 2 is the Nyquist frequency. Wn ranges from 0 (DC) to 1 (Nyquist).', 'Wn = fc / (Fs/2)'],
+                ['Why does filtering out-of-band frequencies increase SNR?', 'AWGN noise power is uniformly distributed across the entire 0 to Fs/2 frequency band. Filtering away frequencies above 20 Hz eliminates 96% of the total noise power while passing 100% of the 10 Hz signal.', 'Eliminates 96% of broadband noise']
+            ]
+        },
+        {
+            n: 14,
+            cat: 'MATLAB Simulation',
+            t: 'MATLAB: DSB-SC and SSB-SC Systems',
+            aim: 'To generate Double Sideband Suppressed Carrier (DSB-SC) and Single Sideband Suppressed Carrier (SSB-SC) signals in MATLAB, perform coherent demodulation, and compare spectral bandwidth efficiency.',
+            dev: 'MATLAB with Signal Processing Toolbox (hilbert, butter, filter)',
+            parts: [
+                ['PC with MATLAB Software', 'MathWorks MATLAB environment', '1']
+            ],
+            svg: chain(['Message m(t)|100 Hz Audio', 'DSB-SC Modulator|m(t) · cos(2π fc t)', 'SSB-SC Modulator|Hilbert Phasing', 'Coherent Demod|Multiply + LPF', '50% Bandwidth Saved|SSB BW = fm']),
+            img: 'assets/diagrams/exp14a_dsbsc_audio_block_diagram.png',
+            modelGraph: 'assets/diagrams/exp14b_ssbsc_hilbert_block_diagram.png',
+            cap: 'Fig 14.1: DSB-SC and SSB-SC modulation and coherent demodulation block diagrams and spectral comparison.',
+            theory: 'Standard AM transmits a wasteful high-power carrier that carries zero information. Double Sideband Suppressed Carrier (DSB-SC) eliminates the carrier: s(t) = m(t)·cos(2π·fc·t), converting 100% of transmitter power into information-bearing sidebands with bandwidth BW = 2·fm. Single Sideband Suppressed Carrier (SSB-SC) goes further by suppressing one sideband entirely using the Hilbert Transform: s_ssb(t) = m(t)·cos(2π·fc·t) ∓ m̂(t)·sin(2π·fc·t). SSB-SC cuts bandwidth in half (BW = fm), saving 50% spectrum and transmitting with maximum power efficiency.',
+            f: [
+                'DSB-SC Equation: s_dsb(t) = m(t) · cos(2π · fc · t)',
+                'SSB-SC Equation (USB): s_ssb(t) = m(t) · cos(2π · fc · t) − m̂(t) · sin(2π · fc · t)',
+                'Hilbert Transform: m̂(t) = m(t) * (1 / πt)  [90° phase shift]',
+                'Bandwidth Comparison: BW_AM = 2·fm ; BW_DSB = 2·fm ; BW_SSB = fm (50% saved)',
+                'Power Savings: DSB saves 67% power over AM; SSB saves 83% power over AM'
+            ],
+            code: `% ========================================================
+% EC5301 - EXPERIMENT 14: DSB-SC & SSB-SC MODULATION
+% Environment: MATLAB | Coherent Demodulation & Hilbert
+% ========================================================
+clear; clc; close all;
+
+% 1. Setup Parameters
+Fs = 10000;                    % Sampling frequency = 10 kHz
+t = 0:1/Fs:0.1;                % 100 ms time duration
+fm = 100;                      % Message frequency = 100 Hz
+fc = 1000;                     % Carrier frequency = 1000 Hz
+
+msg = cos(2*pi*fm*t);          % Modulating message
+carrier = cos(2*pi*fc*t);
+
+% 2. DSB-SC Modulation
+dsb_signal = msg .* carrier;
+
+% 3. SSB-SC Modulation via Hilbert Transform (Upper Sideband)
+msg_hilbert = imag(hilbert(msg)); % 90 degree phase shifted message
+ssb_signal = msg .* cos(2*pi*fc*t) - msg_hilbert .* sin(2*pi*fc*t);
+
+% 4. Coherent Demodulation (Multiply by local carrier + LPF)
+dsb_demod_mult = dsb_signal .* carrier;
+ssb_demod_mult = ssb_signal .* carrier;
+
+[b, a] = butter(4, (2*fm)/(Fs/2)); % LPF cutoff above fm
+dsb_recovered = filter(b, a, dsb_demod_mult) * 2;
+ssb_recovered = filter(b, a, ssb_demod_mult) * 2;
+
+% 5. Bandwidth Computation
+bw_dsb = 2 * fm;               % 200 Hz
+bw_ssb = fm;                   % 100 Hz
+bw_saved_pct = ((bw_dsb - bw_ssb) / bw_dsb) * 100;
+
+fprintf('--- EC5301 EXPERIMENT 14: DSB-SC vs SSB-SC ---\\n');
+fprintf('Message Frequency   : %d Hz\\n', fm);
+fprintf('Carrier Frequency   : %d Hz\\n', fc);
+fprintf('DSB-SC Bandwidth    : %d Hz (2 * fm)\\n', bw_dsb);
+fprintf('SSB-SC Bandwidth    : %d Hz (1 * fm)\\n', bw_ssb);
+fprintf('Bandwidth Conserved : %.1f%% SAVED\\n', bw_saved_pct);`,
+            proc: [
+                'Generate 100 Hz message signal and 1000 Hz carrier sampled at 10 kHz.',
+                'Generate DSB-SC by element-wise product of message and carrier.',
+                'Generate SSB-SC using Hilbert transform phasing method.',
+                'Perform coherent demodulation by multiplying modulated signals by synchronized local carrier.',
+                'Filter with Butterworth LPF to recover original 100 Hz message.',
+                'Plot frequency spectrums using FFT and verify that SSB-SC occupies half the bandwidth of DSB-SC.'
+            ],
+            tab: ['Modulation Scheme', 'Carrier Status', 'Sidebands Sent', 'RF Bandwidth (Hz)', 'Power Efficiency (%)'],
+            rows: [
+                ['Standard AM', 'Transmitted (100% power)', 'Both (USB + LSB)', '200 Hz (2 fm)', '33.3% max'],
+                ['DSB-SC', 'Suppressed (0% carrier power)', 'Both (USB + LSB)', '200 Hz (2 fm)', '100% info power'],
+                ['SSB-SC', 'Suppressed (0% carrier power)', 'Single sideband only', '100 Hz (1 fm)', '100% (50% BW saved)']
+            ],
+            calc: 'Given: fm = 100 Hz, fc = 1000 Hz\n• DSB-SC Spectrum: 900 Hz (LSB) and 1100 Hz (USB) → BW = 1100 − 900 = 200 Hz\n• SSB-SC Spectrum: 1100 Hz only (USB) → BW = 100 Hz\n• Spectrum Savings = (200 − 100) / 200 = 50.0%',
+            res: 'DSB-SC and SSB-SC communication systems were simulated in MATLAB. Coherent demodulation recovered the original audio signal, and SSB-SC halved transmission bandwidth compared to DSB-SC.',
+            pre: [
+                'Coherent demodulation requires exact phase and frequency synchronization of the local receiver oscillator.'
+            ],
+            viva: [
+                ['Why cannot an envelope detector demodulate DSB-SC or SSB-SC?', 'Because without the high-power carrier, the envelope does not trace the original message; instead, phase reversals at zero-crossings cause severe rectifying distortion. Coherent detection is strictly required.', 'Envelope does not follow message'],
+                ['What is the Hilbert transform of cos(ωt)?', 'sin(ωt), which corresponds to a 90° phase shift for all positive frequency components.', 'sin(ωt) (90° phase shift)'],
+                ['Where is SSB-SC modulation preferred commercially?', 'In amateur radio (HAM radio), marine communications, military HF transceivers, and point-to-point aviation links where spectrum conservation and long-range power efficiency are critical.', 'Aviation, marine & HAM radio']
+            ]
+        }
+    ];
+
+    // ==========================================
+    // RENDER FUNCTIONS FOR VIEWS
+    // ==========================================
+    const renderTable = (headers, rows) => `
+        <div class="table-wrap">
+            <table>
+                <thead>
+                    <tr>${headers.map(h => `<th>${h}</th>`).join('')}</tr>
+                </thead>
+                <tbody>
+                    ${rows.map(r => `<tr>${r.map((c, i) => `<td ${i > 0 ? 'contenteditable="true"' : ''}>${c}</td>`).join('')}</tr>`).join('')}
+                </tbody>
+            </table>
+        </div>
+    `;
+
+    const copyCode = (btn) => {
+        const pre = btn.nextElementSibling;
+        navigator.clipboard.writeText(pre.innerText).then(() => {
+            const original = btn.innerText;
+            btn.innerText = 'Copied!';
+            btn.style.background = '#16a34a';
+            setTimeout(() => {
+                btn.innerText = original;
+                btn.style.background = '#1e293b';
+            }, 2000);
+        });
+    };
+
+    const renderExp = e => `
+        <article class="exp-card" id="e${e.n}">
+            <div class="exp-header">
+                <div>
+                    <span class="exp-badge">EXPERIMENT ${e.n}</span>
+                    <h2 class="exp-title">${e.t}</h2>
+                </div>
+                <span class="exp-type-tag">${e.cat}</span>
+            </div>
+
+            <!-- AIM -->
+            <div class="sec-block">
+                <div class="sec-heading">🎯 Aim</div>
+                <div class="section-body">
+                    <p>${e.aim}</p>
+                </div>
+            </div>
+
+            <!-- APPARATUS / SOFTWARE -->
+            <div class="sec-block">
+                <div class="sec-heading">🧰 Apparatus & Equipment Required</div>
+                <div class="section-body">
+                    <p style="margin-bottom:8px;"><b>System / Trainer:</b> ${e.dev}</p>
+                    <div class="table-wrap">
+                        <table>
+                            <thead>
+                                <tr><th>S.No</th><th>Item / Module</th><th>Specification / Details</th><th>Qty</th></tr>
+                            </thead>
+                            <tbody>
+                                ${e.parts.map((p, i) => `<tr><td>${i+1}</td><td><b>${p[0]}</b></td><td>${p[1]}</td><td>${p[2]}</td></tr>`).join('')}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- BLOCK DIAGRAM & SCHEMATICS -->
+            <div class="sec-block">
+                <div class="sec-heading">⚡ Block Diagram & Circuit Architecture</div>
+                <div class="section-body">
+                    <div class="diagram-container">
+                        ${e.svg}
+                        <div class="diagram-caption">${e.cap}</div>
+                    </div>
+                    ${e.img ? `
+                        <div class="diagram-container" style="margin-top:12px;">
+                            <img src="${e.img}" alt="Lab manual diagram for ${e.t}" class="diagram-img" onclick="openLightbox(this.outerHTML)">
+                            <div class="diagram-caption">Authentic Lab Manual Schematic (Tap to enlarge in Lightbox)</div>
+                        </div>
+                    ` : ''}
+                    ${e.modelGraph ? `
+                        <div class="diagram-container" style="margin-top:12px;">
+                            <img src="${e.modelGraph}" alt="Model graph for ${e.t}" class="diagram-img" onclick="openLightbox(this.outerHTML)">
+                            <div class="diagram-caption">Model Waveform & Graph (Tap to enlarge in Lightbox)</div>
+                        </div>
+                    ` : ''}
+                </div>
+            </div>
+
+            <!-- THEORY -->
+            <div class="sec-block">
+                <div class="sec-heading">📖 Theory & Operating Principle</div>
+                <div class="section-body">
+                    <p>${e.theory}</p>
+                </div>
+            </div>
+
+            <!-- FORMULAE -->
+            <div class="sec-block">
+                <div class="sec-heading">📐 Formulae & Governing Equations</div>
+                <div class="section-body">
+                    ${e.f.map(x => `<div class="formula-box">${x}</div>`).join('')}
+                </div>
+            </div>
+
+            <!-- SOURCE CODE (IF ARDUINO OR MATLAB) -->
+            ${e.code ? `
+                <div class="sec-block">
+                    <div class="sec-heading">💻 Source Program (${e.cat.includes('MATLAB') ? 'MATLAB Code' : 'Arduino C++ Code'})</div>
+                    <div class="section-body">
+                        <div class="code-container">
+                            <button class="btn-copy-code" onclick="copyCode(this)">Copy Code</button>
+                            <pre class="code-box">${e.code}</pre>
+                        </div>
+                    </div>
+                </div>
+            ` : ''}
+
+            <!-- PROCEDURE -->
+            <div class="sec-block">
+                <div class="sec-heading">📋 Step-by-Step Procedure</div>
+                <div class="section-body">
+                    <ol class="proc-list">
+                        ${e.proc.map(p => `<li>${p}</li>`).join('')}
+                    </ol>
+                </div>
+            </div>
+
+            <!-- OBSERVATION TABLE -->
+            <div class="sec-block">
+                <div class="sec-heading">📊 Tabular Column & Model Readings</div>
+                <div class="section-body">
+                    <p style="font-size:12px; color:var(--text-sub); margin-bottom:6px;">💡 Cells are editable. You can type your own lab observations directly into the table.</p>
+                    ${renderTable(e.tab, e.rows)}
+                </div>
+            </div>
+
+            <!-- MODEL CALCULATION -->
+            <div class="sec-block">
+                <div class="sec-heading">🧮 Model Calculations</div>
+                <div class="section-body">
+                    <div class="code-box" style="white-space:pre-wrap;">${e.calc}</div>
+                </div>
+            </div>
+
+            <!-- RESULT & PRECAUTIONS -->
+            <div class="sec-block">
+                <div class="sec-heading">✅ Result & Precautions</div>
+                <div class="section-body">
+                    <div style="background:#f0fdf4; border:1px solid #bbf7d0; border-left:4px solid #16a34a; padding:10px 14px; border-radius:6px; margin-bottom:10px;">
+                        <b>Result:</b> ${e.res}
+                    </div>
+                    <b>Precautions:</b>
+                    <ul class="proc-list" style="margin-top:4px;">
+                        ${e.pre.map(pr => `<li>${pr}</li>`).join('')}
+                    </ul>
+                </div>
+            </div>
+
+            <!-- VIVA VOCE -->
+            <div class="sec-block">
+                <div class="sec-heading">💬 Viva Voce Questions & Answers</div>
+                <div class="section-body">
+                    <div class="viva-list">
+                        ${e.viva.map(v => `
+                            <div class="viva-item">
+                                <div class="viva-q">Q: ${v[0]}</div>
+                                <div class="viva-a"><b>Ans:</b> ${v[1]}</div>
+                                <div class="viva-key">🔑 Key: ${v[2]}</div>
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+            </div>
+        </article>
+    `;
+
+    // EXAM CHECKLIST
+    const EXAM_CHECKLIST = [
+        "1. Write the Aim and Course Title clearly on the top of the examination paper.",
+        "2. List all Apparatus / Trainer Kits / Software toolboxes required.",
+        "3. Draw the complete Block Diagram with signal flow arrows and labeled test points.",
+        "4. For Hardware: Check AC power supply, establish common ground between kit and CRO.",
+        "5. For Arduino: Verify pin numbers (Pin 9 PWM, Pin A0 ADC, driver pins 2/3).",
+        "6. For MATLAB: Ensure all variables are normalized and sampling rates satisfy Nyquist.",
+        "7. Connect input signals: observe clean unmodulated carrier and modulating baseband.",
+        "8. Perform modulation: observe modulated envelope or pulses on oscilloscope / MATLAB figure.",
+        "9. Tabulate readings: measure Vmax, Vmin, time periods, and calculate modulation index / SNR.",
+        "10. Verify that experimental measurements match theoretical design values within tolerance.",
+        "11. Draw clean model graphs with voltage and time scales clearly designated.",
+        "12. Write final Result with measured values and review Viva Voce key points."
+    ];
+
+    const V = {
+        exp: () => `
+            <div class="manual-banner">
+                <h1>EC5301 – Analog Communication Laboratory</h1>
+                <p>Complete 14 Experiments (8 Hardware + 6 MATLAB Simulation) with Diagrams, Arduino & MATLAB Codes, Tables, Calculations & Viva</p>
+            </div>
+            ${E.map(renderExp).join('')}
+        `,
+
+        hw: () => `
+            <div class="manual-banner">
+                <h1>Hardware Experiments (Exps 1 to 8)</h1>
+                <p>Trainer kits, Arduino microcontroller circuits, and discrete transistor breadboard experiments.</p>
+            </div>
+            ${E.filter(e => e.cat === 'Hardware').map(renderExp).join('')}
+        `,
+
+        sim: () => `
+            <div class="manual-banner">
+                <h1>MATLAB Simulation Experiments (Exps 9 to 14)</h1>
+                <p>Signal processing, noisy AWGN channel transmission, audio demodulation, and telemetry algorithms.</p>
+            </div>
+            ${E.filter(e => e.cat.includes('MATLAB')).map(renderExp).join('')}
+        `,
+
+        exam: () => `
+            <div class="manual-banner">
+                <h1>Practical Exam Day Checklist</h1>
+                <p>Universal 12-step master workflow to score 100/100 in EC5301 Practical Examination.</p>
+            </div>
+            <article class="exp-card">
+                <h2 style="font-size:16px; margin-bottom:12px;">Universal 12-Step Lab Exam Execution Guide</h2>
+                <div style="display:flex; flex-direction:column; gap:6px;">
+                    ${EXAM_CHECKLIST.map((step, idx) => `
+                        <label class="checklist-item">
+                            <input type="checkbox" id="chk_${idx}">
+                            <span><b>Step ${idx+1}:</b> ${step.substring(3)}</span>
+                        </label>
+                    `).join('')}
+                </div>
+            </article>
+            ${E.map(e => `
+                <article class="exp-card">
+                    <div class="exp-header">
+                        <span class="exp-badge">EXP ${e.n}</span>
+                        <h3 style="font-size:15px; font-weight:700;">${e.t}</h3>
+                        <span class="exp-type-tag">${e.cat}</span>
+                    </div>
+                    <div style="font-size:13px; color:var(--text-muted); margin-bottom:8px;">
+                        <b>Formula:</b> <code>${e.f[0]}</code>
+                    </div>
+                    <div style="display:flex; gap:10px; flex-wrap:wrap;">
+                        <label class="checklist-item"><input type="checkbox"> Block Diagram Drawn</label>
+                        <label class="checklist-item"><input type="checkbox"> Connections / Code Verified</label>
+                        <label class="checklist-item"><input type="checkbox"> Waveform Plotted on CRO/MATLAB</label>
+                        <label class="checklist-item"><input type="checkbox"> Observation Table Filled</label>
+                        <label class="checklist-item"><input type="checkbox"> Result & Viva Prepared</label>
+                    </div>
+                </article>
+            `).join('')}
+        `,
+
+        viva: () => `
+            <div class="manual-banner">
+                <h1>Comprehensive Viva Voce Bank</h1>
+                <p>Direct question & answer bank covering all 14 experiments for university lab viva examinations.</p>
+            </div>
+            ${E.map(e => `
+                <article class="exp-card">
+                    <div class="exp-header">
+                        <span class="exp-badge">EXP ${e.n}</span>
+                        <h3 style="font-size:16px; font-weight:800;">${e.t}</h3>
+                    </div>
+                    <div class="viva-list">
+                        ${e.viva.map(v => `
+                            <div class="viva-item">
+                                <div class="viva-q">Q: ${v[0]}</div>
+                                <div class="viva-a"><b>Ans:</b> ${v[1]}</div>
+                                <div class="viva-key">🔑 Key: ${v[2]}</div>
+                            </div>
+                        `).join('')}
+                    </div>
+                </article>
+            `).join('')}
+        `,
+
+        formula: () => `
+            <div class="manual-banner">
+                <h1>Formula Bank & Governing Equations</h1>
+                <p>Master collection of all modulation indices, power ratios, Carson bandwidths, and SNR equations.</p>
+            </div>
+            ${E.map(e => `
+                <article class="exp-card">
+                    <div class="exp-header">
+                        <span class="exp-badge">EXP ${e.n}</span>
+                        <h3 style="font-size:15px; font-weight:700;">${e.t}</h3>
+                    </div>
+                    ${e.f.map(f => `<div class="formula-box">${f}</div>`).join('')}
+                </article>
+            `).join('')}
+        `,
+
+        rev: () => `
+            <div class="manual-banner">
+                <h1>Last-Minute Quick Revision Cards</h1>
+                <p>Speed-run summary of all 14 experiments for quick recap before entering the exam hall.</p>
+            </div>
+            ${E.map(e => `
+                <article class="exp-card">
+                    <div class="exp-header">
+                        <span class="exp-badge">EXP ${e.n}</span>
+                        <h3 style="font-size:16px; font-weight:800;">${e.t}</h3>
+                        <span class="exp-type-tag">${e.cat}</span>
+                    </div>
+                    <div style="font-size:13.5px; margin-bottom:8px;">
+                        <b>Core Aim:</b> ${e.aim}
+                    </div>
+                    <div class="formula-box">${e.f[0]}</div>
+                    <div style="background:#eff6ff; border:1px solid #bfdbfe; padding:8px 12px; border-radius:6px; font-size:13px; margin:8px 0;">
+                        <b>Exam Key Takeaway:</b> ${e.res}
+                    </div>
+                    <div class="viva-item" style="margin-top:6px;">
+                        <div class="viva-q">Q: ${e.viva[0][0]}</div>
+                        <div class="viva-a"><b>Ans:</b> ${e.viva[0][1]}</div>
+                    </div>
+                </article>
+            `).join('')}
+        `
+    };
+
+    // ==========================================
+    // CONTROLLER & EVENT LISTENERS
+    // ==========================================
+    const appContainer = document.getElementById('app-container');
+    const searchInput = document.getElementById('search');
+
+    function setView(viewName) {
+        document.querySelectorAll('.tab-btn').forEach(btn => {
+            btn.classList.toggle('active', btn.dataset.v === viewName);
+        });
+        if (V[viewName]) {
+            appContainer.innerHTML = V[viewName]();
+        }
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function jumpTo(id) {
+        if (!id) return;
+        setView('exp');
+        setTimeout(() => {
+            const el = document.getElementById(id);
+            if (el) {
+                el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+        }, 100);
+    }
+
+    function searchExperiments(query) {
+        query = query.toLowerCase().trim();
+        if (!query) {
+            setView('exp');
+            return;
+        }
+
+        const matches = E.filter(e => {
+            const blob = (e.t + ' ' + e.aim + ' ' + e.dev + ' ' + e.theory + ' ' + e.f.join(' ') + ' ' + (e.code || '') + ' ' + e.viva.map(v => v[0] + ' ' + v[1]).join(' ')).toLowerCase();
+            return blob.includes(query);
+        });
+
+        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+
+        if (matches.length === 0) {
+            appContainer.innerHTML = `
+                <div class="manual-banner">
+                    <h2>No Matching Experiments</h2>
+                    <p>No results found for “${query}”. Try searching for an experiment name, formula term, or function name.</p>
+                </div>
+            `;
+        } else {
+            appContainer.innerHTML = `
+                <div class="manual-banner">
+                    <h2>Search Results</h2>
+                    <p>${matches.length} experiment(s) match “${query}”.</p>
+                </div>
+                ${matches.map(renderExp).join('')}
+            `;
+        }
+    }
+
+    // LIGHTBOX CONTROLS
+    function openLightbox(htmlContent) {
+        const lb = document.getElementById('lightbox');
+        const content = document.getElementById('lightbox-content');
+        content.innerHTML = htmlContent + `<div style="text-align:center; margin-top:14px;"><button style="padding:6px 14px; font-weight:bold; cursor:pointer;" onclick="closeLightbox()">Close Zoom</button></div>`;
+        lb.style.display = 'flex';
+    }
+
+    function closeLightbox() {
+        document.getElementById('lightbox').style.display = 'none';
+    }
+
+    // EVENT DELEGATION
+    document.querySelector('.nav-bar').addEventListener('click', e => {
+        if (e.target.dataset.v) {
+            searchInput.value = '';
+            setView(e.target.dataset.v);
+        }
+    });
+
+    searchInput.addEventListener('input', e => {
+        searchExperiments(e.target.value);
+    });
+
+    appContainer.addEventListener('click', e => {
+        const svgEl = e.target.closest('svg');
+        if (svgEl && !e.target.closest('#lightbox')) {
+            openLightbox(svgEl.outerHTML);
+        }
+    });
+
+    // Initialize default view
+    setView('exp');
+
+    // ==========================================
+    // UNIVERSAL ASIDE DOCK SCROLLSPY & MOBILE CONTROLS
+    // ==========================================
+    function toggleMobileExpDock() {
+        const dock = document.getElementById('expQuickDock');
+        if (dock) {
+            dock.classList.toggle('mobile-open');
+        }
+    }
+
+    function initScrollSpy() {
+        const dock = document.getElementById('expQuickDock');
+        if (!dock) return;
+        const buttons = dock.querySelectorAll('.dock-box-btn');
+        const cards = document.querySelectorAll('article.exp-card');
+        if (!cards.length) return;
+
+        const observer = new IntersectionObserver(entries => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const id = entry.target.id; // e.g. "e1"
+                    const num = id.replace('e', '');
+                    buttons.forEach(btn => {
+                        if (btn.getAttribute('data-exp') === num) {
+                            btn.classList.add('active');
+                            const pill = document.getElementById('mobileCurrExp');
+                            if (pill) pill.textContent = num;
+                        } else {
+                            btn.classList.remove('active');
+                        }
+                    });
+                }
+            });
+        }, { threshold: 0.15, rootMargin: '-60px 0px -40% 0px' });
+
+        cards.forEach(card => observer.observe(card));
+    }
+
+    // Re-attach scrollspy after rendering
+    setTimeout(initScrollSpy, 300);
+    </script>
+</body>
+</html>

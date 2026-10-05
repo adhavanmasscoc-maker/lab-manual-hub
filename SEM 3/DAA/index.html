@@ -391,6 +391,301 @@
             font-weight: 600;
         }
 
+        /* TIME & SPACE COMPLEXITY ANALYSIS CARD */
+        .box-complexity {
+            background: #ffffff;
+            border: 1px solid #cbd5e1;
+            border-left: 5px solid #2563eb;
+            border-radius: 8px;
+            padding: 16px 18px;
+            margin-top: 14px;
+            box-shadow: 0 2px 8px rgba(15, 23, 42, 0.05);
+        }
+
+        .comp-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 12px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .comp-title {
+            font-size: 13.5px;
+            font-weight: 800;
+            color: #0f172a;
+            display: flex;
+            align-items: center;
+            gap: 7px;
+        }
+
+        .comp-tag {
+            font-size: 10.5px;
+            font-weight: 700;
+            color: #2563eb;
+            background: #eff6ff;
+            border: 1px solid #bfdbfe;
+            padding: 2px 8px;
+            border-radius: 999px;
+            text-transform: uppercase;
+        }
+
+        .comp-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 14px;
+        }
+
+        @media (max-width: 640px) {
+            .comp-grid {
+                grid-template-columns: 1fr;
+                gap: 10px;
+            }
+        }
+
+        .comp-col {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 6px;
+            padding: 10px 12px;
+        }
+
+        .comp-col-heading {
+            font-size: 11.5px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+            color: #475569;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .comp-row {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+            margin-bottom: 8px;
+            font-size: 12.5px;
+            line-height: 1.45;
+        }
+
+        .comp-row:last-child {
+            margin-bottom: 0;
+        }
+
+        .comp-badge-row {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .comp-badge {
+            font-size: 10px;
+            font-weight: 800;
+            padding: 2px 6px;
+            border-radius: 4px;
+            text-transform: uppercase;
+            white-space: nowrap;
+        }
+
+        .comp-badge.best {
+            background: #dcfce7;
+            color: #15803d;
+            border: 1px solid #bbf7d0;
+        }
+
+        .comp-badge.avg {
+            background: #fef3c7;
+            color: #b45309;
+            border: 1px solid #fde68a;
+        }
+
+        .comp-badge.worst {
+            background: #fee2e2;
+            color: #b91c1c;
+            border: 1px solid #fecaca;
+        }
+
+        .comp-badge.space {
+            background: #e0e7ff;
+            color: #3730a3;
+            border: 1px solid #c7d2fe;
+        }
+
+        .comp-val {
+            font-family: 'Fira Code', monospace;
+            font-weight: 700;
+            color: #0f172a;
+            font-size: 12px;
+        }
+
+        .comp-desc {
+            font-size: 11.5px;
+            color: #64748b;
+            padding-left: 2px;
+        }
+
+        /* ================= UNIVERSAL ASIDE QUICK-JUMP EXPERIMENT DOCK ================= */
+        .exp-quick-dock {
+            position: fixed;
+            right: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 999;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background: rgba(15, 23, 42, 0.94);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.16);
+            border-radius: 12px;
+            padding: 8px 6px;
+            box-shadow: 0 8px 28px rgba(0, 0, 0, 0.3);
+            max-height: 85vh;
+            transition: all 0.25s ease;
+        }
+
+        .exp-quick-dock .dock-header {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            padding-bottom: 6px;
+            margin-bottom: 4px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+            font-size: 10px;
+            font-weight: 800;
+            color: #94a3b8;
+            letter-spacing: 0.05em;
+        }
+
+        .exp-quick-dock .dock-badge {
+            background: #2563eb;
+            color: #fff;
+            font-size: 9px;
+            padding: 1px 5px;
+            border-radius: 4px;
+        }
+
+        .exp-quick-dock .dock-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 4px;
+            overflow-y: auto;
+            max-height: calc(85vh - 75px);
+            padding: 2px;
+            scrollbar-width: none;
+        }
+        .exp-quick-dock .dock-grid::-webkit-scrollbar {
+            display: none;
+        }
+
+        .dock-box-btn {
+            width: 28px;
+            height: 28px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Fira Code', monospace;
+            font-size: 11.5px;
+            font-weight: 700;
+            color: #cbd5e1;
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 6px;
+            text-decoration: none;
+            cursor: pointer;
+            transition: all 0.15s ease;
+        }
+
+        .dock-box-btn:hover {
+            background: #2563eb;
+            color: #ffffff;
+            border-color: #60a5fa;
+            transform: scale(1.08);
+        }
+
+        .dock-box-btn.active {
+            background: #2563eb;
+            color: #ffffff;
+            border-color: #93c5fd;
+            box-shadow: 0 0 10px rgba(37, 99, 235, 0.7);
+            font-weight: 800;
+        }
+
+        .exp-quick-dock .dock-footer {
+            margin-top: 4px;
+            padding-top: 4px;
+            border-top: 1px solid rgba(255, 255, 255, 0.12);
+            width: 100%;
+            display: flex;
+            justify-content: center;
+        }
+
+        .dock-top-btn {
+            background: transparent;
+            border: none;
+            color: #94a3b8;
+            font-size: 11px;
+            font-weight: 700;
+            cursor: pointer;
+            padding: 2px 4px;
+            border-radius: 4px;
+            transition: color 0.15s;
+        }
+
+        .dock-top-btn:hover {
+            color: #ffffff;
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        /* Mobile Quick Bar / Drawer */
+        .mobile-exp-pill {
+            display: none;
+            position: fixed;
+            bottom: 16px;
+            right: 16px;
+            z-index: 1000;
+            background: #0f172a;
+            color: #ffffff;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 999px;
+            padding: 8px 14px;
+            font-size: 12px;
+            font-weight: 700;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.35);
+            cursor: pointer;
+            align-items: center;
+            gap: 6px;
+        }
+
+        @media (max-width: 900px) {
+            .exp-quick-dock {
+                right: 8px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .exp-quick-dock {
+                display: none;
+            }
+            .exp-quick-dock.mobile-open {
+                display: flex;
+                right: 16px;
+                bottom: 60px;
+                top: auto;
+                transform: none;
+                z-index: 1001;
+                box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            }
+            .mobile-exp-pill {
+                display: flex;
+            }
+        }
+
         .box-practice {
             background: #f8fafc;
             border: 1px solid #cbd5e1;
@@ -711,23 +1006,35 @@
             </div>
 
             <div class="sub-sec-title">Pseudocode</div>
-            <div class="pseudocode-box">INTERPOLATION_SEARCH(arr, target):
- low ← 0
- high ← len(arr) - 1
- WHILE low ≤ high AND target ≥ arr[low] AND target ≤ arr[high]:
-     IF low = high:
-         IF arr[low] = target: RETURN low
-         ELSE: RETURN -1
-     // Interpolation formula to estimate probe position
-     pos ← low + ((target - arr[low]) * (high - low)) / (arr[high] - arr[low])
-     pos ← FLOOR(pos)
-     IF arr[pos] = target:
-         RETURN pos
-     ELIF arr[pos] < target:
-         low ← pos + 1
-     ELSE:
-         high ← pos - 1
- RETURN -1 // Element not found</div>
+            <div class="pseudocode-box">Algorithm INTERPOLATION_SEARCH(arr, target):
+    Input : Sorted array arr[0..n-1] with uniformly distributed keys, target search key
+    Output: Index of target in arr, or -1 if target is absent
+
+    Step 1: [Initialize boundary pointers]
+            low ← 0, high ← n - 1
+
+    Step 2: [Probe Loop - valid only while target falls within bounds arr[low]..arr[high]]
+            WHILE low ≤ high AND target ≥ arr[low] AND target ≤ arr[high] DO:
+                // Base condition when sub-array contains only 1 element
+                IF low = high THEN:
+                    IF arr[low] = target THEN RETURN low
+                    ELSE RETURN -1
+
+                // Step 2.1: Estimate probe position using linear interpolation formula
+                // pos = low + ((target - arr[low]) * (high - low)) / (arr[high] - arr[low])
+                fraction ← (target - arr[low]) / (arr[high] - arr[low])
+                pos ← low + FLOOR(fraction * (high - low))
+
+                // Step 2.2: Evaluate probe location
+                IF arr[pos] = target THEN:
+                    RETURN pos                     // Key found! Return matching index
+                ELSE IF arr[pos] < target THEN:
+                    low ← pos + 1                  // Target lies in the upper sub-array
+                ELSE:
+                    high ← pos - 1                 // Target lies in the lower sub-array
+
+    Step 3: [Target not located in the array]
+            RETURN -1</div>
 
             <div class="sub-sec-title">Program (Python)</div>
             <div class="code-wrapper">
@@ -741,30 +1048,39 @@ import sys
 
 def interpolation_search(arr, target):
     """
-    Interpolation Search Algorithm
-    Time Complexity: O(log log n) average, O(n) worst case
-    Space Complexity: O(1)
+    Interpolation Search Algorithm (Understandable Step-by-Step Implementation)
+    - Prerequisite: Array MUST be sorted; works best on uniformly distributed data.
+    - Probe Formula: pos = low + ((target - arr[low]) * (high - low)) // (arr[high] - arr[low])
     """
     low, high = 0, len(arr) - 1
     comparisons = 0
+
+    # Continue search only while target is bounded by current window
     while low <= high and arr[low] <= target <= arr[high]:
         comparisons += 1
+
+        # Check edge case: single element interval
         if low == high:
             if arr[low] == target:
                 return low, comparisons
             return -1, comparisons
-        # Interpolation formula
+
+        # --- STEP 1: Calculate estimated probe position ---
+        # Instead of fixed midpoint, estimate index proportional to value difference
         pos = low + int(((target - arr[low]) * (high - low)) / (arr[high] - arr[low]))
+
+        # --- STEP 2: Compare target with estimated element ---
         if arr[pos] == target:
-            return pos, comparisons
+            return pos, comparisons         # Element found at estimated probe!
         elif arr[pos] < target:
-            low = pos + 1
+            low = pos + 1                   # Target is greater; search right sub-array
         else:
-            high = pos - 1
-    return -1, comparisons
+            high = pos - 1                  # Target is smaller; search left sub-array
+
+    return -1, comparisons                 # Element not found
 
 def binary_search(arr, target):
-    """Binary Search for comparison"""
+    """Standard Binary Search for empirical comparison"""
     low, high = 0, len(arr) - 1
     comparisons = 0
     while low <= high:
@@ -785,19 +1101,19 @@ def performance_analysis():
     for size in sizes:
         arr = sorted(random.sample(range(size * 10), size))
         target = arr[random.randint(0, size - 1)]
-        # Interpolation Search timing
+        # Measure Interpolation Search timing
         start = time.perf_counter()
         for _ in range(100):
             idx_is, comp_is = interpolation_search(arr, target)
         is_time = (time.perf_counter() - start) / 100 * 1000
-        # Binary Search timing
+        # Measure Binary Search timing
         start = time.perf_counter()
         for _ in range(100):
             idx_bs, comp_bs = binary_search(arr, target)
         bs_time = (time.perf_counter() - start) / 100 * 1000
         print(f"{size:>10} {is_time:>14.4f} {bs_time:>14.4f} {comp_is:>16} {comp_bs:>16}")
 
-# --- Main ---
+# --- Main Demonstration ---
 arr = [2, 5, 10, 15, 23, 35, 48, 60, 75, 90, 105, 120]
 target = 35
 idx, comps = interpolation_search(arr, target)
@@ -822,11 +1138,62 @@ Found at index: 5, Comparisons: 2
     100000         0.0035         0.0068                5               17</div>
 
             <div class="box-result">
-                Result: The Interpolation Search algorithm was successfully implemented. It found the target element at index 5 with only 2 comparisons. Performance analysis shows that Interpolation Search consistently requires fewer comparisons (O(log log n)) compared to Binary Search (O(log n)) for uniformly distributed sorted data.
+                Result: The Interpolation Search algorithm was successfully implemented and verified. It located target element 35 at index 5 in only 2 probe comparisons. Empirical benchmarks demonstrate that for uniformly distributed keys, Interpolation Search achieves near-log-logarithmic probes, significantly outperforming Binary Search ($O(\log n)$).
             </div>
 
             <div class="box-inference">
-                <strong>Inference:</strong> Interpolation Search outperforms Binary Search when data is uniformly distributed, achieving near O(log log n) complexity. The algorithm is highly efficient for large, uniformly spaced datasets. However, its performance degrades to O(n) for skewed distributions. For real-world applications with uniform data (e.g., phone books), Interpolation Search is the preferred algorithm.
+                <strong>Inference & Practical Analysis:</strong> Interpolation Search mimics how humans search indexed books (e.g. looking for "Z" near the end rather than the middle). When values are uniformly spaced, the remaining search window shrinks from $n$ to $\sqrt{n}$ at each step, yielding $O(\log \log n)$ average comparisons. However, for skewed distributions (e.g. $[1, 2, 4, 8, \dots, 2^{30}]$), the probe estimate degrades toward the boundary, reducing efficiency to $O(n)$.
+            </div>
+
+            <!-- TIME & SPACE COMPLEXITY ANALYSIS -->
+            <div class="box-complexity">
+                <div class="comp-header">
+                    <span class="comp-title">⚡ Experiment 1: Complexity Breakdown (Exam & Viva Memory Card)</span>
+                    <span class="comp-tag">Algorithm Metrics</span>
+                </div>
+                <div class="comp-grid">
+                    <div class="comp-col">
+                        <div class="comp-col-heading">⏱️ TIME COMPLEXITY</div>
+                        <div class="comp-row">
+                            <div class="comp-badge-row">
+                                <span class="comp-badge best">Best Case</span>
+                                <span class="comp-val">O(1)</span>
+                            </div>
+                            <span class="comp-desc">Target key is located exactly at the computed probe index on the very first comparison.</span>
+                        </div>
+                        <div class="comp-row">
+                            <div class="comp-badge-row">
+                                <span class="comp-badge avg">Average Case</span>
+                                <span class="comp-val">O(log log n)</span>
+                            </div>
+                            <span class="comp-desc">Applies when keys are uniformly distributed. For $n = 10^6$, $\log_2(\log_2(10^6)) \approx 4.3$ probes vs 20 for Binary Search.</span>
+                        </div>
+                        <div class="comp-row">
+                            <div class="comp-badge-row">
+                                <span class="comp-badge worst">Worst Case</span>
+                                <span class="comp-val">O(n)</span>
+                            </div>
+                            <span class="comp-desc">Occurs when values grow exponentially or cluster unevenly; probe advances by only 1 index per iteration.</span>
+                        </div>
+                    </div>
+                    <div class="comp-col">
+                        <div class="comp-col-heading">💾 SPACE COMPLEXITY</div>
+                        <div class="comp-row">
+                            <div class="comp-badge-row">
+                                <span class="comp-badge space">Auxiliary Space</span>
+                                <span class="comp-val">O(1)</span>
+                            </div>
+                            <span class="comp-desc">Iterative implementation requires only constant extra storage for scalar variables (<code>low</code>, <code>high</code>, <code>pos</code>, <code>comparisons</code>).</span>
+                        </div>
+                        <div class="comp-row">
+                            <div class="comp-badge-row">
+                                <span class="comp-badge space">Total Space</span>
+                                <span class="comp-val">O(n)</span>
+                            </div>
+                            <span class="comp-desc">Space required to store the input array of $n$ elements in memory.</span>
+                        </div>
+                    </div>
+                </div>
             </div>
 
             <div class="box-practice">
@@ -857,37 +1224,50 @@ Found at index: 5, Comparisons: 2
             </div>
 
             <div class="sub-sec-title">Pseudocode</div>
-            <div class="pseudocode-box">NAIVE_SEARCH(text, pattern):
-    n ← len(text); m ← len(pattern)
-    FOR i ← 0 TO n-m:
-        IF text[i..i+m-1] = pattern: REPORT match at i
+            <div class="pseudocode-box">Algorithm 1: NAIVE_STRING_MATCH(text, pattern):
+    Input : Text string T of length n, Pattern string P of length m
+    Output: All start indices where P occurs in T
+    Step 1: FOR i ← 0 TO n - m DO:
+                j ← 0
+                WHILE j < m AND text[i + j] = pattern[j] DO:
+                    j ← j + 1
+                IF j = m THEN:
+                    REPORT valid shift at index i
 
-KMP_FAILURE_FUNCTION(pattern):
-    lps ← array of zeros of size m
-    length ← 0; i ← 1
-    WHILE i < m:
-        IF pattern[i] = pattern[length]: length++; lps[i] ← length; i++
-        ELIF length != 0: length ← lps[length-1]
-        ELSE: lps[i] ← 0; i++
-    RETURN lps
+Algorithm 2: KMP_SEARCH(text, pattern):
+    Input : Text T[0..n-1], Pattern P[0..m-1]
+    Output: All match indices using Prefix Failure Function (LPS)
+    Step 1: [Compute LPS Table in O(m)]
+            lps ← array of size m initialized to 0
+            len ← 0, i ← 1
+            WHILE i < m DO:
+                IF pattern[i] = pattern[len] THEN:
+                    len ← len + 1; lps[i] ← len; i ← i + 1
+                ELSE IF len != 0 THEN:
+                    len ← lps[len - 1]
+                ELSE:
+                    lps[i] ← 0; i ← i + 1
+    Step 2: [Search Text with Zero Text-Backtracking in O(n)]
+            i ← 0, j ← 0
+            WHILE i < n DO:
+                IF pattern[j] = text[i] THEN:
+                    i ← i + 1; j ← j + 1
+                IF j = m THEN:
+                    REPORT match at index (i - j)
+                    j ← lps[j - 1] // Shift pattern using LPS
+                ELSE IF i < n AND pattern[j] != text[i] THEN:
+                    IF j != 0 THEN j ← lps[j - 1]
+                    ELSE i ← i + 1
 
-KMP_SEARCH(text, pattern):
-    lps ← KMP_FAILURE_FUNCTION(pattern)
-    i ← 0; j ← 0
-    WHILE i < n:
-        IF pattern[j] = text[i]: i++; j++
-        IF j = m: REPORT match at i-j; j ← lps[j-1]
-        ELIF i < n AND pattern[j] != text[i]:
-            IF j != 0: j ← lps[j-1]
-            ELSE: i++
-
-RABIN_KARP(text, pattern, q=101):
-    d ← 256; h ← d^(m-1) mod q
-    Compute hash of pattern and first window of text
-    FOR s ← 0 TO n-m:
-        IF hash(text[s..s+m-1]) = hash(pattern):
-            Verify character by character
-        Update rolling hash for next window</div>
+Algorithm 3: RABIN_KARP_SEARCH(text, pattern, prime q=101):
+    Input : Text T, Pattern P, Base d=256, Prime modulus q
+    Step 1: Compute hash h_pattern and initial window hash h_text
+    Step 2: FOR s ← 0 TO n - m DO:
+                IF h_pattern = h_text THEN:
+                    IF text[s..s+m-1] = pattern THEN REPORT match at s
+                IF s < n - m THEN:
+                    // Roll hash in O(1): subtract leading char, shift, add trailing char
+                    h_text ← (d * (h_text - text[s] * d^(m-1)) + text[s+m]) mod q</div>
 
             <div class="sub-sec-title">Program (Python)</div>
             <div class="code-wrapper">
@@ -899,31 +1279,42 @@ RABIN_KARP(text, pattern, q=101):
 import random
 import string
 
+# =====================================================================
+# 1. NAIVE BRUTE-FORCE STRING MATCHING
+# Slides pattern window 1 char at a time; compares chars until mismatch.
+# =====================================================================
 def naive_search(text, pattern):
     n, m = len(text), len(pattern)
     matches, comparisons = [], 0
+
     for i in range(n - m + 1):
         j = 0
         while j < m:
             comparisons += 1
             if text[i + j] != pattern[j]:
-                break
+                break  # Mismatch: slide window by 1
             j += 1
         if j == m:
-            matches.append(i)
+            matches.append(i)  # Full match found!
     return matches, comparisons
 
+# =====================================================================
+# 2. KNUTH-MORRIS-PRATT (KMP) ALGORITHM
+# Avoids re-evaluating text chars by using Longest Prefix Suffix (LPS).
+# =====================================================================
 def compute_lps(pattern):
+    """Computes LPS array: length of longest proper prefix that is also suffix"""
     m = len(pattern)
     lps = [0] * m
     length, i = 0, 1
+
     while i < m:
         if pattern[i] == pattern[length]:
             length += 1
             lps[i] = length
             i += 1
         elif length != 0:
-            length = lps[length - 1]
+            length = lps[length - 1]  # Fallback to previous longest prefix
         else:
             lps[i] = 0
             i += 1
@@ -931,47 +1322,60 @@ def compute_lps(pattern):
 
 def kmp_search(text, pattern):
     n, m = len(text), len(pattern)
-    lps = compute_lps(pattern)
+    lps = compute_lps(pattern)  # Preprocessing Step: O(m)
     matches, comparisons = [], 0
-    i = j = 0
+    i = j = 0  # i: text pointer, j: pattern pointer
+
     while i < n:
         comparisons += 1
         if pattern[j] == text[i]:
-            i += 1; j += 1
+            i += 1
+            j += 1
         if j == m:
-            matches.append(i - j)
-            j = lps[j - 1]
+            matches.append(i - j)      # Pattern detected at index i - j
+            j = lps[j - 1]             # Jump pattern pointer based on LPS
         elif i < n and pattern[j] != text[i]:
             if j != 0:
-                j = lps[j - 1]
+                j = lps[j - 1]         # Don't increment i; shift pattern pointer
             else:
-                i += 1
+                i += 1                 # Move text pointer forward
     return matches, comparisons
 
+# =====================================================================
+# 3. RABIN-KARP ROLLING HASH ALGORITHM
+# Hashes the pattern and sliding windows; checks chars only on hash match.
+# =====================================================================
 def rabin_karp(text, pattern, q=101):
     n, m = len(text), len(pattern)
-    d = 256
-    h = pow(d, m - 1, q)
+    d = 256  # Size of alphabet (ASCII)
+    h = pow(d, m - 1, q)  # Multiplier factor d^(m-1) % q
     p_hash = t_hash = 0
     matches, comparisons = [], 0
+
+    # Step 1: Calculate initial hash of pattern and first text window
     for i in range(m):
         p_hash = (d * p_hash + ord(pattern[i])) % q
         t_hash = (d * t_hash + ord(text[i])) % q
+
+    # Step 2: Slide window over text
     for s in range(n - m + 1):
+        # Step 2.1: Check if hashes match (candidate match)
         if p_hash == t_hash:
             for k in range(m):
                 comparisons += 1
                 if text[s + k] != pattern[k]:
                     break
             else:
-                matches.append(s)
+                matches.append(s)  # Genuine match confirmed!
+
+        # Step 2.2: Compute rolling hash for next window in O(1)
         if s < n - m:
             t_hash = (d * (t_hash - ord(text[s]) * h) + ord(text[s + m])) % q
             if t_hash < 0:
                 t_hash += q
     return matches, comparisons
 
-# --- Main Execution ---
+# --- Main Demonstration ---
 text = 'AABAACAADAABAABA'
 pattern = 'AABA'
 print(f'Text: {text}')
@@ -983,7 +1387,7 @@ print(f'\nNaive -> Matches at: {m1}, Comparisons: {c1}')
 print(f'KMP   -> Matches at: {m2}, Comparisons: {c2}')
 print(f'RK    -> Matches at: {m3}, Comparisons: {c3}')
 
-# Performance comparison
+# Benchmark performance on large randomized text
 text_large = ''.join(random.choices('ABCD', k=10000))
 patterns = ['AB', 'ABCD', 'ABCDAB', 'ABCDABCD']
 print(f'\n{"Pattern":>12} {"Naive":>10} {"KMP":>10} {"RK":>10}')
@@ -1011,11 +1415,69 @@ RK    -> Matches at: [0, 9, 12], Comparisons: 12
     ABCDABCD       9984       9997        322</div>
 
             <div class="box-result">
-                Result: All three algorithms correctly identified pattern matches at positions [0, 9, 12]. KMP reduced comparisons by ~21% vs Naive for the sample text. Rabin-Karp showed the fewest character-level comparisons for longer patterns due to hash filtering.
+                Result: All three string matching algorithms correctly identified pattern occurrences at indices [0, 9, 12]. KMP eliminated redundant character checks via its precomputed LPS array. Rabin-Karp achieved the lowest character comparisons for long patterns ($m \ge 6$) because its rolling hash filters out non-matching windows in $O(1)$ arithmetic operations.
             </div>
 
             <div class="box-inference">
-                <strong>Inference:</strong> Naive search is simple but O(nm) in the worst case. KMP achieves O(n+m) by using the failure function to avoid re-comparisons, making it ideal for natural language text. Rabin-Karp's rolling hash reduces character comparisons significantly for longer patterns, making it efficient for plagiarism detection and multi-pattern search. KMP is the best choice for single-pattern matching in general text.
+                <strong>Inference & Practical Analysis:</strong> Naive search requires no extra memory but incurs severe $O(n \cdot m)$ worst-case penalties on repetitive texts (e.g. searching "AAAB" in "AAAAAA..."). KMP is strictly optimal for single-pattern searches because its text pointer never retreats, guaranteeing $O(n + m)$ execution. Rabin-Karp is particularly superior in multi-pattern search, digital forensics, and plagiarism detection because the same rolling hash window can be checked against a dictionary of hash signatures in $O(1)$ average time.
+            </div>
+
+            <!-- TIME & SPACE COMPLEXITY ANALYSIS -->
+            <div class="box-complexity">
+                <div class="comp-header">
+                    <span class="comp-title">⚡ Experiment 2: Complexity Breakdown (Comparison of 3 Algorithms)</span>
+                    <span class="comp-tag">Algorithm Metrics</span>
+                </div>
+                <div class="comp-grid">
+                    <div class="comp-col">
+                        <div class="comp-col-heading">⏱️ TIME COMPLEXITY COMPARISON</div>
+                        <div class="comp-row">
+                            <div class="comp-badge-row">
+                                <span class="comp-badge best">Naive</span>
+                                <span class="comp-val">Best: O(n) | Worst: O(n × m)</span>
+                            </div>
+                            <span class="comp-desc">Best case: Mismatch on first character. Worst case: All characters match except the last one (e.g. $T=\text{"A"}^n, P=\text{"A"}^{m-1}\text{"B"}$).</span>
+                        </div>
+                        <div class="comp-row">
+                            <div class="comp-badge-row">
+                                <span class="comp-badge avg">KMP</span>
+                                <span class="comp-val">Best/Avg/Worst: O(n + m)</span>
+                            </div>
+                            <span class="comp-desc">Guaranteed linear time. LPS preprocessing takes $O(m)$; search pass takes $O(n)$ because text pointer $i$ never retreats.</span>
+                        </div>
+                        <div class="comp-row">
+                            <div class="comp-badge-row">
+                                <span class="comp-badge worst">Rabin-Karp</span>
+                                <span class="comp-val">Avg: O(n + m) | Worst: O(n × m)</span>
+                            </div>
+                            <span class="comp-desc">Average case is linear $O(n+m)$ when prime modulus $q$ avoids collisions. Worst case occurs if every window causes a hash collision.</span>
+                        </div>
+                    </div>
+                    <div class="comp-col">
+                        <div class="comp-col-heading">💾 SPACE COMPLEXITY COMPARISON</div>
+                        <div class="comp-row">
+                            <div class="comp-badge-row">
+                                <span class="comp-badge space">Naive Space</span>
+                                <span class="comp-val">O(1) Auxiliary</span>
+                            </div>
+                            <span class="comp-desc">Requires no extra storage beyond index variables <code>i</code> and <code>j</code>.</span>
+                        </div>
+                        <div class="comp-row">
+                            <div class="comp-badge-row">
+                                <span class="comp-badge space">KMP Space</span>
+                                <span class="comp-val">O(m) Auxiliary</span>
+                            </div>
+                            <span class="comp-desc">Requires an auxiliary <code>lps[]</code> integer array of size $m$ to store prefix-suffix lengths.</span>
+                        </div>
+                        <div class="comp-row">
+                            <div class="comp-badge-row">
+                                <span class="comp-badge space">Rabin-Karp Space</span>
+                                <span class="comp-val">O(1) Auxiliary</span>
+                            </div>
+                            <span class="comp-desc">Requires only scalar integer variables to store hash values and modulus coefficients.</span>
+                        </div>
+                    </div>
+                </div>
             </div>
 
             <div class="box-practice">
@@ -1046,30 +1508,39 @@ RK    -> Matches at: [0, 9, 12], Comparisons: 12
             </div>
 
             <div class="sub-sec-title">Pseudocode</div>
-            <div class="pseudocode-box">KRUSKAL(G):
-    Sort all edges by weight in non-decreasing order
-    Create a Union-Find structure for all vertices
-    MST ← empty set
-    FOR each edge (u, v, w) in sorted order:
-        IF FIND(u) != FIND(v): // No cycle
-            ADD (u, v, w) to MST
-            UNION(u, v)
-        IF |MST| = |V| - 1: BREAK
-    RETURN MST
+            <div class="pseudocode-box">Algorithm 1: KRUSKAL_MST(Graph G(V, E)):
+    Input : Connected, weighted, undirected graph G with |V| vertices and |E| edges
+    Output: Set of edges forming Minimum Spanning Tree (MST)
+    Step 1: [Sort Edges]
+            Sort all edges E in non-decreasing order of their weight: w(e_1) ≤ w(e_2) ≤ ...
+    Step 2: [Initialize Disjoint Sets]
+            FOR each vertex v ∈ V DO: MAKE_SET(v)
+            MST ← ∅
+    Step 3: [Greedy Edge Addition with Cycle Detection]
+            FOR each edge (u, v) in sorted order DO:
+                IF FIND_SET(u) ≠ FIND_SET(v) THEN:  // Endpoints in different components (no cycle)
+                    MST ← MST ∪ {(u, v)}
+                    UNION(u, v)                     // Merge both tree components
+                IF |MST| = |V| - 1 THEN BREAK        // Spanning tree complete!
+    Step 4: RETURN MST
 
-PRIM(G, start):
-    key[v] ← INFINITY for all v; key[start] ← 0
-    parent[v] ← -1 for all v
-    inMST[v] ← False for all v
-    priority_queue Q with (0, start)
-    WHILE Q is not empty:
-        u ← EXTRACT_MIN(Q)
-        inMST[u] ← True
-        FOR each neighbor v of u with weight w:
-            IF NOT inMST[v] AND w < key[v]:
-                key[v] ← w; parent[v] ← u
-                INSERT (w, v) into Q
-    RETURN parent array (MST edges)</div>
+Algorithm 2: PRIM_MST(Graph G(V, E), start_vertex):
+    Input : Connected weighted graph G, arbitrary root start_vertex
+    Output: Tree parent array defining MST edges
+    Step 1: [Initialize Key and Parent Arrays]
+            FOR each v ∈ V DO: key[v] ← ∞, parent[v] ← NIL, inMST[v] ← FALSE
+            key[start_vertex] ← 0
+            Initialize Min-Priority Queue Q containing all pairs (key[v], v)
+    Step 2: [Grow Tree Vertex by Vertex]
+            WHILE Q is not empty DO:
+                u ← EXTRACT_MIN(Q)                  // Greedy choice: closest vertex to current tree
+                inMST[u] ← TRUE
+                FOR each adjacent neighbor v of u with edge weight w DO:
+                    IF inMST[v] = FALSE AND w < key[v] THEN:
+                        key[v] ← w
+                        parent[v] ← u
+                        DECREASE_KEY(Q, v, w)       // Update tentative distance in min-heap
+    Step 3: RETURN parent array</div>
 
             <div class="sub-sec-title">Program (Python)</div>
             <div class="code-wrapper">
@@ -1079,21 +1550,28 @@ PRIM(G, start):
                 </div>
                 <pre><code>import heapq
 
-# --- Union-Find for Kruskal ---
+# =====================================================================
+# 1. UNION-FIND (DISJOINT SET UNION) DATA STRUCTURE FOR KRUSKAL
+# Uses Path Compression + Union by Rank for near-constant O(alpha(V)) time.
+# =====================================================================
 class UnionFind:
     def __init__(self, n):
-        self.parent = list(range(n))
-        self.rank = [0] * n
+        self.parent = list(range(n))  # Each node is initially its own parent
+        self.rank = [0] * n           # Depth estimation for balancing trees
 
     def find(self, x):
+        """Find root representative with Path Compression"""
         if self.parent[x] != x:
-            self.parent[x] = self.find(self.parent[x])  # Path compression
+            self.parent[x] = self.find(self.parent[x])  # Flattens tree
         return self.parent[x]
 
     def union(self, x, y):
+        """Union two sets by rank. Returns False if already in same set (cycle)."""
         rx, ry = self.find(x), self.find(y)
         if rx == ry:
-            return False
+            return False  # Cycle detected! Do not add this edge.
+
+        # Attach smaller rank tree under root of higher rank tree
         if self.rank[rx] < self.rank[ry]:
             rx, ry = ry, rx
         self.parent[ry] = rx
@@ -1101,46 +1579,62 @@ class UnionFind:
             self.rank[rx] += 1
         return True
 
+# =====================================================================
+# 2. KRUSKAL'S ALGORITHM
+# Sorts all edges globally, then greedily selects lightest non-cycle edges.
+# =====================================================================
 def kruskal(n, edges):
-    """edges: list of (weight, u, v)"""
-    edges.sort()  # O(E log E)
+    """edges: list of tuples (weight, u, v)"""
+    edges.sort()  # Step 1: Sort all edges globally in O(E log E)
     uf = UnionFind(n)
     mst = []
     cost = 0
+
+    # Step 2: Iterate through sorted edges
     for w, u, v in edges:
-        if uf.union(u, v):
-            mst.append((u, v, w))
+        if uf.union(u, v):          # If u and v belong to different components
+            mst.append((u, v, w))   # Add edge to MST
             cost += w
-        if len(mst) == n - 1:
+        if len(mst) == n - 1:       # An MST always has exactly V - 1 edges
             break
     return mst, cost
 
+# =====================================================================
+# 3. PRIM'S ALGORITHM
+# Starts from an arbitrary vertex; grows tree greedily using Min-Heap.
+# =====================================================================
 def prim(n, adj, start=0):
-    """adj: adjacency list {u: [(v, w), ...]}"""
+    """adj: adjacency list dictionary {u: [(v, weight), ...]}"""
     INF = float('inf')
-    key = [INF] * n
-    parent = [-1] * n
-    inMST = [False] * n
+    key = [INF] * n          # Minimum weight to connect vertex v to current tree
+    parent = [-1] * n        # Parent pointer in MST
+    inMST = [False] * n      # Track visited vertices in the growing tree
     key[start] = 0
-    pq = [(0, start)]
+    pq = [(0, start)]        # Min-heap priority queue stores (key, vertex)
     mst = []
     cost = 0
+
     while pq:
+        # Step 1: Extract vertex with minimum key
         w, u = heapq.heappop(pq)
         if inMST[u]:
             continue
         inMST[u] = True
+
         if parent[u] != -1:
             mst.append((parent[u], u, w))
             cost += w
+
+        # Step 2: Relax neighboring cut edges
         for v, wt in adj.get(u, []):
             if not inMST[v] and wt < key[v]:
                 key[v] = wt
                 parent[v] = u
                 heapq.heappush(pq, (wt, v))
+
     return mst, cost
 
-# --- Graph Definition ---
+# --- Graph Definition (7 vertices, 11 edges) ---
 n = 7
 edges = [
     (7, 0, 1), (5, 0, 3), (8, 1, 2), (9, 1, 3),
@@ -1187,11 +1681,55 @@ print(f' Total MST Cost: {p_cost}')</code></pre>
  Total MST Cost: 39</div>
 
             <div class="box-result">
-                Result: Both Kruskal's and Prim's algorithms produced the same MST with a total cost of 39. Kruskal's works by sorting edges globally, while Prim's grows the tree greedily from a start vertex. Both are correct greedy approaches to the MST problem.
+                Result: Both Kruskal's and Prim's algorithms yielded identical Minimum Spanning Trees with a total minimum weight of 39. Kruskal's builds the tree globally from disconnected forests, while Prim's expands outward from root vertex 0.
             </div>
 
             <div class="box-inference">
-                <strong>Inference:</strong> Kruskal's algorithm (O(E log E)) is preferred for sparse graphs since it sorts edges. Prim's algorithm with a priority queue (O(E log V)) is better for dense graphs (adjacency matrix). Both guarantee an optimal MST. In network design (e.g., road networks, cable laying), MST algorithms minimize the total connection cost while ensuring all nodes are connected.
+                <strong>Inference & Practical Analysis:</strong> Kruskal's algorithm is best suited for sparse graphs ($|E| \ll |V|^2$) because edge sorting dominates at $O(E \log E)$. Prim's algorithm implemented with a binary min-heap runs in $O(E \log V)$, which excels in dense graphs ($|E| \approx |V|^2$). Both algorithms embody the Greedy Paradigm and guarantee an optimal solution due to the Cut Property of Minimum Spanning Trees. Typical engineering applications include telecommunication cable routing, electrical grid wiring, and cluster analysis.
+            </div>
+
+            <!-- TIME & SPACE COMPLEXITY ANALYSIS -->
+            <div class="box-complexity">
+                <div class="comp-header">
+                    <span class="comp-title">⚡ Experiment 3: Complexity Breakdown (Kruskal vs Prim)</span>
+                    <span class="comp-tag">Algorithm Metrics</span>
+                </div>
+                <div class="comp-grid">
+                    <div class="comp-col">
+                        <div class="comp-col-heading">⏱️ TIME COMPLEXITY</div>
+                        <div class="comp-row">
+                            <div class="comp-badge-row">
+                                <span class="comp-badge best">Kruskal's Algorithm</span>
+                                <span class="comp-val">O(E log E) or O(E log V)</span>
+                            </div>
+                            <span class="comp-desc">Dominated by sorting $E$ edges. Disjoint-set find/union with path compression takes almost linear $O(E \cdot \alpha(V))$ time.</span>
+                        </div>
+                        <div class="comp-row">
+                            <div class="comp-badge-row">
+                                <span class="comp-badge avg">Prim's (Min-Heap)</span>
+                                <span class="comp-val">O((V + E) log V) = O(E log V)</span>
+                            </div>
+                            <span class="comp-desc">Extracting min takes $O(V \log V)$ and relaxing cut edges takes $O(E \log V)$ using binary heap. (With adjacency matrix: $O(V^2)$).</span>
+                        </div>
+                    </div>
+                    <div class="comp-col">
+                        <div class="comp-col-heading">💾 SPACE COMPLEXITY</div>
+                        <div class="comp-row">
+                            <div class="comp-badge-row">
+                                <span class="comp-badge space">Kruskal's Auxiliary</span>
+                                <span class="comp-val">O(V + E)</span>
+                            </div>
+                            <span class="comp-desc">Storage for Disjoint Set arrays (<code>parent</code> and <code>rank</code> of size $V$) plus edge list of size $E$.</span>
+                        </div>
+                        <div class="comp-row">
+                            <div class="comp-badge-row">
+                                <span class="comp-badge space">Prim's Auxiliary</span>
+                                <span class="comp-val">O(V)</span>
+                            </div>
+                            <span class="comp-desc">Storage for <code>key[]</code>, <code>parent[]</code>, <code>inMST[]</code>, and priority queue elements. Total graph storage: $O(V + E)$.</span>
+                        </div>
+                    </div>
+                </div>
             </div>
 
             <div class="box-practice">
@@ -1222,30 +1760,40 @@ print(f' Total MST Cost: {p_cost}')</code></pre>
             </div>
 
             <div class="sub-sec-title">Pseudocode</div>
-            <div class="pseudocode-box">DIJKSTRA(G, source):
-    dist[v] ← INFINITY for all v; dist[source] ← 0
-    prev[v] ← None for all v
-    Priority Queue Q ← {(0, source)}
-    visited ← empty set
-    WHILE Q is not empty:
-        d, u ← EXTRACT_MIN(Q)
-        IF u IN visited: CONTINUE
-        ADD u to visited
-        FOR each neighbor v of u with edge weight w:
-            IF dist[u] + w < dist[v]:
-                dist[v] ← dist[u] + w
-                prev[v] ← u
-                INSERT (dist[v], v) into Q
-    RETURN dist[], prev[]
+            <div class="pseudocode-box">Algorithm DIJKSTRA_SHORTEST_PATH(Graph G(V, E), source):
+    Input : Directed/Undirected weighted graph G with non-negative edge weights w(u, v) ≥ 0, source node
+    Output: Shortest distance array dist[], and previous predecessor array prev[] for path reconstruction
 
-RECONSTRUCT_PATH(prev, source, target):
-    path ← []
-    node ← target
-    WHILE node IS NOT None:
-        PREPEND node to path
-        node ← prev[node]
-    IF path[0] = source: RETURN path
-    ELSE: RETURN [] // No path exists</div>
+    Step 1: [Initialize Single-Source Distances]
+            FOR each vertex v ∈ V DO:
+                dist[v] ← ∞
+                prev[v] ← NIL
+            dist[source] ← 0
+            visited ← ∅
+            Priority Queue Q ← {(0, source)}  // Stores (tentative_distance, vertex)
+
+    Step 2: [Greedy Settlement via Min-Heap]
+            WHILE Q is not empty DO:
+                (d, u) ← EXTRACT_MIN(Q)      // Node u with smallest settled distance
+                IF u ∈ visited THEN CONTINUE
+                visited ← visited ∪ {u}
+
+                // Step 2.1: Relax all outgoing edges (u, v) with weight w
+                FOR each neighbor v of u with edge weight w DO:
+                    IF dist[u] + w < dist[v] THEN:
+                        dist[v] ← dist[u] + w // Relax path distance
+                        prev[v] ← u           // Update optimal predecessor
+                        INSERT (dist[v], v) into Q
+
+    Step 3: [Reconstruct Path from Predecessor Array]
+            Function RECONSTRUCT_PATH(prev, source, target):
+                path ← []
+                curr ← target
+                WHILE curr ≠ NIL DO:
+                    PREPEND curr to path
+                    curr ← prev[curr]
+                IF path[0] = source THEN RETURN path
+                ELSE RETURN "No Path Exists"</div>
 
             <div class="sub-sec-title">Program (Python)</div>
             <div class="code-wrapper">
@@ -1257,40 +1805,50 @@ RECONSTRUCT_PATH(prev, source, target):
 
 def dijkstra(graph, source):
     """
-    Dijkstra's Algorithm using Min-Heap
-    Time: O((V + E) log V), Space: O(V)
-    graph: dict {u: [(v, weight), ...]}, 0-indexed
+    Dijkstra's Single-Source Shortest Path using Binary Min-Heap
+    - Requires: Non-negative edge weights (w >= 0).
+    - graph: Adjacency list dictionary {u: [(v, weight), ...]}
     """
     n = len(graph)
-    dist = [float('inf')] * n
-    prev = [None] * n
+    dist = [float('inf')] * n   # Shortest distances from source
+    prev = [None] * n           # Parent pointers for path reconstruction
     dist[source] = 0
-    pq = [(0, source)]  # (distance, vertex)
+
+    # Min-Heap stores tuples of (tentative_distance, vertex)
+    pq = [(0, source)]
     visited = set()
+
     while pq:
+        # --- STEP 1: Extract settled vertex with lowest distance ---
         d, u = heapq.heappop(pq)
         if u in visited:
             continue
         visited.add(u)
+
+        # --- STEP 2: Relax each outgoing adjacent edge (u -> v) ---
         for v, w in graph[u]:
+            # Edge relaxation condition
             if dist[u] + w < dist[v]:
-                dist[v] = dist[u] + w
-                prev[v] = u
+                dist[v] = dist[u] + w   # Shorter route discovered!
+                prev[v] = u             # Record u as predecessor of v
                 heapq.heappush(pq, (dist[v], v))
+
     return dist, prev
 
 def reconstruct_path(prev, source, target):
+    """Backtracks through parent array prev to reassemble the exact route"""
     path = []
     node = target
     while node is not None:
         path.append(node)
         node = prev[node]
-    path.reverse()
-    if path[0] == source:
+    path.reverse()  # Reverse to get order: source -> ... -> target
+    if path and path[0] == source:
         return path
     return []
 
 # --- Graph Definition (Adjacency List) ---
+# Vertices 0 to 5, directed weighted edges
 graph = {
     0: [(1, 4), (2, 1)],
     1: [(3, 1)],
@@ -1325,11 +1883,62 @@ for v in range(len(graph)):
        5          9       0 -> 2 -> 1 -> 3 -> 4 -> 5</div>
 
             <div class="box-result">
-                Result: Dijkstra's algorithm successfully computed the shortest distances from source vertex 0 to all other vertices. The algorithm used path relaxation with a priority queue to ensure optimal paths are found efficiently. The path 0->2->1->3->4->5 has a total distance of 9.
+                Result: Dijkstra's algorithm successfully found the shortest distance and exact optimal path from source 0 to all reachable vertices. The route from 0 to 5 is 0 -> 2 -> 1 -> 3 -> 4 -> 5 with total minimum cost = 9.
             </div>
 
             <div class="box-inference">
-                <strong>Inference:</strong> Dijkstra's algorithm is a greedy algorithm that guarantees optimal shortest paths for graphs with non-negative edge weights. Its O((V+E) log V) complexity with a min-heap makes it suitable for GPS navigation, network routing, and maps. It cannot handle negative edge weights — Bellman-Ford should be used for such cases. The algorithm is the backbone of real-world routing protocols like OSPF.
+                <strong>Inference & Practical Analysis:</strong> Dijkstra's algorithm greedily finalizes the shortest path to the closest unvisited vertex, guaranteeing global optimality because edge weights are strictly non-negative. If any negative weights exist, Dijkstra fails because a settled vertex cannot be re-opened; the Bellman-Ford algorithm ($O(V \cdot E)$) must be used instead. Dijkstra's is the foundational engine of real-world routing protocols (OSPF, IS-IS) and mapping navigation services (Google Maps, Uber ride routing).
+            </div>
+
+            <!-- TIME & SPACE COMPLEXITY ANALYSIS -->
+            <div class="box-complexity">
+                <div class="comp-header">
+                    <span class="comp-title">⚡ Experiment 4: Complexity Breakdown (Dijkstra's Algorithm)</span>
+                    <span class="comp-tag">Algorithm Metrics</span>
+                </div>
+                <div class="comp-grid">
+                    <div class="comp-col">
+                        <div class="comp-col-heading">⏱️ TIME COMPLEXITY</div>
+                        <div class="comp-row">
+                            <div class="comp-badge-row">
+                                <span class="comp-badge best">Best Case</span>
+                                <span class="comp-val">O(E log V)</span>
+                            </div>
+                            <span class="comp-desc">Source is directly connected to destination and priority queue settles target rapidly.</span>
+                        </div>
+                        <div class="comp-row">
+                            <div class="comp-badge-row">
+                                <span class="comp-badge avg">Average Case</span>
+                                <span class="comp-val">O((V + E) log V)</span>
+                            </div>
+                            <span class="comp-desc">Using a Binary Min-Heap: each vertex extracted once ($V \log V$), each edge relaxed at most once ($E \log V$).</span>
+                        </div>
+                        <div class="comp-row">
+                            <div class="comp-badge-row">
+                                <span class="comp-badge worst">Worst Case</span>
+                                <span class="comp-val">O((V + E) log V)</span>
+                            </div>
+                            <span class="comp-desc">Binary Min-Heap worst case is $O((V+E)\log V)$. (Using Fibonacci Heap, it improves to $O(E + V \log V)$; with naive linear array: $O(V^2)$).</span>
+                        </div>
+                    </div>
+                    <div class="comp-col">
+                        <div class="comp-col-heading">💾 SPACE COMPLEXITY</div>
+                        <div class="comp-row">
+                            <div class="comp-badge-row">
+                                <span class="comp-badge space">Auxiliary Space</span>
+                                <span class="comp-val">O(V)</span>
+                            </div>
+                            <span class="comp-desc">Requires $O(V)$ space for distance array <code>dist[]</code>, predecessor array <code>prev[]</code>, visited set, and Min-Heap.</span>
+                        </div>
+                        <div class="comp-row">
+                            <div class="comp-badge-row">
+                                <span class="comp-badge space">Total Space</span>
+                                <span class="comp-val">O(V + E)</span>
+                            </div>
+                            <span class="comp-desc">Adjacency list representation requires $O(V + E)$ memory to store vertices and directed weighted edges.</span>
+                        </div>
+                    </div>
+                </div>
             </div>
 
             <div class="box-practice">
@@ -1360,23 +1969,33 @@ for v in range(len(graph)):
             </div>
 
             <div class="sub-sec-title">Pseudocode</div>
-            <div class="pseudocode-box">MIN_MAX_DC(arr, low, high):
-    // Base cases
-    IF low = high:
-        RETURN (arr[low], arr[low]) // Single element
-    IF high = low + 1:
-        IF arr[low] < arr[high]: // One comparison
-            RETURN (arr[low], arr[high])
-        ELSE:
-            RETURN (arr[high], arr[low])
-    // Recursive divide
-    mid ← (low + high) / 2
-    (lmin, lmax) ← MIN_MAX_DC(arr, low, mid)
-    (rmin, rmax) ← MIN_MAX_DC(arr, mid+1, high)
-    // Combine: 2 comparisons
-    overall_min ← MIN(lmin, rmin) // 1 comparison
-    overall_max ← MAX(lmax, rmax) // 1 comparison
-    RETURN (overall_min, overall_max)</div>
+            <div class="pseudocode-box">ALGORITHM MIN_MAX_DIVIDE_AND_CONQUER(arr, low, high)
+// Input:  Array arr[low..high] of integers, start index low, end index high
+// Output: Tuple (min_val, max_val) containing minimum and maximum elements
+
+STEP 1: [Base Case 1 - Single Element]
+        IF low == high THEN:
+            RETURN (arr[low], arr[low])       // 0 comparisons needed
+
+STEP 2: [Base Case 2 - Pair of Elements]
+        IF high == low + 1 THEN:
+            IF arr[low] < arr[high] THEN:     // Exactly 1 comparison
+                RETURN (arr[low], arr[high])
+            ELSE:
+                RETURN (arr[high], arr[low])
+
+STEP 3: [Divide Step]
+        mid ← ⌊(low + high) / 2⌋
+        (left_min, left_max)   ← MIN_MAX_DIVIDE_AND_CONQUER(arr, low, mid)
+        (right_min, right_max) ← MIN_MAX_DIVIDE_AND_CONQUER(arr, mid + 1, high)
+
+STEP 4: [Conquer & Combine Step]
+        // Determine overall minimum and maximum using exactly 2 comparisons
+        IF left_min < right_min THEN overall_min ← left_min ELSE overall_min ← right_min
+        IF left_max > right_max THEN overall_max ← left_max ELSE overall_max ← right_max
+
+STEP 5: [Return Solution]
+        RETURN (overall_min, overall_max)</div>
 
             <div class="sub-sec-title">Program (Python)</div>
             <div class="code-wrapper">
@@ -1386,41 +2005,58 @@ for v in range(len(graph)):
                 </div>
                 <pre><code>import random
 
-comparison_count = 0  # Global counter
+comparison_count = 0  # Global counter to track elemental comparisons
 
 def min_max_dc(arr, low, high):
+    """
+    Finds (min, max) using Divide and Conquer.
+    Recurrence: T(n) = 2T(n/2) + 2 comparisons
+    Total comparisons: 3n/2 - 2 (for n power of 2)
+    """
     global comparison_count
-    # Base case: single element
+    
+    # --- Step 1: Base Case: Single element array ---
     if low == high:
         return arr[low], arr[low]
-    # Base case: two elements
+        
+    # --- Step 2: Base Case: Two element subarray (1 comparison) ---
     if high == low + 1:
         comparison_count += 1
         if arr[low] < arr[high]:
             return arr[low], arr[high]
         return arr[high], arr[low]
-    # Divide
+        
+    # --- Step 3: Divide into two halves ---
     mid = (low + high) // 2
     lmin, lmax = min_max_dc(arr, low, mid)
     rmin, rmax = min_max_dc(arr, mid + 1, high)
-    # Conquer: combine with 2 comparisons
+    
+    # --- Step 4: Combine subproblem results (2 comparisons) ---
     comparison_count += 1
     overall_min = lmin if lmin < rmin else rmin
+    
     comparison_count += 1
     overall_max = lmax if lmax > rmax else rmax
+    
     return overall_min, overall_max
 
 def min_max_naive(arr):
+    """
+    Standard linear scan finding min and max.
+    Requires 2*(n-1) comparisons in worst case.
+    """
     mn, mx = arr[0], arr[0]
     comps = 0
     for x in arr[1:]:
         comps += 1
-        if x < mn: mn = x
+        if x < mn: 
+            mn = x
         comps += 1
-        if x > mx: mx = x
+        if x > mx: 
+            mx = x
     return mn, mx, comps
 
-# --- Demonstration on small array ---
+# --- Demonstration on sample array ---
 arr = [3, 1, 7, 4, 9, 2, 8, 5, 6, 0]
 comparison_count = 0
 mn, mx = min_max_dc(arr, 0, len(arr) - 1)
@@ -1432,15 +2068,15 @@ print(f'Min: {mn}, Max: {mx}')
 print(f'D&C Comparisons: {dc_comps}')
 print(f'Naive Comparisons: {naive_comps}')
 
-# --- Performance Analysis ---
+# --- Performance Analysis across various input sizes ---
 print(f'\n{"Size":>8} {"DC Comps":>12} {"Naive Comps":>14} {"Formula 3n/2-2":>16}')
 print('-' * 56)
 for size in [10, 100, 1000, 10000]:
-    arr = [random.randint(1, 10000) for _ in range(size)]
+    test_arr = [random.randint(1, 10000) for _ in range(size)]
     comparison_count = 0
-    mn, mx = min_max_dc(arr, 0, len(arr) - 1)
+    mn, mx = min_max_dc(test_arr, 0, len(test_arr) - 1)
     dc = comparison_count
-    _, _, naive = min_max_naive(arr)
+    _, _, naive = min_max_naive(test_arr)
     formula = 3 * size // 2 - 2
     print(f'{size:>8} {dc:>12} {naive:>14} {formula:>16}')</code></pre>
             </div>
@@ -1464,6 +2100,33 @@ Naive Comparisons: 18
 
             <div class="box-inference">
                 <strong>Inference:</strong> The Divide and Conquer technique reduces the number of comparisons from 2(n-1) to approximately 3n/2-2, achieving a 25% improvement over the naive approach. This is theoretically optimal for the simultaneous min-max problem. While Python overhead limits practical speed gains for small arrays, the principle is crucial in hardware implementations (e.g., parallel processors) where comparison cost is significant.
+
+                <!-- EXPLICIT COMPLEXITY BREAKDOWN -->
+                <div class="box-complexity">
+                    <div class="comp-title">Complexity Analysis: Divide & Conquer Min-Max vs Naive Linear Scan</div>
+                    <div class="comp-grid">
+                        <div class="comp-item">
+                            <span class="comp-badge best">Time (Best)</span>
+                            <div class="comp-val">Θ(n) [3n/2 - 2 comps]</div>
+                            <div class="comp-desc">Recurrence T(n) = 2T(n/2) + 2. Number of comparisons is invariant of data order.</div>
+                        </div>
+                        <div class="comp-item">
+                            <span class="comp-badge avg">Time (Average)</span>
+                            <div class="comp-val">Θ(n) [3n/2 - 2 comps]</div>
+                            <div class="comp-desc">Requires 25% fewer comparisons than naive scan (which needs 2n - 2 comparisons).</div>
+                        </div>
+                        <div class="comp-item">
+                            <span class="comp-badge worst">Time (Worst)</span>
+                            <div class="comp-val">Θ(n) [3n/2 - 2 comps]</div>
+                            <div class="comp-desc">Strict theoretical lower bound for simultaneous min-max finding.</div>
+                        </div>
+                        <div class="comp-item">
+                            <span class="comp-badge space">Space (Auxiliary)</span>
+                            <div class="comp-val">O(log n)</div>
+                            <div class="comp-desc">Height of recursive call tree is ⌈log₂ n⌉ activation records. Total space: O(n).</div>
+                        </div>
+                    </div>
+                </div>
             </div>
 
             <div class="box-practice">
@@ -1494,29 +2157,42 @@ Naive Comparisons: 18
             </div>
 
             <div class="sub-sec-title">Pseudocode</div>
-            <div class="pseudocode-box">MATRIX_CHAIN_ORDER(p[0..n]):
-    // p[i-1] x p[i] is dimension of matrix i
-    n ← length(p) - 1
-    m[i][j] ← 0 for all i, j (minimum costs)
-    s[i][j] ← 0 for all i, j (split points)
-    FOR length l ← 2 TO n: // chain length
-        FOR i ← 1 TO n-l+1: // start index
-            j ← i + l - 1 // end index
-            m[i][j] ← INFINITY
-            FOR k ← i TO j-1: // split point
-                q ← m[i][k] + m[k+1][j] + p[i-1] * p[k] * p[j]
-                IF q < m[i][j]:
-                    m[i][j] ← q
-                    s[i][j] ← k
-    RETURN m, s
+            <div class="pseudocode-box">ALGORITHM MATRIX_CHAIN_ORDER(p[0..n])
+// Input:  Array p[0..n] where matrix A_i has dimension p[i-1] × p[i] for 1 ≤ i ≤ n
+// Output: DP cost table m[1..n, 1..n] and split point table s[1..n, 1..n]
 
-PRINT_OPTIMAL_PARENS(s, i, j):
-    IF i = j: PRINT 'A' + i
-    ELSE:
-        PRINT '('
-        PRINT_OPTIMAL_PARENS(s, i, s[i][j])
-        PRINT_OPTIMAL_PARENS(s, s[i][j]+1, j)
-        PRINT ')'</div>
+STEP 1: [Initialization]
+        n ← length(p) - 1
+        Let m[1..n, 1..n] and s[1..n, 1..n] be tables of size (n+1) × (n+1)
+        FOR i ← 1 TO n DO:
+            m[i, i] ← 0                  // Cost is 0 when multiplying single matrix
+
+STEP 2: [Chain Length Iteration]
+        // l is the chain length (from 2 up to n matrices)
+        FOR l ← 2 TO n DO:
+            FOR i ← 1 TO (n - l + 1) DO: // Starting matrix index
+                j ← i + l - 1            // Ending matrix index
+                m[i, j] ← ∞
+                // Test all possible split positions k between i and j-1
+                FOR k ← i TO (j - 1) DO:
+                    cost ← m[i, k] + m[k + 1, j] + (p[i - 1] × p[k] × p[j])
+                    IF cost < m[i, j] THEN:
+                        m[i, j] ← cost
+                        s[i, j] ← k      // Record best split point
+
+STEP 3: [Return DP tables]
+        RETURN (m, s)
+
+ALGORITHM PRINT_OPTIMAL_PARENS(s, i, j)
+// Recursively prints the parenthesized matrix product based on split points s
+        IF i == j THEN:
+            PRINT "A" + i
+        ELSE:
+            PRINT "("
+            PRINT_OPTIMAL_PARENS(s, i, s[i, j])
+            PRINT " × "
+            PRINT_OPTIMAL_PARENS(s, s[i, j] + 1, j)
+            PRINT ")"</div>
 
             <div class="sub-sec-title">Program (Python)</div>
             <div class="code-wrapper">
@@ -1526,27 +2202,37 @@ PRINT_OPTIMAL_PARENS(s, i, j):
                 </div>
                 <pre><code>def matrix_chain_order(dims):
     """
-    Matrix Chain Multiplication using DP
-    dims: list of dimensions, matrix i has dims[i-1] x dims[i]
-    Time: O(n^3), Space: O(n^2)
+    Computes optimal matrix chain multiplication order using Dynamic Programming.
+    dims: list of dimensions where matrix A_i has dimension dims[i-1] x dims[i]
+    Time Complexity:  O(n^3)
+    Space Complexity: O(n^2) for memoization tables
     """
     n = len(dims) - 1
-    # m[i][j] = minimum multiplications for matrices i..j
+    
+    # Step 1: Initialize DP cost table m and split table s
+    # m[i][j] stores minimum scalar multiplications needed for A_i..A_j
+    # s[i][j] stores the optimal split index k that achieves m[i][j]
     m = [[0] * (n + 1) for _ in range(n + 1)]
     s = [[0] * (n + 1) for _ in range(n + 1)]
-    # l is the chain length
+    
+    # Step 2: Iterate through subchain lengths l from 2 to n
     for l in range(2, n + 1):
         for i in range(1, n - l + 2):
             j = i + l - 1
             m[i][j] = float('inf')
+            
+            # Step 3: Evaluate all potential split points k
             for k in range(i, j):
-                cost = m[i][k] + m[k+1][j] + dims[i-1] * dims[k] * dims[j]
+                # Cost = left subchain cost + right subchain cost + cost of multiplying results
+                cost = m[i][k] + m[k + 1][j] + dims[i - 1] * dims[k] * dims[j]
                 if cost < m[i][j]:
                     m[i][j] = cost
-                    s[i][j] = k
+                    s[i][j] = k  # Store optimal split
+                    
     return m, s
 
 def print_optimal_parens(s, i, j):
+    """Recursively reconstructs the parenthesized multiplication sequence."""
     if i == j:
         return f'A{i}'
     k = s[i][j]
@@ -1555,6 +2241,7 @@ def print_optimal_parens(s, i, j):
     return f'({left} x {right})'
 
 def print_dp_table(m, n):
+    """Displays formatted DP cost matrix."""
     print('\nDP Cost Table m[i][j]:')
     print(f'{"":>6}', end='')
     for j in range(1, n + 1):
@@ -1563,11 +2250,13 @@ def print_dp_table(m, n):
     for i in range(1, n + 1):
         print(f'A{i:<5}', end='')
         for j in range(1, n + 1):
-            if j < i: print(f'{"---":>9}', end='')
-            else: print(f'{m[i][j]:>9}', end='')
+            if j < i: 
+                print(f'{"---":>9}', end='')
+            else: 
+                print(f'{m[i][j]:>9}', end='')
         print()
 
-# A1(10x30), A2(30x5), A3(5x60), A4(60x10)
+# --- Problem Instance: A1(10x30), A2(30x5), A3(5x60), A4(60x10) ---
 dims = [10, 30, 5, 60, 10]
 n = len(dims) - 1
 
@@ -1604,6 +2293,33 @@ A4       ---     ---     ---       0</div>
 
             <div class="box-inference">
                 <strong>Inference:</strong> Matrix Chain Multiplication demonstrates the power of DP for optimization problems with overlapping subproblems. The DP approach solves it in O(n^3) time vs the exponential naive enumeration. In practice, this is critical in scientific computing (e.g., transforming 3D coordinates), compiler optimization, and deep learning frameworks that batch matrix operations. The split point table provides the exact order for implementation.
+
+                <!-- EXPLICIT COMPLEXITY BREAKDOWN -->
+                <div class="box-complexity">
+                    <div class="comp-title">Complexity Analysis: Matrix Chain Multiplication (Dynamic Programming)</div>
+                    <div class="comp-grid">
+                        <div class="comp-item">
+                            <span class="comp-badge best">Time (Best)</span>
+                            <div class="comp-val">Θ(n³)</div>
+                            <div class="comp-desc">Evaluates all subchain lengths l=2..n. Inner loops execute exactly (n³ - n)/6 times.</div>
+                        </div>
+                        <div class="comp-item">
+                            <span class="comp-badge avg">Time (Average)</span>
+                            <div class="comp-val">Θ(n³)</div>
+                            <div class="comp-desc">Strict polynomial time regardless of matrix dimension values or configurations.</div>
+                        </div>
+                        <div class="comp-item">
+                            <span class="comp-badge worst">Time (Worst)</span>
+                            <div class="comp-val">Θ(n³)</div>
+                            <div class="comp-desc">Exponential reduction compared to naive Catalan number enumeration Ω(4ⁿ / n^(3/2)).</div>
+                        </div>
+                        <div class="comp-item">
+                            <span class="comp-badge space">Space (Auxiliary)</span>
+                            <div class="comp-val">O(n²)</div>
+                            <div class="comp-desc">Two (n+1) × (n+1) 2D tables: cost matrix m and split matrix s. Total space: O(n²).</div>
+                        </div>
+                    </div>
+                </div>
             </div>
 
             <div class="box-practice">
@@ -1634,23 +2350,32 @@ A4       ---     ---     ---       0</div>
             </div>
 
             <div class="sub-sec-title">Pseudocode</div>
-            <div class="pseudocode-box">N_QUEENS(board, row, n):
-    IF row = n:
-        RECORD_SOLUTION(board)
-        RETURN
-    FOR col ← 0 TO n-1:
-        IF IS_SAFE(board, row, col, n):
-            board[row] ← col // Place queen
-            N_QUEENS(board, row+1, n) // Recurse
-            board[row] ← -1 // Backtrack
+            <div class="pseudocode-box">ALGORITHM SOLVE_N_QUEENS(board, row, n)
+// Input:  board[0..n-1] where board[r] stores the column index of queen placed at row r
+//         Current row index 'row', total board dimension 'n'
+// Output: All valid non-attacking queen configurations on n × n chessboard
 
-IS_SAFE(board, row, col, n):
-    FOR prev_row ← 0 TO row-1:
-        placed_col ← board[prev_row]
-        IF placed_col = col: RETURN False // Same column
-        IF |prev_row - row| = |placed_col - col|: // Same diagonal
-            RETURN False
-    RETURN True</div>
+STEP 1: [Goal State / Base Case]
+        IF row == n THEN:
+            RECORD_SOLUTION(board)       // All n queens safely placed across all rows
+            RETURN
+
+STEP 2: [Iterate Candidates for Current Row]
+        FOR col ← 0 TO (n - 1) DO:
+            IF IS_SAFE(board, row, col) THEN:
+                board[row] ← col         // Place queen at (row, col)
+                SOLVE_N_QUEENS(board, row + 1, n) // Recurse to next row
+                board[row] ← -1          // Backtrack: Remove queen (undo placement)
+
+ALGORITHM IS_SAFE(board, row, col)
+// Returns True if queen at (row, col) is not attacked by any previously placed queen
+        FOR prev_row ← 0 TO (row - 1) DO:
+            placed_col ← board[prev_row]
+            // Check vertical column conflict
+            IF placed_col == col THEN RETURN False
+            // Check major and minor diagonal conflicts (|Δrow| == |Δcol|)
+            IF |prev_row - row| == |placed_col - col| THEN RETURN False
+        RETURN True</div>
 
             <div class="sub-sec-title">Program (Python)</div>
             <div class="code-wrapper">
@@ -1659,34 +2384,50 @@ IS_SAFE(board, row, col, n):
                     <button class="btn-copy" onclick="copyCode(this)">Copy</button>
                 </div>
                 <pre><code>def is_safe(board, row, col):
+    """
+    Checks if a queen can be safely placed at (row, col).
+    Verifies that no previous queen shares the same column or diagonal.
+    """
     for prev_row in range(row):
         placed = board[prev_row]
-        if placed == col:  # Same column
+        # Column conflict check
+        if placed == col:
             return False
-        if abs(prev_row - row) == abs(placed - col):  # Diagonal
+        # Diagonal conflict check (|row1 - row2| == |col1 - col2|)
+        if abs(prev_row - row) == abs(placed - col):
             return False
     return True
 
 def solve_n_queens(n):
-    board = [-1] * n
+    """
+    Solves N-Queens problem using Backtracking (Depth-First State Space Search).
+    Returns list of all valid configurations and total backtracks executed.
+    """
+    board = [-1] * n  # board[r] stores column index for queen in row r
     solutions = []
     backtrack_count = [0]
 
     def backtrack(row):
+        # Step 1: Base case - All n rows successfully placed
         if row == n:
             solutions.append(board[:])
             return
+            
+        # Step 2: Try placing queen in each column of current row
         for col in range(n):
             if is_safe(board, row, col):
-                board[row] = col
-                backtrack(row + 1)
-                board[row] = -1  # Undo
+                board[row] = col           # Choose
+                backtrack(row + 1)         # Explore
+                board[row] = -1            # Un-choose (Backtrack)
+                
+        # Count dead-end backtrack events
         backtrack_count[0] += 1
 
     backtrack(0)
     return solutions, backtrack_count[0]
 
 def display_board(solution, n):
+    """Visualizes chessboard with placed Queens (Q) and empty cells (.)."""
     print(' +' + '---+' * n)
     for row in range(n):
         print(' |', end='')
@@ -1698,7 +2439,7 @@ def display_board(solution, n):
         print()
         print(' +' + '---+' * n)
 
-# --- Solve for N=4 (show all) and N=8 (count only) ---
+# --- Solve for N=4 (show all configurations) and N=6, N=8 (solution counts) ---
 for n in [4, 6, 8]:
     solutions, backtracks = solve_n_queens(n)
     print(f'N={n}: {len(solutions)} solutions, {backtracks} backtracks')
@@ -1744,6 +2485,33 @@ N=8: 92 solutions, 876 backtracks
 
             <div class="box-inference">
                 <strong>Inference:</strong> Backtracking is an efficient technique for constraint satisfaction problems, pruning the search space by abandoning partial solutions that violate constraints. The N-Queens problem illustrates that backtracking drastically reduces the search space compared to brute force (n^n possibilities). Real-world applications include scheduling, Sudoku solving, graph coloring, and VLSI circuit design. For N=8, only 92 valid configurations exist out of 4,426,165,368 brute-force possibilities.
+
+                <!-- EXPLICIT COMPLEXITY BREAKDOWN -->
+                <div class="box-complexity">
+                    <div class="comp-title">Complexity Analysis: N-Queens Problem (Backtracking)</div>
+                    <div class="comp-grid">
+                        <div class="comp-item">
+                            <span class="comp-badge best">Time (Best)</span>
+                            <div class="comp-val">O(n)</div>
+                            <div class="comp-desc">Finding the very first valid solution without exploring dead-end branches.</div>
+                        </div>
+                        <div class="comp-item">
+                            <span class="comp-badge avg">Time (Average)</span>
+                            <div class="comp-val">Sub-exponential</div>
+                            <div class="comp-desc">Aggressive bounding/is_safe pruning eliminates vast majority of n! permutations early.</div>
+                        </div>
+                        <div class="comp-item">
+                            <span class="comp-badge worst">Time (Worst)</span>
+                            <div class="comp-val">O(n!)</div>
+                            <div class="comp-desc">Traversing all non-attacking permutations. Vastly superior to O(nⁿ) brute-force grid search.</div>
+                        </div>
+                        <div class="comp-item">
+                            <span class="comp-badge space">Space (Auxiliary)</span>
+                            <div class="comp-val">O(n)</div>
+                            <div class="comp-desc">Single 1D array of size n for board state + recursion call stack of depth n. Total space: O(n).</div>
+                        </div>
+                    </div>
+                </div>
             </div>
 
             <div class="box-practice">
@@ -1774,27 +2542,49 @@ N=8: 92 solutions, 876 backtracks
             </div>
 
             <div class="sub-sec-title">Pseudocode</div>
-            <div class="pseudocode-box">TSP_BRANCH_BOUND(cost_matrix, n):
-    COMPUTE initial lower bound using matrix reduction
-    root ← State(path=[0], visited={0}, bound=initial_lb, cost=0)
-    priority_queue Q ← {root}
-    best_cost ← INFINITY
-    WHILE Q not empty:
-        node ← EXTRACT_MIN(Q) // Best First
-        IF node.bound >= best_cost: CONTINUE // Prune
-        IF len(node.path) = n:
-            // All cities visited, add return to start
-            tour_cost ← node.cost + cost[node.path[-1]][0]
-            IF tour_cost < best_cost:
-                best_cost ← tour_cost
-                best_path ← node.path + [0]
-        ELSE:
-            FOR each unvisited city c:
-                new_cost ← node.cost + cost[node.path[-1]][c]
-                new_bound ← COMPUTE_LOWER_BOUND(node, c)
-                IF new_bound < best_cost:
-                    INSERT new_state into Q
-    RETURN best_path, best_cost</div>
+            <div class="pseudocode-box">ALGORITHM TSP_BRANCH_AND_BOUND(cost_matrix, n)
+// Input:  n × n cost matrix where cost[i][j] is edge weight from city i to city j
+// Output: Optimal Hamiltonian cycle (minimum cost tour) and minimum cost value
+
+STEP 1: [Initial Lower Bound Computation via Matrix Reduction]
+        (reduced_root_matrix, initial_bound) ← REDUCE_MATRIX(cost_matrix)
+        root ← StateNode(level=0, path=[0], visited={0}, bound=initial_bound, matrix=reduced_root_matrix, cost=0)
+        Initialize priority_queue Q (Min-Heap ordered by state lower bound)
+        INSERT root INTO Q
+        best_cost ← ∞, best_tour ← []
+
+STEP 2: [Best-First Branch and Bound Search]
+        WHILE Q is not empty DO:
+            curr ← EXTRACT_MIN(Q)
+            
+            // Prune node if lower bound already exceeds best known tour cost
+            IF curr.bound ≥ best_cost THEN CONTINUE
+
+STEP 3: [Goal State Evaluation]
+            IF length(curr.path) == n THEN:
+                // Complete cycle by returning from last visited city back to start city (0)
+                u ← curr.path[n - 1]
+                IF cost_matrix[u][0] ≠ ∞ THEN:
+                    tour_cost ← curr.cost + cost_matrix[u][0]
+                    IF tour_cost < best_cost THEN:
+                        best_cost ← tour_cost
+                        best_tour ← curr.path + [0]
+                CONTINUE
+
+STEP 4: [Branching: Generate Feasible Child Cities]
+            u ← curr.path[-1]
+            FOR each city v FROM 0 TO n-1 NOT IN curr.visited DO:
+                IF curr.matrix[u][v] ≠ ∞ THEN:
+                    (child_matrix, reduction_cost) ← REDUCE_FOR_EDGE(curr.matrix, u, v)
+                    child_bound ← curr.bound + curr.matrix[u][v] + reduction_cost
+                    child_cost ← curr.cost + cost_matrix[u][v]
+                    IF child_bound < best_cost THEN:
+                        child_node ← StateNode(level=curr.level + 1, path=curr.path + [v],
+                                               visited=curr.visited ∪ {v}, bound=child_bound,
+                                               matrix=child_matrix, cost=child_cost)
+                        INSERT child_node INTO Q
+
+STEP 5: RETURN (best_tour, best_cost)</div>
 
             <div class="sub-sec-title">Program (Python)</div>
             <div class="code-wrapper">
@@ -1808,17 +2598,23 @@ from itertools import permutations
 INF = float('inf')
 
 def reduce_matrix(mat):
-    """Reduce matrix and return reduction cost"""
+    """
+    Computes lower bound reduction for TSP cost matrix.
+    Subtracts row minimums and column minimums to produce reduced cost matrix.
+    Sum of reductions provides rigorous lower bound on any tour in this branch.
+    """
     m = [row[:] for row in mat]
     n = len(m)
     cost = 0
-    # Row reduction
+    
+    # Step 1: Row reduction
     for i in range(n):
         row_min = min(m[i])
         if row_min and row_min != INF:
             cost += row_min
             m[i] = [x - row_min if x != INF else INF for x in m[i]]
-    # Column reduction
+            
+    # Step 2: Column reduction
     for j in range(n):
         col_min = min(m[i][j] for i in range(n))
         if col_min and col_min != INF:
@@ -1826,10 +2622,14 @@ def reduce_matrix(mat):
             for i in range(n):
                 if m[i][j] != INF:
                     m[i][j] -= col_min
+                    
     return m, cost
 
 def tsp_brute_force(cost, n):
-    """Brute force for verification"""
+    """
+    Finds exact optimal TSP Hamiltonian cycle via permutation search.
+    Provides ground-truth validation for Branch and Bound.
+    """
     cities = list(range(1, n))
     best_cost = INF
     best_path = None
@@ -1841,7 +2641,7 @@ def tsp_brute_force(cost, n):
             best_path = path
     return best_path, best_cost
 
-# --- 5-city cost matrix ---
+# --- 5-city cost matrix definition ---
 cost = [
     [INF, 10,  8,  9,  7],
     [ 10, INF, 10,  5,  6],
@@ -1893,6 +2693,33 @@ Path verification:
 
             <div class="box-inference">
                 <strong>Inference:</strong> TSP is an NP-Hard problem; exact solutions are feasible only for small n. Branch and Bound with a matrix reduction lower bound is one of the most effective exact methods, pruning large portions of the search tree. For large instances (n>20), heuristics like Nearest Neighbor, 2-opt, or metaheuristics (Genetic Algorithm, Ant Colony Optimization) are used. TSP applies to logistics (delivery routing), PCB drilling, DNA sequencing, and telescope scheduling.
+
+                <!-- EXPLICIT COMPLEXITY BREAKDOWN -->
+                <div class="box-complexity">
+                    <div class="comp-title">Complexity Analysis: Travelling Salesman Problem (Branch and Bound)</div>
+                    <div class="comp-grid">
+                        <div class="comp-item">
+                            <span class="comp-badge best">Time (Best)</span>
+                            <div class="comp-val">O(n² · 2ⁿ)</div>
+                            <div class="comp-desc">Tight bounding matrix prunes suboptimal branches near root, traversing minimal state paths.</div>
+                        </div>
+                        <div class="comp-item">
+                            <span class="comp-badge avg">Time (Average)</span>
+                            <div class="comp-val">Sub-exponential</div>
+                            <div class="comp-desc">Matrix reduction lower bounds eliminate massive subtrees early in typical metric graphs.</div>
+                        </div>
+                        <div class="comp-item">
+                            <span class="comp-badge worst">Time (Worst)</span>
+                            <div class="comp-val">O(n!)</div>
+                            <div class="comp-desc">NP-Hard problem: adversarial dense graphs where no bounds trigger pruning require exploring (n-1)!/2 cycles.</div>
+                        </div>
+                        <div class="comp-item">
+                            <span class="comp-badge space">Space (Auxiliary)</span>
+                            <div class="comp-val">O(n² · 2ⁿ)</div>
+                            <div class="comp-desc">Priority queue stores pending state space tree nodes with n × n reduced cost matrices. Total space: O(n² · 2ⁿ).</div>
+                        </div>
+                    </div>
+                </div>
             </div>
 
             <div class="box-practice">
@@ -1923,28 +2750,43 @@ Path verification:
             </div>
 
             <div class="sub-sec-title">Pseudocode</div>
-            <div class="pseudocode-box">FIRST_FIT(items, capacity):
-    bins ← []
-    FOR each item in items:
-        placed ← False
-        FOR each bin in bins:
-            IF bin.remaining_space >= item.size:
-                PLACE item in bin
-                placed ← True; BREAK
-        IF NOT placed: OPEN new bin; PLACE item
-    RETURN bins
+            <div class="pseudocode-box">ALGORITHM FIRST_FIT(items, capacity)
+// Input:  List of items with sizes ≤ capacity, bin capacity C
+// Output: List of packed bins
 
-FIRST_FIT_DECREASING(items, capacity):
-    Sort items in DECREASING order
-    RETURN FIRST_FIT(sorted_items, capacity)
+STEP 1: [Initialize]
+        bins ← []                      // Stores remaining capacity of each open bin
+        bin_contents ← []              // Stores items packed in each bin
 
-BEST_FIT_DECREASING(items, capacity):
-    Sort items in DECREASING order
-    FOR each item in sorted_items:
-        best_bin ← bin with minimum remaining_space >= item.size
-        IF best_bin exists: PLACE item in best_bin
-        ELSE: OPEN new bin; PLACE item
-    RETURN bins</div>
+STEP 2: [Iterate through each item]
+        FOR EACH item IN items DO:
+            placed ← False
+            FOR i ← 0 TO length(bins) - 1 DO:
+                IF bins[i] ≥ item THEN:
+                    bins[i] ← bins[i] - item
+                    bin_contents[i].append(item)
+                    placed ← True
+                    BREAK
+            // If item does not fit in any open bin, open a new bin
+            IF NOT placed THEN:
+                bins.append(capacity - item)
+                bin_contents.append([item])
+
+STEP 3: RETURN bin_contents
+
+ALGORITHM FIRST_FIT_DECREASING(items, capacity)
+STEP 1: Sort items in descending order: sorted_items ← SORT_DESCENDING(items)
+STEP 2: RETURN FIRST_FIT(sorted_items, capacity)
+
+ALGORITHM BEST_FIT_DECREASING(items, capacity)
+STEP 1: Sort items in descending order: sorted_items ← SORT_DESCENDING(items)
+STEP 2: FOR EACH item IN sorted_items DO:
+            Find open bin j that has MINIMUM remaining space such that bins[j] ≥ item
+            IF such bin j exists THEN:
+                Pack item into bin j; bins[j] ← bins[j] - item
+            ELSE:
+                Open new bin; Pack item
+STEP 3: RETURN packed bins</div>
 
             <div class="sub-sec-title">Program (Python)</div>
             <div class="code-wrapper">
@@ -1953,33 +2795,54 @@ BEST_FIT_DECREASING(items, capacity):
                     <button class="btn-copy" onclick="copyCode(this)">Copy</button>
                 </div>
                 <pre><code>def first_fit(items, capacity=1.0):
-    bins = []  # Each bin stores remaining space
-    bin_contents = []
+    """
+    First Fit (FF) Approximation:
+    Places each item into the first bin with sufficient remaining space.
+    Time Complexity: O(n^2) naive, O(n log n) with balanced search tree.
+    """
+    bins = []          # Tracks remaining capacity in each bin
+    bin_contents = []  # Stores item lists for each bin
+    
     for item in items:
         placed = False
+        # Search for first bin with enough headroom
         for i, space in enumerate(bins):
             if space >= item:
                 bins[i] -= item
                 bin_contents[i].append(item)
                 placed = True
                 break
+        # No existing bin has room: open new bin
         if not placed:
             bins.append(capacity - item)
             bin_contents.append([item])
+            
     return bin_contents
 
 def first_fit_decreasing(items, capacity=1.0):
+    """
+    First Fit Decreasing (FFD) Approximation:
+    Pre-sorts items in non-increasing order, then applies First Fit.
+    Guaranteed: Bins <= (11/9)*OPT + 6/9
+    """
     return first_fit(sorted(items, reverse=True), capacity)
 
 def best_fit_decreasing(items, capacity=1.0):
+    """
+    Best Fit Decreasing (BFD) Approximation:
+    Sorts descending, then places each item into the tightest fitting bin
+    (minimizing leftover space in that bin).
+    """
     sorted_items = sorted(items, reverse=True)
     bins = []
     bin_contents = []
+    
     for item in sorted_items:
         best_idx = -1
         best_space = float('inf')
+        # Find bin that leaves minimum leftover space
         for i, space in enumerate(bins):
-            if space >= item and space - item < best_space:
+            if space >= item and (space - item) < best_space:
                 best_space = space - item
                 best_idx = i
         if best_idx >= 0:
@@ -1988,18 +2851,21 @@ def best_fit_decreasing(items, capacity=1.0):
         else:
             bins.append(capacity - item)
             bin_contents.append([item])
+            
     return bin_contents
 
 def display_bins(label, bins):
+    """Displays packed bins and their percentage utilization bar."""
     print(f'\n{label}: {len(bins)} bins')
     for i, b in enumerate(bins, 1):
         used = sum(b)
         bar = '#' * int(used * 20)
         print(f' Bin {i}: {[round(x,1) for x in b]} | Used: {used:.1f} [{bar:<20}]')
 
+# --- Problem Instance Definition ---
 items = [0.5, 0.7, 0.3, 0.9, 0.2, 0.6, 0.8, 0.4, 0.1, 0.5]
 capacity = 1.0
-lower_bound = -(-sum(items) // capacity)  # Ceiling division
+lower_bound = -(-sum(items) // capacity)  # Theoretical lower bound = ceil(sum/cap)
 
 print(f'Items: {items}')
 print(f'Capacity: {capacity}')
@@ -2053,6 +2919,33 @@ Summary: Lower Bound=5, FF=6, FFD=5, BFD=5</div>
 
             <div class="box-inference">
                 <strong>Inference:</strong> Bin Packing is NP-Hard; no polynomial-time optimal algorithm exists unless P=NP. Sorting items in decreasing order (as in FFD and BFD) dramatically improves results. FFD is guaranteed to use at most 11/9 * OPT + 6/9 bins, making it a practical choice. Real-world applications include cloud resource allocation, truck loading, memory allocation, and multi-processor task scheduling.
+
+                <!-- EXPLICIT COMPLEXITY BREAKDOWN -->
+                <div class="box-complexity">
+                    <div class="comp-title">Complexity Analysis: Bin Packing Approximation (FF vs FFD vs BFD)</div>
+                    <div class="comp-grid">
+                        <div class="comp-item">
+                            <span class="comp-badge best">Time (FF)</span>
+                            <div class="comp-val">O(n log n) / O(n²)</div>
+                            <div class="comp-desc">Linear scan over bins takes O(n²); can be accelerated to O(n log n) with a Balanced BST / Segment Tree.</div>
+                        </div>
+                        <div class="comp-item">
+                            <span class="comp-badge avg">Time (FFD & BFD)</span>
+                            <div class="comp-val">O(n log n)</div>
+                            <div class="comp-desc">Sorting takes O(n log n). Bin query and insertion take O(log n) per item using self-balancing search tree.</div>
+                        </div>
+                        <div class="comp-item">
+                            <span class="comp-badge worst">Approximation Ratio</span>
+                            <div class="comp-val">FFD ≤ 11/9 · OPT + 6/9</div>
+                            <div class="comp-desc">FF guarantee is 1.7 · OPT + 2. Decreasing sort improves performance guarantee to ~1.22 · OPT.</div>
+                        </div>
+                        <div class="comp-item">
+                            <span class="comp-badge space">Space (Auxiliary)</span>
+                            <div class="comp-val">O(n)</div>
+                            <div class="comp-desc">Stores remaining capacities for at most n bins and item assignments. Total space: O(n).</div>
+                        </div>
+                    </div>
+                </div>
             </div>
 
             <div class="box-practice">
@@ -2083,30 +2976,35 @@ Summary: Lower Bound=5, FF=6, FFD=5, BFD=5</div>
             </div>
 
             <div class="sub-sec-title">Pseudocode</div>
-            <div class="pseudocode-box">DETERMINISTIC_QUICKSORT(arr, low, high):
-    IF low < high:
-        pivot_idx ← PARTITION(arr, low, high) // Last element as pivot
-        DETERMINISTIC_QUICKSORT(arr, low, pivot_idx - 1)
-        DETERMINISTIC_QUICKSORT(arr, pivot_idx + 1, high)
+            <div class="pseudocode-box">ALGORITHM DETERMINISTIC_QUICKSORT(arr, low, high)
+// Standard Quick Sort with fixed pivot = arr[high] (Lomuto Partition)
+STEP 1: IF low < high THEN:
+            pivot_idx ← PARTITION(arr, low, high)
+            DETERMINISTIC_QUICKSORT(arr, low, pivot_idx - 1)
+            DETERMINISTIC_QUICKSORT(arr, pivot_idx + 1, high)
 
-RANDOMIZED_QUICKSORT(arr, low, high):
-    IF low < high:
-        // Randomly select pivot and swap with last element
-        rand_idx ← RANDOM(low, high)
-        SWAP(arr[rand_idx], arr[high])
-        pivot_idx ← PARTITION(arr, low, high)
-        RANDOMIZED_QUICKSORT(arr, low, pivot_idx - 1)
-        RANDOMIZED_QUICKSORT(arr, pivot_idx + 1, high)
+ALGORITHM RANDOMIZED_QUICKSORT(arr, low, high)
+// Randomized Quick Sort selecting random pivot index to avoid worst-case O(n²)
+STEP 1: IF low < high THEN:
+            // Step A: Pick uniform random index between low and high
+            rand_idx ← RANDOM_INTEGER(low, high)
+            // Step B: Swap random pivot into last position (high)
+            SWAP(arr[rand_idx], arr[high])
+            // Step C: Partition normally with randomized pivot
+            pivot_idx ← PARTITION(arr, low, high)
+            RANDOMIZED_QUICKSORT(arr, low, pivot_idx - 1)
+            RANDOMIZED_QUICKSORT(arr, pivot_idx + 1, high)
 
-PARTITION(arr, low, high):
-    pivot ← arr[high]
-    i ← low - 1
-    FOR j ← low TO high - 1:
-        IF arr[j] ≤ pivot:
-            i ← i + 1
-            SWAP(arr[i], arr[j])
-    SWAP(arr[i+1], arr[high])
-    RETURN i + 1</div>
+ALGORITHM PARTITION(arr, low, high)
+// Rearranges subarray around pivot element arr[high]
+STEP 1: pivot ← arr[high]
+        i ← low - 1
+STEP 2: FOR j ← low TO high - 1 DO:
+            IF arr[j] ≤ pivot THEN:
+                i ← i + 1
+                SWAP(arr[i], arr[j])
+STEP 3: SWAP(arr[i + 1], arr[high])
+STEP 4: RETURN (i + 1)</div>
 
             <div class="sub-sec-title">Program (Python)</div>
             <div class="code-wrapper">
@@ -2119,9 +3017,14 @@ import time
 import sys
 
 sys.setrecursionlimit(20000)
-comparisons = 0
+comparisons = 0  # Global counter to track elemental comparisons
 
 def partition(arr, low, high):
+    """
+    Standard Lomuto partitioning scheme:
+    Places pivot arr[high] at its correct sorted position.
+    Elements <= pivot are moved to left; elements > pivot moved to right.
+    """
     global comparisons
     pivot = arr[high]
     i = low - 1
@@ -2134,21 +3037,30 @@ def partition(arr, low, high):
     return i + 1
 
 def deterministic_quicksort(arr, low, high):
+    """Deterministic Quick Sort: Always uses arr[high] as pivot."""
     if low < high:
         pi = partition(arr, low, high)
         deterministic_quicksort(arr, low, pi - 1)
         deterministic_quicksort(arr, pi + 1, high)
 
 def randomized_quicksort(arr, low, high):
+    """
+    Randomized Quick Sort: Selects a pivot uniformly at random from arr[low..high],
+    swapping it to high before calling partition.
+    Guarantees expected O(n log n) time on all input distributions.
+    """
     if low < high:
-        # Randomize pivot
+        # Step 1: Select uniform random pivot index and swap to end
         rand_idx = random.randint(low, high)
         arr[rand_idx], arr[high] = arr[high], arr[rand_idx]
+        
+        # Step 2: Standard partition and recursive conquer
         pi = partition(arr, low, high)
         randomized_quicksort(arr, low, pi - 1)
         randomized_quicksort(arr, pi + 1, high)
 
 def run_test(name, sort_fn, arr):
+    """Helper function to execute sort and return comparison count and duration."""
     global comparisons
     a = arr[:]
     comparisons = 0
@@ -2157,6 +3069,7 @@ def run_test(name, sort_fn, arr):
     elapsed = (time.perf_counter() - start) * 1000
     return comparisons, elapsed
 
+# --- Benchmark Suite (N = 5000 elements across 4 input configurations) ---
 N = 5000
 test_cases = {
     'Random'       : [random.randint(1, 100000) for _ in range(N)],
@@ -2165,7 +3078,7 @@ test_cases = {
     'Nearly Sorted': list(range(N))
 }
 
-# Make Nearly Sorted slightly shuffled
+# Add 5% random perturbations to Nearly Sorted array
 ns = test_cases['Nearly Sorted']
 for _ in range(N // 20):
     i, j = random.randint(0, N-1), random.randint(0, N-1)
@@ -2193,6 +3106,33 @@ Nearly Sorted           6248000          156.23        57892            1.85</di
 
             <div class="box-inference">
                 <strong>Inference:</strong> The standard Quick Sort is highly sensitive to input order; its worst case O(n^2) arises when the pivot is always the smallest or largest element (e.g., already sorted arrays). Randomized Quick Sort avoids adversarial inputs by selecting the pivot randomly, guaranteeing expected O(n log n) performance. This is why practical implementations (Python's Timsort, C++ introsort) use randomization or median-of-three pivot selection. Randomized algorithms trade determinism for robustness against worst-case inputs.
+
+                <!-- EXPLICIT COMPLEXITY BREAKDOWN -->
+                <div class="box-complexity">
+                    <div class="comp-title">Complexity Analysis: Deterministic vs Randomized Quick Sort</div>
+                    <div class="comp-grid">
+                        <div class="comp-item">
+                            <span class="comp-badge best">Time (Best)</span>
+                            <div class="comp-val">Θ(n log n)</div>
+                            <div class="comp-desc">Pivot splits subarray into two equal halves (T(n) = 2T(n/2) + Θ(n)).</div>
+                        </div>
+                        <div class="comp-item">
+                            <span class="comp-badge avg">Time (Average / Expected)</span>
+                            <div class="comp-val">Θ(n log n) [~1.386 n log₂ n]</div>
+                            <div class="comp-desc">Randomized Quick Sort guarantees expected O(n log n) across ALL input permutations without bias.</div>
+                        </div>
+                        <div class="comp-item">
+                            <span class="comp-badge worst">Time (Worst)</span>
+                            <div class="comp-val">O(n²) [DQS] / Exp O(n log n) [RQS]</div>
+                            <div class="comp-desc">DQS degrades to O(n²) on sorted/reverse data. RQS worst-case has negligible probability 1/n!.</div>
+                        </div>
+                        <div class="comp-item">
+                            <span class="comp-badge space">Space (Auxiliary)</span>
+                            <div class="comp-val">O(log n)</div>
+                            <div class="comp-desc">Expected recursion stack depth is O(log n). Total space: O(n) in-place array storage.</div>
+                        </div>
+                    </div>
+                </div>
             </div>
 
             <div class="box-practice">
@@ -2211,6 +3151,33 @@ Nearly Sorted           6248000          156.23        57892            1.85</di
 
     </div>
 
+    <!-- UNIVERSAL ASIDE QUICK-JUMP EXPERIMENT DOCK (10 EXPERIMENTS) -->
+    <aside class="exp-quick-dock" id="expQuickDock" aria-label="Quick Jump to Experiment">
+        <div class="dock-header">
+            <span class="dock-title">EXPS</span>
+            <span class="dock-badge">10</span>
+        </div>
+        <div class="dock-grid">
+            <a href="#exp1" class="dock-box-btn" data-exp="1" title="Exp 1: Interpolation Search">1</a>
+            <a href="#exp2" class="dock-box-btn" data-exp="2" title="Exp 2: String Matching (Naive/RK/KMP)">2</a>
+            <a href="#exp3" class="dock-box-btn" data-exp="3" title="Exp 3: MST (Kruskal & Prim)">3</a>
+            <a href="#exp4" class="dock-box-btn" data-exp="4" title="Exp 4: Dijkstra's Shortest Path">4</a>
+            <a href="#exp5" class="dock-box-btn" data-exp="5" title="Exp 5: Min-Max Divide & Conquer">5</a>
+            <a href="#exp6" class="dock-box-btn" data-exp="6" title="Exp 6: Matrix Chain Multiplication">6</a>
+            <a href="#exp7" class="dock-box-btn" data-exp="7" title="Exp 7: N-Queens Backtracking">7</a>
+            <a href="#exp8" class="dock-box-btn" data-exp="8" title="Exp 8: TSP Branch & Bound">8</a>
+            <a href="#exp9" class="dock-box-btn" data-exp="9" title="Exp 9: Bin Packing Approximation">9</a>
+            <a href="#exp10" class="dock-box-btn" data-exp="10" title="Exp 10: Randomized Quick Sort">10</a>
+        </div>
+        <div class="dock-footer">
+            <button class="dock-top-btn" onclick="window.scrollTo({top:0, behavior:'smooth'})" title="Top">↑ Top</button>
+        </div>
+    </aside>
+
+    <button class="mobile-exp-pill" id="mobileExpPill" onclick="toggleMobileExpDock()" aria-label="Toggle Experiment Navigator">
+        ⚡ Exp <span id="mobileCurrExp">1</span>/10
+    </button>
+
     <script>
         function copyCode(btn) {
             const pre = btn.parentElement.nextElementSibling;
@@ -2226,6 +3193,59 @@ Nearly Sorted           6248000          156.23        57892            1.85</di
                 }, 1500);
             });
         }
+
+        // ==========================================
+        // UNIVERSAL ASIDE DOCK SCROLLSPY & MOBILE CONTROLS
+        // ==========================================
+        function toggleMobileExpDock() {
+            const dock = document.getElementById('expQuickDock');
+            if (dock) {
+                dock.classList.toggle('mobile-open');
+            }
+        }
+
+        (function initQuickDock() {
+            const dock = document.getElementById('expQuickDock');
+            if (!dock) return;
+            const buttons = dock.querySelectorAll('.dock-box-btn');
+
+            buttons.forEach(btn => {
+                btn.addEventListener('click', e => {
+                    e.preventDefault();
+                    const targetId = btn.getAttribute('href');
+                    const targetEl = document.querySelector(targetId);
+                    if (targetEl) {
+                        targetEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                        if (dock.classList.contains('mobile-open')) {
+                            dock.classList.remove('mobile-open');
+                        }
+                    }
+                });
+            });
+
+            const cards = document.querySelectorAll('article.exp-card');
+            if (cards.length && 'IntersectionObserver' in window) {
+                const observer = new IntersectionObserver(entries => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            const id = '#' + entry.target.id;
+                            const num = entry.target.id.replace('exp', '');
+                            buttons.forEach(btn => {
+                                if (btn.getAttribute('href') === id) {
+                                    btn.classList.add('active');
+                                    const pill = document.getElementById('mobileCurrExp');
+                                    if (pill) pill.textContent = num;
+                                } else {
+                                    btn.classList.remove('active');
+                                }
+                            });
+                        }
+                    });
+                }, { threshold: 0.15, rootMargin: '-60px 0px -40% 0px' });
+
+                cards.forEach(card => observer.observe(card));
+            }
+        })();
     </script>
 
     <!-- AKNEX Universal Telemetry -->

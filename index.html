@@ -626,7 +626,7 @@
                     Semester 3
                     <span class="badge-new">NEW</span>
                 </h2>
-                <span style="font-size:12.5px; color:#64748b;" id="count-sem3">2 Subjects</span>
+                <span style="font-size:12.5px; color:#64748b;" id="count-sem3">4 Subjects</span>
             </div>
 
             <div class="sem3-grid">
@@ -653,6 +653,36 @@
                             <span class="tag-code">CS5303</span>
                         </div>
                         <div class="os1-title">DAA: Design and Analysis of Algorithms</div>
+                    </div>
+                    <div class="card-action">
+                        <span>View Experiments</span>
+                        <span class="card-arrow">→</span>
+                    </div>
+                </a>
+
+                <!-- EC5301 ANALOG COMMUNICATION CARD -->
+                <a href="SEM 3/EC5301/" class="sem3-clean-card" id="card-ec5301">
+                    <div>
+                        <div class="card-header-row">
+                            <span class="tag-sem">SEM 3</span>
+                            <span class="tag-code">EC5301</span>
+                        </div>
+                        <div class="os1-title">EC5301: Analog Communication Laboratory</div>
+                    </div>
+                    <div class="card-action">
+                        <span>View Experiments</span>
+                        <span class="card-arrow">→</span>
+                    </div>
+                </a>
+
+                <!-- LIC LINEAR INTEGRATED CIRCUITS CARD -->
+                <a href="SEM 3/LIC/" class="sem3-clean-card" id="card-lic">
+                    <div>
+                        <div class="card-header-row">
+                            <span class="tag-sem">SEM 3</span>
+                            <span class="tag-code">EC3361</span>
+                        </div>
+                        <div class="os1-title">LIC: Linear Integrated Circuits Laboratory</div>
                     </div>
                     <div class="card-action">
                         <span>View Experiments</span>
@@ -761,18 +791,26 @@
             const secSem2 = document.getElementById("section-sem2");
             const cardOs1 = document.getElementById("card-os1");
             const cardDaa = document.getElementById("card-daa");
+            const cardEc5301 = document.getElementById("card-ec5301");
+            const cardLic = document.getElementById("card-lic");
             const countSem3 = document.getElementById("count-sem3");
 
             const osKeywords = "os 1 operating systems cs5302 kali unix shell scheduling paging banker deadlock";
             const daaKeywords = "daa design and analysis of algorithms cs5303 interpolation search binary search kmp rabin karp string matching kruskal prim mst dijkstra shortest path min max divide and conquer matrix chain dynamic programming n-queens backtracking tsp branch and bound bin packing randomized quick sort";
+            const ecKeywords = "ec5301 analog communication ece am fm pwm ppm pam pre-emphasis de-emphasis tdm sampling dsb-sc ssb-sc awgn matlab arduino modulation demodulation audio voice rescue";
+            const licKeywords = "lic ec3361 ec5301 linear integrated circuits op-amp 741 inverting non-inverting rectifier function generator clipper oscillator wein bridge pll 565 r-2r dac instrumentation amplifier square wave regulator 723 sallen-key filter";
 
             const osMatches = !query || osKeywords.includes(query);
             const daaMatches = !query || daaKeywords.includes(query);
+            const ecMatches = !query || ecKeywords.includes(query);
+            const licMatches = !query || licKeywords.includes(query);
 
             if (cardOs1) cardOs1.style.display = osMatches ? 'flex' : 'none';
             if (cardDaa) cardDaa.style.display = daaMatches ? 'flex' : 'none';
+            if (cardEc5301) cardEc5301.style.display = ecMatches ? 'flex' : 'none';
+            if (cardLic) cardLic.style.display = licMatches ? 'flex' : 'none';
 
-            const sem3VisibleCount = (osMatches ? 1 : 0) + (daaMatches ? 1 : 0);
+            const sem3VisibleCount = (osMatches ? 1 : 0) + (daaMatches ? 1 : 0) + (ecMatches ? 1 : 0) + (licMatches ? 1 : 0);
             if (countSem3) countSem3.innerText = `${sem3VisibleCount} Subject${sem3VisibleCount === 1 ? '' : 's'}`;
 
             if (activeFilter === 'sem2') {

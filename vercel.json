@@ -19,7 +19,7 @@
   ],
   "routes": [
     {
-      "src": "/(server\\.js|Downloads.*|N.*|New%20folder.*|New folder.*|\\.git.*|\\.vercel.*|\\.env.*)",
+      "src": "/(server\\.js|.*\\.pdf|Downloads.*|N.*|New%20folder.*|New folder.*|git.*|\\.git.*|\\.vercel.*|\\.env.*)",
       "status": 403,
       "headers": { "Content-Type": "text/plain" }
     },

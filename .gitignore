@@ -15,7 +15,17 @@ server.js
 *.seb
 *.zip
 *.log
+*.pdf
 desktop.ini
 deploy/
 git/
 ngrok.txt
+
+# Scratch scripts & temporary build assets
+*.py
+rendered_pages/
+temp_pages/
+extracted_pages_ocr.json
+test_ocr.ps1
+test_page1.png
+
